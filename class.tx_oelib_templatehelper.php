@@ -161,6 +161,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if (empty($path)) {
 			$path = 'uploads/tx_'.$this->extKey.'/';
 		}
+
 		return $path.$fileName;
 	}
 
