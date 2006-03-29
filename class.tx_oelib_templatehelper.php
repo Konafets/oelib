@@ -420,6 +420,59 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		return;
 	}
+
+	/**
+	 * Recursively creates a comma-separated list of subpage UIDs from
+	 * a list of pages. The result also includes the original pages.
+	 * The maximum level of recursion can be limited:
+	 * 0 = no recursion (will return $startPages),
+	 * 1 = only direct child pages,
+	 * ...,
+	 * 250 = all descendants for all sane cases (the default value)
+	 *
+	 * @param	string		comma-separated list of page UIDs to start from, must only contain numbers and commas (may be empty)
+	 * @param	integer		maximum depth of recursion
+	 *
+	 * @return	string		comma-separated list of subpage IDs (may be empty)
+	 *
+	 * @access	protected
+	 */
+	function createRecursivePageList($startPages, $recursionDepth = 250) {
+		$collectivePageList = $startPages;
+		$currentPageList = $collectivePageList;
+		$currentRecursionLevel = 0;
+
+		while (!empty($currentPageList) && ($currentRecursionLevel < $recursionDepth)) {
+		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'uid',
+				'pages',
+				'pid!=0'
+					.' AND pid IN ('.$currentPageList.')'
+					.t3lib_pageSelect::enableFields('pages'),
+				'',
+				'',
+				''
+			);
+
+			$currentPageList = '';
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				if (!empty($currentPageList)) {
+					$currentPageList .= ',';
+				}
+				$currentPageList .= intval($row['uid']);
+			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+			if (!empty($currentPageList)) {
+				// It is ensured that $collectivePageList is non-empty at this point
+				// so the comma won't be the first char.
+				$collectivePageList .= ','.$currentPageList;
+			}
+
+			$currentRecursionLevel++;
+		}
+
+		return $collectivePageList;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
