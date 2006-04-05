@@ -406,16 +406,19 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Include a link to the CSS file specified as "cssFile" and adds it to the
-	 * automatic page header.
+	 * automatic page header with $this->prefixId.'_css' as an array key.
 	 *
 	 * If no file is specified, no link is created.
+	 *
+	 * This function may only be called if $this->$prefixId has been set.
 	 *
 	 * @access protected
 	 */
 	function addCssToPageHeader() {
-		// include CSS in header of page
-		if ($this->getConfValue('cssFile', 's_template_special') !== '') {
-			$GLOBALS['TSFE']->additionalHeaderData[] = '<style type="text/css">@import "'.$this->getConfValue('cssFile', 's_template_special').'";</style>';
+		if ($this->getConfValue('cssFile', 's_template_special', true) !== '') {
+			// We use an explicit array key so the CSS file gets included only once
+			// even if there are two instances of the front end plugin on the same page. 
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValue('cssFile', 's_template_special', true).'";</style>';
 		}
 
 		return;
