@@ -129,7 +129,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		the value of the corresponding flexforms or TS setup entry (may be empty)
 	 *
-	 * @access	protected
+	 * @access	private
 	 */
 	function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false) {
 		$flexformsValue = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], $fieldName, $sheet);
@@ -156,7 +156,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		the complete path including file name
 	 *
-	 * @access	protected
+	 * @access	private
 	 */
 	function addPathToFileName($fileName, $path = '') {
 		if (empty($path)) {
@@ -164,6 +164,92 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		}
 
 		return $path.$fileName;
+	}
+
+	/**
+	 * Gets a trimmed string value from flexforms or TS setup.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is returned. If there is no field with that name in TS setup,
+	 * an empty string is returned.
+	 *
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 * @param	string		whether this is a filename, which has to be combined with a path
+	 *
+	 * @return	string		the trimmed value of the corresponding flexforms or TS setup entry (may be empty)
+	 *
+	 * @access	protected
+	 */
+	function getConfValueString($fieldName, $sheet = 'sDEF', $isFileName = false) {
+		return trim($this->getConfValue($fieldName, $sheet, $isFileName));
+	}
+
+	/**
+	 * Checks whether a string value from flexforms or TS setup is set.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is checked. If there is no field with that name in TS setup,
+	 * false is returned.
+	 *
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 *
+	 * @return	boolean		whether there is a non-empty value in the corresponding flexforms or TS setup entry
+	 *
+	 * @access	protected
+	 */
+	function hasConfValueString($fieldName, $sheet = 'sDEF') {
+		return ($this->getConfValueString($fieldName, $sheet) != '');
+	}
+
+	/**
+	 * Gets an integer value from flexforms or TS setup.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is returned. If there is no field with that name in TS setup,
+	 * zero is returned.
+	 *
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 *
+	 * @return	integer		the inval'ed value of the corresponding flexforms or TS setup entry
+	 *
+	 * @access	protected
+	 */
+	function getConfValueInteger($fieldName, $sheet = 'sDEF') {
+		return intval($this->getConfValue($fieldName, $sheet));
+	}
+
+	/**
+	 * Checks whether an integer value from flexforms or TS setup is set and non-zero.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is checked. If there is no field with that name in TS setup,
+	 * false is returned.
+	 *
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 *
+	 * @return	boolean		whether there is a non-zero value in the corresponding flexforms or TS setup entry
+	 *
+	 * @access	protected
+	 */
+	function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
+		return (boolean) $this->getConfValueInteger($fieldName, $sheet);
+	}
+
+	/**
+	 * Gets a boolean value from flexforms or TS setup.
+	 * The priority lies on flexforms; if nothing is found there, the value
+	 * from TS setup is returned. If there is no field with that name in TS setup,
+	 * false is returned.
+	 *
+	 * @param	string		field name to extract
+	 * @param	string		sheet pointer, eg. "sDEF"
+	 *
+	 * @return	boolean		the boolean value of the corresponding flexforms or TS setup entry
+	 *
+	 * @access	protected
+	 */
+	function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
+		return (boolean) $this->getConfValue($fieldName, $sheet);
 	}
 
 	/**
@@ -180,7 +266,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function getTemplateCode() {
 		/** the whole template file as a string */
-		$templateRawCode = $this->cObj->fileResource($this->getConfValue('templateFile', 's_template_special', true));
+		$templateRawCode = $this->cObj->fileResource($this->getConfValueString('templateFile', 's_template_special', true));
 		$this->markerNames = $this->findMarkers($templateRawCode);
 
 		$subpartNames = $this->findSubparts($templateRawCode);
@@ -379,7 +465,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$cssEntries = $this->getPrefixedMarkers('class');
 
 		foreach ($cssEntries as $currentCssEntry) {
-			$this->setMarkerContent($currentCssEntry, $this->createClassAttribute($this->getConfValue(strtolower($currentCssEntry))));
+			$this->setMarkerContent($currentCssEntry, $this->createClassAttribute($this->getConfValueString(strtolower($currentCssEntry))));
 		}
 
 		return;
@@ -415,10 +501,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access protected
 	 */
 	function addCssToPageHeader() {
-		if ($this->getConfValue('cssFile', 's_template_special', true) !== '') {
+		if ($this->hasConfValueString('cssFile', 's_template_special')) {
 			// We use an explicit array key so the CSS file gets included only once
 			// even if there are two instances of the front end plugin on the same page.
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValue('cssFile', 's_template_special', true).'";</style>';
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValueString('cssFile', 's_template_special', true).'";</style>';
 		}
 
 		return;
