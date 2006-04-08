@@ -521,8 +521,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function addJavaScriptToPageHeader() {
-		if ($this->getConfValue('jsFile', 's_template_special', true) !== '') {
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js'] = '<script type="text/javascript" src="'.$this->getConfValue('jsFile', 's_template_special', true).'"></script>';
+		if ($this->hasConfValueString('jsFile', 's_template_special')) {
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js'] = '<script type="text/javascript" src="'.$this->getConfValueString('jsFile', 's_template_special', true).'"></script>';
 		}
 
 		return;
