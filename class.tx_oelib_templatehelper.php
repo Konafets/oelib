@@ -491,8 +491,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Include a link to the CSS file specified as "cssFile" and adds it to the
-	 * automatic page header with $this->prefixId.'_css' as an array key.
+	 * Includes a link to the CSS file configured as "cssFile" and adds it to the
+	 * automatic page header with $this->prefixId.'_css' as the array key.
 	 *
 	 * If no file is specified, no link is created.
 	 *
@@ -505,6 +505,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			// We use an explicit array key so the CSS file gets included only once
 			// even if there are two instances of the front end plugin on the same page.
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValueString('cssFile', 's_template_special', true).'";</style>';
+		}
+
+		return;
+	}
+
+	/**
+	 * Includes a link to the JavaScript file configured as "jsFile" and adds it to the
+	 * automatic page header with $this->prefixId.'_js' as the array key.
+	 *
+	 * If no file is specified, no link is created.
+	 *
+	 * This function may only be called if $this->$prefixId has been set.
+	 *
+	 * @access	protected
+	 */
+	function addJavaScriptToPageHeader() {
+		if ($this->getConfValue('jsFile', 's_template_special', true) !== '') {
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js'] = '<script type="text/javascript" src="'.$this->getConfValue('jsFile', 's_template_special', true).'"></script>';
 		}
 
 		return;
