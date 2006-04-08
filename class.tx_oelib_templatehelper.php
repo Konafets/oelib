@@ -417,7 +417,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function addCssToPageHeader() {
 		if ($this->getConfValue('cssFile', 's_template_special', true) !== '') {
 			// We use an explicit array key so the CSS file gets included only once
-			// even if there are two instances of the front end plugin on the same page. 
+			// even if there are two instances of the front end plugin on the same page.
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValue('cssFile', 's_template_special', true).'";</style>';
 		}
 
