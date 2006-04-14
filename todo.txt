@@ -1,0 +1,8 @@
+To-do list for the "oelib" extension
+------------------------------------
+
+- test with TYPO3 4
+- test with PHP 5
+- write documentation
+- use PhpDoc for API documentation and UML diagrams
+- document that this extension supersedes the "salutationswitcher" extension
