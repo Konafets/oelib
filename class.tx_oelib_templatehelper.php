@@ -580,6 +580,28 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		return $collectivePageList;
 	}
+
+	/**
+	 * Intvals all piVars that are supposed to be integers:
+	 * showUid, pointer, mode
+	 *
+	 * If some of these piVars are not set, this function will not set them either.
+	 *
+	 * If $this->piVars is empty, this function is a no-op.
+	 *
+	 * @access	protected
+	 */
+	function securePiVars() {
+		if ($this->piVars) {
+			foreach (array('showUid', 'pointer', 'mode')  as $key) {
+				if (isset($this->piVars[$key])) {
+					$this->piVars[$key] = intval($this->piVars[$key]);
+				}
+			}
+		}
+
+		return;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {

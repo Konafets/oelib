@@ -1,3 +1,6 @@
+0.2.1
+- Fix: make piVars more secure (#8)
+
 0.2.0
 - Fix: there's <tr###CLASS_HEADERROW###> in the list view header (#0003324)
 
