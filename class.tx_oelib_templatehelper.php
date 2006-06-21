@@ -335,7 +335,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function getPrefixedMarkers($prefix) {
 		$matches = array();
-		preg_match_all('/(#)('.strtoupper($prefix).'_[^#]*)#/', $this->markerNames, $matches);
+		preg_match_all('/(#)('.strtoupper($prefix).'_[^#]+)/', $this->markerNames, $matches);
 
 		$result = array_unique($matches[2]);
 

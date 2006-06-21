@@ -1,2 +1,5 @@
+0.2.0
+- Fix: there's <tr###CLASS_HEADERROW###> in the list view header (#0003324)
+
 0.1.0
 - initial public release as a separate extension
