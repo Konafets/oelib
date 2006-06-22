@@ -593,7 +593,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function securePiVars() {
 		if ($this->piVars) {
-			foreach (array('showUid', 'pointer', 'mode')  as $key) {
+			foreach (array('showUid', 'pointer', 'mode') as $key) {
 				if (isset($this->piVars[$key])) {
 					$this->piVars[$key] = intval($this->piVars[$key]);
 				}
