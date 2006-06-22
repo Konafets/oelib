@@ -602,6 +602,28 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		return;
 	}
+
+	/**
+	 * Resets the marker contents.
+	 *
+	 * @access	protected
+	 */
+	function resetMarkers() {
+		$this->markers = array();
+
+		return;
+	}
+
+	/**
+	 * Resets the list of subparts to hide.
+	 *
+	 * @access	protected
+	 */
+	function resetSubpartsHiding() {
+		$this->subpartsToHide = array();
+
+		return;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
