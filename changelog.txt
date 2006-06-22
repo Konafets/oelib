@@ -1,5 +1,5 @@
 0.2.2
-- provide a function to reset all markers
+- provide a function to reset all markers (#73)
 
 0.2.1
 - Fix: make piVars more secure (#8)
