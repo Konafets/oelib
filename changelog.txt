@@ -1,3 +1,6 @@
+0.2.3
+- add function for creating IMG tags with maxX/maxY/maxArea (#77)
+
 0.2.2
 - provide a function to reset all markers (#73)
 

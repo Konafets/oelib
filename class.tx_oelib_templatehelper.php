@@ -624,6 +624,57 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		return;
 	}
+
+	/**
+	 * Creates an IMG for a resized image version of $fullPath.
+	 *
+	 * @param	string		full path to of the original image (may not be empty)
+	 * @param	string		alt text (may be empty)
+	 * @param	integer		max width in pixels (set to zero to set no limit)
+	 * @param	integer		max height in pixels (set to zero to set no limit)
+	 * @param	integer		max area in square pixels (set to zero to set no limit)
+	 *
+	 * @return	string		IMG tag
+	 *
+	 * @access	protected
+	 */
+	function createRestrictedImage($fullPath, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0) {
+		$imageConf = array();
+		$imageConf['file'] = $fullPath;
+		$imageConf['altText'] = $altText;
+
+		$changeSize = false;
+
+		$actualSize = GetImageSize($fullPath);
+		$width = $actualSize[0];
+		$height = $actualSize[1];
+		$edgeQuotient = $width / $height;
+
+		if ($maxArea) {
+			$currentArea = $width * $height;
+			if ($currentArea > $maxArea) {
+				$width = round(sqrt($maxArea * $edgeQuotient));
+				$height = round(sqrt($maxArea / $edgeQuotient));
+				$changeSize = true;
+			}
+		}
+		if ($maxWidth && ($width > $maxWidth)) {
+			$width = $maxWidth;
+			$height = round($width / $edgeQuotient);
+			$changeSize = true;
+		}
+		if ($maxHeight && ($height > $maxHeight)) {
+			$height = $maxHeight;
+			$width = round($edgeQuotient * $height);
+			$changeSize = true;
+		}
+		if ($changeSize) {
+			$imageConf['file.']['width'] = $width;
+			$imageConf['file.']['height'] = $height;
+		}
+
+		return $this->cObj->IMAGE($imageConf);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
