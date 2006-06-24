@@ -390,6 +390,81 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Sets or hides a marker based on $condition.
+	 * If $condition is true, this function sets the marker's content, working
+	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * If $condition is false, this function removes the wrapping subpart, working
+	 * exactly like readSubpartsToHide($markerName, $wrapperPrefix).
+	 *
+	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	boolean		if this is true, the marker will be filled, otherwise the wrapped marker will be hidden
+	 * @param	string		content with which the marker will be filled, may be empty
+	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 *
+	 * @see	setMarkerContent
+	 * @see	readSubpartsToHide
+	 */	
+	function setOrDeleteMarker($markerName, $condition, $content, $markerPrefix = '', $wrapperPrefix = '') {
+		if ($condition) {
+			$this->setMarkerContent($markerName, $content, $markerPrefix);
+		} else {
+			$this->readSubpartsToHide($markerName, $wrapperPrefix);
+		}
+		return;
+	}
+
+	/**
+	 * Sets or hides a marker based on whether the (integer) content is non-zero.
+	 * If intval($content) is non-zero, this function sets the marker's content, working
+	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * If intval($condition) is zero, this function removes the wrapping subpart, working
+	 * exactly like readSubpartsToHide($markerName, $wrapperPrefix).
+	 *
+	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	integer		content with which the marker will be filled, may be empty
+	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 *
+	 * @see	setOrDeleteMarker
+	 * @see	setOrDeleteMarkerIfNotEmpty
+	 * @see	setMarkerContent
+	 * @see	readSubpartsToHide
+	 */	
+	function setOrDeleteMarkerIfNotZero($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
+		$this->setOrDeleteMarker($markerName, (intval($content) != 0), ((string) $content), $markerPrefix, $wrapperPrefix);
+		return;
+	}
+
+	/**
+	 * Sets or hides a marker based on whether the (string) content is non-empty.
+	 * If $content is non-empty, this function sets the marker's content, working
+	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * If $condition is empty, this function removes the wrapping subpart, working
+	 * exactly like readSubpartsToHide($markerName, $wrapperPrefix).
+	 *
+	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	string		content with which the marker will be filled, may be empty
+	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 *
+	 * @see	setOrDeleteMarker
+	 * @see	setOrDeleteMarkerIfNotZero
+	 * @see	setMarkerContent
+	 * @see	readSubpartsToHide
+	 */	
+	function setOrDeleteMarkerIfNotEmpty($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
+		$this->setOrDeleteMarker($markerName, (!empty($content)), $content, $markerPrefix, $wrapperPrefix);
+		return;
+	}
+
+	/**
 	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix.
 	 *
 	 * Example: If the prefix is "field" and the marker name is "one", the result will be

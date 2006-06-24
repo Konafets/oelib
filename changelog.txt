@@ -1,4 +1,5 @@
 0.2.3
+- add function for conditional setting/removal of wrapped markers (#76)
 - add function for creating IMG tags with maxX/maxY/maxArea (#77)
 
 0.2.2
