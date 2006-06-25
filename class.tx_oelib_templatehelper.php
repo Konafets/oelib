@@ -708,15 +708,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	integer		max width in pixels (set to zero to set no limit)
 	 * @param	integer		max height in pixels (set to zero to set no limit)
 	 * @param	integer		max area in square pixels (set to zero to set no limit)
+	 * @param	string		title text (may be empty)
 	 *
 	 * @return	string		IMG tag
 	 *
 	 * @access	protected
 	 */
-	function createRestrictedImage($fullPath, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0) {
+	function createRestrictedImage($fullPath, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '') {
 		$imageConf = array();
 		$imageConf['file'] = $fullPath;
 		$imageConf['altText'] = $altText;
+		$imageConf['titleText'] = $titleText;
 
 		$changeSize = false;
 

@@ -1,12 +1,13 @@
 0.2.4
+- Feature: set title attributes for images (#99)
 - Fix: a marker prefix "0" gets ignored (#103)
 
 0.2.3
-- add function for conditional setting/removal of wrapped markers (#76)
-- add function for creating IMG tags with maxX/maxY/maxArea (#77)
+- Feature: conditional set/reme wrapped markers (#76)
+- Feature: create IMG tags with maxX/maxY/maxArea (#77)
 
 0.2.2
-- provide a function to reset all markers (#73)
+- Feature: reset all markers (#73)
 
 0.2.1
 - Fix: make piVars more secure (#8)
@@ -15,4 +16,4 @@
 - Fix: there's <tr###CLASS_HEADERROW###> in the list view header (#0003324)
 
 0.1.0
-- initial public release as a separate extension
+- Initial public release as a separate extension
