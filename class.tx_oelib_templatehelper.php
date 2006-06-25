@@ -406,7 +406,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @see	setMarkerContent
 	 * @see	readSubpartsToHide
-	 */	
+	 */
 	function setOrDeleteMarker($markerName, $condition, $content, $markerPrefix = '', $wrapperPrefix = '') {
 		if ($condition) {
 			$this->setMarkerContent($markerName, $content, $markerPrefix);
@@ -434,7 +434,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	setOrDeleteMarkerIfNotEmpty
 	 * @see	setMarkerContent
 	 * @see	readSubpartsToHide
-	 */	
+	 */
 	function setOrDeleteMarkerIfNotZero($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
 		$this->setOrDeleteMarker($markerName, (intval($content) != 0), ((string) $content), $markerPrefix, $wrapperPrefix);
 		return;
@@ -458,7 +458,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	setOrDeleteMarkerIfNotZero
 	 * @see	setMarkerContent
 	 * @see	readSubpartsToHide
-	 */	
+	 */
 	function setOrDeleteMarkerIfNotEmpty($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
 		$this->setOrDeleteMarker($markerName, (!empty($content)), $content, $markerPrefix, $wrapperPrefix);
 		return;
@@ -476,7 +476,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function createMarkerName($markerName, $prefix = '') {
 		// if a prefix is provided, uppercase it and separate it with an underscore
-		if ($prefix) {
+		if (!empty($prefix)) {
 			$prefix = strtoupper($prefix).'_';
 		}
 
