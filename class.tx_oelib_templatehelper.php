@@ -42,15 +42,20 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** all HTML template subparts, using the marker name without ### as keys (e.g. 'MY_MARKER') */
 	var $templateCache = array();
 
-	/** list of subpart names that shouldn't be displayed in the detailed view;
-	    set a subpart key like '###FIELD_DATE###' and the value to '' to remove that subpart */
-	var $subpartsToHide = array();
-
-	/** list of populated markers and their contents (with the keys being the marker names) */
-	var $markers = array();
-
 	/** list of the names of all markers (and subparts) of a template */
 	var $markerNames;
+
+	/** list of populated markers and their contents (with the keys being the marker names including the wrapping hash signs ###) */
+	var $markers = array();
+
+	/** list of populated subparts and their contents (with the keys being the subpart names without the hash signs) */
+	var $subparts = array();
+
+	/**
+	 * List of subpart names that shouldn't be displayed. Set a subpart key like
+	 * "###FIELD_DATE###" and the value to "" to remove that subpart.
+	 */
+	var $subpartsToHide = array();
 
 	/**
 	 * Dummy constructor: Does nothing.
@@ -364,6 +369,27 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Sets a subpart's content.
+	 *
+	 * Example: If the prefix is "field" and the subpart name is "one", the subpart
+	 * "###FIELD_ONE###" will be written.
+	 *
+	 * If the prefix is empty and the subpart name is "one", the subpart
+	 * "###ONE###" will be written.
+	 *
+	 * @param	string		the subpart's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	string		the subpart's content, may be empty
+	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 */
+	function setSubpartContent($subpartName, $content, $prefix = '') {
+		$this->subparts[$this->createMarkerNameWithoutHashes($subpartName, $prefix)] = $content;
+
+		return;
+	}
+
+	/**
 	 * Takes a comma-separated list of subpart names and writes them to $this->subpartsToHide.
 	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###' and used as keys.
 	 * The corresponding values in the array are empty strings.
@@ -465,7 +491,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix.
+	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix,
+	 * wrapping the result in three hash signs (###).
 	 *
 	 * Example: If the prefix is "field" and the marker name is "one", the result will be
 	 * "###FIELD_ONE###".
@@ -475,12 +502,27 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	private
 	 */
 	function createMarkerName($markerName, $prefix = '') {
+		return '###'.$this->createMarkerNameWithoutHashes($markerName, $prefix).'###';
+	}
+
+	/**
+	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix,
+	 * but without wrapping it in hash signs.
+	 *
+	 * Example: If the prefix is "field" and the marker name is "one", the result will be
+	 * "FIELD_ONE".
+	 *
+	 * If the prefix is empty and the marker name is "one", the result will be "ONE".
+	 *
+	 * @access	private
+	 */
+	function createMarkerNameWithoutHashes($markerName, $prefix = '') {
 		// if a prefix is provided, uppercase it and separate it with an underscore
 		if (!empty($prefix)) {
 			$prefix = strtoupper($prefix).'_';
 		}
 
-		return '###'.$prefix.strtoupper(trim($markerName)).'###';
+		return $prefix.strtoupper(trim($markerName));
 	}
 
 	/**
@@ -502,8 +544,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		// remove subparts (lines) that will be hidden
 		$noHiddenSubparts = $this->cObj->substituteMarkerArrayCached($this->templateCache[$key], array(), $this->subpartsToHide);
 
-		// remove subpart markers by replacing the subparts with just their content
-		$noSubpartMarkers = $this->cObj->substituteMarkerArrayCached($noHiddenSubparts, array(), $this->templateCache);
+		// Remove subpart markers by replacing the subparts with just their content,
+		// but replace subparts that explicitely have been filled with content.
+		$subpartReplacements = array_merge($this->templateCache, $this->subparts);
+		$noSubpartMarkers = $this->cObj->substituteMarkerArrayCached($noHiddenSubparts, array(), $subpartReplacements);
 
 		// replace markers with their content
 		return $this->cObj->substituteMarkerArrayCached($noSubpartMarkers, $this->markers);

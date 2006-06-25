@@ -1,4 +1,5 @@
 0.2.4
+- Feature: populate the content of subparts (like it is already possible with markers) (#92)
 - Feature: set title attributes for images (#99)
 - Fix: a marker prefix "0" gets ignored (#103)
 
