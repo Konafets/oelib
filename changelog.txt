@@ -1,10 +1,14 @@
+0.2.5
+- Feature: conditionally set markers without removing anything (#28)
+- Feature: return status about whether a marker has been set or hidden (#28)
+
 0.2.4
 - Feature: populate the content of subparts (like it is already possible with markers) (#92)
 - Feature: set title attributes for images (#99)
 - Fix: a marker prefix "0" gets ignored (#103)
 
 0.2.3
-- Feature: conditional set/reme wrapped markers (#76)
+- Feature: conditional set/remove wrapped markers (#76)
 - Feature: create IMG tags with maxX/maxY/maxArea (#77)
 
 0.2.2

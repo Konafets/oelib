@@ -390,6 +390,52 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Sets a marker based on whether the (integer) content is non-zero.
+	 * If intval($content) is non-zero, this function sets the marker's content, working
+	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 *
+	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	integer		content with which the marker will be filled, may be empty
+	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return	boolean		true if the marker content has been set, false otherwise
+	 *
+	 * @access	protected
+	 *
+	 * @see	setMarkerIfNotEmpty
+	 */
+	function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
+		$condition = (intval($content) != 0);
+		if ($condition) {
+			$this->setMarkerContent($markerName, ((string) $content), $markerPrefix);
+		}
+		return $condition;
+	}
+
+	/**
+	 * Sets a marker based on whether the (string) content is non-empty.
+	 * If $content is non-empty, this function sets the marker's content, working
+	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 *
+	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	string		content with which the marker will be filled, may be empty
+	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return	boolean		true if the marker content has been set, false otherwise
+	 *
+	 * @access	protected
+	 *
+	 * @see	setMarkerIfNotZero
+	 */
+	function setMarkerIfNotEmpty($markerName, $content, $markerPrefix = '') {
+		$condition = !empty($content);
+		if ($condition) {
+			$this->setMarkerContent($markerName, $content, $markerPrefix);
+		}
+		return $condition;
+	}
+
+	/**
 	 * Takes a comma-separated list of subpart names and writes them to $this->subpartsToHide.
 	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###' and used as keys.
 	 * The corresponding values in the array are empty strings.
@@ -428,6 +474,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
+	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 *
 	 * @access	protected
 	 *
 	 * @see	setMarkerContent
@@ -439,7 +487,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		} else {
 			$this->readSubpartsToHide($markerName, $wrapperPrefix);
 		}
-		return;
+
+		return $condition;
 	}
 
 	/**
@@ -454,6 +503,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
+	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 *
 	 * @access	protected
 	 *
 	 * @see	setOrDeleteMarker
@@ -462,8 +513,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	readSubpartsToHide
 	 */
 	function setOrDeleteMarkerIfNotZero($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
-		$this->setOrDeleteMarker($markerName, (intval($content) != 0), ((string) $content), $markerPrefix, $wrapperPrefix);
-		return;
+		return $this->setOrDeleteMarker($markerName, (intval($content) != 0), ((string) $content), $markerPrefix, $wrapperPrefix);
 	}
 
 	/**
@@ -478,6 +528,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
+	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 *
 	 * @access	protected
 	 *
 	 * @see	setOrDeleteMarker
@@ -486,8 +538,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	readSubpartsToHide
 	 */
 	function setOrDeleteMarkerIfNotEmpty($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
-		$this->setOrDeleteMarker($markerName, (!empty($content)), $content, $markerPrefix, $wrapperPrefix);
-		return;
+		return $this->setOrDeleteMarker($markerName, (!empty($content)), $content, $markerPrefix, $wrapperPrefix);
 	}
 
 	/**
