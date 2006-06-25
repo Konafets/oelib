@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "oelib"
 # 
-# Auto generated 24-06-2006 13:38
+# Auto generated 25-06-2006 13:46
 # 
 # Manual updates:
 # Only the data in the array - anything else is removed by next write
@@ -30,8 +30,8 @@ $EM_CONF[$_EXTKEY] = Array (
 	'author_company' => '',
 	'private' => '',
 	'download_password' => '',
-	'version' => '0.2.3',	// Don't modify this! Managed automatically during upload to repository.
-	'_md5_values_when_last_written' => 'a:6:{s:13:"changelog.txt";s:4:"f384";s:37:"class.tx_oelib_salutationswitcher.php";s:4:"256e";s:33:"class.tx_oelib_templatehelper.php";s:4:"b9ab";s:12:"ext_icon.gif";s:4:"1bdc";s:8:"todo.txt";s:4:"4d87";s:14:"doc/manual.sxw";s:4:"b21d";}',
+	'version' => '0.2.4',	// Don't modify this! Managed automatically during upload to repository.
+	'_md5_values_when_last_written' => 'a:6:{s:13:"changelog.txt";s:4:"3880";s:37:"class.tx_oelib_salutationswitcher.php";s:4:"256e";s:33:"class.tx_oelib_templatehelper.php";s:4:"1a59";s:12:"ext_icon.gif";s:4:"1bdc";s:8:"todo.txt";s:4:"4d87";s:14:"doc/manual.sxw";s:4:"b21d";}',
 );
 
 ?>
