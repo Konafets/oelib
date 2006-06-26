@@ -759,11 +759,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If $this->piVars is empty, this function is a no-op.
 	 *
+	 * @param	array		array of array keys for $this->piVars that will be intvaled as well
+	 *
 	 * @access	protected
 	 */
-	function securePiVars() {
+	function securePiVars($additionalPiVars = array()) {
 		if ($this->piVars) {
-			foreach (array('showUid', 'pointer', 'mode') as $key) {
+			$defaultIntPiVars = array('showUid', 'pointer', 'mode');
+			foreach (array_merge($defaultIntPiVars, $additionalPiVars) as $key) {
 				if (isset($this->piVars[$key])) {
 					$this->piVars[$key] = intval($this->piVars[$key]);
 				}
