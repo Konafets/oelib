@@ -9,3 +9,6 @@ To-do list for the "oelib" extension
   - document the API
   - provide some example code
 - provide an icon
+- use (int) instead of intval() for better performance
+- use ++$i instead of $i++ for better performance
+- add @package/@subpackage comments
