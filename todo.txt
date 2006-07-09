@@ -12,3 +12,7 @@ To-do list for the "oelib" extension
 - use (int) instead of intval() for better performance
 - use ++$i instead of $i++ for better performance
 - add @package/@subpackage comments
+- make the manual render on typo3.org
+- move the pagination code from tx_realty to tx_oelib
+- make the pagination downward-compatible to tslib (ie. add a wrapper)
+- make the pagination work also without templates
