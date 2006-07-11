@@ -17,3 +17,4 @@ To-do list for the "oelib" extension
 - make the pagination downward-compatible to tslib (ie. add a wrapper)
 - make the pagination work also without templates
 - add a function to ensure a certain $piVars variable is set and an array
+- make unlimited nesting of subparts possible
