@@ -1,4 +1,5 @@
 0.2.5
+- Fix: safeguard the loading and resizing of images (#157)
 - Feature: allow to intval additional piVars (#132)
 - Feature: conditionally set markers without removing anything (#28)
 - Feature: return status about whether a marker has been set or hidden (#28)

@@ -800,6 +800,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Creates an IMG for a resized image version of $fullPath.
+	 * If the image cannot be created, the ALT text is returned instead.
 	 *
 	 * @param	string		full path to of the original image (may not be empty)
 	 * @param	string		alt text (may be empty)
@@ -813,6 +814,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function createRestrictedImage($fullPath, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '') {
+		$isOkay = false;
+
 		$imageConf = array();
 		$imageConf['file'] = $fullPath;
 		$imageConf['altText'] = $altText;
@@ -820,35 +823,56 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		$changeSize = false;
 
-		$actualSize = GetImageSize($fullPath);
-		$width = $actualSize[0];
-		$height = $actualSize[1];
-		$edgeQuotient = $width / $height;
+		$actualSize = null;
+		if (!empty($fullPath) && is_file($fullPath)) {
+			$actualSize = GetImageSize($fullPath);
+		}
+		if ($actualSize) {
+			$width = $actualSize[0];
+			$height = $actualSize[1];
+		} else {
+			$width = 0;
+			$height = 0;
+		}
 
-		if ($maxArea) {
-			$currentArea = $width * $height;
-			if ($currentArea > $maxArea) {
-				$width = round(sqrt($maxArea * $edgeQuotient));
-				$height = round(sqrt($maxArea / $edgeQuotient));
+		// Only images with a width and height > 0 make sense to use.
+		if (($width > 0) && ($height > 0)) {
+			$edgeQuotient = $width / $height;
+
+			if ($maxArea) {
+				$currentArea = $width * $height;
+				if ($currentArea > $maxArea) {
+					$width = round(sqrt($maxArea * $edgeQuotient));
+					$height = round(sqrt($maxArea / $edgeQuotient));
+					$changeSize = true;
+				}
+			}
+			if ($maxWidth && ($width > $maxWidth)) {
+				$width = $maxWidth;
+				$height = round($width / $edgeQuotient);
 				$changeSize = true;
 			}
-		}
-		if ($maxWidth && ($width > $maxWidth)) {
-			$width = $maxWidth;
-			$height = round($width / $edgeQuotient);
-			$changeSize = true;
-		}
-		if ($maxHeight && ($height > $maxHeight)) {
-			$height = $maxHeight;
-			$width = round($edgeQuotient * $height);
-			$changeSize = true;
-		}
-		if ($changeSize) {
-			$imageConf['file.']['width'] = $width;
-			$imageConf['file.']['height'] = $height;
+			if ($maxHeight && ($height > $maxHeight)) {
+				$height = $maxHeight;
+				$width = round($edgeQuotient * $height);
+				$changeSize = true;
+			}
+			if ($changeSize) {
+				$imageConf['file.']['width'] = $width;
+				$imageConf['file.']['height'] = $height;
+			}
+
+			$result = $this->cObj->IMAGE($imageConf);
+			if (!empty($result)) {
+				$isOkay = true;
+			}
 		}
 
-		return $this->cObj->IMAGE($imageConf);
+		if (!$isOkay) {
+			$result = $altText;
+		}
+
+		return $result;
 	}
 }
 
