@@ -183,7 +183,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		the trimmed value of the corresponding flexforms or TS setup entry (may be empty)
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function getConfValueString($fieldName, $sheet = 'sDEF', $isFileName = false) {
 		return trim($this->getConfValue($fieldName, $sheet, $isFileName));
@@ -200,7 +200,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	boolean		whether there is a non-empty value in the corresponding flexforms or TS setup entry
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function hasConfValueString($fieldName, $sheet = 'sDEF') {
 		return ($this->getConfValueString($fieldName, $sheet) != '');
@@ -217,7 +217,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	integer		the inval'ed value of the corresponding flexforms or TS setup entry
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function getConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return intval($this->getConfValue($fieldName, $sheet));
@@ -234,7 +234,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	boolean		whether there is a non-zero value in the corresponding flexforms or TS setup entry
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValueInteger($fieldName, $sheet);
@@ -251,7 +251,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	boolean		the boolean value of the corresponding flexforms or TS setup entry
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValue($fieldName, $sheet);
