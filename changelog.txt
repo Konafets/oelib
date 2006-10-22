@@ -1,3 +1,7 @@
+0.2.6
+- Fix: Conflict with direct_mail 2.1.5 (#320)
+
+
 0.2.5
 - Fix: safeguard the loading and resizing of images (#157)
 - Feature: allow to intval additional piVars (#132)

@@ -89,8 +89,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			if ($conf !== null) {
 				$this->conf = $conf;
 			} else {
-				if (TYPO3_MODE == 'BE') {
-					// On the back end, we need to create our own template setup.
+				// We need to create our own template setup if we are in the BE
+				// and we aren't currently creating a DirectMail page.
+				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
 					$template = t3lib_div::makeInstance('t3lib_TStemplate');
 					// do not log time-performance information
 					$template->tt_track = 0;
