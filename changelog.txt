@@ -1,6 +1,6 @@
 0.2.6
+- Feature: Automatic configuration check (#273)
 - Fix: Conflict with direct_mail 2.1.5 (#320)
-
 
 0.2.5
 - Fix: safeguard the loading and resizing of images (#157)

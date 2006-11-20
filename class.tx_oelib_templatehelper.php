@@ -57,6 +57,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	var $subpartsToHide = array();
 
+	/** The configuration check object that will check this object. */
+	var $configurationCheck;
+
 	/**
 	 * Dummy constructor: Does nothing.
 	 *
@@ -116,6 +119,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			$this->pi_setPiVarDefaults();
 			$this->pi_loadLL();
+
+			// unserialize the configuration array
+			$globalConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['seminars']);
+
+			if (isset($globalConfiguration['enableConfigCheck'])
+				&& $globalConfiguration['enableConfigCheck']) {
+				$configurationCheckClassname = t3lib_div::makeInstanceClassName('tx_seminars_configcheck');
+				$this->configurationCheck =& new $configurationCheckClassname($this);
+			} else {
+				$this->configurationCheck = null;
+			}
 
 			$this->isInitialized = true;
 		}
@@ -337,7 +351,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	array	Array of matching marker names
 	 *
-	 * @access	private
+	 * @access	public
 	 */
 	function getPrefixedMarkers($prefix) {
 		$matches = array();
@@ -593,13 +607,25 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function substituteMarkerArrayCached($key) {
+		if (!isset($this->templateCache[$key])) {
+			$this->setErrorMessage('The subpart <strong>'.$key.'</strong> is '
+				.'missing in the HTML template file <strong>'
+				.$this->getConfValueString(
+					'templateFile',
+					's_template_special',
+					true)
+				.'</strong>. If you are using a modified HTML template, please '
+				.'fix it. If you are using the original HTML template file, '
+				.'please file a bug report in the '
+				.'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
+			);
+		}
+
 		// remove subparts (lines) that will be hidden
 		$noHiddenSubparts = $this->cObj->substituteMarkerArrayCached($this->templateCache[$key], array(), $this->subpartsToHide);
 
-		// Remove subpart markers by replacing the subparts with just their content,
-		// but replace subparts that explicitely have been filled with content.
-		$subpartReplacements = array_merge($this->templateCache, $this->subparts);
-		$noSubpartMarkers = $this->cObj->substituteMarkerArrayCached($noHiddenSubparts, array(), $subpartReplacements);
+		// remove subpart markers by replacing the subparts with just their content
+		$noSubpartMarkers = $this->cObj->substituteMarkerArrayCached($noHiddenSubparts, array(), $this->templateCache);
 
 		// replace markers with their content
 		return $this->cObj->substituteMarkerArrayCached($noSubpartMarkers, $this->markers);
@@ -871,6 +897,109 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		if (!$isOkay) {
 			$result = $altText;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Checks whether a front end user is logged in.
+	 *
+	 * @return	boolean		true if a user is logged in, false otherwise
+	 *
+	 * @access	public
+	 */
+	function isLoggedIn() {
+		return ((boolean) $GLOBALS['TSFE']) && ((boolean) $GLOBALS['TSFE']->loginUser);
+	}
+
+	/**
+	 * If a user is logged in, retrieves that user's data as stored in the
+	 * table "feusers" and stores it in $this->feuser.
+	 *
+	 * If no user is logged in, $this->feuser will be null.
+	 *
+	 * @access	private
+	 */
+	function retrieveFEUser() {
+		$this->feuser = $this->isLoggedIn() ? $GLOBALS['TSFE']->fe_user->user : null;
+	}
+
+	/**
+	 * Returns the UID of the currently logged-in FE user
+	 * or 0 if no FE user is logged in.
+	 *
+	 * @return	integer		the UID of the logged-in FE user or 0 if no FE user is logged in
+	 *
+	 * @access	public
+	 */
+	function getFeUserUid() {
+		// If we don't have the FE user's UID (yet), try to retrieve it.
+		if (!$this->feuser) {
+			$this->retrieveFEUser();
+		}
+
+		return ($this->isLoggedIn() ? intval($this->feuser['uid']) : 0);
+	}
+
+	/**
+	 * Sets the "flavor" of the object to check.
+	 *
+	 * @param	string		a short string identifying the "flavor" of the object to check (may be empty)
+	 *
+	 * @access	public
+	 */
+	function setFlavor($flavor) {
+		if ($this->configurationCheck) {
+			$this->configurationCheck->setFlavor($flavor);
+		}
+
+		return;
+	}
+
+	/**
+	 * Sets the error text of $this->configurationCheck.
+	 *
+	 * If this->configurationCheck is null, this function is a no-op.
+	 *
+	 * @param	string		error text to set (may be empty)
+	 *
+	 * @access	protected
+	 */
+	function setErrorMessage($message) {
+		if ($this->configurationCheck) {
+			$this->configurationCheck->setErrorMessage($message);
+		}
+
+		return;
+	}
+
+	/**
+	 * Checks this object's configuration and returns a formatted error message
+	 * (if any). If there are several objects of this class, still only one
+	 * error message is created (in order to prevent duplicate messages).
+	 *
+	 * @param	boolean		whether to use the raw message instead of the wrapped message
+	 *
+	 * @return	string		a formatted error message (if there are errors) or an empty string
+	 *
+	 * @access	public
+	 */
+	function checkConfiguration($useRawMessage = false) {
+		static $hasDisplayedMessage = false;
+		$result = '';
+
+		if ($this->configurationCheck) {
+			$message = ($useRawMessage) ?
+				$this->configurationCheck->checkIt() :
+				$this->configurationCheck->checkItAndWrapIt();
+
+			// If we have a message, only return it if it is the first message
+			// for objects of this class.
+			if (!empty($message) && !$hasDisplayedMessage) {
+				$result = $message;
+				$hasDisplayedMessage = true;
+			}
 		}
 
 		return $result;
