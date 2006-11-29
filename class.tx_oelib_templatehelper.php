@@ -903,6 +903,25 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Extracts a value within listView.
+	 *
+	 * @param	string		TS setup field name to extract (within listView.), must not be empty
+	 *
+	 * @return	string		the trimmed contents of that field within listView. (may be empty)
+	 *
+	 * @access	public
+	 */
+	function getListViewConfValueString($fieldName) {
+		$result = '';
+		if (isset($this->conf['listView.'])
+			&& isset($this->conf['listView.'][$fieldName])) {
+			$result = trim($this->conf['listView.'][$fieldName]);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Checks whether a front end user is logged in.
 	 *
 	 * @return	boolean		true if a user is logged in, false otherwise

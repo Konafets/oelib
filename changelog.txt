@@ -1,4 +1,5 @@
 0.2.6
+- Feature: Configuration check for plugin.tx_seminars_pi1.listView (#333)
 - Fix: The configuration check doesn't always recognize FE pages (#356)
 - Feature: Automatic configuration check (#273)
 - Fix: Conflict with direct_mail 2.1.5 (#320)
