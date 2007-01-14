@@ -1,4 +1,5 @@
-0.2.6
+0.2.6 - currently working on
+- Change: Added a new check function to the configuration check (#437)
 - Feature: List other dates for the same event topic (#299)
 - Fix: Deletion of content elements in front-end editing mode fails (#322)
 - Feature: Configuration check for plugin.tx_seminars_pi1.listView (#333)
@@ -6,29 +7,29 @@
 - Feature: Automatic configuration check (#273)
 - Fix: Conflict with direct_mail 2.1.5 (#320)
 
-0.2.5
+0.2.5 - released 2006-07-16
 - Fix: safeguard the loading and resizing of images (#157)
 - Feature: allow to intval additional piVars (#132)
 - Feature: conditionally set markers without removing anything (#28)
 - Feature: return status about whether a marker has been set or hidden (#28)
 
-0.2.4
+0.2.4 - released 2006-06-25
 - Feature: populate the content of subparts (like it is already possible with markers) (#92)
 - Feature: set title attributes for images (#99)
 - Fix: a marker prefix "0" gets ignored (#103)
 
-0.2.3
+0.2.3 - released 2006-06-24
 - Feature: conditional set/remove wrapped markers (#76)
 - Feature: create IMG tags with maxX/maxY/maxArea (#77)
 
-0.2.2
+0.2.2 - released 2006-06-22
 - Feature: reset all markers (#73)
 
-0.2.1
+0.2.1 - released 2006-06-22
 - Fix: make piVars more secure (#8)
 
-0.2.0
+0.2.0 - released 2006-06-21
 - Fix: there's <tr###CLASS_HEADERROW###> in the list view header (#0003324)
 
-0.1.0
+0.1.0 - released 2006-06-13
 - Initial public release as a separate extension
