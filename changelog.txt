@@ -1,4 +1,5 @@
 0.2.6
+- Feature: List other dates for the same event topic (#299)
 - Fix: Deletion of content elements in front-end editing mode fails (#322)
 - Feature: Configuration check for plugin.tx_seminars_pi1.listView (#333)
 - Fix: The configuration check doesn't always recognize FE pages (#356)

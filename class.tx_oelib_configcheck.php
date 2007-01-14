@@ -96,6 +96,17 @@ class tx_oelib_configcheck {
 	}
 
 	/**
+	 * Returns the current flavor.
+	 *
+	 * @return	string		the current flavor (or an empty string if no flavor is set)
+	 *
+	 * @access	public
+	 */
+	function getFlavor() {
+		return $this->flavor;
+	}
+
+	/**
 	 * Detects the class of the object to check and performs the sanity checks.
 	 * If everything is okay, an empty string is returned.
 	 * If there are errors, the first error is returned (not wrapped).
