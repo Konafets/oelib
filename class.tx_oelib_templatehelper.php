@@ -33,6 +33,11 @@
  * @author	Oliver Klee <typo3-coding@oliverklee.de>
  */
 
+// Include the system extension lang if we are in the back end.
+if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
+	require_once(PATH_typo3.'sysext/lang/lang.php');
+}
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
 
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
@@ -59,6 +64,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/** The configuration check object that will check this object. */
 	var $configurationCheck;
+	
+	/** The back end locallang object  */
+	var $LANG;
 
 	/**
 	 * Dummy constructor: Does nothing.
@@ -85,6 +93,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function init($conf = null) {
+		global $BE_USER;
 		if (!$this->isInitialized) {
 			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
 				$GLOBALS['TSFE']->config['config'] = array();
@@ -115,6 +124,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					$template->generateConfig();
 
 					$this->conf = $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+
+					// Initialize the back end locallang object.
+					$this->LANG = t3lib_div::makeInstance('language');
+					$this->LANG->init($BE_USER->uc['lang']);
 				} else {
 					// On the front end, we can use the provided template setup.
 					$this->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
@@ -1050,6 +1063,32 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$result = $message;
 				$hasDisplayedMessage = true;
 			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Returns the localized label of the LOCAL_LANG key $key.
+	 * This method checks if we are in the FE or in the BE and then uses the appropriate method.
+	 *
+	 * @param	string		the key from the LOCAL_LANG array for which to return the value
+	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default.
+	 * @param	boolean		If true, the output label is passed through htmlspecialchars().
+	 * 
+	 * @return	string		the value from LOCAL_LANG
+	 * 
+	 * @access	protected
+	 */
+	function pi_getLL($key, $alternativeString = '', $useHtmlSpecialChars = false) {
+		$result = '';
+
+		if (TYPO3_MODE == 'BE' && is_object($this->LANG)) {
+			$result = $this->LANG->getLL($key, $useHtmlSpecialChars);
+		} elseif (TYPO3_MODE == 'FE') {
+			$result = parent::pi_getLL($key, $alternativeString, $useHtmlSpecialChars);
+		} else {
+			$result = $alternativeString;
 		}
 
 		return $result;
