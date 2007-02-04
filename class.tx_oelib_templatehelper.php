@@ -1093,6 +1093,28 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		return $result;
 	}
+
+	/**
+	 * Returns an empty string if there are no configuration errors.
+	 * Otherwise, returns the wrapped error text.
+	 *
+	 * Use this method if you want to display this message pretty
+	 * directly and it doesn't need to get handled to other configcheck
+	 * objects.
+	 *
+	 * @return	string		the wrapped error text (or an empty string if there are no errors)
+	 *
+	 * @access	protected
+	 */
+	function getWrappedConfigCheckMessage() {
+		$result = '';
+
+		if ($this->configurationCheck) {
+			$result = $this->configurationCheck->getWrappedMessage();
+		}
+
+		return $result;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
