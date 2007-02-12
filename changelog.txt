@@ -1,4 +1,5 @@
 0.2.6 - currently working on
+- Feature: Added function to unhide temporary hidden subparts (#482)
 - Fix: Crash of TYPO3 4.1 after setting plugin.tx_seminars.attendancesPID (#530)
 - Fix: Crash when disabling the configuration check (#527)
 - Feature: Extend the template helper class so that it also works in the BE (#523)

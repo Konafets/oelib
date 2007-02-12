@@ -494,6 +494,43 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Takes a comma-separated list of subpart names and removes them from $this->subpartsToHide.
+	 * All subpartNames that are provided with the second parameter will not be unhidden! This
+	 * is to avoid unhiding subparts that are hidden by configuration.
+	 *
+	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###' and used as keys.
+	 * The corresponding values in the array are empty strings.
+	 *
+	 * Example: If the prefix is "field" and the list is "one,two", the array keys
+	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be unhidden.
+	 *
+	 * If the prefix is empty and the list is "one,two", the array keys
+	 * "###ONE###" and "###TWO###" will be unhidden.
+	 *
+	 * @param	string		comma-separated list of at least 1 subpart name to unhide (case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of of subpart names that shouldn't get unhidden
+	 * @param	string		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 */
+	function readSubpartsToUnhide($subparts, $permanentlyHiddenSubparts = '', $prefix = '') {
+		$subpartNames = explode(',', $subparts);
+		$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
+
+		foreach ($subpartNames as $currentSubpartName) {
+			// Only unhide the current subpart if it is not on the list of
+			// permanently hidden subparts (e.g. by configuration).
+			if (!array_key_exists($currentSubpartName, $hiddenSubpartNames)) {
+				$currentMarkerName = $this->createMarkerName($currentSubpartName, $prefix);
+				unset($this->subpartsToHide[$currentMarkerName]);
+			}
+
+		}
+
+		return;
+	}
+
+	/**
 	 * Sets or hides a marker based on $condition.
 	 * If $condition is true, this function sets the marker's content, working
 	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
