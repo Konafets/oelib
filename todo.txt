@@ -1,10 +1,9 @@
 To-do list for the "oelib" extension
 ------------------------------------
 
-- test some more with TYPO3 4
 - test with PHP 5
 - use PhpDoc for API documentation and UML diagrams
-- extensively test this extension with TYPO3 4.0
+- test this extension with TYPO3 4.1
 - improve the manual:
   - document the API
   - provide some example code
@@ -12,7 +11,6 @@ To-do list for the "oelib" extension
 - use (int) instead of intval() for better performance
 - use ++$i instead of $i++ for better performance
 - add @package/@subpackage comments
-- make the manual render on typo3.org
 - move the pagination code from tx_realty to tx_oelib
 - make the pagination downward-compatible to tslib (ie. add a wrapper)
 - make the pagination work also without templates
