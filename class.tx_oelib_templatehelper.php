@@ -64,7 +64,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/** The configuration check object that will check this object. */
 	var $configurationCheck;
-	
+
 	/** The back end locallang object  */
 	var $LANG;
 
@@ -94,6 +94,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function init($conf = null) {
 		global $BE_USER;
+
+		static $cachedConfigs = array();
+
 		if (!$this->isInitialized) {
 			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
 				$GLOBALS['TSFE']->config['config'] = array();
@@ -108,29 +111,36 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				// We need to create our own template setup if we are in the BE
 				// and we aren't currently creating a DirectMail page.
 				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
-					$template = t3lib_div::makeInstance('t3lib_TStemplate');
-					// do not log time-performance information
-					$template->tt_track = 0;
-					$template->init();
+					$pageId = intval(t3lib_div::_GP('id'));
 
-					// Get the root line
-					$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-					// the selected page in the BE is found
-					// exactly as in t3lib_SCbase::init()
-					$rootline = $sys_page->getRootLine(intval(t3lib_div::_GP('id')));
+					if (isset($cachedConfigs[$pageId])) {
+						$this->conf =& $cachedConfigs[$pageId];
+					} else {
+						$template = t3lib_div::makeInstance('t3lib_TStemplate');
+						// do not log time-performance information
+						$template->tt_track = 0;
+						$template->init();
 
-					// This generates the constants/config + hierarchy info for the template.
-					$template->runThroughTemplates($rootline, 0);
-					$template->generateConfig();
+						// Get the root line
+						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+						// the selected page in the BE is found
+						// exactly as in t3lib_SCbase::init()
+						$rootline = $sys_page->getRootLine(intval(t3lib_div::_GP('id')));
 
-					$this->conf = $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+						// This generates the constants/config + hierarchy info for the template.
+						$template->runThroughTemplates($rootline, 0);
+						$template->generateConfig();
+
+						$this->conf =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+						$cachedConfigs[$pageId] =& $this->conf;
+					}
 
 					// Initialize the back end locallang object.
 					$this->LANG = t3lib_div::makeInstance('language');
 					$this->LANG->init($BE_USER->uc['lang']);
 				} else {
 					// On the front end, we can use the provided template setup.
-					$this->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
+					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
 				}
 			}
 
@@ -1112,9 +1122,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string		the key from the LOCAL_LANG array for which to return the value
 	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default.
 	 * @param	boolean		If true, the output label is passed through htmlspecialchars().
-	 * 
+	 *
 	 * @return	string		the value from LOCAL_LANG
-	 * 
+	 *
 	 * @access	protected
 	 */
 	function pi_getLL($key, $alternativeString = '', $useHtmlSpecialChars = false) {

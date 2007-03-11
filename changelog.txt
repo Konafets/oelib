@@ -1,4 +1,5 @@
 0.2.6 - currently working on
+- Change: Cache $this->conf for plugin.seminars page-wise (#670)
 - Feature: Add some benchmarking code (#395)
 - Change: Removed the "This feature is new" message from the config check (#388)
 - Feature: Added function to unhide temporary hidden subparts (#482)
