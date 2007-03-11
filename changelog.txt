@@ -1,4 +1,5 @@
 0.2.6 - currently working on
+- Feature: Add some benchmarking code (#395)
 - Change: Removed the "This feature is new" message from the config check (#388)
 - Feature: Added function to unhide temporary hidden subparts (#482)
 - Fix: Crash of TYPO3 4.1 after setting plugin.tx_seminars.attendancesPID (#530)
