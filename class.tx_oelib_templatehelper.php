@@ -21,6 +21,7 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
  * (taken from the 'seminars' extension).
