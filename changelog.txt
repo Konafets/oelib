@@ -1,4 +1,5 @@
 0.2.6 - currently working on
+- Fix: E-mails are empty if a HTML template is selected via flexforms (#710)
 - Change: Cache $this->conf for plugin.seminars page-wise (#670)
 - Feature: Add some benchmarking code (#395)
 - Change: Removed the "This feature is new" message from the config check (#388)
