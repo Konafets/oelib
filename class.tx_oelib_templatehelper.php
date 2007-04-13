@@ -126,7 +126,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 						// the selected page in the BE is found
 						// exactly as in t3lib_SCbase::init()
-						$rootline = $sys_page->getRootLine(intval(t3lib_div::_GP('id')));
+						$rootline = $sys_page->getRootLine($this->getCurrentBePageId());
 
 						// This generates the constants/config + hierarchy info for the template.
 						$template->runThroughTemplates($rootline, 0);
@@ -1182,6 +1182,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets the ID of the currently selected back-end page.
+	 *
+	 * @return	integer		the current back-end page ID (or 0 if there is an error)
+	 *
+	 * @access	public
+	 */
+	function getCurrentBePageId() {
+		return intval(t3lib_div::_GP('id'));
 	}
 }
 
