@@ -1,4 +1,4 @@
-0.2.6 - currently working on
+0.2.6 - released 2007-04-25
 - Fix: TypoScript configuration doesn't exist in class.tx_seminars_tcemain.php (#733)
 - Fix: E-mails are empty if a HTML template is selected via flexforms (#710)
 - Change: Cache $this->conf for plugin.seminars page-wise (#670)

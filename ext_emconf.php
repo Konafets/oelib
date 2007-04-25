@@ -3,7 +3,7 @@
 ########################################################################
 # Extension Manager/Repository config file for ext: "oelib"
 #
-# Auto generated 16-07-2006 13:24
+# Auto generated 25-04-2007 23:11
 #
 # Manual updates:
 # Only the data in the array - anything else is removed by next write.
@@ -32,8 +32,8 @@ $EM_CONF[$_EXTKEY] = array(
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
 	'author_company' => '',
-	'version' => '0.2.5',
-	'_md5_values_when_last_written' => 'a:6:{s:13:"changelog.txt";s:4:"36ac";s:37:"class.tx_oelib_salutationswitcher.php";s:4:"256e";s:33:"class.tx_oelib_templatehelper.php";s:4:"3d81";s:12:"ext_icon.gif";s:4:"1bdc";s:8:"todo.txt";s:4:"0fe6";s:14:"doc/manual.sxw";s:4:"07d3";}',
+	'version' => '0.2.6',
+	'_md5_values_when_last_written' => 'a:8:{s:13:"changelog.txt";s:4:"3f30";s:30:"class.tx_oelib_configcheck.php";s:4:"36ed";s:37:"class.tx_oelib_salutationswitcher.php";s:4:"9644";s:33:"class.tx_oelib_templatehelper.php";s:4:"99f3";s:24:"class.tx_oelib_timer.php";s:4:"5f51";s:12:"ext_icon.gif";s:4:"1bdc";s:8:"todo.txt";s:4:"1934";s:14:"doc/manual.sxw";s:4:"fcf8";}',
 	'constraints' => array(
 		'depends' => array(
 		),
