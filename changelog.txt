@@ -1,4 +1,4 @@
-0.3.0 - currently working on
+0.3.0 - released 2007-06-01
 - Fix: The config check needs to know which class to instantiate (#364)
 - Code cleanup (#817)
 - Feature: Allow to use a string as HTML template, allow nesting of subparts (#474)
