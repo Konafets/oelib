@@ -90,7 +90,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * This is merely a convenience function.
 	 *
-	 * If the parameter is ommited, the configuration for plugin.tx_seminar is used instead.
+	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
+	 * used instead, e.g. plugin.tx_seminars.
 	 *
  	 * @param	array		TypoScript configuration for the plugin
 	 *
@@ -152,12 +153,19 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->pi_loadLL();
 
 			// unserialize the configuration array
-			$globalConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['seminars']);
+			$globalConfiguration = unserialize(
+				$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]
+			);
 
 			if (isset($globalConfiguration['enableConfigCheck'])
 				&& $globalConfiguration['enableConfigCheck']) {
-				$configurationCheckClassname = t3lib_div::makeInstanceClassName('tx_seminars_configcheck');
-				$this->configurationCheck =& new $configurationCheckClassname($this);
+				$configurationCheckClassname = t3lib_div::makeInstanceClassName('tx_'.$this->extKey.'_configcheck');
+				$configurationCheckFile = t3lib_extMgm::extPath($this->extKey)
+					.'class.'.$configurationCheckClassname.'.php';
+				if (is_file($configurationCheckFile)) {
+					require_once($configurationCheckFile);
+					$this->configurationCheck =& new $configurationCheckClassname($this);
+				}
 			} else {
 				$this->configurationCheck = null;
 			}

@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_confcheck' for the 'oelib' extension.
+ * Class 'tx_oelib_configcheck' for the 'oelib' extension.
  *
  * This class checks the extension configuration (TS setup) and some data for
  * basic sanity. This works for FE plug-ins, BE modules and free-floating data
@@ -66,7 +66,7 @@ class tx_oelib_configcheck {
 	/**
 	 * The constructor.
 	 *
-	 * @param	object		the object that shall be checked for configuration problems, must be of a subclass of tx_seminars_dbplugin
+	 * @param	object		the object that will be checked for configuration problems, must be of a subclass of tx_oelib_templatehelper
 	 */
 	function tx_oelib_configcheck(&$objectToCheck) {
 		if ($objectToCheck
