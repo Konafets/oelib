@@ -1,9 +1,6 @@
 To-do list for the "oelib" extension
 ------------------------------------
 
-- test with PHP 5
-- use PhpDoc for API documentation and UML diagrams
-- test this extension with TYPO3 4.1
 - improve the manual:
   - document the API
   - provide some example code
@@ -14,5 +11,3 @@ To-do list for the "oelib" extension
 - move the pagination code from tx_realty to tx_oelib
 - make the pagination downward-compatible to tslib (ie. add a wrapper)
 - make the pagination work also without templates
-- add a function to ensure a certain $piVars variable is set and an array
-- make unlimited nesting of subparts possible
