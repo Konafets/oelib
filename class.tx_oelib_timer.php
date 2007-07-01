@@ -27,7 +27,9 @@
  *
  * This singleton class provides functions for performance measurement.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @package		TYPO3
+ * @subpackage	tx_oelib
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_timer {
 	/** whether the timer currently is running */

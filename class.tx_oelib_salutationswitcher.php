@@ -28,7 +28,9 @@
  *
  * This is an abstract class; don't instantiate it.
  *
- * @author	Oliver Klee <typo3-coding@oliverklee.de>
+ * @package		TYPO3
+ * @subpackage	tx_oelib
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
 // In case we're on the back end, PATH_tslib isn't defined yet.
