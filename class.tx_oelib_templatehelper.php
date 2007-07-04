@@ -43,6 +43,8 @@ if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
 
+define('LF', chr(10));
+
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** whether init() already has been called (in order to avoid double calls) */
 	var $isInitialized = false;

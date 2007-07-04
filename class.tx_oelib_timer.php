@@ -31,6 +31,9 @@
  * @subpackage	tx_oelib
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
+
+define('LF', chr(10));
+
 class tx_oelib_timer {
 	/** whether the timer currently is running */
 	var $isRunning = false;
@@ -114,26 +117,26 @@ class tx_oelib_timer {
 		// Put the biggest performance culprits on top of the list.
 		arsort($this->buckets, SORT_NUMERIC);
 
-		$result .= '<table summary="statistics">'.chr(10);
-		$result .= '  <thead>'.chr(10);
-		$result .= '    <tr>'.chr(10);
+		$result .= '<table summary="statistics">'.LF;
+		$result .= '  <thead>'.LF;
+		$result .= '    <tr>'.LF;
 		$result .= '      <th>Total time</th><th>'.$this->allTime
-			.'&nbsp;s</th><th>100&nbsp;%</th>'.chr(10);
-		$result .= '    </tr>'.chr(10);
-		$result .= '  </thead>'.chr(10);
-		$result .= '  <tbody>'.chr(10);
+			.'&nbsp;s</th><th>100&nbsp;%</th>'.LF;
+		$result .= '    </tr>'.LF;
+		$result .= '  </thead>'.LF;
+		$result .= '  <tbody>'.LF;
 
 		foreach ($this->buckets as $bucketName => $bucketTime) {
-			$result .= '    <tr>'.chr(10);
+			$result .= '    <tr>'.LF;
 			$result .= '      <td>'.htmlspecialchars($bucketName).'</td>';
 			$result .= '      <td>'.$bucketTime.'&nbsp;s'.'</td>';
 			$result .= '      <td>'.($bucketTime * 100 / $this->allTime).'&nbsp;%'
-				.'</td>'.chr(10);
-			$result .= '    </tr>'.chr(10);
+				.'</td>'.LF;
+			$result .= '    </tr>'.LF;
 		}
 
-		$result .= '  </tbody>'.chr(10);
-		$result .= '</table>'.chr(10);
+		$result .= '  </tbody>'.LF;
+		$result .= '</table>'.LF;
 
 		return $result;
 	}
