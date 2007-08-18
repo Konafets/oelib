@@ -1002,8 +1002,8 @@ class tx_oelib_configcheck {
 	function checkIfFePagesOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
 		$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-		// When the configuration value contains a comma, use the plural.
-		if (strrpos($pids, ',') !== false ) {
+		// When the configuration value is empty or contains a comma, use the plural.
+		if (($pids == '') || (strrpos($pids, ',') !== false )) {
 			$message = 'All the selected pages need to be front-end pages so '
 				.'that links to them work correctly. '.$explanation;
 		} else {
@@ -1079,8 +1079,8 @@ class tx_oelib_configcheck {
 	function checkIfSysFoldersOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
 		$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-		// When the configuration value contains a comma, use the plural.
-		if (strrpos($pids, ',') !== false ) {
+		// When the configuration value is empty or contains a comma, use the plural.
+		if (($pids == '') || (strrpos($pids, ',') !== false )) {
 			$message = 'All the selected pages need to be system folders so '
 				.'that data records are tidily separated from front-end '
 				.'content. '.$explanation;
