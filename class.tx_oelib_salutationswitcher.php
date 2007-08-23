@@ -45,14 +45,43 @@ class tx_oelib_salutationswitcher extends tslib_pibase {
 
 	/**
 	 * Returns the localized label of the LOCAL_LANG key, $key
-	 * In $this->conf['salutation'], a suffix to the key may be set (which may be either 'formal' or 'informal').
-	 * If a corresponding key exists, the formal/informal localized string is used instead.
+	 * In $this->conf['salutation'], a suffix to the key may be set (which may
+	 * be either 'formal' or 'informal'). If a corresponding key exists, the
+	 * formal/informal localized string is used instead.
 	 * If the key doesn't exist, we just use the normal string.
 	 *
-	 * Example: key = 'greeting', suffix = 'informal'. If the key 'greeting_informal' exists, that string is used.
+	 * Example: key = 'greeting', suffix = 'informal'. If the key
+	 * 'greeting_informal' exists, that string is used.
 	 * If it doesn't exist, we'll try to use the string with the key 'greeting'.
 	 *
-	 * Notice that for debugging purposes prefixes for the output values can be set with the internal vars ->LLtestPrefixAlt and ->LLtestPrefix
+	 * Notice that for debugging purposes prefixes for the output values can be
+	 * set with the internal vars ->LLtestPrefixAlt and ->LLtestPrefix.
+	 *
+	 * @param	string		the key from the LOCAL_LANG array for which to return the value
+	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default
+	 * @param	boolean		If true, the output label is passed through htmlspecialchars()
+	 *
+	 * @return	string		the value from LOCAL_LANG
+	 *
+	 * @deprecated	2007-08-22	Use translate instead.
+	 */
+	function pi_getLL($key, $alt = '', $useHtmlSpecialChars = false) {
+		return $this->translate($key, $alt, $useHtmlSpecialChars);
+	}
+
+	/**
+	 * Returns the localized label of the LOCAL_LANG key, $key
+	 * In $this->conf['salutation'], a suffix to the key may be set (which may
+	 * be either 'formal' or 'informal'). If a corresponding key exists, the
+	 * formal/informal localized string is used instead.
+	 * If the key doesn't exist, we just use the normal string.
+	 *
+	 * Example: key = 'greeting', suffix = 'informal'. If the key
+	 * 'greeting_informal' exists, that string is used.
+	 * If it doesn't exist, we'll try to use the string with the key 'greeting'.
+	 *
+	 * Notice that for debugging purposes prefixes for the output values can be
+	 * set with the internal vars ->LLtestPrefixAlt and ->LLtestPrefix.
 	 *
 	 * @param	string		the key from the LOCAL_LANG array for which to return the value
 	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default
@@ -60,15 +89,18 @@ class tx_oelib_salutationswitcher extends tslib_pibase {
 	 *
 	 * @return	string		the value from LOCAL_LANG
 	 */
-	function pi_getLL($key, $alt = '', $hsc = FALSE) {
-		if (isset($this->conf['salutation']) && in_array($this->conf['salutation'], $this->allowedSuffixes, 1)) {
+	function translate($key, $alt = '', $useHtmlSpecialChars = false) {
+		if (isset($this->conf['salutation'])
+			&& in_array($this->conf['salutation'], $this->allowedSuffixes, 1)) {
 			// If the suffix is allowed, we'll take that.
 			$salutation = $this->conf['salutation'];
 		} else {
-			// If there is no valid salutation mode given, use the default (formal).
+			// If there is no valid salutation mode given, use the default
+			// (formal).
 			$salutation = 'formal';
 		}
-		// Rewrite the language key to 'default' if it is 'en'. Otherwise, it will not work if language = English.
+		// Rewrite the language key to 'default' if it is 'en'. Otherwise, it
+		// will not work if language = English.
 		if ($this->LLkey == 'en') {
 			$internal_LL_key = 'default';
 		} else	{
@@ -80,7 +112,7 @@ class tx_oelib_salutationswitcher extends tslib_pibase {
 			$key = $expandedKey;
 		}
 
-		return parent::pi_getLL($key, $alt, $hsc);
+		return parent::pi_getLL($key, $alt, $useHtmlSpecialChars);
 	}
 }
 
