@@ -111,7 +111,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$GLOBALS['TSFE']->config['config'] = array();
 			}
 
-			// call the base classe's constructor manually as this isn't done automatically
+			// Call the base class's constructor manually as this isn't done
+			// automatically.
 			parent::tslib_pibase();
 
 			if ($conf !== null) {
