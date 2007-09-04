@@ -50,13 +50,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	var $isInitialized = false;
 
 	/** the complete HTML template */
-	var $templateCode;
+	var $templateCode = '';
 
 	/** all HTML template subparts, using the marker name without ### as keys (e.g. 'MY_MARKER') */
 	var $templateCache = array();
 
 	/** list of the names of all markers (and subparts) of a template */
-	var $markerNames;
+	var $markerNames = array();
 
 	/** list of populated markers and their contents (with the keys being the marker names including the wrapping hash signs ###) */
 	var $markers = array();
@@ -891,22 +891,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			);
 		}
 
-		return;
-	}
-
-	/**
-	 * Sets the all CSS classes from TS for the template in $this->markers.
-	 * The list of needed CSS classes will be extracted from the template file.
-	 *
-	 * Classes are set only if they are set via TS, else the marker will be an
-	 * empty string.
-	 *
-	 * @access	protected
-	 *
-	 * @deprecated	2007-08-22	Use setCss instead.
-	 */
-	function setCSS() {
-		$this->setCss();
 		return;
 	}
 
