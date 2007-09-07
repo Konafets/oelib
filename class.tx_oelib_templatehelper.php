@@ -56,7 +56,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	var $templateCache = array();
 
 	/** list of the names of all markers (and subparts) of a template */
-	var $markerNames = array();
+	var $markerNames = '';
 
 	/** list of populated markers and their contents (with the keys being the marker names including the wrapping hash signs ###) */
 	var $markers = array();
