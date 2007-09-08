@@ -253,7 +253,7 @@ class tx_oelib_configcheck {
 	 *
 	 * @return	string		$this->errorText wrapped by $this->wrap (or an empty string if there are no errors)
 	 *
-	 * @access	protected
+	 * @access	public
 	 */
 	function getWrappedMessage() {
 		$result = '';

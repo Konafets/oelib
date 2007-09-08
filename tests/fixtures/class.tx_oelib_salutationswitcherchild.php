@@ -36,9 +36,10 @@
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
 
 final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher {
-	var $prefixId = 'tx_oelib_salutationswitcherchild';
-	var $scriptRelPath = 'tests/fixtures/class.tx_oelib_salutationswitcherchild.php';
-	var $extKey = 'oelib';
+	public $prefixId = 'tx_oelib_salutationswitcherchild';
+	public $scriptRelPath
+		= 'tests/fixtures/class.tx_oelib_salutationswitcherchild.php';
+	public $extKey = 'oelib';
 
 	/**
 	 * The constructor.
@@ -94,7 +95,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	 */
 	public function setFallbackLanguage($language) {
 		if ($this->getFallbackLanguage() != $language) {
-			// Make sure the language file are reloaded.
+			// Make sure the language files are reloaded.
 			$this->LOCAL_LANG_loaded = false;
 			$this->altLLkey = $language;
 		}
