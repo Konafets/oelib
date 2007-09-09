@@ -55,6 +55,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testStatisticsWithoutBuckets() {
 		$statistics = $this->fixture->getStatisticsAsRawData();
+		$this->assertTrue(
+			is_array($statistics)
+		);
 		$this->assertEquals(
 			0, count($statistics)
 		);
@@ -77,6 +80,17 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertContains(
 			'.1', $statisticsAsHtml
+		);
+	}
+
+	public function testStatisticsForOneBucketWithoutDelay() {
+		$this->fixture->openBucket('test');
+		$statistics = $this->fixture->getStatisticsAsRawData();
+		$this->assertEquals(
+			1, count($statistics)
+		);
+		$this->assertEquals(
+			'test', $statistics[0]['bucketName']
 		);
 	}
 
@@ -155,6 +169,21 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertContains(
 			'foo&amp;bar', $this->fixture->getStatistics()
+		);
+	}
+
+	public function testDestroyAllBuckets() {
+		$this->fixture->openBucket('test');
+		$this->fixture->destroyAllBuckets();
+		$statistics = $this->fixture->getStatisticsAsRawData();
+		$this->assertTrue(
+			is_array($statistics)
+		);
+		$this->assertEquals(
+			0, count($statistics)
+		);
+		$this->assertNotContains(
+			'<td>', $this->fixture->getStatistics()
 		);
 	}
 }
