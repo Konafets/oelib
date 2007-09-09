@@ -101,6 +101,38 @@ class tx_oelib_timer {
 	}
 
 	/**
+	 * Gets the statistics as an arry sorted descending by time.
+	 * Each array element will be an array in itself, containing the following
+	 * keys:
+	 * - bucketName (string, not htmlspecialchared yet)
+	 * - absoluteTime (float, in seconds)
+	 * - relativeTime (float, in percent)
+	 *
+	 * @return	array	two-dimensional array with the times of all buckets,
+	 * 					will be	empty if there are no buckets.
+	 *
+	 * @access	public
+	 */
+	function getStatisticsAsRawData() {
+		$this->stopTimer();
+
+		// Put the biggest performance culprits on top of the list.
+		arsort($this->buckets, SORT_NUMERIC);
+
+		$result = array();
+
+		foreach ($this->buckets as $bucketName => $bucketTime) {
+			$result[] = array(
+				'bucketName' => $bucketName,
+				'absoluteTime' => $bucketTime,
+				'relativeTime' => $bucketTime * 100 / $this->allTime
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Gets the statistics as a HTML table with one row per bucket, containing
 	 * the bucket name, the absolute amount of time in seconds in the bucket
 	 * and the percentage of the total time (from all buckets summed up).
@@ -112,10 +144,7 @@ class tx_oelib_timer {
 	 * @access	public
 	 */
 	function getStatistics() {
-		$this->stopTimer();
-
-		// Put the biggest performance culprits on top of the list.
-		arsort($this->buckets, SORT_NUMERIC);
+		$rawStatistics = $this->getStatisticsAsRawData();
 
 		$result .= '<table summary="statistics">'.LF;
 		$result .= '  <thead>'.LF;
@@ -126,11 +155,12 @@ class tx_oelib_timer {
 		$result .= '  </thead>'.LF;
 		$result .= '  <tbody>'.LF;
 
-		foreach ($this->buckets as $bucketName => $bucketTime) {
+		foreach ($rawStatistics as $bucketData) {
 			$result .= '    <tr>'.LF;
-			$result .= '      <td>'.htmlspecialchars($bucketName).'</td>';
-			$result .= '      <td>'.$bucketTime.'&nbsp;s'.'</td>';
-			$result .= '      <td>'.($bucketTime * 100 / $this->allTime).'&nbsp;%'
+			$result .= '      <td>'.htmlspecialchars($bucketData['bucketName'])
+				.'</td>';
+			$result .= '      <td>'.$bucketData['absoluteTime'].'&nbsp;s'.'</td>';
+			$result .= '      <td>'.$bucketData['relativeTime'].'&nbsp;%'
 				.'</td>'.LF;
 			$result .= '    </tr>'.LF;
 		}
@@ -139,6 +169,23 @@ class tx_oelib_timer {
 		$result .= '</table>'.LF;
 
 		return $result;
+	}
+
+	/**
+	 * Stops all timers and deletes all buckets.
+	 *
+	 * After this, a completely new sets of buckets can be created.
+	 *
+	 * @access	public
+	 */
+	function destroyAllBuckets() {
+		$this->stopTimer();
+
+		foreach ($this->buckets as $bucketKey => $bucket) {
+			unset($this->buckets[$bucketKey]);
+		}
+
+		return;
 	}
 
 	/**
