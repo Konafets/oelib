@@ -207,7 +207,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for filling in markers.
 	//////////////////////////////////
 
-	public function testReplaceLowercaseMarkerInCompleteTemplate() {
+	public function testSetLowercaseMarkerInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -221,7 +221,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceUppercaseMarkerInCompleteTemplate() {
+	public function testSetUppercaseMarkerInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -235,7 +235,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceLowercaseMarkerInSubpart() {
+	public function testSetLowercaseMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -251,7 +251,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceUppercaseMarkerInSubpart() {
+	public function testSetUppercaseMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -267,7 +267,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceDoubleMarkerInSubpart() {
+	public function testSetDoubleMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'###MARKER### This is some template code. ###MARKER### More text.'
@@ -283,7 +283,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceMarkerInCompleteTemplateTwoTimes() {
+	public function testSetMarkerInCompleteTemplateTwoTimes() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -304,7 +304,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceMarkerInSubpartTwoTimes() {
+	public function testSetMarkerInSubpartTwoTimes() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -715,6 +715,220 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testHideTwoSubpartsSeparately() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1');
+		$this->fixture->hideSubparts('MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsWithoutSpaceAfterComma() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsInReverseOrder() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_2,MY_SUBPART1');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsWithSpaceAfterComma() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1, MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideTwoSubpartsSeparately() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1');
+		$this->fixture->hideSubparts('MY_SUBPART2');
+		$this->fixture->unhideSubparts('MY_SUBPART_1');
+		$this->fixture->unhideSubparts('MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here.'
+				.'More text there. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideTwoSubpartsInSameOrder() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->fixture->unhideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here.'
+				.'More text there. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideTwoSubpartsInReverseOrder() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->fixture->unhideSubparts('MY_SUBPART_2,MY_SUBPART1');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here.'
+				.'More text there. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsUnhideFirst() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->fixture->unhideSubparts('MY_SUBPART1');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here.'
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsUnhideSecond() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###MY_SUBPART_1### -->'
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'More text there. '
+				.'<!-- ###MY_SUBPART_2### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART_1,MY_SUBPART2');
+		$this->fixture->unhideSubparts('MY_SUBPART2');
+		$this->assertEquals(
+			'Some text. '
+				.'More text there. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests for setting subparts.
@@ -839,7 +1053,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for setting markers within nested subparts.
 	//////////////////////////////////////////////////////
 
-	public function testReplaceMarkerInSubpartWithinCompleteTemplate() {
+	public function testSetMarkerInSubpartWithinCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -859,7 +1073,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceMarkerInSubpartWithinOtherSubpart() {
+	public function testSetMarkerInSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPAR### -->'
 				.'Some text. '
@@ -881,7 +1095,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceMarkerInOverwrittenSubpartWithinCompleteTemplate() {
+	public function testSetMarkerInOverwrittenSubpartWithinCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -904,7 +1118,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testReplaceMarkerInOverwrittenSubpartWithinOtherSubpart() {
+	public function testSetMarkerInOverwrittenSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPAR### -->'
 				.'Some text. '
@@ -928,6 +1142,145 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'', $this->fixture->getWrappedConfigCheckMessage()
 		);
 	}
+
+
+	////////////////////////////////////////////////////////////
+	// Tests for using the prefix to marker and subpart names.
+	////////////////////////////////////////////////////////////
+	
+	public function testSetMarkerWithPrefix() {
+		$this->fixture->processTemplate(
+			'This is some template code. ###FIRST_MARKER### ###MARKER### More text.'
+		);
+		$this->fixture->setMarkerContent('marker', 'foo', 'first_');
+		$this->assertEquals(
+			'This is some template code. foo ###MARKER### More text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'More text here.'
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text there.'
+				.'<!-- ###MY_SUBPART### -->'
+				.' Even more text.'
+		);
+		$this->fixture->setSubpartContent('MY_SUBPART', 'foo', 'FIRST_');
+		$this->assertEquals(
+			'Some text. '
+				.'foo'
+				.'More text there.'
+				.' Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'More text here.'
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text there.'
+				.'<!-- ###MY_SUBPART### -->'
+				.' Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART', 'FIRST_');
+		$this->assertEquals(
+			'Some text. '
+				.'More text there.'
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'More text here.'
+				.'<!-- ###FIRST_MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text there.'
+				.'<!-- ###MY_SUBPART### -->'
+				.' Even more text.'
+		);
+		$this->fixture->hideSubparts('FIRST_MY_SUBPART');
+		$this->fixture->unhideSubparts('MY_SUBPART', 'FIRST_');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here.'
+				.'More text there.'
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideTwoSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###FIRST_MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###FIRST_MY_SUBPART_1### -->'
+				.'<!-- ###FIRST_MY_SUBPART_2### -->'
+				.'More text there.'
+				.'<!-- ###FIRST_MY_SUBPART_2### -->'
+				.' Even more text.'
+		);
+		$this->fixture->hideSubparts('1,2', 'FIRST_MY_SUBPART_');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideTwoSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###FIRST_MY_SUBPART_1### -->'
+				.'More text here.'
+				.'<!-- ###FIRST_MY_SUBPART_1### -->'
+				.'<!-- ###FIRST_MY_SUBPART_2### -->'
+				.'More text there.'
+				.'<!-- ###FIRST_MY_SUBPART_2### -->'
+				.' Even more text.'
+		);
+		$this->fixture->hideSubparts('FIRST_MY_SUBPART_1');
+		$this->fixture->hideSubparts('FIRST_MY_SUBPART_2');
+		$this->fixture->unhideSubparts('1,2', 'FIRST_MY_SUBPART_');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+
 }
 
 ?>
