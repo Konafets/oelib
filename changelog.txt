@@ -1,8 +1,8 @@
 0.4.0 - currently working on
-- [#1130] Change: Add unit tests for the timer class
+- [#1130] Feature: Add unit tests for the timer class
 - [#612] Code cleanup
-- [#1091] Change: Add unit tests for the templating stuff
-- [#1102] Change: Add unit tests for the salutation switching and fix any found bugs
+- [#1091] Feature: Add unit tests for the templating stuff
+- [#1102] Feature: Add unit tests for the salutation switching and fix any found bugs
 - [#773] Change: Make our enableFields() wrapper use $GLOBALS['TSFE'] and a singleton cache
 - [#1098] Change: Improve some function names
 - [#3] Fix: Allow marker names to be the prefix of others
