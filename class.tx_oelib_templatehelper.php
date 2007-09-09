@@ -135,9 +135,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 						// the selected page in the BE is found
 						// exactly as in t3lib_SCbase::init()
-						$rootline = $sys_page->getRootLine($this->getCurrentBePageId());
+						$rootline = $sys_page->getRootLine(
+							$this->getCurrentBePageId()
+						);
 
-						// This generates the constants/config + hierarchy info for the template.
+						// This generates the constants/config + hierarchy info
+						// for the template.
 						$template->runThroughTemplates($rootline, 0);
 						$template->generateConfig();
 
@@ -164,12 +167,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			if (isset($globalConfiguration['enableConfigCheck'])
 				&& $globalConfiguration['enableConfigCheck']) {
-				$configurationCheckClassname = t3lib_div::makeInstanceClassName('tx_'.$this->extKey.'_configcheck');
+				$configurationCheckClassname = t3lib_div::makeInstanceClassName(
+					'tx_'.$this->extKey.'_configcheck'
+				);
 				$configurationCheckFile = t3lib_extMgm::extPath($this->extKey)
 					.'class.'.$configurationCheckClassname.'.php';
 				if (is_file($configurationCheckFile)) {
 					require_once($configurationCheckFile);
-					$this->configurationCheck =& new $configurationCheckClassname($this);
+					$this->configurationCheck =& new $configurationCheckClassname(
+						$this
+					);
 				}
 			} else {
 				$this->configurationCheck = null;
@@ -255,7 +262,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	public
 	 */
 	function getConfValueString($fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false) {
-		return trim($this->getConfValue($fieldName, $sheet, $isFileName, $ignoreFlexform));
+		return trim($this->getConfValue(
+			$fieldName,
+			$sheet,
+			$isFileName,
+			$ignoreFlexform)
+		);
 	}
 
 	/**
@@ -273,7 +285,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	public
 	 */
 	function hasConfValueString($fieldName, $sheet = 'sDEF', $ignoreFlexform = false) {
-		return ($this->getConfValueString($fieldName, $sheet, false, $ignoreFlexform) != '');
+		return ($this->getConfValueString(
+			$fieldName,
+			$sheet,
+			false,
+			$ignoreFlexform) != ''
+		);
 	}
 
 	/**
@@ -294,15 +311,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Checks whether an integer value from flexforms or TS setup is set and non-zero.
-	 * The priority lies on flexforms; if nothing is found there, the value
-	 * from TS setup is checked. If there is no field with that name in TS setup,
-	 * false is returned.
+	 * Checks whether an integer value from flexforms or TS setup is set and
+	 * non-zero. The priority lies on flexforms; if nothing is found there, the
+	 * value from TS setup is checked. If there is no field with that name in
+	 * TS setup, false is returned.
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
 	 *
-	 * @return	boolean		whether there is a non-zero value in the corresponding flexforms or TS setup entry
+	 * @return	boolean		whether there is a non-zero value in the
+	 * 						corresponding flexforms or TS setup entry
 	 *
 	 * @access	public
 	 */
@@ -443,7 +461,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function getPrefixedMarkers($prefix) {
 		$matches = array();
-		preg_match_all('/(#)('.strtoupper($prefix).'_[^#]+)/', $this->markerNames, $matches);
+		preg_match_all(
+			'/(#)('.strtoupper($prefix).'_[^#]+)/',
+			$this->markerNames, $matches
+		);
 
 		$result = array_unique($matches[2]);
 
@@ -583,7 +604,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$subpartNames = explode(',', $subparts);
 
 		foreach ($subpartNames as $currentSubpartName) {
-			$this->subpartsToHide[$this->createMarkerName($currentSubpartName, $prefix)] = '';
+			$this->subpartsToHide[$this->createMarkerName(
+				$currentSubpartName,
+				$prefix)
+			] = '';
 		}
 
 		return;
@@ -710,7 +734,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	hideSubparts
 	 */
 	function setOrDeleteMarkerIfNotZero($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
-		return $this->setOrDeleteMarker($markerName, (intval($content) != 0), ((string) $content), $markerPrefix, $wrapperPrefix);
+		return $this->setOrDeleteMarker(
+			$markerName,
+			(intval($content) != 0),
+			((string) $content),
+			$markerPrefix,
+			$wrapperPrefix
+		);
 	}
 
 	/**
@@ -735,32 +765,41 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	hideSubparts
 	 */
 	function setOrDeleteMarkerIfNotEmpty($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
-		return $this->setOrDeleteMarker($markerName, (!empty($content)), $content, $markerPrefix, $wrapperPrefix);
+		return $this->setOrDeleteMarker(
+			$markerName,
+			(!empty($content)),
+			$content,
+			$markerPrefix,
+			$wrapperPrefix
+		);
 	}
 
 	/**
-	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix,
-	 * wrapping the result in three hash signs (###).
+	 * Creates an uppercase marker (or subpart) name from a given name and an
+	 * optional prefix, wrapping the result in three hash signs (###).
 	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the result will be
-	 * "###FIELD_ONE###".
+	 * Example: If the prefix is "field" and the marker name is "one", the
+	 * result will be "###FIELD_ONE###".
 	 *
-	 * If the prefix is empty and the marker name is "one", the result will be "###ONE###".
+	 * If the prefix is empty and the marker name is "one", the result will be
+	 * "###ONE###".
 	 *
 	 * @access	private
 	 */
 	function createMarkerName($markerName, $prefix = '') {
-		return '###'.$this->createMarkerNameWithoutHashes($markerName, $prefix).'###';
+		return '###'
+			.$this->createMarkerNameWithoutHashes($markerName, $prefix).'###';
 	}
 
 	/**
-	 * Creates an uppercase marker (or subpart) name from a given name and an optional prefix,
-	 * but without wrapping it in hash signs.
+	 * Creates an uppercase marker (or subpart) name from a given name and an
+	 * optional prefix, but without wrapping it in hash signs.
 	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the result will be
-	 * "FIELD_ONE".
+	 * Example: If the prefix is "field" and the marker name is "one", the
+	 * result will be "FIELD_ONE".
 	 *
-	 * If the prefix is empty and the marker name is "one", the result will be "ONE".
+	 * If the prefix is empty and the marker name is "one", the result will be
+	 * "ONE".
 	 *
 	 * @access	private
 	 */
@@ -874,10 +913,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Writes all localized labels for the current template into their corresponding template markers.
+	 * Writes all localized labels for the current template into their
+	 * corresponding template markers.
 	 *
-	 * For this, the label markers in the template must be prefixed with "LABEL_" (e.g. "###LABEL_FOO###"),
-	 * and the corresponding localization entry must have the same key, but lowercased and without the ###
+	 * For this, the label markers in the template must be prefixed with
+	 * "LABEL_" (e.g. "###LABEL_FOO###"), and the corresponding localization
+	 * entry must have the same key, but lowercased and without the ###
 	 * (e.g. "label_foo").
 	 *
 	 * @access	protected
@@ -949,17 +990,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function addCssToPageHeader() {
 		if ($this->hasConfValueString('cssFile', 's_template_special')) {
-			// We use an explicit array key so the CSS file gets included only once
-			// even if there are two instances of the front end plugin on the same page.
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css'] = '<style type="text/css">@import "'.$this->getConfValueString('cssFile', 's_template_special', true).'";</style>';
+			// We use an explicit array key so the CSS file gets included only
+			// once even if there are two instances of the front end plugin
+			// on the same page.
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css']
+				 = '<style type="text/css">@import "'
+				 .$this->getConfValueString(
+					'cssFile',
+					's_template_special',
+					true
+				).'";</style>';
 		}
 
 		return;
 	}
 
 	/**
-	 * Includes a link to the JavaScript file configured as "jsFile" and adds it to the
-	 * automatic page header with $this->prefixId.'_js' as the array key.
+	 * Includes a link to the JavaScript file configured as "jsFile" and adds it
+	 * to the automatic page header with $this->prefixId.'_js' as the array key.
 	 *
 	 * If no file is specified, no link is created.
 	 *
@@ -969,7 +1017,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js'] = '<script type="text/javascript" src="'.$this->getConfValueString('jsFile', 's_template_special', true).'"></script>';
+			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js']
+				= '<script type="text/javascript" src="'
+				.$this->getConfValueString(
+					'jsFile',
+					's_template_special',
+					true
+				).'"></script>';
 		}
 
 		return;
@@ -1341,7 +1395,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if (TYPO3_MODE == 'BE' && is_object($this->LANG)) {
 			$result = $this->LANG->getLL($key, $useHtmlSpecialChars);
 		} elseif (TYPO3_MODE == 'FE') {
-			$result = parent::translate($key, $alternativeString, $useHtmlSpecialChars);
+			$result = parent::translate(
+				$key,
+				$alternativeString,
+				$useHtmlSpecialChars
+			);
 		} else {
 			$result = $alternativeString;
 		}
