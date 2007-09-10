@@ -202,6 +202,12 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testOnlyInDefaultUsingNothing() {
+		$this->assertEquals(
+			'only in default', $this->fixture->translate('only_in_default')
+		);
+	}
+
 	public function testOnlyInDefaultUsingDe() {
 		$this->fixture->setLanguage('de');
 		$this->assertEquals(
