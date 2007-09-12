@@ -67,17 +67,6 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Sets a configuration value.
-	 *
-	 * @param	string		key of the configuration property to set, must not be empty
-	 * @param	mixed		value of the configuration property, may be empty or zero
-	 */
-	public function setConfigurationValue($key, $value) {
-		$this->conf[$key] = $value;
-		return;
-	}
-
-	/**
 	 * Returns the current configuration check object (or null if there is no
 	 * such object).
 	 *

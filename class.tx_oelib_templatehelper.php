@@ -346,6 +346,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Sets a configuration value.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param	string		key of the configuration property to set, must not be empty
+	 * @param	mixed		value of the configuration property, may be empty or zero
+	 *
+	 * @access	public
+	 */
+	function setConfigurationValue($key, $value) {
+		if (!is_array($this->conf)) {
+			$this->conf = array();
+		}
+
+		$this->conf[$key] = $value;
+	}
+
+	/**
 	 * Retrieves the plugin template file set in $this->conf['templateFile'] (or
 	 * via flexforms) and writes it to $this->templateCode. The subparts will
 	 * be written to $this->templateCache.
