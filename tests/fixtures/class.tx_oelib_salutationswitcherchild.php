@@ -120,7 +120,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the salutation mode.
 	 *
-	 * @param	string		the salutation mode to use (either "formal" or "informal")
+	 * @param	string		the salutation mode to use ("formal" or "informal")
 	 */
 	public function setSalutationMode($salutation) {
 		$this->conf['salutation'] = $salutation;
