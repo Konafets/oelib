@@ -75,6 +75,43 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	public function getConfigurationCheck() {
 		return $this->configurationCheck;
 	}
+
+	/**
+	 * Sets the salutation mode.
+	 *
+	 * @param	string		the salutation mode to use ("formal" or "informal")
+	 */
+	public function setSalutationMode($salutation) {
+		$this->setConfigurationValue('salutation', $salutation);
+	}
+
+	/**
+	 * Returns the localized label of the LOCAL_LANG key $key, simulating an FE
+	 * environment.
+	 *
+	 * @param	string		the key from the LOCAL_LANG array for which to
+	 * 						return the value
+	 * @param	string		alternative string to return if no value is found
+	 * 						for the key, neither for the local language nor the
+	 * 						default.
+	 * @param	boolean		If true, the output label is passed through
+	 * 						htmlspecialchars().
+	 *
+	 * @return	string		the value from LOCAL_LANG
+	 */
+	public function translate($key, $alternativeString = '',
+		$useHtmlSpecialChars = false
+	) {
+		$result = '';
+
+		$result = parent::translate(
+			$key,
+			$alternativeString,
+			$useHtmlSpecialChars
+		);
+
+		return $result;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_templatehelperchild.php']) {

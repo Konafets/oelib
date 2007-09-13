@@ -1147,7 +1147,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////////////
 	// Tests for using the prefix to marker and subpart names.
 	////////////////////////////////////////////////////////////
-	
+
 	public function testSetMarkerWithPrefix() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###FIRST_MARKER### ###MARKER### More text.'
@@ -1281,6 +1281,66 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////
+	// Tests for automatically setting labels.
+	////////////////////////////////////////////
+
+	public function testSetLabels() {
+		$this->fixture->processTemplate(
+			'a ###LABEL_FOO### b'
+		);
+		$this->fixture->setLabels();
+		$this->assertEquals(
+			'a foo b',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetLabelsNoSalutation() {
+		$this->fixture->processTemplate(
+			'a ###LABEL_BAR### b'
+		);
+		$this->fixture->setLabels();
+		$this->assertEquals(
+			'a bar (formal) b',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetLabelsFormal() {
+		$this->fixture->setSalutationMode('formal');
+		$this->fixture->processTemplate(
+			'a ###LABEL_BAR### b'
+		);
+		$this->fixture->setLabels();
+		$this->assertEquals(
+			'a bar (formal) b',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetLabelsInformal() {
+		$this->fixture->setSalutationMode('informal');
+		$this->fixture->processTemplate(
+			'a ###LABEL_BAR### b'
+		);
+		$this->fixture->setLabels();
+		$this->assertEquals(
+			'a bar (informal) b',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetLabelsWithOneBeingThePrefixOfAnother() {
+		$this->fixture->processTemplate(
+			'###LABEL_FOO###, ###LABEL_FOO2###'
+		);
+		$this->fixture->setLabels();
+		$this->assertEquals(
+			'foo, foo two',
+			$this->fixture->getSubpart()
+		);
+	}
 }
 
 ?>

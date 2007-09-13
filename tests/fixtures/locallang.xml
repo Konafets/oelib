@@ -30,6 +30,11 @@
 			<label index="de_both_without_normal_informal">both without normal, informal</label>
 			<label index="only_in_french">only in french</label>
 			<label index="htmlspecialchars">a&amp;o</label>
+			<label index="label_foo">foo</label>
+			<label index="label_foo2">foo two</label>
+			<label index="label_bar">bar (no salutation)</label>
+			<label index="label_bar_formal">bar (formal)</label>
+			<label index="label_bar_informal">bar (informal)</label>
 		</languageKey>
 		<languageKey index="de" type="array">
 			<label index="default_not_fallback">default_not_fallback de</label>

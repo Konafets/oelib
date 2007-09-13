@@ -1380,9 +1380,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * This method checks if we are in the FE or in the BE and then uses the
 	 * appropriate method.
 	 *
-	 * @param	string		the key from the LOCAL_LANG array for which to return the value
-	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default.
-	 * @param	boolean		If true, the output label is passed through htmlspecialchars().
+	 * @param	string		the key from the LOCAL_LANG array for which to
+	 * 						return the value
+	 * @param	string		alternative string to return if no value is found
+	 * 						for the key, neither for the local language nor the
+	 * 						default.
+	 * @param	boolean		If true, the output label is passed through
+	 * 						htmlspecialchars().
 	 *
 	 * @return	string		the value from LOCAL_LANG
 	 *
@@ -1399,9 +1403,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * This method checks if we are in the FE or in the BE and then uses the
 	 * appropriate method.
 	 *
-	 * @param	string		the key from the LOCAL_LANG array for which to return the value
-	 * @param	string		alternative string to return if no value is found set for the key, neither for the local language nor the default.
-	 * @param	boolean		If true, the output label is passed through htmlspecialchars().
+	 * @param	string		the key from the LOCAL_LANG array for which to
+	 * 						return the value
+	 * @param	string		alternative string to return if no value is found
+	 * 						for the key, neither for the local language nor the
+	 * 						default.
+	 * @param	boolean		If true, the output label is passed through
+	 * 						htmlspecialchars().
 	 *
 	 * @return	string		the value from LOCAL_LANG
 	 *
@@ -1410,9 +1418,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function translate($key, $alternativeString = '', $useHtmlSpecialChars = false) {
 		$result = '';
 
-		if (TYPO3_MODE == 'BE' && is_object($this->LANG)) {
+		if (is_object($this->LANG)) {
 			$result = $this->LANG->getLL($key, $useHtmlSpecialChars);
-		} elseif (TYPO3_MODE == 'FE') {
+		} elseif (is_array($this->LOCAL_LANG)) {
 			$result = parent::translate(
 				$key,
 				$alternativeString,
@@ -1433,7 +1441,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * directly and it doesn't need to get handled to other configcheck
 	 * objects.
 	 *
-	 * @return	string		the wrapped error text (or an empty string if there are no errors)
+	 * @return	string		the wrapped error text (or an empty string if there
+	 * 						are no errors)
 	 *
 	 * @access	protected
 	 */
@@ -1450,7 +1459,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets the ID of the currently selected back-end page.
 	 *
-	 * @return	integer		the current back-end page ID (or 0 if there is an error)
+	 * @return	integer		the current back-end page ID (or 0 if there is an
+	 * 						error)
 	 *
 	 * @access	public
 	 */
@@ -1459,14 +1469,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no longer
-	 * accessible statically.
+	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
+	 * longer accessible statically.
 	 *
-	 * Returns a part of a WHERE clause which will filter out records with start/end
-	 * times or deleted/hidden/fe_groups fields set to values that should de-select
-	 * them according to the current time, preview settings or user login.
-	 * Is using the $TCA arrays "ctrl" part where the key "enablefields" determines
-	 * for each table which of these features applies to that table.
+	 * Returns a part of a WHERE clause which will filter out records with
+	 * start/end times or deleted/hidden/fe_groups fields set to values that
+	 * should de-select them according to the current time, preview settings or
+	 * user login.
+	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
+	 * determines for each table which of these features applies to that table.
 	 *
 	 * @param	string		table name found in the $TCA array
 	 * @param	integer		If $show_hidden is set (0/1), any hidden-fields in
