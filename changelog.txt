@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#636] Change: Remove surplus empty parameters from exec_SELECTquery calls, patch by Saskia Metzler
 - [#1130] Feature: Add unit tests for the timer class
 - [#612] Code cleanup
 - [#1091] Feature: Add unit tests for the templating stuff
