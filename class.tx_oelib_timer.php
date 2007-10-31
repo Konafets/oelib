@@ -41,6 +41,9 @@ class tx_oelib_timer {
 	/** the name of the current time bucket */
 	var $currentBucketName = '';
 
+	/** a stack of previously used buckets, starting with the first bucket */
+	var $previousBucketNames = array();
+
 	/** the time buckets with their names as keys */
 	var $buckets = array();
 
@@ -81,11 +84,13 @@ class tx_oelib_timer {
 	 * @access	public
 	 */
 	function openBucket($bucketName = 'default') {
-		$this->closeCurrentBucket();
-		$this->currentBucketName = $bucketName;
-		$this->isRunning = true;
+		if ($bucketName != $this->currentBucketName) {
+			$this->closeCurrentBucket();
+			$this->previousBucketNames[] = $this->currentBucketName;
+			$this->currentBucketName = $bucketName;
+		}
 
-		return;
+		$this->isRunning = true;
 	}
 
 	/**
@@ -96,8 +101,6 @@ class tx_oelib_timer {
 	function stopTimer() {
 		$this->closeCurrentBucket();
 		$this->isRunning = false;
-
-		return;
 	}
 
 	/**
@@ -115,6 +118,7 @@ class tx_oelib_timer {
 	 */
 	function getStatisticsAsRawData() {
 		$this->stopTimer();
+		$this->clearAllPreviousBuckets();
 
 		// Put the biggest performance culprits on top of the list.
 		arsort($this->buckets, SORT_NUMERIC);
@@ -184,13 +188,13 @@ class tx_oelib_timer {
 		foreach ($this->buckets as $bucketKey => $bucket) {
 			unset($this->buckets[$bucketKey]);
 		}
-
-		return;
 	}
 
 	/**
 	 * Closes the current bucket (if the timer is running), adds the passed
 	 * time to it and set $this->lastTime to the current time.
+	 *
+	 * Note: This function does not stop the timer.
 	 *
 	 * @access	private
 	 */
@@ -204,8 +208,6 @@ class tx_oelib_timer {
 		}
 
 		$this->lastTime = $currentTime;
-
-		return;
 	}
 
 	/**
@@ -219,6 +221,35 @@ class tx_oelib_timer {
 		list($low, $high) = split(' ', microtime());
 
 		return $high + $low;
+	}
+
+	/**
+	 * Closes the current bucker and returns to the previous bucket (from a
+	 * stack of previously used buckets).
+	 *
+	 * If there is not previous bucket, the timer will be stopped.
+	 *
+	 * @access	public
+	 */
+	function returnToPreviousBucket() {
+		$this->closeCurrentBucket();
+		$previousBucketName = array_pop($this->previousBucketNames);
+
+		if ($previousBucketName !== null) {
+			$this->currentBucketName = $previousBucketName;
+			$this->isRunning = true;
+		} else {
+			$this->stopTimer();
+		}
+	}
+
+	/**
+	 * Empties the stack of previous buckets.
+	 *
+	 * @access	private
+	 */
+	function clearAllPreviousBuckets() {
+		$this->previousBucketNames = array();
 	}
 }
 
