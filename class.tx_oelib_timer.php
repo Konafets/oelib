@@ -224,7 +224,7 @@ class tx_oelib_timer {
 	}
 
 	/**
-	 * Closes the current bucker and returns to the previous bucket (from a
+	 * Closes the current bucker and returns to the previous bucket (from the
 	 * stack of previously used buckets).
 	 *
 	 * If there is not previous bucket, the timer will be stopped.

@@ -66,6 +66,46 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testStatisticsForDefaultBucket() {
+		$this->fixture->openBucket();
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+		$statistics = $this->fixture->getStatisticsAsRawData();
+		$statisticsAsHtml = $this->fixture->getStatistics();
+		$this->assertEquals(
+			1, count($statistics)
+		);
+		$this->assertEquals(
+			'default', $statistics[0]['bucketName']
+		);
+		$this->assertEquals(
+			.1, $statistics[0]['absoluteTime'], '', .01
+		);
+		$this->assertContains(
+			'.1', $statisticsAsHtml
+		);
+	}
+
+	public function testStatisticsForDefaultBucketUsingShortcut() {
+		oB();
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+		$statistics = $this->fixture->getStatisticsAsRawData();
+		$statisticsAsHtml = $this->fixture->getStatistics();
+		$this->assertEquals(
+			1, count($statistics)
+		);
+		$this->assertEquals(
+			'default', $statistics[0]['bucketName']
+		);
+		$this->assertEquals(
+			.1, $statistics[0]['absoluteTime'], '', .01
+		);
+		$this->assertContains(
+			'.1', $statisticsAsHtml
+		);
+	}
+
 	public function testStatisticsForOneBucket() {
 		$this->fixture->openBucket('test');
 		// Sleep 100000 microseconds (= 1/10 second).
@@ -75,8 +115,25 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1, count($statistics)
 		);
+		$this->assertEquals(
+			.1, $statistics[0]['absoluteTime'], '', .01
+		);
 		$this->assertContains(
-			'.1', (string) $statistics[0]['absoluteTime']
+			'.1', $statisticsAsHtml
+		);
+	}
+
+	public function testStatisticsForOneBucketUsingShortcut() {
+		oB('test');
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+		$statistics = $this->fixture->getStatisticsAsRawData();
+		$statisticsAsHtml = $this->fixture->getStatistics();
+		$this->assertEquals(
+			1, count($statistics)
+		);
+		$this->assertEquals(
+			.1, $statistics[0]['absoluteTime'], '', .01
 		);
 		$this->assertContains(
 			'.1', $statisticsAsHtml
@@ -228,6 +285,33 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+
+		$statistics = $this->fixture->getStatisticsAsRawData();
+
+		$this->assertEquals(
+			'bucket_1', $statistics[0]['bucketName']
+		);
+		$this->assertEquals(
+			'bucket_2', $statistics[1]['bucketName']
+		);
+		$this->assertEquals(
+			.2, $statistics[0]['absoluteTime'], '', .01
+		);
+		$this->assertEquals(
+			.1, $statistics[1]['absoluteTime'], '', .01
+		);
+	}
+
+	public function testReturnFromSecondBucketReopensFirstBucketUsingShortcut() {
+		$this->fixture->openBucket('bucket_1');
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+		$this->fixture->openBucket('bucket_2');
+		// Sleep 100000 microseconds (= 1/10 second).
+		usleep(100000);
+		rB();
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
