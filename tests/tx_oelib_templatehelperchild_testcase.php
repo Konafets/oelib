@@ -1075,13 +1075,13 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testSetMarkerInSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
-			'<!-- ###OUTER_SUBPAR### -->'
+			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
-				.'<!-- ###OUTER_SUBPAR### -->'
+				.'<!-- ###OUTER_SUBPART### -->'
 		);
 		$this->fixture->setMarkerContent('marker', 'foo');
 		$this->assertEquals(
@@ -1120,12 +1120,12 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testSetMarkerInOverwrittenSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
-			'<!-- ###OUTER_SUBPAR### -->'
+			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
-				.'<!-- ###OUTER_SUBPAR### -->'
+				.'<!-- ###OUTER_SUBPART### -->'
 		);
 		$this->fixture->setSubpartContent(
 			'MY_SUBPART',
