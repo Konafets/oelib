@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1046] Feature: Add a function "checkIfIntegerInRange" to the configcheck
 - [#1334] Fix: Typo in the subpart names in the unit tests
 - [#1237] Feature: Added a testing framework that creates dummy records for unit tests
 - [#1269] Feature: Add global function "oB" for "openBucket" and "pB" for "returnToPreviousBucket"
