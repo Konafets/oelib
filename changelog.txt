@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1349] Fix: Fixed handling of m:n tables regarding reset auto-increment index in the testing framework
 - [#1026] Feature: Add a function "checkIfPositiveIntegerOrZero" to the configcheck
 - [#1046] Feature: Add a function "checkIfIntegerInRange" to the configcheck
 - [#1334] Fix: Typo in the subpart names in the unit tests

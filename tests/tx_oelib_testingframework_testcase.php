@@ -562,6 +562,22 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		// Fails the test if the expected exception was not raised above.
 		$this->fail('The expected exception was not caught!');
 	}
+
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding hasTableColumnUid()
+	// ---------------------------------------------------------------------
+
+	public function testHasTableColumnUidOnTableWithColumnUid() {
+		$table = 'tx_oelib_test';
+		$this->assertTrue($this->fixture->hasTableColumnUid($table));	
+	}
+
+	public function testHasTableColumnUidOnTableWithoutColumnUid() {
+		$table = 'tx_oelib_test_article_mm';
+		$this->assertFalse($this->fixture->hasTableColumnUid($table));	
+	}
 }
 
 ?>

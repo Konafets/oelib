@@ -312,10 +312,10 @@ final class tx_oelib_testingframework {
 			);
 		}
 
-		// Exits without any query to the database if the name of the table ends
-		// with "_mm". Tables that match to this rule contain relations and have
-		// no auto increment index. Querying on them would result in a MySQL error.
-		if (substr($table, -3) == '_mm') {
+		// Checks whether the current table qualifies for this method. If there
+		// is no column "uid" that has the "auto_icrement" flag set, we should not
+		// try to reset this inexistent auto increment index to avoid DB errors.
+		if (!$this->hasTableColumnUid($table)) {
 			return;
 		}
 
@@ -339,6 +339,38 @@ final class tx_oelib_testingframework {
 		$GLOBALS['TYPO3_DB']->sql_query(
 			'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
 		);
+	}
+
+	/**
+	 * Checks whether a table has a column "uid".
+	 *
+	 * To get a boolean true as result, the table must contain a column named
+	 * "uid" that has the "auto_increment" flag set.
+	 *
+	 * @param	string		the name of the table to check
+	 *
+	 * @return	boolean		true if a valid column was found, false otherwise
+	 */
+	public function hasTableColumnUid($table) {
+		$result = false;
+
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'DESCRIBE '.$table.';'
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		// Walks through all the columns for this tables. As soon as a valid
+		// column is found, we'll exit the while loop.
+		while (!$result
+				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+		) {
+			// Checks whether we have a valid column.
+			$result = (($row['Field'] == 'uid') && ($row['Extra'] == 'auto_increment'));
+		}
+
+		return $result;
 	}
 
 	/**
