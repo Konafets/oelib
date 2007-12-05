@@ -35,12 +35,26 @@ require_once(t3lib_extMgm::extPath('oelib')
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
+	private $originalGlobalsTt;
+
+	private $originalGlobalsTsfeSysPage;
+
+	private $originalCObj;
+
 	protected function setUp() {
 		$this->fixture = new tx_oelib_templatehelperchild(array());
+
+		$this->originalGlobalsTt = $GLOBALS['TT'];
+		$this->originalGlobalsTsfeSysPage = $GLOBALS['TSFE']->sys_page;
+		$this->originalCObj = $this->fixture->cObj;
 	}
 
 	protected function tearDown() {
 		unset($this->fixture);
+
+		$GLOBALS['TT'] = $this->originalGlobalsTt;
+		$GLOBALS['TSFE']->sys_page = $this->originalGlobalsTsfeSysPage;
+		$this->fixture->cObj = $this->originalCObj;
 	}
 
 
@@ -52,6 +66,27 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->assertNotNull(
 			$this->fixture->getConfigurationCheck()
 		);
+	}
+
+	public function testFakeFrontendInitializesGlobalsTt() {
+		unset($GLOBALS['TT']);
+		$this->fixture->fakeFrontend();
+
+		$this->assertTrue(is_object($GLOBALS['TT']));
+	}
+
+	public function testFakeFrontendInitializesGlobalsTsfeSysPage() {
+		unset($GLOBALS['TSFE']->sys_page);
+		$this->fixture->fakeFrontend();
+
+		$this->assertTrue(is_object($GLOBALS['TSFE']->sys_page));
+	}
+
+	public function testFakeFrontendInitializesCobj() {
+		unset($this->fixture->cObj);
+		$this->fixture->fakeFrontend();
+
+		$this->assertTrue(is_object($this->fixture->cObj));
 	}
 
 

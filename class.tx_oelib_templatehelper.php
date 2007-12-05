@@ -39,6 +39,7 @@
 // Include the system extension lang if we are in the back end.
 if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
 	require_once(PATH_typo3.'sysext/lang/lang.php');
+	require_once(PATH_typo3.'sysext/cms/tslib/class.tslib_content.php');
 }
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
@@ -107,6 +108,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		static $cachedConfigs = array();
 
 		if (!$this->isInitialized) {
+			if (TYPO3_MODE != 'FE') {
+				$this->fakeFrontend();
+			}
+
 			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
 				$GLOBALS['TSFE']->config['config'] = array();
 			}
@@ -184,9 +189,29 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			$this->isInitialized = true;
 		}
-
-		return;
 	}
+
+	/**
+	 * Initializes '$GLOBALS['TSFE']->sys_page', '$GLOBALS['TT']' and
+	 * '$this->cObj' as these objects are needed but only initialized
+	 * automatically if TYPO3_MODE is 'FE'.
+	 * This will allow the FE templating functions to be used even without the
+	 * FE.
+	 */
+	 protected function fakeFrontend() {
+	 	if (!is_object($GLOBALS['TT'])) {
+	 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+	 	}
+
+	 	if (!is_object($GLOBALS['TSFE']->sys_page)) {
+	 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+	 	}
+
+		if(!is_object($this->cObj)) {
+			$this->cObj = t3lib_div::makeInstance('tslib_cObj');
+			$this->cObj->start('');
+		}
+	 }
 
 	/**
 	 * Gets a value from flexforms or TS setup.
@@ -365,26 +390,43 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Retrieves the plugin template file set in $this->conf['templateFile'] (or
-	 * via flexforms) and writes it to $this->templateCode. The subparts will
-	 * be written to $this->templateCache.
+	 * also via flexforms if TYPO3 mode is FE) and writes it to
+	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
-	 * @param	boolean		whether the settings in the Flexform should be ignored, defaults to false, may be empty
+	 * @param	boolean		whether the settings in the Flexform should be
+	 * 						ignored, defaults to false, may be empty
 	 *
 	 * @access	protected
 	 */
 	function getTemplateCode($ignoreFlexform = false) {
-		$templateRawCode = $this->cObj->fileResource(
-			$this->getConfValueString(
-				'templateFile',
-				's_template_special',
-				true,
-				$ignoreFlexform
-			)
+		// Trying to fetch the template code via $this->cObj in BE mode leads to
+		// a non-catchable error in the tslib_content class because the cObj
+		// configuration array is not initialized properly.
+		// As flexforms can be used in FE mode only, $ignoreFlexform is set true
+		// if we are in the BE mode. By this, $this->cObj->fileResource can be
+		// sheltered from being called.
+		if (TYPO3_MODE == 'BE') {
+			$ignoreFlexform = true;
+		}
+
+		$templateFileName = $this->getConfValueString(
+			'templateFile',
+			's_template_special',
+			true,
+			$ignoreFlexform
 		);
 
-		$this->processTemplate($templateRawCode);
+		if (!$ignoreFlexform) {
+			$templateRawCode = $this->cObj->fileResource($templateFileName);
+		} else {
+			// If there is no need to care about flexforms, the template file is
+			// fetched directly from the local configuration array.
+			$templateRawCode = file_get_contents(
+				t3lib_div::getFileAbsFileName($templateFileName)
+			);
+		}
 
-		return;
+		$this->processTemplate($templateRawCode);
 	}
 
 	/**
@@ -416,8 +458,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$currentSubpartName
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -894,7 +934,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$templateCode = ($key != '')
 			? $this->templateCache[$key] : $this->templateCode;
 
-		// remove subparts (lines) that will be hidden
+		// removes subparts (lines) that will be hidden
 		$noHiddenSubparts = $this->cObj->substituteMarkerArrayCached(
 			$templateCode,
 			array(),
@@ -912,8 +952,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		} else {
 			$subparts =& $this->templateCache;
 		}
-
-		// remove subpart markers by replacing the subparts with just their content
+		// removes subpart markers by replacing the subparts with just their content
 		$noSubpartMarkers = $noHiddenSubparts;
 		foreach ($subparts as $subpartName => $subpartContent) {
 			$noSubpartMarkers = $this->cObj->substituteSubpart(
@@ -923,7 +962,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			);
 		}
 
-		// replace markers with their content
+		// replaces markers with their content
 		return $this->cObj->substituteMarkerArrayCached(
 			$noSubpartMarkers,
 			$this->markers

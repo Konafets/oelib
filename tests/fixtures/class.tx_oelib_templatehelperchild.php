@@ -50,20 +50,14 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * @param	array	TS setup configuration array, may be empty
 	 */
 	public function __construct(array $configuration) {
-		// Bolster up the fake front end.
-		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-
-		$GLOBALS['TSFE']->tmpl = t3lib_div::makeInstance('t3lib_tsparser_ext');
-		$GLOBALS['TSFE']->tmpl->flattenSetup(array(), '', false);
-		$GLOBALS['TSFE']->tmpl->init();
-		$GLOBALS['TSFE']->tmpl->getCurrentPageData();
-
-		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
-
-		$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-		$this->cObj->start('');
-
 		parent::init($configuration);
+	}
+
+	/**
+	 * Bolsters up the fake front end.
+	 */
+	public function fakeFrontend() {
+		return parent::fakeFrontend();
 	}
 
 	/**
