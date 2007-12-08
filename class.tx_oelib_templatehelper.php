@@ -546,8 +546,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function setMarkerContent($markerName, $content, $prefix = '') {
 		$this->markers[$this->createMarkerName($markerName, $prefix)] = $content;
-
-		return;
 	}
 
 	/**
@@ -567,8 +565,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function setSubpartContent($subpartName, $content, $prefix = '') {
 		$this->subparts[$this->createMarkerNameWithoutHashes($subpartName, $prefix)] = $content;
-
-		return;
 	}
 
 	/**
@@ -638,7 +634,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function readSubpartsToHide($subparts, $prefix = '') {
 		$this->hideSubparts($subparts, $prefix);
-		return;
 	}
 
 	/**
@@ -667,8 +662,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$prefix)
 			] = '';
 		}
-
-		return;
 	}
 
 	/**
@@ -697,7 +690,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function readSubpartsToUnhide($subparts, $permanentlyHiddenSubparts = '', $prefix = '') {
 		$this->unhideSubparts($subparts, $permanentlyHiddenSubparts, $prefix);
-		return;
 	}
 
 	/**
@@ -736,31 +728,38 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				unset($this->subpartsToHide[$currentMarkerName]);
 			}
 		}
-
-		return;
 	}
 
 	/**
 	 * Sets or hides a marker based on $condition.
 	 * If $condition is true, this function sets the marker's content, working
 	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
-	 * If $condition is false, this function removes the wrapping subpart, working
-	 * exactly like hideSubparts($markerName, $wrapperPrefix).
+	 * If $condition is false, this function removes the wrapping subpart,
+	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param	boolean		if this is true, the marker will be filled, otherwise the wrapped marker will be hidden
-	 * @param	string		content with which the marker will be filled, may be empty
-	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 * @param	boolean		if this is true, the marker will be filled,
+	 * 						otherwise the wrapped marker will be hidden
+	 * @param	string		content with which the marker will be filled, may be
+	 * 						empty
+	 * @param	string		prefix to the marker name for setting (may be empty,
+	 * 						case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 * @return	boolean		true if the marker content has been set, false if
+	 * 						the subpart has been hidden
 	 *
 	 * @access	protected
 	 *
 	 * @see	setMarkerContent
 	 * @see	hideSubparts
 	 */
-	function setOrDeleteMarker($markerName, $condition, $content, $markerPrefix = '', $wrapperPrefix = '') {
+	function setOrDeleteMarker($markerName, $condition, $content,
+		$markerPrefix = '', $wrapperPrefix = ''
+	) {
 		if ($condition) {
 			$this->setMarkerContent($markerName, $content, $markerPrefix);
 		} else {
@@ -771,18 +770,26 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Sets or hides a marker based on whether the (integer) content is non-zero.
-	 * If intval($content) is non-zero, this function sets the marker's content, working
-	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
-	 * If intval($condition) is zero, this function removes the wrapping subpart, working
-	 * exactly like hideSubparts($markerName, $wrapperPrefix).
+	 * Sets or hides a marker based on whether the (integer) content is
+	 * non-zero.
+	 * If intval($content) is non-zero, this function sets the marker's content,
+	 * working exactly like setMarkerContent($markerName, $content,
+	 * $markerPrefix).
+	 * If intval($condition) is zero, this function removes the wrapping
+	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param	integer		content with which the marker will be filled, may be empty
-	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 * @param	integer		content with which the marker will be filled, may be
+	 * 						empty
+	 * @param	string		prefix to the marker name for setting (may be empty,
+	 * 						case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 * @return	boolean		true if the marker content has been set, false if
+	 * 						the subpart has been hidden
 	 *
 	 * @access	protected
 	 *
@@ -791,7 +798,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	setMarkerContent
 	 * @see	hideSubparts
 	 */
-	function setOrDeleteMarkerIfNotZero($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
+	function setOrDeleteMarkerIfNotZero($markerName, $content,
+		$markerPrefix = '', $wrapperPrefix = ''
+	) {
 		return $this->setOrDeleteMarker(
 			$markerName,
 			(intval($content) != 0),
@@ -802,18 +811,26 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Sets or hides a marker based on whether the (string) content is non-empty.
-	 * If $content is non-empty, this function sets the marker's content, working
-	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
-	 * If $condition is empty, this function removes the wrapping subpart, working
-	 * exactly like hideSubparts($markerName, $wrapperPrefix).
+	 * Sets or hides a marker based on whether the (string) content is
+	 * non-empty.
+	 * If $content is non-empty, this function sets the marker's content,
+	 * working exactly like setMarkerContent($markerName, $content,
+	 * $markerPrefix).
+	 * If $condition is empty, this function removes the wrapping subpart,
+	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param	string		content with which the marker will be filled, may be empty
-	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 * @param	string		content with which the marker will be filled, may be
+	 * 						empty
+	 * @param	string		prefix to the marker name for setting (may be empty,
+	 * 						case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name for hiding (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if the subpart has been hidden
+	 * @return	boolean		true if the marker content has been set, false if
+	 * 						the subpart has been hidden
 	 *
 	 * @access	protected
 	 *
@@ -822,7 +839,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @see	setMarkerContent
 	 * @see	hideSubparts
 	 */
-	function setOrDeleteMarkerIfNotEmpty($markerName, $content, $markerPrefix = '', $wrapperPrefix = '') {
+	function setOrDeleteMarkerIfNotEmpty($markerName, $content,
+		$markerPrefix = '', $wrapperPrefix = ''
+	) {
 		return $this->setOrDeleteMarker(
 			$markerName,
 			(!empty($content)),
@@ -862,7 +881,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	private
 	 */
 	function createMarkerNameWithoutHashes($markerName, $prefix = '') {
-		// if a prefix is provided, uppercase it and separate it with an underscore
+		// If a prefix is provided, uppercases it and separates it with an
+		// underscore.
 		if (!empty($prefix)) {
 			$prefix = strtoupper($prefix).'_';
 		}
@@ -988,8 +1008,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$currentLabel, $this->translate(strtolower($currentLabel))
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -1012,8 +1030,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				)
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -1058,8 +1074,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					true
 				).'";</style>';
 		}
-
-		return;
 	}
 
 	/**
@@ -1082,8 +1096,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					true
 				).'"></script>';
 		}
-
-		return;
 	}
 
 	/**
@@ -1157,8 +1169,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -1168,8 +1178,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function resetMarkers() {
 		$this->markers = array();
-
-		return;
 	}
 
 	/**
@@ -1179,8 +1187,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function resetSubpartsHiding() {
 		$this->subpartsToHide = array();
-
-		return;
 	}
 
 	/**
@@ -1301,7 +1307,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function retrieveFeUser() {
 		$this->feuser = $this->isLoggedIn()
 			? $GLOBALS['TSFE']->fe_user->user : null;
-		return;
 	}
 
 	/**
@@ -1332,8 +1337,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if ($this->configurationCheck) {
 			$this->configurationCheck->setFlavor($flavor);
 		}
-
-		return;
 	}
 
 	/**
@@ -1366,8 +1369,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if ($this->configurationCheck) {
 			$this->configurationCheck->setErrorMessage($message);
 		}
-
-		return;
 	}
 
 	/**

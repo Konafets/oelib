@@ -1185,9 +1185,10 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testSetMarkerWithPrefix() {
 		$this->fixture->processTemplate(
-			'This is some template code. ###FIRST_MARKER### ###MARKER### More text.'
+			'This is some template code. '
+				.'###FIRST_MARKER### ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo', 'first_');
+		$this->fixture->setMarkerContent('marker', 'foo', 'first');
 		$this->assertEquals(
 			'This is some template code. foo ###MARKER### More text.',
 			$this->fixture->getSubpart()
@@ -1208,7 +1209,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'foo', 'FIRST_');
+		$this->fixture->setSubpartContent('MY_SUBPART', 'foo', 'FIRST');
 		$this->assertEquals(
 			'Some text. '
 				.'foo'
@@ -1232,7 +1233,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->hideSubparts('MY_SUBPART', 'FIRST_');
+		$this->fixture->hideSubparts('MY_SUBPART', 'FIRST');
 		$this->assertEquals(
 			'Some text. '
 				.'More text there.'
@@ -1256,7 +1257,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.' Even more text.'
 		);
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART');
-		$this->fixture->unhideSubparts('MY_SUBPART', 'FIRST_');
+		$this->fixture->unhideSubparts('MY_SUBPART', 'FIRST');
 		$this->assertEquals(
 			'Some text. '
 				.'More text here.'
@@ -1280,7 +1281,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###FIRST_MY_SUBPART_2### -->'
 				.' Even more text.'
 		);
-		$this->fixture->hideSubparts('1,2', 'FIRST_MY_SUBPART_');
+		$this->fixture->hideSubparts('1,2', 'FIRST_MY_SUBPART');
 		$this->assertEquals(
 			'Some text. '
 				.'Even more text.',
@@ -1304,7 +1305,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART_1');
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART_2');
-		$this->fixture->unhideSubparts('1,2', 'FIRST_MY_SUBPART_');
+		$this->fixture->unhideSubparts('1,2', 'FIRST_MY_SUBPART');
 		$this->assertEquals(
 			'Some text. '
 				.'Even more text.',
@@ -1373,6 +1374,405 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->setLabels();
 		$this->assertEquals(
 			'foo, foo two',
+			$this->fixture->getSubpart()
+		);
+	}
+
+
+	/////////////////////////////////////////////////////////////////////
+	// Test for conditional filling and hiding of markers and subparts.
+	/////////////////////////////////////////////////////////////////////
+
+	public function testSetMarkerIfNotZeroWithPositiveInteger() {
+		$this->fixture->processTemplate(
+			'###MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotZero('marker', 42)
+		);
+		$this->assertEquals(
+			'42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotZeroWithNegativeInteger() {
+		$this->fixture->processTemplate(
+			'###MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotZero('marker', -42)
+		);
+		$this->assertEquals(
+			'-42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotZeroWithZero() {
+		$this->fixture->processTemplate(
+			'###MARKER###'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setMarkerIfNotZero('marker', 0)
+		);
+		$this->assertEquals(
+			'###MARKER###',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotZeroWithPositiveIntegerWithPrefix() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotZero('marker', 42, 'MY')
+		);
+		$this->assertEquals(
+			'42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotZeroWithNegativeIntegerWithPrefix() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotZero('marker', -42, 'MY')
+		);
+		$this->assertEquals(
+			'-42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotZeroWithZeroWithPrefix() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER###'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setMarkerIfNotZero('marker', 0, 'MY')
+		);
+		$this->assertEquals(
+			'###MY_MARKER###',
+			$this->fixture->getSubpart()
+		);
+	}
+
+
+	public function testSetMarkerIfNotEmptyWithNotEmpty() {
+		$this->fixture->processTemplate(
+			'###MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotEmpty('marker', 'foo')
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotEmptyWithEmpty() {
+		$this->fixture->processTemplate(
+			'###MARKER###'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setMarkerIfNotEmpty('marker', '')
+		);
+		$this->assertEquals(
+			'###MARKER###',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotEmptyWithNotEmptyWithPrefix() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER###'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setMarkerIfNotEmpty('marker', 'foo', 'MY')
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetMarkerIfNotEmptyWithEmptyWithPrefix() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER###'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setMarkerIfNotEmpty('marker', '', 'MY')
+		);
+		$this->assertEquals(
+			'###MY_MARKER###',
+			$this->fixture->getSubpart()
+		);
+	}
+
+
+	public function testSetOrDeleteMarkerWithTrue() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarker(
+				'marker', true, 'foo', '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerWithFalse() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarker(
+				'marker', false, 'foo', '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerWithTrueWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarker(
+				'marker', true, 'foo', 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerWithFalseWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarker(
+				'marker', false, 'foo', 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithZero() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', 0, '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithPositiveIntegers() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', 42, '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithNegativeIntegers() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', -42, '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'-42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithZeroWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', 0, 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithPositiveIntegerWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', 42, 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotZeroWithNegativeIntegerWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotZero(
+				'marker', -42, 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'-42',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotEmptyWithEmpty() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarkerIfNotEmpty(
+				'marker', '', '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotEmptyWithNotEmpty() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotEmpty(
+				'marker', 'foo', '', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotEmptyWithEmptyWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertFalse(
+			$this->fixture->setOrDeleteMarkerIfNotEmpty(
+				'marker', '', 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testSetOrDeleteMarkerIfNotEmptyWithNotEmptyWithMarkerPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###WRAPPER_MARKER### -->'
+				.'###MY_MARKER###'
+				.'<!-- ###WRAPPER_MARKER### -->'
+		);
+
+		$this->assertTrue(
+			$this->fixture->setOrDeleteMarkerIfNotEmpty(
+				'marker', 'foo', 'MY', 'WRAPPER'
+			)
+		);
+		$this->assertEquals(
+			'foo',
 			$this->fixture->getSubpart()
 		);
 	}
