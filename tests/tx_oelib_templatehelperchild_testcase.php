@@ -197,7 +197,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSimpleSubpartWithLf() {
+	public function testGetSimpleSubpartWithLinefeed() {
  		$subpartContent = LF.'Subpart content'.LF;
 		$templateCode = 'Text before the subpart'.LF
 			.'<!-- ###MY_SUBPART### -->'
@@ -231,6 +231,47 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertEquals(
 			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testGetSubpartWithNestedInnerSubparts() {
+ 		$subpartContent = 'Subpart content ';
+		$templateCode = 'Text before the subpart'
+			.'<!-- ###MY_SUBPART### -->'
+			.'outer start, '
+			.'<!-- ###OUTER_SUBPART### -->'
+			.'inner start, '
+			.'<!-- ###INNER_SUBPART### -->'
+			.$subpartContent
+			.'<!-- ###INNER_SUBPART### -->'
+			.'inner end, '
+			.'<!-- ###OUTER_SUBPART### -->'
+			.'outer end '
+			.'<!-- ###MY_SUBPART### -->'
+			.'Text after the subpart.';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			'outer start, inner start, '.$subpartContent.'inner end, outer end ',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testGetEmptyExistingSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART')
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
@@ -378,6 +419,22 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMarkerNamesAreSuffixesBothUsed() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER### ###ALSO_MY_MARKER###'
+		);
+
+		$this->fixture->setMarkerContent('my_marker', 'foo');
+		$this->fixture->setMarkerContent('also_my_marker', 'bar');
+		$this->assertEquals(
+			'foo bar',
+			$this->fixture->getSubpart('')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 	public function testMarkerNamesArePrefixesFirstUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###MY_MARKER_TOO###'
@@ -386,6 +443,21 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->setMarkerContent('my_marker', 'foo');
 		$this->assertEquals(
 			'foo ###MY_MARKER_TOO###',
+			$this->fixture->getSubpart('')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testMarkerNamesAreSuffixesFirstUsed() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER### ###ALSO_MY_MARKER###'
+		);
+
+		$this->fixture->setMarkerContent('my_marker', 'foo');
+		$this->assertEquals(
+			'foo ###ALSO_MY_MARKER###',
 			$this->fixture->getSubpart('')
 		);
 		$this->assertEquals(
@@ -408,6 +480,21 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testMarkerNamesAreSuffixesSecondUsed() {
+		$this->fixture->processTemplate(
+			'###MY_MARKER### ###ALSO_MY_MARKER###'
+		);
+
+		$this->fixture->setMarkerContent('also_my_marker', 'bar');
+		$this->assertEquals(
+			'###MY_MARKER### bar',
+			$this->fixture->getSubpart('')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 	public function testMarkerNamesArePrefixesBothUsedWithSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
@@ -417,6 +504,24 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setMarkerContent('my_marker', 'foo');
 		$this->fixture->setMarkerContent('my_marker_too', 'bar');
+		$this->assertEquals(
+			'foo bar',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testMarkerNamesAreSuffixesBothUsedWithSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+			.'###MY_MARKER### ###ALSO_MY_MARKER###'
+			.'<!-- ###MY_SUBPART### -->'
+		);
+
+		$this->fixture->setMarkerContent('my_marker', 'foo');
+		$this->fixture->setMarkerContent('also_my_marker', 'bar');
 		$this->assertEquals(
 			'foo bar',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -524,10 +629,10 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////////////////////////
-	// Tests for retrieving subparrts with names that are prefixes
-	// of other subpart names.
-	////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////
+	// Tests for retrieving subparts with names that are prefixes
+	// or suffixes of other subpart names.
+	///////////////////////////////////////////////////////////////
 
 	public function testSubpartNamesArePrefixesGetCompleteTemplate() {
 		$this->fixture->processTemplate(
@@ -538,6 +643,25 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART_TOO### -->'
 				.'bar'
 				.'<!-- ###MY_SUBPART_TOO### -->'
+		);
+		$this->assertEquals(
+			'foo Some more text. bar',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartNamesAreSuffixesGetCompleteTemplate() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'foo'
+				.'<!-- ###MY_SUBPART### -->'
+				.' Some more text. '
+				.'<!-- ###ALSO_MY_SUBPART### -->'
+				.'bar'
+				.'<!-- ###ALSO_MY_SUBPART### -->'
 		);
 		$this->assertEquals(
 			'foo Some more text. bar',
@@ -567,6 +691,25 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSubpartNamesAreSuffixesGetFirstSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'foo'
+				.'<!-- ###MY_SUBPART### -->'
+				.' Some more text. '
+				.'<!-- ###ALSO_MY_SUBPART### -->'
+				.'bar'
+				.'<!-- ###ALSO_MY_SUBPART### -->'
+		);
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 	public function testSubpartNamesArePrefixesGetSecondSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
@@ -586,14 +729,19 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetEmptyExistingSubpart() {
+	public function testSubpartNamesAreSuffixesGetSecondSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
+				.'foo'
 				.'<!-- ###MY_SUBPART### -->'
+				.' Some more text. '
+				.'<!-- ###ALSO_MY_SUBPART### -->'
+				.'bar'
+				.'<!-- ###ALSO_MY_SUBPART### -->'
 		);
 		$this->assertEquals(
-			'',
-			$this->fixture->getSubpart('MY_SUBPART')
+			'bar',
+			$this->fixture->getSubpart('ALSO_MY_SUBPART')
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
@@ -1172,6 +1320,34 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'This is some template code. foo More text.'
 				.' Even more text.',
 			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetMarkerWithinNestedInnerSubpart() {
+		$templateCode = 'Text before the subpart'
+			.'<!-- ###MY_SUBPART### -->'
+			.'outer start, '
+			.'<!-- ###OUTER_SUBPART### -->'
+			.'inner start, '
+			.'<!-- ###INNER_SUBPART### -->'
+			.'###MARKER###'
+			.'<!-- ###INNER_SUBPART### -->'
+			.'inner end, '
+			.'<!-- ###OUTER_SUBPART### -->'
+			.'outer end '
+			.'<!-- ###MY_SUBPART### -->'
+			.'Text after the subpart.';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->fixture->setMarkerContent('marker', 'foo ');
+
+		$this->assertEquals(
+			'outer start, inner start, foo inner end, outer end ',
+			$this->fixture->getSubpart('MY_SUBPART')
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
