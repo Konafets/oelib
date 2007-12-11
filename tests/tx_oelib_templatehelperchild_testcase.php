@@ -36,9 +36,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	private $originalGlobalsTt;
-
 	private $originalGlobalsTsfeSysPage;
-
 	private $originalCObj;
 
 	protected function setUp() {
@@ -287,7 +285,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart()
@@ -301,7 +299,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('MARKER', 'foo');
+		$this->fixture->setMarker('MARKER', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart()
@@ -317,7 +315,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'This is some template code. ###MARKER### More text.'
 				.'<!-- ###MY_SUBPART### -->'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -333,7 +331,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'This is some template code. ###MARKER### More text.'
 				.'<!-- ###MY_SUBPART### -->'
 		);
-		$this->fixture->setMarkerContent('MARKER', 'foo');
+		$this->fixture->setMarker('MARKER', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -349,7 +347,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'###MARKER### This is some template code. ###MARKER### More text.'
 				.'<!-- ###MY_SUBPART### -->'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'foo This is some template code. foo More text.',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -364,13 +362,13 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'This is some template code. ###MARKER### More text.'
 		);
 
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart()
 		);
 
-		$this->fixture->setMarkerContent('marker', 'bar');
+		$this->fixture->setMarker('marker', 'bar');
 		$this->assertEquals(
 			'This is some template code. bar More text.',
 			$this->fixture->getSubpart()
@@ -387,13 +385,13 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 		);
 
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'This is some template code. foo More text.',
 			$this->fixture->getSubpart('MY_SUBPART')
 		);
 
-		$this->fixture->setMarkerContent('marker', 'bar');
+		$this->fixture->setMarker('marker', 'bar');
 		$this->assertEquals(
 			'This is some template code. bar More text.',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -408,8 +406,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
-		$this->fixture->setMarkerContent('my_marker_too', 'bar');
+		$this->fixture->setMarker('my_marker', 'foo');
+		$this->fixture->setMarker('my_marker_too', 'bar');
 		$this->assertEquals(
 			'foo bar',
 			$this->fixture->getSubpart('')
@@ -440,7 +438,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
+		$this->fixture->setMarker('my_marker', 'foo');
 		$this->assertEquals(
 			'foo ###MY_MARKER_TOO###',
 			$this->fixture->getSubpart('')
@@ -470,7 +468,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
 
-		$this->fixture->setMarkerContent('my_marker_too', 'bar');
+		$this->fixture->setMarker('my_marker_too', 'bar');
 		$this->assertEquals(
 			'###MY_MARKER### bar',
 			$this->fixture->getSubpart('')
@@ -502,8 +500,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			.'<!-- ###MY_SUBPART### -->'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
-		$this->fixture->setMarkerContent('my_marker_too', 'bar');
+		$this->fixture->setMarker('my_marker', 'foo');
+		$this->fixture->setMarker('my_marker_too', 'bar');
 		$this->assertEquals(
 			'foo bar',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -779,7 +777,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.'Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'More text. ');
+		$this->fixture->setSubpart('MY_SUBPART', 'More text. ');
 		$this->fixture->hideSubparts('MY_SUBPART');
 		$this->assertEquals(
 			'Some text. '
@@ -1125,7 +1123,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'foo');
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
 		$this->assertEquals(
 			'Some text. '
 				.'foo'
@@ -1145,7 +1143,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'foo');
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
 		$this->assertEquals(
 			'foo',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -1165,7 +1163,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.' Even more text.'
 				.'<!-- ###OUTER_SUBPART### -->'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'foo');
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
 		$this->assertEquals(
 			'Some text. foo Even more text.',
 			$this->fixture->getSubpart('OUTER_SUBPART')
@@ -1183,7 +1181,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', '');
+		$this->fixture->setSubpart('MY_SUBPART', '');
 		$this->assertEquals(
 			'Some text. '
 				.' Even more text.',
@@ -1202,7 +1200,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', '');
+		$this->fixture->setSubpart('MY_SUBPART', '');
 		$this->assertEquals(
 			'',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -1222,7 +1220,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.' Even more text.'
 				.'<!-- ###OUTER_SUBPART### -->'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', '');
+		$this->fixture->setSubpart('MY_SUBPART', '');
 		$this->assertEquals(
 			'Some text.  Even more text.',
 			$this->fixture->getSubpart('OUTER_SUBPART')
@@ -1244,7 +1242,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'Some text. '
 				.'This is some template code. foo More text.'
@@ -1266,7 +1264,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.' Even more text.'
 				.'<!-- ###OUTER_SUBPART### -->'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'Some text. '
 				.'This is some template code. foo More text.'
@@ -1285,11 +1283,11 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent(
+		$this->fixture->setSubpart(
 			'MY_SUBPART',
 			'This is some template code. ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'Some text. '
 				.'This is some template code. foo More text.'
@@ -1310,11 +1308,11 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.' Even more text.'
 				.'<!-- ###OUTER_SUBPART### -->'
 		);
-		$this->fixture->setSubpartContent(
+		$this->fixture->setSubpart(
 			'MY_SUBPART',
 			'This is some template code. ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo');
+		$this->fixture->setMarker('marker', 'foo');
 		$this->assertEquals(
 			'Some text. '
 				.'This is some template code. foo More text.'
@@ -1364,7 +1362,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'This is some template code. '
 				.'###FIRST_MARKER### ###MARKER### More text.'
 		);
-		$this->fixture->setMarkerContent('marker', 'foo', 'first');
+		$this->fixture->setMarker('marker', 'foo', 'first');
 		$this->assertEquals(
 			'This is some template code. foo ###MARKER### More text.',
 			$this->fixture->getSubpart()
@@ -1385,7 +1383,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.' Even more text.'
 		);
-		$this->fixture->setSubpartContent('MY_SUBPART', 'foo', 'FIRST');
+		$this->fixture->setSubpart('MY_SUBPART', 'foo', 'FIRST');
 		$this->assertEquals(
 			'Some text. '
 				.'foo'

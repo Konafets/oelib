@@ -53,21 +53,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** the complete HTML template */
 	var $templateCode = '';
 
-	/** all HTML template subparts, using the marker name without ### as keys (e.g. 'MY_MARKER') */
+	/**
+	 * Associative array of all HTML template subparts, using the marker names
+	 * without ### as keys, for example 'MY_MARKER'.
+	 */
 	var $templateCache = array();
 
 	/** list of the names of all markers (and subparts) of a template */
 	var $markerNames = '';
 
-	/** list of populated markers and their contents (with the keys being the marker names including the wrapping hash signs ###) */
+	/**
+	 * Associative array of populated markers and their contents (with the keys
+	 * being the marker names including the wrapping hash signs ###).
+	 */
 	var $markers = array();
-
-	/** list of populated subparts and their contents (with the keys being the subpart names without the hash signs) */
-	var $subparts = array();
 
 	/**
 	 * List of subpart names that shouldn't be displayed. Set a subpart key like
-	 * "###FIELD_DATE###" and the value to "" to remove that subpart.
+	 * "FIELD_DATE" (the value does not matter) to remove that subpart.
 	 */
 	var $subpartsToHide = array();
 
@@ -452,11 +455,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 		$subpartNames = $this->findSubparts();
 
-		foreach ($subpartNames as $currentSubpartName) {
-			$this->templateCache[$currentSubpartName] = $this->cObj->getSubpart(
+		foreach ($subpartNames as $subpartName) {
+			$matches = array();
+			preg_match(
+				'/<!-- *###'.$subpartName.'### *-->(.*)'
+					.'<!-- *###'.$subpartName.'### *-->/msSuU',
 				$templateRawCode,
-				$currentSubpartName
+				$matches
 			);
+			if (isset($matches[1])) {
+				$this->templateCache[$subpartName] = $matches[1];
+			}
 		}
 	}
 
@@ -532,45 +541,103 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Sets a marker's content.
 	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the marker
-	 * "###FIELD_ONE###" will be written.
+	 * Example: If the prefix is "field" and the marker name is "one", the
+	 * marker "###FIELD_ONE###" will be written.
 	 *
 	 * If the prefix is empty and the marker name is "one", the marker
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
 	 * @param	string		the marker's content, may be empty
-	 * @param	string		prefix to the marker name (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		prefix to the marker name (may be empty,
+	 * 						case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 *
+	 * @deprecated	2007-12-09	Use setMarker instead.
+	 */
+	function setMarkerContent($markerName, $content, $prefix = '') {
+		$this->setMarker($markerName, $content, $prefix);
+	}
+
+	/**
+	 * Sets a marker's content.
+	 *
+	 * Example: If the prefix is "field" and the marker name is "one", the
+	 * marker "###FIELD_ONE###" will be written.
+	 *
+	 * If the prefix is empty and the marker name is "one", the marker
+	 * "###ONE###" will be written.
+	 *
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 * @param	string		the marker's content, may be empty
+	 * @param	string		prefix to the marker name (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 */
-	function setMarkerContent($markerName, $content, $prefix = '') {
+	function setMarker($markerName, $content, $prefix = '') {
 		$this->markers[$this->createMarkerName($markerName, $prefix)] = $content;
 	}
 
 	/**
 	 * Sets a subpart's content.
 	 *
-	 * Example: If the prefix is "field" and the subpart name is "one", the subpart
-	 * "###FIELD_ONE###" will be written.
+	 * Example: If the prefix is "field" and the subpart name is "one", the
+	 * subpart "###FIELD_ONE###" will be written.
 	 *
 	 * If the prefix is empty and the subpart name is "one", the subpart
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the subpart's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param	string		the subpart's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
 	 * @param	string		the subpart's content, may be empty
-	 * @param	string		prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart name (may be empty,
+	 * 						case-insensitive, will get uppercased)
+	 *
+	 * @access	protected
+	 *
+	 * @deprecated	2007-12-09	Use setSubpart instead.
+	 */
+	function setSubpartContent($subpartName, $content, $prefix = '') {
+		$this->setSubpart($subpartName, $content, $prefix);
+	}
+
+	/**
+	 * Sets a subpart's content.
+	 *
+	 * Example: If the prefix is "field" and the subpart name is "one", the
+	 * subpart "###FIELD_ONE###" will be written.
+	 *
+	 * If the prefix is empty and the subpart name is "one", the subpart
+	 * "###ONE###" will be written.
+	 *
+	 * @param	string		the subpart's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 * @param	string		the subpart's content, may be empty
+	 * @param	string		prefix to the subpart name (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 */
-	function setSubpartContent($subpartName, $content, $prefix = '') {
-		$this->subparts[$this->createMarkerNameWithoutHashes($subpartName, $prefix)] = $content;
+	function setSubpart($subpartName, $content, $prefix = '') {
+		$subpartName = $this->createMarkerNameWithoutHashes(
+			$subpartName, $prefix
+		);
+
+		$this->templateCache[$subpartName] = $content;
 	}
 
 	/**
 	 * Sets a marker based on whether the (integer) content is non-zero.
 	 * If intval($content) is non-zero, this function sets the marker's content, working
-	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
 	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param	integer		content with which the marker will be filled, may be empty
@@ -585,7 +652,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
 		$condition = (intval($content) != 0);
 		if ($condition) {
-			$this->setMarkerContent($markerName, ((string) $content), $markerPrefix);
+			$this->setMarker($markerName, ((string) $content), $markerPrefix);
 		}
 		return $condition;
 	}
@@ -593,7 +660,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Sets a marker based on whether the (string) content is non-empty.
 	 * If $content is non-empty, this function sets the marker's content, working
-	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
 	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param	string		content with which the marker will be filled, may be empty
@@ -608,7 +675,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function setMarkerIfNotEmpty($markerName, $content, $markerPrefix = '') {
 		$condition = !empty($content);
 		if ($condition) {
-			$this->setMarkerContent($markerName, $content, $markerPrefix);
+			$this->setMarker($markerName, $content, $markerPrefix);
 		}
 		return $condition;
 	}
@@ -637,19 +704,20 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Takes a comma-separated list of subpart names and writes them to
-	 * $this->subpartsToHide. In the process, the names are changed from 'aname'
-	 * to '###BLA_ANAME###' and used as keys. The corresponding values in the
-	 * array are empty strings.
+	 * Takes a comma-separated list of subpart names and sets them to hidden. In
+	 * the process, the names are changed from 'aname' to '###BLA_ANAME###' and
+	 * used as keys.
 	 *
-	 * Example: If the prefix is "field" and the list is "one,two", the array keys
-	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be written.
+	 * Example: If the prefix is "field" and the list is "one,two", the subparts
+	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be hidden.
 	 *
-	 * If the prefix is empty and the list is "one,two", the array keys
-	 * "###ONE###" and "###TWO###" will be written.
+	 * If the prefix is empty and the list is "one,two", the subparts
+	 * "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of at least 1 subpart name to
+	 * 						hide (case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart names (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 */
@@ -662,69 +730,79 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$prefix
 			);
 
-			$this->subpartsToHide[$fullSubpartName] = '';
+			$this->subpartsToHide[$fullSubpartName] = true;
 		}
 	}
 
 	/**
-	 * Takes a comma-separated list of subpart names and removes them from
-	 * $this->subpartsToHide.
-	 * All subpartNames that are provided with the second parameter will not be
-	 * unhidden! This is to avoid unhiding subparts that are hidden by
+	 * Takes a comma-separated list of subpart names and unhides them if they
+	 * have been hidden beforehand.
+	 *
+	 * Note: All subpartNames that are provided with the second parameter will
+	 * not be unhidden. This is to avoid unhiding subparts that are hidden by
 	 * the configuration.
 	 *
-	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###'
-	 * and used as keys. The corresponding values in the array are empty strings.
+	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###'.
 	 *
-	 * Example: If the prefix is "field" and the list is "one,two", the array keys
+	 * Example: If the prefix is "field" and the list is "one,two", the subparts
 	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be unhidden.
 	 *
-	 * If the prefix is empty and the list is "one,two", the array keys
+	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to unhide (case-insensitive, will get uppercased)
-	 * @param	string		comma-separated list of of subpart names that shouldn't get unhidden
-	 * @param	string		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of at least 1 subpart name to
+	 * 						unhide (case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of of subpart names that
+	 * 						shouldn't get unhidden
+	 * @param	string		prefix to the subpart names (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 *
 	 * @deprecated	2007-08-22	Use unhideSubparts instead.
 	 */
-	function readSubpartsToUnhide($subparts, $permanentlyHiddenSubparts = '', $prefix = '') {
+	function readSubpartsToUnhide(
+		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
+	) {
 		$this->unhideSubparts($subparts, $permanentlyHiddenSubparts, $prefix);
 	}
 
 	/**
-	 * Takes a comma-separated list of subpart names and removes them from
-	 * $this->subpartsToHide.
-	 * All subpartNames that are provided with the second parameter will not be
-	 * unhidden! This is to avoid unhiding subparts that are hidden by
+	 * Takes a comma-separated list of subpart names and unhides them if they
+	 * have been hidden beforehand.
+	 *
+	 * Note: All subpartNames that are provided with the second parameter will
+	 * not be unhidden. This is to avoid unhiding subparts that are hidden by
 	 * the configuration.
 	 *
-	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###'
-	 * and used as keys. The corresponding values in the array are empty strings.
+	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###'.
 	 *
-	 * Example: If the prefix is "field" and the list is "one,two", the array keys
+	 * Example: If the prefix is "field" and the list is "one,two", the subparts
 	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be unhidden.
 	 *
-	 * If the prefix is empty and the list is "one,two", the array keys
+	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to unhide (case-insensitive, will get uppercased)
-	 * @param	string		comma-separated list of of subpart names that shouldn't get unhidden
-	 * @param	string		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of at least 1 subpart name to
+	 * 						unhide (case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of of subpart names that
+	 * 						shouldn't get unhidden
+	 * @param	string		prefix to the subpart names (may be empty,
+	 * 						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 */
-	function unhideSubparts($subparts, $permanentlyHiddenSubparts = '', $prefix = '') {
+	function unhideSubparts(
+		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
+	) {
 		$subpartNames = explode(',', $subparts);
 		$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
 
 		foreach ($subpartNames as $currentSubpartName) {
 			// Only unhide the current subpart if it is not on the list of
 			// permanently hidden subparts (e.g. by configuration).
-			if (!array_key_exists($currentSubpartName, $hiddenSubpartNames)) {
-				$currentMarkerName = $this->createMarkerName(
+			if (!isset($hiddenSubpartNames[$currentSubpartName])) {
+				$currentMarkerName = $this->createMarkerNameWithoutHashes(
 					$currentSubpartName, $prefix
 				);
 				unset($this->subpartsToHide[$currentMarkerName]);
@@ -735,7 +813,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Sets or hides a marker based on $condition.
 	 * If $condition is true, this function sets the marker's content, working
-	 * exactly like setMarkerContent($markerName, $content, $markerPrefix).
+	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 * If $condition is false, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
@@ -763,7 +841,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$markerPrefix = '', $wrapperPrefix = ''
 	) {
 		if ($condition) {
-			$this->setMarkerContent($markerName, $content, $markerPrefix);
+			$this->setMarker($markerName, $content, $markerPrefix);
 		} else {
 			$this->hideSubparts($markerName, $wrapperPrefix);
 		}
@@ -775,7 +853,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Sets or hides a marker based on whether the (integer) content is
 	 * non-zero.
 	 * If intval($content) is non-zero, this function sets the marker's content,
-	 * working exactly like setMarkerContent($markerName, $content,
+	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
 	 * If intval($condition) is zero, this function removes the wrapping
 	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
@@ -816,7 +894,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Sets or hides a marker based on whether the (string) content is
 	 * non-empty.
 	 * If $content is non-empty, this function sets the marker's content,
-	 * working exactly like setMarkerContent($markerName, $content,
+	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
 	 * If $condition is empty, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
@@ -893,52 +971,50 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Multi substitution function with caching. Wrapper function for
-	 * cObj->substituteMarkerArrayCached(), using $this->markers and
-	 * $this->subparts as defaults.
-	 *
-	 * During the process, the following happens:
-	 * 1. $this->subpartsTohide will be removed
-	 * 2. for the other subparts, the subpart marker comments will be removed
-	 * 3. markes are replaced with their corresponding contents.
+	 * Retrieves a named subpart, recursively filling in its inner subparts
+	 * and markers. Inner subparts that are marked to be hidden will be
+	 * substituted with empty strings.
 	 *
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param	string		key of the subpart from $this->templateCache, e.g. 'LIST_ITEM' (without the ###), or an empty string to use the complete HTML template
-	 * @param	integer		recursion level when substituting subparts within subparts, use 0 to disable recursion
+	 * @param	string		key of an existing subpart, for example 'LIST_ITEM'
+	 * 						(without the ###), or an empty string to use the
+	 * 						complete HTML template
 	 *
-	 * @return	string		content stream with the markers replaced
+	 * @return	string		the subpart content or an empty string if the
+	 * 						subpart is hidden or the subpart name is missing.
 	 *
 	 * @access	protected
 	 *
 	 * @deprecated	2007-08-22	Use getSubpart instead.
 	 */
-	function substituteMarkerArrayCached($key = '', $recursionLevel = 0) {
-		return $this->getSubpart($key, $recursionLevel);
+	function substituteMarkerArrayCached($key = '') {
+		return $this->getSubpart($key);
 	}
 
 	/**
-	 * Multi substitution function with caching. Wrapper function for
-	 * cObj->substituteMarkerArrayCached(), using $this->markers and
-	 * $this->subparts as defaults.
-	 *
-	 * During the process, the following happens:
-	 * 1. $this->subpartsTohide will be removed
-	 * 2. for the other subparts, the subpart marker comments will be removed
-	 * 3. markes are replaced with their corresponding contents.
+	 * Retrieves a named subpart, recursively filling in its inner subparts
+	 * and markers. Inner subparts that are marked to be hidden will be
+	 * substituted with empty strings.
 	 *
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param	string		key of the subpart from $this->templateCache, e.g. 'LIST_ITEM' (without the ###), or an empty string to use the complete HTML template
-	 * @param	integer		recursion level when substituting subparts within subparts, use 0 to disable recursion
+	 * @param	string		key of an existing subpart, for example 'LIST_ITEM'
+	 * 						(without the ###), or an empty string to use the
+	 * 						complete HTML template
 	 *
-	 * @return	string		content stream with the markers replaced
+	 * @return	string		the subpart content or an empty string if the
+	 * 						subpart is hidden or the subpart name is missing.
 	 *
 	 * @access	protected
 	 */
-	function getSubpart($key = '', $recursionLevel = 0) {
+	function getSubpart($key = '') {
+		if (isset($this->subpartsToHide[$key])) {
+			return '';
+		}
+
 		if (($key != '') && !isset($this->templateCache[$key])) {
 			$this->setErrorMessage('The subpart <strong>'.$key.'</strong> is '
 				.'missing in the HTML template file <strong>'
@@ -951,44 +1027,45 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				.'please file a bug report in the '
 				.'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
 			);
+
+			return '';
 		}
 
 		$templateCode = ($key != '')
 			? $this->templateCache[$key] : $this->templateCode;
 
-		// removes subparts (lines) that will be hidden
-		$noHiddenSubparts = $this->cObj->substituteMarkerArrayCached(
-			$templateCode,
-			array(),
-			$this->subpartsToHide
+		// recursively replaces subparts with their contents
+		$noSubpartMarkers = preg_replace_callback(
+			'/<!-- *###([^#]*)### *-->(.*)'
+				.'<!-- *###\1### *-->/msSuU',
+			array(
+				$this,
+				'getSubpartForCallback'
+			),
+			$templateCode
 		);
 
-		if ($recursionLevel) {
-			$subparts = array();
-			foreach ($this->templateCache as $key => $content) {
-				$subparts[$key] = $this->getSubpart(
-					$key,
-					$recursionLevel - 1
-				);
-			}
-		} else {
-			$subparts =& $this->templateCache;
-		}
-		// removes subpart markers by replacing the subparts with just their content
-		$noSubpartMarkers = $noHiddenSubparts;
-		foreach ($subparts as $subpartName => $subpartContent) {
-			$noSubpartMarkers = $this->cObj->substituteSubpart(
-				$noSubpartMarkers,
-				'###'.$subpartName.'###',
-				$subpartContent
-			);
-		}
-
-		// replaces markers with their content
-		return $this->cObj->substituteMarkerArrayCached(
-			$noSubpartMarkers,
-			$this->markers
+		// replaces markers with their contents
+		return str_replace(
+			array_keys($this->markers), $this->markers, $noSubpartMarkers
 		);
+	}
+
+	/**
+	 * Retrieves a subpart.
+	 *
+	 * @param	array		numeric array with matches from
+	 * 						preg_replace_callback; the element #1 needs to
+	 * 						contain the name of the subpart to retrieve (in
+	 * 						uppercase without the surrounding ###)
+	 *
+	 * @return	string		the contents of the corresponding subpart or an
+	 * 						empty string in case the subpart does not exist
+	 *
+	 * @access	private
+	 */
+	function getSubpartForCallback($matches) {
+		return $this->getSubpart($matches[1]);
 	}
 
 	/**
@@ -1006,7 +1083,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$labels = $this->getPrefixedMarkers('label');
 
 		foreach ($labels as $currentLabel) {
-			$this->setMarkerContent(
+			$this->setMarker(
 				$currentLabel, $this->translate(strtolower($currentLabel))
 			);
 		}
@@ -1025,7 +1102,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$cssEntries = $this->getPrefixedMarkers('class');
 
 		foreach ($cssEntries as $currentCssEntry) {
-			$this->setMarkerContent(
+			$this->setMarker(
 				$currentCssEntry,
 				$this->createClassAttribute(
 					$this->getConfValueString(strtolower($currentCssEntry))
