@@ -725,7 +725,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$subpartNames = explode(',', $subparts);
 
 		foreach ($subpartNames as $currentSubpartName) {
-			$fullSubpartName = $this->createMarkerName(
+			$fullSubpartName = $this->createMarkerNameWithoutHashes(
 				$currentSubpartName,
 				$prefix
 			);
@@ -1011,7 +1011,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function getSubpart($key = '') {
-		if (isset($this->subpartsToHide[$key])) {
+		if (($key != '') && isset($this->subpartsToHide[$key])) {
 			return '';
 		}
 
