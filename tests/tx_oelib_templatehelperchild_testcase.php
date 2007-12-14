@@ -1381,7 +1381,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<!-- ###MY_SUBPART### -->'
 				.'More text there. '
 				.'<!-- ###MY_SUBPART### -->'
-				.' Even more text.'
+				.'Even more text.'
 		);
 		$this->fixture->setSubpart('MY_SUBPART', 'foo', 'FIRST');
 		$this->assertEquals(
@@ -1431,7 +1431,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'Even more text.'
 		);
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART');
-		$this->fixture->unhideSubparts('MY_SUBPART', 'FIRST');
+		$this->fixture->unhideSubparts('MY_SUBPART', '', 'FIRST');
 		$this->assertEquals(
 			'Some text. '
 				.'More text here. '
@@ -1479,9 +1479,11 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART_1');
 		$this->fixture->hideSubparts('FIRST_MY_SUBPART_2');
-		$this->fixture->unhideSubparts('1,2', 'FIRST_MY_SUBPART');
+		$this->fixture->unhideSubparts('1,2', '', 'FIRST_MY_SUBPART');
 		$this->assertEquals(
 			'Some text. '
+				.'More text here. '
+				.'More text there. '
 				.'Even more text.',
 			$this->fixture->getSubpart()
 		);
