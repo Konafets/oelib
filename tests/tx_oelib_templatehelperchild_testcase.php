@@ -276,6 +276,24 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetHiddenSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'Some text. '
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+
 
 	//////////////////////////////////
 	// Tests for filling in markers.
