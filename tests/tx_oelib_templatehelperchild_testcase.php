@@ -440,8 +440,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
-		$this->fixture->setMarkerContent('also_my_marker', 'bar');
+		$this->fixture->setMarker('my_marker', 'foo');
+		$this->fixture->setMarker('also_my_marker', 'bar');
 		$this->assertEquals(
 			'foo bar',
 			$this->fixture->getSubpart('')
@@ -471,7 +471,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
+		$this->fixture->setMarker('my_marker', 'foo');
 		$this->assertEquals(
 			'foo ###ALSO_MY_MARKER###',
 			$this->fixture->getSubpart('')
@@ -501,7 +501,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
 
-		$this->fixture->setMarkerContent('also_my_marker', 'bar');
+		$this->fixture->setMarker('also_my_marker', 'bar');
 		$this->assertEquals(
 			'###MY_MARKER### bar',
 			$this->fixture->getSubpart('')
@@ -536,8 +536,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			.'<!-- ###MY_SUBPART### -->'
 		);
 
-		$this->fixture->setMarkerContent('my_marker', 'foo');
-		$this->fixture->setMarkerContent('also_my_marker', 'bar');
+		$this->fixture->setMarker('my_marker', 'foo');
+		$this->fixture->setMarker('also_my_marker', 'bar');
 		$this->assertEquals(
 			'foo bar',
 			$this->fixture->getSubpart('MY_SUBPART')
@@ -1359,7 +1359,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->processTemplate(
 			$templateCode
 		);
-		$this->fixture->setMarkerContent('marker', 'foo ');
+		$this->fixture->setMarker('marker', 'foo ');
 
 		$this->assertEquals(
 			'outer start, inner start, foo inner end, outer end ',
