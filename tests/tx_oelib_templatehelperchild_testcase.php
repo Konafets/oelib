@@ -869,6 +869,29 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testTwoSubpartInNestedSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###SINGLE_VIEW###  -->'
+				.'<!-- ###FIELD_WRAPPER_TITLE### -->'
+				.'<h3 class="seminars-item-title">Title'
+				.'<!-- ###FIELD_WRAPPER_SUBTITLE### -->'
+				.'<span class="seminars-item-subtitle"> - ###SUBTITLE###</span>'
+				.'<!-- ###FIELD_WRAPPER_SUBTITLE### -->'
+				.'</h3>'
+        		.'<!-- ###FIELD_WRAPPER_TITLE### -->'
+        		.'<!-- ###SINGLE_VIEW###  -->'
+		);
+		$this->fixture->hideSubparts('FIELD_WRAPPER_SUBTITLE');
+		$this->assertEquals(
+			'<h3 class="seminars-item-title">Title'
+				.'</h3>',
+			$this->fixture->getSubpart('SINGLE_VIEW')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 	public function testUnhideSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
@@ -1247,6 +1270,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			'', $this->fixture->getWrappedConfigCheckMessage()
 		);
 	}
+
 
 	//////////////////////////////////////////////////////
 	// Tests for setting markers within nested subparts.
