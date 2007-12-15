@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1381] Change: Change the way the CSS file is included
 - [#1132] Fix: Retrieving a hidden subpart should return an empty string
 - [#796] Fix: setSubpart is broken
 - [#1140] Fix: The prefix option for markers and subparts is broken

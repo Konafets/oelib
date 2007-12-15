@@ -1138,7 +1138,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * This function may only be called if $this->$prefixId has been set.
 	 *
+	 * This function is deprecated as the CSS file should be added via TypoScript
+	 * to the page. Copy the variable cssFile from your TS setup to your TS
+	 * constants and change the value of the TS setup variable so it points to
+	 * the TS constant variable. Additionally you should add the TS constant
+	 * cssFile to your TS setup page.includeCSS. See the example for details:
+	 *
+	 * TS constants:
+	 * plugin.tx_yourextension_pi1.cssFile = /path/to/yourextension.css
+	 *
+	 * TS setup:
+	 * plugin.tx_yourextension_pi1.cssFile = {$plugin.tx_yourextension_pi1.cssFile}
+	 * page.includeCSS.yourextension = {$plugin.tx_yourextension_pi1.cssFile}
+	 *
 	 * @access protected
+	 *
+	 * @deprecated	0.4.0 - 2007-12-14
 	 */
 	function addCssToPageHeader() {
 		if ($this->hasConfValueString('cssFile', 's_template_special')) {

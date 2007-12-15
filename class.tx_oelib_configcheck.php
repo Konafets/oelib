@@ -376,7 +376,7 @@ class tx_oelib_configcheck {
 				's_template_special',
 				true
 			);
-			if (!is_file($fileName)) {
+			if (!is_file($GLOBALS['TSFE']->tmpl->getFileName($fileName))) {
 				$message = 'The specified CSS file <strong>'
 					.htmlspecialchars($fileName)
 					.'</strong> cannot be read. '
