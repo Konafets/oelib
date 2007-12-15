@@ -82,7 +82,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.1, $statistics[0]['absoluteTime'], '', .01
 		);
 		$this->assertContains(
-			'.1', $statisticsAsHtml
+			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
 
@@ -102,7 +102,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.1, $statistics[0]['absoluteTime'], '', .01
 		);
 		$this->assertContains(
-			'.1', $statisticsAsHtml
+			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
 
@@ -119,7 +119,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.1, $statistics[0]['absoluteTime'], '', .01
 		);
 		$this->assertContains(
-			'.1', $statisticsAsHtml
+			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
 
@@ -136,7 +136,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.1, $statistics[0]['absoluteTime'], '', .01
 		);
 		$this->assertContains(
-			'.1', $statisticsAsHtml
+			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
 
