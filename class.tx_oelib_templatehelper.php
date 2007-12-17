@@ -207,7 +207,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 	}
 
 	 	if (!is_object($GLOBALS['TSFE']->sys_page)) {
-	 		$GLOBALS['TSFE']->sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+	 		$GLOBALS['TSFE']->sys_page
+	 			= t3lib_div::makeInstance('t3lib_pageSelect');
 	 	}
 
 		if(!is_object($this->cObj)) {
@@ -224,14 +225,19 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether this is a filename, which has to be combined with a path
-	 * @param	boolean		whether to ignore the flexform values and just get the settings from TypoScript, may be empty
+	 * @param	boolean		whether this is a filename, which has to be combined
+	 * 						with a path
+	 * @param	boolean		whether to ignore the flexform values and just get
+	 * 						the settings from TypoScript, may be empty
 	 *
-	 * @return	string		the value of the corresponding flexforms or TS setup entry (may be empty)
+	 * @return	string		the value of the corresponding flexforms or TS setup
+	 * 						entry (may be empty)
 	 *
 	 * @access	private
 	 */
-	function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false) {
+	function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false,
+		$ignoreFlexform = false
+	) {
 		$flexformsValue = '';
 		if (!$ignoreFlexform) {
 			$flexformsValue = $this->pi_getFFvalue(
@@ -244,23 +250,30 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if ($isFileName && !empty($flexformsValue)) {
 			$flexformsValue = $this->addPathToFileName($flexformsValue);
 		}
-		$confValue = isset($this->conf[$fieldName]) ? $this->conf[$fieldName] : '';
+		$confValue = isset($this->conf[$fieldName])
+			? $this->conf[$fieldName] : '';
 
 		return ($flexformsValue) ? $flexformsValue : $confValue;
 	}
 
 	/**
 	 * Adds a path in front of the file name.
-	 * This is used for files that are selected in the Flexform of the front end plugin.
+	 * This is used for files that are selected in the Flexform of the front end
+	 * plugin.
 	 *
-	 * If no path is provided, the default (uploads/[extension_name]/) is used as path.
+	 * If no path is provided, the default (uploads/[extension_name]/) is used
+	 * as path.
 	 *
 	 * An example (default, with no path provided):
-	 * If the file is named 'template.tmpl', the output will be 'uploads/[extension_name]/template.tmpl'.
-	 * The '[extension_name]' will be replaced by the name of the calling extension.
+	 * If the file is named 'template.tmpl', the output will be
+	 * 'uploads/[extension_name]/template.tmpl'.
+	 * The '[extension_name]' will be replaced by the name of the calling
+	 * extension.
 	 *
 	 * @param	string		the file name
-	 * @param	string		the path to the file (without filename), must contain a slash at the end, may contain a slash at the beginning (if not relative)
+	 * @param	string		the path to the file (without filename), must
+	 * 						contain a slash at the end, may contain a slash at
+	 * 						the beginning (if not relative)
 	 *
 	 * @return	string		the complete path including file name
 	 *
@@ -277,19 +290,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets a trimmed string value from flexforms or TS setup.
 	 * The priority lies on flexforms; if nothing is found there, the value
-	 * from TS setup is returned. If there is no field with that name in TS setup,
-	 * an empty string is returned.
+	 * from TS setup is returned. If there is no field with that name in TS
+	 * setup, an empty string is returned.
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether this is a filename, which has to be combined with a path
-	 * @param	boolean		whether to ignore the flexform values and just get the settings from TypoScript, may be empty
+	 * @param	boolean		whether this is a filename, which has to be combined
+	 * 						with a path
+	 * @param	boolean		whether to ignore the flexform values and just get
+	 * 						the settings from TypoScript, may be empty
 	 *
-	 * @return	string		the trimmed value of the corresponding flexforms or TS setup entry (may be empty)
+	 * @return	string		the trimmed value of the corresponding flexforms or
+	 * 						TS setup entry (may be empty)
 	 *
 	 * @access	public
 	 */
-	function getConfValueString($fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false) {
+	function getConfValueString(
+		$fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false
+	) {
 		return trim($this->getConfValue(
 			$fieldName,
 			$sheet,
@@ -301,18 +319,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Checks whether a string value from flexforms or TS setup is set.
 	 * The priority lies on flexforms; if nothing is found there, the value
-	 * from TS setup is checked. If there is no field with that name in TS setup,
-	 * false is returned.
+	 * from TS setup is checked. If there is no field with that name in TS
+	 * setup, false is returned.
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether to ignore the flexform values and just get the settings from TypoScript, may be empty
+	 * @param	boolean		whether to ignore the flexform values and just get
+	 * 						the settings from TypoScript, may be empty
 	 *
-	 * @return	boolean		whether there is a non-empty value in the corresponding flexforms or TS setup entry
+	 * @return	boolean		whether there is a non-empty value in the
+	 * 						corresponding flexforms or TS setup entry
 	 *
 	 * @access	public
 	 */
-	function hasConfValueString($fieldName, $sheet = 'sDEF', $ignoreFlexform = false) {
+	function hasConfValueString(
+		$fieldName, $sheet = 'sDEF', $ignoreFlexform = false
+	) {
 		return ($this->getConfValueString(
 			$fieldName,
 			$sheet,
@@ -324,13 +346,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets an integer value from flexforms or TS setup.
 	 * The priority lies on flexforms; if nothing is found there, the value
-	 * from TS setup is returned. If there is no field with that name in TS setup,
-	 * zero is returned.
+	 * from TS setup is returned. If there is no field with that name in TS
+	 * setup, zero is returned.
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
 	 *
-	 * @return	integer		the inval'ed value of the corresponding flexforms or TS setup entry
+	 * @return	integer		the inval'ed value of the corresponding flexforms or
+	 * 						TS setup entry
 	 *
 	 * @access	public
 	 */
@@ -359,13 +382,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets a boolean value from flexforms or TS setup.
 	 * The priority lies on flexforms; if nothing is found there, the value
-	 * from TS setup is returned. If there is no field with that name in TS setup,
-	 * false is returned.
+	 * from TS setup is returned. If there is no field with that name in TS
+	 * setup, false is returned.
 	 *
 	 * @param	string		field name to extract
 	 * @param	string		sheet pointer, eg. "sDEF"
 	 *
-	 * @return	boolean		the boolean value of the corresponding flexforms or TS setup entry
+	 * @return	boolean		the boolean value of the corresponding flexforms or
+	 * 						TS setup entry
 	 *
 	 * @access	public
 	 */
@@ -378,8 +402,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * This function is intended to be used for testing purposes only.
 	 *
-	 * @param	string		key of the configuration property to set, must not be empty
-	 * @param	mixed		value of the configuration property, may be empty or zero
+	 * @param	string		key of the configuration property to set, must not
+	 * 						be empty
+	 * @param	mixed		value of the configuration property, may be empty or
+	 * 						zero
 	 *
 	 * @access	public
 	 */
@@ -784,7 +810,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
 	 * @param	string		comma-separated list of at least 1 subpart name to
-	 * 						unhide (case-insensitive, will get uppercased)
+	 * 						unhide (case-insensitive, will get uppercased),
+	 * 						must not be empty
 	 * @param	string		comma-separated list of of subpart names that
 	 * 						shouldn't get unhidden
 	 * @param	string		prefix to the subpart names (may be empty,
@@ -796,16 +823,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
 	) {
 		$subpartNames = explode(',', $subparts);
-		$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
+		if ($permanentlyHiddenSubparts != '') {
+			$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
+		} else {
+			$hiddenSubpartNames = array();
+		}
 
 		foreach ($subpartNames as $currentSubpartName) {
 			// Only unhide the current subpart if it is not on the list of
 			// permanently hidden subparts (e.g. by configuration).
-			if (!isset($hiddenSubpartNames[$currentSubpartName])) {
+			if (!in_array($currentSubpartName, $hiddenSubpartNames)) {
 				$currentMarkerName = $this->createMarkerNameWithoutHashes(
 					$currentSubpartName, $prefix
 				);
-				unset($this->subpartsToHide[$currentMarkerName]);
+				if (isset($this->subpartsToHide[$currentMarkerName])) {
+					unset($this->subpartsToHide[$currentMarkerName]);
+				}
 			}
 		}
 	}

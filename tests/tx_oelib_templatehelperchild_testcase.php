@@ -1170,6 +1170,134 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testUnhidePermanentlyHiddenSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('MY_SUBPART', 'MY_SUBPART');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideOneOfTwoPermanentlyHiddenSubparts() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('MY_SUBPART', 'MY_SUBPART,MY_OTHER_SUBPART');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideSubpartAndPermanentlyHideAnother() {
+		$this->fixture->processTemplate(
+			'Some text. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('MY_SUBPART', 'MY_OTHER_SUBPART');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhidePermanentlyHiddenSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->'
+				.'Some text. '
+				.'<!-- ###SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('SUBPART', 'SUBPART', 'MY');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->'
+				.'Some text. '
+				.'<!-- ###SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('SUBPART', 'SUBPART,OTHER_SUBPART', 'MY');
+		$this->assertEquals(
+			'Some text. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideSubpartAndPermanentlyHideAnotherWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->'
+				.'Some text. '
+				.'<!-- ###SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+				.'More text here. '
+				.'<!-- ###MY_SUBPART### -->'
+				.'Even more text.'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('SUBPART', 'OTHER_SUBPART', 'MY');
+		$this->assertEquals(
+			'Some text. '
+				.'More text here. '
+				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests for setting subparts.
