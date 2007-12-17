@@ -100,6 +100,25 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////
+	// Tests for reading the HTML from a file.
+	////////////////////////////////////////////
+
+	public function testGetCompleteTemplateFromFile() {
+		$this->fixture->setConfigurationValue(
+			'templateFile', 'EXT:oelib/tests/fixtures/oelib.html'
+		);
+		$this->fixture->getTemplateCode(true);
+
+		$this->assertEquals(
+			'Hello world!'.chr(10), $this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+
 	///////////////////////////////
 	// Tests for getting subparts.
 	///////////////////////////////
