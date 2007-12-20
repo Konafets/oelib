@@ -397,15 +397,71 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// Tests regarding dropAllDummyRecords()
 	// ---------------------------------------------------------------------
 
-	public function testCleanUp() {
-		// Creates a dummy record.
+	public function testCleanUpWithRegularCleanUp() {
+		// Creates a dummy record (and marks that table as dirty).
 		$this->fixture->createRecord('tx_oelib_test');
 
-		// Deletes all dummy records.
+		// Creates a dummy record directly in the database, without putting this
+		// table name to the list of dirty tables.
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'tx_oelib_test_article_mm',
+			array(
+				'is_dummy_record' => 1
+			)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		// Runs a regular clean up. This should now delete only the first record
+		// which was created through the testing framework and thus that table
+		// is on the list of dirty tables. The second record was directly put
+		// into the database and it's table is not on this list and will not be
+		// removed by a regular clean up run.
 		$this->fixture->cleanUp();
 
-		// Checks whether all dummy records were deleted.
-		$allowedTables = $this->fixture->getListOfAllowedTableNames();
+		// Checks whether the first dummy record is deleted.
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords('tx_oelib_test', 'is_dummy_record=1'),
+			'Some test records were not deleted from table "tx_oelib_test"'
+		);
+
+		// Checks whether the second dummy record still exists.
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'tx_oelib_test_article_mm',
+				'is_dummy_record=1'
+			)
+		);
+
+		// Runs a deep clean up to delete all dummy records.
+		$this->fixture->cleanUp(true);
+	}
+
+	public function testCleanUpWithDeepCleanup() {
+		// Creates a dummy record (and marks that table as dirty).
+		$this->fixture->createRecord('tx_oelib_test');
+
+		// Creates a dummy record directly in the database, without putting this
+		// table name to the list of dirty tables.
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'tx_oelib_test_article_mm',
+			array(
+				'is_dummy_record' => 1
+			)
+		);
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		// Deletes all dummy records.
+		$this->fixture->cleanUp(true);
+
+		// Checks whether ALL dummy records were deleted (independent of the
+		// list of dirty tables).
+		$allowedTables = $this->fixture->getListOfDirtyTables();
 		foreach ($allowedTables as $currentTable) {
 			$this->assertEquals(
 				0,
@@ -414,7 +470,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			);
 		}
 	}
-
 
 
 	// ---------------------------------------------------------------------
@@ -577,6 +632,28 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	public function testHasTableColumnUidOnTableWithoutColumnUid() {
 		$table = 'tx_oelib_test_article_mm';
 		$this->assertFalse($this->fixture->hasTableColumnUid($table));	
+	}
+
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding markTableAsDirty()
+	// ---------------------------------------------------------------------
+	
+	public function testMarkTableAsDirty() {
+		$table = 'tx_oelib_test';
+		$this->assertEquals(
+			array(),
+			$this->fixture->getListOfDirtyTables()
+		);
+
+		$this->fixture->createRecord($table, array());
+		$this->assertEquals(
+			array(
+				$table => $table
+			),
+			$this->fixture->getListOfDirtyTables()
+		);
 	}
 }
 

@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1383] Fix: Performance issue with the cleanUp() method in the testing framework
 - [#1385] Fix: Permanently hiding subparts is broken
 - [#1357] Fix: Unit test fails: testStatisticsForDefaultBucket
 - [#1381] Change: Change the way the CSS file is included

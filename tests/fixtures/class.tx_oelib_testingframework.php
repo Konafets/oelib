@@ -34,8 +34,14 @@
  */
 
 final class tx_oelib_testingframework {
+	/** Prefix of the extension for which this instance of the testing framework was instantiated */
 	private $tablePrefix = '';
+
+	/** Array of all table names to which this instance of the testing framework has access */
 	private $allowedTables = array();
+
+	/** Array of all "dirty" tables (i.e. all tables that were used for testing and need to be cleaned up) */
+	private $dirtyTables = array();
 
 	/**
 	 * The constructor for this class.
@@ -91,6 +97,7 @@ final class tx_oelib_testingframework {
 		);
 		if ($dbResult) {
 			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
+			$this->markTableAsDirty($table);
 		} else {
 			// Something went wront while inserting the record into the DB.
 			$result = 0;
@@ -152,6 +159,8 @@ final class tx_oelib_testingframework {
 			return false;
 		}
 
+		$this->markTableAsDirty($table);
+
 		$recordData = array(
 			'uid_local' => $uidLocal,
 			'uid_foreign' => $uidForeign,
@@ -199,10 +208,22 @@ final class tx_oelib_testingframework {
 	/**
 	 * Deletes all dummy records that have been added through this framework.
 	 * For this, all records with the "is_dummy_record" flag set to 1 will be
-	 * deleted from all tables to which the testing framework has access to.
+	 * deleted from all tables that have been used within this instance of the
+	 * testing framework.
+	 *
+	 * If you set $performDeepCleanUp to true, it will go through ALL tables to
+	 * which the current instance of the testing framework has access. Please
+	 * consider well, whether you want to do this as it's a huge performance
+	 * issue.
+	 *
+	 * @param	boolean		whether a deep clean up should be performed, may be empty
 	 */
-	public function cleanUp() {
-		foreach ($this->allowedTables as $currentTable) {
+	public function cleanUp($performDeepCleanUp = false) {
+		$tablesToCleanUp = ($performDeepCleanUp)
+			? $this->allowedTables
+			: $this->dirtyTables;
+
+		foreach ($tablesToCleanUp as $currentTable) {
 			// Runs a delete query for each allowed table. A "one-query-deletes-them-all"
 			// approach was tested but we didn't find a working solution for that.
 			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
@@ -213,6 +234,9 @@ final class tx_oelib_testingframework {
 			// Resets the auto increment setting of the current table.
 			$this->resetAutoIncrement($currentTable);
 		}
+
+		// Resets the list of dirty tables.
+		$this->dirtyTables = array();
 	}
 
 
@@ -381,6 +405,28 @@ final class tx_oelib_testingframework {
 	 */
 	public function getListOfAllowedTableNames() {
 		return $this->allowedTables;
+	}
+
+	/**
+	 * Puts a table name on the list of dirty tables (which represents a list
+	 * of tables that were used for testing and contain dummy records and
+	 * thus are called "dirty" until the next clean up).
+	 *
+	 * @param	string		the table name to put on the list of dirty tables
+	 */
+	private function markTableAsDirty($table) {
+		$this->dirtyTables[$table] = $table;
+	}
+
+	/**
+	 * Returns the list of tables that contain dummy records from testing. These
+	 * tables are called "dirty tables" as they need to be cleaned up.
+	 *
+	 * @return	array		associative array containing names of database tables
+	 * 						that need to be cleaned up
+	 */
+	public function getListOfDirtyTables() {
+		return $this->dirtyTables;
 	}
 }
 
