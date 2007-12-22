@@ -79,7 +79,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			'default', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
@@ -99,7 +99,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			'default', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
@@ -116,7 +116,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			1, count($statistics)
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
@@ -133,7 +133,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			1, count($statistics)
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
@@ -273,7 +273,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			1, count($statistics)
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
 
@@ -297,10 +297,10 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			'bucket_2', $statistics[1]['bucketName']
 		);
 		$this->assertEquals(
-			.2, $statistics[0]['absoluteTime'], '', .01
+			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .01
+			.1, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
@@ -324,10 +324,10 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			'bucket_2', $statistics[1]['bucketName']
 		);
 		$this->assertEquals(
-			.2, $statistics[0]['absoluteTime'], '', .01
+			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .01
+			.1, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
@@ -355,7 +355,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			'bucket_1', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
-			.2, $statistics[0]['absoluteTime'], '', .01
+			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
 
@@ -377,10 +377,10 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			2, count($statistics)
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .01
+			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .01
+			.1, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
@@ -402,7 +402,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			1, count($statistics)
 		);
 		$this->assertEquals(
-			.2, $statistics[0]['absoluteTime'], '', .01
+			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
 }
