@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1399] Fix: testingframework::createRecords must check that the uid is not set
 - [#1395] Fix: Increase the delta in the timer unit tests
 - [#1383] Fix: Performance issue with the cleanUp() method in the testing framework
 - [#1385] Fix: Permanently hiding subparts is broken

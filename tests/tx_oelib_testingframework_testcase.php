@@ -32,6 +32,9 @@
 require_once(t3lib_extMgm::extPath('oelib')
 	.'tests/fixtures/class.tx_oelib_testingframework.php');
 
+define('OELIB_TESTTABLE', 'tx_oelib_test');
+define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
+
 class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
@@ -53,15 +56,14 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	public function testCreateRecordOnValidTableWithNoData() {
 		$this->assertNotEquals(
 			0,
-			$this->fixture->createRecord('tx_oelib_test', array())
+			$this->fixture->createRecord(OELIB_TESTTABLE, array())
 		);
 	}
 
 	public function testCreateRecordWithValidData() {
-		$table = 'tx_oelib_test';
 		$title = 'TEST record';
 		$uid = $this->fixture->createRecord(
-			$table,
+			OELIB_TESTTABLE,
 			array(
 				'title' => $title
 			)
@@ -73,7 +75,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
-			$table,
+			OELIB_TESTTABLE,
 			'uid='.$uid
 		);
 
@@ -105,6 +107,14 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateRecordWithUidFails() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createRecord(
+				OELIB_TESTTABLE, array('uid' => 10000)
+			)
+		);
+	}
 
 
 	// ---------------------------------------------------------------------
@@ -112,33 +122,30 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testDeleteRecordOnValidDummyRecord() {
-		$table = 'tx_oelib_test';
-
 		// Creates and directly destroys a dummy record.
-		$uid = $this->fixture->createRecord($table, array());
-		$this->fixture->deleteRecord($table, $uid);
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Checks whether the record really was removed from the database.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords($table, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
 		);
 	}
 
 	public function testDeleteRecordOnInexistentRecord() {
-		$table = 'tx_oelib_test';
 		$uid = 10000;
 
 		// Checks that the record is inexistent before testing on it.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords($table, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
 		);
 
 		// Runs our delete function - it should run through and result true even
 		// when it can't delete a record.
 		$this->assertTrue(
-			$this->fixture->deleteRecord($table, $uid)
+			$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid)
 		);
 	}
 
@@ -170,12 +177,10 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordOnNonTestRecord() {
-		$table = 'tx_oelib_test';
-
-		// Create a new record that looks like a real record, i.e. the is_dummy_record
-		// flag is set to 0.
+		// Create a new record that looks like a real record, i.e. the
+		// is_dummy_record flag is set to 0.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
+			OELIB_TESTTABLE,
 			array(
 				'title' => 'TEST',
 				'is_dummy_record' => 0
@@ -196,18 +201,18 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 		// Runs our delete method which should NOT affect the record created above.
 		$this->assertTrue(
-			$this->fixture->deleteRecord($table, $uid)
+			$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid)
 		);
 
 		// Checks whether the record still exists.
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords($table, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			$table,
+			OELIB_TESTTABLE,
 			'uid='.$uid.' AND is_dummy_record=0'
 		);
 
@@ -223,19 +228,20 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateRelationWithValidData() {
-		$table = 'tx_oelib_test_article_mm';
 		$uidLocal = 55;
 		$uidForeign = 2000;
 
 		$this->assertTrue(
-			$this->fixture->createRelation($table, $uidLocal, $uidForeign)
+			$this->fixture->createRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			)
 		);
 
 		// Checks whether the record really exists.
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				$table,
+				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 			)
 		);
@@ -258,14 +264,12 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRelationWithInvalidData() {
-		$table = 'tx_oelib_test_article_mm';
-
 		$this->assertFalse(
-			$this->fixture->createRelation($table, 0, 50)
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, 50)
 		);
 
 		$this->assertFalse(
-			$this->fixture->createRelation($table, 50, 0)
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 50, 0)
 		);
 	}
 
@@ -276,26 +280,28 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testRemoveRelationOnValidDummyRecord() {
-		$table = 'tx_oelib_test_article_mm';
 		$uidLocal = 55;
 		$uidForeign = 77;
 
 		// Creates and directly destroys a dummy record.
-		$this->fixture->createRelation($table, $uidLocal, $uidForeign);
-		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
+		$this->fixture->createRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+		);
+		$this->fixture->removeRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+		);
 
 		// Checks whether the record really was removed from the database.
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				$table,
+				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 			)
 		);
 	}
 
 	public function testRemoveRelationOnInexistentRecord() {
-		$table = 'tx_oelib_test_article_mm';
 		$uidLocal = 10000;
 		$uidForeign = 20000;
 
@@ -303,7 +309,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				$table,
+				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 			)
 		);
@@ -311,7 +317,9 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		// Runs our delete function - it should run through and result true even
 		// when it can't delete a record.
 		$this->assertTrue(
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign)
+			$this->fixture->removeRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			)
 		);
 	}
 
@@ -346,14 +354,13 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRemoveRelationOnRealRecord() {
-		$table = 'tx_oelib_test_article_mm';
 		$uidLocal = 10000;
 		$uidForeign = 20000;
 
 		// Create a new record that looks like a real record, i.e. the is_dummy_record
 		// flag is set to 0.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
+			OELIB_TESTTABLE_MM,
 			array(
 				'uid_local' => $uidLocal,
 				'uid_foreign' => $uidForeign,
@@ -367,21 +374,23 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 		// Runs our delete method which should NOT affect the record created above.
 		$this->assertTrue(
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign)
+			$this->fixture->removeRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			)
 		);
 
 		// Checks whether the record still exists.
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				$table,
+				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 				)
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
-			$table,
+			OELIB_TESTTABLE_MM,
 			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 				.' AND is_dummy_record=0'
 		);
@@ -399,12 +408,12 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpWithRegularCleanUp() {
 		// Creates a dummy record (and marks that table as dirty).
-		$this->fixture->createRecord('tx_oelib_test');
+		$this->fixture->createRecord(OELIB_TESTTABLE);
 
 		// Creates a dummy record directly in the database, without putting this
 		// table name to the list of dirty tables.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'tx_oelib_test_article_mm',
+			OELIB_TESTTABLE_MM,
 			array(
 				'is_dummy_record' => 1
 			)
@@ -423,7 +432,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		// Checks whether the first dummy record is deleted.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords('tx_oelib_test', 'is_dummy_record=1'),
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'is_dummy_record=1'),
 			'Some test records were not deleted from table "tx_oelib_test"'
 		);
 
@@ -431,7 +440,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'tx_oelib_test_article_mm',
+				OELIB_TESTTABLE_MM,
 				'is_dummy_record=1'
 			)
 		);
@@ -442,12 +451,12 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpWithDeepCleanup() {
 		// Creates a dummy record (and marks that table as dirty).
-		$this->fixture->createRecord('tx_oelib_test');
+		$this->fixture->createRecord(OELIB_TESTTABLE);
 
 		// Creates a dummy record directly in the database, without putting this
 		// table name to the list of dirty tables.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'tx_oelib_test_article_mm',
+			OELIB_TESTTABLE_MM,
 			array(
 				'is_dummy_record' => 1
 			)
@@ -481,7 +490,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	public function testCreateListOfAllowedTablesContainsOurTestTable() {
 		$allowedTables = $this->fixture->getListOfAllowedTableNames();
 		$this->assertContains(
-			'tx_oelib_test',
+			OELIB_TESTTABLE,
 			$allowedTables
 		);
 	}
@@ -501,11 +510,9 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCountRecordsWithEmptyWhereClause() {
-		$table = 'tx_oelib_test';
-
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords($table, '')
+			$this->fixture->countRecords(OELIB_TESTTABLE, '')
 		);
 	}
 
@@ -537,17 +544,16 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountRecords() {
-		$table = 'tx_oelib_test';
 		$whereClause = 'is_dummy_record=1';
 
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords($table, $whereClause)
+			$this->fixture->countRecords(OELIB_TESTTABLE, $whereClause)
 		);
-		$this->fixture->createRecord($table);
+		$this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords($table, $whereClause)
+			$this->fixture->countRecords(OELIB_TESTTABLE, $whereClause)
 		);
 	}
 
@@ -558,18 +564,16 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testResetAutoIncrement() {
-		$table = 'tx_oelib_test';
-
 		// Creates and deletes a record and then resets the auto increment.
-		$latestUid = $this->fixture->createRecord($table);
-		$this->fixture->deleteRecord($table, $latestUid);
-		$this->fixture->resetAutoIncrement($table);
+		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
 		// Checks whether the reset of the auto increment value worked as it
 		// should. After the reset, the auto increment index should be equal
 		// to the UID of the record we created and deleted before.
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'SHOW TABLE STATUS WHERE Name=\''.$table.'\';'
+			'SHOW TABLE STATUS WHERE Name=\''.OELIB_TESTTABLE.'\';'
 		);
 		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
@@ -625,13 +629,15 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testHasTableColumnUidOnTableWithColumnUid() {
-		$table = 'tx_oelib_test';
-		$this->assertTrue($this->fixture->hasTableColumnUid($table));	
+		$this->assertTrue(
+			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE)
+		);
 	}
 
 	public function testHasTableColumnUidOnTableWithoutColumnUid() {
-		$table = 'tx_oelib_test_article_mm';
-		$this->assertFalse($this->fixture->hasTableColumnUid($table));	
+		$this->assertFalse(
+			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE_MM)
+		);
 	}
 
 
@@ -639,18 +645,17 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 	// Tests regarding markTableAsDirty()
 	// ---------------------------------------------------------------------
-	
+
 	public function testMarkTableAsDirty() {
-		$table = 'tx_oelib_test';
 		$this->assertEquals(
 			array(),
 			$this->fixture->getListOfDirtyTables()
 		);
 
-		$this->fixture->createRecord($table, array());
+		$this->fixture->createRecord(OELIB_TESTTABLE, array());
 		$this->assertEquals(
 			array(
-				$table => $table
+				OELIB_TESTTABLE => OELIB_TESTTABLE
 			),
 			$this->fixture->getListOfDirtyTables()
 		);

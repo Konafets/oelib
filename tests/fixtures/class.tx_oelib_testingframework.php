@@ -69,21 +69,24 @@ final class tx_oelib_testingframework {
 	 *
 	 * If no record data for the new array is given, an empty record will be
 	 * created. It will only contain a valid UID and the "is_dummy_record" flag
-	 * set to 1.
+	 * will be set to 1.
 	 *
 	 * Should there be any problem creating the record (wrong table name or a
 	 * problem with the database), 0 instead of a valid UID will be returned.
 	 *
-	 * @param	string		the name of the table on which the record should be created,
-	 * 						must not be empty
+	 * @param	string		the name of the table on which the record should
+	 * 						be created, must not be empty
 	 * @param	array		associative array that contains the data to save in
-	 * 						the new record, may be empty
+	 * 						the new record, may be empty, but must not contain
+	 * 						the	 key "uid"
 	 *
 	 * @return	integer		the UID of the new record or 0 if there was a problem
 	 * 						and no record was created
 	 */
 	public function createRecord($table, array $recordData = array()) {
-		if (!$this->isTableNameAllowed($table)) {
+		if (!$this->isTableNameAllowed($table)
+			|| isset($recordData['uid'])
+		) {
 			return 0;
 		}
 
