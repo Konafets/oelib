@@ -506,7 +506,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	function findSubparts() {
 		$matches = array();
 		preg_match_all(
-			'/<!-- *(###)([^#]+)(###)/',
+			'/<!-- *(###)([A-Z]([A-Z0-9_]*[A-Z0-9])?)(###)/',
 			$this->templateCode,
 			$matches
 		);
@@ -530,7 +530,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function findMarkers() {
 		$matches = array();
-		preg_match_all('/(###)([^#]+)(###)/', $this->templateCode, $matches);
+		preg_match_all(
+			'/(###)(([A-Z0-9_]*[A-Z0-9])?)(###)/', $this->templateCode, $matches
+		);
 
 		$markerNames = array_unique($matches[2]);
 
@@ -607,7 +609,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function setMarker($markerName, $content, $prefix = '') {
-		$this->markers[$this->createMarkerName($markerName, $prefix)] = $content;
+		$markerName = $this->createMarkerName($markerName, $prefix);
+
+		if ($this->isMarkerNameValidWithHashes($markerName)) {
+			$this->markers[$markerName] = $content;
+		}
 	}
 
 	/**
@@ -657,7 +663,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$subpartName, $prefix
 		);
 
-		$this->templateCache[$subpartName] = $content;
+		if ($this->isMarkerNameValidWithoutHashes($subpartName)) {
+			$this->templateCache[$subpartName] = $content;
+		}
 	}
 
 	/**
@@ -997,10 +1005,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		// If a prefix is provided, uppercases it and separates it with an
 		// underscore.
 		if (!empty($prefix)) {
-			$prefix = strtoupper($prefix).'_';
+			$prefix .= '_';
 		}
 
-		return $prefix.strtoupper(trim($markerName));
+		return strtoupper($prefix.trim($markerName));
 	}
 
 	/**
@@ -1679,6 +1687,49 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$ignore_array,
 			$noVersionPreview
 		);
+	}
+
+	/**
+	 * Checks whether a marker name (or subpart name) is valid (including the
+	 * leading and trailing hashes ###).
+	 *
+	 * A valid marker name must be a non-empty string, consisting of uppercase
+	 * and lowercase letters ranging A to Z, digits and underscores. It must
+	 * start with a lowercase or uppercase letter ranging from A to Z. It must
+	 * not end with an underscore. In addition, it must be prefixed and suffixed
+	 * with ###.
+	 *
+	 * @param	string		marker name to check (with the hashes), may be
+	 * 						empty
+	 *
+	 * @return	boolean		true if the marker name is valid, false otherwise
+	 *
+	 * @access	private
+	 */
+	function isMarkerNameValidWithHashes($markerName) {
+		return (boolean) preg_match(
+			'/^###[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
+		);
+	}
+
+	/**
+	 * Checks whether a marker name (or subpart name) is valid (excluding the
+	 * leading and trailing hashes ###).
+	 *
+	 * A valid marker name must be a non-empty string, consisting of uppercase
+	 * and lowercase letters ranging A to Z, digits and underscores. It must
+	 * start with a lowercase or uppercase letter ranging from A to Z. It must
+	 * not end with an underscore.
+	 *
+	 * @param	string		marker name to check (without the hashes), may be
+	 * 						empty
+	 *
+	 * @return	boolean		true if the marker name is valid, false otherwise
+	 *
+	 * @access	private
+	 */
+	function isMarkerNameValidWithoutHashes($markerName) {
+		return $this->isMarkerNameValidWithHashes('###'.$markerName.'###');
 	}
 }
 

@@ -1341,6 +1341,90 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSetNewSubpartNotEmptyGetSubpart() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetNewSubpartWithNameWithSpaceCreatesWarning() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('MY SUBPART', 'foo');
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetNewSubpartWithNameWithUmlautCreatesWarning() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('MY_SÜBPART', 'foo');
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SÜBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetNewSubpartWithNameWithUnderscoreSuffixCreatesWarning() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('MY_SUBPART_', 'foo');
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART_')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetNewSubpartWithNameStartingWithUnderscoreCreatesWarning() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('_MY_SUBPART', 'foo');
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('_MY_SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetNewSubpartWithNameStartingWithNumberCreatesWarning() {
+		$this->fixture->processTemplate(
+			'Some text.'
+		);
+		$this->fixture->setSubpart('1_MY_SUBPART', 'foo');
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('1_MY_SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 	public function testSetSubpartNotEmptyGetOuterSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
@@ -2139,6 +2223,263 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'foo',
 			$this->fixture->getSubpart()
+		);
+	}
+
+
+	///////////////////////////////////////////////////
+	// Test concerning unclosed markers and subparts.
+	///////////////////////////////////////////////////
+
+	public function testUnclosedMarkersAreIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'###MY_MARKER_1### '
+				.'###MY_MARKER_2 '
+				.'###MY_MARKER_3# '
+				.'###MY_MARKER_4## '
+				.'###MY_MARKER_5###'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->setMarker('my_marker_1', 'test 1');
+		$this->fixture->setMarker('my_marker_2', 'test 2');
+		$this->fixture->setMarker('my_marker_3', 'test 3');
+		$this->fixture->setMarker('my_marker_4', 'test 4');
+		$this->fixture->setMarker('my_marker_5', 'test 5');
+
+		$this->assertEquals(
+			'test 1 '
+				.'###MY_MARKER_2 '
+				.'###MY_MARKER_3# '
+				.'###MY_MARKER_4## '
+				.'test 5',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'test 1 '
+				.'###MY_MARKER_2 '
+				.'###MY_MARKER_3# '
+				.'###MY_MARKER_4## '
+				.'test 5',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	public function testUnclosedSubpartsAreIgnored() {
+		$this->fixture->processTemplate(
+			'Text before. '
+				.'<!-- ###UNCLOSED_SUBPART_1### -->'
+				.'<!-- ###OUTER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_2### -->'
+				.'<!-- ###INNER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### -->'
+				.'Inner text. '
+				.'<!-- ###UNCLOSED_SUBPART_4### -->'
+				.'<!-- ###INNER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_5### -->'
+				.'<!-- ###OUTER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_6### -->'
+				.'Text after.'
+		);
+
+		$this->assertEquals(
+			'Text before. '
+				.'<!-- ###UNCLOSED_SUBPART_1### -->'
+				.'<!-- ###UNCLOSED_SUBPART_2### -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### -->'
+				.'Inner text. '
+				.'<!-- ###UNCLOSED_SUBPART_4### -->'
+				.'<!-- ###UNCLOSED_SUBPART_5### -->'
+				.'<!-- ###UNCLOSED_SUBPART_6### -->'
+				.'Text after.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'<!-- ###UNCLOSED_SUBPART_2### -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### -->'
+				.'Inner text. '
+				.'<!-- ###UNCLOSED_SUBPART_4### -->'
+				.'<!-- ###UNCLOSED_SUBPART_5### -->',
+			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+	}
+
+	public function testUnclosedSubpartMarkersAreIgnored() {
+		$this->fixture->processTemplate(
+			'Text before. '
+				.'<!-- ###UNCLOSED_SUBPART_1###'
+				.'<!-- ###OUTER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_2 -->'
+				.'<!-- ###INNER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### --'
+				.'Inner text. '
+				.'<!-- UNCLOSED_SUBPART_4### -->'
+				.'<!-- ###INNER_SUBPART### -->'
+				.' ###UNCLOSED_SUBPART_5### -->'
+				.'<!-- ###OUTER_SUBPART### -->'
+				.'<!-- ###UNCLOSED_SUBPART_6### -->'
+				.'Text after.'
+		);
+
+		$this->assertEquals(
+			'Text before. '
+				.'<!-- ###UNCLOSED_SUBPART_1###'
+				.'<!-- ###UNCLOSED_SUBPART_2 -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### --'
+				.'Inner text. '
+				.'<!-- UNCLOSED_SUBPART_4### -->'
+				.' ###UNCLOSED_SUBPART_5### -->'
+				.'<!-- ###UNCLOSED_SUBPART_6### -->'
+				.'Text after.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'<!-- ###UNCLOSED_SUBPART_2 -->'
+				.'<!-- ###UNCLOSED_SUBPART_3### --'
+				.'Inner text. '
+				.'<!-- UNCLOSED_SUBPART_4### -->'
+				.' ###UNCLOSED_SUBPART_5### -->',
+			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+	}
+
+	public function testInvalidMarkerNamesAreIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'###MARKER 1### '
+				.'###MARKER-2### '
+				.'###marker_3### '
+				.'###MÄRKER_4### '
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->setMarker('marker 1', 'foo');
+		$this->fixture->setMarker('marker-2', 'foo');
+		$this->fixture->setMarker('marker_3', 'foo');
+		$this->fixture->setMarker('märker_4', 'foo');
+
+		$this->assertEquals(
+			'###MARKER 1### '
+				.'###MARKER-2### '
+				.'###marker_3### '
+				.'###MÄRKER_4### ',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'###MARKER 1### '
+				.'###MARKER-2### '
+				.'###marker_3### '
+				.'###MÄRKER_4### ',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+
+	///////////////////////////////////////////////////
+	// Tests for getting subparts with invalid names.
+	///////////////////////////////////////////////////
+
+	public function testSubpartWithNameWithSpaceIsIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY SUBPART### -->'
+				.'Some text.'
+				.'<!-- ###MY SUBPART### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithNameWithUmlautIsIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SÜBPART### -->'
+				.'Some text.'
+				.'<!-- ###MY_SÜBPART### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SÜBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithNameWithUnderscoreSuffixIsIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART_### -->'
+				.'Some text.'
+				.'<!-- ###MY_SUBPART_### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART_')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithNameStartingWithUnderscoreIsIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###_MY_SUBPART### -->'
+				.'Some text.'
+				.'<!-- ###_MY_SUBPART### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('_MY_SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithNameStartingWithNumberIsIgnored() {
+		$this->fixture->processTemplate(
+			'<!-- ###1_MY_SUBPART### -->'
+				.'Some text.'
+				.'<!-- ###1_MY_SUBPART### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('1_MY_SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithLowercaseNameIsIgnoredWithUsingLowercase() {
+		$this->fixture->processTemplate(
+			'<!-- ###my_subpart### -->'
+				.'Some text.'
+				.'<!-- ###my_subpart### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('my_subpart')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSubpartWithLowercaseNameIsIgnoredWithUsingUppercase() {
+		$this->fixture->processTemplate(
+			'<!-- ###my_subpart### -->'
+				.'Some text.'
+				.'<!-- ###my_subpart### -->'
+		);
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertNotEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
 		);
 	}
 }
