@@ -288,7 +288,8 @@ final class tx_oelib_testingframework {
 	}
 
 	/**
-	 * Counts the records on the table $table that match a given WHERE clause.
+	 * Counts the records on the table given by the first parameter $table that
+	 * match a given WHERE clause.
 	 *
 	 * @param	string		the name of the table to query, must not be empty
 	 * @param	string		the where part of the query, may be empty (all records
@@ -346,7 +347,7 @@ final class tx_oelib_testingframework {
 			return;
 		}
 
-		// Searches for the record with the highes UID in this table.
+		// Searches for the record with the highest UID in this table.
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'SELECT MAX(uid) AS uid FROM '.$table.';'
 		);
