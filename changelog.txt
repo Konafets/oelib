@@ -1,6 +1,6 @@
 0.4.0 - currently working on
 - [#1382] Feature: Testing framework: add sorting to created relations
-- [#1400] Fix: Correct a few typos 
+- [#1400] Fix: Correct a few typos
 - [#795] Fix: Unclosed markers wreck everything
 - [#1399] Fix: testingframework::createRecords must check that the UID is not set
 - [#1395] Fix: Increase the delta in the timer unit tests
