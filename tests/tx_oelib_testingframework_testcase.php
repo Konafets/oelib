@@ -48,6 +48,42 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 
+	// ---------------------------------------------------------------------
+	// Utility functions.
+	// ---------------------------------------------------------------------
+
+	/**
+	 * Returns the sorting value of the relation between the local UID given by
+	 * the first parameter $uidLocal and the foreign UID given by the second
+	 * parameter $uidForeign.
+	 *
+	 * @param	integer		the UID of the local record, must be > 0
+	 * @param	integer		the UID of the foreign record, must be > 0
+	 *
+	 * @return	integer		the sorting value of the relation
+	 */
+	private function getSortingOfRelation($uidLocal, $uidForeign) {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'sorting',
+			OELIB_TESTTABLE_MM,
+			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+
+		return $row['sorting'];
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding createRecord()
@@ -228,8 +264,8 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateRelationWithValidData() {
-		$uidLocal = 55;
-		$uidForeign = 2000;
+		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		$this->assertTrue(
 			$this->fixture->createRelation(
@@ -273,6 +309,51 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateRelationWithAutomaticSorting() {
+		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->assertTrue(
+			$this->fixture->createRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			)
+		);
+		$previousSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
+		$this->assertGreaterThan(
+			0,
+			$previousSorting
+		);
+
+
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->assertTrue(
+			$this->fixture->createRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			)
+		);
+		$nextSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
+		$this->assertEquals(
+			($previousSorting + 1),
+			$nextSorting
+		);
+	}
+
+	public function testCreateRelationWithManualSorting() {
+		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$sorting = 42;
+
+		$this->assertTrue(
+			$this->fixture->createRelation(
+				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign, $sorting
+			)
+		);
+
+		$this->assertEquals(
+			$sorting,
+			$this->getSortingOfRelation($uidLocal, $uidForeign)
+		);
+	}
+
 
 
 	// ---------------------------------------------------------------------
@@ -280,8 +361,8 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testRemoveRelationOnValidDummyRecord() {
-		$uidLocal = 55;
-		$uidForeign = 77;
+		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		// Creates and directly destroys a dummy record.
 		$this->fixture->createRelation(

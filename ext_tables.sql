@@ -27,6 +27,7 @@ CREATE TABLE tx_oelib_test (
 CREATE TABLE tx_oelib_test_article_mm (
 	uid_local int(11) unsigned DEFAULT '0' NOT NULL,
 	uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+	sorting int(11) unsigned DEFAULT '0' NOT NULL,
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
 	KEY uid_local (uid_local),

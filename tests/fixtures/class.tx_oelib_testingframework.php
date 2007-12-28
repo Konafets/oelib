@@ -43,6 +43,9 @@ final class tx_oelib_testingframework {
 	/** Array of all "dirty" tables (i.e. all tables that were used for testing and need to be cleaned up) */
 	private $dirtyTables = array();
 
+	/** Array of the sorting values of all relation tables. */
+	private $relationSorting = array();
+
 	/**
 	 * The constructor for this class.
 	 *
@@ -147,10 +150,13 @@ final class tx_oelib_testingframework {
 	 * 						added, must not be empty
 	 * @param	integer		UID of the local table, must be > 0
 	 * @param	integer		UID of the foreign table, must be > 0
+	 * @param	integer		sorting value of the relation, the default value is
+	 * 						0, which enables automatic sorting, a value >= 0
+	 * 						overwrites the automatic sorting
 	 *
 	 * @return	boolean		true if the record was properly saved, false otherwise
 	 */
-	public function createRelation($table, $uidLocal, $uidForeign) {
+	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isTableNameAllowed($table)) {
 			return false;
 		}
@@ -167,6 +173,8 @@ final class tx_oelib_testingframework {
 		$recordData = array(
 			'uid_local' => $uidLocal,
 			'uid_foreign' => $uidForeign,
+			'sorting' => (($sorting > 0) ?
+				$sorting : $this->getRelationSorting($table, $uidLocal)),
 			'is_dummy_record' => 1
 		);
 
@@ -431,6 +439,32 @@ final class tx_oelib_testingframework {
 	 */
 	public function getListOfDirtyTables() {
 		return $this->dirtyTables;
+	}
+
+	/**
+	 * Returns the next sorting value of the relation table which should be used.
+	 *
+	 * TODO: This function doesn't take already existing relations in the
+	 * database - which were created without using the testing framework - into
+	 * account. So you always should create new dummy records and create a
+	 * relation between these two dummy records, so you're sure there aren't
+	 * already relations for a local UID in the database.
+	 *
+	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1423
+	 *
+	 * @param	string		the relation table, must not be empty
+	 * @param	integer		UID of the local table, must be > 0
+	 *
+	 * @return	integer		the next sorting value to use (> 0)
+	 */
+	public function getRelationSorting($table, $uidLocal) {
+		if (!$this->relationSorting[$table][$uidLocal]) {
+			$this->relationSorting[$table][$uidLocal] = 0;
+		}
+
+		$this->relationSorting[$table][$uidLocal]++;
+
+		return $this->relationSorting[$table][$uidLocal];
 	}
 }
 
