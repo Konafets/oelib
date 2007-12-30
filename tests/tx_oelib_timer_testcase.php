@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2007-2008 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -87,7 +87,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testStatisticsForDefaultBucketUsingShortcut() {
-		oB();
+		tx_oelib_timer::oB();
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -311,7 +311,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		$this->fixture->openBucket('bucket_2');
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
-		rB();
+		tx_oelib_timer::rB();
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
 

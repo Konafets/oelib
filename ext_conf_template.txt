@@ -1,5 +1,2 @@
-# cat=basic/enable; type=boolean; label=Enable configuration check (for unit tests). Leave this checked so the unit tests can be run.
+# cat=basic/enable; type=boolean; label=Enable configuration check:This checkbox needs to be checked so the unit tests can be run.
 enableConfigCheck = 1
-
-# cat=basic/enable; type=boolean; label=Enable shortcut functions in the global scope: "oB" (openBucket) and "pB" (returnToPreviousBucket)
-enableGlobalFunctions = 0

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2007-2008 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -91,6 +91,22 @@ class tx_oelib_timer {
 		}
 
 		$this->isRunning = true;
+	}
+
+	/**
+	 * Starts the timer and sets the bucket which the time will be added to.
+	 *
+	 * If the timer is already running, the previous bucket will be closed
+	 * first.
+	 *
+	 * This is a static shortcut for openBucket.
+	 *
+	 * @see		openBucket
+	 *
+	 * @param	string	the name of the bucket to open
+	 */
+	function oB($bucketName = 'default') {
+		tx_oelib_timer::getInstance()->openBucket($bucketName);
 	}
 
 	/**
@@ -241,6 +257,20 @@ class tx_oelib_timer {
 		} else {
 			$this->stopTimer();
 		}
+	}
+
+	/**
+	 * Closes the current bucker and returns to the previous bucket (from the
+	 * stack of previously used buckets).
+	 *
+	 * If there is not previous bucket, the timer will be stopped.
+	 *
+	 * This is a static shortcut for returnToPreviousBucket.
+	 *
+	 * @see		returnToPreviousBucket
+	 */
+	function rB() {
+		tx_oelib_timer::getInstance()->returnToPreviousBucket();
 	}
 
 	/**

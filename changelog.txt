@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1378] Change: Remove the enableGlobalFunctions setting from the EM and use static methods instead
 - [#1382] Feature: Testing framework: add sorting to created relations
 - [#1400] Fix: Correct a few typos
 - [#795] Fix: Unclosed markers wreck everything
