@@ -181,11 +181,48 @@ final class tx_oelib_testingframework {
 		}
 
 		$completeRecordData = $recordData;
-		$recordData['pid'] = $parentId;
-		$recordData['doktype'] = 254;
+		$completeRecordData['pid'] = $parentId;
+		$completeRecordData['doktype'] = 254;
 
 		return $this->createRecordWithoutTableNameChecks(
-			'pages', $recordData
+			'pages', $completeRecordData
+		);
+	}
+
+	/**
+	 * Creates a FE content element on the page with the UID given by the first
+	 * parameter $pageId.
+	 *
+	 * Created content elements are text elements by default, but the content
+	 * element's type can be overwritten by setting the key 'CType' in the
+	 * parameter $recordData.
+	 *
+	 * @param	integer		UID of the page on which the content element should
+	 * 						be created
+	 * @param	array		associative array that contains the data to save in
+	 * 						the content element, may be empty, but must not
+	 * 						contain the keys "uid" or "pid"
+	 *
+	 * @return	integer		the UID of the new content element or 0 if there was
+	 * 						a problem and no record was created
+	 */
+	public function createContentElement(
+		$pageId = 0, array $recordData = array()
+	) {
+		if (isset($recordData['uid'])
+			|| isset($recordData['pid'])
+		) {
+			return 0;
+		}
+
+		$completeRecordData = $recordData;
+		$completeRecordData['pid'] = $pageId;
+		if (!isset($completeRecordData['CType'])) {
+			$completeRecordData['CType'] = 'text';
+		}
+
+		return $this->createRecordWithoutTableNameChecks(
+			'tt_content', $completeRecordData
 		);
 	}
 

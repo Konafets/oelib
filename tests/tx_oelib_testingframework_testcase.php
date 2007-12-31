@@ -803,7 +803,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-			'pages', 'uid='.$uid
+				'pages', 'uid='.$uid
 			)
 		);
 	}
@@ -982,6 +982,256 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->createSystemFolder(0, array('uid' => 42))
+		);
+	}
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createContentElement()
+	// ---------------------------------------------------------------------
+
+	public function testContentElementCanBeenCreated() {
+		$uid = $this->fixture->createContentElement();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'tt_content', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testContentElementWillBeCreatedOnRootPage() {
+		$uid = $this->fixture->createContentElement();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			0,
+			$row['pid']
+		);
+	}
+
+	public function testContentElementCanBeCreatedOnNonRootPage() {
+		$parent = $this->fixture->createSystemFolder();
+		$uid = $this->fixture->createContentElement($parent);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			$parent,
+			$row['pid']
+		);
+	}
+
+	public function testContentElementCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$uid = $this->fixture->createContentElement();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testContentElementWillBeCleanedUp() {
+		$uid = $this->fixture->createContentElement();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'tt_content', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testContentElementHasNoHeaderByDefault() {
+		$uid = $this->fixture->createContentElement();
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'header',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'',
+			$row['header']
+		);
+	}
+
+	public function testContentElementCanHaveHeader() {
+		$uid = $this->fixture->createContentElement(
+			0,
+			array('header' => 'Test header')
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'header',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'Test header',
+			$row['header']
+		);
+	}
+
+	public function testContentElementIsTextElementByDefault() {
+		$uid = $this->fixture->createContentElement();
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'CType',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'text',
+			$row['CType']
+		);
+	}
+
+	public function testContentElementCanHaveOtherType() {
+		$uid = $this->fixture->createContentElement(
+			0,
+			array('CType' => 'list')
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'CType',
+			'tt_content',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'list',
+			$row['CType']
+		);
+	}
+
+	public function testContentElementMustHaveNoZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createContentElement(0, array('pid' => 0))
+		);
+	}
+
+	public function testContentElementMustHaveNoNonZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createContentElement(0, array('pid' => 42))
+		);
+	}
+
+	public function testContentElementMustHaveNoZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createContentElement(0, array('uid' => 0))
+		);
+	}
+
+	public function testContentElementMustHaveNoNonZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createContentElement(0, array('uid' => 42))
 		);
 	}
 }
