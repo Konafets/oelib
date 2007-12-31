@@ -789,10 +789,239 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding createFrontEndPage()
+	// ---------------------------------------------------------------------
+
+	public function testFrontEndPageCanBeCreated() {
+		$uid = $this->fixture->createFrontEndPage();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'pages', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testCreateFrontEndPageSetsCorrectDocumentType() {
+		$uid = $this->fixture->createFrontEndPage();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'doktype',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			1,
+			$row['doktype']
+		);
+	}
+
+	public function testFrontEndPageWillBeCreatedOnRootPage() {
+		$uid = $this->fixture->createFrontEndPage();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			0,
+			$row['pid']
+		);
+	}
+
+	public function testFrontEndPageCanBeCreatedOnOtherPage() {
+		$parent = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createFrontEndPage($parent);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			$parent,
+			$row['pid']
+		);
+	}
+
+	public function testFrontEndPageCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$uid = $this->fixture->createFrontEndPage();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testFrontEndPageWillBeCleanedUp() {
+		$uid = $this->fixture->createFrontEndPage();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'pages', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndPageHasNoTitleByDefault() {
+		$uid = $this->fixture->createFrontEndPage();
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'',
+			$row['title']
+		);
+	}
+
+	public function testFrontEndPageCanHaveTitle() {
+		$uid = $this->fixture->createFrontEndPage(
+			0,
+			array('title' => 'Test title')
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'Test title',
+			$row['title']
+		);
+	}
+
+	public function testFrontEndPageMustHaveNoZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createFrontEndPage(0, array('pid' => 0))
+		);
+	}
+
+	public function testFrontEndPageMustHaveNoNonZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createFrontEndPage(0, array('pid' => 42))
+		);
+	}
+
+	public function testFrontEndPageMustHaveNoZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createFrontEndPage(0, array('uid' => 0))
+		);
+	}
+
+	public function testFrontEndPageMustHaveNoNonZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createFrontEndPage(0, array('uid' => 42))
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding createSystemFolder()
 	// ---------------------------------------------------------------------
 
-	public function testSystemFolderCanBeenCreated() {
+	public function testSystemFolderCanBeCreated() {
 		$uid = $this->fixture->createSystemFolder();
 
 		$this->assertNotEquals(
@@ -805,6 +1034,37 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			$this->fixture->countRecords(
 				'pages', 'uid='.$uid
 			)
+		);
+	}
+
+	public function testCreateSystemFolderSetsCorrectDocumentType() {
+		$uid = $this->fixture->createSystemFolder();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'doktype',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			254,
+			$row['doktype']
 		);
 	}
 

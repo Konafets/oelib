@@ -159,6 +159,24 @@ final class tx_oelib_testingframework {
 	}
 
 	/**
+	 * Creates a front-end page on the page with the UID given by the first
+	 * parameter $parentId.
+	 *
+	 * @param	integer		UID of the page on which the page should be created
+	 * @param	array		associative array that contains the data to save in
+	 * 						the new page, may be empty, but must not contain
+	 * 						the keys "uid" or "pid"
+	 *
+	 * @return	integer		the UID of the new page or 0 if there was a problem
+	 * 						and	no record was created
+	 */
+	public function createFrontEndPage(
+		$parentId = 0, array $recordData = array()
+	) {
+		return $this->createGeneralPageRecord(1, $parentId, $recordData);
+	}
+
+	/**
 	 * Creates a system folder on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
@@ -174,6 +192,29 @@ final class tx_oelib_testingframework {
 	public function createSystemFolder(
 		$parentId = 0, array $recordData = array()
 	) {
+		return $this->createGeneralPageRecord(254, $parentId, $recordData);
+	}
+
+	/**
+	 * Creates a page record with the document type given by the first parameter
+	 * $documentType.
+	 *
+	 * The record will be created on the page with the UID given by the second
+	 * parameter $parentId.
+	 *
+	 * @param	integer		document type of the record to create, must be > 0
+	 * @param	integer		UID of the page on which the record should be
+	 * 						created
+	 * @param	array		associative array that contains the data to save in
+	 * 						the record, may be empty, but must not contain the
+	 * 						keys "uid" or "pid"
+	 *
+	 * @return	integer		the UID of the new record or 0 if there was a
+	 * 						problem and no record was created
+	 */
+	private function createGeneralPageRecord(
+		$documentType, $parentId, array $recordData
+	) {
 		if (isset($recordData['uid'])
 			|| isset($recordData['pid'])
 		) {
@@ -182,7 +223,7 @@ final class tx_oelib_testingframework {
 
 		$completeRecordData = $recordData;
 		$completeRecordData['pid'] = $parentId;
-		$completeRecordData['doktype'] = 254;
+		$completeRecordData['doktype'] = $documentType;
 
 		return $this->createRecordWithoutTableNameChecks(
 			'pages', $completeRecordData
