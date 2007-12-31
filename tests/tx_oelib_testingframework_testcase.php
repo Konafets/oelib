@@ -258,7 +258,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding createRelation()
 	// ---------------------------------------------------------------------
@@ -353,7 +352,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			$this->getSortingOfRelation($uidLocal, $uidForeign)
 		);
 	}
-
 
 
 	// ---------------------------------------------------------------------
@@ -482,7 +480,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding dropAllDummyRecords()
 	// ---------------------------------------------------------------------
@@ -585,7 +582,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding countRecords()
 	// ---------------------------------------------------------------------
@@ -657,6 +653,15 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCountRecordsForPagesTableIsAllowed() {
+		$table = 'pages';
+
+		try {
+			$this->fixture->countRecords($table);
+		} catch (Exception $expected) {
+			$this->fail('countRecords should not have thrown an exception.');
+		}
+	}
 
 
 	// ---------------------------------------------------------------------
@@ -746,7 +751,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding hasTableColumnUid()
 	// ---------------------------------------------------------------------
@@ -762,7 +766,6 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE_MM)
 		);
 	}
-
 
 
 	// ---------------------------------------------------------------------
@@ -781,6 +784,204 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 				OELIB_TESTTABLE => OELIB_TESTTABLE
 			),
 			$this->fixture->getListOfDirtyTables()
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createSystemFolder()
+	// ---------------------------------------------------------------------
+
+	public function testSystemFolderCanBeenCreated() {
+		$uid = $this->fixture->createSystemFolder();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+			'pages', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testSystemFolderWillBeCreatedOnRootPage() {
+		$uid = $this->fixture->createSystemFolder();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			0,
+			$row['pid']
+		);
+	}
+
+	public function testSystemFolderCanBeCreatedOnOtherPage() {
+		$parent = $this->fixture->createSystemFolder();
+		$uid = $this->fixture->createSystemFolder($parent);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'pid',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			$parent,
+			$row['pid']
+		);
+	}
+
+	public function testSystemFolderCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$uid = $this->fixture->createSystemFolder();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testSystemFolderWillBeCleanedUp() {
+		$uid = $this->fixture->createSystemFolder();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'pages', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testSystemFolderHasNoTitleByDefault() {
+		$uid = $this->fixture->createSystemFolder();
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'',
+			$row['title']
+		);
+	}
+
+	public function testSystemFolderCanHaveTitle() {
+		$uid = $this->fixture->createSystemFolder(
+			0,
+			array('title' => 'Test title')
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			'pages',
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+		$this->assertEquals(
+			'Test title',
+			$row['title']
+		);
+	}
+
+	public function testSystemFolderMustHaveNoZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createSystemFolder(0, array('pid' => 0))
+		);
+	}
+
+	public function testSystemFolderMustHaveNoNonZeroPid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createSystemFolder(0, array('pid' => 42))
+		);
+	}
+
+	public function testSystemFolderMustHaveNoZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createSystemFolder(0, array('uid' => 0))
+		);
+	}
+
+	public function testSystemFolderMustHaveNoNonZeroUid() {
+		$this->assertEquals(
+			0,
+			$this->fixture->createSystemFolder(0, array('uid' => 42))
 		);
 	}
 }

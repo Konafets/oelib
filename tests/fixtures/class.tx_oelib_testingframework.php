@@ -46,8 +46,17 @@ final class tx_oelib_testingframework {
 	 */
 	private $allowedSystemTables = array();
 
-	/** Array of all "dirty" tables (i.e. all tables that were used for testing and need to be cleaned up) */
+	/**
+	 * Array of all "dirty" non-system tables (i.e. all tables that were used
+	 * for testing and need to be cleaned up)
+	 */
 	private $dirtyTables = array();
+
+	/**
+	 * Array of all "dirty" system tables (i.e. all tables that were used for
+	 * testing and need to be cleaned up)
+	 */
+	private $dirtySystemTables = array();
 
 	/** Array of the sorting values of all relation tables. */
 	private $relationSorting = array();
@@ -99,8 +108,39 @@ final class tx_oelib_testingframework {
 			return 0;
 		}
 
-		// Ensures that this account will have the test flag.
-		$recordData['is_dummy_record'] = 1;
+		return $this->createRecordWithoutTableNameChecks(
+			$table, $recordData
+		);
+	}
+
+	/**
+	 * Creates a new dummy record for unit tests without checks for the table
+	 * name.
+	 *
+	 * If no record data for the new array is given, an empty record will be
+	 * created. It will only contain a valid UID and the "is_dummy_record" flag
+	 * will be set to 1.
+	 *
+	 * Should there be any problem creating the record (wrong table name or a
+	 * problem with the database), 0 instead of a valid UID will be returned.
+	 *
+	 * @param	string		the name of the table on which the record should
+	 * 						be created, must not be empty
+	 * @param	array		associative array that contains the data to save in
+	 * 						the new record, may be empty, but must not contain
+	 * 						the	 key "uid"
+	 *
+	 * @return	integer		the UID of the new record or 0 if there was a problem
+	 * 						and no record was created
+	 */
+	private function createRecordWithoutTableNameChecks(
+		$table, array $recordData
+	) {
+		if ($this->isSystemTableNameAllowed($table)) {
+			$recordData['tx_oelib_is_dummy_record'] = 1;
+		} else {
+			$recordData['is_dummy_record'] = 1;
+		}
 
 		// Stores the record in the database.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
@@ -111,11 +151,42 @@ final class tx_oelib_testingframework {
 			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
 			$this->markTableAsDirty($table);
 		} else {
-			// Something went wront while inserting the record into the DB.
+			// Something went wrong while inserting the record into the DB.
 			$result = 0;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Creates a system folder on the page with the UID given by the first
+	 * parameter $parentId.
+	 *
+	 * @param	integer		UID of the page on which the system folder should be
+	 * 						created
+	 * @param	array		associative array that contains the data to save in
+	 * 						the new page, may be empty, but must not contain
+	 * 						the keys "uid" or "pid"
+	 *
+	 * @return	integer		the UID of the new system folder or 0 if there was
+	 * 						a problem and no record was created
+	 */
+	public function createSystemFolder(
+		$parentId = 0, array $recordData = array()
+	) {
+		if (isset($recordData['uid'])
+			|| isset($recordData['pid'])
+		) {
+			return 0;
+		}
+
+		$completeRecordData = $recordData;
+		$recordData['pid'] = $parentId;
+		$recordData['doktype'] = 254;
+
+		return $this->createRecordWithoutTableNameChecks(
+			'pages', $recordData
+		);
 	}
 
 	/**
@@ -233,19 +304,50 @@ final class tx_oelib_testingframework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param	boolean		whether a deep clean up should be performed, may be empty
+	 * @param	boolean		whether a deep clean up should be performed, may
+	 * 						be empty
 	 */
 	public function cleanUp($performDeepCleanUp = false) {
-		$tablesToCleanUp = ($performDeepCleanUp)
-			? $this->allowedTables
-			: $this->dirtyTables;
+		$this->cleanUpTableSet(false, $performDeepCleanUp);
+		$this->cleanUpTableSet(true, $performDeepCleanUp);
+	}
+
+	/**
+	 * Deletes a set of records that have been added through this framework for
+	 * a set of tables (either the test tables or the allowed system tables).
+	 * For this, all records with the "is_dummy_record" flag set to 1 will be
+	 * deleted from all tables that have been used within this instance of the
+	 * testing framework.
+	 *
+	 * If you set $performDeepCleanUp to true, it will go through ALL tables to
+	 * which the current instance of the testing framework has access. Please
+	 * consider well, whether you want to do this as it's a huge performance
+	 * issue.
+	 *
+	 * @param	boolean		whether to clean up the system tables (true) or
+	 * 						the non-system test tables (false)
+	 * @param	boolean		whether a deep clean up should be performed, may
+	 * 						be empty
+	 */
+	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
+		if ($useSystemTables) {
+			$dummyRecordFlag = 'tx_oelib_is_dummy_record';
+			$tablesToCleanUp = ($performDeepCleanUp)
+				? $this->allowedSystemTables
+				: $this->dirtySystemTables;
+		} else {
+			$dummyRecordFlag = 'is_dummy_record';
+			$tablesToCleanUp = ($performDeepCleanUp)
+				? $this->allowedTables
+				: $this->dirtyTables;
+		}
 
 		foreach ($tablesToCleanUp as $currentTable) {
 			// Runs a delete query for each allowed table. A "one-query-deletes-them-all"
 			// approach was tested but we didn't find a working solution for that.
 			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				$currentTable,
-				'is_dummy_record=1'
+				$dummyRecordFlag.'=1'
 			);
 
 			// Resets the auto increment setting of the current table.
@@ -255,7 +357,6 @@ final class tx_oelib_testingframework {
 		// Resets the list of dirty tables.
 		$this->dirtyTables = array();
 	}
-
 
 
 	// ----------------------------------------------------------------------
@@ -454,7 +555,11 @@ final class tx_oelib_testingframework {
 	 * @param	string		the table name to put on the list of dirty tables
 	 */
 	private function markTableAsDirty($table) {
-		$this->dirtyTables[$table] = $table;
+		if ($this->isSystemTableNameAllowed($table)) {
+			$this->dirtySystemTables[$table] = $table;
+		} else {
+			$this->dirtyTables[$table] = $table;
+		}
 	}
 
 	/**
@@ -466,6 +571,18 @@ final class tx_oelib_testingframework {
 	 */
 	public function getListOfDirtyTables() {
 		return $this->dirtyTables;
+	}
+
+	/**
+	 * Returns the list of system tables that contain dummy records from
+	 * testing. These tables are called "dirty tables" as they need to be
+	 * cleaned up.
+	 *
+	 * @return	array		associative array containing names of system
+	 * 						database tables that need to be cleaned up
+	 */
+	public function getListOfDirtySystemTables() {
+		return $this->dirtySystemTables;
 	}
 
 	/**
