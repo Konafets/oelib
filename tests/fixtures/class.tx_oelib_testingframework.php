@@ -299,6 +299,8 @@ final class tx_oelib_testingframework {
 	 * Counts the records on the table given by the first parameter $table that
 	 * match a given WHERE clause.
 	 *
+	 * This function will work on any table that has been registered in TYPO3.
+	 *
 	 * @param	string		the name of the table to query, must not be empty
 	 * @param	string		the where part of the query, may be empty (all records
 	 * 						will be counted in that case)
@@ -306,11 +308,11 @@ final class tx_oelib_testingframework {
 	 * @return	integer		the number of records that have been found
 	 */
 	public function countRecords($table, $whereClause = '1=1') {
-		if (!$this->isTableNameAllowed($table)) {
+		if (!$this->isTable($table)) {
 			throw new Exception(
-				'The method countRecords() was called with an empty table name or'
-				.' a table name that is not allowed within the current instance'
-				.' of the testing framework.'
+				'The method countRecords() was called with an empty table name'
+					.' or a table name that is not allowed within the current'
+					.' instance of the testing framework.'
 			);
 		}
 
@@ -465,6 +467,29 @@ final class tx_oelib_testingframework {
 		$this->relationSorting[$table][$uidLocal]++;
 
 		return $this->relationSorting[$table][$uidLocal];
+	}
+
+	/**
+	 * Checks whether the value of the parameter $table is the name of a
+	 * database table that has been registered in TYPO3.
+	 *
+	 * @param	string		the name of of table to check, must not be empty
+	 *
+	 * @return	boolean		true if the table is registered in TYPO3, false
+	 * 						otherwise
+	 */
+	private function isTable($table) {
+		static $registeredTables = array();
+
+		if ($table == '') {
+			return false;
+		}
+
+		if (empty($registeredTables)) {
+			$registeredTables = $GLOBALS['TYPO3_DB']->admin_get_tables();
+		}
+
+		return (in_array($table, $registeredTables));
 	}
 }
 

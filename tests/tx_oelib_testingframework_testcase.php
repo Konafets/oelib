@@ -610,18 +610,37 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
-	public function testCountRecordsWithForeignTableName() {
-		$table = 'tx_seminars_seminars';
-		$whereClause = 'is_dummy_record=1';
+	public function testCountRecordsWithInvalidTableNameRaisesException() {
+		$table = 'foo_bar';
 
 		try {
-			$this->fixture->countRecords($table, $whereClause);
+			$this->fixture->countRecords($table);
 		} catch (Exception $expected) {
 			return;
 		}
 
 		// Fails the test if the expected exception was not raised above.
 		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testCountRecordsWithFeUsersTableIsAllowed() {
+		$table = 'fe_users';
+		$this->fixture->countRecords($table);
+	}
+
+	public function testCountRecordsWithPagesTableIsAllowed() {
+		$table = 'pages';
+		$this->fixture->countRecords($table);
+	}
+
+	public function testCountRecordsWithTtContentTableIsAllowed() {
+		$table = 'tt_content';
+		$this->fixture->countRecords($table);
+	}
+
+	public function testCountRecordsWithOtherTableIsAllowed() {
+		$table = 'sys_domain';
+		$this->fixture->countRecords($table);
 	}
 
 	public function testCountRecords() {

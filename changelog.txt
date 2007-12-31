@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1418] Change: testingframework::resetAutoIncrement and ::countRecords should allow every existing table
 - [#1328] Feature: Add the "is_dummy_record" field to the fe_users, pages  and tt_content tables
 - [#1378] Change: Remove the enableGlobalFunctions setting from the EM and use static methods instead
 - [#1382] Feature: Testing framework: add sorting to created relations
