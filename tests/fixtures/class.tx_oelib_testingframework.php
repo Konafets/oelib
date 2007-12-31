@@ -40,6 +40,12 @@ final class tx_oelib_testingframework {
 	/** Array of all table names to which this instance of the testing framework has access */
 	private $allowedTables = array();
 
+	/**
+	 * Array of all sytem table names to which this instance of the testing
+	 * framework has access.
+	 */
+	private $allowedSystemTables = array();
+
 	/** Array of all "dirty" tables (i.e. all tables that were used for testing and need to be cleaned up) */
 	private $dirtyTables = array();
 
@@ -280,6 +286,10 @@ final class tx_oelib_testingframework {
 				$this->allowedTables[] = $currentTableName;
 			}
 		}
+
+		$this->allowedSystemTables = array(
+			'fe_users', 'pages', 'tt_content'
+		);
 	}
 
 	/**
@@ -293,6 +303,19 @@ final class tx_oelib_testingframework {
 	 */
 	private function isTableNameAllowed($table) {
 		return in_array($table, $this->allowedTables);
+	}
+
+	/**
+	 * Checks whether the given table name is in the list of allowed
+	 * system tables for this instance of the testing framework.
+	 *
+	 * @param	string		the name of the table to check, must not be empty
+	 *
+	 * @return	boolean		true if the name of the table is in the list of
+	 * 						allowed system tables, false otherwise
+	 */
+	private function isSystemTableNameAllowed($table) {
+		return in_array($table, $this->allowedSystemTables);
 	}
 
 	/**
@@ -343,7 +366,9 @@ final class tx_oelib_testingframework {
 	 * 						the auto increment entry, must not be empty
 	 */
 	public function resetAutoIncrement($table) {
-		if (!$this->isTableNameAllowed($table)) {
+		if (!$this->isTableNameAllowed($table)
+			&& !$this->isSystemTableNameAllowed($table)
+		) {
 			throw new Exception(
 				'The given table name is invalid. This means it is either empty'
 				.' or not in the list of allowed tables.'

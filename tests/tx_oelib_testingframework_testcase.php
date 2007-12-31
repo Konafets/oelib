@@ -663,7 +663,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	// Tests regarding resetAutoIncrement()
 	// ---------------------------------------------------------------------
 
-	public function testResetAutoIncrement() {
+	public function testResetAutoIncrementForTestTableSucceeds() {
 		// Creates and deletes a record and then resets the auto increment.
 		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
@@ -689,7 +689,30 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testResetAutoIncrementWithEmptyTableName() {
+	public function testResetAutoIncrementForFeUsersTableIsAllowed() {
+		$this->fixture->resetAutoIncrement('fe_users');
+	}
+
+	public function testResetAutoIncrementForPagesTableIsAllowed() {
+		$this->fixture->resetAutoIncrement('pages');
+	}
+
+	public function testResetAutoIncrementForTtContentTableIsAllowed() {
+		$this->fixture->resetAutoIncrement('tt_content');
+	}
+
+	public function testResetAutoIncrementWithOtherSystemTableFails() {
+		try {
+			$this->fixture->resetAutoIncrement('sys_domains');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testResetAutoIncrementWithEmptyTableNameFails() {
 		try {
 			$this->fixture->resetAutoIncrement('');
 		} catch (Exception $expected) {
@@ -700,7 +723,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
-	public function testResetAutoIncrementWithForeignTable() {
+	public function testResetAutoIncrementWithForeignTableFails() {
 		try {
 			$this->fixture->resetAutoIncrement('tx_seminars_seminars');
 		} catch (Exception $expected) {
@@ -711,7 +734,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
-	public function testResetAutoIncrementWithInexistentTable() {
+	public function testResetAutoIncrementWithInexistentTableFails() {
 		try {
 			$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
 		} catch (Exception $expected) {
