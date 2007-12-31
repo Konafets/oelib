@@ -124,7 +124,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testStatisticsForOneBucketUsingShortcut() {
-		oB('test');
+		tx_oelib_timer::oB('test');
 		// Sleep 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
