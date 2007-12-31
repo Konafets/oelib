@@ -1,4 +1,28 @@
 #
+# Table structure for table 'fe_users'
+#
+CREATE TABLE fe_users (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+);
+
+
+#
+# Table structure for table 'pages'
+#
+CREATE TABLE pages (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+);
+
+
+#
+# Table structure for table 'tt_content'
+#
+CREATE TABLE tt_content (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+);
+
+
+#
 # Table structure for table 'tx_oelib_test'
 #
 CREATE TABLE tx_oelib_test (
