@@ -90,7 +90,7 @@ class tx_oelib_configuration_proxy {
 	 * Loads the EM configuration for the extionsion key passed via
 	 * getInstance() if the configuration is not yet loaded.
 	 */
-	private function loadConfiguration() {
+	private function loadConfigurationLazily() {
 		if (!$this->isConfigurationLoaded) {
 			$this->retrieveConfiguration();
 		}
@@ -119,7 +119,7 @@ class tx_oelib_configuration_proxy {
 	 * 						the extension named $this->extensionKey
 	 */
 	private function hasConfigurationValue($key) {
-		$this->loadConfiguration();
+		$this->loadConfigurationLazily();
 
 		return isset($this->configuration[$key]);
 	}
@@ -133,7 +133,7 @@ class tx_oelib_configuration_proxy {
 	 * 						value does not exist
 	 */
 	private function getConfigurationValue($key) {
-		$this->loadConfiguration();
+		$this->loadConfigurationLazily();
 
 		if ($this->hasConfigurationValue($key)) {
 			$result = $this->configuration[$key];
@@ -154,7 +154,7 @@ class tx_oelib_configuration_proxy {
 	 * @param	mixed		value to set
 	 */
 	private function setConfigurationValue($key, $value) {
-		$this->loadConfiguration();
+		$this->loadConfigurationLazily();
 
 		$this->configuration[$key] = $value;
 	}
@@ -229,7 +229,7 @@ class tx_oelib_configuration_proxy {
 	 * 						configuration was not retrieved before
 	 */
 	public function getCompleteConfiguration() {
-		$this->loadConfiguration();
+		$this->loadConfigurationLazily();
 
 		return $this->configuration;
 	}
