@@ -130,26 +130,38 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRecordOnInvalidTable() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array())
-		);
+		try {
+			$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array());
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testCreateRecordWithEmptyTableName() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createRecord('', array())
-		);
+		try {
+			$this->fixture->createRecord('', array());
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testCreateRecordWithUidFails() {
-		$this->assertEquals(
-			0,
+		try {
 			$this->fixture->createRecord(
-				OELIB_TESTTABLE, array('uid' => 10000)
-			)
-		);
+				OELIB_TESTTABLE, array('uid' => 99999)
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 
@@ -170,7 +182,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteRecordOnInexistentRecord() {
-		$uid = 10000;
+		$uid = 99999;
 
 		// Checks that the record is inexistent before testing on it.
 		$this->assertEquals(
@@ -178,38 +190,51 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
 		);
 
-		// Runs our delete function - it should run through and result true even
-		// when it can't delete a record.
-		$this->assertTrue(
-			$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid)
-		);
+		// Runs our delete function - it should run through even when it can't
+		// delete a record.
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 	}
 
 	public function testDeleteRecordOnForeignTable() {
 		$table = 'tx_seminars_seminars';
-		$uid = 10000;
+		$uid = 99999;
 
-		$this->assertFalse(
-			$this->fixture->deleteRecord($table, $uid)
-		);
+		try {
+			$this->fixture->deleteRecord($table, $uid);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testDeleteRecordOnInexistentTable() {
 		$table = 'tx_oelib_DOESNOTEXIST';
-		$uid = 10000;
+		$uid = 99999;
 
-		$this->assertFalse(
-			$this->fixture->deleteRecord($table, $uid)
-		);
+		try {
+			$this->fixture->deleteRecord($table, $uid);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testDeleteRecordWithEmptyTableName() {
 		$table = '';
-		$uid = 10000;
+		$uid = 99999;
 
-		$this->assertFalse(
-			$this->fixture->deleteRecord($table, $uid)
-		);
+		try {
+			$this->fixture->deleteRecord($table, $uid);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testDeleteRecordOnNonTestRecord() {
@@ -236,9 +261,7 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		);
 
 		// Runs our delete method which should NOT affect the record created above.
-		$this->assertTrue(
-			$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid)
-		);
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Checks whether the record still exists.
 		$this->assertEquals(
@@ -266,10 +289,8 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 
-		$this->assertTrue(
-			$this->fixture->createRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
-			)
+		$this->fixture->createRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 
 		// Checks whether the record really exists.
@@ -284,37 +305,57 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRelationWithInvalidTable() {
 		$table = 'tx_oelib_test_DOESNOTEXIST_mm';
-		$uidLocal = 55;
-		$uidForeign = 2000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
-		$this->assertFalse(
-			$this->fixture->createRelation($table, $uidLocal, $uidForeign)
-		);
+		try {
+			$this->fixture->createRelation($table, $uidLocal, $uidForeign);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testCreateRelationWithEmptyTableName() {
-		$this->assertFalse(
-			$this->fixture->createRelation('', 200, 500)
-		);
+		try {
+			$this->fixture->createRelation('', 99999, 199999);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
-	public function testCreateRelationWithInvalidData() {
-		$this->assertFalse(
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, 50)
-		);
+	public function testCreateRelationWithZeroFirstUid() {
+		try {
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, 99999);
+		} catch (Exception $expected) {
+			return;
+		}
 
-		$this->assertFalse(
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 50, 0)
-		);
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testCreateRelationWithZeroSecondUid() {
+		try {
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 99999, 0);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testCreateRelationWithAutomaticSorting() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
-		$this->assertTrue(
-			$this->fixture->createRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
-			)
+		$this->fixture->createRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 		$previousSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
 		$this->assertGreaterThan(
@@ -324,10 +365,8 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
-		$this->assertTrue(
-			$this->fixture->createRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
-			)
+		$this->fixture->createRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 		$nextSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
 		$this->assertEquals(
@@ -339,12 +378,10 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	public function testCreateRelationWithManualSorting() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
-		$sorting = 42;
+		$sorting = 99999;
 
-		$this->assertTrue(
-			$this->fixture->createRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign, $sorting
-			)
+		$this->fixture->createRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign, $sorting
 		);
 
 		$this->assertEquals(
@@ -381,8 +418,8 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRemoveRelationOnInexistentRecord() {
-		$uidLocal = 10000;
-		$uidForeign = 20000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
 		// Checks that the record is inexistent before testing on it.
 		$this->assertEquals(
@@ -393,51 +430,64 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		// Runs our delete function - it should run through and result true even
-		// when it can't delete a record.
-		$this->assertTrue(
-			$this->fixture->removeRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
-			)
+		// Runs our delete function - it should run through even when it can't
+		// delete a record.
+		$this->fixture->removeRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 	}
 
 	public function testRemoveRelationOnForeignTable() {
 		$table = 'tx_seminars_seminars_places_mm';
-		$uidLocal = 10000;
-		$uidForeign = 20000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
-		$this->assertFalse(
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign)
-		);
+		try {
+			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testRemoveRelationOnInexistentTable() {
 		$table = 'tx_oelib_DOESNOTEXIST';
-		$uidLocal = 10000;
-		$uidForeign = 20000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
-		$this->assertFalse(
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign)
-		);
+		try {
+			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testRemoveRelationWithEmptyTableName() {
 		$table = '';
-		$uidLocal = 10000;
-		$uidForeign = 20000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
-		$this->assertFalse(
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign)
-		);
+		try {
+			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testRemoveRelationOnRealRecord() {
-		$uidLocal = 10000;
-		$uidForeign = 20000;
+		$uidLocal = 99999;
+		$uidForeign = 199999;
 
-		// Create a new record that looks like a real record, i.e. the is_dummy_record
-		// flag is set to 0.
+		// Create a new record that looks like a real record, i.e. the
+		// is_dummy_record flag is set to 0.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			OELIB_TESTTABLE_MM,
 			array(
@@ -451,20 +501,21 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 			$this->fail('There was an error with the database query.');
 		}
 
-		// Runs our delete method which should NOT affect the record created above.
-		$this->assertTrue(
-			$this->fixture->removeRelation(
-				OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
-			)
+		// Runs our delete method which should NOT affect the record created
+		// above.
+		$this->fixture->removeRelation(
+			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 
-		// Checks whether the record still exists.
-		$this->assertEquals(
-			1,
-			$this->fixture->countRecords(
-				OELIB_TESTTABLE_MM,
-				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
-				)
+		// Caches the value that will be tested for later. We need to use the
+		// following order to make sure the test record gets deleted even if
+		// this test fails:
+		// 1. reads the value to test
+		// 2. deletes the test record
+		// 3. tests the previously read value (and possibly fails)
+		$numberOfCreatedRelations = $this->fixture->countRecords(
+			OELIB_TESTTABLE_MM,
+			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
@@ -477,6 +528,12 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 		if (!$dbResult) {
 			$this->fail('There was an error with the database query.');
 		}
+
+		// Checks whether the relation had been created further up.
+		$this->assertEquals(
+			1,
+			$numberOfCreatedRelations
+		);
 	}
 
 
@@ -989,31 +1046,47 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndPageMustHaveNoZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createFrontEndPage(0, array('pid' => 0))
-		);
+		try {
+			$this->fixture->createFrontEndPage(0, array('pid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createFrontEndPage(0, array('pid' => 42))
-		);
+		try {
+			$this->fixture->createFrontEndPage(0, array('pid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testFrontEndPageMustHaveNoZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createFrontEndPage(0, array('uid' => 0))
-		);
+		try {
+			$this->fixture->createFrontEndPage(0, array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createFrontEndPage(0, array('uid' => 42))
-		);
+		try {
+			$this->fixture->createFrontEndPage(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 
@@ -1218,31 +1291,47 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSystemFolderMustHaveNoZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createSystemFolder(0, array('pid' => 0))
-		);
+		try {
+			$this->fixture->createSystemFolder(0, array('pid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createSystemFolder(0, array('pid' => 42))
-		);
+		try {
+			$this->fixture->createSystemFolder(0, array('pid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testSystemFolderMustHaveNoZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createSystemFolder(0, array('uid' => 0))
-		);
+		try {
+			$this->fixture->createSystemFolder(0, array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createSystemFolder(0, array('uid' => 42))
-		);
+		try {
+			$this->fixture->createSystemFolder(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	// ---------------------------------------------------------------------
@@ -1468,31 +1557,47 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testContentElementMustHaveNoZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createContentElement(0, array('pid' => 0))
-		);
+		try {
+			$this->fixture->createContentElement(0, array('pid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testContentElementMustHaveNoNonZeroPid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createContentElement(0, array('pid' => 42))
-		);
+		try {
+			$this->fixture->createContentElement(0, array('pid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testContentElementMustHaveNoZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createContentElement(0, array('uid' => 0))
-		);
+		try {
+			$this->fixture->createContentElement(0, array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testContentElementMustHaveNoNonZeroUid() {
-		$this->assertEquals(
-			0,
-			$this->fixture->createContentElement(0, array('uid' => 42))
-		);
+		try {
+			$this->fixture->createContentElement(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 }
 

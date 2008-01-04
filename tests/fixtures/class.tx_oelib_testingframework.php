@@ -98,14 +98,16 @@ final class tx_oelib_testingframework {
 	 * 						the new record, may be empty, but must not contain
 	 * 						the	 key "uid"
 	 *
-	 * @return	integer		the UID of the new record or 0 if there was a problem
-	 * 						and no record was created
+	 * @return	integer		the UID of the new record, will be > 0
 	 */
 	public function createRecord($table, array $recordData = array()) {
-		if (!$this->isTableNameAllowed($table)
-			|| isset($recordData['uid'])
-		) {
-			return 0;
+		if (!$this->isTableNameAllowed($table)) {
+			throw new Exception('The table name "'.$table.'" is not allowed.');
+		}
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
 		}
 
 		return $this->createRecordWithoutTableNameChecks(
@@ -130,8 +132,7 @@ final class tx_oelib_testingframework {
 	 * 						the new record, may be empty, but must not contain
 	 * 						the	 key "uid"
 	 *
-	 * @return	integer		the UID of the new record or 0 if there was a problem
-	 * 						and no record was created
+	 * @return	integer		the UID of the new record, will be > 0
 	 */
 	private function createRecordWithoutTableNameChecks(
 		$table, array $recordData
@@ -151,8 +152,7 @@ final class tx_oelib_testingframework {
 			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
 			$this->markTableAsDirty($table);
 		} else {
-			// Something went wrong while inserting the record into the DB.
-			$result = 0;
+			throw new Exception('There was an error with the database query.');
 		}
 
 		return $result;
@@ -167,8 +167,7 @@ final class tx_oelib_testingframework {
 	 * 						the new page, may be empty, but must not contain
 	 * 						the keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new page or 0 if there was a problem
-	 * 						and	no record was created
+	 * @return	integer		the UID of the new page, will be > 0
 	 */
 	public function createFrontEndPage(
 		$parentId = 0, array $recordData = array()
@@ -186,8 +185,7 @@ final class tx_oelib_testingframework {
 	 * 						the new page, may be empty, but must not contain
 	 * 						the keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new system folder or 0 if there was
-	 * 						a problem and no record was created
+	 * @return	integer		the UID of the new system folder, will be > 0
 	 */
 	public function createSystemFolder(
 		$parentId = 0, array $recordData = array()
@@ -209,16 +207,20 @@ final class tx_oelib_testingframework {
 	 * 						the record, may be empty, but must not contain the
 	 * 						keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new record or 0 if there was a
-	 * 						problem and no record was created
+	 * @return	integer		the UID of the new record, will be > 0
 	 */
 	private function createGeneralPageRecord(
 		$documentType, $parentId, array $recordData
 	) {
-		if (isset($recordData['uid'])
-			|| isset($recordData['pid'])
-		) {
-			return 0;
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['pid'])) {
+			throw new Exception(
+				'The column "pid" must not be set in $recordData.'
+			);
 		}
 
 		$completeRecordData = $recordData;
@@ -244,16 +246,20 @@ final class tx_oelib_testingframework {
 	 * 						the content element, may be empty, but must not
 	 * 						contain the keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new content element or 0 if there was
-	 * 						a problem and no record was created
+	 * @return	integer		the UID of the new content element, will be > 0
 	 */
 	public function createContentElement(
 		$pageId = 0, array $recordData = array()
 	) {
-		if (isset($recordData['uid'])
-			|| isset($recordData['pid'])
-		) {
-			return 0;
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['pid'])) {
+			throw new Exception(
+				'The column "pid" must not be set in $recordData.'
+			);
 		}
 
 		$completeRecordData = $recordData;
@@ -270,19 +276,17 @@ final class tx_oelib_testingframework {
 	/**
 	 * Deletes a dummy record from the database.
 	 *
-	 * Important: Only dummy records can be deleted with this method. Should there
-	 * for any reason exist a real record with that UID, it won't be deleted.
+	 * Important: Only dummy records from non-system tables can be deleted with
+	 * this method. Should there for any reason exist a real record with that
+	 * UID, it won't be deleted.
 	 *
 	 * @param	string		name of the table from which the record should be
 	 * 						deleted, must not be empty
 	 * @param	integer		UID of the record to delete, must be > 0
-	 *
-	 * @return	boolean		true if everything went well (even if no record was
-	 * 						deleted), false otherwise
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isTableNameAllowed($table)) {
-			return false;
+			throw new Exception('The table name "'.$table.'" is not allowed.');
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
@@ -290,16 +294,14 @@ final class tx_oelib_testingframework {
 			'uid='.$uid.' AND is_dummy_record=1'
 		);
 
-		return (boolean) $dbResult;
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 	}
 
 	/**
 	 * Creates a relation between two records on different tables (so called
 	 * m:n relation).
-	 *
-	 * This method returns a boolean true if everything was fine and false if
-	 * something went wrong (table name not allowed or insert query failed for
-	 * some other reason).
 	 *
 	 * @param	string		name of the m:n table to which the record should be
 	 * 						added, must not be empty
@@ -308,19 +310,24 @@ final class tx_oelib_testingframework {
 	 * @param	integer		sorting value of the relation, the default value is
 	 * 						0, which enables automatic sorting, a value >= 0
 	 * 						overwrites the automatic sorting
-	 *
-	 * @return	boolean		true if the record was properly saved, false otherwise
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isTableNameAllowed($table)) {
-			return false;
+			throw new Exception('The table name "'.$table.'" is not allowed.');
 		}
 
 		// Checks that the two given UIDs are valid.
-		if ((intval($uidLocal) == 0)
-			|| (intval($uidForeign) == 0)
-		) {
-			return false;
+		if (intval($uidLocal) == 0) {
+			throw new Exception(
+				'$uidLocal must be an integer > 0, but actually is "'
+					.$uidLocal.'"'
+			);
+		}
+		if  (intval($uidForeign) == 0) {
+			throw new Exception(
+				'$uidForeign must be an integer > 0, but actually is "'
+					.$uidForeign.'"'
+			);
 		}
 
 		$this->markTableAsDirty($table);
@@ -339,8 +346,9 @@ final class tx_oelib_testingframework {
 			$recordData
 		);
 
-		// Checks whether the insert query was successful.
-		return (boolean) $dbResult;
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 	}
 
 	/**
@@ -354,12 +362,10 @@ final class tx_oelib_testingframework {
 	 * 						deleted, must not be empty
 	 * @param	integer		UID on the local table, must be > 0
 	 * @param	integer		UID on the foreign table, must be > 0
-	 *
-	 * @return	boolean		true if everything went well, false otherwise
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isTableNameAllowed($table)) {
-			return false;
+			throw new Exception('The table name "'.$table.'" is not allowed.');
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
@@ -368,7 +374,9 @@ final class tx_oelib_testingframework {
 				.' AND is_dummy_record=1'
 		);
 
-		return (boolean) $dbResult;
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 	}
 
 	/**
@@ -423,13 +431,19 @@ final class tx_oelib_testingframework {
 		foreach ($tablesToCleanUp as $currentTable) {
 			// Runs a delete query for each allowed table. A "one-query-deletes-them-all"
 			// approach was tested but we didn't find a working solution for that.
-			$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				$currentTable,
 				$dummyRecordFlag.'=1'
 			);
 
 			// Resets the auto increment setting of the current table.
 			$this->resetAutoIncrement($currentTable);
+
+			if (!$dbResult) {
+				throw new Exception(
+					'There was an error with the database query.'
+				);
+			}
 		}
 
 		// Resets the list of dirty tables.
@@ -578,9 +592,12 @@ final class tx_oelib_testingframework {
 
 		// Updates the auto increment index for this table. The index will be set
 		// to one UID above the highest existing UID.
-		$GLOBALS['TYPO3_DB']->sql_query(
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
 		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 	}
 
 	/**
@@ -609,7 +626,8 @@ final class tx_oelib_testingframework {
 				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
 		) {
 			// Checks whether we have a valid column.
-			$result = (($row['Field'] == 'uid') && ($row['Extra'] == 'auto_increment'));
+			$result = (($row['Field'] == 'uid')
+				&& ($row['Extra'] == 'auto_increment'));
 		}
 
 		return $result;
