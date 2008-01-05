@@ -36,11 +36,11 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-// Include the system extension lang if we are in the back end.
-if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
-	require_once(PATH_typo3.'sysext/lang/lang.php');
-	require_once(PATH_typo3.'sysext/cms/tslib/class.tslib_content.php');
-}
+require_once(PATH_t3lib.'class.t3lib_page.php');
+require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
+require_once(PATH_t3lib.'class.t3lib_timetrack.php');
+require_once(PATH_typo3.'sysext/cms/tslib/class.tslib_content.php');
+require_once(PATH_typo3.'sysext/lang/lang.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
 
