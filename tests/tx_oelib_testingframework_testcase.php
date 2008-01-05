@@ -166,6 +166,193 @@ class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding changeRecord()
+	// ---------------------------------------------------------------------
+
+	public function testChangeRecordWithExistingRecord() {
+		$uid = $this->fixture->createRecord(
+			OELIB_TESTTABLE,
+			array('title' => 'foo')
+		);
+
+		$this->fixture->changeRecord(
+			OELIB_TESTTABLE,
+			$uid,
+			array('title' => 'bar')
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			OELIB_TESTTABLE,
+			'uid='.$uid
+		);
+
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$row) {
+			$this->fail('There was an error with the result of the database query.');
+		}
+		$this->assertEquals(
+			'bar',
+			$row['title']
+		);
+	}
+
+	public function testChangeRecordFailsOnForeignTable() {
+		try {
+			$this->fixture->changeRecord(
+				'tx_seminars_seminars',
+				99999,
+				array('title' => 'foo')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsOnInexistentTable() {
+		try {
+			$this->fixture->changeRecord(
+				'tx_oelib_DOESNOTEXIST',
+				99999,
+				array('title' => 'foo')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordOnAllowedSystemTableForPages() {
+		$pid = $this->fixture->createFrontEndPage(0, array('title' => 'foo'));
+
+		$this->fixture->changeRecord(
+			'pages',
+			$pid,
+			array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('pages', 'uid='.$pid.' AND title="bar"')
+		);
+	}
+
+	public function testChangeRecordOnAllowedSystemTableForContent() {
+		$pid = $this->fixture->createFrontEndPage(0, array('title' => 'foo'));
+		$uid = $this->fixture->createContentElement(
+			$pid,
+			array('titleText' => 'foo')
+		);
+
+		$this->fixture->changeRecord(
+			'tt_content',
+			$uid,
+			array('titleText' => 'bar')
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('tt_content', 'uid='.$uid.' AND titleText="bar"')
+		);
+	}
+
+	public function testChangeRecordFailsOnOtherSystemTable() {
+		try {
+			$this->fixture->changeRecord(
+				'sys_domain',
+				1,
+				array('title' => 'bar')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsWithUidZero() {
+		try {
+			$this->fixture->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsWithEmptyData() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+
+		try {
+			$this->fixture->changeRecord(
+				OELIB_TESTTABLE, $uid, array()
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsWithUidFieldInRecordData() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+
+		try {
+			$this->fixture->changeRecord(
+				OELIB_TESTTABLE, $uid, array('uid' => '55742')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsWithDummyRecordFieldInRecordData() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+
+		try {
+			$this->fixture->changeRecord(
+				OELIB_TESTTABLE, $uid, array('is_dummy_record' => 0)
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testChangeRecordFailsOnInexistentRecord() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+
+		try {
+			$this->fixture->changeRecord(
+				OELIB_TESTTABLE, $uid + 1, array('title' => 'foo')
+			);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding deleteRecord()
 	// ---------------------------------------------------------------------
 

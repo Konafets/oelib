@@ -137,11 +137,8 @@ final class tx_oelib_testingframework {
 	private function createRecordWithoutTableNameChecks(
 		$table, array $recordData
 	) {
-		if ($this->isSystemTableNameAllowed($table)) {
-			$recordData['tx_oelib_is_dummy_record'] = 1;
-		} else {
-			$recordData['is_dummy_record'] = 1;
-		}
+		$dummyColumnName = $this->getDummyColumnName($table);
+		$recordData[$dummyColumnName] = 1;
 
 		// Stores the record in the database.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
@@ -271,6 +268,63 @@ final class tx_oelib_testingframework {
 		return $this->createRecordWithoutTableNameChecks(
 			'tt_content', $completeRecordData
 		);
+	}
+
+	/**
+	 * Changes an existing dummy record and stores the new data for this
+	 * record. Only fields that get new values in $recordData will be changed,
+	 * everything else will stay untouched.
+	 *
+	 * The array with the new recordData must contain at least one entry, but
+	 * must not contain a new UID for the record. If you need to change the UID,
+	 * you have to create a new record!
+	 *
+	 * @param	string		the name of the table, must not be empty
+	 * @param	integer		the UID of the record to change, must not be empty
+	 * @param	array		associative array containing key => value pairs for
+	 * 						those fields of the record that need to be changed,
+	 * 						must not be empty
+	 */
+	public function changeRecord($table, $uid, $recordData) {
+		$dummyColumnName = $this->getDummyColumnName($table);
+
+		if (!$this->isTableNameAllowed($table) && !$this->isSystemTableNameAllowed($table)) {
+			throw new Exception(
+				'The table "'.$table.'" is not on the lists with allowed tables.'
+			);
+		}
+		if ($uid == 0) {
+			throw new Exception('The parameter $uid must not be zero.');
+		}
+		if (empty($recordData)) {
+			throw new Exception('The array with the new record data must not be empty.');
+		}
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The parameter $recordData must not contain changes to the UID of a record.'
+			);
+		}
+		if (isset($recordData[$dummyColumnName])) {
+			throw new Exception(
+				'The parameter $recordData must not contain changes to the field "'
+				.$dummyColumnName.'". It is impossible to convert a dummy record '
+				.'into a regular record.');
+		}
+		if (!$this->countRecords($table, 'uid='.$uid)) {
+			throw new Exception(
+				'There is no record with UID '.$uid.' on table "'.$table.'".'
+			);
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			$table,
+			'uid='.$uid.' AND '.$dummyColumnName.'=1',
+			$recordData
+		);
+
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
 	}
 
 	/**
@@ -417,23 +471,23 @@ final class tx_oelib_testingframework {
 	 */
 	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
 		if ($useSystemTables) {
-			$dummyRecordFlag = 'tx_oelib_is_dummy_record';
 			$tablesToCleanUp = ($performDeepCleanUp)
 				? $this->allowedSystemTables
 				: $this->dirtySystemTables;
 		} else {
-			$dummyRecordFlag = 'is_dummy_record';
 			$tablesToCleanUp = ($performDeepCleanUp)
 				? $this->allowedTables
 				: $this->dirtyTables;
 		}
 
 		foreach ($tablesToCleanUp as $currentTable) {
+			$dummyColumnName = $this->getDummyColumnName($currentTable);
+
 			// Runs a delete query for each allowed table. A "one-query-deletes-them-all"
 			// approach was tested but we didn't find a working solution for that.
 			$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 				$currentTable,
-				$dummyRecordFlag.'=1'
+				$dummyColumnName.'=1'
 			);
 
 			// Resets the auto increment setting of the current table.
@@ -509,6 +563,27 @@ final class tx_oelib_testingframework {
 	 */
 	private function isSystemTableNameAllowed($table) {
 		return in_array($table, $this->allowedSystemTables);
+	}
+
+	/**
+	 * Returns the name of the column that marks a record as a dummy record.
+	 *
+	 * On most tables this is "is_dummy_record", but on system tables like
+	 * "pages" or "fe_users", the column is called "tx_oelib_dummy_record".
+	 *
+	 * @param	string		the table name to look up, must not be empty
+	 *
+	 * @return	string		the name of the column that marks a record as dummy
+	 * 						record
+	 */
+	private function getDummyColumnName($table) {
+		$result = 'is_dummy_record';
+
+		if ($this->isSystemTableNameAllowed($table)) {
+			$result = 'tx_oelib_is_dummy_record';
+		}
+
+		return $result;
 	}
 
 	/**

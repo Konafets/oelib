@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1325] Feature: Added function to edit existing dummy records
 - [#1183] Feature: Create an EM configuration proxy
 - [#1464] Fix: Include all needed libraries in the template helper so it can be used from the CLI
 - [#1459] Change: The testing framework should throw exceptions on errors instead of failing silently.
