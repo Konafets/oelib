@@ -22,7 +22,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_configuration_proxy' for the 'oelib' extension.
+ * Class 'tx_oelib_configurationProxy' for the 'oelib' extension.
  *
  * This singleton class provides access to an extension's global configuration
  * and allows to fake global configuration values for testing purposes.
@@ -31,9 +31,9 @@
  * @subpackage	tx_oelib
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_configuration_proxy {
+class tx_oelib_configurationProxy {
 	/** the singleton configuration proxy objects */
-	static $instances = array();
+	private static $instances = array();
 
 	/**
 	 * stored configuration data for each extension which currently uses the
@@ -68,22 +68,22 @@ class tx_oelib_configuration_proxy {
 	 * 						an extension's instance of this class, must not be
 	 * 						empty
 	 *
-	 * @return	tx_oelib_configuration_proxy		the singleton configuration
+	 * @return	tx_oelib_configurationProxy		the singleton configuration
 	 * 						proxy object
 	 */
-	public function &getInstance($extensionKey) {
+	public static function &getInstance($extensionKey) {
 		if ($extensionKey == '') {
 			throw new Exception(
-				'tx_oelib_configuration_proxy: The extension key was not set'
+				'tx_oelib_configurationProxy: The extension key was not set.'
 			);
 		}
 
-		if (!is_object($this->instances[$extensionKey])) {
-			$this->instances[$extensionKey]
-				= new tx_oelib_configuration_proxy($extensionKey);
+		if (!is_object(self::$instances[$extensionKey])) {
+			self::$instances[$extensionKey]
+				= new tx_oelib_configurationProxy($extensionKey);
 		}
 
-		return $this->instances[$extensionKey];
+		return self::$instances[$extensionKey];
 	}
 
 	/**
@@ -235,8 +235,8 @@ class tx_oelib_configuration_proxy {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configuration_proxy.php']) {
-	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configuration_proxy.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']) {
+	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']);
 }
 
 ?>

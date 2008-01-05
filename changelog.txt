@@ -1,6 +1,6 @@
 0.4.0 - currently working on
-- [#1464] Fix: Include all needed libraries in the template helper so it can be used from the CLI
 - [#1183] Feature: Create an EM configuration proxy
+- [#1464] Fix: Include all needed libraries in the template helper so it can be used from the CLI
 - [#1459] Change: The testing framework should throw exceptions on errors instead of failing silently.
 - [#1440] Feature: Add functions in the testing framework to create dummy content elements
 - [#1419] Feature: Add functions in the testing framework to create dummy FE pages and dummy system folders
