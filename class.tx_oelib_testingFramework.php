@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_testingframework' for the 'oelib' extension.
+ * Class 'tx_oelib_testingFramework' for the 'oelib' extension.
  *
  * This is mere a class used for unit tests of the 'oelib' extension. Don't
  * use it for any other purpose.
@@ -33,7 +33,7 @@
  * @author		Mario Rimann <typo3-coding@rimann.org>
  */
 
-final class tx_oelib_testingframework {
+final class tx_oelib_testingFramework {
 	/** Prefix of the extension for which this instance of the testing framework was instantiated */
 	private $tablePrefix = '';
 
@@ -66,7 +66,7 @@ final class tx_oelib_testingframework {
 	 *
 	 * This testing framework can be instantiated for one extension at a time.
 	 * Example: In your testcase, you'll have something similar to this line of code:
-	 * $this->fixture = new tx_oelib_testingframework('tx_seminars');
+	 * $this->fixture = new tx_oelib_testingFramework('tx_seminars');
 	 * The parameter you provide is the prefix of the table names of that particular
 	 * extension. Like this, we ensure that the testing framework creates and
 	 * deletes records only on table with this prefix.
@@ -806,8 +806,8 @@ final class tx_oelib_testingframework {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminarst/tests/fixtures/class.tx_oelib_testingframework.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminars/tests/fixtures/class.tx_oelib_testingframework.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminarst/class.tx_oelib_testingFramework.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/seminars/class.tx_oelib_testingFramework.php']);
 }
 
 ?>

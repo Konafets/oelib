@@ -29,17 +29,16 @@
  * @author		Mario Rimann <typo3-coding@rimann.org>
  */
 
-require_once(t3lib_extMgm::extPath('oelib')
-	.'tests/fixtures/class.tx_oelib_testingframework.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 
 define('OELIB_TESTTABLE', 'tx_oelib_test');
 define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
 
-class tx_oelib_testingframework_testcase extends tx_phpunit_testcase {
+class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	protected function setUp() {
-		$this->fixture = new tx_oelib_testingframework('tx_oelib');
+		$this->fixture = new tx_oelib_testingFramework('tx_oelib');
 	}
 
 	protected function tearDown() {
