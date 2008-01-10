@@ -162,7 +162,7 @@ final class tx_oelib_testingFramework {
 	 * @param	integer		UID of the page on which the page should be created
 	 * @param	array		associative array that contains the data to save in
 	 * 						the new page, may be empty, but must not contain
-	 * 						the keys "uid" or "pid"
+	 * 						the keys "uid", "pid" or "doktype"
 	 *
 	 * @return	integer		the UID of the new page, will be > 0
 	 */
@@ -180,7 +180,7 @@ final class tx_oelib_testingFramework {
 	 * 						created
 	 * @param	array		associative array that contains the data to save in
 	 * 						the new page, may be empty, but must not contain
-	 * 						the keys "uid" or "pid"
+	 * 						the keys "uid", "pid" or "doktype"
 	 *
 	 * @return	integer		the UID of the new system folder, will be > 0
 	 */
@@ -202,7 +202,7 @@ final class tx_oelib_testingFramework {
 	 * 						created
 	 * @param	array		associative array that contains the data to save in
 	 * 						the record, may be empty, but must not contain the
-	 * 						keys "uid" or "pid"
+	 * 						keys "uid", "pid" or "doktype"
 	 *
 	 * @return	integer		the UID of the new record, will be > 0
 	 */
@@ -217,6 +217,11 @@ final class tx_oelib_testingFramework {
 		if (isset($recordData['pid'])) {
 			throw new Exception(
 				'The column "pid" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['doktype'])) {
+			throw new Exception(
+				'The column "doktype" must not be set in $recordData.'
 			);
 		}
 

@@ -1275,6 +1275,27 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
+	public function testFrontEndPageMustHaveNoZeroDoktype() {
+		try {
+			$this->fixture->createFrontEndPage(0, array('doktype' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndPageMustHaveNoNonZeroDoktype() {
+		try {
+			$this->fixture->createFrontEndPage(0, array('doktype' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
 
 	// ---------------------------------------------------------------------
 	// Tests regarding createSystemFolder()
@@ -1512,6 +1533,28 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testSystemFolderMustHaveNoNonZeroUid() {
 		try {
 			$this->fixture->createSystemFolder(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testSystemFolderMustHaveNoZeroDoktype() {
+		try {
+			$this->fixture->createSystemFolder(0, array('doktype' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testSystemFolderMustHaveNoNonZeroDoktype() {
+		try {
+			$this->fixture->createSystemFolder(0, array('doktype' => 99999));
 		} catch (Exception $expected) {
 			return;
 		}
