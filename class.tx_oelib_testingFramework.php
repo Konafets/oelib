@@ -25,8 +25,7 @@
 /**
  * Class 'tx_oelib_testingFramework' for the 'oelib' extension.
  *
- * This is mere a class used for unit tests of the 'oelib' extension. Don't
- * use it for any other purpose.
+ * This class provides various functions to handle dummy records in unit tests.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
@@ -272,6 +271,39 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'tt_content', $completeRecordData
+		);
+	}
+
+	/**
+	 * Creates a new page cache entry.
+	 *
+	 * @param	integer		UID of the page for which a cache entry should be
+	 * 						created, must be > 0
+	 * @param	array		associative array that contains the data to save
+	 * 						as an entry in "cache_pages", may be empty, but must
+	 * 						not contain the keys "page_id" or "id"
+	 *
+	 * @return	integer		the ID of the new cache entry, will be > 0
+	 */
+	public function createPageCacheEntry(
+		$pageId = 0, array $recordData = array()
+	) {
+		if (isset($recordData['id'])) {
+			throw new Exception(
+				'The column "id" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['page_id'])) {
+			throw new Exception(
+				'The column "page_id" must not be set in $recordData.'
+			);
+		}
+
+		$completeRecordData = $recordData;
+		$completeRecordData['page_id'] = $pageId;
+
+		return $this->createRecordWithoutTableNameChecks(
+			'cache_pages', $completeRecordData
 		);
 	}
 
@@ -540,7 +572,7 @@ final class tx_oelib_testingFramework {
 		}
 
 		$this->allowedSystemTables = array(
-			'fe_users', 'pages', 'tt_content'
+			'cache_pages', 'fe_users', 'pages', 'tt_content'
 		);
 	}
 

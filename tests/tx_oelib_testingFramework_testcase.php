@@ -1567,7 +1567,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding createContentElement()
 	// ---------------------------------------------------------------------
 
-	public function testContentElementCanBeenCreated() {
+	public function testContentElementCanBeCreated() {
 		$uid = $this->fixture->createContentElement();
 
 		$this->assertNotEquals(
@@ -1821,6 +1821,134 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testContentElementMustHaveNoNonZeroUid() {
 		try {
 			$this->fixture->createContentElement(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createCachePageEntry()
+	// ---------------------------------------------------------------------
+
+	public function testPageCacheEntryCanBeCreated() {
+		$id = $this->fixture->createPageCacheEntry();
+
+		$this->assertNotEquals(
+			0,
+			$id
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'cache_pages', 'id='.$id
+			)
+		);
+	}
+
+	public function testPageCacheEntryCanBeCreatedForACertainFrontEndPage() {
+		$parentUid = $this->fixture->createFrontEndPage();
+		$id = $this->fixture->createPageCacheEntry($parentUid);
+
+		$this->assertNotEquals(
+			0,
+			$id
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'page_id',
+			'cache_pages',
+			'id='.$id
+		);
+		if (!$dbResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+
+		$this->assertEquals(
+			$parentUid,
+			$row['page_id']
+		);
+	}
+
+	public function testCachePagesCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$id = $this->fixture->createPageCacheEntry();
+		$this->assertNotEquals(
+			0,
+			$id
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testCachePagesWillBeCleanedUp() {
+		$id = $this->fixture->createPageCacheEntry();
+		$this->assertNotEquals(
+			0,
+			$id
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'cache_pages', 'id='.$id
+			)
+		);
+	}
+
+	public function testPageCacheEntryMustHaveNoZeroId() {
+		try {
+			$this->fixture->createPageCacheEntry(0, array('id' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testPageCacheEntryMustHaveNoNonZeroId() {
+		try {
+			$this->fixture->createPageCacheEntry(0, array('id' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testPageCacheEntryMustHaveNoZeroPageId() {
+		try {
+			$this->fixture->createPageCacheEntry(0, array('page_id' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testPageCacheEntryMustHaveNoNonZeroPageId() {
+		try {
+			$this->fixture->createPageCacheEntry(0, array('page_id' => 99999));
 		} catch (Exception $expected) {
 			return;
 		}
