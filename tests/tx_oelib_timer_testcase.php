@@ -66,6 +66,14 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testStatisticsTableContainsTableHeadersWithScope() {
+		$this->fixture->openBucket();
+		$statisticsAsHtml = $this->fixture->getStatistics();
+		$this->assertContains(
+			'<th scope="col">', $statisticsAsHtml
+		);
+	}
+
 	public function testStatisticsForDefaultBucketWithDelay() {
 		$this->fixture->openBucket();
 		// Sleeps 100000 microseconds (= 1/10 second).

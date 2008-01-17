@@ -169,7 +169,8 @@ class tx_oelib_timer {
 		$result .= '<table summary="statistics">'.LF;
 		$result .= '  <thead>'.LF;
 		$result .= '    <tr>'.LF;
-		$result .= '      <th>Total time</th><th>'.$this->allTime
+		$result .= '      <th scope="col">Total time</th>'
+			.'<th scope="col">'.$this->allTime
 			.'&nbsp;s</th><th>100&nbsp;%</th>'.LF;
 		$result .= '    </tr>'.LF;
 		$result .= '  </thead>'.LF;
