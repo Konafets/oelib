@@ -66,9 +66,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStatisticsForDefaultBucket() {
+	public function testStatisticsForDefaultBucketWithDelay() {
 		$this->fixture->openBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
@@ -86,9 +86,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStatisticsForDefaultBucketUsingShortcut() {
+	public function testStatisticsForDefaultBucketWithDelayUsingShortcut() {
 		tx_oelib_timer::oB();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
@@ -106,9 +106,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStatisticsForOneBucket() {
+	public function testStatisticsForOneBucketWithDelay() {
 		$this->fixture->openBucket('test');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
@@ -123,9 +123,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStatisticsForOneBucketUsingShortcut() {
+	public function testStatisticsForOneBucketWithDelayUsingShortcut() {
 		tx_oelib_timer::oB('test');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
@@ -153,22 +153,19 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testStopTimer() {
 		$this->fixture->openBucket('test');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->stopTimer();
-		// Sleep 200000 microseconds (= 2/10 second).
-		usleep(200000);
+		// Sleeps 100000 microseconds (= 1/10 second).
+		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .05
+			0, $statistics[0]['absoluteTime'], '', .05
 		);
 	}
 
 	public function testStatisticsCloseAllBuckets() {
 		$this->fixture->openBucket('test');
-		// Sleep 10000 microseconds (= 1/100 second).
-		usleep(10000);
 		$statistics = $this->fixture->getStatistics();
+		// Sleeps 10000 microseconds (= 1/100 second).
 		usleep(10000);
 		$this->assertEquals(
 			$statistics, $this->fixture->getStatistics()
@@ -177,11 +174,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testStatisticsForTwoSecondIsBigger() {
 		$this->fixture->openBucket('test_1');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->openBucket('test_2');
-		// Sleep 200000 microseconds (= 2/10 second).
-		usleep(200000);
+		// Sleeps 10000 microseconds (= 1/100 second).
+		usleep(10000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$this->assertEquals(
 			2, count($statistics)
@@ -196,13 +191,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testStatisticsForTwoBucketsReopenFirst() {
 		$this->fixture->openBucket('test_1');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->openBucket('test_2');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->openBucket('test_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$this->assertEquals(
@@ -218,8 +209,6 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testHtmlSpecialCharsForBucketName() {
 		$this->fixture->openBucket('foo&bar');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$this->assertEquals(
 			'foo&bar', $statistics[0]['bucketName']
@@ -246,9 +235,6 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testReturnFromNoBucketDoesNotOpenAnyBuckets() {
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
-
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
 		$this->assertTrue(
@@ -261,11 +247,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testReturnFromFirstBucketClosesBucketAndStopsTimer() {
 		$this->fixture->openBucket('test');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 200000 microseconds (= 2/10 second).
-		usleep(200000);
+		// Sleeps 100000 microseconds (= 1/10 second).
+		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
@@ -273,19 +257,17 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			1, count($statistics)
 		);
 		$this->assertEquals(
-			.1, $statistics[0]['absoluteTime'], '', .04
+			0, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
 
 	public function testReturnFromSecondBucketReopensFirstBucket() {
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_2');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -300,19 +282,17 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .04
+			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
 	public function testReturnFromSecondBucketReopensFirstBucketUsingShortcut() {
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_2');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		tx_oelib_timer::rB();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -327,23 +307,19 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .04
+			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
 	public function testReturnFromThirdBucketTwoTimesReopensFirstBucket() {
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_2');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->openBucket('bucket_3');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -361,14 +337,12 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 
 	public function testReturnFromSecondBucketClosesBucketAndStopsTimer() {
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_2');
-		// Sleep 100000 microseconds (= 1/10 second).
-		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -380,20 +354,20 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
 		$this->assertEquals(
-			.1, $statistics[1]['absoluteTime'], '', .04
+			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
 
 	public function testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket() {
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_1');
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->returnToPreviousBucket();
 		$this->fixture->returnToPreviousBucket();
-		// Sleep 100000 microseconds (= 1/10 second).
+		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
