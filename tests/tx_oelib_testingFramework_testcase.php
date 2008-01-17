@@ -516,8 +516,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRelationWithZeroFirstUid() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, 99999);
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
 		} catch (Exception $expected) {
 			return;
 		}
@@ -527,8 +528,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRelationWithZeroSecondUid() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 99999, 0);
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
 		} catch (Exception $expected) {
 			return;
 		}
@@ -604,8 +606,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRemoveRelationOnInexistentRecord() {
-		$uidLocal = 99999;
-		$uidForeign = 199999;
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $uid + 1;
+		$uidForeign = $uid + 2;
 
 		// Checks that the record is inexistent before testing on it.
 		$this->assertEquals(
@@ -669,8 +672,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRemoveRelationOnRealRecord() {
-		$uidLocal = 99999;
-		$uidForeign = 199999;
+		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);;
 
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.

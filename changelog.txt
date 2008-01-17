@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1422] Fix: Change tx_oelib_testingframework_testcase::testRemoveRelationOnRealRecord()
 - [#1537] Change: Make the timer tests run faster
 - [#1490] Change: Make "cache_pages" an allowed table
 - [#1489] Change: The column "doktype" should not be allowed in createFrontEndPage and createSystemFolder
