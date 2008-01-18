@@ -71,8 +71,6 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 		}
 
 		$this->pi_loadLL();
-
-		return;
 	}
 
 	/**
@@ -101,8 +99,6 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 		}
 
 		$this->pi_loadLL();
-
-		return;
 	}
 
 	/**
@@ -124,7 +120,6 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	 */
 	public function setSalutationMode($salutation) {
 		$this->conf['salutation'] = $salutation;
-		return;
 	}
 
 	/**

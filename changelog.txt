@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1541] Change: Remove the return; for functions that do not return anything
 - [#1335] Change: Add scope="col" to the timer results table
 - [#1422] Fix: Change tx_oelib_testingframework_testcase::testRemoveRelationOnRealRecord()
 - [#1537] Change: Make the timer tests run faster

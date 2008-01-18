@@ -95,8 +95,6 @@ class tx_oelib_configcheck {
 	 */
 	function setFlavor($flavor) {
 		$this->flavor = $flavor;
-
-		return;
 	}
 
 	/**
@@ -176,8 +174,6 @@ class tx_oelib_configcheck {
 				'No configuration check '.$checkFunctionName.' created yet.'
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -200,8 +196,6 @@ class tx_oelib_configcheck {
 		if (!empty($message) && empty($this->errorText)) {
 			$this->errorText = $message;
 		}
-
-		return;
 	}
 
 	/**
@@ -226,8 +220,6 @@ class tx_oelib_configcheck {
 		}
 		$message .= '.';
 		$this->setErrorMessage($message);
-
-		return;
 	}
 
 	/**
@@ -310,8 +302,6 @@ class tx_oelib_configcheck {
 					.'template.'
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -352,8 +342,6 @@ class tx_oelib_configcheck {
 				$this->setErrorMessage($message);
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -396,7 +384,6 @@ class tx_oelib_configcheck {
 				$this->setErrorMessage($message);
 			}
 		}
-		return;
 	}
 
 	/**
@@ -458,10 +445,8 @@ class tx_oelib_configcheck {
 					.$this->getTSSetupPath().$setupVariable
 					.'</strong> to a valid CSS class or an empty string.';
 				$this->setErrorMessage($message);
-			};
+			}
 		}
-
-		return;
 	}
 
 
@@ -484,8 +469,6 @@ class tx_oelib_configcheck {
 			$canUseFlexforms,
 			$explanation
 		);
-
-		return;
 	}
 
 	/**
@@ -512,8 +495,6 @@ class tx_oelib_configcheck {
 				$message
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -542,7 +523,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$allowedValues
 		);
-		return;
 	}
 
 	/**
@@ -568,8 +548,6 @@ class tx_oelib_configcheck {
 				$allowedValues
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -602,8 +580,6 @@ class tx_oelib_configcheck {
 				$message
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -624,8 +600,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			array('0', '1')
 		);
-
-		return;
 	}
 
 	/**
@@ -654,8 +628,6 @@ class tx_oelib_configcheck {
 				$message
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -741,8 +713,6 @@ class tx_oelib_configcheck {
 				$message
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -765,8 +735,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-
-		return;
 	}
 
 	/**
@@ -795,8 +763,6 @@ class tx_oelib_configcheck {
 				$message
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -870,7 +836,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$allowedValues
 		);
-		return;
 	}
 
 	/**
@@ -912,8 +877,6 @@ class tx_oelib_configcheck {
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -936,7 +899,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$this->getDbColumnNames($tableName)
 		);
-		return;
 	}
 
 	/**
@@ -959,7 +921,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$this->getDbColumnNames($tableName)
 		);
-		return;
 	}
 
 	/**
@@ -982,7 +943,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$this->getDbColumnNames($tableName)
 		);
-		return;
 	}
 
 	/**
@@ -1005,7 +965,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$this->getDbColumnNames($tableName)
 		);
-		return;
 	}
 
 	/**
@@ -1025,8 +984,6 @@ class tx_oelib_configcheck {
 				.'at all.',
 			array('formal', 'informal')
 		);
-
-		return;
 	}
 
 	/**
@@ -1090,9 +1047,7 @@ class tx_oelib_configcheck {
 				$canUseFlexforms,
 				$message
 			);
-		};
-
-		return;
+		}
 	}
 
 	/**
@@ -1121,8 +1076,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$regExp
 		);
-
-		return;
 	}
 
 	/**
@@ -1144,8 +1097,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			'/^([0-9]+(,( *)[0-9]+)*)?$/'
 		);
-
-		return;
 	}
 
 	/**
@@ -1172,8 +1123,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-
-		return;
 	}
 
 	/**
@@ -1200,7 +1149,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1227,7 +1175,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1249,7 +1196,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1282,7 +1228,6 @@ class tx_oelib_configcheck {
 			$message,
 			'<199'
 		);
-		return;
 	}
 
 	/**
@@ -1309,7 +1254,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1336,7 +1280,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1363,7 +1306,6 @@ class tx_oelib_configcheck {
 			$sheet,
 			$explanation
 		);
-		return;
 	}
 
 	/**
@@ -1398,7 +1340,6 @@ class tx_oelib_configcheck {
 			$message,
 			'=254'
 		);
-		return;
 	}
 
 	/**
@@ -1460,8 +1401,6 @@ class tx_oelib_configcheck {
 				}
 			}
 		}
-
-		return;
 	}
 
 	/**
@@ -1480,7 +1419,6 @@ class tx_oelib_configcheck {
 				.'configuration in your TS template.');
 			}
 		}
-		return;
 	}
 
 	/**
@@ -1535,8 +1473,6 @@ class tx_oelib_configcheck {
 					.'will not work correctly.'
 			);
 		}
-
-		return;
 	}
 
 	/**
@@ -1566,8 +1502,6 @@ class tx_oelib_configcheck {
 			$explanation,
 			$allowedValues
 		);
-
-		return;
 	}
 
 	/**
@@ -1588,9 +1522,8 @@ class tx_oelib_configcheck {
 			$fieldSubPath,
 			false,
 			'',
-			$explanation);
-
-		return;
+			$explanation
+		);
 	}
 }
 
