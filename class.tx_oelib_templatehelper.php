@@ -124,36 +124,18 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			// automatically.
 			parent::tslib_pibase();
 
-			if ($conf !== null) {
+			if (is_array($conf)) {
 				$this->conf = $conf;
 			} else {
 				// We need to create our own template setup if we are in the BE
 				// and we aren't currently creating a DirectMail page.
 				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
-					$pageId = intval(t3lib_div::_GP('id'));
+					$pageId = $this->getCurrentBePageId();
 
 					if (isset($cachedConfigs[$pageId])) {
 						$this->conf =& $cachedConfigs[$pageId];
 					} else {
-						$template = t3lib_div::makeInstance('t3lib_TStemplate');
-						// do not log time-performance information
-						$template->tt_track = 0;
-						$template->init();
-
-						// Get the root line
-						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-						// the selected page in the BE is found
-						// exactly as in t3lib_SCbase::init()
-						$rootline = $sys_page->getRootLine(
-							$this->getCurrentBePageId()
-						);
-
-						// This generates the constants/config + hierarchy info
-						// for the template.
-						$template->runThroughTemplates($rootline, 0);
-						$template->generateConfig();
-
-						$this->conf =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+						$this->conf =& $this->retrievePageConfig($pageId);
 						$cachedConfigs[$pageId] =& $this->conf;
 					}
 
@@ -193,6 +175,46 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			$this->isInitialized = true;
 		}
+	}
+
+	/**
+	 * Retrieves the configuration (TS setup) of the page with the PID provided
+	 * as the parameter $pageId.
+	 *
+	 * Only the configuration for the current extension key will be retrieved.
+	 * For example, if the extension key is "foo", the TS setup for plugin.
+	 * tx_foo will be retrieved.
+	 *
+	 * @param	integer		page ID of the page for which the configuration
+	 * 						should be retrieved, must be > 0
+	 *
+	 * @return	array		configuration array of the requested page for the
+	 * 						current extension key
+	 *
+	 * @access	protected
+	 */
+	function &retrievePageConfig($pageId) {
+		$template = t3lib_div::makeInstance('t3lib_TStemplate');
+		// Disables the logging of time-performance information.
+		$template->tt_track = 0;
+		$template->init();
+
+		// Gets the root line.
+		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
+		$rootline = $sys_page->getRootLine($pageId);
+
+		// Generates the constants/config and hierarchy info for the template.
+		$template->runThroughTemplates($rootline, 0);
+		$template->generateConfig();
+
+		if (isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])) {
+			$result = $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+		} else {
+			$result = array();
+		}
+
+		return $result;
 	}
 
 	/**

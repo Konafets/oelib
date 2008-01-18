@@ -29,30 +29,31 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib')
-	.'tests/fixtures/class.tx_oelib_templatehelperchild.php');
+require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $fixture;
+	private $testingFramework;
 
 	private $originalGlobalsTt;
 	private $originalGlobalsTsfeSysPage;
-	private $originalCObj;
 
 	protected function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 		$this->fixture = new tx_oelib_templatehelperchild(array());
 
 		$this->originalGlobalsTt = $GLOBALS['TT'];
 		$this->originalGlobalsTsfeSysPage = $GLOBALS['TSFE']->sys_page;
-		$this->originalCObj = $this->fixture->cObj;
 	}
 
 	protected function tearDown() {
-		unset($this->fixture);
+		$this->testingFramework->cleanUp();
 
 		$GLOBALS['TT'] = $this->originalGlobalsTt;
 		$GLOBALS['TSFE']->sys_page = $this->originalGlobalsTsfeSysPage;
-		$this->fixture->cObj = $this->originalCObj;
+
+		unset($this->fixture);
+		unset($this->testingFramework);
 	}
 
 
@@ -2480,6 +2481,19 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertNotEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+
+	///////////////////////////////////////////////////
+	// Tests concerning TS templates.
+	///////////////////////////////////////////////////
+
+	public function testPageSetupInitallyIsEmpty() {
+		$pageId = $this->testingFramework->createFrontEndPage();
+		$this->assertEquals(
+			array(),
+			$this->fixture->retrievePageConfig($pageId)
 		);
 	}
 }

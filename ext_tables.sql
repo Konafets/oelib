@@ -23,6 +23,14 @@ CREATE TABLE pages (
 
 
 #
+# Table structure for table 'sys_template'
+#
+CREATE TABLE sys_template (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+);
+
+
+#
 # Table structure for table 'tt_content'
 #
 CREATE TABLE tt_content (

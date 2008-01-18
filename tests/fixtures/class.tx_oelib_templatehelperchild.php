@@ -96,15 +96,29 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	public function translate($key, $alternativeString = '',
 		$useHtmlSpecialChars = false
 	) {
-		$result = '';
-
-		$result = parent::translate(
+		return parent::translate(
 			$key,
 			$alternativeString,
 			$useHtmlSpecialChars
 		);
+	}
 
-		return $result;
+	/**
+	 * Retrieves the configuration (TS setup) of the page with the PID provided
+	 * as the parameter $pageId.
+	 *
+	 * Only the configuration for the current extension key will be retrieved.
+	 * For example, if the extension key is "foo", the TS setup for plugin.
+	 * tx_foo will be retrieved.
+	 *
+	 * @param	integer		page ID of the page for which the configuration
+	 * 						should be retrieved, must be > 0
+	 *
+	 * @return	array		configuration array of the requested page for the
+	 * 						current extension key
+	 */
+	public function &retrievePageConfig($pageId) {
+		return parent::retrievePageConfig($pageId);
 	}
 }
 

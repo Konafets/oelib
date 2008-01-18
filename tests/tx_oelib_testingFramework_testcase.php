@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 define('OELIB_TESTTABLE', 'tx_oelib_test');
 define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
@@ -1382,6 +1383,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 
+
 	// ---------------------------------------------------------------------
 	// Tests regarding createSystemFolder()
 	// ---------------------------------------------------------------------
@@ -1604,6 +1606,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Fails the test if the expected exception was not raised above.
 		$this->fail('The expected exception was not caught!');
 	}
+
 
 
 	// ---------------------------------------------------------------------
@@ -1935,6 +1938,243 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testPageCacheEntryMustHaveNoNonZeroPageId() {
 		try {
 			$this->fixture->createPageCacheEntry(0, array('page_id' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createTemplate()
+	// ---------------------------------------------------------------------
+
+	public function testTemplateCanBeCreatedOnNonRootPage() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate($pageId);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'sys_template', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testTemplateCannotBeCreatedOnRootPage() {
+		try {
+			$this->fixture->createTemplate(0);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testTemplateCannotBeCreatedWithNegativePageNumber() {
+		try {
+			$this->fixture->createTemplate(-1);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testTemplateCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate($pageId);
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testTemplateWillBeCleanedUp() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate($pageId);
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'sys_template', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testTemplateInitiallyHasNoConfig() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate($pageId);
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'config',
+				'sys_template',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'',
+			$row['config']
+		);
+	}
+
+	public function testTemplateCanHaveConfig() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate(
+			$pageId,
+			array('config' => 'plugin.tx_oelib.test = 1')
+		);
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'config',
+				'sys_template',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'plugin.tx_oelib.test = 1',
+			$row['config']
+		);
+	}
+
+	public function testTemplateConfigIsReadableAsTsTemplate() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$this->fixture->createTemplate(
+			$pageId,
+			array('config' => 'plugin.tx_oelib.test = 42')
+		);
+		$templateHelper = new tx_oelib_templatehelperchild(array());
+		$configuration = $templateHelper->retrievePageConfig($pageId);
+
+		$this->assertTrue(
+			isset($configuration['test'])
+		);
+		$this->assertEquals(
+			'42',
+			$configuration['test']
+		);
+	}
+
+	public function testTemplateInitiallyHasNoConstants() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate($pageId);
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'constants',
+				'sys_template',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'',
+			$row['constants']
+		);
+	}
+
+	public function testTemplateCanHaveConstants() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$uid = $this->fixture->createTemplate(
+			$pageId,
+			array('constants' => 'plugin.tx_oelib.test = 1')
+		);
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'constants',
+				'sys_template',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'plugin.tx_oelib.test = 1',
+			$row['constants']
+		);
+	}
+
+	public function testTemplateConstantsAreUsedInTsSetup() {
+		$pageId = $this->fixture->createFrontEndPage();
+		$this->fixture->createTemplate(
+			$pageId,
+			array(
+				'constants' => 'plugin.tx_oelib.test = 42',
+				'config' => 'plugin.tx_oelib.test = {$plugin.tx_oelib.test}'
+			)
+		);
+		$templateHelper = new tx_oelib_templatehelperchild(array());
+		$configuration = $templateHelper->retrievePageConfig($pageId);
+
+		$this->assertTrue(
+			isset($configuration['test'])
+		);
+		$this->assertEquals(
+			'42',
+			$configuration['test']
+		);
+	}
+
+	public function testTemplateMustNotHaveAZeroPid() {
+		try {
+			$this->fixture->createTemplate(0, array('pid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testTemplateMustNotHaveANonZeroPid() {
+		try {
+			$this->fixture->createTemplate(0, array('pid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testTemplateMustHaveNoZeroUid() {
+		try {
+			$this->fixture->createTemplate(0, array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testTemplateMustNotHaveANonZeroUid() {
+		try {
+			$this->fixture->createTemplate(0, array('uid' => 99999));
 		} catch (Exception $expected) {
 			return;
 		}

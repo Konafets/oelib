@@ -30,6 +30,8 @@
  * @package		TYPO3
  * @subpackage	tx_oelib
  * @author		Mario Rimann <typo3-coding@rimann.org>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
 final class tx_oelib_testingFramework {
@@ -43,7 +45,9 @@ final class tx_oelib_testingFramework {
 	 * Array of all sytem table names to which this instance of the testing
 	 * framework has access.
 	 */
-	private $allowedSystemTables = array();
+	private $allowedSystemTables = array(
+		'cache_pages', 'fe_users', 'pages', 'sys_template', 'tt_content'
+	);
 
 	/**
 	 * Array of all "dirty" non-system tables (i.e. all tables that were used
@@ -304,6 +308,45 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'cache_pages', $completeRecordData
+		);
+	}
+
+	/**
+	 * Creates a template on the page with the UID given by the first parameter
+	 * $pageId.
+	 *
+	 * @param	integer		UID of the page on which the template should be
+	 * 						created, must be > 0
+	 * @param	array		associative array that contains the data to save in
+	 * 						the new template, may be empty, but must not contain
+	 * 						the keys "uid" or "pid"
+	 *
+	 * @return	integer		the UID of the new template, will be > 0
+	 */
+	public function createTemplate(
+		$pageId, array $recordData = array()
+	) {
+		if ($pageId <= 0) {
+			throw new Exception(
+				'$pageId must be > 0.'
+			);
+		}
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['pid'])) {
+			throw new Exception(
+				'The column "pid" must not be set in $recordData.'
+			);
+		}
+
+		$completeRecordData = $recordData;
+		$completeRecordData['pid'] = $pageId;
+
+		return $this->createRecordWithoutTableNameChecks(
+			'sys_template', $completeRecordData
 		);
 	}
 
@@ -570,10 +613,6 @@ final class tx_oelib_testingFramework {
 				$this->allowedTables[] = $currentTableName;
 			}
 		}
-
-		$this->allowedSystemTables = array(
-			'cache_pages', 'fe_users', 'pages', 'tt_content'
-		);
 	}
 
 	/**
