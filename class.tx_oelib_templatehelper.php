@@ -120,7 +120,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$GLOBALS['TSFE']->config['config'] = array();
 			}
 
-			// Call the base class's constructor manually as this isn't done
+			// Calls the base class's constructor manually as this isn't done
 			// automatically.
 			parent::tslib_pibase();
 
@@ -157,7 +157,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 						$cachedConfigs[$pageId] =& $this->conf;
 					}
 
-					// Initialize the back end locallang object.
+					// Initializes the back end locallang object.
 					$this->LANG = t3lib_div::makeInstance('language');
 					$this->LANG->init($BE_USER->uc['lang']);
 				} else {

@@ -1381,6 +1381,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
+
 	// ---------------------------------------------------------------------
 	// Tests regarding createSystemFolder()
 	// ---------------------------------------------------------------------
@@ -1604,6 +1605,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
+
 	// ---------------------------------------------------------------------
 	// Tests regarding createContentElement()
 	// ---------------------------------------------------------------------
@@ -1819,6 +1821,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Fails the test if the expected exception was not raised above.
 		$this->fail('The expected exception was not caught!');
 	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding createCachePageEntry()
