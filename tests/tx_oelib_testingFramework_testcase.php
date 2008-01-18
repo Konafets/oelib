@@ -75,6 +75,107 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding markTableAsDirty()
+	// ---------------------------------------------------------------------
+
+	public function testMarkTableAsDirtyWillCleanUpANonSystemTable() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			OELIB_TESTTABLE,
+			array(
+				'is_dummy_record' => 1
+			)
+		);
+
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->markTableAsDirty(OELIB_TESTTABLE);
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
+		);
+	}
+
+	public function testMarkTableAsDirtyWillCleanUpASystemTable() {
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'pages',
+			array(
+				'tx_oelib_is_dummy_record' => 1
+			)
+		);
+
+		if (!$dbResult) {
+			$this->fail('There was an error with the database query.');
+		}
+
+		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->markTableAsDirty('pages');
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords('pages', 'uid='.$uid)
+		);
+	}
+
+	public function testMarkTableAsDirtyFailsOnInexistentTable() {
+		try {
+			$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testMarkTableAsDirtyFailsOnNotAllowedSystemTable() {
+		try {
+			$this->fixture->markTableAsDirty('sys_domain');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testMarkTableAsDirtyFailsOnForeignTable() {
+		try {
+			$this->fixture->markTableAsDirty('tx_seminars_seminars');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testMarkTableAsDirtyFailsWithEmptyTableName() {
+		try {
+			$this->fixture->markTableAsDirty('');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding createRecord()
 	// ---------------------------------------------------------------------
 

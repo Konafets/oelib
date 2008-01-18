@@ -771,11 +771,16 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param	string		the table name to put on the list of dirty tables
 	 */
-	private function markTableAsDirty($table) {
-		if ($this->isSystemTableNameAllowed($table)) {
+	public function markTableAsDirty($table) {
+		if ($this->isTableNameAllowed($table)) {
+			$this->dirtyTables[$table] = $table;
+		} elseif ($this->isSystemTableNameAllowed($table)) {
 			$this->dirtySystemTables[$table] = $table;
 		} else {
-			$this->dirtyTables[$table] = $table;
+			throw new Exception(
+				'The table name "'.$table
+					.'" is not allowed for markTableAsDirty.'
+			);
 		}
 	}
 

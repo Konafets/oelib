@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1545] Change: markTableAsDirty should be public
 - [#1507] Feature: Add a utility function for getting associative DB results
 - [#1541] Change: Remove the return; for functions that do not return anything
 - [#1335] Change: Add scope="col" to the timer results table
