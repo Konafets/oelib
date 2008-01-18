@@ -5,7 +5,7 @@
 - [#1335] Change: Add scope="col" to the timer results table
 - [#1422] Fix: Change tx_oelib_testingframework_testcase::testRemoveRelationOnRealRecord()
 - [#1537] Change: Make the timer tests run faster
-- [#1490] Change: Make "cache_pages" an allowed table
+- [#1490] Feature: Make "cache_pages" an allowed table
 - [#1489] Change: The column "doktype" should not be allowed in createFrontEndPage and createSystemFolder
 - [#1471] Change: Move the testing framework from tests/fixtures/ to the oelib main directory and rename it
 - [#1470] Change: Include the BE template file
