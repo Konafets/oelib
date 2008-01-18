@@ -62,23 +62,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	 * @return	integer		the sorting value of the relation
 	 */
 	private function getSortingOfRelation($uidLocal, $uidForeign) {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'sorting',
-			OELIB_TESTTABLE_MM,
-			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'sorting',
+				OELIB_TESTTABLE_MM,
+				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+			)
 		);
-
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 
 		return $row['sorting'];
 	}
@@ -108,20 +98,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			OELIB_TESTTABLE,
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				OELIB_TESTTABLE,
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			$this->fail('There was an error with the result of the database query.');
-		}
 		$this->assertEquals(
 			$title,
 			$row['title']
@@ -180,20 +164,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('title' => 'bar')
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			OELIB_TESTTABLE,
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				OELIB_TESTTABLE,
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			$this->fail('There was an error with the result of the database query.');
-		}
 		$this->assertEquals(
 			'bar',
 			$row['title']
@@ -829,6 +807,56 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding getAssociativeDatabaseResult()
+	// ---------------------------------------------------------------------
+
+	public function testGetAssociativeDatabaseResultFailsIfResourceIsFalse() {
+		try {
+			$this->fixture->getAssociativeDatabaseResult(false);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testGetAssociativeDatabaseResultFailsIfDataBaseResultIsEmpty() {
+		$uid = $this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => '')
+		);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'title',
+			OELIB_TESTTABLE,
+			'uid='.$uid.' AND title="foo"'
+		);
+
+		try {
+			$this->fixture->getAssociativeDatabaseResult($dbResult);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testGetAssociativeDatabaseResultSucceedsForNonEmptyResults() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			OELIB_TESTTABLE,
+			'uid='.$uid
+		);
+
+		$this->assertEquals(
+			array('uid' => $uid),
+			$this->fixture->getAssociativeDatabaseResult($dbResult)
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding countRecords()
 	// ---------------------------------------------------------------------
 
@@ -923,17 +951,12 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks whether the reset of the auto increment value worked as it
 		// should. After the reset, the auto increment index should be equal
 		// to the UID of the record we created and deleted before.
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'SHOW TABLE STATUS WHERE Name=\''.OELIB_TESTTABLE.'\';'
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->sql_query(
+				'SHOW TABLE STATUS WHERE Name=\''.OELIB_TESTTABLE.'\';'
+			)
 		);
-		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
-		}
 
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			$this->fail('There was an error with the result of the database query.');
-		}
 		$this->assertEquals(
 			$latestUid,
 			$row['Auto_increment']
@@ -1062,23 +1085,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'doktype',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'doktype',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			1,
 			$row['doktype']
@@ -1093,23 +1107,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			0,
 			$row['pid']
@@ -1125,23 +1130,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			$parent,
 			$row['pid']
@@ -1183,23 +1179,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testFrontEndPageHasNoTitleByDefault() {
 		$uid = $this->fixture->createFrontEndPage();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'pages',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'',
 			$row['title']
@@ -1211,23 +1199,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			array('title' => 'Test title')
 		);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'pages',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'Test title',
 			$row['title']
@@ -1328,23 +1308,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'doktype',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'doktype',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			254,
 			$row['doktype']
@@ -1359,23 +1330,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			0,
 			$row['pid']
@@ -1391,23 +1353,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'pages',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			$parent,
 			$row['pid']
@@ -1449,23 +1402,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testSystemFolderHasNoTitleByDefault() {
 		$uid = $this->fixture->createSystemFolder();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'pages',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'',
 			$row['title']
@@ -1477,23 +1422,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			array('title' => 'Test title')
 		);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'title',
-			'pages',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'pages',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'Test title',
 			$row['title']
@@ -1594,23 +1531,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tt_content',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			0,
 			$row['pid']
@@ -1626,23 +1554,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'pid',
-			'tt_content',
-			'uid='.$uid
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'pid',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			$parent,
 			$row['pid']
@@ -1684,23 +1603,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testContentElementHasNoHeaderByDefault() {
 		$uid = $this->fixture->createContentElement();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'header',
-			'tt_content',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'header',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'',
 			$row['header']
@@ -1712,23 +1623,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			array('header' => 'Test header')
 		);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'header',
-			'tt_content',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'header',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'Test header',
 			$row['header']
@@ -1737,23 +1640,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testContentElementIsTextElementByDefault() {
 		$uid = $this->fixture->createContentElement();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'CType',
-			'tt_content',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'CType',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'text',
 			$row['CType']
@@ -1765,23 +1660,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			array('CType' => 'list')
 		);
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'CType',
-			'tt_content',
-			'uid='.$uid
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'CType',
+				'tt_content',
+				'uid='.$uid
+			)
 		);
 
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$this->assertEquals(
 			'list',
 			$row['CType']
@@ -1861,21 +1748,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$id
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'page_id',
-			'cache_pages',
-			'id='.$id
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'page_id',
+				'cache_pages',
+				'id='.$id
+			)
 		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 
 		$this->assertEquals(
 			$parentUid,

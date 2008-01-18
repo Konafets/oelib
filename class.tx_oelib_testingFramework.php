@@ -624,6 +624,29 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
+	 * Retrieves a database result row as an associative array.
+	 *
+	 * @param	mixed	either a DB query result resource or false (for failed
+	 * 					queries)
+	 *
+	 * @return	array	the database result as an associative array
+	 */
+	public function getAssociativeDatabaseResult($queryResult) {
+		if (!$queryResult) {
+			throw new Exception('There was an error with the database query.');
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
+		if (!$row) {
+			throw new Exception(
+				'There was an error with the result of the database query.'
+			);
+		}
+
+		return $row;
+	}
+
+	/**
 	 * Counts the records on the table given by the first parameter $table that
 	 * match a given WHERE clause.
 	 *
@@ -644,20 +667,13 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'COUNT(*) AS number',
-			$table,
-			$whereClause
+		$row = $this->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'COUNT(*) AS number',
+				$table,
+				$whereClause
+			)
 		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 
 		return intval($row['number']);
 	}
@@ -688,18 +704,11 @@ final class tx_oelib_testingFramework {
 		}
 
 		// Searches for the record with the highest UID in this table.
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'SELECT MAX(uid) AS uid FROM '.$table.';'
+		$row = $this->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->sql_query(
+				'SELECT MAX(uid) AS uid FROM '.$table.';'
+			)
 		);
-		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
-		}
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
-		}
 		$newAutoIncrementValue = $row['uid'] + 1;
 
 		// Updates the auto increment index for this table. The index will be set
