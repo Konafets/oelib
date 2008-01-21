@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1552] Feature: Add an extension icon
 - [#1520] Feature: Allow to create dummy template records
 - [#1545] Change: markTableAsDirty should be public
 - [#1507] Feature: Add a utility function for getting associative DB results
