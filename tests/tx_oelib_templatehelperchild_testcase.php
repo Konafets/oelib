@@ -1299,6 +1299,59 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSubpartIsInvisibleIfTheSubpartNameIsEmpty() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->assertFalse(
+			$this->fixture->isSubpartVisible('')
+		);
+	}
+
+	public function testNoExistentSubpartIsInvisible() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->assertFalse(
+			$this->fixture->isSubpartVisible('FOO')
+		);
+	}
+
+	public function testSubpartIsVisibleByDefault() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->assertTrue(
+			$this->fixture->isSubpartVisible('MY_SUBPART')
+		);
+	}
+
+	public function testSubpartIsNotVisibleAfterHiding() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->assertFalse(
+			$this->fixture->isSubpartVisible('MY_SUBPART')
+		);
+	}
+
+	public function testSubpartIsVisibleAfterHidingAndUnhiding() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->'
+				.'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->unhideSubparts('MY_SUBPART');
+		$this->assertTrue(
+			$this->fixture->isSubpartVisible('MY_SUBPART')
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests for setting subparts.

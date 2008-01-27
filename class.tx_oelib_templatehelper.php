@@ -738,6 +738,28 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Checks whether a subpart is visible.
+	 *
+	 * Note: If the subpart to check does not exist, this function will return
+	 * false.
+	 *
+	 * @param	string		name of the subpart to check (without the ###), must
+	 * 						not be empty
+	 *
+	 * @return	boolean		true if the subpart is visible, false otherwise
+	 *
+	 * @access	pulic
+	 */
+	function isSubpartVisible($subpartName) {
+		if ($subpartName == '') {
+			return false;
+		}
+
+		return (isset($this->templateCache[$subpartName])
+			&& !isset($this->subpartsToHide[$subpartName]));
+	}
+
+	/**
 	 * Takes a comma-separated list of subpart names and writes them to
 	 * $this->subpartsToHide. In the process, the names are changed from 'aname'
 	 * to '###BLA_ANAME###' and used as keys. The corresponding values in the
@@ -867,9 +889,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$currentMarkerName = $this->createMarkerNameWithoutHashes(
 					$currentSubpartName, $prefix
 				);
-				if (isset($this->subpartsToHide[$currentMarkerName])) {
-					unset($this->subpartsToHide[$currentMarkerName]);
-				}
+				unset($this->subpartsToHide[$currentMarkerName]);
 			}
 		}
 	}
@@ -1075,10 +1095,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function getSubpart($key = '') {
-		if (($key != '') && isset($this->subpartsToHide[$key])) {
-			return '';
-		}
-
 		if (($key != '') && !isset($this->templateCache[$key])) {
 			$this->setErrorMessage('The subpart <strong>'.$key.'</strong> is '
 				.'missing in the HTML template file <strong>'
@@ -1092,6 +1108,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				.'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
 			);
 
+			return '';
+		}
+
+		if (($key != '') && !$this->isSubpartVisible($key)) {
 			return '';
 		}
 
