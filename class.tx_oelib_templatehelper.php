@@ -446,7 +446,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
 	 * @param	boolean		whether the settings in the Flexform should be
-	 * 						ignored, defaults to false, may be empty
+	 * 						ignored
 	 *
 	 * @access	protected
 	 */
@@ -492,8 +492,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key
 	 * 'MY_SUBPART'.
 	 *
-	 * Please note that each subpart may only occur once in the template.
-	 *
 	 * @param	string		the content of the HTML template
 	 *
 	 * @access	protected
@@ -522,7 +520,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Finds all subparts within the current HTML template.
 	 * The subparts must be within HTML comments.
 	 *
-	 * @return	array		a list of the subpart names (uppercase, without ###, e.g. 'MY_SUBPART')
+	 * @return	array		a list of the subpart names (uppercase, without ###,
+	 *						for example 'MY_SUBPART')
 	 *
 	 * @access	protected
 	 */
@@ -547,7 +546,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Example: If the markers ###FOO### and ###BAR### are found, the string
 	 * "#FOO#BAR#" would be returned.
 	 *
-	 * @return	string		a list of markes as one long string, separated, prefixed and postfixed by '#'
+	 * @return	string		a list of markes as one long string, separated,
+	 *						prefixed and postfixed by '#'
 	 *
 	 * @access	private
 	 */
@@ -564,18 +564,19 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Gets a list of markers with a given prefix.
-	 * Example: If the prefix is "WRAPPER" (or "wrapper", case is not relevant), the following array
-	 * might be returned: ("WRAPPER_FOO", "WRAPPER_BAR")
+	 * Example: If the prefix is "WRAPPER" (or "wrapper", case is not relevant),
+	 * the following array might be returned: ("WRAPPER_FOO", "WRAPPER_BAR")
 	 *
 	 * If there are no matches, an empty array is returned.
 	 *
-	 * The functions <code>findMarkers</code> must be called before this function may be called.
+	 * The function <code>findMarkers</code> must be called before this function
+	 * may be called.
 	 *
 	 * @param	string	case-insensitive prefix for the marker names to look for
 	 *
-	 * @return	array	Array of matching marker names
+	 * @return	array	array of matching marker names, might be empty
 	 *
-	 * @access	public
+	 * @access	private
 	 */
 	function getPrefixedMarkers($prefix) {
 		$matches = array();
@@ -1067,7 +1068,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						complete HTML template
 	 *
 	 * @return	string		the subpart content or an empty string if the
-	 * 						subpart is hidden or the subpart name is missing.
+	 * 						subpart is hidden or the subpart name is missing
 	 *
 	 * @access	protected
 	 *
@@ -1204,9 +1205,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the parameter is an emty string, the return value is an empty string as well
 	 * (not an attribute with an empty value).
 	 *
-	 * @param	string	a CSS class name (may be empty)
+	 * @param	string		a CSS class name (may be empty)
 	 *
-	 * @return	string	a CSS class attribute (may be empty)
+	 * @return	string		a CSS class attribute (may be empty)
 	 *
 	 * @access	protected
 	 */
@@ -1603,13 +1604,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	boolean		If true, the output label is passed through
 	 * 						htmlspecialchars().
 	 *
-	 * @return	string		the value from LOCAL_LANG
+	 * @return	string		the value from LOCAL_LANG, might be empty
 	 *
 	 * @access	protected
 	 *
 	 * @deprecated	2007-08-22	Use translate instead.
 	 */
-	function pi_getLL($key, $alternativeString = '', $useHtmlSpecialChars = false) {
+	function pi_getLL(
+		$key, $alternativeString = '', $useHtmlSpecialChars = false
+	) {
 		return $this->translate($key, $alternativeString, $useHtmlSpecialChars);
 	}
 
@@ -1626,11 +1629,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	boolean		If true, the output label is passed through
 	 * 						htmlspecialchars().
 	 *
-	 * @return	string		the value from LOCAL_LANG
+	 * @return	string		the value from LOCAL_LANG, might be empty
 	 *
 	 * @access	protected
 	 */
-	function translate($key, $alternativeString = '', $useHtmlSpecialChars = false) {
+	function translate(
+		$key, $alternativeString = '', $useHtmlSpecialChars = false
+	) {
 		$result = '';
 
 		if (is_object($this->LANG)) {
