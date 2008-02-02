@@ -633,11 +633,32 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @access	protected
 	 */
 	function setMarker($markerName, $content, $prefix = '') {
-		$markerName = $this->createMarkerName($markerName, $prefix);
+		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
 
-		if ($this->isMarkerNameValidWithHashes($markerName)) {
-			$this->markers[$markerName] = $content;
+		if ($this->isMarkerNameValidWithHashes($unifiedMarkerName)) {
+			$this->markers[$unifiedMarkerName] = $content;
 		}
+	}
+
+	/**
+	 * Gets a marker's content.
+	 *
+	 * @param	string		the marker's name without the ### signs,
+	 * 						case-insensitive, will get uppercased, must not be
+	 * 						empty
+	 *
+	 * @return	string		the marker's content or an empty string if the
+	 * 						marker has not been set before
+	 *
+	 * @access	protected
+	 */
+	function getMarker($markerName) {
+		$unifiedMarkerName = $this->createMarkerName($markerName);
+		if (!isset($this->markers[$unifiedMarkerName])) {
+			return '';
+		}
+
+		return $this->markers[$unifiedMarkerName];
 	}
 
 	/**

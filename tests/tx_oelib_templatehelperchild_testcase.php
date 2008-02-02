@@ -319,6 +319,37 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for filling in markers.
 	//////////////////////////////////
 
+	public function testGetInexistentMarkerWillReturnAnEmptyString() {
+		$this->fixture->processTemplate(
+			'foo'
+		);
+		$this->assertEquals(
+			'', $this->fixture->getMarker('bar')
+		);
+	}
+
+	public function testSetAndGetInexistentMarkerSucceeds() {
+		$this->fixture->processTemplate(
+			'foo'
+		);
+
+		$this->fixture->setMarker('bar', 'test');
+		$this->assertEquals(
+			'test', $this->fixture->getMarker('bar')
+		);
+	}
+
+	public function testSetAndGetExistingMarkerSucceeds() {
+		$this->fixture->processTemplate(
+			'###BAR###'
+		);
+
+		$this->fixture->setMarker('bar', 'test');
+		$this->assertEquals(
+			'test', $this->fixture->getMarker('bar')
+		);
+	}
+
 	public function testSetLowercaseMarkerInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'

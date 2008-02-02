@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1599] Feature: Add a function getMarker()
 - [#1525] Feature: Make the content of e-mails testable
 - [#1568] Feature: Add a public function isSubpartVisible
 - [#1552] Feature: Add an extension icon
