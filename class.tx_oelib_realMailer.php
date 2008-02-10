@@ -39,14 +39,32 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 * 						validated, must not be empty
 	 * @param	string		e-mail subject, must not be empty
 	 * @param	string		message to send, must not be empty
+	 * @param	string		headers, separated by linefeed, may be empty
+	 * @param	string		encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param	string		charset to use for encoding headers (only if
+	 * 						$encodingType is set to a valid value which produces
+	 * 						such a header)
+	 * @param	boolean		if set, the header content will not be encoded
 	 *
 	 * @return	boolean		true if the e-mail was sent, false otherwise
 	 */
-	public function sendEmail($emailAddress, $subject, $message) {
+	public function sendEmail(
+		$emailAddress,
+		$subject,
+		$message,
+		$headers = '',
+		$encodingType = '',
+		$charset = '',
+		$doNotEncodeHeader = false
+	) {
 		return (boolean) t3lib_div::plainMailEncoded(
 			$emailAddress,
 			$subject,
-			$message
+			$message,
+			$headers,
+			$encodingType,
+			$charset,
+			$doNotEncodeHeader
 		);
 	}
 }

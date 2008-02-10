@@ -39,10 +39,24 @@ abstract class tx_oelib_abstractMailer {
 	 * 						validated, must not be empty
 	 * @param	string		e-mail subject, must not be empty
 	 * @param	string		message to send, must not be empty
+	 * @param	string		headers, separated by linefeed, may be empty
+	 * @param	string		encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param	string		charset to use for encoding headers (only if
+	 * 						$encodingType is set to a valid value which produces
+	 * 						such a header)
+	 * @param	boolean		if set, the header content will not be encoded
 	 *
 	 * @return	boolean		true if the e-mail was sent, false otherwise
 	 */
-	public abstract function sendEmail($emailAddress, $subject, $message);
+	public abstract function sendEmail(
+		$emailAddress,
+		$subject,
+		$message,
+		$headers = '',
+		$encodingType = '',
+		$charset = '',
+		$doNotEncodeHeader = false
+	);
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_abstractMailer.php']) {

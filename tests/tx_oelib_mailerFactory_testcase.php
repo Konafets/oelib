@@ -38,12 +38,14 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	private static $email = array(
 		'recipient' => 'any-recipient@email-address.org',
 		'subject' => 'any subject',
-		'message' => 'any message'
+		'message' => 'any message',
+		'headers' => ''
 	);
 	private static $otherEmail = array(
 		'recipient' => 'any-other-recipient@email-address.org',
 		'subject' => 'any other subject',
-		'message' => 'any other message'
+		'message' => 'any other message',
+		'headers' => ''
 	);
 
 	protected function setUp() {
@@ -51,6 +53,8 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		// non-test mode e-mails are sent.
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
 		$this->fixture = tx_oelib_mailerFactory::getInstance()->getMailer();
+
+		$this->addHeadersToTestEmail();
 	}
 
 	protected function tearDown() {
@@ -81,7 +85,8 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
-			self::$email['message']
+			self::$email['message'],
+			self::$email['headers']
 		);
 
 		$this->assertEquals(
@@ -119,7 +124,8 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
-			self::$email['message']
+			self::$email['message'],
+			self::$email['headers']
 		);
 		$this->fixture->sendEmail(
 			self::$otherEmail['recipient'],
@@ -224,6 +230,48 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'',
 			$this->fixture->getLastBody()
 		);
+	}
+
+	public function testGetLastHeadersIfTheEmailDoesNotHaveAny() {
+		$this->fixture->sendEmail(
+			self::$otherEmail['recipient'],
+			self::$otherEmail['subject'],
+			self::$otherEmail['message']
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getLastHeaders()
+		);
+	}
+
+	public function testGetLastHeadersReturnsTheLastHeaders() {
+		$this->fixture->sendEmail(
+			self::$email['recipient'],
+			self::$email['subject'],
+			self::$email['message'],
+			self::$email['headers']
+		);
+
+		$this->assertEquals(
+			self::$email['headers'],
+			$this->fixture->getLastHeaders()
+		);
+	}
+
+
+	/////////////////////
+	// Utility functions
+	/////////////////////
+
+	/**
+	 * Adds the headers to the static test e-mail as chr() cannot be used when
+	 * it is defined.
+	 */
+	private function addHeadersToTestEmail() {
+		self::$email['headers'] = 'From: any-sender@email-address.org'.chr(10).
+			'CC: "another recipient" <another-recipient@email-address.org>'.chr(10).
+			'Reply-To: any-sender@email-address.org';
 	}
 }
 ?>
