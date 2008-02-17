@@ -89,7 +89,8 @@ class tx_oelib_configcheck {
 	 * differentiate between different kinds of objects of the same class,
 	 * e.g. the list view and the single view (which both are pi1 objects).
 	 *
-	 * @param	string		a short string identifying the "flavor" of the object to check (may be empty)
+	 * @param	string		a short string identifying the "flavor" of the
+	 * 						object to check (may be empty)
 	 *
 	 * @access	public
 	 */
@@ -100,7 +101,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Returns the current flavor.
 	 *
-	 * @return	string		the current flavor (or an empty string if no flavor is set)
+	 * @return	string		the current flavor (or an empty string if no flavor
+	 * 						is set)
 	 *
 	 * @access	public
 	 */
@@ -119,7 +121,8 @@ class tx_oelib_configcheck {
 	 * errors may cause a row of other errors which disappear when the first
 	 * error has been fixed.
 	 *
-	 * Note: This function expected $this->checkByClassNameAndFlavor() to be defined!
+	 * Note: This function expected $this->checkByClassNameAndFlavor() to
+	 * be defined!
 	 *
 	 * @return	string		an error message (or an empty string)
 	 *
@@ -205,12 +208,15 @@ class tx_oelib_configcheck {
 	 * variable via flexforms is mentioned as well.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
 	 * @param	string		error text to set (may be empty)
 	 *
 	 * @access	protected
 	 */
-	function setErrorMessageAndRequestCorrection($fieldName, $canUseFlexforms, $explanation) {
+	function setErrorMessageAndRequestCorrection(
+		$fieldName, $canUseFlexforms, $explanation
+	) {
 		$message = $explanation
 			.' Please correct the TS setup variable <strong>'
 			.$this->getTSSetupPath().$fieldName.'</strong> in your TS '
@@ -229,7 +235,8 @@ class tx_oelib_configcheck {
 	 * Use this method if you want to process this message furether, e.g.
 	 * for bubbling it up to other configcheck objects.
 	 *
-	 * @return	string		$this->errorText (or an empty string if there are not errors)
+	 * @return	string		$this->errorText (or an empty string if there are no
+	 * 						errors)
 	 *
 	 * @access	protected
 	 */
@@ -245,7 +252,8 @@ class tx_oelib_configcheck {
 	 * directly and it doesn't need to get handled to other configcheck
 	 * objects.
 	 *
-	 * @return	string		$this->errorText wrapped by $this->wrap (or an empty string if there are no errors)
+	 * @return	string		$this->errorText wrapped by $this->wrap (or an empty
+	 * 						string if there are no errors)
 	 *
 	 * @access	public
 	 */
@@ -349,7 +357,8 @@ class tx_oelib_configcheck {
 	 * If no file name is provided, no error will be displayed as this is
 	 * perfectly allowed.
 	 *
-	 * @param	boolean		whether the css File can also be selected via flexforms
+	 * @param	boolean		whether the CSS file can also be selected via
+	 *						flexforms
 	 *
 	 * @access	protected
 	 *
@@ -455,13 +464,19 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value contains a non-empty-string.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for and why it needs to be non-empty, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 * 						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for and why it needs to be non-empty, must
+	 *						not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkForNonEmptyString($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkForNonEmptyString(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 		$this->checkForNonEmptyStringValue(
 			$value,
@@ -478,13 +493,19 @@ class tx_oelib_configcheck {
 	 * warning message.
 	 *
 	 * @param	string		the value to check
-	 * @param	string		TS setup field name to mention in the warning, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		a sentence explaning what that configuration value is needed for and why it needs to be non-empty, must not be empty
+	 * @param	string		TS setup field name to mention in the warning, must
+	 *						not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for and why it needs to be non-empty, must
+	 *						not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkForNonEmptyStringValue($value, $fieldName, $canUseFlexforms, $explanation) {
+	function checkForNonEmptyStringValue(
+		$value, $fieldName, $canUseFlexforms, $explanation
+	) {
 		if ($value === '') {
 			$message = 'The TS setup variable <strong>'
 				.$this->getTSSetupPath().$fieldName
@@ -502,14 +523,19 @@ class tx_oelib_configcheck {
 	 * of allowed values.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleInSetNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues) {
+	function checkIfSingleInSetNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -530,14 +556,19 @@ class tx_oelib_configcheck {
 	 * set of allowed values.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleInSetOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues) {
+	function checkIfSingleInSetOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 			$this->checkIfSingleInSetOrEmptyValue(
@@ -557,14 +588,19 @@ class tx_oelib_configcheck {
 	 * to create the warning message.
 	 *
 	 * @param	string		the value to check
-	 * @param	string		TS setup field name to mention in the warning, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	string		TS setup field name to mention in the warning, must
+	 *						not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleInSetOrEmptyValue($value, $fieldName, $canUseFlexforms, $explanation, $allowedValues) {
+	function checkIfSingleInSetOrEmptyValue(
+		$value, $fieldName, $canUseFlexforms, $explanation, $allowedValues
+	) {
 		if (!empty($value) && !in_array($value, $allowedValues, true)) {
 			$overviewOfValues = '('.implode(', ', $allowedValues).')';
 			$message = 'The TS setup variable <strong>'
@@ -586,9 +622,12 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value has a boolean value.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
@@ -606,9 +645,12 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value has an integer value (or is empty).
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
@@ -641,7 +683,7 @@ class tx_oelib_configcheck {
 	 * 						(this will be mentioned in the error message)
 	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
 	 * 						if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value
+	 * @param	string		a sentence explaining what that configuration value
 	 * 						is needed for, must not be empty
 	 *
 	 * @access	protected
@@ -686,14 +728,20 @@ class tx_oelib_configcheck {
 	 * warning message.
 	 *
 	 * @param	string		the value to check
-	 * @param	string		TS setup field name to mention in the warning, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	string		TS setup field name to mention in the warning, must
+	 *						not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfPositiveIntegerValue($value, $fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfPositiveIntegerValue(
+		$value, $fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkForNonEmptyStringValue(
 			$value,
 			$fieldName,
@@ -720,13 +768,18 @@ class tx_oelib_configcheck {
 	 * integer value.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfPositiveInteger($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfPositiveInteger(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 		$this->checkIfPositiveIntegerValue(
 			$value,
@@ -742,13 +795,18 @@ class tx_oelib_configcheck {
 	 * integer value or is empty.
 	 *
 	 * @param	string		TS setup field name to extract, may be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfPositiveIntegerOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfPositiveIntegerOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 		if (!empty($value) && !preg_match('/^[1-9]\d*$/', $value)) {
 			$message = 'The TS setup variable <strong>'
@@ -774,16 +832,13 @@ class tx_oelib_configcheck {
 	 * 						(this will be mentioned in the error message)
 	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
 	 * 						if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value
+	 * @param	string		a sentence explaining what that configuration value
 	 * 						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
 	function checkIfPositiveIntegerOrZero(
-		$fieldName,
-		$canUseFlexforms,
-		$sheet,
-		$explanation
+		$fieldName,	$canUseFlexforms, $sheet, $explanation
 	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
@@ -815,14 +870,19 @@ class tx_oelib_configcheck {
 	 * comma-separated values lie within a set of allowed values.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfMultiInSetNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues) {
+	function checkIfMultiInSetNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -843,14 +903,19 @@ class tx_oelib_configcheck {
 	 * comma-separated values lie within a set of allowed values.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfMultiInSetOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues) {
+	function checkIfMultiInSetOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$allValues = explode(
 				',',
@@ -884,14 +949,19 @@ class tx_oelib_configcheck {
 	 * column names of a given DB table.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	string		a DB table name (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleInTableNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $tableName) {
+	function checkIfSingleInTableNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
+	) {
 		$this->checkIfSingleInSetNotEmpty(
 			$fieldName,
 			$canUseFlexforms,
@@ -906,14 +976,19 @@ class tx_oelib_configcheck {
 	 * column names of a given DB table.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	string		a DB table name (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleInTableOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $tableName) {
+	function checkIfSingleInTableOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
+	) {
 		$this->checkIfSingleInSetOrEmpty(
 			$fieldName,
 			$canUseFlexforms,
@@ -928,14 +1003,19 @@ class tx_oelib_configcheck {
 	 * comma-separated values lie within a set of allowed values.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	string		a DB table name (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfMultiInTableNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $tableName) {
+	function checkIfMultiInTableNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
+	) {
 		$this->checkIfMultiInSetNotEmpty(
 			$fieldName,
 			$canUseFlexforms,
@@ -950,14 +1030,19 @@ class tx_oelib_configcheck {
 	 * comma-separated values is a column name of a given DB table.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	string		a DB table name (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkIfMultiInTableOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $tableName) {
+	function checkIfMultiInTableOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
+	) {
 		$this->checkIfMultiInSetOrEmpty(
 			$fieldName,
 			$canUseFlexforms,
@@ -970,7 +1055,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks whether the salutation mode is set correctly.
 	 *
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
 	 *
 	 * @access	protected
 	 */
@@ -991,7 +1077,8 @@ class tx_oelib_configcheck {
 	 * located. This includes the extension key, (possibly) something like pi1
 	 * and the trailing dot.
 	 *
-	 * @return	string		the TS setup configuration path including the trailing dot, e.g. "plugin.tx_seminars_pi1."
+	 * @return	string		the TS setup configuration path including the
+	 *						trailing dot, e.g. "plugin.tx_seminars_pi1."
 	 *
 	 * @access	protected
 	 */
@@ -1011,7 +1098,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Retrieves the column names of a given DB table name.
 	 *
-	 * @param	string		the name of a existing DB table (must not be empty, must exist)
+	 * @param	string		the name of a existing DB table (must not be empty,
+	 * 						must exist)
 	 *
 	 * @return	array		array with the column names as values
 	 *
@@ -1027,14 +1115,20 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value matches a regular expression.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
-	 * @param	string		a regular expression (including the delimiting slashes)
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
+	 * @param	string		a regular expression (including the delimiting
+	 *						slashes)
 	 *
 	 * @access	protected
 	 */
-	function checkRegExp($fieldName, $canUseFlexforms, $sheet, $explanation, $regExp) {
+	function checkRegExp(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $regExp
+	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
 		if (!preg_match($regExp, $value)) {
@@ -1055,14 +1149,20 @@ class tx_oelib_configcheck {
 	 * expression.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
-	 * @param	string		a regular expression (including the delimiting slashes)
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
+	 * @param	string		a regular expression (including the delimiting
+	 *						slashes)
 	 *
 	 * @access	protected
 	 */
-	function checkRegExpNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $regExp) {
+	function checkRegExpNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $regExp
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -1083,13 +1183,18 @@ class tx_oelib_configcheck {
 	 * comma-separated list of integers (in this case, PIDs).
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfPidListOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfPidListOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkRegExp(
 			$fieldName,
 			$canUseFlexforms,
@@ -1104,13 +1209,18 @@ class tx_oelib_configcheck {
 	 * comma-separated list of integers (in this case, PIDs).
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfPidListNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfPidListNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -1130,13 +1240,18 @@ class tx_oelib_configcheck {
 	 * comma-separated list of front-end PIDs.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfFePagesNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfFePagesNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -1156,13 +1271,18 @@ class tx_oelib_configcheck {
 	 * single front-end PID.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleFePageNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSingleFePageNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkIfPositiveInteger(
 			$fieldName,
 			$canUseFlexforms,
@@ -1182,13 +1302,18 @@ class tx_oelib_configcheck {
 	 * single front-end PID.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleFePageOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSingleFePageOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkIfInteger($fieldName, $canUseFlexforms, $sheet, $explanation);
 		$this->checkIfFePagesOrEmpty(
 			$fieldName,
@@ -1203,17 +1328,22 @@ class tx_oelib_configcheck {
 	 * comma-separated list of front-end PIDs.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfFePagesOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfFePagesOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-		// When the configuration value is empty or contains a comma, use
-		// the plural.
+		// Uses the plural if the configuration value is empty or contains a
+		// comma.
 		if (($pids == '') || (strrpos($pids, ',') !== false )) {
 			$message = 'All the selected pages need to be front-end pages so '
 				.'that links to them work correctly. '.$explanation;
@@ -1235,13 +1365,18 @@ class tx_oelib_configcheck {
 	 * comma-separated list of system folder PIDs.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSysFoldersNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSysFoldersNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
 			$canUseFlexforms,
@@ -1261,13 +1396,18 @@ class tx_oelib_configcheck {
 	 * single system folder PID.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleSysFolderNotEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSingleSysFolderNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkIfPositiveInteger(
 			$fieldName,
 			$canUseFlexforms,
@@ -1287,13 +1427,18 @@ class tx_oelib_configcheck {
 	 * single system folder PID.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSingleSysFolderOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSingleSysFolderOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$this->checkIfInteger(
 			$fieldName,
 			$canUseFlexforms,
@@ -1313,17 +1458,22 @@ class tx_oelib_configcheck {
 	 * comma-separated list of system folder PIDs.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkIfSysFoldersOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation) {
+	function checkIfSysFoldersOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation
+	) {
 		$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-		// When the configuration value is empty or contains a comma,
-		// use the plural.
+		// Uses the plural if the configuration value is empty or contains a
+		// comma.
 		if (($pids == '') || (strrpos($pids, ',') !== false )) {
 			$message = 'All the selected pages need to be system folders so '
 				.'that data records are tidily separated from front-end '
@@ -1347,14 +1497,21 @@ class tx_oelib_configcheck {
 	 * comma-separated list of PIDs that specify pages or a given type.
 	 *
 	 * @param	string		TS setup field name to extract, must not be empty
-	 * @param	boolean		whether the value can also be set via flexforms (this will be mentioned in the error message)
-	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored if $canUseFlexforms is set to false
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
-	 * @param	string		a comparison operator with a value that will be used in a SQL query to check for the correct page types, e.g. "<199" or "=254", must not be empty
+	 * @param	boolean		whether the value can also be set via flexforms (this
+	 *						will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
+	 * @param	string		a comparison operator with a value that will be used
+	 *						in a SQL query to check for the correct page types,
+	 *						for example "<199" or "=254", must not be empty
 	 *
 	 * @access	protected
 	 */
-	function checkPageTypeOrEmpty($fieldName, $canUseFlexforms, $sheet, $explanation, $typeCondition) {
+	function checkPageTypeOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $explanation, $typeCondition
+	) {
 		$this->checkIfPidListOrEmpty(
 			$fieldName,
 			$canUseFlexforms,
@@ -1406,6 +1563,9 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks whether CSS Styled Content is installed and active.
 	 *
+	 * TODO: Some of this can be simplified by asking the EM whether CSC is
+	 * loaded.
+	 *
 	 * @access	protected
 	 */
 	function checkCssStyledContent() {
@@ -1424,7 +1584,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks all values within .listView (including .listView itself).
 	 *
-	 * @param	array		allowed sort keys for the list view (must not be empty)
+	 * @param	array		allowed sort keys for the list view (must not be
+	 * 						empty)
 	 *
 	 * @access	protected
 	 */
@@ -1479,13 +1640,17 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value in listView. is non-empty and lies
 	 * within a set of allowed values.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.), must not be empty
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	string		TS setup field name to extract (within listView.),
+	 *						must not be empty
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 * @param	array		array of allowed values (must not be empty)
 	 *
 	 * @access	protected
 	 */
-	function checkListViewIfSingleInSetNotEmpty($fieldName, $explanation, $allowedValues) {
+	function checkListViewIfSingleInSetNotEmpty(
+		$fieldName, $explanation, $allowedValues
+	) {
 		$fieldSubPath = 'listView.'.$fieldName;
 		$value = $this->objectToCheck->getListViewConfValueString($fieldName);
 
@@ -1508,8 +1673,10 @@ class tx_oelib_configcheck {
 	 * Checks whether a configuration value within listView. has a positive
 	 * (thus non-zero) integer value.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.), must not be empty
-	 * @param	string		a sentence explaning what that configuration value is needed for, must not be empty
+	 * @param	string		TS setup field name to extract (within listView.),
+	 *						must not be empty
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
 	 *
 	 * @access	protected
 	 */
