@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1661] Feature: Add a config check for config.locale_all and for that the requested locale actually is installed
 - [#999] Change: Require PHP 5.1
 - [#1599] Feature: Add a function getMarker()
 - [#1525] Feature: Make the content of e-mails testable

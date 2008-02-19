@@ -1692,6 +1692,84 @@ class tx_oelib_configcheck {
 			$explanation
 		);
 	}
+
+	/**
+	 * Checks whether the locale is set correctly.
+	 */
+	public function checkLocale() {
+		$message = '';
+		$installedLocales = $this->getInstalledLocales();
+		$valueToCheck = isset($GLOBALS['TSFE']->config['config']['locale_all'])
+			? $GLOBALS['TSFE']->config['config']['locale_all'] : '';
+
+		if (empty($installedLocales)) {
+			$message = 'There are no locales installed on this web server. Please '
+				.'install at least one locale. Otherwise, displayed numbers will '
+				.'not be formatted correctly.';
+		} else {
+			if (empty($valueToCheck)) {
+				$message = 'The locale is not configured yet. Please set '
+					.'<strong>config.locale_all</strong> in your main template. ';
+			} elseif (!$this->isAllowedLocale($valueToCheck)) {
+				$message = 'The locale is set to <strong>'.$valueToCheck
+					.'</strong>, but this locale is not installed on this '
+					.'web server. Please either install the locale <strong>'
+					.$valueToCheck.'</strong> or choose one of the installed '
+					.'locales for <strong>config.locale_all</strong> in your '
+					.'main template. ';
+			}
+
+			if ($message != '') {
+				$message .= 'Locales which are installed and therefore available '
+					.'are '.implode(', ', $installedLocales).' If you intend to '
+					.'set another locale, you need to install it on this '
+					.'web server first.';
+			}
+		}
+
+		$this->setErrorMessage($message);
+	}
+
+	/**
+	 * Checks whether the key of the locale is within the set of installed
+	 * locales.
+	 *
+	 * @param	string		key of a locale, must not be empty
+	 *
+	 * @return	boolean		whether the locale key is the key of an installed
+	 * 						locale
+	 */
+	private function isAllowedLocale($localeKey) {
+		// "UTF-8" is interpreted equally to "utf8". Therefore "-" need to be
+		// stripped before comparing the keys.
+		$unifiedLocaleKey = str_replace('-', '', strtolower($localeKey));
+
+		$allowedLocales = array();
+		foreach ($this->getInstalledLocales() as $key) {
+			$allowedLocales[] = str_replace('-', '', strtolower($key));
+		}
+
+		return in_array($unifiedLocaleKey,	$allowedLocales);
+	}
+
+	/**
+	 * Returns the keys of the locales installed on this web server.
+	 *
+	 * @return	array		locales installed on this web server, will be empty
+	 * 						if there are none
+	 */
+	public function getInstalledLocales() {
+		$result = array();
+
+		foreach (explode(chr(10), shell_exec('locale -a')) as $localeKey) {
+			// The output of "locale -a" contains more lines than we need.
+			if (strpos($localeKey, '_') !== false) {
+				$result[] = trim($localeKey);
+			}
+		}
+
+		return $result;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configcheck.php']) {
