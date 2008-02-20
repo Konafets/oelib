@@ -51,37 +51,29 @@ require_once(PATH_t3lib.'class.t3lib_page.php');
 
 class tx_oelib_configcheck {
 	/** the object whose configuration should be checked */
-	var $objectToCheck;
+	protected $objectToCheck = null;
 	/** the (cached) class name of $this->objectToCheck */
-	var $className;
+	private $className = '';
 
 	/**
 	 * A string describing the "flavor" of the object in case the class name
 	 * does not to sufficiently indicate exactly which configuration values to
 	 * check.
 	 */
-	var $flavor;
+	private $flavor = '';
 
 	/** the error to return (or an empty string if there is no error) */
-	var $errorText;
+	private $errorText = '';
 
 	/**
 	 * The constructor.
 	 *
-	 * @param	object		the object that will be checked for configuration problems, must be of a subclass of tx_oelib_templatehelper
+	 * @param	object		the object that will be checked for configuration
+	 * 						problems
 	 */
-	function tx_oelib_configcheck(&$objectToCheck) {
-		if ($objectToCheck
-			&& is_subclass_of($objectToCheck, 'tx_oelib_templatehelper')) {
-			$this->objectToCheck =& $objectToCheck;
-			$this->className = get_class($this->objectToCheck);
-
-			$this->errorText = '';
-		} else {
-			trigger_error('tx_oelib_templatehelper: $objectToCheck must be '
-				.'a subclass of tx_oelib_templatehelper, but actually is a '
-				.get_class($objectToCheck).'.<br />');
-		}
+	function __construct(tx_oelib_templatehelper $objectToCheck) {
+		$this->objectToCheck = $objectToCheck;
+		$this->className = get_class($this->objectToCheck);
 	}
 
 	/**
@@ -534,7 +526,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkIfSingleInSetNotEmpty(
-		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
@@ -567,7 +559,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkIfSingleInSetOrEmpty(
-		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
@@ -599,7 +591,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkIfSingleInSetOrEmptyValue(
-		$value, $fieldName, $canUseFlexforms, $explanation, $allowedValues
+		$value, $fieldName, $canUseFlexforms, $explanation, array $allowedValues
 	) {
 		if (!empty($value) && !in_array($value, $allowedValues, true)) {
 			$overviewOfValues = '('.implode(', ', $allowedValues).')';
@@ -881,7 +873,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkIfMultiInSetNotEmpty(
-		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		$this->checkForNonEmptyString(
 			$fieldName,
@@ -914,7 +906,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkIfMultiInSetOrEmpty(
-		$fieldName, $canUseFlexforms, $sheet, $explanation, $allowedValues
+		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$allValues = explode(
@@ -1589,7 +1581,7 @@ class tx_oelib_configcheck {
 	 *
 	 * @access	protected
 	 */
-	function checkListView($allowedSortFields) {
+	function checkListView(array $allowedSortFields) {
 		$fieldName = 'listView.';
 
 		if (!isset($this->objectToCheck->conf[$fieldName])) {
@@ -1649,7 +1641,7 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkListViewIfSingleInSetNotEmpty(
-		$fieldName, $explanation, $allowedValues
+		$fieldName, $explanation, array $allowedValues
 	) {
 		$fieldSubPath = 'listView.'.$fieldName;
 		$value = $this->objectToCheck->getListViewConfValueString($fieldName);

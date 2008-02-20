@@ -76,20 +76,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	var $subpartsToHide = array();
 
 	/** The configuration check object that will check this object. */
-	var $configurationCheck;
+	var $configurationCheck = null;
 
-	/** The back end locallang object  */
+	/** the back-end locallang object */
 	var $LANG;
-
-	/**
-	 * Dummy constructor: Does nothing.
-	 *
-	 * Call $this->init() instead.
-	 *
-	 * @access	public
-	 */
-	function tx_oelib_templatehelper() {
-	}
 
 	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
@@ -106,7 +96,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @access	protected
 	 */
-	function init($conf = null) {
+	function init(array $conf = array()) {
 		global $BE_USER;
 
 		static $cachedConfigs = array();
@@ -234,7 +224,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 			= t3lib_div::makeInstance('t3lib_pageSelect');
 	 	}
 
-		if(!is_object($this->cObj)) {
+		if (!is_object($this->cObj)) {
 			$this->cObj = t3lib_div::makeInstance('tslib_cObj');
 			$this->cObj->start('');
 		}
@@ -793,8 +783,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the list is "one,two", the array keys
 	 * "###ONE###" and "###TWO###" will be written.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 * @param	string		comma-separated list of at least 1 subpart name to
+	 *						hide (case-insensitive, will get uppercased)
+	 * @param	string		prefix to the subpart names (may be empty,
+	 *						case-insensitive, will get uppercased)
 	 *
 	 * @access	protected
 	 *
@@ -1170,7 +1162,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @access	private
 	 */
-	function getSubpartForCallback($matches) {
+	function getSubpartForCallback(array $matches) {
 		return $this->getSubpart($matches[1]);
 	}
 
@@ -1360,7 +1352,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @access	protected
 	 */
-	function securePiVars($additionalPiVars = array()) {
+	function securePiVars(array $additionalPiVars = array()) {
 		if ($this->piVars) {
 			$defaultIntPiVars = array('showUid', 'pointer', 'mode');
 			foreach (array_merge($defaultIntPiVars, $additionalPiVars) as $key) {
@@ -1738,7 +1730,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @access	protected
 	 */
-	function enableFields($table, $show_hidden = -1, $ignore_array = array(), $noVersionPreview = false) {
+	function enableFields(
+		$table, $show_hidden = -1, array $ignore_array = array(),
+		$noVersionPreview = false
+	) {
 		// We need to use an array as the singleton otherwise won't work.
 		static $pageCache = array();
 
