@@ -1713,9 +1713,9 @@ class tx_oelib_configcheck {
 
 			if ($message != '') {
 				$message .= 'Locales which are installed and therefore available '
-					.'are '.implode(', ', $installedLocales).' If you intend to '
-					.'set another locale, you need to install it on this '
-					.'web server first.';
+					.'are <strong>'.implode(', ', $installedLocales).'</strong> '
+					.'If you intend to set another locale, you need to install '
+					.'it on this web server first.';
 			}
 		}
 
