@@ -100,6 +100,160 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetListViewConfigurationValueStringReturnsAString() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => 'This is a test.')
+		);
+
+		$this->assertEquals(
+			'This is a test.',
+			$this->fixture->getListViewConfValueString('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueStringReturnsATrimmedString() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => ' string ')
+		);
+
+		$this->assertEquals(
+			'string',
+			$this->fixture->getListViewConfValueString('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueStringReturnsEmptyStringWhichWasSet() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '')
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getListViewConfValueString('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueStringReturnsEmptyStringIfNoValueSet() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array()
+		);
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getListViewConfValueString('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueIntegerReturnsNumber() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '123')
+		);
+
+		$this->assertEquals(
+			123,
+			$this->fixture->getListViewConfValueInteger('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueIntegerReturnsZeroIfTheValueWasEmpty() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '')
+		);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getListViewConfValueInteger('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueIntegerReturnsZeroIfTheValueWasNoInteger() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => 'string')
+		);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getListViewConfValueInteger('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueIntegerReturnsZeroIfNoValueWasSet() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array()
+		);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getListViewConfValueInteger('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueBooleanReturnsTrue() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '1')
+		);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getListViewConfValueBoolean('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueBooleanReturnsTrueIfTheValueWasAPositiveInteger() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '123')
+		);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getListViewConfValueBoolean('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueBooleanReturnsFalseIfTheValueWasZero() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '0')
+		);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getListViewConfValueBoolean('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueBooleanReturnsFalseIfTheValueWasAnEmptyString() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array('test' => '')
+		);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getListViewConfValueBoolean('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueBooleanReturnsFalseIfTheValueWasNotSet() {
+		$this->fixture->setConfigurationValue(
+			'listView.', array()
+		);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getListViewConfValueBoolean('test')
+		);
+	}
+
+	public function testGetListViewConfigurationValueThrowsAnExeptionIfNoFieldNameWasProvided() {
+		try {
+			$this->fixture->getListViewConfValueBoolean('');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
 
 	////////////////////////////////////////////
 	// Tests for reading the HTML from a file.

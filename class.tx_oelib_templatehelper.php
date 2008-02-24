@@ -1461,20 +1461,63 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Extracts a value within listView.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.), must not be empty
+	 * @param	string		TS setup field name to extract (within listView.),
+	 * 						must not be empty
 	 *
-	 * @return	string		the trimmed contents of that field within listView. (may be empty)
-	 *
-	 * @access	public
+	 * @return	string		the contents of that field within listView., may be
+	 * 						empty
 	 */
-	function getListViewConfValueString($fieldName) {
-		$result = '';
-		if (isset($this->conf['listView.'])
-			&& isset($this->conf['listView.'][$fieldName])) {
-			$result = trim($this->conf['listView.'][$fieldName]);
+	private function getListViewConfigurationValue($fieldName) {
+		if (empty($fieldName)) {
+			throw new Exception('$fieldName must not be empty.');
 		}
 
-		return $result;
+		if (!isset($this->conf['listView.'])
+			|| !isset($this->conf['listView.'][$fieldName])
+		) {
+			return '';
+		}
+
+		return $this->conf['listView.'][$fieldName];
+	}
+
+	/**
+	 * Returns a string value within listView.
+	 *
+	 * @param	string		TS setup field name to extract (within listView.),
+	 * 						must not be empty
+	 *
+	 * @return	string		the trimmed contents of that field within listView.
+	 * 						or an empty string if the value was not set
+	 */
+	public function getListViewConfValueString($fieldName) {
+		return trim($this->getListViewConfigurationValue($fieldName));
+	}
+
+	/**
+	 * Returns an integer value within listView.
+	 *
+	 * @param	string		TS setup field name to extract (within listView.),
+	 * 						must not be empty
+	 *
+	 * @return	integer		the integer value of that field within listView. or
+	 * 						zero if the value was not set
+	 */
+	public function getListViewConfValueInteger($fieldName) {
+		return intval($this->getListViewConfigurationValue($fieldName));
+	}
+
+	/**
+	 * Returns a boolean value within listView.
+	 *
+	 * @param	string		TS setup field name to extract (within listView.),
+	 * 						must not be empty
+	 *
+	 * @return	boolean		the boolean value of that field within listView.,
+	 * 						false if no value was set
+	 */
+	public function getListViewConfValueBoolean($fieldName) {
+		return (boolean) $this->getListViewConfigurationValue($fieldName);
 	}
 
 	/**
