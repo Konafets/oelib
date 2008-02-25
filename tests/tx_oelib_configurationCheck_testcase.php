@@ -43,7 +43,9 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 		$this->objectToCheck = new tx_oelib_dummyObjectToCheck(
 			array(
 				'emptyString' => '',
-				'nonEmptyString' => 'foo'
+				'nonEmptyString' => 'foo',
+				'validEmail' => 'any-address@valid-email.org',
+				'internalEmail' => 'user@servername'
 			)
 		);
 		$this->fixture = new tx_oelib_configcheck($this->objectToCheck);
@@ -155,6 +157,74 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'emptyString',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+
+	///////////////////////////////////////////////
+	// Tests concerning the e-mail address check.
+	///////////////////////////////////////////////
+
+	public function testCheckIsValidEmailOrEmptyWithAnEmptyString() {
+		$this->fixture->checkIsValidEmailOrEmpty('emptyString', false, '', false, '');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailOrEmptyWithAValidEmail() {
+		$this->fixture->checkIsValidEmailOrEmpty('validEmail', false, '', false, '');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailOrEmptyWithAnInvalidEmail() {
+		$this->fixture->checkIsValidEmailOrEmpty('nonEmptyString', false, '', false, '');
+
+		$this->assertContains(
+			'nonEmptyString',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailOrEmptyWithAnInternalEmailIfInternalEmailsAreNotAllowed() {
+		$this->fixture->checkIsValidEmailOrEmpty('internalEmail', false, '', false, '');
+
+		$this->assertContains(
+			'internalEmail',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailOrEmptyWithAnInternalEmailIfInternalEmailsAreAllowed() {
+		$this->fixture->checkIsValidEmailOrEmpty('internalEmail', false, '', true, '');
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailNotEmptyWithAnEmptyString() {
+		$this->fixture->checkIsValidEmailNotEmpty('emptyString', false, '', false, '');
+
+		$this->assertContains(
+			'emptyString',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIsValidEmailNotEmptyWithAValidEmail() {
+		$this->fixture->checkIsValidEmailNotEmpty('validEmail', false, '', false, '');
+
+		$this->assertEquals(
+			'',
 			$this->fixture->getRawMessage()
 		);
 	}

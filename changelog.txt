@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1550] Feature: Add a config check for e-mail addresses
 - [#1681] Feature: Add templatehelper::getListViewConfValueInteger and ::getListViewConfValueBoolean
 - [#1104] Change: Use type hinting for function parameters
 - [#1661] Feature: Add a config check for config.locale_all and for that the requested locale actually is installed

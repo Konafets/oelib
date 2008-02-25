@@ -1762,6 +1762,72 @@ class tx_oelib_configcheck {
 
 		return $result;
 	}
+
+	/**
+	 * Checks that an e-mail address is valid or empty.
+	 *
+	 * @param	string		TS setup field name to mention in the warning, must
+	 *						not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	boolean		whether internal addresses ("user@servername") are
+	 * 						considered valid
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
+	 */
+	public function checkIsValidEmailOrEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $allowInternalAddresses, $explanation
+	) {
+		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
+		if ($value == '') {
+			return;
+		}
+
+		if ($allowInternalAddresses) {
+			$isValid = preg_match(
+				'/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)$/', $value
+			);
+		} else {
+			$isValid = t3lib_div::validEmail($value);
+		}
+
+		if (!$isValid) {
+			$message = 'The e-mail address in <strong>'.$this->getTSSetupPath()
+				.$fieldName.'</strong> is set to <strong>'.$value.'</strong> '
+				.'which is not valid. E-mails might not be received as long as '
+				.'this address is invalid.<br />';
+			$this->setErrorMessageAndRequestCorrection(
+				$fieldName, $canUseFlexforms, $message.$explanation
+			);
+		}
+	}
+
+	/**
+	 * Checks that an e-mail address is valid and non-empty.
+	 *
+	 * @param	string		TS setup field name to mention in the warning, must
+	 *						not be empty
+	 * @param	boolean		whether the value can also be set via flexforms
+	 *						(this will be mentioned in the error message)
+	 * @param	string		flexforms sheet pointer, eg. "sDEF", will be ignored
+	 *						if $canUseFlexforms is set to false
+	 * @param	boolean		whether internal addresses ("user@servername") are
+	 * 						considered valid
+	 * @param	string		a sentence explaining what that configuration value
+	 *						is needed for, must not be empty
+	 */
+	public function checkIsValidEmailNotEmpty(
+		$fieldName, $canUseFlexforms, $sheet, $allowInternalAddresses, $explanation
+	) {
+		$this->checkForNonEmptyString(
+			$fieldName, $canUseFlexforms, $sheet, $explanation
+		);
+		$this->checkIsValidEmailOrEmpty(
+			$fieldName, $canUseFlexforms, $sheet, $allowInternalAddresses, $explanation
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configcheck.php']) {
