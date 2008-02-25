@@ -2541,6 +2541,43 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Fails the test if the expected exception was not raised above.
 		$this->fail('The expected exception was not caught!');
 	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding user login and logout
+	// ---------------------------------------------------------------------
+
+	public function testLoginFrontEndUser() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->fixture->loginFrontEndUser($feUserId);
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testLogoutFrontEndUser() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->fixture->loginFrontEndUser($feUserId);
+		$this->fixture->logoutFrontEndUser();
+
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testLoginFrontEndUserWithAZeroUid() {
+		try {
+			$this->fixture->loginFrontEndUser(0);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
 }
 
 ?>

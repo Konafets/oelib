@@ -655,6 +655,49 @@ final class tx_oelib_testingFramework {
 
 
 	// ----------------------------------------------------------------------
+	// FE user activities
+	// ----------------------------------------------------------------------
+
+	/**
+	 * Fakes that a FE user has logged in.
+	 *
+	 * @param	integer		UID of the FE user, must be > 0
+	 */
+	public function loginFrontEndUser($userId) {
+		if (intval($userId) == 0) {
+			throw new Exception('The user ID must be > 0.');
+		}
+
+		if (!is_object($GLOBALS['TSFE']->fe_user)) {
+			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
+		}
+		$GLOBALS['TSFE']->fe_user->createUserSession(array());
+		$GLOBALS['TSFE']->fe_user->user = array('uid' => $userId);
+		$GLOBALS['TSFE']->loginUser = 1;
+	}
+
+	/**
+	 * Logs out the current FE user.
+	 */
+	public function logoutFrontEndUser() {
+		if (is_object($GLOBALS['TSFE']->fe_user)) {
+			$GLOBALS['TSFE']->fe_user->logoff();
+		}
+		unset($GLOBALS['TSFE']->loginUser);
+	}
+
+	/**
+	 * Checks whether a FE user is logged in.
+	 *
+	 * @return	boolean		true if a FE user is logged in, false otherwise
+	 */
+	public function isLoggedIn() {
+		return ((boolean) $GLOBALS['TSFE']) 
+			&& ((boolean) $GLOBALS['TSFE']->loginUser);
+	}
+
+
+	// ----------------------------------------------------------------------
 	// Various helper functions
 	// ----------------------------------------------------------------------
 
