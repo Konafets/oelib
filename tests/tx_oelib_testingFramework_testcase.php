@@ -995,6 +995,11 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail('The expected exception was not caught!');
 	}
 
+	public function testCountRecordsWithFeGroupsTableIsAllowed() {
+		$table = 'fe_groups';
+		$this->fixture->countRecords($table);
+	}
+
 	public function testCountRecordsWithFeUsersTableIsAllowed() {
 		$table = 'fe_users';
 		$this->fixture->countRecords($table);
@@ -2175,6 +2180,360 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testTemplateMustNotHaveANonZeroUid() {
 		try {
 			$this->fixture->createTemplate(0, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createFrontEndUserGroup()
+	// ---------------------------------------------------------------------
+
+	public function testFrontEndUserGroupCanBeCreated() {
+		$uid = $this->fixture->createFrontEndUserGroup();
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'fe_groups', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndUserGroupTableCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$uid = $this->fixture->createFrontEndUserGroup();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertNotEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testFrontEndUserGroupTableWillBeCleanedUp() {
+		$uid = $this->fixture->createFrontEndUserGroup();
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'fe_groups', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndUserGroupHasNoTitleByDefault() {
+		$uid = $this->fixture->createFrontEndUserGroup();
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'fe_groups',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'',
+			$row['title']
+		);
+	}
+
+	public function testFrontEndUserGroupCanHaveATitle() {
+		$uid = $this->fixture->createFrontEndUserGroup(
+			array('title' => 'Test title')
+		);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'title',
+				'fe_groups',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'Test title',
+			$row['title']
+		);
+	}
+
+	public function testFrontEndUserGroupMustHaveNoZeroUid() {
+		try {
+			$this->fixture->createFrontEndUserGroup(array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserGroupMustHaveNoNonZeroUid() {
+		try {
+			$this->fixture->createFrontEndUserGroup(array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createFrontEndUser()
+	// ---------------------------------------------------------------------
+
+	public function testFrontEndUserCanBeCreated() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'fe_users', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndUserTableCanBeDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->greaterThan(
+			1,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testFrontEndUserTableWillBeCleanedUp() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords(
+				'fe_users', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndUserHasNoUserNameByDefault() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'username',
+				'fe_users',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'',
+			$row['username']
+		);
+	}
+
+	public function testFrontEndUserCanHaveAUserName() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser(
+			$feUserGroupUid,
+			array('username' => 'Test name')
+		);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'username',
+				'fe_users',
+				'uid='.$uid
+			)
+		);
+
+		$this->assertEquals(
+			'Test name',
+			$row['username']
+		);
+	}
+
+	public function testFrontEndUserCanHaveSeveralUserGroups() {
+		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
+		$uid = $this->fixture->createFrontEndUser(
+			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', '.$feUserGroupUidThree
+		);
+
+		$this->assertNotEquals(
+			0,
+			$uid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'fe_users', 'uid='.$uid
+			)
+		);
+	}
+
+	public function testFrontEndUserMustHaveNoZeroUid() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		try {
+			$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoNonZeroUid() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		try {
+			$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		try {
+			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 0));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		try {
+			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 99999));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		try {
+			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => '1,2,4,5'));
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveANonZeroUserGroup() {
+		try {
+			$this->fixture->createFrontEndUser(0);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveANonEmptyUserGroup() {
+		try {
+			$this->fixture->createFrontEndUser('');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNotOnlyASpaceAsValueForTheUserGroup() {
+		try {
+			$this->fixture->createFrontEndUser(' ');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
+		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
+
+		try {
+			$this->fixture->createFrontEndUser(
+			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', 0, '.$feUserGroupUidThree
+		);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+
+		try {
+			$this->fixture->createFrontEndUser(
+			$feUserGroupUid.', abc'
+		);
 		} catch (Exception $expected) {
 			return;
 		}

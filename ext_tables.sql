@@ -7,6 +7,14 @@ CREATE TABLE cache_pages (
 
 
 #
+# Table structure for table 'fe_groups'
+#
+CREATE TABLE fe_groups (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+);
+
+
+#
 # Table structure for table 'fe_users'
 #
 CREATE TABLE fe_users (

@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1439] Feature: Add functions in the testing framework to create dummy FE users and FE user groups
 - [#1550] Feature: Add a config check for e-mail addresses
 - [#1681] Feature: Add templatehelper::getListViewConfValueInteger and ::getListViewConfValueBoolean
 - [#1104] Change: Use type hinting for function parameters

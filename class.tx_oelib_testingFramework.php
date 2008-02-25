@@ -46,7 +46,7 @@ final class tx_oelib_testingFramework {
 	 * framework has access.
 	 */
 	private $allowedSystemTables = array(
-		'cache_pages', 'fe_users', 'pages', 'sys_template', 'tt_content'
+		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template', 'tt_content'
 	);
 
 	/**
@@ -348,6 +348,75 @@ final class tx_oelib_testingFramework {
 		return $this->createRecordWithoutTableNameChecks(
 			'sys_template', $completeRecordData
 		);
+	}
+
+	/**
+	 * Creates a FE user group.
+	 *
+	 * @param	array		associative array that contains the data to save
+	 * 						in the new user group record, may be empty, but must
+	 * 						not contain the key "uid"
+	 *
+	 * @return	integer		the UID of the new user group, will be > 0
+	 */
+	public function createFrontEndUserGroup(
+		array $recordData = array()
+	) {
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+
+		return $this->createRecordWithoutTableNameChecks(
+			'fe_groups', $recordData
+		);		
+	}
+
+	/**
+	 * Creates a FE user record.
+	 *
+	 * @param	string		comma-separated list of UIDs of the user groups to
+	 * 						which the new user belongs, each must be > 0, may 
+	 * 						contain spaces and must not be empty
+	 * @param	array		associative array that contains the data to save
+	 * 						in the new user record, may be empty, but must not 
+	 * 						contain the keys "uid" or "usergroup"
+	 *
+	 * @return	integer		the UID of the new FE user, will be > 0
+	 */
+	public function createFrontEndUser(
+		$frontEndUserGroups, array $recordData = array()
+	) {
+		$frontEndUserGroupsWithoutSpaces = str_replace(' ', '', $frontEndUserGroups);
+
+		if (empty($frontEndUserGroupsWithoutSpaces)) {
+			throw new Exception('$frontEndUserGroups must not be empty.');
+		}
+		if (!preg_match('/^([1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
+		) {
+			throw new Exception(
+				'$frontEndUserGroups must contain a comma-separated list of UIDs. '
+					.'Each UID must be > 0.'
+			);
+		}
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+		if (isset($recordData['usergroup'])) {
+			throw new Exception(
+				'The column "usergroup" must not be set in $recordData.'
+			);
+		}
+
+		$completeRecordData = $recordData;
+		$completeRecordData['usergroup'] = $frontEndUserGroupsWithoutSpaces;
+
+		return $this->createRecordWithoutTableNameChecks(
+			'fe_users', $completeRecordData
+		);		
 	}
 
 	/**
