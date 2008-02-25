@@ -1636,7 +1636,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$this->setFlavor($oldFlavor);
 			}
 
-			// If we have a message, only return it if it is the first message
+			// If we have a message, only returns it if it is the first message
 			// for objects of this class.
 			if (!empty($message) && !$hasDisplayedMessage) {
 				$result = $message;
@@ -1653,45 +1653,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * appropriate method.
 	 *
 	 * @param	string		the key from the LOCAL_LANG array for which to
-	 * 						return the value
-	 * @param	string		alternative string to return if no value is found
-	 * 						for the key, neither for the local language nor the
-	 * 						default.
-	 * @param	boolean		If true, the output label is passed through
-	 * 						htmlspecialchars().
+	 *						return the value
+	 * @param	boolean		whether the output label should be passed through
+	 *						htmlspecialchars()
 	 *
 	 * @return	string		the value from LOCAL_LANG, might be empty
-	 *
-	 * @access	protected
-	 *
-	 * @deprecated	2007-08-22	Use translate instead.
 	 */
-	function pi_getLL(
-		$key, $alternativeString = '', $useHtmlSpecialChars = false
-	) {
-		return $this->translate($key, $alternativeString, $useHtmlSpecialChars);
-	}
-
-	/**
-	 * Returns the localized label of the LOCAL_LANG key $key.
-	 * This method checks if we are in the FE or in the BE and then uses the
-	 * appropriate method.
-	 *
-	 * @param	string		the key from the LOCAL_LANG array for which to
-	 * 						return the value
-	 * @param	string		alternative string to return if no value is found
-	 * 						for the key, neither for the local language nor the
-	 * 						default.
-	 * @param	boolean		If true, the output label is passed through
-	 * 						htmlspecialchars().
-	 *
-	 * @return	string		the value from LOCAL_LANG, might be empty
-	 *
-	 * @access	protected
-	 */
-	function translate(
-		$key, $alternativeString = '', $useHtmlSpecialChars = false
-	) {
+	public function translate($key, $useHtmlSpecialChars = false) {
 		$result = '';
 
 		if (is_object($this->LANG)) {
@@ -1699,11 +1667,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		} elseif (is_array($this->LOCAL_LANG)) {
 			$result = parent::translate(
 				$key,
-				$alternativeString,
 				$useHtmlSpecialChars
 			);
 		} else {
-			$result = $alternativeString;
+			$result = $key;
 		}
 
 		return $result;

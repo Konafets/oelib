@@ -2734,6 +2734,53 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			$this->fixture->retrievePageConfig($pageId)
 		);
 	}
+
+
+	/////////////////////////////////////////////////////////////
+	// Tests for the useHtmlSpecialchars option of translate().
+	/////////////////////////////////////////////////////////////
+
+	public function testHtmlSpecialCharsWithNoOption() {
+		$this->assertEquals(
+			'a&o',
+			$this->fixture->translate('htmlspecialchars')
+		);
+	}
+
+	public function testHtmlSpecialCharsWithFalse() {
+		$this->assertEquals(
+			'a&o',
+			$this->fixture->translate('htmlspecialchars', false)
+		);
+	}
+
+	public function testHtmlSpecialCharsWithTrue() {
+		$this->assertEquals(
+			'a&amp;o',
+			$this->fixture->translate('htmlspecialchars', true)
+		);
+	}
+
+	public function testPiGetLlHtmlSpecialCharsWithNoOption() {
+		$this->assertEquals(
+			'a&o',
+			$this->fixture->pi_getLL('htmlspecialchars')
+		);
+	}
+
+	public function testPiGetLlHtmlSpecialCharsWithFalse() {
+		$this->assertEquals(
+			'a&o',
+			$this->fixture->pi_getLL('htmlspecialchars', '', false)
+		);
+	}
+
+	public function testPiGetLlHtmlSpecialCharsWithTrue() {
+		$this->assertEquals(
+			'a&amp;o',
+			$this->fixture->pi_getLL('htmlspecialchars', '', true)
+		);
+	}
 }
 
 ?>
