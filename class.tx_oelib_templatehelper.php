@@ -855,7 +855,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param	string		comma-separated list of at least 1 subpart name to
 	 * 						unhide (case-insensitive, will get uppercased)
-	 * @param	string		comma-separated list of of subpart names that
+	 * @param	string		comma-separated list of subpart names that
 	 * 						shouldn't get unhidden
 	 * @param	string		prefix to the subpart names (may be empty,
 	 * 						case-insensitive, will get uppercased)
@@ -889,7 +889,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string		comma-separated list of at least 1 subpart name to
 	 * 						unhide (case-insensitive, will get uppercased),
 	 * 						must not be empty
-	 * @param	string		comma-separated list of of subpart names that
+	 * @param	string		comma-separated list of subpart names that
 	 * 						shouldn't get unhidden
 	 * @param	string		prefix to the subpart names (may be empty,
 	 * 						case-insensitive, will get uppercased)
@@ -1110,7 +1110,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						complete HTML template
 	 *
 	 * @return	string		the subpart content or an empty string if the
-	 * 						subpart is hidden or the subpart name is missing.
+	 * 						subpart is hidden or the subpart name is missing
 	 *
 	 * @access	protected
 	 */
