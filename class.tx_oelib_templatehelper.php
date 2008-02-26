@@ -245,10 +245,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		the value of the corresponding flexforms or TS setup
 	 * 						entry (may be empty)
-	 *
-	 * @access	private
 	 */
-	function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false,
+	private function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false,
 		$ignoreFlexform = false
 	) {
 		$flexformsValue = '';
@@ -289,10 +287,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						the beginning (if not relative)
 	 *
 	 * @return	string		the complete path including file name
-	 *
-	 * @access	private
 	 */
-	function addPathToFileName($fileName, $path = '') {
+	private function addPathToFileName($fileName, $path = '') {
 		if (empty($path)) {
 			$path = 'uploads/tx_'.$this->extKey.'/';
 		}
@@ -419,15 +415,33 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						be empty
 	 * @param	mixed		value of the configuration property, may be empty or
 	 * 						zero
-	 *
-	 * @access	public
 	 */
-	function setConfigurationValue($key, $value) {
+	public function setConfigurationValue($key, $value) {
+		if ($key == '') {
+			throw new Exception('$key must not be empty');
+		}
+
+		$this->ensureConfigurationArray();
+		$this->conf[$key] = $value;
+	}
+
+	/**
+	 * Gets the configuration.
+	 *
+	 * @return	array		configuration array, might be empty
+	 */
+	public function getConfiguration() {
+		$this->ensureConfigurationArray();
+		return $this->conf;
+	}
+
+	/**
+	 * Ensures that $this->conf is set and that it is an array.
+	 */
+	private function ensureConfigurationArray() {
 		if (!is_array($this->conf)) {
 			$this->conf = array();
 		}
-
-		$this->conf[$key] = $value;
 	}
 
 	/**
@@ -538,10 +552,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		a list of markes as one long string, separated,
 	 *						prefixed and postfixed by '#'
-	 *
-	 * @access	private
 	 */
-	function findMarkers() {
+	private function findMarkers() {
 		$matches = array();
 		preg_match_all(
 			'/(###)(([A-Z0-9_]*[A-Z0-9])?)(###)/', $this->templateCode, $matches
@@ -565,10 +577,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	string	case-insensitive prefix for the marker names to look for
 	 *
 	 * @return	array	array of matching marker names, might be empty
-	 *
-	 * @access	private
 	 */
-	function getPrefixedMarkers($prefix) {
+	public function getPrefixedMarkers($prefix) {
 		$matches = array();
 		preg_match_all(
 			'/(#)('.strtoupper($prefix).'_[^#]+)/',
@@ -1038,10 +1048,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "###ONE###".
-	 *
-	 * @access	private
 	 */
-	function createMarkerName($markerName, $prefix = '') {
+	private function createMarkerName($markerName, $prefix = '') {
 		return '###'
 			.$this->createMarkerNameWithoutHashes($markerName, $prefix).'###';
 	}
@@ -1055,10 +1063,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "ONE".
-	 *
-	 * @access	private
 	 */
-	function createMarkerNameWithoutHashes($markerName, $prefix = '') {
+	private function createMarkerNameWithoutHashes($markerName, $prefix = '') {
 		// If a prefix is provided, uppercases it and separates it with an
 		// underscore.
 		if (!empty($prefix)) {
@@ -1159,10 +1165,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	string		the contents of the corresponding subpart or an
 	 * 						empty string in case the subpart does not exist
-	 *
-	 * @access	private
 	 */
-	function getSubpartForCallback(array $matches) {
+	private function getSubpartForCallback(array $matches) {
 		return $this->getSubpart($matches[1]);
 	}
 
@@ -1536,10 +1540,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * table "feusers" and stores it in $this->feuser.
 	 *
 	 * If no user is logged in, $this->feuser will be null.
-	 *
-	 * @access	private
 	 */
-	function retrieveFeUser() {
+	private function retrieveFeUser() {
 		$this->feuser = $this->isLoggedIn()
 			? $GLOBALS['TSFE']->fe_user->user : null;
 	}
@@ -1777,10 +1779,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						empty
 	 *
 	 * @return	boolean		true if the marker name is valid, false otherwise
-	 *
-	 * @access	private
 	 */
-	function isMarkerNameValidWithHashes($markerName) {
+	private function isMarkerNameValidWithHashes($markerName) {
 		return (boolean) preg_match(
 			'/^###[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
 		);
@@ -1799,11 +1799,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						empty
 	 *
 	 * @return	boolean		true if the marker name is valid, false otherwise
-	 *
-	 * @access	private
 	 */
-	function isMarkerNameValidWithoutHashes($markerName) {
+	private function isMarkerNameValidWithoutHashes($markerName) {
 		return $this->isMarkerNameValidWithHashes('###'.$markerName.'###');
+	}
+
+	/**
+	 * Sets the PHP locale (as set in config.locale_all).
+	 */
+	protected function setLocaleConvention() {
+		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
 	}
 }
 

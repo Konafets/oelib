@@ -93,6 +93,40 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for setting and reading configuration values.
 	///////////////////////////////////////////////////////
 
+	public function testConfigurationInitiallyIsAnEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getConfiguration()
+		);
+	}
+
+	public function testSetConfigurationValueFailsWithAnEmptyKey() {
+		try {
+			$this->fixture->setConfigurationValue('', 'test');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
+	}
+
+	public function testSetConfigurationValueWithNonEmptyStringChangesTheConfiguration() {
+		$this->fixture->setConfigurationValue('test', 'This is a test.');
+		$this->assertEquals(
+			array('test' => 'This is a test.'),
+			$this->fixture->getConfiguration()
+		);
+	}
+
+	public function testSetConfigurationValueWithEmptyStringChangesTheConfiguration() {
+		$this->fixture->setConfigurationValue('test', '');
+		$this->assertEquals(
+			array('test' => ''),
+			$this->fixture->getConfiguration()
+		);
+	}
+
 	public function testSetConfigurationValueStringNotEmpty() {
 		$this->fixture->setConfigurationValue('test', 'This is a test.');
 		$this->assertEquals(
