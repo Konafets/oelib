@@ -29,8 +29,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib')
-	.'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
+require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
 
 class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	private $fixture;

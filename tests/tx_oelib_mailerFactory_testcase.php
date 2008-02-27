@@ -30,6 +30,7 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_mailerFactory.php');
 
 class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
@@ -265,12 +266,12 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	/////////////////////
 
 	/**
-	 * Adds the headers to the static test e-mail as chr() cannot be used when
-	 * it is defined.
+	 * Adds the headers to the static test e-mail as LF cannot be used when it
+	 * is defined.
 	 */
 	private function addHeadersToTestEmail() {
-		self::$email['headers'] = 'From: any-sender@email-address.org'.chr(10).
-			'CC: "another recipient" <another-recipient@email-address.org>'.chr(10).
+		self::$email['headers'] = 'From: any-sender@email-address.org'.LF.
+			'CC: "another recipient" <another-recipient@email-address.org>'.LF.
 			'Reply-To: any-sender@email-address.org';
 	}
 }

@@ -32,7 +32,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-define('LF', chr(10));
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 
 class tx_oelib_timer {
 	/** whether the timer currently is running */

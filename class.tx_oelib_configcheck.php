@@ -49,6 +49,8 @@
 
 require_once(PATH_t3lib.'class.t3lib_page.php');
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+
 class tx_oelib_configcheck {
 	/** the object whose configuration should be checked */
 	protected $objectToCheck = null;
@@ -1753,7 +1755,7 @@ class tx_oelib_configcheck {
 	public function getInstalledLocales() {
 		$result = array();
 
-		foreach (explode(chr(10), shell_exec('locale -a')) as $localeKey) {
+		foreach (explode(LF, shell_exec('locale -a')) as $localeKey) {
 			// The output of "locale -a" contains more lines than we need.
 			if (strpos($localeKey, '_') !== false) {
 				$result[] = trim($localeKey);
