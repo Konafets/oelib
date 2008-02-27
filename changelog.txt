@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1627] Feature: Create a file with common constants
 - [#1548] Change: Move templating functions from realty_pi1 to the template helper
 - [#1694] Fix: templatehelper::pi_getLL drops the $useHtmlSpecialChars parameter
 - [#1439] Feature: Add functions in the testing framework to create dummy FE users and FE user groups

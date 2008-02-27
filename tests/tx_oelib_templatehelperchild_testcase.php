@@ -29,6 +29,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
@@ -300,7 +301,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->getTemplateCode(true);
 
 		$this->assertEquals(
-			'Hello world!'.chr(10), $this->fixture->getSubpart()
+			'Hello world!'.LF, $this->fixture->getSubpart()
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
