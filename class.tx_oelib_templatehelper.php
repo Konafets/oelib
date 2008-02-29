@@ -78,9 +78,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** The configuration check object that will check this object. */
 	var $configurationCheck = null;
 
-	/** the back-end locallang object */
-	var $LANG;
-
 	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
 	 *
@@ -128,10 +125,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 						$this->conf =& $this->retrievePageConfig($pageId);
 						$cachedConfigs[$pageId] =& $this->conf;
 					}
-
-					// Initializes the back end locallang object.
-					$this->LANG = t3lib_div::makeInstance('language');
-					$this->LANG->init($BE_USER->uc['lang']);
 				} else {
 					// On the front end, we can use the provided template setup.
 					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
@@ -1644,35 +1637,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$result = $message;
 				$hasDisplayedMessage = true;
 			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Returns the localized label of the LOCAL_LANG key $key.
-	 * This method checks if we are in the FE or in the BE and then uses the
-	 * appropriate method.
-	 *
-	 * @param	string		the key from the LOCAL_LANG array for which to
-	 *						return the value
-	 * @param	boolean		whether the output label should be passed through
-	 *						htmlspecialchars()
-	 *
-	 * @return	string		the value from LOCAL_LANG, might be empty
-	 */
-	public function translate($key, $useHtmlSpecialChars = false) {
-		$result = '';
-
-		if (is_object($this->LANG)) {
-			$result = $this->LANG->getLL($key, $useHtmlSpecialChars);
-		} elseif (is_array($this->LOCAL_LANG)) {
-			$result = parent::translate(
-				$key,
-				$useHtmlSpecialChars
-			);
-		} else {
-			$result = $key;
 		}
 
 		return $result;

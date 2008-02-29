@@ -127,16 +127,28 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 
 	public function testEmptyKeyDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
-			'', $this->fixture->translate('')
-		);
+
+		try {
+			$this->fixture->translate('');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testEmptyKeyDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
-			'', $this->fixture->translate('')
-		);
+
+		try {
+			$this->fixture->translate('');
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail('The expected exception was not caught!');
 	}
 
 	public function testNoLanguageAtAllWithKnownKey() {

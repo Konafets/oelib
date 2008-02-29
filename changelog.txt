@@ -1,4 +1,5 @@
 0.4.0 - currently working on
+- [#1714] Fix: pi_getLL copied from oelib breaks BE localization of seminars in mod2
 - [#1627] Feature: Create a file with common constants
 - [#1548] Change: Move templating functions from realty_pi1 to the template helper
 - [#1694] Fix: templatehelper::pi_getLL drops the $useHtmlSpecialChars parameter
