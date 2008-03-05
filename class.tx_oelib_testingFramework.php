@@ -702,6 +702,26 @@ final class tx_oelib_testingFramework {
 	// ----------------------------------------------------------------------
 
 	/**
+	 * Returns a list of all table names that are available in the current
+	 * database. There is no check whether these tables are accessible for the
+	 * testing framework - this has to be done separately!
+	 *
+	 * Note: Since TYPO3 4.2, the t3lib_DB::admin_get_tables() method returns
+	 * way more data per table and not just the table name. This method deals
+	 * with this by just using the keys from the returned array.
+	 *
+	 * @return	array		list of table names
+	 *
+	 * @see	https://bugs.oliverklee.com/show_bug.cgi?id=1726
+	 * @see http://typo3.svn.sourceforge.net/viewvc/typo3/TYPO3core/branches/TYPO3_4-2/t3lib/class.t3lib_db.php?r1=3326&r2=3365
+	 */
+	private function getListOfAllTables() {
+		$tableInformation = $GLOBALS['TYPO3_DB']->admin_get_tables();
+
+		return array_keys($tableInformation);
+	}
+
+	/**
 	 * Generates a list of allowed tables to which this instance of the testing
 	 * framework has access to create/remove test records.
 	 *
@@ -714,15 +734,15 @@ final class tx_oelib_testingFramework {
 	 */
 	private function createListOfAllowedTables() {
 		$this->allowedTables = array();
-		$allTables = $GLOBALS['TYPO3_DB']->admin_get_tables();
+		$allTables = $this->getListOfAllTables();
 		$length = strlen($this->tablePrefix);
 
-		foreach ($allTables as $currentTableName) {
+		foreach ($allTables as $currentTable) {
 			if (substr_compare(
-					$this->tablePrefix, $currentTableName, 0, $length
+					$this->tablePrefix, $currentTable, 0, $length
 				) == 0
 			) {
-				$this->allowedTables[] = $currentTableName;
+				$this->allowedTables[] = $currentTable;
 			}
 		}
 	}
@@ -1001,7 +1021,7 @@ final class tx_oelib_testingFramework {
 		}
 
 		if (empty($registeredTables)) {
-			$registeredTables = $GLOBALS['TYPO3_DB']->admin_get_tables();
+			$registeredTables = $this->getListOfAllTables();
 		}
 
 		return (in_array($table, $registeredTables));
