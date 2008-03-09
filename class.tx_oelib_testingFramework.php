@@ -370,17 +370,17 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'fe_groups', $recordData
-		);		
+		);
 	}
 
 	/**
 	 * Creates a FE user record.
 	 *
 	 * @param	string		comma-separated list of UIDs of the user groups to
-	 * 						which the new user belongs, each must be > 0, may 
+	 * 						which the new user belongs, each must be > 0, may
 	 * 						contain spaces and must not be empty
 	 * @param	array		associative array that contains the data to save
-	 * 						in the new user record, may be empty, but must not 
+	 * 						in the new user record, may be empty, but must not
 	 * 						contain the keys "uid" or "usergroup"
 	 *
 	 * @return	integer		the UID of the new FE user, will be > 0
@@ -416,7 +416,7 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'fe_users', $completeRecordData
-		);		
+		);
 	}
 
 	/**
@@ -692,7 +692,7 @@ final class tx_oelib_testingFramework {
 	 * @return	boolean		true if a FE user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
-		return ((boolean) $GLOBALS['TSFE']) 
+		return ((boolean) $GLOBALS['TSFE'])
 			&& ((boolean) $GLOBALS['TSFE']->loginUser);
 	}
 
