@@ -1,4 +1,4 @@
-0.4.0 - currently working on
+0.4.0 - released 2008-03-10
 - [#1726] Fix: Parts of testingFramework broken with TYPO3 4.2 (>rev 3365)
 - [#1714] Fix: pi_getLL copied from oelib breaks BE localization of seminars in mod2
 - [#1627] Feature: Create a file with common constants
