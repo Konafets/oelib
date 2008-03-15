@@ -261,6 +261,75 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////////////////
+	// Tests concerning formatting the e-mail body.
+	/////////////////////////////////////////////////
+
+	public function testOneLineFeedIsReplacedByCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.LF.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testOneCarriageReturnIsReplacedByCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.CR.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testTwoLineFeedsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.LF.LF.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testTwoCarriageReturnsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.CR.CR.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testSeveralLineFeedsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.LF.LF.LF.LF.LF.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testSeveralCarriageReturnsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo'.CR.CR.CR.CR.CR.'bar');
+
+		$this->assertEquals(
+			'foo'.CRLF.CRLF.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	public function testEmailBodyIsNotFormattedWhenFormattingIsDisabled() {
+		$this->fixture->sendFormattedEmails(false);
+		$this->fixture->sendEmail('', '', 'foo'.CR.CR.CR.CR.CR.'bar');
+
+		$this->assertEquals(
+			'foo'.CR.CR.CR.CR.CR.'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+
 	/////////////////////
 	// Utility functions
 	/////////////////////

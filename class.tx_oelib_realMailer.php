@@ -66,7 +66,7 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 		t3lib_div::plainMailEncoded(
 			$emailAddress,
 			$subject,
-			$message,
+			$this->formatEmailBody($message),
 			$headers,
 			$encodingType,
 			$charset,

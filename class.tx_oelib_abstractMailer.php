@@ -31,7 +31,13 @@
  * @subpackage	tx_oelib
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+
 abstract class tx_oelib_abstractMailer {
+	/** whether an e-mail should be formatted before it is sent */
+	protected $enableFormatting = true;
+
 	/**
 	 * This function usually should send e-mails.
 	 *
@@ -57,6 +63,39 @@ abstract class tx_oelib_abstractMailer {
 		$charset = '',
 		$doNotEncodeHeader = false
 	);
+
+	/**
+	 * Sets whether the e-mail body should be formatted before sending the e-mail.
+	 * Formatting will replace single linefeeds or carriage returns by carriage
+	 * return plus linefeed and strip multiple blank lines.
+	 *
+	 * @param	boolean		true to enable formatting, false to disable
+	 */
+	public function sendFormattedEmails($enableFormatting) {
+		$this->enableFormatting = $enableFormatting;
+	}
+
+	/**
+	 * Formats the e-mail body if this is enabled.
+	 *
+	 * Replaces single linefeeds with carriage return plus linefeed and strips
+	 * surplus blank lines, so there are no more than two linefeeds behind one
+	 * another.
+	 *
+	 * @param	string		raw e-mail body, must not be empty
+	 *
+	 * @return	string		e-mail body, formatted if formatting is enabled,
+	 * 						will not be empty
+	 */
+	protected function formatEmailBody($rawEmailBody) {
+		if (!$this->enableFormatting) {
+			return $rawEmailBody;
+		}
+
+		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
+
+		return preg_replace('/(\r\n){2,}/', CRLF.CRLF, $body);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_abstractMailer.php']) {
