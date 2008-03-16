@@ -277,8 +277,8 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function wrap($message) {
-		return '<p lang="en" style="color: #000; background: #ff; padding: '
-			.'.4em; border: 3px solid #f00; clear: both;">'
+		return '<p lang="en" style="color: #000; background: #fff; '
+			.'padding: .4em; border: 3px solid #f00; clear: both;">'
 			.'<strong>Configuration check warning:</strong><br />'
 			.$message
 			.'<br />When that is done, please empty the '

@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1744] Fix: CSS bug in the configuration check warning
 - [#1262] Feature: Automatically remove surplus blank lines from the e-mail body
 
 0.4.0 - released 2008-03-10
