@@ -45,6 +45,7 @@ require_once(PATH_typo3.'sysext/lang/lang.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** whether init() already has been called (in order to avoid double calls) */
@@ -133,13 +134,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->pi_setPiVarDefaults();
 			$this->pi_loadLL();
 
-			// unserialize the configuration array
-			$globalConfiguration = unserialize(
-				$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]
-			);
-
-			if (isset($globalConfiguration['enableConfigCheck'])
-				&& $globalConfiguration['enableConfigCheck']) {
+			if ((isset($this->extKey) && ($this->extKey != '')) 
+				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
+					getConfigurationValueBoolean('enableConfigCheck')
+			) {
 				$configurationCheckClassname = t3lib_div::makeInstanceClassName(
 					'tx_'.$this->extKey.'_configcheck'
 				);

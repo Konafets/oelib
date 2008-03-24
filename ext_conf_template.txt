@@ -1,2 +1,0 @@
-# cat=basic/enable; type=boolean; label=Enable configuration check:This checkbox needs to be checked so the unit tests can be run.
-enableConfigCheck = 1

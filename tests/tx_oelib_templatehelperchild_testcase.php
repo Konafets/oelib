@@ -30,6 +30,7 @@
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
@@ -39,31 +40,47 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $originalGlobalsTt;
 	private $originalGlobalsTsfeSysPage;
 
-	protected function setUp() {
+	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		tx_oelib_configurationProxy::getInstance('oelib')
+			->setConfigurationValueBoolean('enableConfigCheck', true);
+
 		$this->fixture = new tx_oelib_templatehelperchild(array());
 
 		$this->originalGlobalsTt = $GLOBALS['TT'];
 		$this->originalGlobalsTsfeSysPage = $GLOBALS['TSFE']->sys_page;
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		$GLOBALS['TT'] = $this->originalGlobalsTt;
 		$GLOBALS['TSFE']->sys_page = $this->originalGlobalsTsfeSysPage;
 
-		unset($this->fixture);
-		unset($this->testingFramework);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
-	////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
 	// Tests concerning the creation of the template helper object.
-	////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
 
-	public function testConfigurationCheckCreation() {
+	public function testConfigurationCheckCreationForEnabledConfigurationCeck() {
+		// This test relies on the config check to be enabled during setup().
 		$this->assertNotNull(
+			$this->fixture->getConfigurationCheck()
+		);
+	}
+
+	public function testConfigurationCheckCreationForDisabledConfigurationCeck() {
+		// The configuration check is created during initialization, therefore
+		// the object to test is recreated for this test.
+		unset($this->fixture);
+		tx_oelib_configurationProxy::getInstance('oelib')
+			->setConfigurationValueBoolean('enableConfigCheck', false);
+		$this->fixture = new tx_oelib_templatehelperchild(array());
+
+		$this->assertNull(
 			$this->fixture->getConfigurationCheck()
 		);
 	}
@@ -90,9 +107,9 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
 	// Tests for setting and reading configuration values.
-	///////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////
 
 	public function testConfigurationInitiallyIsAnEmptyArray() {
 		$this->assertEquals(
