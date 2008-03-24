@@ -42,7 +42,6 @@ require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
 
 require_once(PATH_typo3.'sysext/cms/tslib/class.tslib_content.php');
 require_once(PATH_typo3.'sysext/lang/lang.php');
-require_once(PATH_typo3.'template.php');
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
