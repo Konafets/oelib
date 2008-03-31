@@ -29,6 +29,7 @@
  * @author		Mario Rimann <typo3-coding@rimann.org>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
@@ -38,11 +39,11 @@ define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
 class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
-	protected function setUp() {
+	public function setUp() {
 		$this->fixture = new tx_oelib_testingFramework('tx_oelib');
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
 		$this->fixture->cleanUp();
 		unset($this->fixture);
 	}
@@ -88,7 +89,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
@@ -114,7 +115,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
@@ -139,7 +140,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testMarkTableAsDirtyFailsOnNotAllowedSystemTable() {
@@ -150,7 +151,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testMarkTableAsDirtyFailsOnForeignTable() {
@@ -161,7 +162,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testMarkTableAsDirtyFailsWithEmptyTableName() {
@@ -172,7 +173,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -222,7 +223,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRecordWithEmptyTableName() {
@@ -233,7 +234,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRecordWithUidFails() {
@@ -246,7 +247,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -292,7 +293,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsOnInexistentTable() {
@@ -307,7 +308,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordOnAllowedSystemTableForPages() {
@@ -356,7 +357,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsWithUidZero() {
@@ -367,7 +368,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsWithEmptyData() {
@@ -382,7 +383,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsWithUidFieldInRecordData() {
@@ -397,7 +398,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsWithDummyRecordFieldInRecordData() {
@@ -412,7 +413,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testChangeRecordFailsOnInexistentRecord() {
@@ -427,7 +428,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -472,7 +473,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testDeleteRecordOnInexistentTable() {
@@ -486,7 +487,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testDeleteRecordWithEmptyTableName() {
@@ -500,7 +501,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testDeleteRecordOnNonTestRecord() {
@@ -515,7 +516,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
@@ -542,7 +543,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -581,7 +582,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRelationWithEmptyTableName() {
@@ -592,7 +593,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRelationWithZeroFirstUid() {
@@ -604,7 +605,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRelationWithZeroSecondUid() {
@@ -616,7 +617,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCreateRelationWithAutomaticSorting() {
@@ -718,7 +719,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testRemoveRelationOnInexistentTable() {
@@ -733,7 +734,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testRemoveRelationWithEmptyTableName() {
@@ -748,7 +749,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testRemoveRelationOnRealRecord() {
@@ -767,7 +768,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		// Runs our delete method which should NOT affect the record created
@@ -795,7 +796,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		// Checks whether the relation had been created further up.
@@ -823,7 +824,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			)
 		);
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		// Runs a regular clean up. This should now delete only the first record
@@ -866,7 +867,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			)
 		);
 		if (!$dbResult) {
-			$this->fail('There was an error with the database query.');
+			$this->fail(DATABASE_QUERY_ERROR);
 		}
 
 		// Deletes all dummy records.
@@ -920,7 +921,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testGetAssociativeDatabaseResultFailsIfDataBaseResultIsEmpty() {
@@ -940,7 +941,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testGetAssociativeDatabaseResultSucceedsForNonEmptyResults() {
@@ -979,7 +980,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCountRecordsWithInvalidTableNameRaisesException() {
@@ -992,7 +993,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testCountRecordsWithFeGroupsTableIsAllowed() {
@@ -1090,7 +1091,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testResetAutoIncrementWithEmptyTableNameFails() {
@@ -1101,7 +1102,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testResetAutoIncrementWithForeignTableFails() {
@@ -1112,7 +1113,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testResetAutoIncrementWithInexistentTableFails() {
@@ -1123,7 +1124,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -1329,7 +1330,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroPid() {
@@ -1340,7 +1341,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndPageMustHaveNoZeroUid() {
@@ -1351,7 +1352,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroUid() {
@@ -1362,7 +1363,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndPageMustHaveNoZeroDoktype() {
@@ -1373,7 +1374,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroDoktype() {
@@ -1384,7 +1385,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -1554,7 +1555,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroPid() {
@@ -1565,7 +1566,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSystemFolderMustHaveNoZeroUid() {
@@ -1576,7 +1577,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroUid() {
@@ -1587,7 +1588,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSystemFolderMustHaveNoZeroDoktype() {
@@ -1598,7 +1599,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroDoktype() {
@@ -1609,7 +1610,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -1794,7 +1795,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testContentElementMustHaveNoNonZeroPid() {
@@ -1805,7 +1806,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testContentElementMustHaveNoZeroUid() {
@@ -1816,7 +1817,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testContentElementMustHaveNoNonZeroUid() {
@@ -1827,7 +1828,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -1915,7 +1916,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroId() {
@@ -1926,7 +1927,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testPageCacheEntryMustHaveNoZeroPageId() {
@@ -1937,7 +1938,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroPageId() {
@@ -1948,7 +1949,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -1981,7 +1982,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testTemplateCannotBeCreatedWithNegativePageNumber() {
@@ -1992,7 +1993,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testTemplateCanBeDirty() {
@@ -2152,7 +2153,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testTemplateMustNotHaveANonZeroPid() {
@@ -2163,7 +2164,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testTemplateMustHaveNoZeroUid() {
@@ -2174,7 +2175,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testTemplateMustNotHaveANonZeroUid() {
@@ -2185,7 +2186,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -2286,7 +2287,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserGroupMustHaveNoNonZeroUid() {
@@ -2297,7 +2298,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -2426,7 +2427,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUid() {
@@ -2438,7 +2439,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
@@ -2450,7 +2451,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
@@ -2462,7 +2463,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
@@ -2474,7 +2475,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveANonZeroUserGroup() {
@@ -2485,7 +2486,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveANonEmptyUserGroup() {
@@ -2496,7 +2497,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNotOnlyASpaceAsValueForTheUserGroup() {
@@ -2507,7 +2508,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
@@ -2524,7 +2525,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
@@ -2539,7 +2540,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -2576,7 +2577,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 }
 

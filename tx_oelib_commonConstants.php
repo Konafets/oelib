@@ -36,4 +36,8 @@ define('ONE_DAY', 86400);
 // one week in seconds
 define('ONE_WEEK', 604800);
 
+// error messages
+define('DATABASE_QUERY_ERROR', 'There was an error with the database query.');
+define('DATABASE_RESULT_ERROR', 'There was an error with the result of the database query.');
+define('EXCEPTION_EXPECTED', 'The expected exception has not been thrown.');
 ?>

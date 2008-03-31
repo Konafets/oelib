@@ -28,6 +28,7 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
 
 define('OELIB_EXTENSION_KEY', 'oelib');
@@ -47,7 +48,7 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 
 	private $originalConfiguration = '';
 
-	protected function setUp() {
+	public function setUp() {
 		$this->fixture = tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// saves the original configuration
 		$this->originalConfiguration
@@ -58,7 +59,7 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		$this->fixture->retrieveConfiguration();
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
 		unset($this->fixture);
 		// restores the original configuration as it is not restored
 		// automatically until all oelib tests have finished
@@ -79,7 +80,7 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testGetInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {

@@ -29,16 +29,17 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
 
 class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
-	protected function setUp() {
+	public function setUp() {
 		$this->fixture = new tx_oelib_salutationswitcherchild(array());
 	}
 
-	protected function tearDown() {
+	public function tearDown() {
 		unset($this->fixture);
 	}
 
@@ -135,7 +136,7 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testEmptyKeyDe() {
@@ -148,7 +149,7 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testNoLanguageAtAllWithKnownKey() {

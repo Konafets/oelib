@@ -126,7 +126,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testSetConfigurationValueWithNonEmptyStringChangesTheConfiguration() {
@@ -303,7 +303,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		}
 
 		// Fails the test if the expected exception was not raised above.
-		$this->fail('The expected exception was not caught!');
+		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 

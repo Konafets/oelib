@@ -34,6 +34,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
+require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
+
 final class tx_oelib_testingFramework {
 	/** Prefix of the extension for which this instance of the testing framework was instantiated */
 	private $tablePrefix = '';
@@ -152,7 +154,7 @@ final class tx_oelib_testingFramework {
 			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
 			$this->markTableAsDirty($table);
 		} else {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		return $result;
@@ -472,7 +474,7 @@ final class tx_oelib_testingFramework {
 		);
 
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -498,7 +500,7 @@ final class tx_oelib_testingFramework {
 		);
 
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -550,7 +552,7 @@ final class tx_oelib_testingFramework {
 		);
 
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -578,7 +580,7 @@ final class tx_oelib_testingFramework {
 		);
 
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -643,9 +645,7 @@ final class tx_oelib_testingFramework {
 			$this->resetAutoIncrement($currentTable);
 
 			if (!$dbResult) {
-				throw new Exception(
-					'There was an error with the database query.'
-				);
+				throw new Exception(DATABASE_QUERY_ERROR);
 			}
 		}
 
@@ -804,14 +804,12 @@ final class tx_oelib_testingFramework {
 	 */
 	public function getAssociativeDatabaseResult($queryResult) {
 		if (!$queryResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
 		if (!$row) {
-			throw new Exception(
-				'There was an error with the result of the database query.'
-			);
+			throw new Exception(DATABASE_RESULT_ERROR);
 		}
 
 		return $row;
@@ -888,7 +886,7 @@ final class tx_oelib_testingFramework {
 			'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 	}
 
@@ -909,7 +907,7 @@ final class tx_oelib_testingFramework {
 			'DESCRIBE '.$table.';'
 		);
 		if (!$dbResult) {
-			throw new Exception('There was an error with the database query.');
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
 		// Walks through all the columns for this tables. As soon as a valid
@@ -949,8 +947,7 @@ final class tx_oelib_testingFramework {
 			$this->dirtySystemTables[$table] = $table;
 		} else {
 			throw new Exception(
-				'The table name "'.$table
-					.'" is not allowed for markTableAsDirty.'
+				'The table name "'.$table.'" is not allowed for markTableAsDirty.'
 			);
 		}
 	}
