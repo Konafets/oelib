@@ -25,14 +25,16 @@
 /**
  * Class 'tx_oelib_headerCollector' for the 'oelib' extension.
  *
- * This class stores HTTP header which were meant to be sent instead of really 
+ * This class stores HTTP header which were meant to be sent instead of really
  * sending them and provides various functions to get them for testing purposes.
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractHeaderProxy.php');
 
 class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {

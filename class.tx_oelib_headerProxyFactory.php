@@ -26,14 +26,16 @@
  * Class 'tx_oelib_headerProxyFactory' for the 'oelib' extension.
  *
  * This class returns either an instance of the tx_oelib_realHeaderProxy which
- * adds HTTP headers or an instance of the tx_oelib_headerCollector. The 
+ * adds HTTP headers or an instance of the tx_oelib_headerCollector. The
  * collector stores the headers that were added and does not send them. This
  * mode is for testing purposes.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_realHeaderProxy.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerCollector.php');
 

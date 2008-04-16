@@ -21,11 +21,13 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Testcase for the testing framework in the 'oelib' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Mario Rimann <typo3-coding@rimann.org>
  */
 
@@ -2580,5 +2582,4 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail(EXCEPTION_EXPECTED);
 	}
 }
-
 ?>

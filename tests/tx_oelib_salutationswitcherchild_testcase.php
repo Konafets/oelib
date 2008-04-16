@@ -21,11 +21,13 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Testcase for salutation switching in the 'oelib' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
@@ -700,5 +702,4 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

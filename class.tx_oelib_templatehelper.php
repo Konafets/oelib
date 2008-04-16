@@ -33,6 +33,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
@@ -134,7 +135,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->pi_setPiVarDefaults();
 			$this->pi_loadLL();
 
-			if ((isset($this->extKey) && ($this->extKey != '')) 
+			if ((isset($this->extKey) && ($this->extKey != ''))
 				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
 					getConfigurationValueBoolean('enableConfigCheck')
 			) {
@@ -1776,3 +1777,4 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
 	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']);
 }
+?>

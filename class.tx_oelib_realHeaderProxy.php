@@ -28,8 +28,10 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractHeaderProxy.php');
 
 class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
@@ -46,5 +48,4 @@ class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_realHeaderProxy.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_realHeaderProxy.php']);
 }
-
 ?>

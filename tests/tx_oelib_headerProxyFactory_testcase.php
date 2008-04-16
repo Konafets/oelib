@@ -28,6 +28,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -84,7 +85,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 
 	public function testAddHeaderAndGetIt() {
 		$this->fixture->addHeader('123: foo.');
-		
+
 		$this->assertEquals(
 			'123: foo.',
 			$this->fixture->getLastAddedHeader()
@@ -94,7 +95,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	public function testAddTwoHeadersAndGetTheLast() {
 		$this->fixture->addHeader('123: foo.');
 		$this->fixture->addHeader('123: bar.');
-		
+
 		$this->assertEquals(
 			'123: bar.',
 			$this->fixture->getLastAddedHeader()
@@ -104,11 +105,11 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	public function testAddTwoHeadersAndGetBoth() {
 		$this->fixture->addHeader('123: foo.');
 		$this->fixture->addHeader('123: bar.');
-		
+
 		$this->assertEquals(
 			array('123: foo.', '123: bar.'),
 			$this->fixture->getAllAddedHeaders()
-		);		
+		);
 	}
 
 	public function testAddHeaderAndCleanUpTheCollectedHeadersAndGetTheLastHeader() {
@@ -118,7 +119,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'',
 			$this->fixture->getLastAddedHeader()
-		);		
+		);
 	}
 
 	public function testAddHeaderAndCleanUpTheCollectedHeadersAndGetAllHeaders() {
@@ -128,7 +129,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			array(),
 			$this->fixture->getAllAddedHeaders()
-		);		
+		);
 	}
 
 	public function testHeaderProxyInNonTestModeReallySendsCatchableHeader() {
@@ -143,6 +144,6 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 
 		// Fails the test if the expected exception was not raised above.
 		$this->fail(EXCEPTION_EXPECTED);
-	}	
+	}
 }
 ?>

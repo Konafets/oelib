@@ -26,6 +26,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -310,5 +311,4 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

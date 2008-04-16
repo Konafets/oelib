@@ -29,6 +29,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_configurationProxy {
@@ -236,5 +237,4 @@ class tx_oelib_configurationProxy {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']);
 }
-
 ?>

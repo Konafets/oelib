@@ -20,11 +20,13 @@
 *
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
 /**
  * Testcase for the configuration proxy class in the 'oelib' extension.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
@@ -298,5 +300,4 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		);
 	}
 }
-
 ?>

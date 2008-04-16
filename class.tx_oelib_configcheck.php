@@ -44,6 +44,7 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
@@ -1835,5 +1836,4 @@ class tx_oelib_configcheck {
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configcheck.php']) {
 	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configcheck.php']);
 }
-
 ?>

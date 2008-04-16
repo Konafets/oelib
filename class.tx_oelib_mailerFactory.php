@@ -31,8 +31,10 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_realMailer.php');
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_emailCollector.php');
 

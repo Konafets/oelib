@@ -30,8 +30,10 @@
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
+ *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
+
 require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractMailer.php');
 
 class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
