@@ -48,13 +48,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		'testValueFalse' => 0
 	);
 
-	private $originalConfiguration = '';
-
 	public function setUp() {
 		$this->fixture = tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
-		// saves the original configuration
-		$this->originalConfiguration
-			= $GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY];
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
@@ -63,10 +58,6 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		unset($this->fixture);
-		// restores the original configuration as it is not restored
-		// automatically until all oelib tests have finished
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
-			= $this->originalConfiguration;
 	}
 
 

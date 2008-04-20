@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1831] Change: Remove $this->originalConfiguration from the configuration proxy's testcase
 - [#1818] Change: Comment and whitespace consistency cleanup
 - [#1526] Feature: Use a strategy for setting HTTP headers
 - [#1772] Feature: Add constants for frequently used error messages
