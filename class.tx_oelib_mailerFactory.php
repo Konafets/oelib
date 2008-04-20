@@ -90,6 +90,16 @@ class tx_oelib_mailerFactory {
 	}
 
 	/**
+	 * Discards the current mailer instance.
+	 */
+	public function discardInstance() {
+		// Returns all member variables to their initial states.
+		$this->mailer = null;
+		$this->isTestMode = false;
+		self::$instance = null;
+	}
+
+	/**
 	 * Enables the test mode.
 	 */
 	public function enableTestMode() {
@@ -98,6 +108,8 @@ class tx_oelib_mailerFactory {
 
 	/**
 	 * Disables the test mode.
+	 * 
+	 * @deprecated	2008-04-19	use discardInstance() instead
 	 */
 	public function disableTestMode() {
 		$this->isTestMode = false;

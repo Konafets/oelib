@@ -60,23 +60,36 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
-		$this->fixture->cleanUpCollectedEmailData();
+		tx_oelib_mailerFactory::getInstance()->discardInstance();
 		unset($this->fixture);
 	}
 
-	public function testGetMailer() {
-		$this->assertTrue(is_object($this->fixture));
+	public function testGetMailerInTestMode() {
+		$this->assertEquals(
+			'tx_oelib_emailCollector',
+			get_class($this->fixture)
+		);
 	}
 
-	public function testGetMailerReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
+	public function testGetMailerInNonTestMode() {
+		// initially, the test mode is disabled
+		tx_oelib_mailerFactory::getInstance()->discardInstance();
+
+		$this->assertEquals(
+			'tx_oelib_realMailer',
+			get_class(tx_oelib_mailerFactory::getInstance()->getMailer())
+		);
+	}
+
+	public function testGetMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_mailerFactory::getInstance()->getMailer()
 		);
 	}
 
-	public function testGetMailerNotReturnsTheSameObjectWhenCalledInTheSameClassInAnotherMode() {
-		tx_oelib_mailerFactory::getInstance()->disableTestMode();
+	public function testGetMailerNotReturnsTheSameObjectWhenTheInstanceWasDiscarded() {
+		tx_oelib_mailerFactory::getInstance()->discardInstance();
 		$this->assertNotSame(
 			$this->fixture,
 			tx_oelib_mailerFactory::getInstance()->getMailer()
