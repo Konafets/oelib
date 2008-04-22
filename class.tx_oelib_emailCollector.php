@@ -95,16 +95,6 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	}
 
 	/**
-	 * Deletes all collected e-mail data.
-	 * 
-	 * @deprecated	2008-04-19	Let the mailer factory discard the instance
-	 * 							instead.
-	 */
-	public function cleanUpCollectedEmailData() {
-		$this->emailData = array();
-	}
-
-	/**
 	 * Returns the last e-mail or an empty array if there is none.
 	 *
 	 * @return	array		e-mail address, subject, message and headers of the

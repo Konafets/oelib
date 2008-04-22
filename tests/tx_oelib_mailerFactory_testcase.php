@@ -157,20 +157,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStoreAnEmailAndCleanUpTheStoredEmails() {
-		$this->fixture->sendEmail(
-			self::$email['recipient'],
-			self::$email['subject'],
-			self::$email['message']
-		);
-		$this->fixture->cleanUpCollectedEmailData();
-
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAllEmail()
-		);
-	}
-
 	public function testSendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
 		$this->fixture->setFakedReturnValue(true);
 
