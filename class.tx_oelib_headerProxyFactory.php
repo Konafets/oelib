@@ -91,6 +91,16 @@ class tx_oelib_headerProxyFactory {
 	}
 
 	/**
+	 * Discards the current header proxy instance.
+	 */
+	public function discardInstance() {
+		// Returns all member variables to their initial states.
+		$this->headerProxy = null;
+		$this->isTestMode = false;
+		self::$instance = null;
+	}
+
+	/**
 	 * Enables the test mode.
 	 */
 	public function enableTestMode() {
@@ -99,6 +109,8 @@ class tx_oelib_headerProxyFactory {
 
 	/**
 	 * Disables the test mode.
+	 * 
+	 * @deprecated 2008-04-24	use discardInstance() instead
 	 */
 	public function disableTestMode() {
 		$this->isTestMode = false;

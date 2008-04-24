@@ -47,7 +47,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
-		$this->fixture->purgeCollectedHeaders();
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 		unset($this->fixture);
 	}
 
@@ -59,7 +59,8 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetHeaderProxyInNonTestMode() {
-		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
+		// new instances always have a disabled test mode
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 
 		$this->assertEquals(
 			'tx_oelib_realHeaderProxy',
@@ -75,7 +76,8 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetHeaderProxyNotReturnsTheSameObjectWhenCalledInTheSameClassInAnotherMode() {
-		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
+		// new instances always have a disabled test mode
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 
 		$this->assertNotSame(
 			$this->fixture,
@@ -133,7 +135,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testHeaderProxyInNonTestModeReallySendsCatchableHeader() {
-		tx_oelib_headerProxyFactory::getInstance()->disableTestMode();
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 
 		try {
 			tx_oelib_headerProxyFactory::getInstance()
