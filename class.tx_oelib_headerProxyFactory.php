@@ -106,15 +106,6 @@ class tx_oelib_headerProxyFactory {
 	public function enableTestMode() {
 		$this->isTestMode = true;
 	}
-
-	/**
-	 * Disables the test mode.
-	 * 
-	 * @deprecated 2008-04-24	use discardInstance() instead
-	 */
-	public function disableTestMode() {
-		$this->isTestMode = false;
-	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_headerProxyFactory.php']) {

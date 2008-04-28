@@ -51,15 +51,6 @@ class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	}
 
 	/**
-	 * Deletes all collected headers.
-	 * 
-	 * @deprecated 2008-04-24	use the factory's discardInstance() instead
-	 */
-	public function purgeCollectedHeaders() {
-		$this->headers = array();
-	}
-
-	/**
 	 * Returns the last header or an empty string if there are none.
 	 *
 	 * @return	string		last header, will be empty if there are none

@@ -114,26 +114,6 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddHeaderAndCleanUpTheCollectedHeadersAndGetTheLastHeader() {
-		$this->fixture->addHeader('123: foo.');
-		$this->fixture->purgeCollectedHeaders();
-
-		$this->assertEquals(
-			'',
-			$this->fixture->getLastAddedHeader()
-		);
-	}
-
-	public function testAddHeaderAndCleanUpTheCollectedHeadersAndGetAllHeaders() {
-		$this->fixture->addHeader('123: foo.');
-		$this->fixture->purgeCollectedHeaders();
-
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAllAddedHeaders()
-		);
-	}
-
 	public function testHeaderProxyInNonTestModeReallySendsCatchableHeader() {
 		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
 
