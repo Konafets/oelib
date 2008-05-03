@@ -935,21 +935,25 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Puts a table name on the list of dirty tables (which represents a list
-	 * of tables that were used for testing and contain dummy records and
-	 * thus are called "dirty" until the next clean up).
+	 * Puts one or multiple table names on the list of dirty tables (which
+	 * represents a list of tables that were used for testing and contain dummy
+	 * records and thus are called "dirty" until the next clean up).
 	 *
-	 * @param	string		the table name to put on the list of dirty tables
+	 * @param	string		the table name or a comma-separated list of table
+	 * 						names to put on the list of dirty tables, must not
+	 * 						be empty
 	 */
-	public function markTableAsDirty($table) {
-		if ($this->isTableNameAllowed($table)) {
-			$this->dirtyTables[$table] = $table;
-		} elseif ($this->isSystemTableNameAllowed($table)) {
-			$this->dirtySystemTables[$table] = $table;
-		} else {
-			throw new Exception(
-				'The table name "'.$table.'" is not allowed for markTableAsDirty.'
-			);
+	public function markTableAsDirty($tableNames) {
+		foreach (explode(',', $tableNames) as $currentTable) {
+			if ($this->isTableNameAllowed($currentTable)) {
+				$this->dirtyTables[$currentTable] = $currentTable;
+			} elseif ($this->isSystemTableNameAllowed($currentTable)) {
+				$this->dirtySystemTables[$currentTable] = $currentTable;
+			} else {
+				throw new Exception(
+					'The table name "'.$currentTable.'" is not allowed for markTableAsDirty.'
+				);
+			}
 		}
 	}
 

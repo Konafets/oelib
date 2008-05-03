@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1857] Change: markTableAsDirty() now accepts comma-separated list of table names
 - [#1870] Fix: createRelation() now throws exception on negative UIDs
 - [#1837] Change: Add discardInstance() to the header proxy factory
 - [#1797] Feature: Test that the mailer factory can create real mailers

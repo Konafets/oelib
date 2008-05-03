@@ -82,6 +82,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding markTableAsDirty()
 	// ---------------------------------------------------------------------
 
+	public function testMarkTableAsDirty() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getListOfDirtyTables()
+		);
+
+		$this->fixture->createRecord(OELIB_TESTTABLE, array());
+		$this->assertEquals(
+			array(
+				OELIB_TESTTABLE => OELIB_TESTTABLE
+			),
+			$this->fixture->getListOfDirtyTables()
+		);
+	}
+
 	public function testMarkTableAsDirtyWillCleanUpANonSystemTable() {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			OELIB_TESTTABLE,
@@ -176,6 +191,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		// Fails the test if the expected exception was not raised above.
 		$this->fail(EXCEPTION_EXPECTED);
+	}
+
+	public function testMarkTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
+		$this->fixture->markTableAsDirty(OELIB_TESTTABLE.','.OELIB_TESTTABLE_MM);
+		$this->assertEquals(
+			array(
+				OELIB_TESTTABLE => OELIB_TESTTABLE,
+				OELIB_TESTTABLE_MM => OELIB_TESTTABLE_MM
+			),
+			$this->fixture->getListOfDirtyTables()
+		);
 	}
 
 
@@ -1168,26 +1194,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testHasTableColumnUidOnTableWithoutColumnUid() {
 		$this->assertFalse(
 			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE_MM)
-		);
-	}
-
-
-	// ---------------------------------------------------------------------
-	// Tests regarding markTableAsDirty()
-	// ---------------------------------------------------------------------
-
-	public function testMarkTableAsDirty() {
-		$this->assertEquals(
-			array(),
-			$this->fixture->getListOfDirtyTables()
-		);
-
-		$this->fixture->createRecord(OELIB_TESTTABLE, array());
-		$this->assertEquals(
-			array(
-				OELIB_TESTTABLE => OELIB_TESTTABLE
-			),
-			$this->fixture->getListOfDirtyTables()
 		);
 	}
 
