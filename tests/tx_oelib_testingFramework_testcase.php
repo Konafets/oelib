@@ -622,6 +622,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fail(EXCEPTION_EXPECTED);
 	}
 
+	public function testCreateRelationWithNegativeFirstUid() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		try {
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail(EXCEPTION_EXPECTED);
+	}
+
+	public function testCreateRelationWithNegativeSecondUid() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		try {
+			$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, -1);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail(EXCEPTION_EXPECTED);
+	}
+
+
 	public function testCreateRelationWithAutomaticSorting() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);

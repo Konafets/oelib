@@ -523,13 +523,13 @@ final class tx_oelib_testingFramework {
 		}
 
 		// Checks that the two given UIDs are valid.
-		if (intval($uidLocal) == 0) {
+		if (intval($uidLocal) <= 0) {
 			throw new Exception(
 				'$uidLocal must be an integer > 0, but actually is "'
 					.$uidLocal.'"'
 			);
 		}
-		if  (intval($uidForeign) == 0) {
+		if  (intval($uidForeign) <= 0) {
 			throw new Exception(
 				'$uidForeign must be an integer > 0, but actually is "'
 					.$uidForeign.'"'
