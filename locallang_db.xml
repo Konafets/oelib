@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<description></description>
+		<type>database</type>
+		<fileId>EXT:oelib/locallang_db.xml</fileId>
+		<labelContext type="array">
+		</labelContext>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_oelib_test">oelib test records</label>
+			<label index="tx_oelib_test.title">Title:</label>
+		</languageKey>
+	</orig_text>
+</T3locallang>

@@ -55,6 +55,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
+		$this->fixture->clearCaches();
 
 		$GLOBALS['TT'] = $this->originalGlobalsTt;
 		$GLOBALS['TSFE']->sys_page = $this->originalGlobalsTsfeSysPage;
@@ -2777,15 +2778,78 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////////////
+	///////////////////////////////////
 	// Tests concerning TS templates.
-	///////////////////////////////////////////////////
+	///////////////////////////////////
 
 	public function testPageSetupInitallyIsEmpty() {
 		$pageId = $this->testingFramework->createFrontEndPage();
 		$this->assertEquals(
 			array(),
 			$this->fixture->retrievePageConfig($pageId)
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning enableFields
+	//////////////////////////////////
+
+	public function testEnableFieldsThrowsExceptioForTooSmallShowHidden() {
+		try {
+			$this->fixture->enableFields('tx_oelib_test', -2);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail(EXCEPTION_EXPECTED);
+	}
+
+	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
+		try {
+			$this->fixture->enableFields('tx_oelib_test', 2);
+		} catch (Exception $expected) {
+			return;
+		}
+
+		// Fails the test if the expected exception was not raised above.
+		$this->fail(EXCEPTION_EXPECTED);
+	}
+
+	public function testEnableFieldsIsDifferentForDifferentTables() {
+		$this->assertNotEquals(
+			$this->fixture->enableFields('tx_oelib_test'),
+			$this->fixture->enableFields('pages')
+		);
+	}
+
+	public function testEnableFieldsCanBeDifferentForDifferentShowHidden() {
+		$this->assertNotEquals(
+			$this->fixture->enableFields('tx_oelib_test', 0),
+			$this->fixture->enableFields('tx_oelib_test', 1)
+		);
+	}
+
+	public function testEnableFieldsCanBeDifferentForDifferentIgnores() {
+		$this->assertNotEquals(
+			$this->fixture->enableFields('tx_oelib_test', 0, array()),
+			$this->fixture->enableFields(
+				'tx_oelib_test', 0, array('endtime' => true)
+			)
+		);
+	}
+
+	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
+		$this->fixture->enableVersioningPreviewForCachedPage();
+
+		$this->assertNotEquals(
+			$this->fixture->enableFields(
+				'tx_oelib_test', 0, array(), false
+			),
+			$this->fixture->enableFields(
+				'tx_oelib_test', 0, array(), true
+			)
 		);
 	}
 }

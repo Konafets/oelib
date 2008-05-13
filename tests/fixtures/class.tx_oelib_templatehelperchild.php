@@ -121,6 +121,17 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	public function &retrievePageConfig($pageId) {
 		return parent::retrievePageConfig($pageId);
 	}
+
+	/**
+	 * Switches the cached page in self::$pageForEnableFields to use the
+	 * versioning preview.
+	 *
+	 * This function is intended for testing purposes only.
+	 */
+	public function enableVersioningPreviewForCachedPage() {
+		$this->retrievePageForEnableFields();
+		self::$pageForEnableFields->versioningPreview = true;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_templatehelperchild.php']) {
