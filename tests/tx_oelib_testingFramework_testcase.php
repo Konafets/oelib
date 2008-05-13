@@ -29,6 +29,8 @@
  * @subpackage	tx_oelib
  *
  * @author		Mario Rimann <typo3-coding@rimann.org>
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -47,6 +49,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		$this->fixture->cleanUp();
+		$this->fixture->clearCaches();
 		unset($this->fixture);
 	}
 
@@ -1185,14 +1188,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding hasTableColumnUid()
 	// ---------------------------------------------------------------------
 
-	public function testHasTableColumnUidOnTableWithColumnUid() {
+	public function testHasTableColumnUidIsTrueOnTableWithColumnUid() {
 		$this->assertTrue(
 			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE)
 		);
 	}
 
-	public function testHasTableColumnUidOnTableWithoutColumnUid() {
+	public function testHasTableColumnUidIsFalseOnTableWithoutColumnUid() {
 		$this->assertFalse(
+			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE_MM)
+		);
+	}
+
+	public function testHasTableColumnUidCanReturnDifferentResultsForDifferentTables() {
+		$this->assertNotEquals(
+			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE),
 			$this->fixture->hasTableColumnUid(OELIB_TESTTABLE_MM)
 		);
 	}

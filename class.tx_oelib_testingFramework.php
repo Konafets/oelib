@@ -38,10 +38,15 @@
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 
 final class tx_oelib_testingFramework {
-	/** Prefix of the extension for which this instance of the testing framework was instantiated */
+	/** prefix of the extension for which this instance of the testing framework
+	 * was instantiated */
 	private $tablePrefix = '';
 
-	/** Array of all table names to which this instance of the testing framework has access */
+	/** cache for all table names in the DB */
+	private static $allTablesCache = array();
+
+	/** array of all table names to which this instance of the testing framework
+	 * has access */
 	private $allowedTables = array();
 
 	/**
@@ -49,22 +54,26 @@ final class tx_oelib_testingFramework {
 	 * framework has access.
 	 */
 	private $allowedSystemTables = array(
-		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template', 'tt_content'
+		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template',
+		'tt_content'
 	);
 
+	/** cache for the results of hasTableColumnUid */
+	private static $hasTableColumnUidCache = array();
+
 	/**
-	 * Array of all "dirty" non-system tables (i.e. all tables that were used
+	 * array of all "dirty" non-system tables (i.e. all tables that were used
 	 * for testing and need to be cleaned up)
 	 */
 	private $dirtyTables = array();
 
 	/**
-	 * Array of all "dirty" system tables (i.e. all tables that were used for
+	 * array of all "dirty" system tables (i.e. all tables that were used for
 	 * testing and need to be cleaned up)
 	 */
 	private $dirtySystemTables = array();
 
-	/** Array of the sorting values of all relation tables. */
+	/** array of the sorting values of all relation tables */
 	private $relationSorting = array();
 
 	/**
@@ -717,9 +726,13 @@ final class tx_oelib_testingFramework {
 	 * @see http://typo3.svn.sourceforge.net/viewvc/typo3/TYPO3core/branches/TYPO3_4-2/t3lib/class.t3lib_db.php?r1=3326&r2=3365
 	 */
 	private function getListOfAllTables() {
-		$tableInformation = $GLOBALS['TYPO3_DB']->admin_get_tables();
+		if (empty(self::$allTablesCache)) {
+			self::$allTablesCache = array_keys(
+				$GLOBALS['TYPO3_DB']->admin_get_tables()
+			);
+		}
 
-		return array_keys($tableInformation);
+		return self::$allTablesCache;
 	}
 
 	/**
@@ -902,26 +915,30 @@ final class tx_oelib_testingFramework {
 	 * @return	boolean		true if a valid column was found, false otherwise
 	 */
 	public function hasTableColumnUid($table) {
-		$result = false;
+		if (!isset(self::$hasTableColumnUidCache[$table])) {
+			$result = false;
 
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'DESCRIBE '.$table.';'
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'DESCRIBE '.$table.';'
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+
+			// Walks through all the columns for this tables. As soon as a valid
+			// column is found, we'll exit the while loop.
+			while (!$result
+					&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
+			) {
+				// Checks whether we have a valid column.
+				$result = (($row['Field'] == 'uid')
+					&& ($row['Extra'] == 'auto_increment'));
+			}
+
+			self::$hasTableColumnUidCache[$table] = $result;
 		}
 
-		// Walks through all the columns for this tables. As soon as a valid
-		// column is found, we'll exit the while loop.
-		while (!$result
-				&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-		) {
-			// Checks whether we have a valid column.
-			$result = (($row['Field'] == 'uid')
-				&& ($row['Extra'] == 'auto_increment'));
-		}
-
-		return $result;
+		return self::$hasTableColumnUidCache[$table];
 	}
 
 	/**
@@ -1016,17 +1033,22 @@ final class tx_oelib_testingFramework {
 	 * 						otherwise
 	 */
 	private function isTable($table) {
-		static $registeredTables = array();
-
 		if ($table == '') {
-			return false;
+			throw new Exception('$table must not be empty.');
 		}
 
-		if (empty($registeredTables)) {
-			$registeredTables = $this->getListOfAllTables();
-		}
+		return (in_array($table, $this->getListOfAllTables()));
+	}
 
-		return (in_array($table, $registeredTables));
+	/**
+	 * Clears all static caches of the testing framework.
+	 *
+	 * This function usually should only be called when testing the testing
+	 * framework.
+	 */
+	public function clearCaches() {
+		self::$hasTableColumnUidCache = array();
+		self::$allTablesCache = array();
 	}
 }
 

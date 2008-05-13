@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1861] Change: Statically cache the results of hasTableColumnUid and getListOfAllTables
 - [#1860] Change: Cache the results of enableFields
 - [#1857] Change: markTableAsDirty() now accepts comma-separated list of table names
 - [#1870] Fix: createRelation() now throws exception on negative UIDs
