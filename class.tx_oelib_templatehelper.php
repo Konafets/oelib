@@ -85,6 +85,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/** cached results for the enableFields function */
 	private static $enableFieldsCache = array();
 
+	/** cache for createRecursivePageList */
+	private static $recursiveSubPageCache = array();
+
+	/** cache for retrieveDirectSubpageUids */
+	private static $directSubPageCache = array();
+
 	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
 	 *
@@ -1300,45 +1306,98 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * ...,
 	 * 250 = all descendants for all sane cases (the default value)
 	 *
-	 * @param	string		comma-separated list of page UIDs to start from, must only contain numbers and commas (may be empty)
-	 * @param	integer		maximum depth of recursion
+	 * @param	string		comma-separated list of page UIDs to start from,
+	 * 						must only contain numbers and commas, may be empty
+	 * @param	integer		maximum depth of recursion, must be >= 0
 	 *
-	 * @return	string		comma-separated list of subpage IDs (may be empty)
-	 *
-	 * @access	protected
+	 * @return	string		comma-separated list of sorted subpage UIDs
+	 * 						including the UIDs provided in $startPages, will be
+	 * 						empty if $startPages is empty
 	 */
-	function createRecursivePageList($startPages, $recursionDepth = 250) {
-		$collectivePageList = $startPages;
-		$currentPageList = $collectivePageList;
-		$currentRecursionLevel = 0;
+	public function createRecursivePageList(
+		$startPages, $recursionDepth = 0
+	) {
+		if ($recursionDepth < 0) {
+			throw new Exception('$recursionDepth must be >= 0.');
+		}
+		if ($startPages == '') {
+			return '';
+		}
 
-		while (!empty($currentPageList) && ($currentRecursionLevel < $recursionDepth)) {
+		$completePageList = explode(',', trim($startPages));
+		sort($completePageList);
+
+		$cacheKey = implode(',', $completePageList).$recursionDepth;
+
+		if (!isset(self::$recursiveSubPageCache[$cacheKey])) {
+			$recursionLevel = 0;
+			while ($recursionLevel < $recursionDepth) {
+				$subpages = $this->retrieveDirectSubpageUids($completePageList);
+				// Stops the recursion if there are no more subpages.
+				if (empty($subpages)) {
+					break;
+				}
+
+				$completePageList = array_unique(
+					array_merge(
+						$completePageList, $subpages
+					)
+				);
+				$recursionLevel++;
+			}
+			sort($completePageList);
+
+			self::$recursiveSubPageCache[$cacheKey]
+				= implode(',', $completePageList);
+		}
+
+		return self::$recursiveSubPageCache[$cacheKey];
+	}
+
+	/**
+	 * Reads the direct subpages of the pages with the provided UIDs.
+	 *
+	 * @param	array		the UIDs of the pages to which the subpages
+	 * 						should be retrieved, may contain duplicate entries,
+	 * 						may be empty
+	 *
+	 * @return	array		the UIDs of the subpages of the provided pages,
+	 * 						does not contain the provided pages themselves,
+	 * 						will not be sorted,	will be empty if there are no
+	 * 						subpages
+	 */
+	private function retrieveDirectSubpageUids(array $pageUids) {
+		if (empty($pageUids)) {
+			return array();
+		}
+		$sortedUids = array_unique($pageUids);
+		sort($sortedUids);
+		$serializedUids = implode(',', $sortedUids);
+
+		if (!isset(self::$directSubPageCache[$serializedUids])) {
+			$result = array();
+
 		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
 				'pages',
-				'pid!=0'
-					.' AND pid IN ('.$currentPageList.')'
+				'pid != 0'
+					.' AND pid IN ('.implode(',', $sortedUids).')'
 					.$this->enableFields('pages')
 			);
 
-			$currentPageList = '';
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				if (!empty($currentPageList)) {
-					$currentPageList .= ',';
-				}
-				$currentPageList .= intval($row['uid']);
+				$result[] = intval($row['uid']);
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-			if (!empty($currentPageList)) {
-				// It is ensured that $collectivePageList is non-empty at this point
-				// so the comma won't be the first char.
-				$collectivePageList .= ','.$currentPageList;
-			}
 
-			$currentRecursionLevel++;
+			self::$directSubPageCache[$serializedUids] = $result;
 		}
 
-		return $collectivePageList;
+		return self::$directSubPageCache[$serializedUids];
 	}
 
 	/**
@@ -1809,6 +1868,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	public function clearCaches() {
 		self::$pageForEnableFields = null;
 		self::$enableFieldsCache = array();
+		self::$directSubPageCache = array();
+		self::$recursiveSubPageCache = array();
 	}
 }
 

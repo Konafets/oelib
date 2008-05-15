@@ -2829,5 +2829,152 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning createRecursivePageList
+	/////////////////////////////////////////////
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion() {
+		$this->assertEquals(
+			'',
+			$this->fixture->createRecursivePageList('')
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion() {
+		$this->assertEquals(
+			'',
+			$this->fixture->createRecursivePageList('', 0)
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion() {
+		$this->assertEquals(
+			'',
+			$this->fixture->createRecursivePageList('', 1)
+		);
+	}
+
+	public function testCreateRecursivePageListThrowsWithNegativeRecursion() {
+		$this->setExpectedException('Exception', '$recursionDepth must be >= 0.');
+
+		$this->fixture->createRecursivePageList('', -1);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			(string) $uid,
+			$this->fixture->createRecursivePageList((string) $uid, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid1);
+		$uid2 = $this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			$uid1.','.$uid2,
+			$this->fixture->createRecursivePageList((string) $uid1.','.$uid2, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+		$subSubFolderUid
+			= $this->testingFramework->createSystemFolder($subFolderUid);
+
+		$this->assertEquals(
+			$uid.','.$subFolderUid,
+			$this->fixture->createRecursivePageList((string) $uid, 1)
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainUnrelatedPages() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			(string) $uid,
+			$this->fixture->createRecursivePageList((string) $uid, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListCanContainTwoSubpagesOfOnePage() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid);
+		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			$uid.','.$subFolderUid1.','.$subFolderUid2,
+			$this->fixture->createRecursivePageList((string) $uid, 1)
+		);
+	}
+
+	public function testCreateRecursivePageListCanContainSubpagesOfTwoPages() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$uid2 = $this->testingFramework->createSystemFolder();
+		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid1);
+		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid2);
+
+		$this->assertEquals(
+			$uid1.','.$uid2.','.$subFolderUid1.','.$subFolderUid2,
+			$this->fixture->createRecursivePageList($uid1.','.$uid2, 1)
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsSortedStartPages() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$uid2 = $this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			$uid1.','.$uid2,
+			$this->fixture->createRecursivePageList($uid2.','.$uid1, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsSortedStartAndSubPages() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid1);
+		$uid2 = $this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			$uid1.','.$subFolderUid.','.$uid2,
+			$this->fixture->createRecursivePageList($uid2.','.$uid1, 1)
+		);
+	}
+
+	public function testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			(string) $uid,
+			$this->fixture->createRecursivePageList((string) $uid, 0)
+		);
+		$this->assertEquals(
+			$uid.','.$subFolderUid,
+			$this->fixture->createRecursivePageList((string) $uid, 1)
+		);
+	}
+
+	public function testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			$uid.','.$subFolderUid,
+			$this->fixture->createRecursivePageList((string) $uid, 1)
+		);
+		$this->assertEquals(
+			(string) $uid,
+			$this->fixture->createRecursivePageList((string) $uid, 0)
+		);
+	}
 }
 ?>
