@@ -4,7 +4,6 @@ To-do list for the "oelib" extension
 - improve the manual:
   - document the API
   - provide some example code
-- provide an icon
 - use (int) instead of intval() for better performance
 - use ++$i instead of $i++ for better performance
 - move the pagination code from tx_realty to tx_oelib
