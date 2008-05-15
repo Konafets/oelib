@@ -29,6 +29,7 @@
  * @subpackage	tx_oelib
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -129,29 +130,15 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////
 
 	public function testEmptyKeyDefault() {
+		$this->setExpectedException('Exception', '$key must not be empty.');
 		$this->fixture->setLanguage('default');
-
-		try {
-			$this->fixture->translate('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->translate('');
 	}
 
 	public function testEmptyKeyDe() {
+		$this->setExpectedException('Exception', '$key must not be empty.');
 		$this->fixture->setLanguage('de');
-
-		try {
-			$this->fixture->translate('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->translate('');
 	}
 
 	public function testNoLanguageAtAllWithKnownKey() {

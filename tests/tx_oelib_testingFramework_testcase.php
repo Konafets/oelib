@@ -31,6 +31,7 @@
  * @author		Mario Rimann <typo3-coding@rimann.org>
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -153,47 +154,36 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMarkTableAsDirtyFailsOnInexistentTable() {
-		try {
-			$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for '
+				.'markTableAsDirty.'
+		);
+		$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
 	}
 
 	public function testMarkTableAsDirtyFailsOnNotAllowedSystemTable() {
-		try {
-			$this->fixture->markTableAsDirty('sys_domain');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table name "sys_domain" is not allowed for markTableAsDirty.'
+		);
+		$this->fixture->markTableAsDirty('sys_domain');
 	}
 
 	public function testMarkTableAsDirtyFailsOnForeignTable() {
-		try {
-			$this->fixture->markTableAsDirty('tx_seminars_seminars');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table name "tx_seminars_seminars" is not allowed for '
+				.'markTableAsDirty.'
+		);
+		$this->fixture->markTableAsDirty('tx_seminars_seminars');
 	}
 
 	public function testMarkTableAsDirtyFailsWithEmptyTableName() {
-		try {
-			$this->fixture->markTableAsDirty('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "" is not allowed for markTableAsDirty.'
+		);
+		$this->fixture->markTableAsDirty('');
 	}
 
 	public function testMarkTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
@@ -247,38 +237,26 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRecordOnInvalidTable() {
-		try {
-			$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array());
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "tx_oelib_DOESNOTEXIST" is not allowed.'
+		);
+		$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array());
 	}
 
 	public function testCreateRecordWithEmptyTableName() {
-		try {
-			$this->fixture->createRecord('', array());
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "" is not allowed.'
+		);
+		$this->fixture->createRecord('', array());
 	}
 
 	public function testCreateRecordWithUidFails() {
-		try {
-			$this->fixture->createRecord(
-				OELIB_TESTTABLE, array('uid' => 99999)
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('uid' => 99999)
+		);
 	}
 
 
@@ -313,33 +291,29 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testChangeRecordFailsOnForeignTable() {
-		try {
-			$this->fixture->changeRecord(
-				'tx_seminars_seminars',
-				99999,
-				array('title' => 'foo')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table "tx_seminars_seminars" is not on the lists with allowed '
+				.'tables.'
+		);
+		$this->fixture->changeRecord(
+			'tx_seminars_seminars',
+			99999,
+			array('title' => 'foo')
+		);
 	}
 
 	public function testChangeRecordFailsOnInexistentTable() {
-		try {
-			$this->fixture->changeRecord(
-				'tx_oelib_DOESNOTEXIST',
-				99999,
-				array('title' => 'foo')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table "tx_oelib_DOESNOTEXIST" is not on the lists with allowed '
+				.'tables.'
+		);
+		$this->fixture->changeRecord(
+			'tx_oelib_DOESNOTEXIST',
+			99999,
+			array('title' => 'foo')
+		);
 	}
 
 	public function testChangeRecordOnAllowedSystemTableForPages() {
@@ -377,89 +351,73 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testChangeRecordFailsOnOtherSystemTable() {
-		try {
-			$this->fixture->changeRecord(
-				'sys_domain',
-				1,
-				array('title' => 'bar')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The table "sys_domain" is not on the lists with allowed tables.'
+		);
+		$this->fixture->changeRecord(
+			'sys_domain',
+			1,
+			array('title' => 'bar')
+		);
 	}
 
 	public function testChangeRecordFailsWithUidZero() {
-		try {
-			$this->fixture->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The parameter $uid must not be zero.'
+		);
+		$this->fixture->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
 	}
 
 	public function testChangeRecordFailsWithEmptyData() {
+		$this->setExpectedException(
+			'Exception', 'The array with the new record data must not be empty.'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
-		try {
-			$this->fixture->changeRecord(
-				OELIB_TESTTABLE, $uid, array()
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->changeRecord(
+			OELIB_TESTTABLE, $uid, array()
+		);
 	}
 
 	public function testChangeRecordFailsWithUidFieldInRecordData() {
+		$this->setExpectedException(
+			'Exception',
+			'The parameter $recordData must not contain changes to the UID of a '
+				.'record.'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
-		try {
-			$this->fixture->changeRecord(
-				OELIB_TESTTABLE, $uid, array('uid' => '55742')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->changeRecord(
+			OELIB_TESTTABLE, $uid, array('uid' => '55742')
+		);
 	}
 
 	public function testChangeRecordFailsWithDummyRecordFieldInRecordData() {
+		$this->setExpectedException(
+			'Exception',
+			'The parameter $recordData must not contain changes to the field '
+				.'"is_dummy_record". It is impossible to convert a dummy record '
+				.'into a regular record.'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
-		try {
-			$this->fixture->changeRecord(
-				OELIB_TESTTABLE, $uid, array('is_dummy_record' => 0)
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->changeRecord(
+			OELIB_TESTTABLE, $uid, array('is_dummy_record' => 0)
+		);
 	}
 
 	public function testChangeRecordFailsOnInexistentRecord() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
+		$this->setExpectedException(
+			'Exception',
+			'There is no record with UID '.($uid + 1).' on table "'
+				.OELIB_TESTTABLE.'".'
+		);
 
-		try {
-			$this->fixture->changeRecord(
-				OELIB_TESTTABLE, $uid + 1, array('title' => 'foo')
-			);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->changeRecord(
+			OELIB_TESTTABLE, $uid + 1, array('title' => 'foo')
+		);
 	}
 
 
@@ -497,42 +455,30 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$table = 'tx_seminars_seminars';
 		$uid = 99999;
 
-		try {
-			$this->fixture->deleteRecord($table, $uid);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->deleteRecord($table, $uid);
 	}
 
 	public function testDeleteRecordOnInexistentTable() {
 		$table = 'tx_oelib_DOESNOTEXIST';
 		$uid = 99999;
 
-		try {
-			$this->fixture->deleteRecord($table, $uid);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->deleteRecord($table, $uid);
 	}
 
 	public function testDeleteRecordWithEmptyTableName() {
 		$table = '';
 		$uid = 99999;
 
-		try {
-			$this->fixture->deleteRecord($table, $uid);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->deleteRecord($table, $uid);
 	}
 
 	public function testDeleteRecordOnNonTestRecord() {
@@ -606,73 +552,49 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$uidLocal = 99999;
 		$uidForeign = 199999;
 
-		try {
-			$this->fixture->createRelation($table, $uidLocal, $uidForeign);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->createRelation($table, $uidLocal, $uidForeign);
 	}
 
 	public function testCreateRelationWithEmptyTableName() {
-		try {
-			$this->fixture->createRelation('', 99999, 199999);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "" is not allowed.'
+		);
+		$this->fixture->createRelation('', 99999, 199999);
 	}
 
 	public function testCreateRelationWithZeroFirstUid() {
+		$this->setExpectedException(
+			'Exception', '$uidLocal must be an integer > 0, but actually is "0"'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
-		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
 	}
 
 	public function testCreateRelationWithZeroSecondUid() {
+		$this->setExpectedException(
+			'Exception', '$uidForeign must be an integer > 0, but actually is "0"'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
-		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
 	}
 
 	public function testCreateRelationWithNegativeFirstUid() {
+		$this->setExpectedException(
+			'Exception', '$uidLocal must be an integer > 0, but actually is "-1"'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
-		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
 	}
 
 	public function testCreateRelationWithNegativeSecondUid() {
+		$this->setExpectedException(
+			'Exception', '$uidForeign must be an integer > 0, but actually is "-1"'
+		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
-		try {
-			$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, -1);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, -1);
 	}
 
 
@@ -768,14 +690,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$uidLocal = 99999;
 		$uidForeign = 199999;
 
-		try {
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
 	public function testRemoveRelationOnInexistentTable() {
@@ -783,14 +701,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$uidLocal = 99999;
 		$uidForeign = 199999;
 
-		try {
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
 	public function testRemoveRelationWithEmptyTableName() {
@@ -798,14 +712,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$uidLocal = 99999;
 		$uidForeign = 199999;
 
-		try {
-			$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The table name "'.$table.'" is not allowed.'
+		);
+		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
 	public function testRemoveRelationOnRealRecord() {
@@ -970,17 +880,12 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testGetAssociativeDatabaseResultFailsIfResourceIsFalse() {
-		try {
-			$this->fixture->getAssociativeDatabaseResult(false);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', DATABASE_QUERY_ERROR);
+		$this->fixture->getAssociativeDatabaseResult(false);
 	}
 
 	public function testGetAssociativeDatabaseResultFailsIfDataBaseResultIsEmpty() {
+		$this->setExpectedException('Exception', DATABASE_RESULT_ERROR);
 		$uid = $this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => '')
 		);
@@ -989,15 +894,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE,
 			'uid='.$uid.' AND title="foo"'
 		);
-
-		try {
-			$this->fixture->getAssociativeDatabaseResult($dbResult);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->getAssociativeDatabaseResult($dbResult);
 	}
 
 	public function testGetAssociativeDatabaseResultSucceedsForNonEmptyResults() {
@@ -1027,29 +924,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountRecordsWithEmptyTableName() {
+		$this->setExpectedException('Exception', '$table must not be empty.');
 		$whereClause = 'is_dummy_record=1';
-
-		try {
-			$this->fixture->countRecords('', $whereClause);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->countRecords('', $whereClause);
 	}
 
 	public function testCountRecordsWithInvalidTableNameRaisesException() {
+		$this->setExpectedException(
+			'Exception',
+			'The method countRecords() was called with an empty table name or a '
+				.'table name that is not allowed within the current instance of '
+				.'the testing framework.'
+		);
 		$table = 'foo_bar';
-
-		try {
-			$this->fixture->countRecords($table);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->countRecords($table);
 	}
 
 	public function testCountRecordsWithFeGroupsTableIsAllowed() {
@@ -1140,47 +1028,39 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testResetAutoIncrementWithOtherSystemTableFails() {
-		try {
-			$this->fixture->resetAutoIncrement('sys_domains');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty or '
+				.'not in the list of allowed tables.'
+		);
+		$this->fixture->resetAutoIncrement('sys_domains');
 	}
 
 	public function testResetAutoIncrementWithEmptyTableNameFails() {
-		try {
-			$this->fixture->resetAutoIncrement('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty or '
+				.'not in the list of allowed tables.'
+		);
+		$this->fixture->resetAutoIncrement('');
 	}
 
 	public function testResetAutoIncrementWithForeignTableFails() {
-		try {
-			$this->fixture->resetAutoIncrement('tx_seminars_seminars');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty or '
+				.'not in the list of allowed tables.'
+		);
+		$this->fixture->resetAutoIncrement('tx_seminars_seminars');
 	}
 
 	public function testResetAutoIncrementWithInexistentTableFails() {
-		try {
-			$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty or '
+				.'not in the list of allowed tables.'
+		);
+		$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
 	}
 
 
@@ -1366,69 +1246,45 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndPageMustHaveNoZeroPid() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('pid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('pid' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroPid() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('pid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('pid' => 99999));
 	}
 
 	public function testFrontEndPageMustHaveNoZeroUid() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('uid' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroUid() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('uid' => 99999));
 	}
 
 	public function testFrontEndPageMustHaveNoZeroDoktype() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('doktype' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "doktype" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('doktype' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroDoktype() {
-		try {
-			$this->fixture->createFrontEndPage(0, array('doktype' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "doktype" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndPage(0, array('doktype' => 99999));
 	}
 
 
@@ -1591,69 +1447,45 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSystemFolderMustHaveNoZeroPid() {
-		try {
-			$this->fixture->createSystemFolder(0, array('pid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('pid' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroPid() {
-		try {
-			$this->fixture->createSystemFolder(0, array('pid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('pid' => 99999));
 	}
 
 	public function testSystemFolderMustHaveNoZeroUid() {
-		try {
-			$this->fixture->createSystemFolder(0, array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('uid' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroUid() {
-		try {
-			$this->fixture->createSystemFolder(0, array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('uid' => 99999));
 	}
 
 	public function testSystemFolderMustHaveNoZeroDoktype() {
-		try {
-			$this->fixture->createSystemFolder(0, array('doktype' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "doktype" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('doktype' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroDoktype() {
-		try {
-			$this->fixture->createSystemFolder(0, array('doktype' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "doktype" must not be set in $recordData.'
+		);
+		$this->fixture->createSystemFolder(0, array('doktype' => 99999));
 	}
 
 
@@ -1831,47 +1663,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testContentElementMustHaveNoZeroPid() {
-		try {
-			$this->fixture->createContentElement(0, array('pid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createContentElement(0, array('pid' => 0));
 	}
 
 	public function testContentElementMustHaveNoNonZeroPid() {
-		try {
-			$this->fixture->createContentElement(0, array('pid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createContentElement(0, array('pid' => 99999));
 	}
 
 	public function testContentElementMustHaveNoZeroUid() {
-		try {
-			$this->fixture->createContentElement(0, array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createContentElement(0, array('uid' => 0));
 	}
 
 	public function testContentElementMustHaveNoNonZeroUid() {
-		try {
-			$this->fixture->createContentElement(0, array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createContentElement(0, array('uid' => 99999));
 	}
 
 
@@ -1952,47 +1768,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryMustHaveNoZeroId() {
-		try {
-			$this->fixture->createPageCacheEntry(0, array('id' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "id" must not be set in $recordData.'
+		);
+		$this->fixture->createPageCacheEntry(0, array('id' => 0));
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroId() {
-		try {
-			$this->fixture->createPageCacheEntry(0, array('id' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "id" must not be set in $recordData.'
+		);
+		$this->fixture->createPageCacheEntry(0, array('id' => 99999));
 	}
 
 	public function testPageCacheEntryMustHaveNoZeroPageId() {
-		try {
-			$this->fixture->createPageCacheEntry(0, array('page_id' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "page_id" must not be set in $recordData.'
+		);
+		$this->fixture->createPageCacheEntry(0, array('page_id' => 0));
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroPageId() {
-		try {
-			$this->fixture->createPageCacheEntry(0, array('page_id' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "page_id" must not be set in $recordData.'
+		);
+		$this->fixture->createPageCacheEntry(0, array('page_id' => 99999));
 	}
 
 
@@ -2018,25 +1818,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTemplateCannotBeCreatedOnRootPage() {
-		try {
-			$this->fixture->createTemplate(0);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(0);
 	}
 
 	public function testTemplateCannotBeCreatedWithNegativePageNumber() {
-		try {
-			$this->fixture->createTemplate(-1);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(-1);
 	}
 
 	public function testTemplateCanBeDirty() {
@@ -2189,47 +1977,23 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTemplateMustNotHaveAZeroPid() {
-		try {
-			$this->fixture->createTemplate(0, array('pid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(0, array('pid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroPid() {
-		try {
-			$this->fixture->createTemplate(0, array('pid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(0, array('pid' => 99999));
 	}
 
 	public function testTemplateMustHaveNoZeroUid() {
-		try {
-			$this->fixture->createTemplate(0, array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(0, array('uid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroUid() {
-		try {
-			$this->fixture->createTemplate(0, array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->fixture->createTemplate(0, array('uid' => 99999));
 	}
 
 
@@ -2323,25 +2087,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserGroupMustHaveNoZeroUid() {
-		try {
-			$this->fixture->createFrontEndUserGroup(array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndUserGroup(array('uid' => 0));
 	}
 
 	public function testFrontEndUserGroupMustHaveNoNonZeroUid() {
-		try {
-			$this->fixture->createFrontEndUserGroup(array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createFrontEndUserGroup(array('uid' => 99999));
 	}
 
 
@@ -2462,96 +2218,64 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUid() {
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		try {
-			$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 0));
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUid() {
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		try {
-			$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 99999));
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
+		$this->setExpectedException(
+			'Exception', 'The column "usergroup" must not be set in $recordData.'
+		);
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		try {
-			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 0));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 0));
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
+		$this->setExpectedException(
+			'Exception', 'The column "usergroup" must not be set in $recordData.'
+		);
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		try {
-			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 99999));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 99999));
 	}
 
 	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
+		$this->setExpectedException(
+			'Exception', 'The column "usergroup" must not be set in $recordData.'
+		);
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		try {
-			$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => '1,2,4,5'));
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => '1,2,4,5'));
 	}
 
 	public function testFrontEndUserMustHaveANonZeroUserGroup() {
-		try {
-			$this->fixture->createFrontEndUser(0);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', '$frontEndUserGroups must not be empty.'
+		);
+		$this->fixture->createFrontEndUser(0);
 	}
 
 	public function testFrontEndUserMustHaveANonEmptyUserGroup() {
-		try {
-			$this->fixture->createFrontEndUser('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', '$frontEndUserGroups must not be empty.'
+		);
+		$this->fixture->createFrontEndUser('');
 	}
 
 	public function testFrontEndUserMustHaveNotOnlyASpaceAsValueForTheUserGroup() {
-		try {
-			$this->fixture->createFrontEndUser(' ');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException(
+			'Exception', '$frontEndUserGroups must not be empty.'
+		);
+		$this->fixture->createFrontEndUser(' ');
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
@@ -2559,31 +2283,27 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
 		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
 
-		try {
-			$this->fixture->createFrontEndUser(
+		$this->setExpectedException(
+			'Exception',
+			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
+				.'Each UID must be > 0.'
+		);
+		$this->fixture->createFrontEndUser(
 			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', 0, '.$feUserGroupUidThree
 		);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 
-		try {
-			$this->fixture->createFrontEndUser(
+		$this->setExpectedException(
+			'Exception',
+			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
+				.'Each UID must be > 0.'
+		);
+		$this->fixture->createFrontEndUser(
 			$feUserGroupUid.', abc'
 		);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
 	}
 
 
@@ -2613,14 +2333,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testLoginFrontEndUserWithAZeroUid() {
-		try {
-			$this->fixture->loginFrontEndUser(0);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', 'The user ID must be > 0.');
+		$this->fixture->loginFrontEndUser(0);
 	}
 }
 ?>

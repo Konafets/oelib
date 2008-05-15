@@ -28,6 +28,7 @@
  * @subpackage	tx_oelib
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -66,14 +67,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetInstanceThrowsExeptionIfNoExtensionKeyGiven() {
-		try {
-			tx_oelib_configurationProxy::getInstance('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', 'The extension key was not set.');
+		tx_oelib_configurationProxy::getInstance('');
 	}
 
 	public function testGetInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {

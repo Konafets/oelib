@@ -29,6 +29,7 @@
  * @subpackage	tx_oelib
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -122,14 +123,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueFailsWithAnEmptyKey() {
-		try {
-			$this->fixture->setConfigurationValue('', 'test');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$key must not be empty');
+		$this->fixture->setConfigurationValue('', 'test');
 	}
 
 	public function testSetConfigurationValueWithNonEmptyStringChangesTheConfiguration() {
@@ -299,14 +294,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetListViewConfigurationValueThrowsAnExeptionIfNoFieldNameWasProvided() {
-		try {
-			$this->fixture->getListViewConfValueBoolean('');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$fieldName must not be empty.');
+		$this->fixture->getListViewConfValueBoolean('');
 	}
 
 
@@ -1138,8 +1127,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'<span class="seminars-item-subtitle"> - ###SUBTITLE###</span>'
 				.'<!-- ###FIELD_WRAPPER_SUBTITLE### -->'
 				.'</h3>'
-        		.'<!-- ###FIELD_WRAPPER_TITLE### -->'
-        		.'<!-- ###SINGLE_VIEW###  -->'
+						.'<!-- ###FIELD_WRAPPER_TITLE### -->'
+						.'<!-- ###SINGLE_VIEW###  -->'
 		);
 		$this->fixture->hideSubparts('FIELD_WRAPPER_SUBTITLE');
 		$this->assertEquals(
@@ -2795,26 +2784,14 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests concerning enableFields
 	//////////////////////////////////
 
-	public function testEnableFieldsThrowsExceptioForTooSmallShowHidden() {
-		try {
-			$this->fixture->enableFields('tx_oelib_test', -2);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+	public function testEnableFieldsThrowsExceptionForTooSmallShowHidden() {
+		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is -2');
+		$this->fixture->enableFields('tx_oelib_test', -2);
 	}
 
 	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
-		try {
-			$this->fixture->enableFields('tx_oelib_test', 2);
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is 2');
+		$this->fixture->enableFields('tx_oelib_test', 2);
 	}
 
 	public function testEnableFieldsIsDifferentForDifferentTables() {

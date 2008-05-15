@@ -30,6 +30,7 @@
  * @subpackage	tx_oelib
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
@@ -115,17 +116,12 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testHeaderProxyInNonTestModeReallySendsCatchableHeader() {
+		$this->setExpectedException(
+			'Exception',
+			'Cannot modify header information - headers already sent by'
+		);
 		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
-
-		try {
-			tx_oelib_headerProxyFactory::getInstance()
-				->getHeaderProxy()->addHeader('123: foo.');
-		} catch (Exception $expected) {
-			return;
-		}
-
-		// Fails the test if the expected exception was not raised above.
-		$this->fail(EXCEPTION_EXPECTED);
+		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader('123: foo.');
 	}
 }
 ?>
