@@ -2928,27 +2928,6 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListReturnsSortedStartPages() {
-		$uid1 = $this->testingFramework->createSystemFolder();
-		$uid2 = $this->testingFramework->createSystemFolder();
-
-		$this->assertEquals(
-			$uid1.','.$uid2,
-			$this->fixture->createRecursivePageList($uid2.','.$uid1, 0)
-		);
-	}
-
-	public function testCreateRecursivePageListReturnsSortedStartAndSubPages() {
-		$uid1 = $this->testingFramework->createSystemFolder();
-		$subFolderUid = $this->testingFramework->createSystemFolder($uid1);
-		$uid2 = $this->testingFramework->createSystemFolder();
-
-		$this->assertEquals(
-			$uid1.','.$subFolderUid.','.$uid2,
-			$this->fixture->createRecursivePageList($uid2.','.$uid1, 1)
-		);
-	}
-
 	public function testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);

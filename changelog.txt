@@ -1,6 +1,5 @@
 0.5.0 - currently working on
 - [#1904] Fix: Non-sense unit tests in tx_oelib_testingFramework_testcase
-- [#1891] Change: templatehelper::createRecursivePageList should cache its results
 - [#1903] Change: Use $this->setExpectedException() instead of try-catch-block in Unit tests
 - [#1861] Change: Statically cache the results of hasTableColumnUid and getListOfAllTables
 - [#1860] Change: Cache the results of enableFields
