@@ -1977,23 +1977,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testTemplateMustNotHaveAZeroPid() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
-		$this->fixture->createTemplate(0, array('pid' => 0));
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createTemplate(42, array('pid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroPid() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
-		$this->fixture->createTemplate(0, array('pid' => 99999));
+		$this->setExpectedException(
+			'Exception', 'The column "pid" must not be set in $recordData.'
+		);
+		$this->fixture->createTemplate(42, array('pid' => 99999));
 	}
 
 	public function testTemplateMustHaveNoZeroUid() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
-		$this->fixture->createTemplate(0, array('uid' => 0));
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createTemplate(42, array('uid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroUid() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
-		$this->fixture->createTemplate(0, array('uid' => 99999));
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+		$this->fixture->createTemplate(42, array('uid' => 99999));
 	}
 
 
