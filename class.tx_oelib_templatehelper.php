@@ -507,7 +507,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$matches = array();
 			preg_match(
 				'/<!-- *###'.$subpartName.'### *-->(.*)'
-					.'<!-- *###'.$subpartName.'### *-->/msSuU',
+					.'<!-- *###'.$subpartName.'### *-->/msSU',
 				$templateRawCode,
 				$matches
 			);
@@ -1138,7 +1138,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		// recursively replaces subparts with their contents
 		$noSubpartMarkers = preg_replace_callback(
 			'/<!-- *###([^#]*)### *-->(.*)'
-				.'<!-- *###\1### *-->/msSuU',
+				.'<!-- *###\1### *-->/msSU',
 			array(
 				$this,
 				'getSubpartForCallback'

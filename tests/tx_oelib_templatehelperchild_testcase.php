@@ -345,7 +345,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteTemplate() {
+	public function testGetCompleteTemplateReturnsCompleteTemplateContent() {
 		$templateCode = 'This is a test including'.LF.'a linefeed.'.LF;
 		$this->fixture->processTemplate(
 			$templateCode
@@ -355,6 +355,25 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testGetCompleteTemplateCanContainUtf8Umlauts() {
+		$this->fixture->processTemplate('äöüßÄÖÜßéèáàóò');
+
+		$this->assertEquals(
+			'äöüßÄÖÜßéèáàóò',
+			$this->fixture->getSubpart()
+		);
+	}
+
+	public function testGetCompleteTemplateCanContainIso88591Umlauts() {
+		// 228 = ä, 223 = ß (in ISO8859-1)
+		$this->fixture->processTemplate(chr(228) . chr(223));
+
+		$this->assertEquals(
+			chr(228) . chr(223),
+			$this->fixture->getSubpart()
 		);
 	}
 
@@ -388,6 +407,33 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testGetSubpartFromTemplateCanContainUtf8Umlauts() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+			'äöüßÄÖÜßéèáàóò' .
+			'<!-- ###MY_SUBPART### -->'
+		);
+
+		$this->assertEquals(
+			'äöüßÄÖÜßéèáàóò',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	public function testGetSubpartFromTemplateCanContainIso88591Umlauts() {
+		// 228 = ä, 223 = ß (in ISO8859-1)
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+			chr(228) . chr(223) .
+			'<!-- ###MY_SUBPART### -->'
+		);
+
+		$this->assertEquals(
+			chr(228) . chr(223),
+			$this->fixture->getSubpart('MY_SUBPART')
 		);
 	}
 
@@ -545,6 +591,31 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->setMarker('bar', 'test');
 		$this->assertEquals(
 			'test', $this->fixture->getMarker('bar')
+		);
+	}
+
+	public function testSetMarkerAndGetMarkerCanHaveUtf8UmlautsInMarkerContent() {
+		$this->fixture->processTemplate(
+			'###BAR###'
+		);
+		$this->fixture->setMarker('bar', 'äöüßÄÖÜßéèáàóò');
+
+		$this->assertEquals(
+			'äöüßÄÖÜßéèáàóò',
+			$this->fixture->getMarker('bar')
+		);
+	}
+
+	public function testSetMarkerAndGetMarkerCanHaveIso88591UmlautsInMarkerContent() {
+		$this->fixture->processTemplate(
+			'###BAR###'
+		);
+		// 228 = ä, 223 = ß (in ISO8859-1)
+		$this->fixture->setMarker('bar', chr(228) . chr(223));
+
+		$this->assertEquals(
+			chr(228) . chr(223),
+			$this->fixture->getMarker('bar')
 		);
 	}
 
@@ -1652,7 +1723,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetNewSubpartWithNameWithUmlautCreatesWarning() {
+	public function testSetNewSubpartWithNameWithUtf8UmlautCreatesWarning() {
 		$this->fixture->processTemplate(
 			'Some text.'
 		);
@@ -1782,6 +1853,33 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 		$this->assertEquals(
 			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testSetSubpartAndGetSubpartCanHaveUtf8UmlautsInSubpartContent() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+			'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->setSubpart('MY_SUBPART', 'äöüßÄÖÜßéèáàóò');
+
+		$this->assertEquals(
+			'äöüßÄÖÜßéèáàóò',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	public function testSetSubpartAndGetSubpartCanHaveIso88591UmlautsInSubpartContent() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+			'<!-- ###MY_SUBPART### -->'
+		);
+		// 228 = ä, 223 = ß (in ISO8859-1)
+		$this->fixture->setSubpart('MY_SUBPART', chr(228) . chr(223));
+
+		$this->assertEquals(
+			chr(228) . chr(223),
+			$this->fixture->getSubpart('MY_SUBPART')
 		);
 	}
 
@@ -2676,7 +2774,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartWithNameWithUmlautIsIgnored() {
+	public function testSubpartWithNameWithUtf8UmlautIsIgnored() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SÜBPART### -->'
 				.'Some text.'
