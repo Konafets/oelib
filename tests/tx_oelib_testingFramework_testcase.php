@@ -95,6 +95,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 	}
 
+	/**
+	 * Checks whether the extension user_oelibtest2 is currently loaded and lets
+	 * a test fail if the extension is not loaded.
+	 */
+	private function checkIfExtensionUserOelibtest2IsLoaded() {
+		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
+			$this->fail(
+				'Extension user_oelibtest2 is not installed but needs to be ' .
+					'installed! Please install it from EXT:oelib/tests/' .
+					'fixtures/user_oelibtest2.t3x.'
+			);
+		}
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding markTableAsDirty()
@@ -994,6 +1008,25 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$allowedTables = $this->fixture->getListOfAdditionalAllowedTableNames();
 		$this->assertNotContains(
 			'be_users',
+			$allowedTables
+		);
+	}
+
+	public function testCreateListOfAdditionalAllowedTablesContainsOurTestTables() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+		$this->checkIfExtensionUserOelibtest2IsLoaded();
+
+		$fixture = new tx_oelib_testingFramework(
+			'tx_oelib', array('user_oelibtest', 'user_oelibtest2')
+		);
+
+		$allowedTables = $fixture->getListOfAdditionalAllowedTableNames();
+		$this->assertContains(
+			'user_oelibtest_test',
+			$allowedTables
+		);
+		$this->assertContains(
+			'user_oelibtest2_test',
 			$allowedTables
 		);
 	}
