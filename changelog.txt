@@ -1,4 +1,5 @@
 0.5.0 - currently working on
+- [#1893] Feature: Allow to use custom "is_dummy" fields per table
 - [#1908] Fix: Registration for event not possible if umlauts in fe-user "Name" field
 - [#1907] Fix: Oelib's locallang_db.xml is damaged
 - [#1904] Fix: Non-sense unit tests in tx_oelib_testingFramework_testcase

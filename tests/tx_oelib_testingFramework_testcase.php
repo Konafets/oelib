@@ -45,7 +45,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_testingFramework('tx_oelib');
+		$this->fixture = new tx_oelib_testingFramework('tx_oelib', array('user_oelibtest'));
 	}
 
 	public function tearDown() {
@@ -79,6 +79,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		return $row['sorting'];
+	}
+
+	/**
+	 * Checks whether the extension user_oelibtest is currently loaded and lets
+	 * a test fail if the extension is not loaded.
+	 */
+	private function checkIfExtensionUserOelibtestIsLoaded() {
+		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
+			$this->fail(
+				'Extension user_oelibtest is not installed but needs to be ' .
+					'installed! Please install it from EXT:oelib/tests/' .
+					'fixtures/user_oelibtest.t3x.'
+			);
+		}
 	}
 
 
@@ -150,6 +164,30 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords('pages', 'uid='.$uid)
+		);
+	}
+
+	public function testMarkTableAsDirtyWillCleanUpAdditionalAllowedTable() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			'user_oelibtest_test',
+			array(
+				'tx_oelib_is_dummy_record' => 1
+			)
+		);
+
+		if (!$dbResult) {
+			$this->fail(DATABASE_QUERY_ERROR);
+		}
+
+		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+
+		$this->fixture->markTableAsDirty('user_oelibtest_test');
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords('user_oelibtest_test', 'uid=' . $uid)
 		);
 	}
 
@@ -259,6 +297,18 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateRecordOnValidAdditionalAllowedTableWithValidDataSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$title = 'TEST record';
+		$this->fixture->createRecord(
+			'user_oelibtest_test',
+			array(
+				'title' => $title
+			)
+		);
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding changeRecord()
@@ -362,6 +412,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testChangeRecordOnAdditionalAllowedTableSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$uid = $this->fixture->createRecord(
+			'user_oelibtest_test',
+			array('title' => 'foo')
+		);
+
+		$this->fixture->changeRecord(
+			'user_oelibtest_test',
+			$uid,
+			array('title' => 'bar')
+		);
+	}
+
 	public function testChangeRecordFailsWithUidZero() {
 		$this->setExpectedException(
 			'Exception', 'The parameter $uid must not be zero.'
@@ -435,6 +500,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
 		);
+	}
+
+	public function testDeleteRecordOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		// Creates and directly destroys a dummy record.
+		$uid = $this->fixture->createRecord('user_oelibtest_test', array());
+		$this->fixture->deleteRecord('user_oelibtest_test', $uid);
 	}
 
 	public function testDeleteRecordOnInexistentRecord() {
@@ -544,6 +617,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 			)
+		);
+	}
+
+	public function testCreateRelationWithValidDataOnAdditionalAllowedTableSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$uidLocal = $this->fixture->createRecord('user_oelibtest_test');
+		$uidForeign = $this->fixture->createRecord('user_oelibtest_test');
+
+		$this->fixture->createRelation(
+			'user_oelibtest_test_article_mm', $uidLocal, $uidForeign
 		);
 	}
 
@@ -661,6 +745,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 				OELIB_TESTTABLE_MM,
 				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
 			)
+		);
+	}
+
+	public function testRemoveRelationOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$uidLocal = $this->fixture->createRecord('user_oelibtest_test');
+		$uidForeign = $this->fixture->createRecord('user_oelibtest_test');
+
+		// Creates and directly destroys a dummy record.
+		$this->fixture->createRelation(
+			'user_oelibtest_test_article_mm', $uidLocal, $uidForeign
+		);
+		$this->fixture->removeRelation(
+			'user_oelibtest_test_article_mm', $uidLocal, $uidForeign
 		);
 	}
 
@@ -859,7 +958,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateListOfAllowedTablesContainsOurTestTable() {
-		$allowedTables = $this->fixture->getListOfAllowedTableNames();
+		$allowedTables = $this->fixture->getListOfOwnAllowedTableNames();
 		$this->assertContains(
 			OELIB_TESTTABLE,
 			$allowedTables
@@ -867,7 +966,32 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateListOfAllowedTablesDoesNotContainForeignTables() {
-		$allowedTables = $this->fixture->getListOfAllowedTableNames();
+		$allowedTables = $this->fixture->getListOfOwnAllowedTableNames();
+		$this->assertNotContains(
+			'be_users',
+			$allowedTables
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createListOfAdditionalAllowedTables()
+	//
+	// (That method is called in the constructor of the fixture.)
+	// ---------------------------------------------------------------------
+
+	public function testCreateListOfAdditionalAllowedTablesContainsOurTestTable() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		$allowedTables = $this->fixture->getListOfAdditionalAllowedTableNames();
+		$this->assertContains(
+			'user_oelibtest_test',
+			$allowedTables
+		);
+	}
+
+	public function testCreateListOfAdditionalAllowedTablesDoesNotContainForeignTables() {
+		$allowedTables = $this->fixture->getListOfAdditionalAllowedTableNames();
 		$this->assertNotContains(
 			'be_users',
 			$allowedTables
@@ -1013,6 +1137,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$latestUid,
 			$row['Auto_increment']
 		);
+	}
+
+	public function testResetAutoIncrementForAdditionalAllowedTableSucceeds() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
+		// Creates and deletes a record and then resets the auto increment.
+		$latestUid = $this->fixture->createRecord('user_oelibtest_test');
+		$this->fixture->deleteRecord('user_oelibtest_test', $latestUid);
+		$this->fixture->resetAutoIncrement('user_oelibtest_test');
 	}
 
 	public function testResetAutoIncrementForFeUsersTableIsAllowed() {

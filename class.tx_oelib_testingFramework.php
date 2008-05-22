@@ -33,21 +33,38 @@
  * @author		Mario Rimann <typo3-coding@rimann.org>
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
 require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
 
 final class tx_oelib_testingFramework {
-	/** prefix of the extension for which this instance of the testing framework
-	 * was instantiated */
+	/**
+	 * prefix of the extension for which this instance of the testing framework
+	 * was instantiated (e.g. "tx_seminars")
+	 */
 	private $tablePrefix = '';
 
-	/** cache for all table names in the DB */
+	/**
+	 * prefixes of additional extensions to which this instance of the testing
+	 * framework has access (e.g. "tx_seminars")
+	 */
+	private $additionalTablePrefixes = array();
+
+	/** cache for all DB table names in the DB */
 	private static $allTablesCache = array();
 
-	/** array of all table names to which this instance of the testing framework
-	 * has access */
-	private $allowedTables = array();
+	/**
+	 * array of all own DB table names to which this instance of the testing
+	 * framework has access
+	 */
+	private $ownAllowedTables = array();
+
+	/**
+	 * array of all additional DB table names to which this instance of the
+	 * testing framework has access
+	 */
+	private $additionalAllowedTables = array();
 
 	/**
 	 * Array of all sytem table names to which this instance of the testing
@@ -91,10 +108,15 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param	string		the table name prefix of the extension for which
 	 * 						this instance of the testing framework should be used
+	 * @param	array		the additional table name prefixes of the extensions
+	 * 						for which this instance of the testing framework
+	 * 						should be used, may be empty
 	 */
-	public function __construct($tablePrefix) {
+	public function __construct($tablePrefix, array $additionalTablePrefixes = array()) {
 		$this->tablePrefix = $tablePrefix;
-		$this->createListOfAllowedTables();
+		$this->additionalTablePrefixes = $additionalTablePrefixes;
+		$this->createListOfOwnAllowedTables();
+		$this->createListOfAdditionalAllowedTables();
 	}
 
 	/**
@@ -116,8 +138,8 @@ final class tx_oelib_testingFramework {
 	 * @return	integer		the UID of the new record, will be > 0
 	 */
 	public function createRecord($table, array $recordData = array()) {
-		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception('The table name "'.$table.'" is not allowed.');
+		if (!$this->isNoneSystemTableNameAllowed($table)) {
+			throw new Exception('The table name "' . $table . '" is not allowed.');
 		}
 		if (isset($recordData['uid'])) {
 			throw new Exception(
@@ -449,37 +471,41 @@ final class tx_oelib_testingFramework {
 	public function changeRecord($table, $uid, $recordData) {
 		$dummyColumnName = $this->getDummyColumnName($table);
 
-		if (!$this->isTableNameAllowed($table) && !$this->isSystemTableNameAllowed($table)) {
+		if (!$this->isTableNameAllowed($table)) {
 			throw new Exception(
-				'The table "'.$table.'" is not on the lists with allowed tables.'
+				'The table "' . $table . '" is not on the lists with allowed tables.'
 			);
 		}
 		if ($uid == 0) {
 			throw new Exception('The parameter $uid must not be zero.');
 		}
 		if (empty($recordData)) {
-			throw new Exception('The array with the new record data must not be empty.');
+			throw new Exception(
+				'The array with the new record data must not be empty.'
+			);
 		}
 		if (isset($recordData['uid'])) {
 			throw new Exception(
-				'The parameter $recordData must not contain changes to the UID of a record.'
+				'The parameter $recordData must not contain changes to the UID' .
+				' of a record.'
 			);
 		}
 		if (isset($recordData[$dummyColumnName])) {
 			throw new Exception(
-				'The parameter $recordData must not contain changes to the field "'
-				.$dummyColumnName.'". It is impossible to convert a dummy record '
-				.'into a regular record.');
+				'The parameter $recordData must not contain changes to the ' .
+					'field "' . $dummyColumnName . '". It is impossible to ' .
+					'convert a dummy record into a regular record.'
+			);
 		}
 		if (!$this->countRecords($table, 'uid='.$uid)) {
 			throw new Exception(
-				'There is no record with UID '.$uid.' on table "'.$table.'".'
+				'There is no record with UID ' . $uid . ' on table "' . $table . '".'
 			);
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			$table,
-			'uid='.$uid.' AND '.$dummyColumnName.'=1',
+			'uid=' . $uid . ' AND ' . $dummyColumnName . '=1',
 			$recordData
 		);
 
@@ -500,13 +526,13 @@ final class tx_oelib_testingFramework {
 	 * @param	integer		UID of the record to delete, must be > 0
 	 */
 	public function deleteRecord($table, $uid) {
-		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception('The table name "'.$table.'" is not allowed.');
+		if (!$this->isNoneSystemTableNameAllowed($table)) {
+			throw new Exception('The table name "' . $table . '" is not allowed.');
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			$table,
-			'uid='.$uid.' AND is_dummy_record=1'
+			'uid=' . $uid . ' AND ' . $this->getDummyColumnName($table) . '=1'
 		);
 
 		if (!$dbResult) {
@@ -527,21 +553,21 @@ final class tx_oelib_testingFramework {
 	 * 						overwrites the automatic sorting
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
-		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception('The table name "'.$table.'" is not allowed.');
+		if (!$this->isNoneSystemTableNameAllowed($table)) {
+			throw new Exception('The table name "' . $table . '" is not allowed.');
 		}
 
 		// Checks that the two given UIDs are valid.
 		if (intval($uidLocal) <= 0) {
 			throw new Exception(
-				'$uidLocal must be an integer > 0, but actually is "'
-					.$uidLocal.'"'
+				'$uidLocal must be an integer > 0, but actually is "' .
+					$uidLocal . '"'
 			);
 		}
 		if  (intval($uidForeign) <= 0) {
 			throw new Exception(
-				'$uidForeign must be an integer > 0, but actually is "'
-					.$uidForeign.'"'
+				'$uidForeign must be an integer > 0, but actually is "' .
+					$uidForeign . '"'
 			);
 		}
 
@@ -552,7 +578,7 @@ final class tx_oelib_testingFramework {
 			'uid_foreign' => $uidForeign,
 			'sorting' => (($sorting > 0) ?
 				$sorting : $this->getRelationSorting($table, $uidLocal)),
-			'is_dummy_record' => 1
+			$this->getDummyColumnName($table) => 1
 		);
 
 		// Stores the record in the database.
@@ -579,14 +605,14 @@ final class tx_oelib_testingFramework {
 	 * @param	integer		UID on the foreign table, must be > 0
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
-		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception('The table name "'.$table.'" is not allowed.');
+		if (!$this->isNoneSystemTableNameAllowed($table)) {
+			throw new Exception('The table name "' . $table . '" is not allowed.');
 		}
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			$table,
-			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
-				.' AND is_dummy_record=1'
+			'uid_local=' . $uidLocal . ' AND uid_foreign=' . $uidForeign .
+				' AND ' . $this->getDummyColumnName($table) . '=1'
 		);
 
 		if (!$dbResult) {
@@ -637,7 +663,7 @@ final class tx_oelib_testingFramework {
 				: $this->dirtySystemTables;
 		} else {
 			$tablesToCleanUp = ($performDeepCleanUp)
-				? $this->allowedTables
+				? $this->ownAllowedTables
 				: $this->dirtyTables;
 		}
 
@@ -744,10 +770,10 @@ final class tx_oelib_testingFramework {
 	 * the extension to test.
 	 *
 	 * The array with the allowed table names is written directly to
-	 * $this->allowedTables.
+	 * $this->ownAllowedTables.
 	 */
-	private function createListOfAllowedTables() {
-		$this->allowedTables = array();
+	private function createListOfOwnAllowedTables() {
+		$this->ownAllowedTables = array();
 		$allTables = $this->getListOfAllTables();
 		$length = strlen($this->tablePrefix);
 
@@ -756,8 +782,36 @@ final class tx_oelib_testingFramework {
 					$this->tablePrefix, $currentTable, 0, $length
 				) == 0
 			) {
-				$this->allowedTables[] = $currentTable;
+				$this->ownAllowedTables[] = $currentTable;
 			}
+		}
+	}
+
+	/**
+	 * Generates a list of additional allowed tables to which this instance of
+	 * the testing framework has access to create/remove test records.
+	 *
+	 * The generated list is based on the list of all tables that TYPO3 can
+	 * access (which will be all tables in this database), filtered by the
+	 * prefixes of additional extensions.
+	 *
+	 * The array with the allowed table names is written directly to
+	 * $this->additionalAllowedTables.
+	 */
+	private function createListOfAdditionalAllowedTables() {
+		$allTables = implode(',', $this->getListOfAllTables());
+		$additionalTablePrefixes = implode('|', $this->additionalTablePrefixes);
+
+		$matches = array();
+
+		preg_match_all(
+			'/(('.$additionalTablePrefixes.')_[a-z0-9]+[a-z0-9_]*)(,|$)/',
+			$allTables,
+			$matches
+		);
+
+		if (isset($matches[1])) {
+			$this->additionalAllowedTables = $matches[1];
 		}
 	}
 
@@ -770,8 +824,21 @@ final class tx_oelib_testingFramework {
 	 * @return	boolean		true if the name of the table is in the list of
 	 * 						allowed tables, false otherwise
 	 */
-	private function isTableNameAllowed($table) {
-		return in_array($table, $this->allowedTables);
+	private function isOwnTableNameAllowed($table) {
+		return in_array($table, $this->ownAllowedTables);
+	}
+
+	/**
+	 * Checks whether the given table name is in the list of additional allowed
+	 * tables for this instance of the testing framework.
+	 *
+	 * @param	string		the name of the table to check, must not be empty
+	 *
+	 * @return	boolean		true if the name of the table is in the list of
+	 * 						additional allowed tables, false otherwise
+	 */
+	private function isAdditionalTableNameAllowed($table) {
+		return in_array($table, $this->additionalAllowedTables);
 	}
 
 	/**
@@ -788,10 +855,42 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
+	 * Checks whether the given table name is in the list of allowed tables or
+	 * additional allowed tables for this instance of the testing framework.
+	 *
+	 * @param	string		the name of the table to check, must not be empty
+	 *
+	 * @return	boolean		true if the name of the table is in the list of
+	 * 						allowed tables or additional allowed tables, false
+	 * 						otherwise
+	 */
+	private function isNoneSystemTableNameAllowed($table) {
+		return $this->isOwnTableNameAllowed($table) || $this->isAdditionalTableNameAllowed($table);
+	}
+
+	/**
+	 * Checks whether the given table name is in the list of allowed tables,
+	 * additional allowed tables or allowed system tables.
+	 *
+	 * @param	string		the name of the table to check, must not be empty
+	 *
+	 * @return	boolean		true if the name of the table is in the list of
+	 * 						allowed tables, additional allowed tables or allowed
+	 * 						system tables, false otherwise
+	 */
+	private function isTableNameAllowed($table) {
+		return $this->isNoneSystemTableNameAllowed($table) || $this->isSystemTableNameAllowed($table);
+	}
+
+	/**
 	 * Returns the name of the column that marks a record as a dummy record.
 	 *
 	 * On most tables this is "is_dummy_record", but on system tables like
 	 * "pages" or "fe_users", the column is called "tx_oelib_dummy_record".
+	 *
+	 * On additional tables, the column is built using $this->tablePrefix as
+	 * prefix e.g. "tx_seminars_is_dummy_record" if $this->tablePrefix =
+	 * "tx_seminars".
 	 *
 	 * @param	string		the table name to look up, must not be empty
 	 *
@@ -802,7 +901,9 @@ final class tx_oelib_testingFramework {
 		$result = 'is_dummy_record';
 
 		if ($this->isSystemTableNameAllowed($table)) {
-			$result = 'tx_oelib_is_dummy_record';
+			$result = 'tx_oelib_' . $result;
+		} elseif ($this->isAdditionalTableNameAllowed($table)) {
+			$result = $this->tablePrefix . '_' . $result;
 		}
 
 		return $result;
@@ -870,9 +971,7 @@ final class tx_oelib_testingFramework {
 	 * 						the auto increment entry, must not be empty
 	 */
 	public function resetAutoIncrement($table) {
-		if (!$this->isTableNameAllowed($table)
-			&& !$this->isSystemTableNameAllowed($table)
-		) {
+		if (!$this->isTableNameAllowed($table)) {
 			throw new Exception(
 				'The given table name is invalid. This means it is either empty'
 				.' or not in the list of allowed tables.'
@@ -947,8 +1046,18 @@ final class tx_oelib_testingFramework {
 	 * @return	array		all allowed table names for this instance of the
 	 * 						testing framework
 	 */
-	public function getListOfAllowedTableNames() {
-		return $this->allowedTables;
+	public function getListOfOwnAllowedTableNames() {
+		return $this->ownAllowedTables;
+	}
+
+	/**
+	 * Returns the list of additional allowed table names.
+	 *
+	 * @return	array		all additional allowed table names for this instance
+	 * 						of the testing framework, may be empty
+	 */
+	public function getListOfAdditionalAllowedTableNames() {
+		return $this->additionalAllowedTables;
 	}
 
 	/**
@@ -962,13 +1071,14 @@ final class tx_oelib_testingFramework {
 	 */
 	public function markTableAsDirty($tableNames) {
 		foreach (explode(',', $tableNames) as $currentTable) {
-			if ($this->isTableNameAllowed($currentTable)) {
+			if ($this->isNoneSystemTableNameAllowed($currentTable)) {
 				$this->dirtyTables[$currentTable] = $currentTable;
 			} elseif ($this->isSystemTableNameAllowed($currentTable)) {
 				$this->dirtySystemTables[$currentTable] = $currentTable;
 			} else {
 				throw new Exception(
-					'The table name "'.$currentTable.'" is not allowed for markTableAsDirty.'
+					'The table name "' . $currentTable . '" is not allowed for' .
+						' markTableAsDirty.'
 				);
 			}
 		}
