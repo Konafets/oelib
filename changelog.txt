@@ -1,4 +1,4 @@
-0.5.0 - currently working on
+0.4.1 - released 2005-05-25
 - [#1893] Feature: Allow to use custom "is_dummy" fields per table
 - [#1908] Fix: Registration for event not possible if umlauts in fe-user "Name" field
 - [#1907] Fix: Oelib's locallang_db.xml is damaged
