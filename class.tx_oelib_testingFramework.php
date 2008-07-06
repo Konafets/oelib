@@ -973,34 +973,83 @@ final class tx_oelib_testingFramework {
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
 			throw new Exception(
-				'The given table name is invalid. This means it is either empty'
-				.' or not in the list of allowed tables.'
+				'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
 			);
 		}
 
 		// Checks whether the current table qualifies for this method. If there
-		// is no column "uid" that has the "auto_icrement" flag set, we should not
-		// try to reset this inexistent auto increment index to avoid DB errors.
+		// is no column "uid" that has the "auto_icrement" flag set, we should
+		// not try to reset this inexistent auto increment index to avoid DB
+		// errors.
 		if (!$this->hasTableColumnUid($table)) {
 			return;
 		}
 
-		// Searches for the record with the highest UID in this table.
+		$newAutoIncrementValue = $this->getMaximumUidFromTable($table) + 1;
+
+		// Only updates the auto_increment value if the new value actually is
+		// different from the current value.
+		if ($newAutoIncrementValue != $this->getAutoIncrement($table)) {
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' .
+					$newAutoIncrementValue . ';'
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+		}
+	}
+
+	/**
+	 * Reads the highest UID for a database table.
+	 *
+	 * This function may only be called after that the provided table name
+	 * has been checked to be non-empty, valid and pointing to an existing
+	 * database table that has the "uid" column.
+	 *
+	 * @param	string		the name of an existing table that has the "uid"
+	 * 						column
+	 *
+	 * @return	integer		the highest UID from this table, will be >= 0
+	 */
+	private function getMaximumUidFromTable($table) {
 		$row = $this->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->sql_query(
-				'SELECT MAX(uid) AS uid FROM '.$table.';'
+				'SELECT MAX(uid) AS uid FROM ' . $table . ';'
 			)
 		);
-		$newAutoIncrementValue = $row['uid'] + 1;
 
-		// Updates the auto increment index for this table. The index will be set
-		// to one UID above the highest existing UID.
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'ALTER TABLE '.$table.' AUTO_INCREMENT='.$newAutoIncrementValue.';'
-		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+		return $row['uid'];
+	}
+
+	/**
+	 * Reads the current auto increment value for a given table.
+	 *
+	 * This function is only valid for tables that actually have an auto
+	 * increment value.
+	 *
+	 * @param	string		the name of the table for which the auto increment
+	 * 						value should be retrieved, must not be empty
+	 *
+	 * @return	integer		the current auto_increment value of table $table,
+	 * 						will be > 0
+	 */
+	public function getAutoIncrement($table) {
+		if (!$this->isTableNameAllowed($table)) {
+			throw new Exception(
+				'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
+			);
 		}
+
+		$row = $this->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->sql_query(
+				'SHOW TABLE STATUS WHERE Name=\'' . $table . '\';'
+			)
+		);
+
+		return $row['Auto_increment'];
 	}
 
 	/**

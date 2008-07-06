@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#1986] Change: Only reset the auto_increment value if actually will be different than the current value
 
 0.4.1 - released 2005-05-25
 - [#1893] Feature: Allow to use custom "is_dummy" fields per table

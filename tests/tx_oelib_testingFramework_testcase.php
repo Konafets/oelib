@@ -1070,6 +1070,93 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding getAutoIncrement()
+	// ---------------------------------------------------------------------
+
+	public function testGetAutoIncrementReturnsOneForTruncatedTable() {
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'TRUNCATE TABLE ' . OELIB_TESTTABLE . ';'
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testGetAutoIncrementGetsCurrentAutoIncrement() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		// $uid will equals be the previous auto increment value, so $uid + 1
+		// should be equal to the current auto inrement value.
+		$this->assertEquals(
+			$uid + 1,
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testGetAutoIncrementForFeUsersTableIsAllowed() {
+		$this->fixture->getAutoIncrement('fe_users');
+	}
+
+	public function testGetAutoIncrementForPagesTableIsAllowed() {
+		$this->fixture->getAutoIncrement('pages');
+	}
+
+	public function testGetAutoIncrementForTtContentTableIsAllowed() {
+		$this->fixture->getAutoIncrement('tt_content');
+	}
+
+	public function testGetAutoIncrementWithOtherSystemTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+		$this->fixture->getAutoIncrement('sys_domains');
+	}
+
+	public function testGetAutoIncrementWithEmptyTableNameFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+		$this->fixture->getAutoIncrement('');
+	}
+
+	public function testGetAutoIncrementWithForeignTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+		$this->fixture->getAutoIncrement('tx_seminars_seminars');
+	}
+
+	public function testGetAutoIncrementWithInexistentTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+		$this->fixture->getAutoIncrement('tx_oelib_DOESNOTEXIST');
+	}
+
+	public function testGetAutoIncrementWithTableWithoutUidFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+		$this->fixture->getAutoIncrement('OELIB_TESTTABLE_MM');
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding countRecords()
 	// ---------------------------------------------------------------------
 
@@ -1170,6 +1257,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$latestUid,
 			$row['Auto_increment']
 		);
+	}
+
+	public function testResetAutoIncrementForUnchangedTestTableCanBeRun() {
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 	}
 
 	public function testResetAutoIncrementForAdditionalAllowedTableSucceeds() {
