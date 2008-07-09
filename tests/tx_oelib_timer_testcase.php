@@ -31,7 +31,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_timer.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_timer.php');
 
 class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	private $fixture;

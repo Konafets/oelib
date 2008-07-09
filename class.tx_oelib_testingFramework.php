@@ -979,7 +979,7 @@ final class tx_oelib_testingFramework {
 		}
 
 		// Checks whether the current table qualifies for this method. If there
-		// is no column "uid" that has the "auto_icrement" flag set, we should
+		// is no column "uid" that has the "auto_increment" flag set, we should
 		// not try to reset this inexistent auto increment index to avoid DB
 		// errors.
 		if (!$this->hasTableColumnUid($table)) {

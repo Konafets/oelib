@@ -33,8 +33,8 @@
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerProxyFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
 
 class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	/** instance of the object to test */

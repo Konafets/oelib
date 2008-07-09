@@ -34,9 +34,9 @@
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_templatehelperchild.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 define('OELIB_TESTTABLE', 'tx_oelib_test');
 define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
@@ -45,7 +45,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_testingFramework('tx_oelib', array('user_oelibtest'));
+		$this->fixture = new tx_oelib_testingFramework(
+			'tx_oelib', array('user_oelibtest')
+		);
 	}
 
 	public function tearDown() {
@@ -74,7 +76,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'sorting',
 				OELIB_TESTTABLE_MM,
-				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 			)
 		);
 
@@ -151,7 +153,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->cleanUp();
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
 	}
 
@@ -177,7 +179,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->cleanUp();
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords('pages', 'uid='.$uid)
+			$this->fixture->countRecords('pages', 'uid=' . $uid)
 		);
 	}
 
@@ -208,8 +210,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testMarkTableAsDirtyFailsOnInexistentTable() {
 		$this->setExpectedException(
 			'Exception',
-			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for '
-				.'markTableAsDirty.'
+			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for ' .
+				'markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
 	}
@@ -225,8 +227,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testMarkTableAsDirtyFailsOnForeignTable() {
 		$this->setExpectedException(
 			'Exception',
-			'The table name "tx_seminars_seminars" is not allowed for '
-				.'markTableAsDirty.'
+			'The table name "tx_seminars_seminars" is not allowed for ' .
+				'markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('tx_seminars_seminars');
 	}
@@ -278,7 +280,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				OELIB_TESTTABLE,
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -344,7 +346,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				OELIB_TESTTABLE,
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -410,7 +412,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords('tt_content', 'uid='.$uid.' AND titleText="bar"')
+			$this->fixture->countRecords('tt_content', 'uid=' . $uid.' AND titleText="bar"')
 		);
 	}
 
@@ -512,7 +514,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks whether the record really was removed from the database.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
 	}
 
@@ -530,7 +532,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks that the record is inexistent before testing on it.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
 
 		// Runs our delete function - it should run through even when it can't
@@ -597,13 +599,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks whether the record still exists.
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid='.$uid)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			OELIB_TESTTABLE,
-			'uid='.$uid.' AND is_dummy_record=0'
+			'uid=' . $uid.' AND is_dummy_record=0'
 		);
 
 		if (!$dbResult) {
@@ -629,7 +631,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			1,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 			)
 		);
 	}
@@ -757,7 +759,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 			)
 		);
 	}
@@ -787,7 +789,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 			)
 		);
 
@@ -864,13 +866,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// 3. tests the previously read value (and possibly fails)
 		$numberOfCreatedRelations = $this->fixture->countRecords(
 			OELIB_TESTTABLE_MM,
-			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+			'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			OELIB_TESTTABLE_MM,
-			'uid_local='.$uidLocal.' AND uid_foreign='.$uidForeign
+			'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
 				.' AND is_dummy_record=0'
 		);
 
@@ -1049,7 +1051,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
 			OELIB_TESTTABLE,
-			'uid='.$uid.' AND title="foo"'
+			'uid=' . $uid.' AND title="foo"'
 		);
 		$this->fixture->getAssociativeDatabaseResult($dbResult);
 	}
@@ -1059,7 +1061,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid',
 			OELIB_TESTTABLE,
-			'uid='.$uid
+			'uid=' . $uid
 		);
 
 		$this->assertEquals(
@@ -1287,36 +1289,40 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testResetAutoIncrementWithOtherSystemTableFails() {
 		$this->setExpectedException(
 			'Exception',
-			'The given table name is invalid. This means it is either empty or '
-				.'not in the list of allowed tables.'
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
 		);
+
 		$this->fixture->resetAutoIncrement('sys_domains');
 	}
 
 	public function testResetAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'Exception',
-			'The given table name is invalid. This means it is either empty or '
-				.'not in the list of allowed tables.'
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
 		);
+
 		$this->fixture->resetAutoIncrement('');
 	}
 
 	public function testResetAutoIncrementWithForeignTableFails() {
 		$this->setExpectedException(
 			'Exception',
-			'The given table name is invalid. This means it is either empty or '
-				.'not in the list of allowed tables.'
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
 		);
+
 		$this->fixture->resetAutoIncrement('tx_seminars_seminars');
 	}
 
 	public function testResetAutoIncrementWithInexistentTableFails() {
 		$this->setExpectedException(
 			'Exception',
-			'The given table name is invalid. This means it is either empty or '
-				.'not in the list of allowed tables.'
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
 		);
+
 		$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
 	}
 
@@ -1360,7 +1366,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'pages', 'uid='.$uid
+				'pages', 'uid=' . $uid
 			)
 		);
 	}
@@ -1377,7 +1383,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'doktype',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1399,7 +1405,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1422,7 +1428,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1460,7 +1466,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'pages', 'uid='.$uid
+				'pages', 'uid=' . $uid
 			)
 		);
 	}
@@ -1472,7 +1478,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1492,7 +1498,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1545,7 +1551,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding createSystemFolder()
 	// ---------------------------------------------------------------------
@@ -1561,7 +1566,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'pages', 'uid='.$uid
+				'pages', 'uid=' . $uid
 			)
 		);
 	}
@@ -1578,7 +1583,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'doktype',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1600,7 +1605,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1623,7 +1628,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1661,7 +1666,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'pages', 'uid='.$uid
+				'pages', 'uid=' . $uid
 			)
 		);
 	}
@@ -1673,7 +1678,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1693,7 +1698,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'pages',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1746,7 +1751,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 
-
 	// ---------------------------------------------------------------------
 	// Tests regarding createContentElement()
 	// ---------------------------------------------------------------------
@@ -1762,7 +1766,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'tt_content', 'uid='.$uid
+				'tt_content', 'uid=' . $uid
 			)
 		);
 	}
@@ -1779,7 +1783,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1802,7 +1806,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'pid',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1840,7 +1844,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'tt_content', 'uid='.$uid
+				'tt_content', 'uid=' . $uid
 			)
 		);
 	}
@@ -1852,7 +1856,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'header',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1872,7 +1876,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'header',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1889,7 +1893,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'CType',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -1909,7 +1913,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'CType',
 				'tt_content',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2069,7 +2073,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'sys_template', 'uid='.$uid
+				'sys_template', 'uid=' . $uid
 			)
 		);
 	}
@@ -2115,7 +2119,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'sys_template', 'uid='.$uid
+				'sys_template', 'uid=' . $uid
 			)
 		);
 	}
@@ -2127,7 +2131,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'config',
 				'sys_template',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2147,7 +2151,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'config',
 				'sys_template',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2182,7 +2186,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'constants',
 				'sys_template',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2202,7 +2206,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'constants',
 				'sys_template',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2277,7 +2281,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'fe_groups', 'uid='.$uid
+				'fe_groups', 'uid=' . $uid
 			)
 		);
 	}
@@ -2310,7 +2314,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'fe_groups', 'uid='.$uid
+				'fe_groups', 'uid=' . $uid
 			)
 		);
 	}
@@ -2322,7 +2326,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'fe_groups',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2341,7 +2345,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'title',
 				'fe_groups',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2355,6 +2359,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
+
 		$this->fixture->createFrontEndUserGroup(array('uid' => 0));
 	}
 
@@ -2362,6 +2367,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
+
 		$this->fixture->createFrontEndUserGroup(array('uid' => 99999));
 	}
 
@@ -2382,7 +2388,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'fe_users', 'uid='.$uid
+				'fe_users', 'uid=' . $uid
 			)
 		);
 	}
@@ -2417,7 +2423,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			$this->fixture->countRecords(
-				'fe_users', 'uid='.$uid
+				'fe_users', 'uid=' . $uid
 			)
 		);
 	}
@@ -2430,7 +2436,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'username',
 				'fe_users',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2451,7 +2457,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'username',
 				'fe_users',
-				'uid='.$uid
+				'uid=' . $uid
 			)
 		);
 
@@ -2477,7 +2483,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords(
-				'fe_users', 'uid='.$uid
+				'fe_users', 'uid=' . $uid
 			)
 		);
 	}
@@ -2486,6 +2492,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 0));
 	}
@@ -2494,6 +2501,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 99999));
 	}
@@ -2502,6 +2510,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 0));
 	}
@@ -2510,6 +2519,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 99999));
 	}
@@ -2518,14 +2528,18 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => '1,2,4,5'));
+		$this->fixture->createFrontEndUser(
+			$feUserGroupUid, array('usergroup' => '1,2,4,5')
+		);
 	}
 
 	public function testFrontEndUserMustHaveANonZeroUserGroup() {
 		$this->setExpectedException(
 			'Exception', '$frontEndUserGroups must not be empty.'
 		);
+
 		$this->fixture->createFrontEndUser(0);
 	}
 
@@ -2533,6 +2547,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', '$frontEndUserGroups must not be empty.'
 		);
+
 		$this->fixture->createFrontEndUser('');
 	}
 
@@ -2540,32 +2555,35 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', '$frontEndUserGroups must not be empty.'
 		);
+
 		$this->fixture->createFrontEndUser(' ');
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
-		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
-		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
-		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
-
 		$this->setExpectedException(
 			'Exception',
 			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
 				.'Each UID must be > 0.'
 		);
+
+		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
+		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
+
 		$this->fixture->createFrontEndUser(
 			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', 0, '.$feUserGroupUidThree
 		);
 	}
 
 	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-
 		$this->setExpectedException(
 			'Exception',
 			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
 				.'Each UID must be > 0.'
 		);
+
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+
 		$this->fixture->createFrontEndUser(
 			$feUserGroupUid.', abc'
 		);
@@ -2599,6 +2617,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testLoginFrontEndUserWithAZeroUid() {
 		$this->setExpectedException('Exception', 'The user ID must be > 0.');
+
 		$this->fixture->loginFrontEndUser(0);
 	}
 }

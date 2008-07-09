@@ -34,7 +34,7 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher.php');
 
 final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher {
 	public $prefixId = 'tx_oelib_salutationswitcherchild';

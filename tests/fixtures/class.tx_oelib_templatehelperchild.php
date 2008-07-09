@@ -37,7 +37,7 @@
 require_once(PATH_tslib.'class.tslib_content.php');
 require_once(PATH_t3lib.'class.t3lib_timetrack.php');
 
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_templatehelper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 
 final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	public $prefixId = 'tx_oelib_templatehelperchild';

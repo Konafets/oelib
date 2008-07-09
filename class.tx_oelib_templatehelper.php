@@ -1328,9 +1328,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
 				'pages',
-				'pid!=0'
-					.' AND pid IN ('.$currentPageList.')'
-					.$this->enableFields('pages')
+				'pid!=0' .
+					' AND pid IN ('.$currentPageList.')' .
+					$this->enableFields('pages')
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);

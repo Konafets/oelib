@@ -30,8 +30,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
 
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configcheck.php');
-require_once(t3lib_extMgm::extPath('oelib').'tests/fixtures/class.tx_oelib_dummyObjectToCheck.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configcheck.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_dummyObjectToCheck.php');
 
 class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	/** configuration check object to be tested */
