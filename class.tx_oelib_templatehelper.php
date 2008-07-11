@@ -1330,7 +1330,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				'pages',
 				'pid!=0' .
 					' AND pid IN ('.$currentPageList.')' .
-					$this->enableFields('pages')
+					$this->enableFields('pages'),
+				'uid'
 			);
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
