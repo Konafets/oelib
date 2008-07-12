@@ -51,6 +51,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$this->fixture->setResetAutoIncrementThreshold(1);
 		$this->fixture->cleanUp();
 		$this->fixture->clearCaches();
 		unset($this->fixture);
@@ -1226,13 +1227,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountRecordsForPagesTableIsAllowed() {
-		$table = 'pages';
-
-		try {
-			$this->fixture->countRecords($table);
-		} catch (Exception $expected) {
-			$this->fail('countRecords should not have thrown an exception.');
-		}
+		$this->fixture->countRecords('pages');
 	}
 
 
@@ -1241,23 +1236,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testResetAutoIncrementForTestTableSucceeds() {
-		// Creates and deletes a record and then resets the auto increment.
 		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
-		// Checks whether the reset of the auto increment value worked as it
-		// should. After the reset, the auto increment index should be equal
-		// to the UID of the record we created and deleted before.
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->sql_query(
-				'SHOW TABLE STATUS WHERE Name=\''.OELIB_TESTTABLE.'\';'
-			)
-		);
-
 		$this->assertEquals(
 			$latestUid,
-			$row['Auto_increment']
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
 	}
 
@@ -1272,6 +1257,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$latestUid = $this->fixture->createRecord('user_oelibtest_test');
 		$this->fixture->deleteRecord('user_oelibtest_test', $latestUid);
 		$this->fixture->resetAutoIncrement('user_oelibtest_test');
+	}
+
+	public function testResetAutoIncrementForTableWithoutUidIsAllowed() {
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE_MM);
 	}
 
 	public function testResetAutoIncrementForFeUsersTableIsAllowed() {
@@ -1324,6 +1313,139 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding resetAutoIncrementLazily() and
+	// setResetAutoIncrementThreshold
+	// ---------------------------------------------------------------------
+
+	public function testResetAutoIncrementLazilyForTestTableIsAllowed() {
+		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
+	}
+
+	public function testResetAutoIncrementLazilyForTableWithoutUidIsAllowed() {
+		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE_MM);
+	}
+
+	public function testResetAutoIncrementLazilyForFeUsersTableIsAllowed() {
+		$this->fixture->resetAutoIncrementLazily('fe_users');
+	}
+
+	public function testResetAutoIncrementLazilyForPagesTableIsAllowed() {
+		$this->fixture->resetAutoIncrementLazily('pages');
+	}
+
+	public function testResetAutoIncrementLazilyForTtContentTableIsAllowed() {
+		$this->fixture->resetAutoIncrementLazily('tt_content');
+	}
+
+	public function testResetAutoIncrementLazilyWithOtherSystemTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+
+		$this->fixture->resetAutoIncrementLazily('sys_domains');
+	}
+
+	public function testResetAutoIncrementLazilyWithEmptyTableNameFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+
+		$this->fixture->resetAutoIncrementLazily('');
+	}
+
+	public function testResetAutoIncrementLazilyWithForeignTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+
+		$this->fixture->resetAutoIncrementLazily('tx_seminars_seminars');
+	}
+
+	public function testResetAutoIncrementLazilyWithInexistentTableFails() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either empty ' .
+				'or not in the list of allowed tables.'
+		);
+
+		$this->fixture->resetAutoIncrementLazily('tx_oelib_DOESNOTEXIST');
+	}
+
+	public function testResetAutoIncrementLazilyDoesNothingAfterOneNewRecordByDefault() {
+		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
+
+		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
+		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
+
+		$this->assertNotEquals(
+			$oldAutoIncrement,
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testResetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThreshholdOfOne() {
+		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
+		$this->fixture->setResetAutoIncrementThreshold(1);
+
+		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
+		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			$oldAutoIncrement,
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testResetAutoIncrementLazilyCleansUpsAfter100NewRecordsByDefault() {
+		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
+
+		for ($i = 0; $i < 100; $i++) {
+			$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+			$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
+		}
+
+		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			$oldAutoIncrement,
+			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testSetResetAutoIncrementThresholdForOneIsAllowed() {
+		$this->fixture->setResetAutoIncrementThreshold(1);
+	}
+
+	public function testSetResetAutoIncrementThresholdFor100IsAllowed() {
+		$this->fixture->setResetAutoIncrementThreshold(100);
+	}
+
+	public function testSetResetAutoIncrementThresholdForZeroFails() {
+		$this->setExpectedException(
+			'Exception', '$threshold must be > 0.'
+		);
+
+		$this->fixture->setResetAutoIncrementThreshold(0);
+	}
+
+	public function testSetResetAutoIncrementThresholdForMinus1Fails() {
+		$this->setExpectedException(
+			'Exception', '$threshold must be > 0.'
+		);
+
+		$this->fixture->setResetAutoIncrementThreshold(-1);
 	}
 
 

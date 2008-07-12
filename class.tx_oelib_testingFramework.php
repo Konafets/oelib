@@ -93,6 +93,10 @@ final class tx_oelib_testingFramework {
 	/** array of the sorting values of all relation tables */
 	private $relationSorting = array();
 
+	/** the number of unusable UIDs after the maximum UID in a table before
+	 * the auto increment value will be reset by resetAutoIncrementLazily */
+	private $resetAutoIncrementThreshold = 100;
+
 	/**
 	 * The constructor for this class.
 	 *
@@ -678,7 +682,7 @@ final class tx_oelib_testingFramework {
 			);
 
 			// Resets the auto increment setting of the current table.
-			$this->resetAutoIncrement($currentTable);
+			$this->resetAutoIncrementLazily($currentTable);
 
 			if (!$dbResult) {
 				throw new Exception(DATABASE_QUERY_ERROR);
@@ -963,12 +967,13 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Resets the auto increment value for a given table to the highest existing
-	 * UID + 1. This is required to leave the table in the same status that it
-	 * had before adding dummy records.
+	 * Eagerly resets the auto increment value for a given table to the highest
+	 * existing UID + 1.
 	 *
 	 * @param	string		the name of the table on which we're going to reset
 	 * 						the auto increment entry, must not be empty
+	 *
+	 * @see		resetAutoIncrementLazily
 	 */
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -988,17 +993,67 @@ final class tx_oelib_testingFramework {
 
 		$newAutoIncrementValue = $this->getMaximumUidFromTable($table) + 1;
 
-		// Only updates the auto_increment value if the new value actually is
-		// different from the current value.
-		if ($newAutoIncrementValue != $this->getAutoIncrement($table)) {
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' .
-					$newAutoIncrementValue . ';'
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
+		// Updates the auto increment index for this table. The index will be
+		// set to one UID above the highest existing UID.
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' .
+				$newAutoIncrementValue . ';'
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
+	}
+
+	/**
+	 * Resets the auto increment value for a given table to the highest existing
+	 * UID + 1 if the current auto increment value is higher than a certain
+	 * threshold over the current maximum UID.
+	 *
+	 * The threshhold is 100 by default and can be set using
+	 * setResetAutoIncrementThreshold.
+	 *
+	 * @param	string		the name of the table on which we're going to reset
+	 * 						the auto increment entry, must not be empty
+	 *
+	 * @see		resetAutoIncrement
+	 */
+	public function resetAutoIncrementLazily($table) {
+		if (!$this->isTableNameAllowed($table)) {
+			throw new Exception(
+				'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
+			);
+		}
+
+		// Checks whether the current table qualifies for this method. If there
+		// is no column "uid" that has the "auto_increment" flag set, we should
+		// not try to reset this inexistent auto increment index to avoid
+		// database errors.
+		if (!$this->hasTableColumnUid($table)) {
+			return;
+		}
+
+		if ($this->getAutoIncrement($table) >
+			($this->getMaximumUidFromTable($table)
+				+ $this->resetAutoIncrementThreshold)
+		) {
+			$this->resetAutoIncrement($table);
+		}
+	}
+
+	/**
+	 * Sets the threshold for resetAutoIncrementLazily.
+	 *
+	 * @param	integer		threshold, must be > 0
+	 *
+	 * @see		resetAutoIncrementLazily
+	 */
+	public function setResetAutoIncrementThreshold($threshold) {
+		if ($threshold <= 0) {
+			throw new Exception('$threshold must be > 0.');
+		}
+
+		$this->resetAutoIncrementThreshold = $threshold;
 	}
 
 	/**
