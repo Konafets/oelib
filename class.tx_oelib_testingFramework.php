@@ -709,10 +709,12 @@ final class tx_oelib_testingFramework {
 		}
 
 		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user = t3lib_div::makeInstance('tslib_feUserAuth');
+			$GLOBALS['TSFE']->fe_user
+				= t3lib_div::makeInstance('tslib_feUserAuth');
 		}
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
-		$GLOBALS['TSFE']->fe_user->user = array('uid' => $userId);
+		$GLOBALS['TSFE']->fe_user->user
+			= $GLOBALS['TSFE']->fe_user->getRawUserByUid($userId);
 		$GLOBALS['TSFE']->loginUser = 1;
 	}
 

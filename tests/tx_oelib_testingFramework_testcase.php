@@ -2716,7 +2716,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding user login and logout
 	// ---------------------------------------------------------------------
 
-	public function testLoginFrontEndUser() {
+	public function testLoginFrontEndUserSwitchesToLoggedIn() {
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
 		$this->fixture->loginFrontEndUser($feUserId);
@@ -2726,7 +2726,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLogoutFrontEndUser() {
+	public function testLoginFrontEndUserRetrievesNameOfUser() {
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$feUserId = $this->fixture->createFrontEndUser(
+			$feUserGroupUid, array('name' => 'John Doe')
+		);
+		$this->fixture->loginFrontEndUser($feUserId);
+
+		$this->assertEquals(
+			'John Doe',
+			$GLOBALS['TSFE']->fe_user->user['name']
+		);
+	}
+
+	public function testLogoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
 		$this->fixture->loginFrontEndUser($feUserId);
@@ -2737,7 +2750,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserWithAZeroUid() {
+	public function testLoginFrontEndUserWithZeroUidThrowsException() {
 		$this->setExpectedException('Exception', 'The user ID must be > 0.');
 
 		$this->fixture->loginFrontEndUser(0);
