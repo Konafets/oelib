@@ -98,6 +98,24 @@ final class tx_oelib_testingFramework {
 	private $resetAutoIncrementThreshold = 100;
 
 	/**
+	 * @var	array	array with names of created dummy files relative to the
+	 * 				upload folder of the extension to test
+	 */
+	private $dummyFiles = array();
+
+	/**
+	 * @var	string	the absolute path to the upload folder of the extension to
+	 * 				test
+	 */
+	private $uploadFolderPath = '';
+
+	/**
+	 * @var	t3lib_basicFileFunctions	an instance of t3lib_basicFileFunctions,
+	 * 									for retrieving a unique file name
+	 */
+	private static $fileNameProcessor = null;
+
+	/**
 	 * The constructor for this class.
 	 *
 	 * This testing framework can be instantiated for one extension at a time.
@@ -121,6 +139,7 @@ final class tx_oelib_testingFramework {
 		$this->additionalTablePrefixes = $additionalTablePrefixes;
 		$this->createListOfOwnAllowedTables();
 		$this->createListOfAdditionalAllowedTables();
+		$this->uploadFolderPath = PATH_site . 'uploads/' . $this->tablePrefix . '/';
 	}
 
 	/**
@@ -641,6 +660,7 @@ final class tx_oelib_testingFramework {
 	public function cleanUp($performDeepCleanUp = false) {
 		$this->cleanUpTableSet(false, $performDeepCleanUp);
 		$this->cleanUpTableSet(true, $performDeepCleanUp);
+		$this->cleanUpFiles();
 	}
 
 	/**
@@ -691,6 +711,96 @@ final class tx_oelib_testingFramework {
 
 		// Resets the list of dirty tables.
 		$this->dirtyTables = array();
+	}
+
+	/**
+	 * Deletes all created dummy files.
+	 */
+	private function cleanUpFiles() {
+		foreach ($this->dummyFiles as $dummyFile) {
+			$this->deleteDummyFile($dummyFile);
+		}
+	}
+
+
+	// ----------------------------------------------------------------------
+	// file creation and deletion
+	// ----------------------------------------------------------------------
+
+	/**
+	 * Creates an empty dummy file with a unique file name in the calling
+	 * extension's upload directory.
+	 *
+	 * @return	string		the absolute path of the created dummy file, will
+	 * 						not be empty
+	 */
+	public function createDummyFile() {
+		if (!self::$fileNameProcessor) {
+			self::$fileNameProcessor = t3lib_div::makeInstance(
+				't3lib_basicFileFunctions'
+			);
+		}
+
+		$uniqueFileName = self::$fileNameProcessor->getUniqueName(
+			'test.txt', $this->uploadFolderPath
+		);
+
+		if (!@t3lib_div::writeFile($uniqueFileName, '')) {
+			throw new Exception($uniqueFileName . ' could not be created.');
+		}
+
+		$this->dummyFiles[basename($uniqueFileName)] = basename($uniqueFileName);
+
+		return $uniqueFileName;
+	}
+
+	/**
+	 * Deletes the dummy file specified by the first parameter $file.
+	 *
+	 * @throws	Exception if the file does not exist.
+	 * @throws	Exception if the file was not created with the current instance
+	 * 			of the testing framework.
+	 * @throws 	Exception if the file could not be deleted.
+	 *
+	 * @param	string		the path to the file to delete relative to
+	 * 						$this->uploadFolderPath, must not be empty
+	 */
+	public function deleteDummyFile($fileName) {
+		$absolutePathToFile = $this->uploadFolderPath . $fileName;
+
+		if (!file_exists($absolutePathToFile)) {
+			throw new Exception(
+				'The file "' . $absolutePathToFile . '" which you ' .
+					'are trying to delete does not exist.'
+			);
+		}
+
+		if (!isset($this->dummyFiles[$fileName])) {
+			throw new Exception(
+				'The file "' . $absolutePathToFile . '" which you ' .
+			 		'are trying to delete was not created by this instance of ' .
+			 		'the testing framework.'
+			);
+		}
+
+		if (!@unlink($absolutePathToFile)) {
+			throw new Exception(
+				'The file "' . $absolutePathToFile . '" could not ' .
+					'be deleted.'
+			);
+		}
+
+		unset($this->dummyFiles[$fileName]);
+	}
+
+	/**
+	 * Returns the absolute path to the upload folder of the extension to test.
+	 *
+	 * @return	string		the absolute path to the upload folder of the
+	 * 						extension to test, including the trailing slash
+	 */
+	public function getUploadFolderPath() {
+		return $this->uploadFolderPath;
 	}
 
 

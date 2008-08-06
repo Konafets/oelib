@@ -34,6 +34,8 @@
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
 
+require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
+
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
@@ -890,7 +892,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
-	// Tests regarding dropAllDummyRecords()
+	// Tests regarding cleanUp()
 	// ---------------------------------------------------------------------
 
 	public function testCleanUpWithRegularCleanUp() {
@@ -965,6 +967,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 				'Some test records were not deleted from table "'.$currentTable.'"'
 			);
 		}
+	}
+
+	public function testCleanUpDeletesCreatedDummyFiles() {
+		$fileName = $this->fixture->createDummyFile();
+
+		$this->fixture->cleanUp();
+
+		$this->assertFalse(file_exists($fileName));
 	}
 
 
@@ -2385,6 +2395,81 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createTemplate(42, array('uid' => 99999));
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createDummyFile()
+	// ---------------------------------------------------------------------
+
+	public function testCreateDummyFileCreatesFile() {
+		$dummyFile = $this->fixture->createDummyFile();
+		$this->assertTrue(file_exists($dummyFile));
+	}
+
+	public function testCreateDummyFileWithReadOnlyUploadFolderThrowsException() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test only works in a UNIX environment where chmod() is available.');
+		}
+		$this->setExpectedException('Exception', ' could not be created.');
+
+		chmod($this->fixture->getUploadFolderPath(), 0455);
+		$this->fixture->createDummyFile();
+		chmod($this->fixture->getUploadFolderPath(), 0755);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding deleteFile()
+	// ---------------------------------------------------------------------
+
+	public function testDeleteDummyFileDeletesCreatedDummyFile() {
+		$dummyFile = $this->fixture->createDummyFile();
+		$this->fixture->deleteDummyFile(basename($dummyFile));
+
+		$this->assertFalse(file_exists($dummyFile));
+	}
+
+	public function testDeleteDummyFileWithInexistentFileThrowsException() {
+		$basicFileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+		$uniqueFileName = $basicFileFunc->getUniqueName(
+			'test.file', PATH_site . 'uploads/tx_oelib/'
+		);
+
+		$this->setExpectedException(
+			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
+				'trying to delete does not exist.'
+		);
+
+		$this->fixture->deleteDummyFile(basename($uniqueFileName));
+	}
+
+	public function testDeleteDummyFileWithForeignFileThrowsException() {
+		$basicFileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+		$uniqueFileName = $basicFileFunc->getUniqueName(
+			'test.file', PATH_site . 'uploads/tx_oelib/'
+		);
+		t3lib_div::writeFile($uniqueFileName, '');
+
+		$this->setExpectedException(
+			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
+				'trying to delete was not created by this instance of ' .
+			 	'the testing framework.'
+		);
+
+		$this->fixture->deleteDummyFile(basename($uniqueFileName));
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding getUploadFolderFile()
+	// ---------------------------------------------------------------------
+
+	public function testGetUploadFolderPathReturnsUploadFolderPathIncludingTablePrefix() {
+		$this->assertRegExp(
+			'/\/uploads\/tx_oelib\/$/',
+			$this->fixture->getUploadFolderPath()
+		);
 	}
 
 
