@@ -22,6 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_tslib . 'class.tslib_content.php');
+require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
+
 /**
  * Class 'tx_oelib_templatehelperchild' for the 'oelib' extension.
  *
@@ -33,16 +38,14 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(PATH_tslib.'class.tslib_content.php');
-require_once(PATH_t3lib.'class.t3lib_timetrack.php');
-
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
-
 final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
-	public $prefixId = 'tx_oelib_templatehelperchild';
+	/**
+	 * @var	string		the path of this file relative to the extension
+	 * 					directory
+	 */
 	public $scriptRelPath
 		= 'tests/fixtures/class.tx_oelib_templatehelperchild.php';
+	/** @var	string		the extension key */
 	public $extKey = 'oelib';
 
 	/**

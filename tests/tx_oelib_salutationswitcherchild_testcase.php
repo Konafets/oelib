@@ -22,6 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
+
 /**
  * Testcase for salutation switching in the 'oelib' extension.
  *
@@ -31,10 +34,6 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
-
 class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	private $fixture;
 

@@ -22,6 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
+
 /**
  * Testcase for the header proxy factory class and the header collector class
  * in the 'oelib' extension.
@@ -32,10 +35,6 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory.php');
-
 class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	/** instance of the object to test */
 	private $fixture;

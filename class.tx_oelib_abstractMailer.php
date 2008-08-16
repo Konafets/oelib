@@ -21,6 +21,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+
 /**
  * Abstract class 'tx_oelib_abstractMailer' for the 'oelib' extension.
  * This class declares the function sendEmail() for its inheritants. So they
@@ -32,9 +34,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 abstract class tx_oelib_abstractMailer {
 	/** whether an e-mail should be formatted before it is sent */
 	protected $enableFormatting = true;

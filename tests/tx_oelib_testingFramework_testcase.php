@@ -22,6 +22,15 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
+
+define('OELIB_TESTTABLE', 'tx_oelib_test');
+define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
+
 /**
  * Testcase for the testing framework in the 'oelib' extension.
  *
@@ -33,17 +42,8 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
-
-define('OELIB_TESTTABLE', 'tx_oelib_test');
-define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
-
 class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
+	/** @var	tx_oelib_testingFramework */
 	private $fixture;
 
 	public function setUp() {

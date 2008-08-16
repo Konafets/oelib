@@ -22,6 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+
 /**
  * Class 'tx_oelib_configcheck' for the 'oelib' extension.
  *
@@ -47,34 +51,35 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(PATH_t3lib.'class.t3lib_page.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 class tx_oelib_configcheck {
-	/** the object whose configuration should be checked */
+	/**
+     * @var	tx_oelib_templatehelper 	the object whose configuration should
+     * 									be checked
+     */
 	protected $objectToCheck = null;
-	/** the (cached) class name of $this->objectToCheck */
+	/** @var	string		the (cached) class name of $this->objectToCheck */
 	private $className = '';
 
 	/**
-	 * A string describing the "flavor" of the object in case the class name
-	 * does not to sufficiently indicate exactly which configuration values to
-	 * check.
+	 * @var	string		the "flavor" of the object in case the class name does
+	 * 					not to sufficiently indicate exactly which configuration
+	 * 					values to check
 	 */
 	private $flavor = '';
 
-	/** the error to return (or an empty string if there is no error) */
+	/**
+	 * @var string		the error to return (or an empty string if there is no
+	 * 					error)
+	 */
 	private $errorText = '';
 
 	/**
 	 * The constructor.
 	 *
-	 * @param	object		the object that will be checked for configuration
-	 * 						problems
+	 * @param	tx_oelib_templatehelper		the object that will be checked for
+	 * 										configuration problems
 	 */
-	function __construct(tx_oelib_templatehelper $objectToCheck) {
+	public function __construct(tx_oelib_templatehelper $objectToCheck) {
 		$this->objectToCheck = $objectToCheck;
 		$this->className = get_class($this->objectToCheck);
 	}

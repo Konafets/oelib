@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractHeaderProxy.php');
+
 /**
  * Class 'tx_oelib_realHeaderProxy' for the 'oelib' extension.
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
@@ -31,9 +33,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractHeaderProxy.php');
-
 class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Adds a header.

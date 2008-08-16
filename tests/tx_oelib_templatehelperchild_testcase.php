@@ -22,6 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
+
 /**
  * Testcase for the template helper class in the 'oelib' extension.
  *
@@ -31,16 +35,15 @@
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
-
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
+	/** @var	tx_oelib_templatehelperchild */
 	private $fixture;
+	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
 
+	/** @var	t3lib_timeTrack */
 	private $originalGlobalsTt;
+	/** @var	t3lib_pageSelect */
 	private $originalGlobalsTsfeSysPage;
 
 	public function setUp() {
@@ -69,7 +72,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests concerning the creation of the template helper object.
 	/////////////////////////////////////////////////////////////////
 
-	public function testConfigurationCheckCreationForEnabledConfigurationCeck() {
+	public function testConfigurationCheckCreationForEnabledConfigurationCheck() {
 		// This test relies on the config check to be enabled during setup().
 		$this->assertNotNull(
 			$this->fixture->getConfigurationCheck()
@@ -2899,10 +2902,24 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testEnableFieldsCanBeDifferentForDifferentShowHidden() {
+	public function testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
 		$this->assertNotEquals(
 			$this->fixture->enableFields('tx_oelib_test', 0),
 			$this->fixture->enableFields('tx_oelib_test', 1)
+		);
+	}
+
+	public function testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
+		$this->assertEquals(
+			$this->fixture->enableFields('tx_oelib_test', 0),
+			$this->fixture->enableFields('tx_oelib_test', -1)
+		);
+	}
+
+	public function testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
+		$this->assertNotEquals(
+			$this->fixture->enableFields('tx_oelib_test', 1),
+			$this->fixture->enableFields('tx_oelib_test', -1)
 		);
 	}
 
@@ -2962,7 +2979,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion() {
 		$uid = $this->testingFramework->createSystemFolder();
-		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+		$this->testingFramework->createSystemFolder($uid);
 
 		$this->assertEquals(
 			(string) $uid,
@@ -2972,7 +2989,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion() {
 		$uid1 = $this->testingFramework->createSystemFolder();
-		$subFolderUid = $this->testingFramework->createSystemFolder($uid1);
+		$this->testingFramework->createSystemFolder($uid1);
 		$uid2 = $this->testingFramework->createSystemFolder();
 
 		$this->assertEquals(
@@ -2984,8 +3001,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	public function testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
-		$subSubFolderUid
-			= $this->testingFramework->createSystemFolder($subFolderUid);
+		$this->testingFramework->createSystemFolder($subFolderUid);
 
 		$this->assertEquals(
 			$uid.','.$subFolderUid,

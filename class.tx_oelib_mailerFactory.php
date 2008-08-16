@@ -21,6 +21,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_realMailer.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_emailCollector.php');
+
 /**
  * Class 'tx_oelib_mailerFactory' for the 'oelib' extension.
  *
@@ -34,10 +37,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_realMailer.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_emailCollector.php');
-
 class tx_oelib_mailerFactory {
 	/** the singleton factory */
 	private static $instance = null;

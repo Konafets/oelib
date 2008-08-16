@@ -22,6 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_realHeaderProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerCollector.php');
+
 /**
  * Class 'tx_oelib_headerProxyFactory' for the 'oelib' extension.
  *
@@ -35,10 +38,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_realHeaderProxy.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_headerCollector.php');
-
 class tx_oelib_headerProxyFactory {
 	/** the singleton factory */
 	private static $instance = null;

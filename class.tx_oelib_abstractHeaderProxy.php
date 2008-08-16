@@ -33,7 +33,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
 abstract class tx_oelib_abstractHeaderProxy {
 	/**
 	 * This function usually should add a HTTP header.

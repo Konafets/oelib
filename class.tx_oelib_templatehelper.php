@@ -22,6 +22,17 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
+require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
+require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
+
+require_once(PATH_typo3 . 'sysext/cms/tslib/class.tslib_content.php');
+require_once(PATH_typo3 . 'sysext/lang/lang.php');
+
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
  * (taken from the 'seminars' extension).
@@ -36,53 +47,66 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(PATH_t3lib.'class.t3lib_page.php');
-require_once(PATH_t3lib.'class.t3lib_timetrack.php');
-require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
-
-require_once(PATH_typo3.'sysext/cms/tslib/class.tslib_content.php');
-require_once(PATH_typo3.'sysext/lang/lang.php');
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_salutationswitcher.php');
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_configurationProxy.php');
-
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
-	/** whether init() already has been called (in order to avoid double calls) */
-	var $isInitialized = false;
-
-	/** the complete HTML template */
-	var $templateCode = '';
+	/** @var	string 		the prefix used for CSS classes */
+	public $prefixId = '';
+	/**
+	 * @var	string		the path of this file relative to the extension
+	 * 					directory
+	 */
+	public $scriptRelPath = '';
+	/** @var	string		the extension key */
+	public $extKey = '';
 
 	/**
-	 * Associative array of all HTML template subparts, using the marker names
-	 * without ### as keys, for example 'MY_MARKER'.
+	 * @var	boolean		whether init() already has been called (in order to
+	 * 					avoid double calls)
 	 */
-	var $templateCache = array();
+	protected $isInitialized = false;
 
-	/** list of the names of all markers (and subparts) of a template */
-	var $markerNames = '';
+	/** @var	string		the complete HTML template */
+	private $templateCode = '';
 
 	/**
-	 * Associative array of populated markers and their contents (with the keys
-	 * being the marker names including the wrapping hash signs ###).
+	 * @var	array		associative array of all HTML template subparts, using
+	 * 					the marker names without ### as keys, for example
+	 * 					'MY_MARKER'
 	 */
-	var $markers = array();
+	private $templateCache = array();
 
 	/**
-	 * List of subpart names that shouldn't be displayed. Set a subpart key like
-	 * "FIELD_DATE" (the value does not matter) to remove that subpart.
+	 * @var	string		list of the names of all markers (and subparts) of a
+	 * 					template
 	 */
-	var $subpartsToHide = array();
+	private $markerNames = '';
 
-	/** The configuration check object that will check this object. */
-	var $configurationCheck = null;
+	/**
+	 * @var	array		associative array of populated markers and their
+	 * 					contents (with the keys being the marker names including
+	 * 					the wrapping hash signs ###).
+	 */
+	private $markers = array();
 
-	/** page object which we will use to call enableFields on */
+	/**
+	 * @var	array		Subpart names that shouldn't be displayed. Set a subpart
+	 * 					key like "FIELD_DATE" (the value does not matter) to
+	 * 					remove that subpart.
+	 */
+	private $subpartsToHide = array();
+
+	/**
+	 * @var	tx_oelib_configcheck 	the configuration check object that will
+	 * 								check this object
+	 */
+	protected $configurationCheck = null;
+
+	/**
+	 * @var	t3lib_pageSelect		page object which we will use to call
+	 * 								enableFields on
+	 */
 	protected static $pageForEnableFields = null;
 
-	/** cached results for the enableFields function */
+	/** @var	array		cached results for the enableFields function */
 	private static $enableFieldsCache = array();
 
 	/**
@@ -97,12 +121,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
  	 * @param	array		TypoScript configuration for the plugin
-	 *
-	 * @access	protected
 	 */
-	function init(array $conf = array()) {
-		global $BE_USER;
-
+	public function init(array $conf = array()) {
 		static $cachedConfigs = array();
 
 		if (!$this->isInitialized) {
@@ -152,9 +172,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					.'class.'.$configurationCheckClassname.'.php';
 				if (is_file($configurationCheckFile)) {
 					require_once($configurationCheckFile);
-					$this->configurationCheck =& new $configurationCheckClassname(
-						$this
-					);
+					$this->configurationCheck
+						= new $configurationCheckClassname($this);
 				}
 			} else {
 				$this->configurationCheck = null;
@@ -1731,19 +1750,20 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	) {
 		if (!in_array($showHidden, array(-1, 0, 1))) {
 			throw new Exception(
-				'$showHidden may only be -1, 0 or 1, but actually is '.$showHidden
+				'$showHidden may only be -1, 0 or 1, but actually is ' .
+					$showHidden
 			);
 		}
 
-		// maps $showHidden (-1..1) to (0..2) which to ensure valid array keys
+		// maps $showHidden (-1..1) to (0..2) which ensures valid array keys
 		$showHiddenKey = $showHidden + 1;
 		$ignoresKey = serialize($ignoreArray);
 		$previewKey = intval($noVersionPreview);
-		if (!isset(self::$enableFieldsCache[$table][$showHidden][$ignoresKey]
+		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
 			[$previewKey])
 		) {
 			$this->retrievePageForEnableFields();
-			self::$enableFieldsCache[$table][$showHidden][$ignoresKey]
+			self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
 				[$previewKey]
 				= self::$pageForEnableFields->enableFields(
 					$table,
@@ -1753,7 +1773,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				);
 		}
 
-		return self::$enableFieldsCache[$table][$showHidden][$ignoresKey]
+		return self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
 			[$previewKey];
 	}
 

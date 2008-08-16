@@ -21,6 +21,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractMailer.php');
+
 /**
  * Class 'tx_oelib_emailCollector' for the 'oelib' extension.
  *
@@ -33,9 +35,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractMailer.php');
-
 class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Two-dimensional array of e-mail data.

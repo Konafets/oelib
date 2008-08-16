@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractHeaderProxy.php');
+
 /**
  * Class 'tx_oelib_headerCollector' for the 'oelib' extension.
  *
@@ -34,9 +36,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractHeaderProxy.php');
-
 class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	/** headers which were meant to be sent */
 	private $headers = array();

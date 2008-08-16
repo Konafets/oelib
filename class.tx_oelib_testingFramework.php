@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+
 /**
  * Class 'tx_oelib_testingFramework' for the 'oelib' extension.
  *
@@ -35,82 +37,82 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 final class tx_oelib_testingFramework {
 	/**
-	 * prefix of the extension for which this instance of the testing framework
-	 * was instantiated (e.g. "tx_seminars")
+	 * @var	string		prefix of the extension for which this instance of the
+	 * 					testing framework was instantiated (e.g. "tx_seminars")
 	 */
 	private $tablePrefix = '';
 
 	/**
-	 * prefixes of additional extensions to which this instance of the testing
-	 * framework has access (e.g. "tx_seminars")
+	 * @var	array		prefixes of additional extensions to which this instance
+	 * 					of the testing framework has access (e.g. "tx_seminars")
 	 */
 	private $additionalTablePrefixes = array();
 
-	/** cache for all DB table names in the DB */
+	/** @var	array		cache for all DB table names in the DB */
 	private static $allTablesCache = array();
 
 	/**
-	 * array of all own DB table names to which this instance of the testing
-	 * framework has access
+	 * @var	array		all own DB table names to which this instance of the
+	 * 					testing framework has access
 	 */
 	private $ownAllowedTables = array();
 
 	/**
-	 * array of all additional DB table names to which this instance of the
-	 * testing framework has access
+	 * @var	array		all additional DB table names to which this instance of
+	 * 					the testing framework has access
 	 */
 	private $additionalAllowedTables = array();
 
 	/**
-	 * Array of all sytem table names to which this instance of the testing
-	 * framework has access.
+	 * @var	array		all sytem table names to which this instance of the
+	 * 					testing framework has access
 	 */
 	private $allowedSystemTables = array(
 		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template',
 		'tt_content'
 	);
 
-	/** cache for the results of hasTableColumnUid */
+	/** @var	array		cache for the results of hasTableColumnUid */
 	private static $hasTableColumnUidCache = array();
 
 	/**
-	 * array of all "dirty" non-system tables (i.e. all tables that were used
-	 * for testing and need to be cleaned up)
+	 * @var	array		all "dirty" non-system tables (i.e. all tables that were
+	 * 					used for testing and need to be cleaned up)
 	 */
 	private $dirtyTables = array();
 
 	/**
-	 * array of all "dirty" system tables (i.e. all tables that were used for
-	 * testing and need to be cleaned up)
+	 * @var	array		all "dirty" system tables (i.e. all tables that were
+	 * 					used for testing and need to be cleaned up)
 	 */
 	private $dirtySystemTables = array();
 
-	/** array of the sorting values of all relation tables */
+	/** @var	array	sorting values of all relation tables */
 	private $relationSorting = array();
 
-	/** the number of unusable UIDs after the maximum UID in a table before
-	 * the auto increment value will be reset by resetAutoIncrementLazily */
+	/**
+	 * @var	integer		the number of unusable UIDs after the maximum UID in a
+	 * 					table before the auto increment value will be reset by
+	 * 					resetAutoIncrementLazily
+	 */
 	private $resetAutoIncrementThreshold = 100;
 
 	/**
-	 * @var	array	array with names of created dummy files relative to the
-	 * 				upload folder of the extension to test
+	 * @var	array		array with names of created dummy files relative to the
+	 * 					upload folder of the extension to test
 	 */
 	private $dummyFiles = array();
 
 	/**
-	 * @var	string	the absolute path to the upload folder of the extension to
-	 * 				test
+	 * @var	string		the absolute path to the upload folder of the extension
+	 * 					to test
 	 */
 	private $uploadFolderPath = '';
 
 	/**
-	 * @var	t3lib_basicFileFunctions	an instance of t3lib_basicFileFunctions,
+	 * @var	t3lib_basicFileFunctions	an instance of t3lib_basicFileFunctions
 	 * 									for retrieving a unique file name
 	 */
 	private static $fileNameProcessor = null;

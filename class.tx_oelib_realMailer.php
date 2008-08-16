@@ -21,6 +21,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractMailer.php');
+
 /**
  * Class 'tx_oelib_realMailer' for the 'oelib' extension.
  * Regarding the Strategy pattern, sendEmail() represents one concrete behavior.
@@ -30,9 +32,6 @@
  *
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'class.tx_oelib_abstractMailer.php');
-
 class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	/**
 	 * Sends an e-mail.

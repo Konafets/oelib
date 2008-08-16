@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+
 /**
  * Class 'tx_oelib_timer' for the 'oelib' extension.
  *
@@ -32,27 +34,27 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib').'tx_oelib_commonConstants.php');
-
 class tx_oelib_timer {
-	/** whether the timer currently is running */
-	var $isRunning = false;
+	/** @var	boolean		whether the timer currently is running */
+	private $isRunning = false;
 
-	/** the name of the current time bucket */
-	var $currentBucketName = '';
+	/** @var	string		the name of the current time bucket */
+	private $currentBucketName = '';
 
-	/** a stack of previously used buckets, starting with the first bucket */
-	var $previousBucketNames = array();
+	/**
+	 * @var	array		a stack of previously used buckets, starting with the
+	 * 					first bucket
+	 */
+	private $previousBucketNames = array();
 
-	/** the time buckets with their names as keys */
-	var $buckets = array();
+	/** @var	array		the time buckets with their names as keys */
+	private $buckets = array();
 
-	/** the sum of all measured time */
-	var $allTime = 0;
+	/** @var	float		the sum of all measured time */
+	private $allTime = 0;
 
-	/** the time from the last startTimer() call */
-	var $lastTime = 0;
+	/** @var	float		the time from the last startTimer() call */
+	private $lastTime = 0;
 
 	/**
 	 * Retrieves the singleton timer instance. This function usually should be

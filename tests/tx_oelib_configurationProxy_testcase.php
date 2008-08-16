@@ -21,6 +21,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+
+define('OELIB_EXTENSION_KEY', 'oelib');
+
 /**
  * Testcase for the configuration proxy class in the 'oelib' extension.
  *
@@ -30,12 +35,6 @@
  * @author		Saskia Metzler <saskia@merlin.owl.de>
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
-
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
-
-define('OELIB_EXTENSION_KEY', 'oelib');
-
 class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
