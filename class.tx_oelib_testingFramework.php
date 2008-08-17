@@ -100,10 +100,16 @@ final class tx_oelib_testingFramework {
 	private $resetAutoIncrementThreshold = 100;
 
 	/**
-	 * @var	array		array with names of created dummy files relative to the
-	 * 					upload folder of the extension to test
+	 * @var	array	the names of the created dummy files relative to the upload
+	 * 				folder of the extension to test
 	 */
 	private $dummyFiles = array();
+
+	/**
+	 * @var	array	the names of the created dummy folders relative to the
+ 	 * 				upload folder of the extension to test
+ 	 */
+	private $dummyFolders = array();
 
 	/**
 	 * @var	string		the absolute path to the upload folder of the extension
@@ -663,6 +669,7 @@ final class tx_oelib_testingFramework {
 		$this->cleanUpTableSet(false, $performDeepCleanUp);
 		$this->cleanUpTableSet(true, $performDeepCleanUp);
 		$this->cleanUpFiles();
+		$this->cleanUpFolders();
 	}
 
 	/**
@@ -724,6 +731,15 @@ final class tx_oelib_testingFramework {
 		}
 	}
 
+	/**
+	 * Deletes all created dummy folders.
+	 */
+	private function cleanUpFolders() {
+		foreach ($this->dummyFolders as $dummyFolder) {
+			$this->deleteDummyFolder($dummyFolder);
+		}
+	}
+
 
 	// ----------------------------------------------------------------------
 	// file creation and deletion
@@ -733,36 +749,36 @@ final class tx_oelib_testingFramework {
 	 * Creates an empty dummy file with a unique file name in the calling
 	 * extension's upload directory.
 	 *
+	 * @param	string		path of the dummy file to create, relative to the
+	 * 						calling extension's upload directory, must not be
+	 * 						empty
+	 *
 	 * @return	string		the absolute path of the created dummy file, will
 	 * 						not be empty
 	 */
-	public function createDummyFile() {
-		if (!self::$fileNameProcessor) {
-			self::$fileNameProcessor = t3lib_div::makeInstance(
-				't3lib_basicFileFunctions'
-			);
-		}
-
-		$uniqueFileName = self::$fileNameProcessor->getUniqueName(
-			'test.txt', $this->uploadFolderPath
-		);
+	public function createDummyFile($fileName = 'test.txt') {
+		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
 
 		if (!@t3lib_div::writeFile($uniqueFileName, '')) {
 			throw new Exception($uniqueFileName . ' could not be created.');
 		}
 
-		$this->dummyFiles[basename($uniqueFileName)] = basename($uniqueFileName);
+		$relativeFileName = $this->getPathRelativeToUploadDirectory(
+			$uniqueFileName
+		);
+
+		$this->dummyFiles[$relativeFileName] = $relativeFileName;
 
 		return $uniqueFileName;
 	}
 
 	/**
-	 * Deletes the dummy file specified by the first parameter $file.
+	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
-	 * @throws	Exception if the file does not exist.
-	 * @throws	Exception if the file was not created with the current instance
-	 * 			of the testing framework.
-	 * @throws 	Exception if the file could not be deleted.
+	 * @throws	exception if the file does not exist
+	 * @throws	exception if the file was not created with the current instance
+	 * 			of the testing framework
+	 * @throws 	exception if the file could not be deleted
 	 *
 	 * @param	string		the path to the file to delete relative to
 	 * 						$this->uploadFolderPath, must not be empty
@@ -796,6 +812,78 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
+	 * Creates a dummy folder with a unique folder name in the calling extension's
+	 * upload directory.
+	 *
+	 * @param	string		name of the dummy folder to create relative to
+	 * 						$this->uploadFolderPath, must not be empty
+	 *
+	 * @return	string		the absolute path of the created dummy folder, will
+	 * 						not be empty
+	 */
+	public function createDummyFolder($folderName) {
+		$uniqueFolderName = $this->getUniqueFileOrFolderPath($folderName);
+
+		if (!t3lib_div::mkdir($uniqueFolderName)) {
+			throw new Exception($uniqueFolderName . ' could not be created.');
+		}
+
+		$relativeUniqueFolderName = $this->getPathRelativeToUploadDirectory(
+			$uniqueFolderName
+		);
+
+		// Adds the created dummy folder to the top of $this->dummyFolders so
+		// it gets deleted before previously created folders through
+		// $this->cleanUpFolders(). This is needed for nested dummy folders.
+		$this->dummyFolders = array_merge(
+			array($relativeUniqueFolderName => $relativeUniqueFolderName),
+			$this->dummyFolders
+		);
+
+		return $uniqueFolderName;
+	}
+
+	/**
+	 * Deletes the dummy folder specified in the first parameter $folderName.
+	 * The folder must be empty (no files or subfolders).
+	 *
+	 * @throws	exception if the folder does not exist
+	 * @throws	exception if the folder was not created with the current instance
+	 * 			of the testing framework
+	 * @throws 	exception if the folder could not be deleted
+	 *
+	 * @param	string		the path to the folder to delete relative to
+	 * 						$this->uploadFolderPath, must not be empty
+	 */
+	public function deleteDummyFolder($folderName) {
+		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
+
+		if (!file_exists($absolutePathToFolder)) {
+			throw new Exception(
+				'The folder "' . $absolutePathToFolder . '" which you ' .
+					'are trying to delete does not exist.'
+			);
+		}
+
+		if (!isset($this->dummyFolders[$folderName])) {
+			throw new Exception(
+				'The folder "' . $absolutePathToFolder . '" which you ' .
+			 		'are trying to delete was not created by this instance of ' .
+			 		'the testing framework.'
+			);
+		}
+
+		if (!@rmdir($absolutePathToFolder)) {
+			throw new Exception(
+				'The folder "' . $absolutePathToFolder . '" could not ' .
+					'be deleted.'
+			);
+		}
+
+		unset($this->dummyFolders[$folderName]);
+	}
+
+	/**
 	 * Returns the absolute path to the upload folder of the extension to test.
 	 *
 	 * @return	string		the absolute path to the upload folder of the
@@ -803,6 +891,62 @@ final class tx_oelib_testingFramework {
 	 */
 	public function getUploadFolderPath() {
 		return $this->uploadFolderPath;
+	}
+
+	/**
+	 * Returns the path relative to the calling extension's upload directory for
+	 * a path given in the first parameter $absolutePath.
+	 *
+	 * @throws	exception if the first parameter $absolutePath is not within
+	 * 			the calling extension's upload directory
+	 *
+	 * @param	string		the absolute path to process, must be within the
+	 * 						calling extension's upload directory, must not be
+	 * 						empty
+	 *
+	 * @return	string		the path relative to the calling extension's upload
+	 * 						directory
+	 */
+	public function getPathRelativeToUploadDirectory($absolutePath) {
+		if (!preg_match(
+				'/^' . str_replace('/', '\/', $this->getUploadFolderPath()) . '.*$/',
+				$absolutePath
+		)) {
+			throw new Exception(
+				'The first parameter $absolutePath is not within the calling ' .
+					'extension\'s upload directory.'
+			);
+		}
+
+		return mb_substr(
+			$absolutePath,
+			mb_strlen($this->getUploadFolderPath())
+		);
+	}
+
+	/**
+	 * Returns a unique absolut path of a file or folder.
+	 *
+	 * @param	string		the path of a file or folder relative to the calling
+	 * 						extension's upload directory, must not be empty
+	 *
+	 * @return	string		the unique absolut path of a file or folder
+	 */
+	public function getUniqueFileOrFolderPath($path) {
+		if (empty($path)) {
+			throw new Exception('The first parameter $path must not be emtpy.');
+		}
+
+		if (!self::$fileNameProcessor) {
+			self::$fileNameProcessor = t3lib_div::makeInstance(
+				't3lib_basicFileFunctions'
+			);
+		}
+
+		return self::$fileNameProcessor->getUniqueName(
+			basename($path),
+			$this->uploadFolderPath . t3lib_div::dirname($path)
+		);
 	}
 
 

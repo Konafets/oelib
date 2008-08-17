@@ -46,6 +46,22 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	/** @var	tx_oelib_testingFramework */
 	private $fixture;
 
+	/**
+	 * @var	string	absolute path to a "foreign" file which was created for test
+	 * 				purposes and which should be deleted in tearDown(); this is
+	 *				needed for testDeleteDummyFileWithForeignFileThrowsException
+	 */
+	private $foreignFileToDelete = '';
+
+	/**
+	 * @var	string	absolute path to a "foreign" folder which was created for
+	 * 				test purposes and which should be deleted in tearDown();
+	 * 				this is needed for
+	 * 				testDeleteDummyFolderWithForeignFolderThrowsException
+	 */
+	private $foreignFolderToDelete = '';
+
+
 	public function setUp() {
 		$this->fixture = new tx_oelib_testingFramework(
 			'tx_oelib', array('user_oelibtest')
@@ -56,6 +72,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->setResetAutoIncrementThreshold(1);
 		$this->fixture->cleanUp();
 		$this->fixture->clearCaches();
+		$this->deleteForeignFile();
+		$this->deleteForeignFolder();
 		unset($this->fixture);
 	}
 
@@ -112,6 +130,30 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 					'fixtures/user_oelibtest2.t3x.'
 			);
 		}
+	}
+
+	/**
+	 * Deletes a "foreign" file which was created for test purposes.
+	 */
+	private function deleteForeignFile() {
+		if ($this->foreignFileToDelete == '') {
+			return;
+		}
+
+		@unlink($this->foreignFileToDelete);
+		$this->foreignFileToDelete = '';
+	}
+
+	/**
+	 * Deletes a "foreign" folder which was created for test purposes.
+	 */
+	private function deleteForeignFolder() {
+		if ($this->foreignFolderToDelete == '') {
+			return;
+		}
+
+		@rmdir($this->foreignFolderToDelete);
+		$this->foreignFolderToDelete = '';
 	}
 
 
@@ -969,12 +1011,34 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 	}
 
-	public function testCleanUpDeletesCreatedDummyFiles() {
+	public function testCleanUpDeletesCreatedDummyFile() {
 		$fileName = $this->fixture->createDummyFile();
 
 		$this->fixture->cleanUp();
 
 		$this->assertFalse(file_exists($fileName));
+	}
+
+	public function testCleanUpDeletesCreatedDummyFolder() {
+		$folderName = $this->fixture->createDummyFolder('test_folder');
+
+		$this->fixture->cleanUp();
+
+		$this->assertFalse(file_exists($folderName));
+	}
+
+	public function testCleanUpDeletesCreatedNestedDummyFolders() {
+		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$innerDummyFolder = $this->fixture->createDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
+				'/test_folder'
+		);
+
+		$this->fixture->cleanUp();
+
+		$this->assertFalse(
+			file_exists($outerDummyFolder) && file_exists($innerDummyFolder)
+		);
 	}
 
 
@@ -2404,23 +2468,23 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testCreateDummyFileCreatesFile() {
 		$dummyFile = $this->fixture->createDummyFile();
+
 		$this->assertTrue(file_exists($dummyFile));
 	}
 
-	public function testCreateDummyFileWithReadOnlyUploadFolderThrowsException() {
-		if (TYPO3_OS == 'WIN') {
-			$this->markTestSkipped('This test only works in a UNIX environment where chmod() is available.');
-		}
-		$this->setExpectedException('Exception', ' could not be created.');
+	public function testCreateDummyFileCreatesFileInSubfolder() {
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$dummyFile = $this->fixture->createDummyFile(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
+				'/test.txt'
+		);
 
-		chmod($this->fixture->getUploadFolderPath(), 0455);
-		$this->fixture->createDummyFile();
-		chmod($this->fixture->getUploadFolderPath(), 0755);
+		$this->assertTrue(file_exists($dummyFile));
 	}
 
 
 	// ---------------------------------------------------------------------
-	// Tests regarding deleteFile()
+	// Tests regarding deleteDummyFile()
 	// ---------------------------------------------------------------------
 
 	public function testDeleteDummyFileDeletesCreatedDummyFile() {
@@ -2431,10 +2495,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteDummyFileWithInexistentFileThrowsException() {
-		$basicFileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-		$uniqueFileName = $basicFileFunc->getUniqueName(
-			'test.file', PATH_site . 'uploads/tx_oelib/'
-		);
+		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 
 		$this->setExpectedException(
 			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
@@ -2445,11 +2506,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteDummyFileWithForeignFileThrowsException() {
-		$basicFileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
-		$uniqueFileName = $basicFileFunc->getUniqueName(
-			'test.file', PATH_site . 'uploads/tx_oelib/'
-		);
+		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 		t3lib_div::writeFile($uniqueFileName, '');
+		$this->foreignFileToDelete = $uniqueFileName;
 
 		$this->setExpectedException(
 			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
@@ -2462,7 +2521,101 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
-	// Tests regarding getUploadFolderFile()
+	// Tests regarding createDummyFolder()
+	// ---------------------------------------------------------------------
+
+	public function testCreateDummyFolderCreatesFolder() {
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+
+		$this->assertTrue(file_exists($dummyFolder));
+	}
+
+	public function testCreateDummyFolderCanCreateFolderInDummyFolder() {
+		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$innerDummyFolder = $this->fixture->createDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
+				'/test_folder'
+		);
+
+		$this->assertTrue(file_exists($innerDummyFolder));
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding deleteDummyFolder()
+	// ---------------------------------------------------------------------
+
+	public function testDeleteDummyFolderDeletesCreatedDummyFolder() {
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
+		);
+
+		$this->assertFalse(file_exists($dummyFolder));
+	}
+
+	public function testDeleteDummyFolderWithInexistentFolderThrowsException() {
+		$uniqueFolderName = $this->fixture->getUniqueFileOrFolderPath('test_folder');
+
+		$this->setExpectedException(
+			'Exception', 'The folder "' . $uniqueFolderName . '" which you are ' .
+				'trying to delete does not exist.'
+		);
+
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($uniqueFolderName)
+		);
+	}
+
+	public function testDeleteDummyFolderWithForeignFolderThrowsException() {
+		$uniqueFolderName = $this->fixture->getUniqueFileOrFolderPath('test_folder');
+		t3lib_div::mkdir($uniqueFolderName);
+		$this->foreignFolderToDelete = $uniqueFolderName;
+
+		$this->setExpectedException(
+			'Exception', 'The folder "' . $uniqueFolderName . '" which you are ' .
+				'trying to delete was not created by this instance of ' .
+			 	'the testing framework.'
+		);
+
+		$this->fixture->deleteDummyFolder(basename($uniqueFolderName));
+	}
+
+	public function testDeleteDummyFolderCanDeleteCreatedDummyFolderInDummyFolder() {
+		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$innerDummyFolder = $this->fixture->createDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
+				'/test_folder'
+		);
+
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($innerDummyFolder)
+		);
+
+		$this->assertFalse(file_exists($innerDummyFolder));
+		$this->assertTrue(file_exists($outerDummyFolder));
+	}
+
+	public function testDeleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$dummyFile = $this->fixture->createDummyFile(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
+				'/test.txt'
+		);
+
+		$this->setExpectedException(
+			'Exception',
+			'The folder "' . $dummyFolder . '" could not be deleted.'
+		);
+
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding getUploadFolderPath()
 	// ---------------------------------------------------------------------
 
 	public function testGetUploadFolderPathReturnsUploadFolderPathIncludingTablePrefix() {
@@ -2470,6 +2623,34 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'/\/uploads\/tx_oelib\/$/',
 			$this->fixture->getUploadFolderPath()
 		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding getPathRelativeToUploadDirectory()
+	// ---------------------------------------------------------------------
+
+	public function testGetPathRelativeToUploadDirectoryWithPathOutsideUploadDirectoryThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The first parameter $absolutePath is not within the calling ' .
+				'extension\'s upload directory.'
+		);
+
+		$this->fixture->getPathRelativeToUploadDirectory(PATH_site);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding getUniqueFileOrFolderPath()
+	// ---------------------------------------------------------------------
+
+	public function testGetUniqueFileOrFolderPathWithEmptyPathThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The first parameter $path must not be emtpy.'
+		);
+
+		$this->fixture->getUniqueFileOrFolderPath('');
 	}
 
 
