@@ -19,10 +19,10 @@ $TCA['tx_oelib_test'] = array(
 		'enablecolumns' => array(
 			'disabled' => 'hidden',
 			'starttime' => 'starttime',
-			'endtime' => 'endtime'
+			'endtime' => 'endtime',
 		),
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY).'tca.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY).'icon_tx_oelib_test.gif'
+		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
+		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_oelib_test.gif',
 	)
 );
 ?>
