@@ -41,28 +41,18 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	/** @var	tx_oelib_testingFramework */
 	private $testingFramework;
 
-	/** @var	t3lib_timeTrack */
-	private $originalGlobalsTt;
-	/** @var	t3lib_pageSelect */
-	private $originalGlobalsTsfeSysPage;
-
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework->createFakeFrontEnd();
 		tx_oelib_configurationProxy::getInstance('oelib')
 			->setConfigurationValueBoolean('enableConfigCheck', true);
 
 		$this->fixture = new tx_oelib_templatehelperchild(array());
-
-		$this->originalGlobalsTt = $GLOBALS['TT'];
-		$this->originalGlobalsTsfeSysPage = $GLOBALS['TSFE']->sys_page;
 	}
 
 	public function tearDown() {
-		$this->testingFramework->cleanUp();
 		$this->fixture->clearCaches();
-
-		$GLOBALS['TT'] = $this->originalGlobalsTt;
-		$GLOBALS['TSFE']->sys_page = $this->originalGlobalsTsfeSysPage;
+		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);
 	}
@@ -73,44 +63,59 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	/////////////////////////////////////////////////////////////////
 
 	public function testConfigurationCheckCreationForEnabledConfigurationCheck() {
-		// This test relies on the config check to be enabled during setup().
+		// This test relies on the config check to be enabled during setUp().
 		$this->assertNotNull(
 			$this->fixture->getConfigurationCheck()
 		);
 	}
 
 	public function testConfigurationCheckCreationForDisabledConfigurationCeck() {
-		// The configuration check is created during initialization, therefore
-		// the object to test is recreated for this test.
-		unset($this->fixture);
 		tx_oelib_configurationProxy::getInstance('oelib')
 			->setConfigurationValueBoolean('enableConfigCheck', false);
-		$this->fixture = new tx_oelib_templatehelperchild(array());
+		$fixture = new tx_oelib_templatehelperchild();
 
 		$this->assertNull(
-			$this->fixture->getConfigurationCheck()
+			$fixture->getConfigurationCheck()
 		);
 	}
 
-	public function testFakeFrontendInitializesGlobalsTt() {
-		unset($GLOBALS['TT']);
-		$this->fixture->fakeFrontend();
 
-		$this->assertTrue(is_object($GLOBALS['TT']));
+	///////////////////////////////////////////////////////////////////////
+	// Tests for the behavior of the template helper without a front end.
+	///////////////////////////////////////////////////////////////////////
+
+	public function testInitInitializesGlobalTimeTrack() {
+		$GLOBALS['TT'] = null;
+		new tx_oelib_templatehelperchild();
+
+		$this->assertTrue(
+			$GLOBALS['TT'] instanceof t3lib_timeTrack
+		);
 	}
 
-	public function testFakeFrontendInitializesGlobalsTsfeSysPage() {
-		unset($GLOBALS['TSFE']->sys_page);
-		$this->fixture->fakeFrontend();
+	public function testInitInitializesGlobalFrontEnd() {
+		$GLOBALS['TSFE'] = null;
+		new tx_oelib_templatehelperchild();
 
-		$this->assertTrue(is_object($GLOBALS['TSFE']->sys_page));
+		$this->assertTrue(
+			$GLOBALS['TSFE'] instanceof tslib_fe
+		);
 	}
 
-	public function testFakeFrontendInitializesCobj() {
-		unset($this->fixture->cObj);
-		$this->fixture->fakeFrontend();
 
-		$this->assertTrue(is_object($this->fixture->cObj));
+	public function testInitInitializesGlobalSysPage() {
+		$GLOBALS['TSFE'] = null;
+		new tx_oelib_templatehelperchild();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect
+		);
+	}
+
+	public function testInitInitializesContentObject() {
+		$this->assertTrue(
+			$this->fixture->cObj instanceof tslib_cObj
+		);
 	}
 
 

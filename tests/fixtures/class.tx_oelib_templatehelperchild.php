@@ -22,9 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_tslib . 'class.tslib_content.php');
-require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
-
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php');
 
 /**
@@ -53,15 +50,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 *
 	 * @param	array	TS setup configuration array, may be empty
 	 */
-	public function __construct(array $configuration) {
+	public function __construct(array $configuration = array()) {
 		parent::init($configuration);
-	}
-
-	/**
-	 * Bolsters up the fake front end.
-	 */
-	public function fakeFrontend() {
-		return parent::fakeFrontend();
 	}
 
 	/**

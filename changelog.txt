@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#1915] Feature: Add a function createFakeFrontEnd to the testing framework
 - [#2092] Change: Update the test record icon in seminars and oelib
 - [#1705] Feature: Add functionality to create dummy files
 - [#2031] Fix: loginFrontEndUser should store the complete FE user record in $GLOBALS['TSFE']->fe_user->user

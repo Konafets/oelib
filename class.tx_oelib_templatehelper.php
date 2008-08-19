@@ -22,6 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_tslib . 'class.tslib_fe.php');
 require_once(PATH_t3lib . 'class.t3lib_page.php');
 require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
 require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
@@ -126,13 +127,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		static $cachedConfigs = array();
 
 		if (!$this->isInitialized) {
-			if (TYPO3_MODE != 'FE') {
-				$this->fakeFrontend();
-			}
-
-			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
-				$GLOBALS['TSFE']->config['config'] = array();
-			}
+			$this->ensureFrontEndEnvironment();
 
 			// Calls the base class's constructor manually as this isn't done
 			// automatically.
@@ -141,9 +136,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			if (is_array($conf)) {
 				$this->conf = $conf;
 			} else {
-				// We need to create our own template setup if we are in the BE
-				// and we aren't currently creating a DirectMail page.
-				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
+				// We need to create our own template setup if we are in the BE.
+				if (TYPO3_MODE == 'BE') {
 					$pageId = $this->getCurrentBePageId();
 
 					if (isset($cachedConfigs[$pageId])) {
@@ -196,10 +190,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	array		configuration array of the requested page for the
 	 * 						current extension key
-	 *
-	 * @access	protected
 	 */
-	function &retrievePageConfig($pageId) {
+	protected function &retrievePageConfig($pageId) {
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
@@ -224,25 +216,41 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Initializes '$GLOBALS['TSFE']->sys_page', '$GLOBALS['TT']' and
-	 * '$this->cObj' as these objects are needed but only initialized
-	 * automatically if TYPO3_MODE is 'FE'.
-	 * This will allow the FE templating functions to be used even without the
-	 * FE.
+	 * Initializes enough parts of the front end so that the basic functions
+	 * can be used.
+	 *
+	 * If a working front end already exists, this functions does nothing.
 	 */
-	 protected function fakeFrontend() {
-	 	if (!is_object($GLOBALS['TT'])) {
+	 private function ensureFrontEndEnvironment() {
+	 	if (!($GLOBALS['TT'] instanceof t3lib_timeTrack)) {
 	 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
 	 	}
 
-	 	if (!is_object($GLOBALS['TSFE']->sys_page)) {
+	 	if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
+	 		$pageId = ($this->getCurrentBePageId() > 0)
+	 			? $this->getCurrentBePageId() : 1;
+
+			$frontEndClassName = t3lib_div::makeInstanceClassName('tslib_fe');
+			$GLOBALS['TSFE'] = new $frontEndClassName(
+				$GLOBALS['TYPO3_CONF_VARS'], $pageId, 0
+			);
+	 	}
+
+		if (!is_array($GLOBALS['TSFE']->config['config'])) {
+			$GLOBALS['TSFE']->config['config'] = array();
+		}
+
+	 	if (!($GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect)) {
 	 		$GLOBALS['TSFE']->sys_page
 	 			= t3lib_div::makeInstance('t3lib_pageSelect');
 	 	}
 
-		if (!is_object($this->cObj)) {
-			$this->cObj = t3lib_div::makeInstance('tslib_cObj');
-			$this->cObj->start('');
+		if (!($this->cObj instanceof tslib_cObj)) {
+			if (!($GLOBALS['TSFE']->cObj instanceof tslib_cObj)) {
+				$GLOBALS['TSFE']->newCObj();
+			}
+
+			$this->cObj = $GLOBALS['TSFE']->cObj;
 		}
 	 }
 

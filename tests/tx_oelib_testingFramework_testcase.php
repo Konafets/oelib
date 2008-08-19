@@ -2598,7 +2598,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testDeleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
-		$dummyFile = $this->fixture->createDummyFile(
+		$this->fixture->createDummyFile(
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
 				'/test.txt'
 		);
@@ -2979,10 +2979,206 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests concerning fakeFrontend
+	// ---------------------------------------------------------------------
+
+	public function testCreateFakeFrontEndCreatesGlobalFrontEnd() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE'] instanceof tslib_fe
+		);
+	}
+
+	public function testCreateFakeFrontEndReturnsPositivePageUid() {
+		$this->assertGreaterThan(
+			0,
+			$this->fixture->createFakeFrontEnd()
+		);
+	}
+
+	public function testCreateFakeFrontEndReturnsCurrentFrontEndPageUid() {
+		$GLOBALS['TSFE'] = null;
+		$result = $this->fixture->createFakeFrontEnd();
+
+		$this->assertEquals(
+			$GLOBALS['TSFE']->id,
+			$result
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesTimeTrack() {
+		$GLOBALS['TT'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TT'] instanceof t3lib_timeTrack
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesSysPage() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesFrontEndUser() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE']->fe_user instanceof tslib_feUserAuth
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesContentObject() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE']->cObj instanceof tslib_cObj
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesTemplate() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TSFE']->tmpl instanceof t3lib_TStemplate
+		);
+	}
+
+	public function testCreateFakeFrontEndCreatesConfiguration() {
+		$GLOBALS['TSFE'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			is_array($GLOBALS['TSFE']->config)
+		);
+	}
+
+	public function testLoginUserIsZeroAfterCreateFakeFrontEnd() {
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertEquals(
+			0,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
+	public function testDiscardFakeFrontEndNullsOutGlobalFrontEnd() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->discardFakeFrontEnd();
+
+		$this->assertNull(
+			$GLOBALS['TSFE']
+		);
+	}
+
+	public function testDiscardFakeFrontEndNullsOutGlobalTimeTrack() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->discardFakeFrontEnd();
+
+		$this->assertNull(
+			$GLOBALS['TT']
+		);
+	}
+
+	public function testDiscardFakeFrontEndCanBeCalledTwoTimesInARow() {
+		$this->fixture->discardFakeFrontEnd();
+		$this->fixture->discardFakeFrontEnd();
+	}
+
+	public function testHasFakeFrontEndInitiallyIsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasFakeFrontEnd()
+		);
+	}
+
+	public function testHasFakeFrontEndIsTrueAfterCreateFakeFrontEnd() {
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$this->fixture->hasFakeFrontEnd()
+		);
+	}
+
+	public function testHasFakeFrontEndIsFalseAfterCreateAndDiscardFakeFrontEnd() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->discardFakeFrontEnd();
+
+		$this->assertFalse(
+			$this->fixture->hasFakeFrontEnd()
+		);
+	}
+
+	public function testCleanUpDiscardsFakeFrontEnd() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->cleanUp();
+
+		$this->assertFalse(
+			$this->fixture->hasFakeFrontEnd()
+		);
+	}
+
+	public function testCreateFakeFrontEndReturnsProvidedPageUid() {
+		$pageUid = $this->fixture->createFrontEndPage();
+
+		$this->assertEquals(
+			$pageUid,
+			$this->fixture->createFakeFrontEnd($pageUid)
+		);
+	}
+
+	public function testCreateFakeFrontEndUsesProvidedPageUidAsFrontEndId() {
+		$pageUid = $this->fixture->createFrontEndPage();
+		$this->fixture->createFakeFrontEnd($pageUid);
+
+		$this->assertEquals(
+			$pageUid,
+			$GLOBALS['TSFE']->id
+		);
+	}
+
+	public function testCreateFakeFrontThrowsExceptionForNegativePageUid() {
+		$this->setExpectedException(
+			'Exception', '$existingPageUid must be >= 0.'
+		);
+
+		$this->fixture->createFakeFrontEnd(-1);
+	}
+
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding user login and logout
 	// ---------------------------------------------------------------------
 
+	public function testIsLoggedInInitiallyIsFalse() {
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testIsLoggedThrowsExceptionWithoutFrontEnd() {
+		$this->setExpectedException(
+			'Exception',
+			'Please create a front end before calling isLoggedIn.'
+		);
+
+		$this->fixture->isLoggedIn();
+	}
+
 	public function testLoginFrontEndUserSwitchesToLoggedIn() {
+		$this->fixture->createFakeFrontEnd();
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
 		$this->fixture->loginFrontEndUser($feUserId);
@@ -2992,7 +3188,22 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoginFrontEndUserSetsLoginUserToOne() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->fixture->loginFrontEndUser($feUserId);
+
+		$this->assertEquals(
+			1,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
 	public function testLoginFrontEndUserRetrievesNameOfUser() {
+		$this->fixture->createFakeFrontEnd();
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser(
 			$feUserGroupUid, array('name' => 'John Doe')
@@ -3005,7 +3216,28 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoginFrontEndUserWithZeroUidThrowsException() {
+		$this->setExpectedException('Exception', 'The user ID must be > 0.');
+
+		$this->fixture->createFakeFrontEnd();
+
+		$this->fixture->loginFrontEndUser(0);
+	}
+
+	public function testLoginFrontEndUserWithoutFrontEndThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Please create a front end before calling loginFrontEndUser.'
+		);
+
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->fixture->loginFrontEndUser($feUserId);
+	}
+
 	public function testLogoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
+		$this->fixture->createFakeFrontEnd();
+
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
 		$this->fixture->loginFrontEndUser($feUserId);
@@ -3016,10 +3248,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserWithZeroUidThrowsException() {
-		$this->setExpectedException('Exception', 'The user ID must be > 0.');
+	public function testLogoutFrontEndUserSetsLoginUserToZero() {
+		$this->fixture->createFakeFrontEnd();
 
-		$this->fixture->loginFrontEndUser(0);
+		$this->fixture->logoutFrontEndUser();
+
+		$this->assertEquals(
+			0,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
+	public function testLogoutFrontEndUserWithoutFrontEndThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Please create a front end before calling logoutFrontEndUser.'
+		);
+
+		$this->fixture->logoutFrontEndUser();
+	}
+
+	public function testLogoutFrontEndUserCanBeCalledTwoTimesInARow() {
+		$this->fixture->createFakeFrontEnd();
+
+		$this->fixture->logoutFrontEndUser();
+		$this->fixture->logoutFrontEndUser();
 	}
 }
 ?>

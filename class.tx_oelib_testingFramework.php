@@ -22,6 +22,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+// In the back end, PATH_tslib isn't defined yet.
+if (!defined('PATH_tslib')) {
+	define('PATH_tslib', t3lib_extMgm::extPath('cms') . 'tslib/');
+}
+
+require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
+require_once(PATH_tslib . 'class.tslib_fe.php');
+require_once(PATH_t3lib . 'class.t3lib_page.php');
+require_once(PATH_tslib . 'class.tslib_content.php');
+require_once(PATH_t3lib . 'class.t3lib_userauth.php');
+require_once(PATH_tslib . 'class.tslib_feuserauth.php');
+require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
+require_once(PATH_t3lib . 'class.t3lib_cs.php');
+
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
@@ -123,6 +137,9 @@ final class tx_oelib_testingFramework {
 	 */
 	private static $fileNameProcessor = null;
 
+	/** @var	boolean		whether a fake front end has been created */
+	private $hasFakeFrontEnd = false;
+
 	/**
 	 * The constructor for this class.
 	 *
@@ -142,7 +159,9 @@ final class tx_oelib_testingFramework {
 	 * 						for which this instance of the testing framework
 	 * 						should be used, may be empty
 	 */
-	public function __construct($tablePrefix, array $additionalTablePrefixes = array()) {
+	public function __construct(
+		$tablePrefix, array $additionalTablePrefixes = array()
+	) {
 		$this->tablePrefix = $tablePrefix;
 		$this->additionalTablePrefixes = $additionalTablePrefixes;
 		$this->createListOfOwnAllowedTables();
@@ -670,6 +689,7 @@ final class tx_oelib_testingFramework {
 		$this->cleanUpTableSet(true, $performDeepCleanUp);
 		$this->cleanUpFiles();
 		$this->cleanUpFolders();
+		$this->discardFakeFrontEnd();
 	}
 
 	/**
@@ -742,7 +762,7 @@ final class tx_oelib_testingFramework {
 
 
 	// ----------------------------------------------------------------------
-	// file creation and deletion
+	// File creation and deletion
 	// ----------------------------------------------------------------------
 
 	/**
@@ -951,11 +971,119 @@ final class tx_oelib_testingFramework {
 
 
 	// ----------------------------------------------------------------------
+	// Functions concerning a fake front end
+	// ----------------------------------------------------------------------
+
+	/**
+	 * Fakes a TYPO3 front end and creates a front-end page record for this if
+	 * $existingPageUid is zero or not provided.
+	 *
+	 * This function creates $GLOBALS['TSFE'] and $GLOBALS['TT'].
+	 *
+	 * Note: This function does not set TYPO3_MODE to "FE" (because the value of
+	 * a constant cannot be changed after it has once been set).
+	 *
+	 * @throws	Exception	if $existingPageUid is < 0
+	 *
+	 * @param	integer		UID of an existing page record to use, must be >= 0
+	 *
+	 * @return	integer		the UID of a testing front-end page, will be > 0
+	 */
+	public function createFakeFrontEnd($existingPageUid = 0) {
+		if ($existingPageUid < 0) {
+			throw new Exception('$existingPageUid must be >= 0.');
+		}
+
+		$this->suppressFrontEndCookies();
+		$this->discardFakeFrontEnd();
+
+		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+
+		$pageUid = ($existingPageUid > 0)
+			? $existingPageUid : $this->createFrontEndPage();
+		$className = t3lib_div::makeInstanceClassName('tslib_fe');
+		$frontEnd = new $className(
+			$GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
+		);
+
+		// simulates a normal FE without any logged-in FE or BE user
+		$frontEnd->beUserLogin = false;
+		$frontEnd->workspacePreview = '';
+		$frontEnd->initFEuser();
+		$frontEnd->determineId();
+		$frontEnd->initTemplate();
+		// $frontEnd->getConfigArray() doesn't work here because the dummy FE
+		// page is not required to have a template.
+		$frontEnd->config = array();
+		$frontEnd->settingLanguage();
+		$frontEnd->settingLocale();
+		$frontEnd->newCObj();
+
+		$GLOBALS['TSFE'] = $frontEnd;
+
+		$this->hasFakeFrontEnd = true;
+
+		return $pageUid;
+	}
+
+	/**
+	 * Discards the fake front end.
+	 *
+	 * This function nulls out $GLOBALS['TSFE'] and $GLOBALS['TT']. In addition,
+	 * any logged-in front-end user will be logged out.
+	 *
+	 * The page record for the current front end will _not_ be deleted by this
+	 * function, though.
+	 *
+	 * If no fake front end has been created, this function does nothing.
+	 */
+	public function discardFakeFrontEnd() {
+		if (!$this->hasFakeFrontEnd()) {
+			return;
+		}
+
+		$this->logoutFrontEndUser();
+
+		unset($GLOBALS['TSFE']->tmpl);
+		unset($GLOBALS['TSFE']->sys_page);
+		unset($GLOBALS['TSFE']->fe_user);
+		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TT'] = null;
+
+		$this->hasFakeFrontEnd = false;
+	}
+
+	/**
+	 * Returns whether this testing framework instance has a fake front end.
+	 *
+	 * @return	boolean		true if this instance has a fake front end, false
+	 * 						otherwise
+	 */
+	public function hasFakeFrontEnd() {
+		return $this->hasFakeFrontEnd;
+	}
+
+	/**
+	 * Makes sure that no FE login cookies will be sent.
+	 */
+	private function suppressFrontEndCookies() {
+		$_POST['FE_SESSION_KEY'] = '';
+		$_GET['FE_SESSION_KEY'] = '';
+		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
+	}
+
+
+	// ----------------------------------------------------------------------
 	// FE user activities
 	// ----------------------------------------------------------------------
 
 	/**
-	 * Fakes that a FE user has logged in.
+	 * Fakes that a front-end user has logged in.
+	 *
+	 * If a front-end user currently is logged in, he/she will be logged out
+	 * first.
+	 *
+	 * @throws	Exception	if no front end has been created
 	 *
 	 * @param	integer		UID of the FE user, must be > 0
 	 */
@@ -963,11 +1091,18 @@ final class tx_oelib_testingFramework {
 		if (intval($userId) == 0) {
 			throw new Exception('The user ID must be > 0.');
 		}
-
-		if (!is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user
-				= t3lib_div::makeInstance('tslib_feUserAuth');
+		if (!$this->hasFakeFrontEnd()) {
+			throw new Exception(
+				'Please create a front end before calling loginFrontEndUser.'
+			);
 		}
+
+		if ($this->isLoggedIn()) {
+			$this->logoutFrontEndUser();
+		}
+
+		$this->suppressFrontEndCookies();
+
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
 		$GLOBALS['TSFE']->fe_user->user
 			= $GLOBALS['TSFE']->fe_user->getRawUserByUid($userId);
@@ -975,23 +1110,43 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Logs out the current FE user.
+	 * Logs out the current front-end user.
+	 *
+	 * If no front-end user is logged in, this function does nothing.
+	 *
+	 * @throws	Exception	if no front end has been created
 	 */
 	public function logoutFrontEndUser() {
-		if (is_object($GLOBALS['TSFE']->fe_user)) {
-			$GLOBALS['TSFE']->fe_user->logoff();
+		if (!$this->hasFakeFrontEnd()) {
+			throw new Exception(
+				'Please create a front end before calling logoutFrontEndUser.'
+			);
 		}
-		unset($GLOBALS['TSFE']->loginUser);
+		if (!$this->isLoggedIn()) {
+			return;
+		}
+
+		$this->suppressFrontEndCookies();
+
+		$GLOBALS['TSFE']->fe_user->logoff();
+		$GLOBALS['TSFE']->loginUser = 0;
 	}
 
 	/**
 	 * Checks whether a FE user is logged in.
 	 *
+	 * @throws	Exception	if no front end has been created
+	 *
 	 * @return	boolean		true if a FE user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
-		return ((boolean) $GLOBALS['TSFE'])
-			&& ((boolean) $GLOBALS['TSFE']->loginUser);
+		if (!$this->hasFakeFrontEnd()) {
+			throw new Exception(
+				'Please create a front end before calling isLoggedIn.'
+			);
+		}
+
+		return (boolean) $GLOBALS['TSFE']->loginUser;
 	}
 
 

@@ -320,7 +320,15 @@ class tx_oelib_configcheck {
 	 * @access	protected
 	 */
 	function checkTemplateFile($canUseFlexforms = false) {
-		$this->checkForNonEmptyString('templateFile', $canUseFlexforms, 's_template_special', 'This value specifies the HTML template which is essential when creating any output from this extension.');
+		if (TYPO3_MODE == 'BE') {
+			return;
+		}
+
+		$this->checkForNonEmptyString(
+			'templateFile', $canUseFlexforms, 's_template_special',
+			'This value specifies the HTML template which is essential when ' .
+				'creating any output from this extension.'
+		);
 
 		if ($GLOBALS['TSFE']
 			&& $this->objectToCheck->hasConfValueString(
