@@ -977,23 +977,25 @@ final class tx_oelib_testingFramework {
 	// ----------------------------------------------------------------------
 
 	/**
-	 * Fakes a TYPO3 front end and creates a front-end page record for this if
-	 * $existingPageUid is zero or not provided.
+	 * Fakes a TYPO3 front end, using $pageUid as front-end page ID if provided.
+	 *
+	 * If $pageUid is zero, the UID of the start page of the current domain
+	 * will be used as page UID.
 	 *
 	 * This function creates $GLOBALS['TSFE'] and $GLOBALS['TT'].
 	 *
 	 * Note: This function does not set TYPO3_MODE to "FE" (because the value of
 	 * a constant cannot be changed after it has once been set).
 	 *
-	 * @throws	Exception	if $existingPageUid is < 0
+	 * @throws	Exception	if $pageUid is < 0
 	 *
-	 * @param	integer		UID of an existing page record to use, must be >= 0
+	 * @param	integer		UID of a page record to use, must be >= 0
 	 *
-	 * @return	integer		the UID of a testing front-end page, will be > 0
+	 * @return	integer		the UID of the used front-end page, will be > 0
 	 */
-	public function createFakeFrontEnd($existingPageUid = 0) {
-		if ($existingPageUid < 0) {
-			throw new Exception('$existingPageUid must be >= 0.');
+	public function createFakeFrontEnd($pageUid = 0) {
+		if ($pageUid < 0) {
+			throw new Exception('$pageUid must be >= 0.');
 		}
 
 		$this->suppressFrontEndCookies();
@@ -1001,8 +1003,6 @@ final class tx_oelib_testingFramework {
 
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
 
-		$pageUid = ($existingPageUid > 0)
-			? $existingPageUid : $this->createFrontEndPage();
 		$className = t3lib_div::makeInstanceClassName('tslib_fe');
 		$frontEnd = new $className(
 			$GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
@@ -1026,7 +1026,7 @@ final class tx_oelib_testingFramework {
 
 		$this->hasFakeFrontEnd = true;
 
-		return $pageUid;
+		return $GLOBALS['TSFE']->id;
 	}
 
 	/**

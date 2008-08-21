@@ -2991,7 +2991,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndReturnsPositivePageUid() {
+	public function testCreateFakeFrontEndReturnsPositivePageUidIfCalledWithoutParameters() {
 		$this->assertGreaterThan(
 			0,
 			$this->fixture->createFakeFrontEnd()
@@ -3147,7 +3147,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testCreateFakeFrontThrowsExceptionForNegativePageUid() {
 		$this->setExpectedException(
-			'Exception', '$existingPageUid must be >= 0.'
+			'Exception', '$pageUid must be >= 0.'
 		);
 
 		$this->fixture->createFakeFrontEnd(-1);
@@ -3174,7 +3174,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
-
 
 	// ---------------------------------------------------------------------
 	// Tests regarding user login and logout

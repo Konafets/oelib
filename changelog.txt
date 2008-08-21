@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2093] Change: Allow creating fake front ends without adding a record to the pages table
 - [#1840] Change: Add basic unit tests for templatehelper::createRestrictedImage
 - [#1915] Feature: Add a function createFakeFrontEnd to the testing framework
 - [#2092] Change: Update the test record icon in seminars and oelib
