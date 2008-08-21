@@ -1426,76 +1426,54 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Creates an IMG for a resized image version of $fullPath.
+	 * Creates an IMG for a resized image version of $path.
 	 * If the image cannot be created, the ALT text is returned instead.
 	 *
-	 * @param	string		full path to of the original image (may not be empty)
-	 * @param	string		alt text (may be empty)
-	 * @param	integer		max width in pixels (set to zero to set no limit)
-	 * @param	integer		max height in pixels (set to zero to set no limit)
-	 * @param	integer		max area in square pixels (set to zero to set no limit)
-	 * @param	string		title text (may be empty)
+	 * Note: When this function is unit-tested in the BE, the image tag's src
+	 * attribute will always contain an empty string because the handling of
+	 * relative paths by cObject::IMAGE is broken.
 	 *
-	 * @return	string		IMG tag
+	 * In the FE, the src attribute is correctly filled with the URI of the
+	 * resized image.
 	 *
-	 * @access	protected
+	 * @throws	Exception	if $path is empty
+	 *
+	 * @param	string		path to of the original image, must be relative to
+	 * 						the TYPO3 root or start with EXT:, must not be empty
+	 * @param	string		alt text, may be empty
+	 * @param	integer		max width in pixels, set to zero to set no limit
+	 * @param	integer		max height in pixels, set to zero to set no limit
+	 * @param	integer		(unused, must be zero)
+	 * @param	string		title text, may be empty
+	 *
+	 * @return	string		IMG tag (or alt text), will not be empty
 	 */
-	function createRestrictedImage($fullPath, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '') {
-		$isOkay = false;
-
-		$imageConf = array();
-		$imageConf['file'] = $fullPath;
-		$imageConf['altText'] = $altText;
-		$imageConf['titleText'] = $titleText;
-
-		$changeSize = false;
-
-		$actualSize = null;
-		if (!empty($fullPath) && is_file($fullPath)) {
-			$actualSize = GetImageSize($fullPath);
+	public function createRestrictedImage(
+		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0,
+		$titleText = ''
+	) {
+		if ($path == '') {
+			throw new Exception('$path must not be empty.');
 		}
-		if ($actualSize) {
-			$width = $actualSize[0];
-			$height = $actualSize[1];
-		} else {
-			$width = 0;
-			$height = 0;
+		if ($maxArea != 0) {
+			throw new Exception('$maxArea is not used anymore and must be zero.');
 		}
 
-		// Only images with a width and height > 0 make sense to use.
-		if (($width > 0) && ($height > 0)) {
-			$edgeQuotient = $width / $height;
+		$imageConfiguration = array();
+		$imageConfiguration['file'] = $path;
+		$imageConfiguration['altText'] = $altText;
+		$imageConfiguration['titleText'] = $titleText;
 
-			if ($maxArea) {
-				$currentArea = $width * $height;
-				if ($currentArea > $maxArea) {
-					$width = round(sqrt($maxArea * $edgeQuotient));
-					$height = round(sqrt($maxArea / $edgeQuotient));
-					$changeSize = true;
-				}
-			}
-			if ($maxWidth && ($width > $maxWidth)) {
-				$width = $maxWidth;
-				$height = round($width / $edgeQuotient);
-				$changeSize = true;
-			}
-			if ($maxHeight && ($height > $maxHeight)) {
-				$height = $maxHeight;
-				$width = round($edgeQuotient * $height);
-				$changeSize = true;
-			}
-			if ($changeSize) {
-				$imageConf['file.']['width'] = $width;
-				$imageConf['file.']['height'] = $height;
-			}
-
-			$result = $this->cObj->IMAGE($imageConf);
-			if (!empty($result)) {
-				$isOkay = true;
-			}
+		if ($maxWidth > 0) {
+			$imageConfiguration['file.']['maxW'] = $maxWidth;
+		}
+		if ($maxHeight > 0) {
+			$imageConfiguration['file.']['maxH'] = $maxHeight;
 		}
 
-		if (!$isOkay) {
+		$result = $this->cObj->IMAGE($imageConfiguration);
+
+		if ($result == '') {
 			$result = $altText;
 		}
 

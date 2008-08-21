@@ -25,6 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
 /**
  * Testcase for the template helper class in the 'oelib' extension.
@@ -3072,6 +3073,93 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			(string) $uid,
 			$this->fixture->createRecursivePageList((string) $uid, 0)
+		);
+	}
+
+
+	//////////////////////////////////////////
+	// Tests concerning the image functions.
+	//////////////////////////////////////////
+
+	public function testCreateRestrictedImageThrowsExceptionForEmptyPath() {
+		$this->setExpectedException(
+			'Exception', '$path must not be empty.'
+		);
+
+		$this->fixture->createRestrictedImage('');
+	}
+
+	public function testCreateRestrictedImageThrowsExceptionForNonZeroMaxArea() {
+		$this->setExpectedException(
+			'Exception', '$maxArea is not used anymore and must be zero.'
+		);
+
+		$this->fixture->createRestrictedImage(
+			'typo3conf/ext/oelib/tests/fixtures/test.png', '', 0, 0, 1
+		);
+	}
+
+	public function testCreateRestrictedImageReturnsAltTextForInexistentFile() {
+		$this->assertEquals(
+			'foo',
+			$this->fixture->createRestrictedImage(
+				'typo3conf/ext/oelib/tests/fixtures/nothing.png',
+				'foo'
+			)
+		);
+	}
+
+	public function testCreateRestrictedImageReturnsImgTagForRelativePathToExistingFile() {
+		$this->assertContains(
+			'<img ',
+			$this->fixture->createRestrictedImage(
+				'typo3conf/ext/oelib/tests/fixtures/test.png'
+			)
+		);
+	}
+
+	public function testCreateRestrictedImageContainsEmptyAltTextByDefault() {
+		$this->assertContains(
+			' alt=""',
+			$this->fixture->createRestrictedImage(
+				'EXT:oelib/tests/fixtures/test.png'
+			)
+		);
+	}
+
+	public function testCreateRestrictedImageContainsProvidedNonEmptyAltText() {
+		$this->assertContains(
+			' alt="foo"',
+			$this->fixture->createRestrictedImage(
+				'EXT:oelib/tests/fixtures/test.png',
+				'foo'
+			)
+		);
+	}
+
+	public function testCreateRestrictedImageContainsProvidedNonEmptyTitleText() {
+		$this->assertContains(
+			' title="foo"',
+			$this->fixture->createRestrictedImage(
+				'EXT:oelib/tests/fixtures/test.png',
+				'', 0, 0, 0, 'foo'
+			)
+		);
+	}
+
+	public function testCreateRestrictedImageContainsProvidedNonEmptyAltAndTitleTexts() {
+		$result = $this->fixture->createRestrictedImage(
+			'EXT:oelib/tests/fixtures/test.png',
+			'alt foo', 0, 0, 0, 'title bar'
+		);
+
+		$this->assertContains(
+			' alt="alt foo"',
+			$result
+		);
+		$this->assertContains(
+			' title="title bar"',
+			$result
 		);
 	}
 }

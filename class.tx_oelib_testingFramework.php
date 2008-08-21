@@ -35,6 +35,8 @@ require_once(PATH_t3lib . 'class.t3lib_userauth.php');
 require_once(PATH_tslib . 'class.tslib_feuserauth.php');
 require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
 require_once(PATH_t3lib . 'class.t3lib_cs.php');
+require_once(PATH_t3lib . 'class.t3lib_stdgraphic.php');
+require_once(PATH_tslib . 'class.tslib_gifbuilder.php');
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
@@ -1012,6 +1014,7 @@ final class tx_oelib_testingFramework {
 		$frontEnd->initFEuser();
 		$frontEnd->determineId();
 		$frontEnd->initTemplate();
+		$frontEnd->tmpl->getFileName_backPath = PATH_site;
 		// $frontEnd->getConfigArray() doesn't work here because the dummy FE
 		// page is not required to have a template.
 		$frontEnd->config = array();
