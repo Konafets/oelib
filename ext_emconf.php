@@ -11,8 +11,8 @@
 ########################################################################
 
 $EM_CONF[$_EXTKEY] = array(
-	'title' => 'Oliver\'s extension library',
-	'description' => 'This extension provides useful stuff for extension development: helper functions for templating, salutation switching, automatic configuration checks and performance benchmarking.',
+	'title' => 'One is Enough Library',
+	'description' => 'This extension provides useful stuff for extension development: helper functions for unit testing, templating, automatic configuration checks and performance benchmarking.',
 	'category' => 'services',
 	'author' => 'Oliver Klee',
 	'author_email' => 'typo3-coding@oliverklee.de',
