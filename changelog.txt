@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#1219] Feature: Add an id attribute to templatehelper::createRestrictedImage 
 - [#2121] Change: Rename "Oliver's Extension Library" to "One is Enough Library"
 - [#2093] Change: Allow creating fake front ends without adding a record to the pages table
 - [#1840] Change: Add basic unit tests for templatehelper::createRestrictedImage

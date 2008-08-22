@@ -1445,12 +1445,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param	integer		max height in pixels, set to zero to set no limit
 	 * @param	integer		(unused, must be zero)
 	 * @param	string		title text, may be empty
+	 * @param	string		id for the image, may be empty
 	 *
 	 * @return	string		IMG tag (or alt text), will not be empty
 	 */
 	public function createRestrictedImage(
 		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0,
-		$titleText = ''
+		$titleText = '', $id = ''
 	) {
 		if ($path == '') {
 			throw new Exception('$path must not be empty.');
@@ -1469,6 +1470,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		}
 		if ($maxHeight > 0) {
 			$imageConfiguration['file.']['maxH'] = $maxHeight;
+		}
+		if ($id != '') {
+			$imageConfiguration['params'] = 'id="' . $id . '"';
 		}
 
 		$result = $this->cObj->IMAGE($imageConfiguration);
