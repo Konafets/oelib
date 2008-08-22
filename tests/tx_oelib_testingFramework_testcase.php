@@ -3175,6 +3175,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+
 	// ---------------------------------------------------------------------
 	// Tests regarding user login and logout
 	// ---------------------------------------------------------------------

@@ -3162,5 +3162,29 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			$result
 		);
 	}
+
+	public function testCreateRestrictedImageContainsProvidedNonEmptyId() {
+		$result = $this->fixture->createRestrictedImage(
+			'EXT:oelib/tests/fixtures/test.png',
+			'', 0, 0, 0, '', 'test-id'
+		);
+
+		$this->assertContains(
+			' id="test-id"',
+			$result
+		);
+	}
+
+	public function testCreateRestrictedImageContainsNoIdTagForEmptyProvidedId() {
+		$result = $this->fixture->createRestrictedImage(
+			'EXT:oelib/tests/fixtures/test.png',
+			'', 0, 0, 0, '', ''
+		);
+
+		$this->assertNotContains(
+			' id=',
+			$result
+		);
+	}
 }
 ?>
