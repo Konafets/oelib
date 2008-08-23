@@ -2613,6 +2613,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testDeleteDummyFolderWithFolderNameConsistingOnlyOfNumbersDoesNotThrowAnException() {
+		$dummyFolder = $this->fixture->createDummyFolder('123');
+
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
+		);
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding getUploadFolderPath()

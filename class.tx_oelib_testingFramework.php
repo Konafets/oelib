@@ -857,10 +857,9 @@ final class tx_oelib_testingFramework {
 		// Adds the created dummy folder to the top of $this->dummyFolders so
 		// it gets deleted before previously created folders through
 		// $this->cleanUpFolders(). This is needed for nested dummy folders.
-		$this->dummyFolders = array_merge(
-			array($relativeUniqueFolderName => $relativeUniqueFolderName),
-			$this->dummyFolders
-		);
+		$this->dummyFolders = array(
+				$relativeUniqueFolderName => $relativeUniqueFolderName,
+			) + $this->dummyFolders;
 
 		return $uniqueFolderName;
 	}
