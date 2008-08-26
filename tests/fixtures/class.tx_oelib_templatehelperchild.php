@@ -125,6 +125,34 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 		$this->retrievePageForEnableFields();
 		self::$pageForEnableFields->versioningPreview = true;
 	}
+
+	/**
+	 * Intvals all piVars that are supposed to be integers:
+	 * showUid, pointer, mode
+	 *
+	 * If some piVars are not set or no piVars array is defined yet, this
+	 * function will set the not yet existing piVars to zero.
+	 *
+	 * @param	array		array of array keys for $this->piVars that will be
+	 * 						intvaled as well
+	 */
+	public function securePiVars(array $additionalPiVars = array()) {
+		parent::securePiVars($additionalPiVars);
+	}
+
+	/**
+	 * Intvals all piVars that are supposed to be integers:
+	 * showUid, pointer, mode
+	 *
+	 * If some piVars are not set or no piVars array is defined yet, this
+	 * function will set the not yet existing piVars to zero.
+	 *
+	 * @param	array		array of keys for $this->piVars that will be ensured
+	 * 						to exist intvaled in $this->piVars as well
+	 */
+	public function ensureIntegerPiVars(array $additionalPiVars = array()) {
+		parent::ensureIntegerPiVars($additionalPiVars);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_templatehelperchild.php']) {

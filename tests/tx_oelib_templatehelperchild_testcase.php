@@ -3186,5 +3186,91 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			$result
 		);
 	}
+
+	///////////////////////////////////////////////////
+	// Tests for securePiVars and ensureIntegerPiVars
+	///////////////////////////////////////////////////
+
+	public function testEnsureIntegerPiVarsDefinesAPiVarsArrayWithShowUidPointerAndModeIfPiVarsWasUndefined() {
+		unset($this->fixture->piVars);
+		$this->fixture->ensureIntegerPiVars();
+
+		$this->assertEquals(
+			array('showUid' => 0, 'pointer' => 0, 'mode' => 0),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testEnsureIntegerPiVarsDefinesProvidedAdditionalParameterIfPiVarsWasUndefined() {
+		$this->fixture->piVars = array();
+		$this->fixture->ensureIntegerPiVars(array('additionalParameter'));
+
+		$this->assertEquals(
+			array('showUid' => 0, 'pointer' => 0, 'mode' => 0, 'additionalParameter' => 0),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testEnsureIntegerPiVarsIntvalsAnAlreadyDefinedAdditionalParameter() {
+		$this->fixture->piVars = array();
+		$this->fixture->piVars['additionalParameter'] = 1.1;
+		$this->fixture->ensureIntegerPiVars(array('additionalParameter'));
+
+		$this->assertEquals(
+			array('showUid' => 0, 'pointer' => 0, 'mode' => 0, 'additionalParameter' => 1),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testEnsureIntegerPiVarsDoesNotIntvalADefinedPiVarWhichIsNotInTheListOfPiVarsToSecure() {
+		$this->fixture->piVars = array();
+		$this->fixture->piVars['non-integer'] = 'foo';
+		$this->fixture->ensureIntegerPiVars();
+
+		$this->assertEquals(
+			array('non-integer' => 'foo', 'showUid' => 0, 'pointer' => 0, 'mode' => 0),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testEnsureIntegerPiVarsIntvalsAnAlreadyDefinedShowUid() {
+		$this->fixture->piVars = array();
+		$this->fixture->piVars['showUid'] = 1.1;
+		$this->fixture->ensureIntegerPiVars();
+
+		$this->assertEquals(
+			array('showUid' => 1, 'pointer' => 0, 'mode' => 0),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testSecurePiVarsDoesNotDefinePiVarArrayIfPiVarToSecureIsNotDefinedBefore() {
+		unset($this->fixture->piVars);
+		$this->fixture->securePiVars(array('foo'));
+
+		$this->assertFalse(
+			is_array($this->fixture->piVars)
+		);
+	}
+
+	public function testSecurePiVarsDoesNotAddElementToPiVarArrayIfPiVarToSecureIsNotDefinedBefore() {
+		$this->fixture->piVars = array('bar' => 1);
+		$this->fixture->securePiVars(array('foo'));
+
+		$this->assertEquals(
+			array('bar' => 1),
+			$this->fixture->piVars
+		);
+	}
+
+	public function testSecurePiVarsIntvalsAlreadyExistingPiVar() {
+		$this->fixture->piVars = array('bar' => 1.1);
+		$this->fixture->securePiVars(array('bar'));
+
+		$this->assertEquals(
+			array('bar' => 1),
+			$this->fixture->piVars
+		);
+	}
 }
 ?>

@@ -1392,17 +1392,45 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If $this->piVars is empty, this function is a no-op.
 	 *
-	 * @param	array		array of array keys for $this->piVars that will be intvaled as well
+	 * @param	array		array of array keys for $this->piVars that will be
+	 * 						intvaled as well
 	 *
-	 * @access	protected
+	 * @deprecated	24.08.2008		use ensureIntegerPiVars() instead
 	 */
-	function securePiVars(array $additionalPiVars = array()) {
+	protected function securePiVars(array $additionalPiVars = array()) {
 		if ($this->piVars) {
 			$defaultIntPiVars = array('showUid', 'pointer', 'mode');
 			foreach (array_merge($defaultIntPiVars, $additionalPiVars) as $key) {
 				if (isset($this->piVars[$key])) {
 					$this->piVars[$key] = intval($this->piVars[$key]);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Intvals all piVars that are supposed to be integers. These are the keys
+	 * showUid, pointer and mode and the keys provided in $additionalPiVars.
+	 *
+	 * If some piVars are not set or no piVars array is defined yet, this
+	 * function will set the not yet existing piVars to zero.
+	 *
+	 * @param	array		array of keys for $this->piVars that will be ensured
+	 * 						to exist intvaled in $this->piVars as well, may be
+	 * 						empty
+	 */
+	protected function ensureIntegerPiVars(array $additionalPiVars = array()) {
+		if (!is_array($this->piVars)) {
+			$this->piVars = array();
+		}
+
+		foreach (array_merge(
+			array('showUid', 'pointer', 'mode'), $additionalPiVars
+		) as $key) {
+			if (isset($this->piVars[$key])) {
+				$this->piVars[$key] = intval($this->piVars[$key]);
+			} else {
+				$this->piVars[$key] = 0;
 			}
 		}
 	}
