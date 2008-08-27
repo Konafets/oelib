@@ -1661,6 +1661,20 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetSubpartReturnsContentOfVisibleSubpartThatWasFilledWhenHidden() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubparts('MY_SUBPART');
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
+		$this->fixture->unhideSubparts('MY_SUBPART');
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests for setting subparts.
