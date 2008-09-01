@@ -78,6 +78,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	 * 						locales contains "utf"
 	 */
 	private function getInstalledUtfLocale() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$result = '';
 		foreach ($this->fixture->getInstalledLocales() as $key) {
 			if (stripos($key, 'utf') !== false) {
@@ -235,6 +239,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////////////
 
 	public function testGetInstalledLocalesReturnsAtLeastOneLocale() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$this->assertGreaterThan(
 			0,
 			count($this->fixture->getInstalledLocales()),
@@ -244,6 +252,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckLocaleIfLocaleIsSetCorrectly() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$locales = $this->fixture->getInstalledLocales();
 		$this->setConfigurationForLocale($locales[0]);
 
@@ -256,6 +268,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckLocaleIfLocaleIsSetCorrectlyAndContainsAHyphen() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$this->setConfigurationForLocale(
 			str_ireplace('f8', 'f-8', $this->getInstalledUtfLocale())
 		);
@@ -269,6 +285,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckLocaleIfLocaleIsSetCorrectlyAndContainsNoHyphen() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$this->setConfigurationForLocale(
 			str_ireplace('f-8', 'f8', $this->getInstalledUtfLocale())
 		);
@@ -283,6 +303,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 
 	public function testCheckLocaleIfLocaleIsNotSet() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$this->setConfigurationForLocale('');
 		$this->fixture->checkLocale();
 
@@ -297,6 +321,10 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckLocaleIfLocaleIsSetToANonInstalledLocale() {
+		if (TYPO3_OS == 'WIN') {
+			$this->markTestSkipped('This test does not run properly on Windows.');
+		}
+
 		$this->setConfigurationForLocale('xy_XY');
 		$this->fixture->checkLocale();
 
