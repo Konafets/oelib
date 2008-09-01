@@ -1190,7 +1190,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return	string		the contents of the corresponding subpart or an
 	 * 						empty string in case the subpart does not exist
 	 */
-	private function getSubpartForCallback(array $matches) {
+	protected function getSubpartForCallback(array $matches) {
 		return $this->getSubpart($matches[1]);
 	}
 
