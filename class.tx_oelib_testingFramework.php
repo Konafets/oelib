@@ -229,17 +229,16 @@ final class tx_oelib_testingFramework {
 		$dummyColumnName = $this->getDummyColumnName($table);
 		$recordData[$dummyColumnName] = 1;
 
-		// Stores the record in the database.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			$table,
 			$recordData
 		);
-		if ($dbResult) {
-			$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$this->markTableAsDirty($table);
-		} else {
+		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
+
+		$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
+		$this->markTableAsDirty($table);
 
 		return $result;
 	}
@@ -1284,7 +1283,8 @@ final class tx_oelib_testingFramework {
 	 * 						otherwise
 	 */
 	private function isNoneSystemTableNameAllowed($table) {
-		return $this->isOwnTableNameAllowed($table) || $this->isAdditionalTableNameAllowed($table);
+		return $this->isOwnTableNameAllowed($table)
+			|| $this->isAdditionalTableNameAllowed($table);
 	}
 
 	/**
@@ -1298,7 +1298,8 @@ final class tx_oelib_testingFramework {
 	 * 						system tables, false otherwise
 	 */
 	private function isTableNameAllowed($table) {
-		return $this->isNoneSystemTableNameAllowed($table) || $this->isSystemTableNameAllowed($table);
+		return $this->isNoneSystemTableNameAllowed($table)
+			|| $this->isSystemTableNameAllowed($table);
 	}
 
 	/**
@@ -1350,31 +1351,38 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Counts the records on the table given by the first parameter $table that
-	 * match a given WHERE clause.
+	 * Counts the dummy records in the table given by the first parameter $table
+	 * that match a given WHERE clause.
 	 *
-	 * This function will work on any table that has been registered in TYPO3.
+	 * @throws	Exception	if $table is empty or not in the list of allowed
+	 * 						tables
 	 *
 	 * @param	string		the name of the table to query, must not be empty
-	 * @param	string		the where part of the query, may be empty (all records
-	 * 						will be counted in that case)
+	 * @param	string		the where part of the query, may be empty (all
+	 * 						records will be counted in that case)
 	 *
-	 * @return	integer		the number of records that have been found
+	 * @return	integer		the number of records that have been found, will
+	 * 						be >= 0
 	 */
-	public function countRecords($table, $whereClause = '1=1') {
-		if (!$this->isTable($table)) {
+	public function countRecords($table, $whereClause = '') {
+		if (!$this->isTableNameAllowed($table)) {
 			throw new Exception(
-				'The method countRecords() was called with an empty table name'
-					.' or a table name that is not allowed within the current'
-					.' instance of the testing framework.'
+				'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
 			);
 		}
+
+
+		$whereForDummyColumn = $this->getDummyColumnName($table) . ' = 1';
+		$compoundWhereClause = ($whereClause != '')
+			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
+			: $whereForDummyColumn;
 
 		$row = $this->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'COUNT(*) AS number',
 				$table,
-				$whereClause
+				$compoundWhereClause
 			)
 		);
 

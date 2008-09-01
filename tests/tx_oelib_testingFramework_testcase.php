@@ -615,7 +615,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord($table, $uid);
 	}
 
-	public function testDeleteRecordOnNonTestRecord() {
+	public function testDeleteRecordOnNonTestRecordNotDeletesRecord() {
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
@@ -641,10 +641,13 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Runs our delete method which should NOT affect the record created above.
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
-		// Checks whether the record still exists.
-		$this->assertEquals(
-			1,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
+		// Remembers whether the record still exists.
+		$counter = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'COUNT(*) AS number',
+				OELIB_TESTTABLE,
+				'uid = ' . $uid
+			)
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
@@ -652,10 +655,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE,
 			'uid=' . $uid.' AND is_dummy_record=0'
 		);
-
 		if (!$dbResult) {
 			$this->fail(DATABASE_QUERY_ERROR);
 		}
+
+		// Checks whether the record still had existed.
+		$this->assertEquals(
+			1,
+			$counter['number']
+		);
 	}
 
 
@@ -878,7 +886,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
-	public function testRemoveRelationOnRealRecord() {
+	public function testRemoveRelationOnRealRecordNotRemovesRelation() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);;
 
@@ -909,10 +917,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// 1. reads the value to test
 		// 2. deletes the test record
 		// 3. tests the previously read value (and possibly fails)
-		$numberOfCreatedRelations = $this->fixture->countRecords(
-			OELIB_TESTTABLE_MM,
-			'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
+		$counter = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'COUNT(*) AS number',
+				OELIB_TESTTABLE_MM,
+				'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
+			)
 		);
+		$numberOfCreatedRelations = $counter['number'];
 
 		// Deletes the record as it will not be caught by the clean up function.
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
@@ -1237,26 +1249,31 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding countRecords()
 	// ---------------------------------------------------------------------
 
-	public function testCountRecordsWithEmptyWhereClause() {
-		$this->assertEquals(
-			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, '')
-		);
+	public function testCountRecordsWithEmptyWhereClauseIsAllowed() {
+		$this->fixture->countRecords(OELIB_TESTTABLE, '');
 	}
 
-	public function testCountRecordsWithEmptyTableName() {
-		$this->setExpectedException('Exception', '$table must not be empty.');
-		$whereClause = 'is_dummy_record=1';
-		$this->fixture->countRecords('', $whereClause);
+	public function testCountRecordsWithMissingWhereClauseIsAllowed() {
+		$this->fixture->countRecords(OELIB_TESTTABLE);
 	}
 
-	public function testCountRecordsWithInvalidTableNameRaisesException() {
+	public function testCountRecordsWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'Exception',
-			'The method countRecords() was called with an empty table name or a '
-				.'table name that is not allowed within the current instance of '
-				.'the testing framework.'
+			'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
 		);
+
+		$this->fixture->countRecords('');
+	}
+
+	public function testCountRecordsWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
 		$table = 'foo_bar';
 		$this->fixture->countRecords($table);
 	}
@@ -1281,27 +1298,91 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithOtherTableIsAllowed() {
-		$table = 'sys_domain';
-		$this->fixture->countRecords($table);
+	public function testCountRecordsWithOtherTableThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->countRecords('sys_domain');
 	}
 
-	public function testCountRecords() {
-		$whereClause = 'is_dummy_record=1';
-
+	public function testCountRecordsReturnsZeroForNoMatches() {
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, $whereClause)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
-		$this->fixture->createRecord(OELIB_TESTTABLE);
+	}
+
+	public function testCountRecordsReturnsOneForOneDummyRecordMatch() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords(OELIB_TESTTABLE, $whereClause)
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+	public function testCountRecordsWithMissingWhereClauseReturnsOneForOneDummyRecordMatch() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testCountRecordsReturnsTwoForTwoMatches() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
 
 	public function testCountRecordsForPagesTableIsAllowed() {
 		$this->fixture->countRecords('pages');
+	}
+
+	public function testCountRecordsIgnoresNonDummyRecordsInTableWithDummyFlagColumn() {
+		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			OELIB_TESTTABLE,
+			array('title' => 'foo')
+		);
+		if (!$insertResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$testResult = $this->fixture->countRecords(
+			OELIB_TESTTABLE, 'title = "foo"'
+		);
+
+		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			OELIB_TESTTABLE,
+			'title = "foo"'
+		);
+		if (!$deleteResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+		// We need to do this manually to not confuse the auto_increment counter
+		// of the testing framework.
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			0,
+			$testResult
+		);
 	}
 
 

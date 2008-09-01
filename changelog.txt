@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2130] Change: countRecords should only find dummy records
 - [#2098] Change: Make securePiVars set non-existent piVars to secure to zero
 - [#2106] Fix: createDummyFolder() does not work on certain folder names
 - [#1219] Feature: Add an id attribute to templatehelper::createRestrictedImage
