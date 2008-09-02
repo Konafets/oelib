@@ -975,17 +975,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks whether the first dummy record is deleted.
 		$this->assertEquals(
 			0,
-			$this->fixture->countRecords(OELIB_TESTTABLE, 'is_dummy_record=1'),
+			$this->fixture->countRecords(OELIB_TESTTABLE),
 			'Some test records were not deleted from table "tx_oelib_test"'
 		);
 
 		// Checks whether the second dummy record still exists.
 		$this->assertEquals(
 			1,
-			$this->fixture->countRecords(
-				OELIB_TESTTABLE_MM,
-				'is_dummy_record=1'
-			)
+			$this->fixture->countRecords(OELIB_TESTTABLE_MM)
 		);
 
 		// Runs a deep clean up to delete all dummy records.
@@ -1017,7 +1014,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		foreach ($allowedTables as $currentTable) {
 			$this->assertEquals(
 				0,
-				$this->fixture->countRecords($currentTable, 'is_dummy_record=1'),
+				$this->fixture->countRecords($currentTable),
 				'Some test records were not deleted from table "'.$currentTable.'"'
 			);
 		}
