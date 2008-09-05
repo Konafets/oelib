@@ -64,13 +64,13 @@ class tx_oelib_timer {
 	 *
 	 * @access	public
 	 */
-	function &getInstance() {
+	function getInstance() {
 		// We use an array as singleton container because a direct object
 		// doesn't work (we would get a new instance every time).
 		static $instance = array();
 
 		if (!is_object($instance[0])) {
-			$instance[0] =& t3lib_div::makeInstance('tx_oelib_timer');
+			$instance[0] = t3lib_div::makeInstance('tx_oelib_timer');
 		}
 
 		return $instance[0];

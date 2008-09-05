@@ -73,7 +73,7 @@ class tx_oelib_configurationProxy {
 	 * @return	tx_oelib_configurationProxy		the singleton configuration
 	 * 						proxy object
 	 */
-	public static function &getInstance($extensionKey) {
+	public static function getInstance($extensionKey) {
 		if ($extensionKey == '') {
 			throw new Exception('The extension key was not set.');
 		}

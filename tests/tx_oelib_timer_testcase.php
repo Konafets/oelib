@@ -36,7 +36,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	protected function setUp() {
-		$this->fixture =& tx_oelib_timer::getInstance();
+		$this->fixture = tx_oelib_timer::getInstance();
 	}
 
 	protected function tearDown() {
