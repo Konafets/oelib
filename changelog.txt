@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2161] Fix: Oelib produces SQL error in User -> Workspace
 - [#1778] Feature: Provide an abstraction for session handling
 - [#1137] Change: Change =& new to = new and remove the & from before function names
 - [#2152] Change: Skip locale config check tests in Windows
