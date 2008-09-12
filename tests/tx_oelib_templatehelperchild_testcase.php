@@ -2952,7 +2952,18 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * TODO: This test does not work until the full versioning feature is
+	 * implemented in oelib.
+	 *
+	 * @see	https://bugs.oliverklee.com/show_bug.cgi?id=2180
+	 */
 	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
+		$this->markTestSkipped(
+			'This test does not work until the full versioning feature is ' .
+				'implemented in oelib. See ' .
+				'https://bugs.oliverklee.com/show_bug.cgi?id=2180'
+		);
 		$this->fixture->enableVersioningPreviewForCachedPage();
 
 		$this->assertNotEquals(
