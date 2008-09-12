@@ -863,7 +863,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param	array		array of at least 1 subpart name to hide
+	 * @param	array		array of subpart names to hide
 	 * 						(may be empty, case-insensitive, will get uppercased)
 	 * @param	string		prefix to the subpart names (may be empty,
 	 * 						case-insensitive, will get uppercased)
@@ -966,7 +966,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	array		array of at least 1 subpart name to unhide
+	 * @param	array		array of subpart names to unhide
 	 * 						(may be empty, case-insensitive, will get uppercased)
 	 * @param	array		array of subpart names that shouldn't get unhidden
 	 * @param	string		prefix to the subpart names (may be empty,
