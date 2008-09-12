@@ -566,6 +566,23 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testHideSubpartsArrayAndGetHiddenSubpartReturnsEmptySubpartContent() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
 
 
 	//////////////////////////////////
@@ -1675,6 +1692,543 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testHideSubpartsArrayWithCompleteTemplateHidesSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+			'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayWithCompleteTemplateHidesOverwrittenSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->setSubpart('MY_SUBPART', 'More text. ');
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideSubpartsArrayWithCompleteTemplateUnhidesSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayWithCompleteTemplateHidesAndUnhidesSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesSubpartInSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###OUTER_SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.' .
+				'<!-- ###OUTER_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesSubpartInNestedSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###SINGLE_VIEW###  -->' .
+				'<!-- ###FIELD_WRAPPER_TITLE### -->' .
+				'<h3 class="seminars-item-title">Title' .
+				'<!-- ###FIELD_WRAPPER_SUBTITLE### -->' .
+				'<span class="seminars-item-subtitle"> - ###SUBTITLE###</span>' .
+				'<!-- ###FIELD_WRAPPER_SUBTITLE### -->' .
+				'</h3>' .
+				'<!-- ###FIELD_WRAPPER_TITLE### -->' .
+				'<!-- ###SINGLE_VIEW###  -->'
+		);
+		$this->fixture->hideSubpartsArray(array('FIELD_WRAPPER_SUBTITLE'));
+		$this->assertEquals(
+			'<h3 class="seminars-item-title">Title' .
+				'</h3>',
+			$this->fixture->getSubpart('SINGLE_VIEW')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testUnhideSubpartsArrayUnhidesSubpartInSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###OUTER_SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.' .
+				'<!-- ###OUTER_SUBPART### -->'
+		);
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesSubpartInSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###OUTER_SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.' .
+				'<!-- ###OUTER_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart('OUTER_SUBPART')
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesTwoSubpartsSeparately() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1'));
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_2'));
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesTwoSubparts() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesTwoSubpartsInReverseOrder() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_2', 'MY_SUBPART_1'));
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsSeparately() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1'));
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_1'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_2'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here.' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInSameOrder() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here.' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInReverseOrder() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_2', 'MY_SUBPART_1'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here.' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheFirst() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_1'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here.' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheSecond() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'More text here.' .
+				'<!-- ###MY_SUBPART_1### -->' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART_1', 'MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART_2'));
+		$this->assertEquals(
+			'Some text. ' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpart() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('MY_SUBPART'), array('MY_SUBPART')
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubparts() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('MY_SUBPART'), array('MY_SUBPART', 'MY_OTHER_SUBPART')
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnother() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('MY_SUBPART'), array('MY_OTHER_SUBPART')
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('SUBPART'), array('SUBPART'), 'MY'
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('SUBPART'), array('SUBPART', 'OTHER_SUBPART'), 'MY'
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnotherWithPrefix() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->' .
+				'Some text. ' .
+				'<!-- ###SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(
+			array('SUBPART'), array('OTHER_SUBPART'), 'MY'
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayResultsInNotVisibleSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->assertFalse(
+			$this->fixture->isSubpartVisible('MY_SUBPART')
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayResultsInVisibleSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertTrue(
+			$this->fixture->isSubpartVisible('MY_SUBPART')
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayWithFilledSubpartWhenHiddenReturnsContentOfUnhiddenSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'));
+		$this->fixture->setSubpart('MY_SUBPART', 'foo');
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'));
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
 
 	////////////////////////////////
 	// Tests for setting subparts.
@@ -2162,6 +2716,106 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 				.'More text here. '
 				.'More text there. '
 				.'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###FIRST_MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###FIRST_MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('MY_SUBPART'), 'FIRST');
+		$this->assertEquals(
+			'Some text. ' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideSubpartsArrayHidesTwoSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###FIRST_MY_SUBPART_1### -->' .
+				'More text here. ' .
+				'<!-- ###FIRST_MY_SUBPART_1### -->' .
+				'<!-- ###FIRST_MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###FIRST_MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(
+			array('1', '2'), 'FIRST_MY_SUBPART'
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesSubpartWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###FIRST_MY_SUBPART### -->' .
+				'More text here. ' .
+				'<!-- ###FIRST_MY_SUBPART### -->' .
+				'<!-- ###MY_SUBPART### -->' .
+				'More text there. ' .
+				'<!-- ###MY_SUBPART### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('FIRST_MY_SUBPART'));
+		$this->fixture->unhideSubpartsArray(array('MY_SUBPART'), array(''), 'FIRST');
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here. ' .
+				'More text there. ' .
+				'Even more text.',
+			$this->fixture->getSubpart()
+		);
+		$this->assertEquals(
+			'', $this->fixture->getWrappedConfigCheckMessage()
+		);
+	}
+
+	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsWithPrefix() {
+		$this->fixture->processTemplate(
+			'Some text. ' .
+				'<!-- ###FIRST_MY_SUBPART_1### -->' .
+				'More text here. ' .
+				'<!-- ###FIRST_MY_SUBPART_1### -->' .
+				'<!-- ###FIRST_MY_SUBPART_2### -->' .
+				'More text there. ' .
+				'<!-- ###FIRST_MY_SUBPART_2### -->' .
+				'Even more text.'
+		);
+		$this->fixture->hideSubpartsArray(array('FIRST_MY_SUBPART_1'));
+		$this->fixture->hideSubpartsArray(array('FIRST_MY_SUBPART_2'));
+		$this->fixture->unhideSubpartsArray(
+			array('1', '2'), array(''), 'FIRST_MY_SUBPART'
+		);
+		$this->assertEquals(
+			'Some text. ' .
+				'More text here. ' .
+				'More text there. ' .
+				'Even more text.',
 			$this->fixture->getSubpart()
 		);
 		$this->assertEquals(

@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2178] Feature: Add methods hideSubpartsArray and unhideSubpartsArray to tx_oelib_templatehelper
 - [#2179] Fix: Unit test failure: tx_oelib_templatehelperchild_testcase::testEnableFieldsCanBeDifferentForDifferentVersionParameters
 - [#2161] Fix: Oelib produces SQL error in User -> Workspace
 - [#1778] Feature: Provide an abstraction for session handling
