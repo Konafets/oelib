@@ -96,7 +96,7 @@ abstract class tx_oelib_object {
 	 * @param	string		the key of the element to retrieve, must not be
 	 * 						empty
 	 *
-	 * @return	string		the integer value of the given key, may be positive,
+	 * @return	integer		the integer value of the given key, may be positive,
 	 * 						negative or zero
 	 */
 	public function getAsInteger($key) {
@@ -171,6 +171,32 @@ abstract class tx_oelib_object {
 	 */
 	public function setAsArray($key, array $value) {
 		$this->setAsString($key, implode(',', $value));
+	}
+
+	/**
+	 * Gets the value stored in under the key $key, converted to a boolean.
+	 *
+	 * @param	string		the key of the element to retrieve, must not be
+	 * 						empty
+	 *
+	 * @return	boolean		the boolean value of the given key
+	 */
+	public function getAsBoolean($key) {
+		$this->checkForNonEmptyKey($key);
+
+		return (boolean) $this->get($key);
+	}
+
+	/**
+	 * Sets a value for the key $key (and converts it to a boolean).
+	 *
+	 * @param	string		the key of the element to set, must not be empty
+	 * @param	mixed		the value to set, may be empty
+	 */
+	public function setAsBoolean($key, $value) {
+		$this->checkForNonEmptyKey($key);
+
+		$this->set($key, (boolean) $value);
 	}
 }
 

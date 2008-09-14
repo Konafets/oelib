@@ -287,5 +287,114 @@ class tx_oelib_object_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAsIntegerArray('foo')
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Tests for setAsBoolean and getAsBoolean
+	////////////////////////////////////////////
+
+	public function testGetAsBooleanWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getAsBoolean('');
+	}
+
+	public function testSetAsBooleanWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->setAsBoolean('', false);
+	}
+
+	public function testGetAsBooleanWithInexistentKeyReturnsFalse() {
+		$this->assertEquals(
+			false,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsTrueSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', true);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsFalseSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', false);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsTrueForNonEmptyStringSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', 'bar');
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsFalseForEmptyStringSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', '');
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', true);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
+		$this->fixture->setAsBoolean('foo', false);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsTrueForPositiveIntegerSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 42);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsTrueForNegativeIntegerSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', -42);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+	public function testGetAsBooleanReturnsFalseForZeroSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 0);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->getAsBoolean('foo')
+		);
+	}
 }
 ?>
