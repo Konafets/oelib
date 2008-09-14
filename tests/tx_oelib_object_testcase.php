@@ -119,6 +119,79 @@ class tx_oelib_object_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////
+	// Tests for setAsInteger and getAsInteger
+	//////////////////////////////////////////
+
+	public function testGetAsIntegerWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getAsInteger('');
+	}
+
+	public function testSetAsIntegerWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->setAsInteger('', 42);
+	}
+
+	public function testGetAsIntegerWithInexistentKeyReturnsZero() {
+		$this->assertEquals(
+			0,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsPositiveIntegerSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 42);
+
+		$this->assertEquals(
+			42,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsNegativeIntegerSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', -42);
+
+		$this->assertEquals(
+			-42,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsZeroSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 0);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsZeroForStringSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 'bar');
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+	public function testGetAsIntegerReturnsRoundedValueForFloatSetViaSetAsInteger() {
+		$this->fixture->setAsInteger('foo', 12.34);
+
+		$this->assertEquals(
+			12,
+			$this->fixture->getAsInteger('foo')
+		);
+	}
+
+
 	//////////////////////////////////////////////////////////////////
 	// Tests for setAsArray, getAsTrimmedArray and getAsIntegerArray
 	//////////////////////////////////////////////////////////////////

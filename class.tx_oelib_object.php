@@ -47,7 +47,6 @@ abstract class tx_oelib_object {
 	 * Sets the value of the data item for the key $key.
 	 *
 	 * @param	string		the key of the data item to get, must not be empty
-	 *
 	 * @param	mixed		the data for the key $key
 	 */
 	abstract protected function set($key, $value);
@@ -80,15 +79,42 @@ abstract class tx_oelib_object {
 	}
 
 	/**
-	 * Sets a string value for the key $key.
+	 * Sets a value for the key $key (and converts it to a string).
 	 *
 	 * @param	string		the key of the element to set, must not be empty
-	 * @param	string		the value to set, may be empty
+	 * @param	mixed		the value to set, may be empty
 	 */
 	public function setAsString($key, $value) {
 		$this->checkForNonEmptyKey($key);
 
 		$this->set($key, (string) $value);
+	}
+
+	/**
+	 * Gets the value stored in under the key $key, converted to an integer.
+	 *
+	 * @param	string		the key of the element to retrieve, must not be
+	 * 						empty
+	 *
+	 * @return	string		the integer value of the given key, may be positive,
+	 * 						negative or zero
+	 */
+	public function getAsInteger($key) {
+		$this->checkForNonEmptyKey($key);
+
+		return intval($this->get($key));
+	}
+
+	/**
+	 * Sets a value for the key $key (and converts it to an integer).
+	 *
+	 * @param	string		the key of the element to set, must not be empty
+	 * @param	mixed		the value to set, may be empty
+	 */
+	public function setAsInteger($key, $value) {
+		$this->checkForNonEmptyKey($key);
+
+		$this->set($key, intval($value));
 	}
 
 	/**

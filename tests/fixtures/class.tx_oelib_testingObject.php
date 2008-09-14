@@ -60,7 +60,6 @@ class tx_oelib_testingObject extends tx_oelib_object {
 	 * Sets the value of the data item for the key $key.
 	 *
 	 * @param	string		the key of the data item to get, must not be empty
-	 *
 	 * @param	mixed		the data for the key $key
 	 */
 	protected function set($key, $value) {
