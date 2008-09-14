@@ -22,33 +22,23 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
 
 /**
- * Class 'tx_oelib_fakeSession' for the 'oelib' extension.
+ * Class 'tx_oelib_testingObject' for the 'oelib' extension.
  *
- * This class represents a fake session that doesn't use any real sessions,
- * thus not sending any HTTP headers.
- *
- * It is intended for testing purposes.
+ * This class represents an object for testing purposes.
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_fakeSession extends tx_oelib_session {
-	/** @var	array	the data for this session */
-	private $sessionData = array();
-
+class tx_oelib_testingObject extends tx_oelib_object {
 	/**
-	 * The constructor.
-	 *
-	 * This constructor is public to allow direct instantiation of this class
-	 * for the unit tests, also bypassing the check for a front end.
+	 * @var	array	the data for this object
 	 */
-	public function __construct() {
-	}
+	private $data = array();
 
 	/**
 	 * Gets the value of the data item for the key $key.
@@ -59,11 +49,11 @@ class tx_oelib_fakeSession extends tx_oelib_session {
 	 * 						if the key has not been set yet
 	 */
 	protected function get($key) {
-		if (!isset($this->sessionData[$key])) {
+		if (!isset($this->data[$key])) {
 			return '';
 		}
 
-		return $this->sessionData[$key];
+		return $this->data[$key];
 	}
 
 	/**
@@ -74,11 +64,11 @@ class tx_oelib_fakeSession extends tx_oelib_session {
 	 * @param	mixed		the data for the key $key
 	 */
 	protected function set($key, $value) {
-		$this->sessionData[$key] = $value;
+		$this->data[$key] = $value;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeSession.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeSession.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingObject.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingObject.php']);
 }
 ?>

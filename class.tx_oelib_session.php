@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
+
 /**
  * Class 'tx_oelib_session' for the 'oelib' extension.
  *
@@ -32,7 +34,7 @@
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_session {
+class tx_oelib_session extends tx_oelib_object {
 	/**
 	 * @var	integer		session type for persistent data that is stored for the
 	 * 					logged-in front-end user and will be available when the
@@ -139,98 +141,6 @@ class tx_oelib_session {
 	}
 
 	/**
-	 * Checks that $key is not empty.
-	 *
-	 * @throws	Exception	if $key is empty
-	 *
-	 * @param	string		a key to check
-	 */
-	protected function checkForNonEmptyKey($key) {
-		if ($key == '') {
-			throw new Exception('$key must not be empty.');
-		}
-	}
-
-	/**
-	 * Gets the value stored in this session under the key $key, converted to a
-	 * string.
-	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
-	 *
-	 * @return	string		the string value of the given key, may be empty
-	 */
-	public function getAsString($key) {
-		return trim((string) $this->get($key));
-	}
-
-	/**
-	 * Sets a string value for the key $key in this session.
-	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	string		the value to set, may be empty
-	 */
-	public function setAsString($key, $value) {
-		$this->set($key, (string) $value);
-	}
-
-	/**
-	 * Gets the value stored in this session under the key $key, converted to an
-	 * array of trimmed strings.
-	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
-	 *
-	 * @return	array		the array value of the given key, may be empty
-	 */
-	public function getAsTrimmedArray($key) {
-		$stringValue = $this->getAsString($key);
-
-		if ($stringValue == '') {
-			return array();
-		}
-
-		return t3lib_div::trimExplode(',', $stringValue);
-	}
-
-	/**
-	 * Gets the value stored in this session under the key $key, converted to an
-	 * array of integer.
-	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
-	 *
-	 * @return	array		the array value of the given key, may be empty
-	 */
-	public function getAsIntegerArray($key) {
-		$stringValue = $this->getAsString($key);
-
-		if ($stringValue == '') {
-			return array();
-		}
-
-		return t3lib_div::intExplode(',', $stringValue);
-	}
-
-	/**
-	 * Sets an array value for the key $key in this session.
-	 *
-	 * Note: This function is intended for data that does not contain any
-	 * commas. Commas in the array elements cause getAsTrimmedArray and
-	 * getAsIntegerArray to split that element at the comma. This is a known
-	 * limitation.
-	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	array		the value to set, may be empty
-	 *
-	 * @see	getAsTrimmedArray
-	 * @see	getAsIntegerArray
-	 */
-	public function setAsArray($key, array $value) {
-		$this->setAsString($key, implode(',', $value));
-	}
-
-	/**
 	 * Gets the value of the data item for the key $key.
 	 *
 	 * @param	string		the key of the data item to get, must not be empty
@@ -239,8 +149,6 @@ class tx_oelib_session {
 	 * 						if the key has not been set yet
 	 */
 	protected function get($key) {
-		$this->checkForNonEmptyKey($key);
-
 		return $GLOBALS['TSFE']->fe_user->getKey(
 			self::$types[$this->type],
 			$key
@@ -255,8 +163,6 @@ class tx_oelib_session {
 	 * @param	mixed		the data for the key $key
 	 */
 	protected function set($key, $value) {
-		$this->checkForNonEmptyKey($key);
-
 		$GLOBALS['TSFE']->fe_user->setKey(
 			self::$types[$this->type],
 			$key,
