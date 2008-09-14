@@ -49,14 +49,18 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
-	/** @var	string 		the prefix used for CSS classes */
+	/**
+	 * @var	string 		the prefix used for CSS classes
+	 */
 	public $prefixId = '';
 	/**
 	 * @var	string		the path of this file relative to the extension
 	 * 					directory
 	 */
 	public $scriptRelPath = '';
-	/** @var	string		the extension key */
+	/**
+	 * @var	string		the extension key
+	 */
 	public $extKey = '';
 
 	/**
@@ -65,7 +69,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	protected $isInitialized = false;
 
-	/** @var	string		the complete HTML template */
+	/**
+	 * @var	string		the complete HTML template
+	 */
 	private $templateCode = '';
 
 	/**
@@ -107,7 +113,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	protected static $pageForEnableFields = null;
 
-	/** @var	array		cached results for the enableFields function */
+	/**
+	 * @var	array		cached results for the enableFields function
+	 */
 	private static $enableFieldsCache = array();
 
 	/**
@@ -133,11 +141,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			// automatically.
 			parent::tslib_pibase();
 
-			if (is_array($conf)) {
+			if (!empty($conf)) {
 				$this->conf = $conf;
 			} else {
 				// We need to create our own template setup if we are in the BE.
-				if (TYPO3_MODE == 'BE') {
+				if ((TYPO3_MODE == 'BE') && empty($GLOBALS['TSFE']->tmpl->setup)) {
 					$pageId = $this->getCurrentBePageId();
 
 					if (isset($cachedConfigs[$pageId])) {
@@ -148,7 +156,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					}
 				} else {
 					// On the front end, we can use the provided template setup.
-					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
+					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']
+						['tx_' . $this->extKey . '.'];
 				}
 			}
 
@@ -160,10 +169,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					getConfigurationValueBoolean('enableConfigCheck')
 			) {
 				$configurationCheckClassname = t3lib_div::makeInstanceClassName(
-					'tx_'.$this->extKey.'_configcheck'
+					'tx_' . $this->extKey . '_configcheck'
 				);
-				$configurationCheckFile = t3lib_extMgm::extPath($this->extKey)
-					.'class.'.$configurationCheckClassname.'.php';
+				$configurationCheckFile = t3lib_extMgm::extPath($this->extKey) .
+					'class.' . $configurationCheckClassname . '.php';
 				if (is_file($configurationCheckFile)) {
 					require_once($configurationCheckFile);
 					$this->configurationCheck
@@ -192,13 +201,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						current extension key
 	 */
 	protected function &retrievePageConfig($pageId) {
-		$template = t3lib_div::makeInstance('t3lib_TStemplate');
-		// Disables the logging of time-performance information.
-		$template->tt_track = 0;
-		$template->init();
+		if ($GLOBALS['TSFE']->tmpl instanceof t3lib_TStemplate) {
+			$template = $GLOBALS['TSFE']->tmpl;
+		} else {
+			$template = t3lib_div::makeInstance('t3lib_TStemplate');
+			// Disables the logging of time-performance information.
+			$template->tt_track = 0;
+			$template->init();
+		}
+
+		if ($GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
+			$sys_page = $GLOBALS['TSFE']->sys_page;
+		} else {
+			$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		}
 
 		// Gets the root line.
-		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
 		$rootline = $sys_page->getRootLine($pageId);
 
