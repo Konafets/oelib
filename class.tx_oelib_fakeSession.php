@@ -38,7 +38,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_fakeSession extends tx_oelib_session {
-	/** @var	array	the data for this session */
+	/**
+	 * @var	array	the data for this session
+	 */
 	private $sessionData = array();
 
 	/**

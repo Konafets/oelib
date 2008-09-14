@@ -33,7 +33,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_fakeSession_testcase  extends tx_phpunit_testcase {
-	/** @var	tx_oelib_fakeSession	the object to test */
+	/**
+	 * @var	tx_oelib_fakeSession	the object to test
+	 */
 	private $fixture;
 
 	public function setUp() {
@@ -54,25 +56,9 @@ class tx_oelib_fakeSession_testcase  extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////
-	// Tests for setAsString and getAsString
-	//////////////////////////////////////////
-
-	public function testGetAsStringWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
-
-		$this->fixture->getAsString('');
-	}
-
-	public function testSetAsStringWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
-
-		$this->fixture->setAsString('', 'bar');
-	}
+	////////////////////////////////////////
+	// Tests that the setters/getters work
+	////////////////////////////////////////
 
 	public function testGetAsStringWithInexistentKeyReturnsEmptyString() {
 		$this->assertEquals(
@@ -90,118 +76,12 @@ class tx_oelib_fakeSession_testcase  extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsStringReturnsTrimmedValue() {
-		$this->fixture->setAsString('foo', ' bar ');
-
-		$this->assertEquals(
-			'bar',
-			$this->fixture->getAsString('foo')
-		);
-	}
-
 	public function testGetAsStringReturnsEmptyStringSetViaSetAsString() {
 		$this->fixture->setAsString('foo', '');
 
 		$this->assertEquals(
 			'',
 			$this->fixture->getAsString('foo')
-		);
-	}
-
-
-	//////////////////////////////////////////////////////////////////
-	// Tests for setAsArray, getAsTrimmedArray and getAsIntegerArray
-	//////////////////////////////////////////////////////////////////
-
-	public function testGetAsTrimmedArrayWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
-
-		$this->fixture->getAsTrimmedArray('');
-	}
-
-	public function testGetAsIntegerArrayWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
-
-		$this->fixture->getAsIntegerArray('');
-	}
-
-	public function testSetAsArrayWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
-
-		$this->fixture->setAsArray('', array('bar'));
-	}
-
-	public function testGetAsTrimmedArrayWithInexistentKeyReturnsEmptyArray() {
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAsTrimmedArray('foo')
-		);
-	}
-
-	public function testGetAsIntegerArrayWithInexistentKeyReturnsEmptyArray() {
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAsIntegerArray('foo')
-		);
-	}
-
-	public function testGetAsTrimmedArrayReturnsNonEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array('foo', 'bar'));
-
-		$this->assertEquals(
-			array('foo', 'bar'),
-			$this->fixture->getAsTrimmedArray('foo')
-		);
-	}
-
-	public function testGetAsIntegerArrayReturnsNonEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array(1, -2));
-
-		$this->assertEquals(
-			array(1, -2),
-			$this->fixture->getAsIntegerArray('foo')
-		);
-	}
-
-	public function testGetAsTrimmedArrayReturnsEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array());
-
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAsTrimmedArray('foo')
-		);
-	}
-
-	public function testGetAsIntegerArrayReturnsEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array());
-
-		$this->assertEquals(
-			array(),
-			$this->fixture->getAsIntegerArray('foo')
-		);
-	}
-
-	public function testGetAsTrimmedArrayReturnsTrimmedValues() {
-		$this->fixture->setAsArray('foo', array(' foo '));
-
-		$this->assertEquals(
-			array('foo'),
-			$this->fixture->getAsTrimmedArray('foo')
-		);
-	}
-
-	public function testGetAsIntegerArrayReturnsIntvaledValues() {
-		$this->fixture->setAsArray('foo', array('asdf'));
-
-		$this->assertEquals(
-			array(0),
-			$this->fixture->getAsIntegerArray('foo')
 		);
 	}
 }
