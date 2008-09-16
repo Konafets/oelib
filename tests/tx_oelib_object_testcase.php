@@ -119,9 +119,9 @@ class tx_oelib_object_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////
+	////////////////////////////////////////////
 	// Tests for setAsInteger and getAsInteger
-	//////////////////////////////////////////
+	////////////////////////////////////////////
 
 	public function testGetAsIntegerWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
@@ -394,6 +394,70 @@ class tx_oelib_object_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			false,
 			$this->fixture->getAsBoolean('foo')
+		);
+	}
+
+
+	////////////////////////////////////////
+	// Tests for setAsFloat and getAsFloat
+	////////////////////////////////////////
+
+	public function testGetAsFloatWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getAsFloat('');
+	}
+
+	public function testSetAsFloatWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->setAsFloat('', 42.00);
+	}
+
+	public function testGetAsFloatWithInexistentKeyReturnsZero() {
+		$this->assertEquals(
+			0.00,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	public function testGetAsFloatReturnsPositiveFloatSetViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', 42.00);
+
+		$this->assertEquals(
+			42.00,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	public function testGetAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', -42.00);
+
+		$this->assertEquals(
+			-42.00,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	public function testGetAsFloatReturnsZeroSetViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', 0.00);
+
+		$this->assertEquals(
+			0.00,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	public function testGetAsFloatReturnsZeroForStringSetViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', 'bar');
+
+		$this->assertEquals(
+			0.00,
+			$this->fixture->getAsFloat('foo')
 		);
 	}
 }

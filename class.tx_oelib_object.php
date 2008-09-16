@@ -198,6 +198,33 @@ abstract class tx_oelib_object {
 
 		$this->set($key, (boolean) $value);
 	}
+
+	/**
+	 * Gets the value stored in under the key $key, converted to a float.
+	 *
+	 * @param	string		the key of the element to retrieve, must not be
+	 * 						empty
+	 *
+	 * @return	float		the float value of the given key, may be positive,
+	 * 						negative or zero
+	 */
+	public function getAsFloat($key) {
+		$this->checkForNonEmptyKey($key);
+
+		return (float) $this->get($key);
+	}
+
+	/**
+	 * Sets a value for the key $key (and converts it to a float).
+	 *
+	 * @param	string		the key of the element to set, must not be empty
+	 * @param	mixed		the value to set, may be empty
+	 */
+	public function setAsFloat($key, $value) {
+		$this->checkForNonEmptyKey($key);
+
+		$this->set($key, (float) $value);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_object.php']) {
