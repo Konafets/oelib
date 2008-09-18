@@ -79,6 +79,18 @@ abstract class tx_oelib_object {
 	}
 
 	/**
+	 * Checks whether a non-empty string is stored under the key $key.
+	 *
+	 * @param	string		the key of the element to check, must not be empty
+	 *
+	 * @return	boolean		true if the value for the given key is non-empty,
+	 * 						false otherwise
+	 */
+	public function hasString($key) {
+		return ($this->getAsString($key) != '');
+	}
+
+	/**
 	 * Sets a value for the key $key (and converts it to a string).
 	 *
 	 * @param	string		the key of the element to set, must not be empty
@@ -103,6 +115,18 @@ abstract class tx_oelib_object {
 		$this->checkForNonEmptyKey($key);
 
 		return intval($this->get($key));
+	}
+
+	/**
+	 * Checks whether a non-zero integer is stored under the key $key.
+	 *
+	 * @param	string		the key of the element to check, must not be empty
+	 *
+	 * @return	boolean		true if the value for the given key is non-zero,
+	 * 						false otherwise
+	 */
+	public function hasInteger($key) {
+		return ($this->getAsInteger($key) != 0);
 	}
 
 	/**
@@ -212,6 +236,18 @@ abstract class tx_oelib_object {
 		$this->checkForNonEmptyKey($key);
 
 		return (float) $this->get($key);
+	}
+
+	/**
+	 * Checks whether a non-zero float is stored under the key $key.
+	 *
+	 * @param	string		the key of the element to check, must not be empty
+	 *
+	 * @return	boolean		true if the value for the given key is non-zero,
+	 * 						false otherwise
+	 */
+	public function hasFloat($key) {
+		return ($this->getAsFloat($key) != 0.00);
 	}
 
 	/**

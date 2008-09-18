@@ -460,5 +460,74 @@ class tx_oelib_object_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAsFloat('foo')
 		);
 	}
+
+
+	/////////////////////////////////////////////////
+	// Tests for hasString, hasInteger and hasFloat
+	/////////////////////////////////////////////////
+
+	public function testHasStringForNonEmptyStringReturnsTrue() {
+		$this->fixture->setAsString('foo', 'bar');
+
+		$this->assertTrue(
+			$this->fixture->hasString('foo')
+		);
+	}
+
+	public function testHasStringForEmptyStringReturnsFalse() {
+		$this->fixture->setAsString('foo', '');
+
+		$this->assertFalse(
+			$this->fixture->hasString('foo')
+		);
+	}
+
+	public function testHasIntegerForPositiveIntegerReturnsTrue() {
+		$this->fixture->setAsInteger('foo', 42);
+
+		$this->assertTrue(
+			$this->fixture->hasInteger('foo')
+		);
+	}
+
+	public function testHasIntegerForNegativeIntegerReturnsTrue() {
+		$this->fixture->setAsInteger('foo', -42);
+
+		$this->assertTrue(
+			$this->fixture->hasInteger('foo')
+		);
+	}
+
+	public function testHasIntegerForZeroReturnsFalse() {
+		$this->fixture->setAsInteger('foo', 0);
+
+		$this->assertFalse(
+			$this->fixture->hasInteger('foo')
+		);
+	}
+
+	public function testHasFloatForPositiveFloatReturnsTrue() {
+		$this->fixture->setAsFloat('foo', 42.00);
+
+		$this->assertTrue(
+			$this->fixture->hasFloat('foo')
+		);
+	}
+
+	public function testHasFloatForNegativeFloatReturnsTrue() {
+		$this->fixture->setAsFloat('foo', -42.00);
+
+		$this->assertTrue(
+			$this->fixture->hasFloat('foo')
+		);
+	}
+
+	public function testHasFloatForZeroReturnsFalse() {
+		$this->fixture->setAsFloat('foo', 0.00);
+
+		$this->assertFalse(
+			$this->fixture->hasFloat('foo')
+		);
+	}
 }
 ?>
