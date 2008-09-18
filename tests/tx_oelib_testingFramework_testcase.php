@@ -1352,7 +1352,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->countRecords('pages');
 	}
 
-	public function testCountRecordsIgnoresNonDummyRecordsInTableWithDummyFlagColumn() {
+	public function testCountRecordsIgnoresNonDummyRecords() {
 		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			OELIB_TESTTABLE,
 			array('title' => 'foo')
@@ -1378,6 +1378,136 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			0,
+			$testResult
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding existsRecord()
+	// ---------------------------------------------------------------------
+
+	public function testExistsRecordWithEmptyWhereClauseIsAllowed() {
+		$this->fixture->existsRecord(OELIB_TESTTABLE, '');
+	}
+
+	public function testExistsRecordWithMissingWhereClauseIsAllowed() {
+		$this->fixture->existsRecord(OELIB_TESTTABLE);
+	}
+
+	public function testExistsRecordWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->existsRecord('');
+	}
+
+	public function testExistsRecordWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
+		$table = 'foo_bar';
+		$this->fixture->existsRecord($table);
+	}
+
+	public function testExistsRecordWithFeGroupsTableIsAllowed() {
+		$table = 'fe_groups';
+		$this->fixture->existsRecord($table);
+	}
+
+	public function testExistsRecordWithFeUsersTableIsAllowed() {
+		$table = 'fe_users';
+		$this->fixture->existsRecord($table);
+	}
+
+	public function testExistsRecordWithPagesTableIsAllowed() {
+		$table = 'pages';
+		$this->fixture->existsRecord($table);
+	}
+
+	public function testExistsRecordWithTtContentTableIsAllowed() {
+		$table = 'tt_content';
+		$this->fixture->existsRecord($table);
+	}
+
+	public function testExistsRecordWithOtherTableThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->existsRecord('sys_domain');
+	}
+
+	public function testExistsRecordForNoMatchesReturnsFalse() {
+		$this->assertEquals(
+			false,
+			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+	public function testExistsRecordForOneMatchReturnsTrue() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+	public function testExistsRecordForTwoMatchesReturnsTrue() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+	public function testExistsRecordForPagesTableIsAllowed() {
+		$this->fixture->existsRecord('pages');
+	}
+
+	public function testExistsRecordIgnoresNonDummyRecords() {
+		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			OELIB_TESTTABLE,
+			array('title' => 'foo')
+		);
+		if (!$insertResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$testResult = $this->fixture->existsRecord(
+			OELIB_TESTTABLE, 'title = "foo"'
+		);
+
+		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			OELIB_TESTTABLE,
+			'title = "foo"'
+		);
+		if (!$deleteResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+		// We need to do this manually to not confuse the auto_increment counter
+		// of the testing framework.
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			false,
 			$testResult
 		);
 	}

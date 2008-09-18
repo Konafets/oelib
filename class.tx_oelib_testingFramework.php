@@ -1354,11 +1354,8 @@ final class tx_oelib_testingFramework {
 	 * Counts the dummy records in the table given by the first parameter $table
 	 * that match a given WHERE clause.
 	 *
-	 * @throws	Exception	if $table is empty or not in the list of allowed
-	 * 						tables
-	 *
 	 * @param	string		the name of the table to query, must not be empty
-	 * @param	string		the where part of the query, may be empty (all
+	 * @param	string		the WHERE part of the query, may be empty (all
 	 * 						records will be counted in that case)
 	 *
 	 * @return	integer		the number of records that have been found, will
@@ -1371,7 +1368,6 @@ final class tx_oelib_testingFramework {
 					'empty or not in the list of allowed tables.'
 			);
 		}
-
 
 		$whereForDummyColumn = $this->getDummyColumnName($table) . ' = 1';
 		$compoundWhereClause = ($whereClause != '')
@@ -1387,6 +1383,21 @@ final class tx_oelib_testingFramework {
 		);
 
 		return intval($row['number']);
+	}
+
+	/**
+	 * Checks whether there are any dummy records in the table given by the
+	 * first parameter $table that match a given WHERE clause.
+	 *
+	 * @param	string		the name of the table to query, must not be empty
+	 * @param	string		the WHERE part of the query, may be empty (all
+	 * 						records will be counted in that case)
+	 *
+	 * @return	boolean		true if there is at least one matching record,
+	 * 						false otherwise
+	 */
+	public function existsRecord($table, $whereClause = '') {
+		return ($this->countRecords($table, $whereClause) > 0);
 	}
 
 	/**
