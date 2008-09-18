@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php');
 
 /**
  * Class 'tx_oelib_session' for the 'oelib' extension.
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_session extends tx_oelib_object {
+class tx_oelib_session extends tx_oelib_publicObject {
 	/**
 	 * @var	integer		session type for persistent data that is stored for the
 	 * 					logged-in front-end user and will be available when the

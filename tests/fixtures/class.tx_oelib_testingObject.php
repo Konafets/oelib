@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php');
 
 /**
  * Class 'tx_oelib_testingObject' for the 'oelib' extension.
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
  *
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_testingObject extends tx_oelib_object {
+class tx_oelib_testingObject extends tx_oelib_publicObject {
 	/**
 	 * @var	array	the data for this object
 	 */
@@ -64,6 +64,17 @@ class tx_oelib_testingObject extends tx_oelib_object {
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
+	}
+
+	/**
+	 * Checks that $key is not empty.
+	 *
+	 * @throws	Exception	if $key is empty
+	 *
+	 * @param	string		a key to check
+	 */
+	public function checkForNonEmptyKey($key) {
+		parent::checkForNonEmptyKey($key);
 	}
 }
 
