@@ -1401,6 +1401,23 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
+	 * Checks whether there is a dummy record in the table given by the first
+	 * parameter $table that has the given UID.
+	 *
+	 * @param	string		the name of the table to query, must not be empty
+	 * @param	integer		the UID of the record to look up, must be > 0
+	 *
+	 * @return	boolean		true if there is a matching record, false otherwise
+	 */
+	public function existsRecordWithUid($table, $uid) {
+		if ($uid <= 0) {
+			throw new Exception('$uid must be > 0.');
+		}
+
+		return ($this->countRecords($table, 'uid = ' . $uid) > 0);
+	}
+
+	/**
 	 * Eagerly resets the auto increment value for a given table to the highest
 	 * existing UID + 1.
 	 *

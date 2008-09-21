@@ -1,6 +1,6 @@
 0.4.2 - currently working on
 - [#2211] Fix: The tests for createRecursivePageList must not rely on the sorting
-- [#1909] Feature: Add a function "existsRecord"
+- [#1909] Feature: Add functions "existsRecord" and "existsRecordWithUid"
 - [#2185] Feature: Create an object class
 - [#2183] Fix: tx_oelib_templatehelper::init() differs from tx_seminars_templatehelper()
 - [#2178] Feature: Add methods hideSubpartsArray and unhideSubpartsArray to tx_oelib_templatehelper

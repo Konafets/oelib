@@ -1514,6 +1514,100 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding existsRecordWithUid()
+	// ---------------------------------------------------------------------
+
+	public function testExistsRecordWithUidWithZeroUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$uid must be > 0.'
+		);
+
+		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, 0);
+	}
+
+	public function testExistsRecordWithUidWithNegativeUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$uid must be > 0.'
+		);
+
+		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, -1);
+	}
+
+
+	public function testExistsRecordWithUidWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->existsRecordWithUid('', 1);
+	}
+
+	public function testExistsRecordWithUidWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
+		$table = 'foo_bar';
+		$this->fixture->existsRecordWithUid($table, 1);
+	}
+
+	public function testExistsRecordWithUidForNoMatcheReturnsFalse() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
+
+		$this->assertEquals(
+			false,
+			$this->fixture->existsRecordWithUid(
+				OELIB_TESTTABLE, $uid
+			)
+		);
+	}
+
+	public function testExistsRecordWithUidForAMatchReturnsTrue() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			true,
+			$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, $uid)
+		);
+	}
+
+	public function testExistsRecordWithUidIgnoresNonDummyRecords() {
+		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			OELIB_TESTTABLE,
+			array('title' => 'foo')
+		);
+		if (!$insertResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
+
+		$testResult = $this->fixture->existsRecordWithUid(
+			OELIB_TESTTABLE, $uid
+		);
+
+		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			OELIB_TESTTABLE, 'uid = ' . $uid
+		);
+		if (!$deleteResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+		// We need to do this manually to not confuse the auto_increment counter
+		// of the testing framework.
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			false,
+			$testResult
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding resetAutoIncrement()
 	// ---------------------------------------------------------------------
 
