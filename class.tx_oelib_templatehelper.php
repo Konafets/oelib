@@ -1390,6 +1390,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * ...,
 	 * 250 = all descendants for all sane cases
 	 *
+	 * Note: The returned page list is _not_ sorted.
+	 *
 	 * @param	string		comma-separated list of page UIDs to start from,
 	 * 						must only contain numbers and commas, may be empty
 	 * @param	integer		maximum depth of recursion, must be >= 0

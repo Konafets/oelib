@@ -59,6 +59,64 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////
+	// Utility functions
+	//////////////////////
+
+	/**
+	 * Explodes a comma-separated list of integer values and sorts them
+	 * numerically.
+	 *
+	 * @param	string		comma-separated list of values, may be empty
+	 *
+	 * @return	array		the separate values, sorted numerically, may be
+	 * 						empty
+	 */
+	private function sortExplode($valueList) {
+		if ($valueList == '') {
+			return array();
+		}
+
+		$numbers = t3lib_div::intExplode(',', $valueList);
+		sort($numbers, SORT_NUMERIC);
+
+		return ($numbers);
+	}
+
+
+	////////////////////////////////////
+	// Tests for the utility functions
+	////////////////////////////////////
+
+	public function testSortExplodeWithEmptyStringReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->sortExplode('')
+		);
+	}
+
+	public function testSortExplodeWithOneNumberReturnsArrayWithNumber() {
+		$this->assertEquals(
+			array(42),
+			$this->sortExplode('42')
+		);
+	}
+
+	public function testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers() {
+		$this->assertEquals(
+			array(1, 2),
+			$this->sortExplode('1,2')
+		);
+	}
+
+	public function testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers() {
+		$this->assertEquals(
+			array(1, 2),
+			$this->sortExplode('2,1')
+		);
+	}
+
+
 	/////////////////////////////////////////////////////////////////
 	// Tests concerning the creation of the template helper object.
 	/////////////////////////////////////////////////////////////////
@@ -3678,8 +3736,10 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$uid2 = $this->testingFramework->createSystemFolder();
 
 		$this->assertEquals(
-			$uid1.','.$uid2,
-			$this->fixture->createRecursivePageList((string) $uid1.','.$uid2, 0)
+			$this->sortExplode($uid1 . ',' . $uid2),
+			$this->sortExplode(
+				$this->fixture->createRecursivePageList($uid1.','.$uid2, 0)
+			)
 		);
 	}
 
@@ -3689,8 +3749,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->testingFramework->createSystemFolder($subFolderUid);
 
 		$this->assertEquals(
-			$uid.','.$subFolderUid,
-			$this->fixture->createRecursivePageList((string) $uid, 1)
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode($this->fixture->createRecursivePageList($uid, 1))
 		);
 	}
 
@@ -3700,7 +3760,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			(string) $uid,
-			$this->fixture->createRecursivePageList((string) $uid, 0)
+			$this->fixture->createRecursivePageList($uid, 0)
 		);
 	}
 
@@ -3710,8 +3770,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid);
 
 		$this->assertEquals(
-			$uid.','.$subFolderUid1.','.$subFolderUid2,
-			$this->fixture->createRecursivePageList((string) $uid, 1)
+			$this->sortExplode($uid.','.$subFolderUid1.','.$subFolderUid2),
+			$this->sortExplode($this->fixture->createRecursivePageList($uid, 1))
 		);
 	}
 
@@ -3722,8 +3782,12 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid2);
 
 		$this->assertEquals(
-			$uid1.','.$uid2.','.$subFolderUid1.','.$subFolderUid2,
-			$this->fixture->createRecursivePageList($uid1.','.$uid2, 1)
+			$this->sortExplode(
+				$uid1.','.$uid2.','.$subFolderUid1.','.$subFolderUid2
+			),
+			$this->sortExplode(
+				$this->fixture->createRecursivePageList($uid1.','.$uid2, 1)
+			)
 		);
 	}
 
@@ -3733,11 +3797,11 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			(string) $uid,
-			$this->fixture->createRecursivePageList((string) $uid, 0)
+			$this->fixture->createRecursivePageList($uid, 0)
 		);
 		$this->assertEquals(
-			$uid.','.$subFolderUid,
-			$this->fixture->createRecursivePageList((string) $uid, 1)
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode($this->fixture->createRecursivePageList($uid, 1))
 		);
 	}
 
@@ -3746,12 +3810,12 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 
 		$this->assertEquals(
-			$uid.','.$subFolderUid,
-			$this->fixture->createRecursivePageList((string) $uid, 1)
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode($this->fixture->createRecursivePageList($uid, 1))
 		);
 		$this->assertEquals(
 			(string) $uid,
-			$this->fixture->createRecursivePageList((string) $uid, 0)
+			$this->fixture->createRecursivePageList($uid, 0)
 		);
 	}
 
