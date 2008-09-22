@@ -33,6 +33,7 @@ require_once(PATH_typo3 . 'sysext/lang/lang.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
@@ -106,17 +107,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 								check this object
 	 */
 	protected $configurationCheck = null;
-
-	/**
-	 * @var	t3lib_pageSelect		page object which we will use to call
-	 * 								enableFields on
-	 */
-	protected static $pageForEnableFields = null;
-
-	/**
-	 * @var	array		cached results for the enableFields function
-	 */
-	private static $enableFieldsCache = array();
 
 	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
@@ -1421,8 +1411,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				'uid',
 				'pages',
 				'pid!=0' .
-					' AND pid IN ('.$currentPageList.')' .
-					$this->enableFields('pages'),
+					' AND pid IN (' . $currentPageList . ')' .
+					tx_oelib_db::enableFields('pages'),
 				'uid'
 			);
 			if (!$dbResult) {
@@ -1826,54 +1816,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						disable enableFields.
 	 *
 	 * @return	string		the clause starting like " AND ...=... AND ...=..."
+	 *
+	 * @deprecated 	2008-09-21 use tx_oelib_db::enableFields instead.
 	 */
 	public function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),
 		$noVersionPreview = false
 	) {
-		if (!in_array($showHidden, array(-1, 0, 1))) {
-			throw new Exception(
-				'$showHidden may only be -1, 0 or 1, but actually is ' .
-					$showHidden
-			);
-		}
-
-		// maps $showHidden (-1..1) to (0..2) which ensures valid array keys
-		$showHiddenKey = $showHidden + 1;
-		$ignoresKey = serialize($ignoreArray);
-		$previewKey = intval($noVersionPreview);
-		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-			[$previewKey])
-		) {
-			$this->retrievePageForEnableFields();
-			self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-				[$previewKey]
-				= self::$pageForEnableFields->enableFields(
-					$table,
-					$showHidden,
-					$ignoreArray,
-					$noVersionPreview
-				);
-		}
-
-		return self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-			[$previewKey];
-	}
-
-	/**
-	 * Makes sure that self::$pageForEnableFields is a page object.
-	 */
-	protected function retrievePageForEnableFields() {
-		if (!is_object(self::$pageForEnableFields)) {
-			if (isset($GLOBALS['TSFE'])
-				&& is_object($GLOBALS['TSFE']->sys_page)
-			) {
-				self::$pageForEnableFields = $GLOBALS['TSFE']->sys_page;
-			} else {
-				self::$pageForEnableFields
-					= t3lib_div::makeInstance('t3lib_pageSelect');
-			}
-		}
+		return tx_oelib_db::enableFields(
+			$table, $showHidden, $ignoreArray, $noVersionPreview
+		);
 	}
 
 	/**
@@ -1920,14 +1872,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	protected function setLocaleConvention() {
 		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
-	}
-
-	/**
-	 * Clears all caches of this object (not the FE cache, though).
-	 */
-	public function clearCaches() {
-		self::$pageForEnableFields = null;
-		self::$enableFieldsCache = array();
 	}
 }
 

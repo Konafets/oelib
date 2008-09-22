@@ -116,17 +116,6 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Switches the cached page in self::$pageForEnableFields to use the
-	 * versioning preview.
-	 *
-	 * This function is intended for testing purposes only.
-	 */
-	public function enableVersioningPreviewForCachedPage() {
-		$this->retrievePageForEnableFields();
-		self::$pageForEnableFields->versioningPreview = true;
-	}
-
-	/**
 	 * Intvals all piVars that are supposed to be integers:
 	 * showUid, pointer, mode
 	 *

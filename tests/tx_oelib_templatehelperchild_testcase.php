@@ -52,7 +52,6 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		$this->fixture->clearCaches();
 		$this->testingFramework->cleanUp();
 
 		unset($this->fixture, $this->testingFramework);
@@ -3617,74 +3616,10 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests concerning enableFields
 	//////////////////////////////////
 
-	public function testEnableFieldsThrowsExceptionForTooSmallShowHidden() {
-		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is -2');
-		$this->fixture->enableFields('tx_oelib_test', -2);
-	}
-
-	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
-		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is 2');
-		$this->fixture->enableFields('tx_oelib_test', 2);
-	}
-
 	public function testEnableFieldsIsDifferentForDifferentTables() {
 		$this->assertNotEquals(
 			$this->fixture->enableFields('tx_oelib_test'),
 			$this->fixture->enableFields('pages')
-		);
-	}
-
-	public function testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
-		$this->assertNotEquals(
-			$this->fixture->enableFields('tx_oelib_test', 0),
-			$this->fixture->enableFields('tx_oelib_test', 1)
-		);
-	}
-
-	public function testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
-		$this->assertEquals(
-			$this->fixture->enableFields('tx_oelib_test', 0),
-			$this->fixture->enableFields('tx_oelib_test', -1)
-		);
-	}
-
-	public function testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
-		$this->assertNotEquals(
-			$this->fixture->enableFields('tx_oelib_test', 1),
-			$this->fixture->enableFields('tx_oelib_test', -1)
-		);
-	}
-
-	public function testEnableFieldsCanBeDifferentForDifferentIgnores() {
-		$this->assertNotEquals(
-			$this->fixture->enableFields('tx_oelib_test', 0, array()),
-			$this->fixture->enableFields(
-				'tx_oelib_test', 0, array('endtime' => true)
-			)
-		);
-	}
-
-	/**
-	 * TODO: This test does not work until the full versioning feature is
-	 * implemented in oelib.
-	 *
-	 * @see	https://bugs.oliverklee.com/show_bug.cgi?id=2180
-	 */
-	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
-		$this->markTestSkipped(
-			'This test does not work until the full versioning feature is ' .
-				'implemented in oelib. See ' .
-				'https://bugs.oliverklee.com/show_bug.cgi?id=2180'
-		);
-		$this->fixture->enableVersioningPreviewForCachedPage();
-
-		$this->assertNotEquals(
-			$this->fixture->enableFields(
-				'tx_oelib_test', 0, array(), false
-			),
-			$this->fixture->enableFields(
-				'tx_oelib_test', 0, array(), true
-			)
 		);
 	}
 
