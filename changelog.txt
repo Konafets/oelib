@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2187] Feature: Create a model class
 - [#2097] Feature: Create a class tx_oelib_db
 - [#2211] Fix: The tests for createRecursivePageList must not rely on the sorting
 - [#1909] Feature: Add functions "existsRecord" and "existsRecordWithUid"

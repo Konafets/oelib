@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
 
 /**
- * Class 'tx_oelib_object' for the 'oelib' extension.
+ * Class 'tx_oelib_publicObject' for the 'oelib' extension.
  *
  * This class represents an object that allows getting and setting its data
  * via public methods.
