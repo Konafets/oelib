@@ -1416,36 +1416,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->existsRecord($table);
 	}
 
-	public function testExistsRecordWithFeGroupsTableIsAllowed() {
-		$table = 'fe_groups';
-		$this->fixture->existsRecord($table);
-	}
-
-	public function testExistsRecordWithFeUsersTableIsAllowed() {
-		$table = 'fe_users';
-		$this->fixture->existsRecord($table);
-	}
-
-	public function testExistsRecordWithPagesTableIsAllowed() {
-		$table = 'pages';
-		$this->fixture->existsRecord($table);
-	}
-
-	public function testExistsRecordWithTtContentTableIsAllowed() {
-		$table = 'tt_content';
-		$this->fixture->existsRecord($table);
-	}
-
-	public function testExistsRecordWithOtherTableThrowsException() {
-		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
-		);
-
-		$this->fixture->existsRecord('sys_domain');
-	}
-
 	public function testExistsRecordForNoMatchesReturnsFalse() {
 		$this->assertEquals(
 			false,
@@ -1478,10 +1448,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsRecordForPagesTableIsAllowed() {
-		$this->fixture->existsRecord('pages');
-	}
-
 	public function testExistsRecordIgnoresNonDummyRecords() {
 		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			OELIB_TESTTABLE,
@@ -1506,8 +1472,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
-		$this->assertEquals(
-			false,
+		$this->assertFalse(
 			$testResult
 		);
 	}
@@ -1559,8 +1524,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
-		$this->assertEquals(
-			false,
+		$this->assertFalse(
 			$this->fixture->existsRecordWithUid(
 				OELIB_TESTTABLE, $uid
 			)
@@ -1570,8 +1534,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testExistsRecordWithUidForAMatchReturnsTrue() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
-			true,
+		$this->assertTrue(
 			$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, $uid)
 		);
 	}
@@ -1600,8 +1563,103 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
-		$this->assertEquals(
-			false,
+		$this->assertFalse(
+			$testResult
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding existsExactlyOneRecord()
+	// ---------------------------------------------------------------------
+
+	public function testExistsExactlyOneRecordWithEmptyWhereClauseIsAllowed() {
+		$this->fixture->existsExactlyOneRecord(OELIB_TESTTABLE, '');
+	}
+
+	public function testExistsExactlyOneRecordWithMissingWhereClauseIsAllowed() {
+		$this->fixture->existsExactlyOneRecord(OELIB_TESTTABLE);
+	}
+
+	public function testExistsExactlyOneRecordWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+					'empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->existsExactlyOneRecord('');
+	}
+
+	public function testExistsExactlyOneRecordWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given table name is invalid. This means it is either ' .
+				'empty or not in the list of allowed tables.'
+		);
+
+		$table = 'foo_bar';
+		$this->fixture->existsExactlyOneRecord($table);
+	}
+
+	public function testExistsExactlyOneRecordForNoMatchesReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->existsExactlyOneRecord(
+				OELIB_TESTTABLE, 'title = "foo"'
+			)
+		);
+	}
+
+	public function testExistsExactlyOneRecordForOneMatchReturnsTrue() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsExactlyOneRecord(
+				OELIB_TESTTABLE, 'title = "foo"'
+			)
+		);
+	}
+
+	public function testExistsExactlyOneRecordForTwoMatchesReturnsFalse() {
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->fixture->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertFalse(
+			$this->fixture->existsExactlyOneRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+	public function testExistsExactlyOneRecordIgnoresNonDummyRecords() {
+		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			OELIB_TESTTABLE,
+			array('title' => 'foo')
+		);
+		if (!$insertResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$testResult = $this->fixture->existsExactlyOneRecord(
+			OELIB_TESTTABLE, 'title = "foo"'
+		);
+
+		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			OELIB_TESTTABLE,
+			'title = "foo"'
+		);
+		if (!$deleteResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+		// We need to do this manually to not confuse the auto_increment counter
+		// of the testing framework.
+		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
+
+		$this->assertFalse(
 			$testResult
 		);
 	}

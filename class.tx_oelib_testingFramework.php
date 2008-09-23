@@ -1418,6 +1418,21 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
+	 * Checks whether there is exactly one dummy record in the table given by
+	 * the first parameter $table that matches a given WHERE clause.
+	 *
+	 * @param	string		the name of the table to query, must not be empty
+	 * @param	string		the WHERE part of the query, may be empty (all
+	 * 						records will be counted in that case)
+	 *
+	 * @return	boolean		true if there is exactly one matching record,
+	 * 						false otherwise
+	 */
+	public function existsExactlyOneRecord($table, $whereClause = '') {
+		return ($this->countRecords($table, $whereClause) == 1);
+	}
+
+	/**
 	 * Eagerly resets the auto increment value for a given table to the highest
 	 * existing UID + 1.
 	 *

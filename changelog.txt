@@ -2,7 +2,7 @@
 - [#2187] Feature: Create a model class
 - [#2097] Feature: Create a class tx_oelib_db
 - [#2211] Fix: The tests for createRecursivePageList must not rely on the sorting
-- [#1909] Feature: Add functions "existsRecord" and "existsRecordWithUid"
+- [#1909] Feature: Add functions "existsRecord", "existsRecordWithUid" and "existsExactlyOneRecord"
 - [#2185] Feature: Create an object class
 - [#2183] Fix: tx_oelib_templatehelper::init() differs from tx_seminars_templatehelper()
 - [#2178] Feature: Add methods hideSubpartsArray and unhideSubpartsArray to tx_oelib_templatehelper
