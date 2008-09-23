@@ -1,0 +1,164 @@
+<?php
+/***************************************************************
+* Copyright notice
+*
+* (c) 2008 Oliver Klee (typo3-coding@oliverklee.de)
+* All rights reserved
+*
+* This script is part of the TYPO3 project. The TYPO3 project is
+* free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* The GNU General Public License can be found at
+* http://www.gnu.org/copyleft/gpl.html.
+*
+* This script is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+
+/**
+ * Testcase for the tx_oelib_dataMapper class in the 'oelib' extension.
+ *
+ * @package		TYPO3
+ * @subpackage	tx_oelib
+ *
+ * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ */
+class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var	tx_oelib_testingFramework	for creating dummy records
+	 */
+	private $testingFramework;
+	/**
+	 * @var	tx_oelib_dataMapper		the indentity map to test
+	 */
+	private $fixture;
+
+	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+
+		$this->fixture = new tx_oelib_testingMapper();
+	}
+
+	public function tearDown() {
+		$this->testingFramework->cleanUp();
+
+		unset($this->testingFramework, $this->fixture);
+	}
+
+
+	///////////////////////////////////////
+	// Tests concerning the instantiation
+	///////////////////////////////////////
+
+	public function testInstantiationOfSubclassWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'tx_oelib_brokenTableLessTestingMapper::tableName must not be empty.'
+		);
+
+		new tx_oelib_brokenTableLessTestingMapper();
+	}
+
+	public function testInstantiationOfSubclassWithEmptyColumnListThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'tx_oelib_brokenColumnLessTestingMapper::columns must not be empty.'
+		);
+
+		new tx_oelib_brokenColumnLessTestingMapper();
+	}
+
+
+	//////////////////////////
+	// Tests concerning find
+	//////////////////////////
+
+	public function testFindWithZeroUidThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'$uid must be > 0.'
+		);
+
+		$this->fixture->find(0);
+	}
+
+	public function testFindWithNegativeUidThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'$uid must be > 0.'
+		);
+
+		$this->fixture->find(-1);
+	}
+
+	public function testFindWithUidOfCachedModelReturnsThatModel() {
+		$model = new tx_oelib_testingModel();
+		$model->setUid(1);
+
+		$map = new tx_oelib_identityMap();
+		$map->add($model);
+		$this->fixture->setMap($map);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->find(1)
+		);
+	}
+
+	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->find($uid)->getUid()
+		);
+	}
+
+	public function testFindWithUidOfExistingRecordReturnsModelDataFromDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->find($uid)->getTitle()
+		);
+	}
+
+	public function testFindWithUidOfExistingRecordCalledTwoTimesReturnsSameModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			$this->fixture->find($uid),
+			$this->fixture->find($uid)
+		);
+	}
+
+	public function testFindWithUidOfInexistentRecordThrowsNotFoundException() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->setExpectedException(
+			'tx_oelib_notFoundException',
+			'The record with the UID ' . $uid . ' could not be retrieved ' .
+					'from the table tx_oelib_test.'
+		);
+
+		$this->testingFramework->deleteRecord('tx_oelib_test', $uid);
+
+		$this->fixture->find($uid);
+	}
+}
+?>
