@@ -17,7 +17,9 @@ CREATE TABLE tx_oelib_test (
 	title tinytext,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid)
+	KEY parent (pid),
+	KEY dummy (is_dummy_record),
+	KEY object_type (object_type)
 );
 
 
@@ -31,7 +33,8 @@ CREATE TABLE tx_oelib_test_article_mm (
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 
 	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign)
+	KEY uid_foreign (uid_foreign),
+	KEY dummy (is_dummy_record)
 );
 
 
@@ -40,6 +43,7 @@ CREATE TABLE tx_oelib_test_article_mm (
 #
 CREATE TABLE cache_pages (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -48,6 +52,7 @@ CREATE TABLE cache_pages (
 #
 CREATE TABLE fe_groups (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -56,6 +61,7 @@ CREATE TABLE fe_groups (
 #
 CREATE TABLE fe_users (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -64,6 +70,7 @@ CREATE TABLE fe_users (
 #
 CREATE TABLE pages (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -72,6 +79,7 @@ CREATE TABLE pages (
 #
 CREATE TABLE sys_template (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -80,6 +88,7 @@ CREATE TABLE sys_template (
 #
 CREATE TABLE tt_content (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -88,6 +97,7 @@ CREATE TABLE tt_content (
 #
 CREATE TABLE user_oelibtest_test (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
 
 
@@ -96,4 +106,5 @@ CREATE TABLE user_oelibtest_test (
 #
 CREATE TABLE user_oelibtest_test_article_mm (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
 );
