@@ -43,12 +43,19 @@ class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_dataMapper {
 	protected $columns = '*';
 
 	/**
-	 * Creates an empty model of the correct type for this mapper.
+	 * Creates a model of the correct type for this mapper and fills it with
+	 * the data provided as $data.
 	 *
-	 * @return	tx_oelib_testingModel		an empty model
-	 */
-	protected function createEmptyModel() {
-		return t3lib_div::makeInstance('tx_oelib_testingModel');
+	 * @param	array				the data with which the model should be
+	 * 								filled, may be empty
+	 *
+	 * @return	tx_oelib_testingModel		the filled model
+ 	 */
+	protected function createAndFillModel(array $data) {
+		$model = t3lib_div::makeInstance('tx_oelib_testingModel');
+		$model->setData($data);
+
+		return $model;
 	}
 }
 

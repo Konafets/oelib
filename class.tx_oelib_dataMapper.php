@@ -127,8 +127,7 @@ abstract class tx_oelib_dataMapper {
 			);
 		}
 
-		$model = $this->createEmptyModel();
-		$model->setData($data);
+		$model = $this->createAndFillModel($data);
 
 		$this->map->add($model);
 
@@ -136,11 +135,15 @@ abstract class tx_oelib_dataMapper {
 	}
 
 	/**
-	 * Creates an empty model of the correct type for this mapper.
+	 * Creates a model of the correct type for this mapper and fills it with
+	 * the data provided as $data.
 	 *
-	 * @return	tx_oelib_model		an empty model
+	 * @param	array				the data with which the model should be
+	 * 								filled, may be empty
+	 *
+	 * @return	tx_oelib_model		the filled model
 	 */
-	protected abstract function createEmptyModel();
+	protected abstract function createAndFillModel(array $data);
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_dataMapper.php']) {
