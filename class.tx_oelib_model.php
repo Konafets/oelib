@@ -58,6 +58,13 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->data);
+	}
+
+	/**
 	 * Sets the complete data for this model.
 	 *
 	 * This function should be called directly after instantiation and must only

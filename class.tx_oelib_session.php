@@ -85,6 +85,12 @@ class tx_oelib_session extends tx_oelib_publicObject {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+	}
+
+	/**
 	 * Returns an instance of this class.
 	 *
 	 * @param	integer		the type of the session to use; either TYPE_USER

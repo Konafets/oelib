@@ -56,7 +56,8 @@ class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		unset($this->testingFramework, $this->fixture);
+		$this->fixture->__destruct();
+		unset($this->fixture, $this->testingFramework);
 	}
 
 

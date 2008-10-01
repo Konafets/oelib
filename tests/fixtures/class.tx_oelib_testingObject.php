@@ -41,6 +41,13 @@ final class tx_oelib_testingObject extends tx_oelib_publicObject {
 	private $data = array();
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->data);
+	}
+
+	/**
 	 * Gets the value of the data item for the key $key.
 	 *
 	 * @param	string		the key of the data item to get, must not be empty

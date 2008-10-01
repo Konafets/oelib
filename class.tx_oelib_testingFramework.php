@@ -66,7 +66,9 @@ final class tx_oelib_testingFramework {
 	 */
 	private $additionalTablePrefixes = array();
 
-	/** @var	array		cache for all DB table names in the DB */
+	/**
+	 * @var	array		cache for all DB table names in the DB
+	 */
 	private static $allTablesCache = array();
 
 	/**
@@ -90,7 +92,9 @@ final class tx_oelib_testingFramework {
 		'tt_content'
 	);
 
-	/** @var	array		cache for the results of hasTableColumnUid */
+	/**
+	 * @var	array		cache for the results of hasTableColumnUid
+	 */
 	private static $hasTableColumnUidCache = array();
 
 	/**
@@ -105,7 +109,9 @@ final class tx_oelib_testingFramework {
 	 */
 	private $dirtySystemTables = array();
 
-	/** @var	array	sorting values of all relation tables */
+	/**
+	 * @var	array	sorting values of all relation tables
+	 */
 	private $relationSorting = array();
 
 	/**
@@ -168,7 +174,8 @@ final class tx_oelib_testingFramework {
 		$this->additionalTablePrefixes = $additionalTablePrefixes;
 		$this->createListOfOwnAllowedTables();
 		$this->createListOfAdditionalAllowedTables();
-		$this->uploadFolderPath = PATH_site . 'uploads/' . $this->tablePrefix . '/';
+		$this->uploadFolderPath
+			= PATH_site . 'uploads/' . $this->tablePrefix . '/';
 	}
 
 	/**
@@ -1045,9 +1052,14 @@ final class tx_oelib_testingFramework {
 
 		$this->logoutFrontEndUser();
 
-		unset($GLOBALS['TSFE']->tmpl);
-		unset($GLOBALS['TSFE']->sys_page);
-		unset($GLOBALS['TSFE']->fe_user);
+		unset(
+			$GLOBALS['TSFE']->tmpl, $GLOBALS['TSFE']->sys_page,
+			$GLOBALS['TSFE']->fe_user, $GLOBALS['TSFE']->TYPO3_CONF_VARS,
+			$GLOBALS['TSFE']->config, $GLOBALS['TSFE']->TCAcachedExtras,
+			$GLOBALS['TSFE']->imagesOnPage, $GLOBALS['TSFE']->cObj,
+			$GLOBALS['TSFE']->csConvObj, $GLOBALS['TSFE']->pagesection_lockObj,
+			$GLOBALS['TSFE']->pages_lockObj
+		);
 		$GLOBALS['TSFE'] = null;
 		$GLOBALS['TT'] = null;
 
@@ -1374,13 +1386,14 @@ final class tx_oelib_testingFramework {
 			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
 			: $whereForDummyColumn;
 
-		$row = $this->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'COUNT(*) AS number',
-				$table,
-				$compoundWhereClause
-			)
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'COUNT(*) AS number',
+			$table,
+			$compoundWhereClause
 		);
+
+		$row = $this->getAssociativeDatabaseResult($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return intval($row['number']);
 	}

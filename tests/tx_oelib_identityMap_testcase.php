@@ -44,6 +44,7 @@ class tx_oelib_identityMap_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		$this->fixture->__destruct();
 		unset($this->fixture);
 	}
 

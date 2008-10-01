@@ -76,6 +76,16 @@ abstract class tx_oelib_dataMapper {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if ($this->map) {
+			$this->map->__destruct();
+			unset($this->map);
+		}
+	}
+
+	/**
 	 * Retrieves a record from the DB by UID and creates a model from it. If
 	 * the model already is cached in memory, the cached instance is returned.
 	 *
@@ -120,6 +130,8 @@ abstract class tx_oelib_dataMapper {
 		}
 
 		$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($queryResult);
+
 		if (!$data) {
 			throw new tx_oelib_notFoundException(
 				'The record with the UID ' . $uid . ' could not be retrieved ' .

@@ -109,6 +109,18 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	protected $configurationCheck = null;
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		if ($this->configurationCheck) {
+			$this->configurationCheck->__destruct();
+		}
+
+		parent::__destruct();
+		unset($this->configurationCheck);
+	}
+
+	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
 	 *
 	 * It is harmless if this function gets called multiple times as it recognizes

@@ -74,6 +74,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->clearCaches();
 		$this->deleteForeignFile();
 		$this->deleteForeignFolder();
+
 		unset($this->fixture);
 	}
 
