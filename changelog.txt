@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2240] Change: Speed up templatehelper::createRecursivePageList
 - [#2238] Fix: Make our unit tests work with the page tree cache
 - [#2123] Fix: Huge memory consumption through createFakeFrontend()
 - [#1901] Feature: Use more SQL indices

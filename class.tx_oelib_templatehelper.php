@@ -1432,47 +1432,36 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if ($recursionDepth < 0) {
 			throw new Exception('$recursionDepth must be >= 0.');
 		}
+		if ($recursionDepth == 0) {
+			return $startPages;
+		}
 		if ($startPages == '') {
 			return '';
 		}
 
-		$collectivePageList = $startPages;
-		$currentPageList = $collectivePageList;
-		$currentRecursionLevel = 0;
-
-		while (
-			!empty($currentPageList) && ($currentRecursionLevel < $recursionDepth)
-		) {
-		 	$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'uid',
-				'pages',
-				'pid!=0' .
-					' AND pid IN (' . $currentPageList . ')' .
-					tx_oelib_db::enableFields('pages'),
-				'uid'
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			$currentPageList = '';
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				if (!empty($currentPageList)) {
-					$currentPageList .= ',';
-				}
-				$currentPageList .= intval($row['uid']);
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-			if (!empty($currentPageList)) {
-				// It is ensured that $collectivePageList is non-empty at this
-				// point so the comma won't be the first character.
-				$collectivePageList .= ','.$currentPageList;
-			}
-
-			$currentRecursionLevel++;
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			'pages',
+			'pid IN (' . $startPages . ')' . tx_oelib_db::enableFields('pages')
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
 		}
 
-		return $collectivePageList;
+		$subPages = array();
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$subPages[] = $row['uid'];
+		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		if (!empty($subPages)) {
+			$result = $startPages . ',' . $this->createRecursivePageList(
+				implode(',', $subPages), $recursionDepth - 1
+			);
+		} else {
+			$result = $startPages;
+		}
+		return $result;
 	}
 
 	/**
