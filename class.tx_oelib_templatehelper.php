@@ -1384,6 +1384,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Wrapper function for createRecursivePageList to avoid the page tree cache
+	 * from the original pi_getPidList in TYPO3 >= 4.3.
+	 *
 	 * Recursively creates a comma-separated list of subpage UIDs from
 	 * a list of pages. The result also includes the original pages.
 	 * The maximum level of recursion can be limited:
@@ -1402,9 +1405,30 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						UIDs provided in $startPages, will be empty if
 	 * 						$startPages is empty
 	 */
-	public function createRecursivePageList(
-		$startPages, $recursionDepth = 0
-	) {
+	public function pi_getPidList($startPages, $recursionDepth = 0) {
+		return $this->createRecursivePageList($startPages, $recursionDepth);
+	}
+
+	/**
+	 * Recursively creates a comma-separated list of subpage UIDs from
+	 * a list of pages. The result also includes the original pages.
+	 * The maximum level of recursion can be limited:
+	 * 0 = no recursion (the default value, will return $startPages),
+	 * 1 = only direct child pages,
+	 * ...,
+	 * 250 = all descendants for all sane cases
+	 *
+	 * Note: The returned page list is _not_ sorted.
+	 *
+	 * @param	string		comma-separated list of page UIDs to start from,
+	 * 						must only contain numbers and commas, may be empty
+	 * @param	integer		maximum depth of recursion, must be >= 0
+	 *
+	 * @return	string		comma-separated list of subpage UIDs including the
+	 * 						UIDs provided in $startPages, will be empty if
+	 * 						$startPages is empty
+	 */
+	public function createRecursivePageList($startPages, $recursionDepth = 0) {
 		if ($recursionDepth < 0) {
 			throw new Exception('$recursionDepth must be >= 0.');
 		}

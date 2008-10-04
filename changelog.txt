@@ -1,5 +1,6 @@
 0.4.2 - currently working on
-- [#2123] Fix: Huge memory consumption through createFakeFrontend() in seminars
+- [#2238] Fix: Make our unit tests work with the page tree cache
+- [#2123] Fix: Huge memory consumption through createFakeFrontend()
 - [#1901] Feature: Use more SQL indices
 - [#2188] Feature: Create a mapper for models
 - [#2187] Feature: Create a model class
