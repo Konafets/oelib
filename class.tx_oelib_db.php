@@ -123,6 +123,63 @@ class tx_oelib_db {
 			}
 		}
 	}
+
+	/**
+	 * Recursively creates a comma-separated list of subpage UIDs from
+	 * a list of pages. The result also includes the original pages.
+	 * The maximum level of recursion can be limited:
+	 * 0 = no recursion (the default value, will return $startPages),
+	 * 1 = only direct child pages,
+	 * ...,
+	 * 250 = all descendants for all sane cases
+	 *
+	 * Note: The returned page list is _not_ sorted.
+	 *
+	 * @param	string		comma-separated list of page UIDs to start from,
+	 * 						must only contain numbers and commas, may be empty
+	 * @param	integer		maximum depth of recursion, must be >= 0
+	 *
+	 * @return	string		comma-separated list of subpage UIDs including the
+	 * 						UIDs provided in $startPages, will be empty if
+	 * 						$startPages is empty
+	 */
+	public static function createRecursivePageList(
+		$startPages, $recursionDepth = 0
+	) {
+		if ($recursionDepth < 0) {
+			throw new Exception('$recursionDepth must be >= 0.');
+		}
+		if ($recursionDepth == 0) {
+			return $startPages;
+		}
+		if ($startPages == '') {
+			return '';
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'uid',
+			'pages',
+			'pid IN (' . $startPages . ')' . tx_oelib_db::enableFields('pages')
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		$subPages = array();
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$subPages[] = $row['uid'];
+		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		if (!empty($subPages)) {
+			$result = $startPages . ',' . self::createRecursivePageList(
+				implode(',', $subPages), $recursionDepth - 1
+			);
+		} else {
+			$result = $startPages;
+		}
+		return $result;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_db.php']) {

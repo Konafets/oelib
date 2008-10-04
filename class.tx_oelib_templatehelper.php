@@ -1406,7 +1406,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 						$startPages is empty
 	 */
 	public function pi_getPidList($startPages, $recursionDepth = 0) {
-		return $this->createRecursivePageList($startPages, $recursionDepth);
+		return tx_oelib_db::createRecursivePageList(
+			$startPages, $recursionDepth
+		);
 	}
 
 	/**
@@ -1427,41 +1429,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return	string		comma-separated list of subpage UIDs including the
 	 * 						UIDs provided in $startPages, will be empty if
 	 * 						$startPages is empty
+	 *
+	 * @deprecated 2008-10-04 use tx_oelib_db::createRecursivePageList instead
 	 */
 	public function createRecursivePageList($startPages, $recursionDepth = 0) {
-		if ($recursionDepth < 0) {
-			throw new Exception('$recursionDepth must be >= 0.');
-		}
-		if ($recursionDepth == 0) {
-			return $startPages;
-		}
-		if ($startPages == '') {
-			return '';
-		}
-
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			'uid',
-			'pages',
-			'pid IN (' . $startPages . ')' . tx_oelib_db::enableFields('pages')
+		return tx_oelib_db::createRecursivePageList(
+			$startPages, $recursionDepth
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$subPages = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$subPages[] = $row['uid'];
-		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
-
-		if (!empty($subPages)) {
-			$result = $startPages . ',' . $this->createRecursivePageList(
-				implode(',', $subPages), $recursionDepth - 1
-			);
-		} else {
-			$result = $startPages;
-		}
-		return $result;
 	}
 
 	/**

@@ -22,6 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 
 /**
@@ -33,10 +34,77 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_db_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
+	private $testingFramework;
+
 	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 	}
 
 	public function tearDown() {
+		$this->testingFramework->cleanUp();
+
+		unset($this->testingFramework);
+	}
+
+
+	//////////////////////
+	// Utility functions
+	//////////////////////
+
+	/**
+	 * Explodes a comma-separated list of integer values and sorts them
+	 * numerically.
+	 *
+	 * @param	string		comma-separated list of values, may be empty
+	 *
+	 * @return	array		the separate values, sorted numerically, may be
+	 * 						empty
+	 */
+	private function sortExplode($valueList) {
+		if ($valueList == '') {
+			return array();
+		}
+
+		$numbers = t3lib_div::intExplode(',', $valueList);
+		sort($numbers, SORT_NUMERIC);
+
+		return ($numbers);
+	}
+
+
+	////////////////////////////////////
+	// Tests for the utility functions
+	////////////////////////////////////
+
+	public function testSortExplodeWithEmptyStringReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->sortExplode('')
+		);
+	}
+
+	public function testSortExplodeWithOneNumberReturnsArrayWithNumber() {
+		$this->assertEquals(
+			array(42),
+			$this->sortExplode('42')
+		);
+	}
+
+	public function testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers() {
+		$this->assertEquals(
+			array(1, 2),
+			$this->sortExplode('1,2')
+		);
+	}
+
+	public function testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers() {
+		$this->assertEquals(
+			array(1, 2),
+			$this->sortExplode('2,1')
+		);
 	}
 
 
@@ -112,6 +180,137 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::enableFields(
 				'tx_oelib_test', 0, array(), true
 			)
+		);
+	}
+
+
+	/////////////////////////////////////////////
+	// Tests concerning createRecursivePageList
+	/////////////////////////////////////////////
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion() {
+		$this->assertEquals(
+			'',
+			tx_oelib_db::createRecursivePageList('')
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion() {
+		$this->assertEquals(
+			'',
+			tx_oelib_db::createRecursivePageList('', 0)
+		);
+	}
+
+	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion() {
+		$this->assertEquals(
+			'',
+			tx_oelib_db::createRecursivePageList('', 1)
+		);
+	}
+
+	public function testCreateRecursivePageListThrowsWithNegativeRecursion() {
+		$this->setExpectedException('Exception', '$recursionDepth must be >= 0.');
+
+		tx_oelib_db::createRecursivePageList('', -1);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			(string) $uid,
+			tx_oelib_db::createRecursivePageList((string) $uid, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createSystemFolder($uid1);
+		$uid2 = $this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			$this->sortExplode($uid1 . ',' . $uid2),
+			$this->sortExplode(
+				tx_oelib_db::createRecursivePageList($uid1.','.$uid2, 0)
+			)
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+		$this->testingFramework->createSystemFolder($subFolderUid);
+
+		$this->assertEquals(
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
+		);
+	}
+
+	public function testCreateRecursivePageListDoesNotContainUnrelatedPages() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$this->testingFramework->createSystemFolder();
+
+		$this->assertEquals(
+			(string) $uid,
+			tx_oelib_db::createRecursivePageList($uid, 0)
+		);
+	}
+
+	public function testCreateRecursivePageListCanContainTwoSubpagesOfOnePage() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid);
+		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			$this->sortExplode($uid.','.$subFolderUid1.','.$subFolderUid2),
+			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
+		);
+	}
+
+	public function testCreateRecursivePageListCanContainSubpagesOfTwoPages() {
+		$uid1 = $this->testingFramework->createSystemFolder();
+		$uid2 = $this->testingFramework->createSystemFolder();
+		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid1);
+		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid2);
+
+		$this->assertEquals(
+			$this->sortExplode(
+				$uid1.','.$uid2.','.$subFolderUid1.','.$subFolderUid2
+			),
+			$this->sortExplode(
+				tx_oelib_db::createRecursivePageList($uid1.','.$uid2, 1)
+			)
+		);
+	}
+
+	public function testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			(string) $uid,
+			tx_oelib_db::createRecursivePageList($uid, 0)
+		);
+		$this->assertEquals(
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
+		);
+	}
+
+	public function testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls() {
+		$uid = $this->testingFramework->createSystemFolder();
+		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
+
+		$this->assertEquals(
+			$this->sortExplode($uid.','.$subFolderUid),
+			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
+		);
+		$this->assertEquals(
+			(string) $uid,
+			tx_oelib_db::createRecursivePageList($uid, 0)
 		);
 	}
 }
