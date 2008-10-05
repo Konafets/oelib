@@ -1,4 +1,5 @@
 0.4.2 - currently working on
+- [#2249] Change: Clean up the timer class
 - [#2243] Change: Move createRecursivePageList from templatehelper to db
 - [#2240] Change: Speed up templatehelper::createRecursivePageList
 - [#2238] Fix: Make our unit tests work with the page tree cache

@@ -35,45 +35,67 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_timer {
-	/** @var	boolean		whether the timer currently is running */
+	/**
+	 * @var boolean whether the timer currently is running
+	 */
 	private $isRunning = false;
 
-	/** @var	string		the name of the current time bucket */
+	/**
+	 * @var string the name of the current time bucket
+	 */
 	private $currentBucketName = '';
 
 	/**
-	 * @var	array		a stack of previously used buckets, starting with the
-	 * 					first bucket
+	 * @var array a stack of previously used buckets, starting with the first
+	 *            bucket
 	 */
 	private $previousBucketNames = array();
 
-	/** @var	array		the time buckets with their names as keys */
+	/**
+	 * @var array the time buckets with their names as keys
+	 */
 	private $buckets = array();
 
-	/** @var	float		the sum of all measured time */
-	private $allTime = 0;
+	/**
+     * @var float the sum of all measured time
+     */
+	private $allTime = 0.00;
 
-	/** @var	float		the time from the last startTimer() call */
-	private $lastTime = 0;
+	/**
+	 * @var float the time from the last startTimer() call
+	 */
+	private $lastTime = 0.00;
+
+	/**
+	 * @var tx_oelib_timer the singleton instance
+	 */
+	private static $instance = null;
+
+	/**
+	 * The constructor.
+	 */
+	private function __construct() {
+	}
+
+	/**
+	 * The destructor.
+	 */
+	public function __destruct() {
+		$this->destroyAllBuckets();
+	}
 
 	/**
 	 * Retrieves the singleton timer instance. This function usually should be
 	 * called statically.
 	 *
-	 * @return	object		a reference to the singleton timer object
-	 *
-	 * @access	public
+	 * @return tx_oelib_timer a reference to the singleton timer object
 	 */
-	function getInstance() {
-		// We use an array as singleton container because a direct object
-		// doesn't work (we would get a new instance every time).
-		static $instance = array();
-
-		if (!is_object($instance[0])) {
-			$instance[0] = t3lib_div::makeInstance('tx_oelib_timer');
+	public static function getInstance() {
+		if (!self::$instance) {
+			self::$instance = new tx_oelib_timer();
 		}
 
-		return $instance[0];
+		return self::$instance;
 	}
 
 	/**
@@ -82,11 +104,9 @@ class tx_oelib_timer {
 	 * If the timer is already running, the previous bucket will be closed
 	 * first.
 	 *
-	 * @param	string	the name of the bucket to open
-	 *
-	 * @access	public
+	 * @param string the name of the bucket to open, must not be empty
 	 */
-	function openBucket($bucketName = 'default') {
+	public function openBucket($bucketName = 'default') {
 		if ($bucketName != $this->currentBucketName) {
 			$this->closeCurrentBucket();
 			$this->previousBucketNames[] = $this->currentBucketName;
@@ -104,20 +124,18 @@ class tx_oelib_timer {
 	 *
 	 * This is a static shortcut for openBucket.
 	 *
-	 * @see		openBucket
+	 * @see openBucket
 	 *
-	 * @param	string	the name of the bucket to open
+	 * @param string the name of the bucket to open, must not be empty
 	 */
-	function oB($bucketName = 'default') {
+	public static function oB($bucketName = 'default') {
 		tx_oelib_timer::getInstance()->openBucket($bucketName);
 	}
 
 	/**
 	 * Stops the timer and adds the passed time to the current bucket.
-	 *
-	 * @access	public
 	 */
-	function stopTimer() {
+	public function stopTimer() {
 		$this->closeCurrentBucket();
 		$this->isRunning = false;
 	}
@@ -130,12 +148,10 @@ class tx_oelib_timer {
 	 * - absoluteTime (float, in seconds)
 	 * - relativeTime (float, in percent)
 	 *
-	 * @return	array	two-dimensional array with the times of all buckets,
-	 * 					will be	empty if there are no buckets.
-	 *
-	 * @access	public
+	 * @return array two-dimensional array with the times of all buckets,
+	 *               will be empty if there are no buckets
 	 */
-	function getStatisticsAsRawData() {
+	public function getStatisticsAsRawData() {
 		$this->stopTimer();
 		$this->clearAllPreviousBuckets();
 
@@ -162,11 +178,9 @@ class tx_oelib_timer {
 	 *
 	 * The table will be sorted with the biggest buckets first.
 	 *
-	 * @return	string		a HTML table with the statistics
-	 *
-	 * @access	public
+	 * @return string a HTML table with the statistics
 	 */
-	function getStatistics() {
+	public function getStatistics() {
 		$rawStatistics = $this->getStatisticsAsRawData();
 
 		$result .= '<table summary="statistics">'.LF;
@@ -199,10 +213,8 @@ class tx_oelib_timer {
 	 * Stops all timers and deletes all buckets.
 	 *
 	 * After this, a completely new sets of buckets can be created.
-	 *
-	 * @access	public
 	 */
-	function destroyAllBuckets() {
+	public function destroyAllBuckets() {
 		$this->stopTimer();
 
 		foreach ($this->buckets as $bucketKey => $bucket) {
@@ -215,11 +227,9 @@ class tx_oelib_timer {
 	 * time to it and set $this->lastTime to the current time.
 	 *
 	 * Note: This function does not stop the timer.
-	 *
-	 * @access	private
 	 */
-	function closeCurrentBucket() {
-		$currentTime = $this->getCurrentTime();
+	private function closeCurrentBucket() {
+		$currentTime = microtime(true);
 
 		if ($this->isRunning) {
 			$usedTime = $currentTime - $this->lastTime;
@@ -231,27 +241,12 @@ class tx_oelib_timer {
 	}
 
 	/**
-	 * Gets the current time.
-	 *
-	 * @return	float		the current time in seconds
-	 *
-	 * @access	private
-	 */
-	function getCurrentTime() {
-		list($low, $high) = split(' ', microtime());
-
-		return $high + $low;
-	}
-
-	/**
 	 * Closes the current bucker and returns to the previous bucket (from the
 	 * stack of previously used buckets).
 	 *
 	 * If there is not previous bucket, the timer will be stopped.
-	 *
-	 * @access	public
 	 */
-	function returnToPreviousBucket() {
+	public function returnToPreviousBucket() {
 		$this->closeCurrentBucket();
 		$previousBucketName = array_pop($this->previousBucketNames);
 
@@ -271,18 +266,16 @@ class tx_oelib_timer {
 	 *
 	 * This is a static shortcut for returnToPreviousBucket.
 	 *
-	 * @see		returnToPreviousBucket
+	 * @see returnToPreviousBucket
 	 */
-	function rB() {
+	public static function rB() {
 		tx_oelib_timer::getInstance()->returnToPreviousBucket();
 	}
 
 	/**
 	 * Empties the stack of previous buckets.
-	 *
-	 * @access	private
 	 */
-	function clearAllPreviousBuckets() {
+	private function clearAllPreviousBuckets() {
 		$this->previousBucketNames = array();
 	}
 }

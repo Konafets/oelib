@@ -33,6 +33,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_timer.php');
  * @author		Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_timer_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_timer
+	 */
 	private $fixture;
 
 	protected function setUp() {
@@ -40,10 +43,9 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
-		$this->fixture->destroyAllBuckets();
+		$this->fixture->__destruct();
 		unset($this->fixture);
 	}
-
 
 	public function testGetInstance() {
 		$this->assertTrue(is_object($this->fixture));
