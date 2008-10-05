@@ -39,10 +39,8 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
  * (taken from the 'seminars' extension).
  *
- * This utitity class provides some commonly-used functions for handling templates
- * (in addition to all functionality provided by the base classes).
- *
- * This is an abstract class; don't instantiate it.
+ * This utitity class provides some commonly-used functions for handling
+ * templates (in addition to all functionality provided by the base classes).
  *
  * @package		TYPO3
  * @subpackage	tx_oelib
@@ -123,44 +121,69 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Initializes the FE plugin stuff and reads the configuration.
 	 *
-	 * It is harmless if this function gets called multiple times as it recognizes
-	 * this and ignores all calls but the first one.
+	 * It is harmless if this function gets called multiple times as it
+	 * recognizes this and ignores all calls but the first one.
 	 *
 	 * This is merely a convenience function.
 	 *
 	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
-	 * @param	array		TypoScript configuration for the plugin
+	 * @param	array		TypoScript configuration for the plugin, set to null
+	 * 						to load the configuration from a BE page
 	 */
-	public function init(array $conf = array()) {
+	public function init(array $conf = null) {
 		static $cachedConfigs = array();
 
 		if (!$this->isInitialized) {
-			$this->ensureFrontEndEnvironment();
+			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
+				$GLOBALS['TSFE']->config['config'] = array();
+			}
 
 			// Calls the base class's constructor manually as this isn't done
 			// automatically.
 			parent::tslib_pibase();
 
-			if (!empty($conf)) {
+			if ($conf !== null) {
 				$this->conf = $conf;
 			} else {
-				// We need to create our own template setup if we are in the BE.
-				if ((TYPO3_MODE == 'BE') && empty($GLOBALS['TSFE']->tmpl->setup)) {
+				// We need to create our own template setup if we are in the BE
+				// and we aren't currently creating a DirectMail page.
+				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
 					$pageId = $this->getCurrentBePageId();
 
 					if (isset($cachedConfigs[$pageId])) {
 						$this->conf =& $cachedConfigs[$pageId];
 					} else {
-						$this->conf =& $this->retrievePageConfig($pageId);
+						$template = t3lib_div::makeInstance('t3lib_TStemplate');
+						// do not log time-performance information
+						$template->tt_track = 0;
+						$template->init();
+
+						// Get the root line
+						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+						// the selected page in the BE is found
+						// exactly as in t3lib_SCbase::init()
+						$rootline = $sys_page->getRootLine($pageId);
+
+						// This generates the constants/config + hierarchy info
+						// for the template.
+						$template->runThroughTemplates($rootline, 0);
+						$template->generateConfig();
+
+						$this->conf =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
 						$cachedConfigs[$pageId] =& $this->conf;
 					}
 				} else {
 					// On the front end, we can use the provided template setup.
-					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']
-						['tx_' . $this->extKey . '.'];
+					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
 				}
+			}
+
+			if (!($this->cObj instanceof tslib_cObj)
+				&& ($GLOBALS['TSFE']->cObj instanceof tslib_cObj)
+			) {
+				$this->cObj = $GLOBALS['TSFE']->cObj;
 			}
 
 			$this->pi_setPiVarDefaults();
@@ -189,6 +212,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Checks that this object is properly initialized.
+	 *
+	 * @return boolean true if this object is properly initialized, false
+	 * 						otherwise
+	 */
+	public function isInitialized() {
+		return $this->isInitialized;
+	}
+
+	/**
 	 * Retrieves the configuration (TS setup) of the page with the PID provided
 	 * as the parameter $pageId.
 	 *
@@ -202,21 +235,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return	array		configuration array of the requested page for the
 	 * 						current extension key
 	 */
-	protected function &retrievePageConfig($pageId) {
-		if ($GLOBALS['TSFE']->tmpl instanceof t3lib_TStemplate) {
-			$template = $GLOBALS['TSFE']->tmpl;
-		} else {
-			$template = t3lib_div::makeInstance('t3lib_TStemplate');
-			// Disables the logging of time-performance information.
-			$template->tt_track = 0;
-			$template->init();
-		}
+	protected function retrievePageConfig($pageId) {
+		$template = t3lib_div::makeInstance('t3lib_TStemplate');
+		// Disables the logging of time-performance information.
+		$template->tt_track = 0;
+		$template->init();
 
-		if ($GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect) {
-			$sys_page = $GLOBALS['TSFE']->sys_page;
-		} else {
-			$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-		}
+		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
 
 		// Gets the root line.
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
@@ -226,53 +251,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$template->runThroughTemplates($rootline, 0);
 		$template->generateConfig();
 
-		if (isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])) {
-			$result = $template->setup['plugin.']['tx_'.$this->extKey.'.'];
-		} else {
-			$result = array();
-		}
+		$result = isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])
+			? $template->setup['plugin.']['tx_'.$this->extKey.'.']
+			: array();
+
+		unset($rootline, $sys_page, $template);
 
 		return $result;
 	}
-
-	/**
-	 * Initializes enough parts of the front end so that the basic functions
-	 * can be used.
-	 *
-	 * If a working front end already exists, this functions does nothing.
-	 */
-	 private function ensureFrontEndEnvironment() {
-	 	if (!($GLOBALS['TT'] instanceof t3lib_timeTrack)) {
-	 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
-	 	}
-
-	 	if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
-	 		$pageId = ($this->getCurrentBePageId() > 0)
-	 			? $this->getCurrentBePageId() : 1;
-
-			$frontEndClassName = t3lib_div::makeInstanceClassName('tslib_fe');
-			$GLOBALS['TSFE'] = new $frontEndClassName(
-				$GLOBALS['TYPO3_CONF_VARS'], $pageId, 0
-			);
-	 	}
-
-		if (!is_array($GLOBALS['TSFE']->config['config'])) {
-			$GLOBALS['TSFE']->config['config'] = array();
-		}
-
-	 	if (!($GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect)) {
-	 		$GLOBALS['TSFE']->sys_page
-	 			= t3lib_div::makeInstance('t3lib_pageSelect');
-	 	}
-
-		if (!($this->cObj instanceof tslib_cObj)) {
-			if (!($GLOBALS['TSFE']->cObj instanceof tslib_cObj)) {
-				$GLOBALS['TSFE']->newCObj();
-			}
-
-			$this->cObj = $GLOBALS['TSFE']->cObj;
-		}
-	 }
 
 	/**
 	 * Gets a value from flexforms or TS setup.

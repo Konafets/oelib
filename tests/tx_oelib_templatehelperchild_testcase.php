@@ -74,9 +74,13 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		tx_oelib_configurationProxy::getInstance('oelib')
 			->setConfigurationValueBoolean('enableConfigCheck', false);
 		$fixture = new tx_oelib_templatehelperchild();
+		$result = $fixture->getConfigurationCheck();
+
+		$fixture->__destruct();
+		unset($fixture);
 
 		$this->assertNull(
-			$fixture->getConfigurationCheck()
+			$result
 		);
 	}
 
@@ -85,31 +89,11 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for the behavior of the template helper without a front end.
 	///////////////////////////////////////////////////////////////////////
 
-	public function testInitInitializesGlobalTimeTrack() {
-		$GLOBALS['TT'] = null;
-		new tx_oelib_templatehelperchild();
+	public function testInitMarksObjectAsInitialized() {
+		$this->fixture->init();
 
 		$this->assertTrue(
-			$GLOBALS['TT'] instanceof t3lib_timeTrack
-		);
-	}
-
-	public function testInitInitializesGlobalFrontEnd() {
-		$GLOBALS['TSFE'] = null;
-		new tx_oelib_templatehelperchild();
-
-		$this->assertTrue(
-			$GLOBALS['TSFE'] instanceof tslib_fe
-		);
-	}
-
-
-	public function testInitInitializesGlobalSysPage() {
-		$GLOBALS['TSFE'] = null;
-		new tx_oelib_templatehelperchild();
-
-		$this->assertTrue(
-			$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect
+			$this->fixture->isInitialized()
 		);
 	}
 

@@ -23,6 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_salutationswitcherchild.php');
 
 /**
@@ -35,15 +36,27 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_sal
  * @author		Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var	tx_oelib_salutationswitcherchild
+	 */
 	private $fixture;
+	/**
+	 * @var	tx_oelib_testingFramework
+	 */
+	private $testingFramework;
 
 	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->fixture = new tx_oelib_salutationswitcherchild(array());
 	}
 
 	public function tearDown() {
+		$this->testingFramework->cleanUp();
+
 		$this->fixture->__destruct();
-		unset($this->fixture);
+		unset($this->fixture, $this->testingFramework);
 	}
 
 

@@ -111,7 +111,7 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * @return	array		configuration array of the requested page for the
 	 * 						current extension key
 	 */
-	public function &retrievePageConfig($pageId) {
+	public function retrievePageConfig($pageId) {
 		return parent::retrievePageConfig($pageId);
 	}
 
