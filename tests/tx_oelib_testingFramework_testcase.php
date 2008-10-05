@@ -3664,5 +3664,94 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->logoutFrontEndUser();
 		$this->fixture->logoutFrontEndUser();
 	}
+
+	public function testCreateAndLogInFrontEndUserCreatesFrontEndUser() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->createAndLogInFrontEndUser();
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('fe_users')
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserCreatesFrontEndUserGroup() {
+		$this->fixture->createFakeFrontEnd();
+		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('fe_groups')
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserLogsInFrontEndUser() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->createAndLogInFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUser() {
+		$this->fixture->createFakeFrontEnd();
+		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('fe_users')
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUserWithGivenGroup() {
+		$this->fixture->createFakeFrontEnd();
+		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$frontEndUserUid = $this->fixture->createAndLogInFrontEndUser(
+			$frontEndUserGroupUid
+		);
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			'usergroup',
+			'fe_users',
+			'uid=' . $frontEndUserUid
+		);
+
+		$dbResultRow = $this->fixture->getAssociativeDatabaseResult(
+			$dbResult
+		);
+
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		$this->assertEquals(
+			$frontEndUserGroupUid,
+			$dbResultRow['usergroup']
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateAFrontEndUserGroup() {
+		$this->fixture->createFakeFrontEnd();
+		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$frontEndUserUid = $this->fixture->createAndLogInFrontEndUser(
+			$frontEndUserGroupUid
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('fe_groups')
+		);
+	}
+
+	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupLogsInFrontEndUser() {
+		$this->fixture->createFakeFrontEnd();
+		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
+		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
 }
 ?>

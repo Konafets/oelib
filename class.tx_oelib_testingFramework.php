@@ -129,8 +129,8 @@ final class tx_oelib_testingFramework {
 
 	/**
 	 * @var	array	the names of the created dummy folders relative to the
- 	 * 				upload folder of the extension to test
- 	 */
+	 * 				upload folder of the extension to test
+	 */
 	private $dummyFolders = array();
 
 	/**
@@ -509,6 +509,28 @@ final class tx_oelib_testingFramework {
 		return $this->createRecordWithoutTableNameChecks(
 			'fe_users', $completeRecordData
 		);
+	}
+
+	/**
+	 * Creates and logs in an FE user.
+	 *
+	 * @param	string		comma-separated list of UIDs of the user groups to
+	 * 						which the new user belongs, each must be > 0, may
+	 * 						contain spaces; if empty a new front-end user group
+	 * 						is created
+	 *
+	 * @return	integer		the UID of the new FE user, will be > 0
+	 */
+	public function createAndLoginFrontEndUser($frontEndUserGroups = '') {
+		if ($frontEndUserGroups == '') {
+			$frontEndUserGroups = $this->createFrontEndUserGroup();
+		}
+
+		$frontEndUserUid = $this->createFrontEndUser($frontEndUserGroups);
+
+		$this->loginFrontEndUser($frontEndUserUid);
+
+		return $frontEndUserUid;
 	}
 
 	/**
