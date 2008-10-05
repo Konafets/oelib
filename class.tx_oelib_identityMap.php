@@ -51,9 +51,9 @@ class tx_oelib_identityMap {
 				$item->__destruct();
 				unset($this->items[$key]);
 			}
-		}
 
-		unset($this->items);
+			unset($this->items);
+		}
 	}
 
 	/**

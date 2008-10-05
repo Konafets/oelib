@@ -114,10 +114,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	public function __destruct() {
 		if ($this->configurationCheck) {
 			$this->configurationCheck->__destruct();
+			unset($this->configurationCheck);
 		}
 
 		parent::__destruct();
-		unset($this->configurationCheck);
 	}
 
 	/**
