@@ -63,7 +63,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	public function __destruct() {
 		unset(
 			$this->availableLanguages, $this->suffixesToTry, $this->conf,
-			$this->pi_EPtemp_cObj, $this->cObj
+			$this->pi_EPtemp_cObj, $this->cObj, $this->LOCAL_LANG
 		);
 	}
 

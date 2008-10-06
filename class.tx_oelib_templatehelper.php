@@ -155,23 +155,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					if (isset($cachedConfigs[$pageId])) {
 						$this->conf =& $cachedConfigs[$pageId];
 					} else {
-						$template = t3lib_div::makeInstance('t3lib_TStemplate');
-						// do not log time-performance information
-						$template->tt_track = 0;
-						$template->init();
-
-						// Get the root line
-						$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
-						// the selected page in the BE is found
-						// exactly as in t3lib_SCbase::init()
-						$rootline = $sys_page->getRootLine($pageId);
-
-						// This generates the constants/config + hierarchy info
-						// for the template.
-						$template->runThroughTemplates($rootline, 0);
-						$template->generateConfig();
-
-						$this->conf =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+						$this->conf =& $this->retrievePageConfig($pageId);
 						$cachedConfigs[$pageId] =& $this->conf;
 					}
 				} else {
@@ -235,7 +219,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return	array		configuration array of the requested page for the
 	 * 						current extension key
 	 */
-	protected function retrievePageConfig($pageId) {
+	protected function &retrievePageConfig($pageId) {
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
@@ -251,9 +235,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$template->runThroughTemplates($rootline, 0);
 		$template->generateConfig();
 
-		$result = isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])
-			? $template->setup['plugin.']['tx_'.$this->extKey.'.']
-			: array();
+		if (isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])) {
+			$result =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+		} else {
+			$result = array();
+		}
 
 		unset($rootline, $sys_page, $template);
 
@@ -1767,10 +1753,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return	integer		the current back-end page ID (or 0 if there is an
 	 * 						error)
-	 *
-	 * @access	public
 	 */
-	function getCurrentBePageId() {
+	public function getCurrentBePageId() {
 		return intval(t3lib_div::_GP('id'));
 	}
 
