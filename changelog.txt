@@ -1,4 +1,4 @@
-0.4.2 - currently working on
+0.4.2 - released 2008-10-07
 - [#2252] Change: Remove the code duplication with retrievePageConfig
 - [#2248] Fix: Fix the order of __destruct and unset calls
 - [#2249] Change: Clean up the timer class
