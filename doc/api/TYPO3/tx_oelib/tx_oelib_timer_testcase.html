@@ -1,0 +1,751 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class tx_oelib_timer_testcase</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class tx_oelib_timer_testcase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Testcase for the timer class in the 'oelib' extension.</p>
+<p class="description"><p>Testcase for the timer class in the 'oelib' extension.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Oliver Klee &lt;<a href="mailto:typo3-coding@oliverklee.de">typo3-coding@oliverklee.de</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_tests---tx_oelib_timer_testcase.php.html">/tests/tx_oelib_timer_testcase.php</a> (line <span class="field"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a35">35</a></span>)
+		</p>
+		
+				
+		<pre>tx_phpunit_testcase
+   |
+   --tx_oelib_timer_testcase</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setUp" title="details" class="method-name">setUp</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#tearDown" title="details" class="method-name">tearDown</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testDestroyAllBuckets" title="details" class="method-name">testDestroyAllBuckets</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testGetInstance" title="details" class="method-name">testGetInstance</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testHtmlSpecialCharsForBucketName" title="details" class="method-name">testHtmlSpecialCharsForBucketName</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket" title="details" class="method-name">testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromFirstBucketClosesBucketAndStopsTimer" title="details" class="method-name">testReturnFromFirstBucketClosesBucketAndStopsTimer</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromNoBucketDoesNotOpenAnyBuckets" title="details" class="method-name">testReturnFromNoBucketDoesNotOpenAnyBuckets</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromSecondBucketClosesBucketAndStopsTimer" title="details" class="method-name">testReturnFromSecondBucketClosesBucketAndStopsTimer</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromSecondBucketReopensFirstBucket" title="details" class="method-name">testReturnFromSecondBucketReopensFirstBucket</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromSecondBucketReopensFirstBucketUsingShortcut" title="details" class="method-name">testReturnFromSecondBucketReopensFirstBucketUsingShortcut</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testReturnFromThirdBucketTwoTimesReopensFirstBucket" title="details" class="method-name">testReturnFromThirdBucketTwoTimesReopensFirstBucket</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testSingleton" title="details" class="method-name">testSingleton</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsCloseAllBuckets" title="details" class="method-name">testStatisticsCloseAllBuckets</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForDefaultBucketWithDelay" title="details" class="method-name">testStatisticsForDefaultBucketWithDelay</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForDefaultBucketWithDelayUsingShortcut" title="details" class="method-name">testStatisticsForDefaultBucketWithDelayUsingShortcut</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForOneBucketWithDelay" title="details" class="method-name">testStatisticsForOneBucketWithDelay</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForOneBucketWithDelayUsingShortcut" title="details" class="method-name">testStatisticsForOneBucketWithDelayUsingShortcut</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForOneBucketWithoutDelay" title="details" class="method-name">testStatisticsForOneBucketWithoutDelay</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForTwoBucketsReopenFirst" title="details" class="method-name">testStatisticsForTwoBucketsReopenFirst</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsForTwoSecondIsBigger" title="details" class="method-name">testStatisticsForTwoSecondIsBigger</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsTableContainsTableHeadersWithScope" title="details" class="method-name">testStatisticsTableContainsTableHeadersWithScope</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStatisticsWithoutBuckets" title="details" class="method-name">testStatisticsWithoutBuckets</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testStopTimer" title="details" class="method-name">testStopTimer</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodsetUp" id="setUp"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setUp</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a41">41</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setUp
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtearDown" id="tearDown"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">tearDown</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a45">45</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			tearDown
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestDestroyAllBuckets" id="testDestroyAllBuckets"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testDestroyAllBuckets</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a231">231</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testDestroyAllBuckets
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestGetInstance" id="testGetInstance"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testGetInstance</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a50">50</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testGetInstance
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestHtmlSpecialCharsForBucketName" id="testHtmlSpecialCharsForBucketName"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testHtmlSpecialCharsForBucketName</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a220">220</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testHtmlSpecialCharsForBucketName
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket" id="testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a371">371</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testOpenSameBucketTwiceWillAllowOnlyOnePreviousBucket
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromFirstBucketClosesBucketAndStopsTimer" id="testReturnFromFirstBucketClosesBucketAndStopsTimer"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromFirstBucketClosesBucketAndStopsTimer</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a258">258</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromFirstBucketClosesBucketAndStopsTimer
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromNoBucketDoesNotOpenAnyBuckets" id="testReturnFromNoBucketDoesNotOpenAnyBuckets"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromNoBucketDoesNotOpenAnyBuckets</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a246">246</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromNoBucketDoesNotOpenAnyBuckets
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromSecondBucketClosesBucketAndStopsTimer" id="testReturnFromSecondBucketClosesBucketAndStopsTimer"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromSecondBucketClosesBucketAndStopsTimer</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a348">348</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromSecondBucketClosesBucketAndStopsTimer
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromSecondBucketReopensFirstBucket" id="testReturnFromSecondBucketReopensFirstBucket"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromSecondBucketReopensFirstBucket</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a274">274</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromSecondBucketReopensFirstBucket
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromSecondBucketReopensFirstBucketUsingShortcut" id="testReturnFromSecondBucketReopensFirstBucketUsingShortcut"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromSecondBucketReopensFirstBucketUsingShortcut</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a299">299</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromSecondBucketReopensFirstBucketUsingShortcut
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestReturnFromThirdBucketTwoTimesReopensFirstBucket" id="testReturnFromThirdBucketTwoTimesReopensFirstBucket"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testReturnFromThirdBucketTwoTimesReopensFirstBucket</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a324">324</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testReturnFromThirdBucketTwoTimesReopensFirstBucket
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestSingleton" id="testSingleton"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testSingleton</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a54">54</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testSingleton
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsCloseAllBuckets" id="testStatisticsCloseAllBuckets"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsCloseAllBuckets</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a175">175</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsCloseAllBuckets
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForDefaultBucketWithDelay" id="testStatisticsForDefaultBucketWithDelay"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForDefaultBucketWithDelay</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a79">79</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForDefaultBucketWithDelay
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForDefaultBucketWithDelayUsingShortcut" id="testStatisticsForDefaultBucketWithDelayUsingShortcut"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForDefaultBucketWithDelayUsingShortcut</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a99">99</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForDefaultBucketWithDelayUsingShortcut
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForOneBucketWithDelay" id="testStatisticsForOneBucketWithDelay"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForOneBucketWithDelay</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a119">119</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForOneBucketWithDelay
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForOneBucketWithDelayUsingShortcut" id="testStatisticsForOneBucketWithDelayUsingShortcut"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForOneBucketWithDelayUsingShortcut</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a136">136</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForOneBucketWithDelayUsingShortcut
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForOneBucketWithoutDelay" id="testStatisticsForOneBucketWithoutDelay"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForOneBucketWithoutDelay</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a153">153</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForOneBucketWithoutDelay
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForTwoBucketsReopenFirst" id="testStatisticsForTwoBucketsReopenFirst"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForTwoBucketsReopenFirst</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a202">202</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForTwoBucketsReopenFirst
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsForTwoSecondIsBigger" id="testStatisticsForTwoSecondIsBigger"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsForTwoSecondIsBigger</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a185">185</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsForTwoSecondIsBigger
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsTableContainsTableHeadersWithScope" id="testStatisticsTableContainsTableHeadersWithScope"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsTableContainsTableHeadersWithScope</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a71">71</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsTableContainsTableHeadersWithScope
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStatisticsWithoutBuckets" id="testStatisticsWithoutBuckets"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStatisticsWithoutBuckets</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a58">58</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStatisticsWithoutBuckets
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestStopTimer" id="testStopTimer"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testStopTimer</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_timer_testcase.php.html#a164">164</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testStopTimer
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 07 Oct 2008 13:35:28 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.0</a>
+	</p>
+	</div></body>
+</html>

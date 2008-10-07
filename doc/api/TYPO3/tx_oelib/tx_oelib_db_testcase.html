@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class tx_oelib_db_testcase</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class tx_oelib_db_testcase</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+															<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Testcase for the tx_oelib_db class in the 'oelib' extension.</p>
+<p class="description"><p>Testcase for the tx_oelib_db class in the 'oelib' extension.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Oliver Klee &lt;<a href="mailto:typo3-coding@oliverklee.de">typo3-coding@oliverklee.de</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_tests---tx_oelib_db_testcase.php.html">/tests/tx_oelib_db_testcase.php</a> (line <span class="field"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a36">36</a></span>)
+		</p>
+		
+				
+		<pre>tx_phpunit_testcase
+   |
+   --tx_oelib_db_testcase</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+												<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																																																																																																																																																																				
+												<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setUp" title="details" class="method-name">setUp</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#tearDown" title="details" class="method-name">tearDown</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListCanContainSubpagesOfTwoPages" title="details" class="method-name">testCreateRecursivePageListCanContainSubpagesOfTwoPages</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListCanContainTwoSubpagesOfOnePage" title="details" class="method-name">testCreateRecursivePageListCanContainTwoSubpagesOfOnePage</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion" title="details" class="method-name">testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion" title="details" class="method-name">testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne" title="details" class="method-name">testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListDoesNotContainUnrelatedPages" title="details" class="method-name">testCreateRecursivePageListDoesNotContainUnrelatedPages</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls" title="details" class="method-name">testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls" title="details" class="method-name">testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion" title="details" class="method-name">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion" title="details" class="method-name">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion" title="details" class="method-name">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testCreateRecursivePageListThrowsWithNegativeRecursion" title="details" class="method-name">testCreateRecursivePageListThrowsWithNegativeRecursion</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne" title="details" class="method-name">testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsCanBeDifferentForDifferentIgnores" title="details" class="method-name">testEnableFieldsCanBeDifferentForDifferentIgnores</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsCanBeDifferentForDifferentVersionParameters" title="details" class="method-name">testEnableFieldsCanBeDifferentForDifferentVersionParameters</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne" title="details" class="method-name">testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne" title="details" class="method-name">testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsIsDifferentForDifferentTables" title="details" class="method-name">testEnableFieldsIsDifferentForDifferentTables</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsThrowsExceptionForTooBigShowHidden" title="details" class="method-name">testEnableFieldsThrowsExceptionForTooBigShowHidden</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testEnableFieldsThrowsExceptionForTooSmallShowHidden" title="details" class="method-name">testEnableFieldsThrowsExceptionForTooSmallShowHidden</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testSortExplodeWithEmptyStringReturnsEmptyArray" title="details" class="method-name">testSortExplodeWithEmptyStringReturnsEmptyArray</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testSortExplodeWithOneNumberReturnsArrayWithNumber" title="details" class="method-name">testSortExplodeWithOneNumberReturnsArrayWithNumber</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers" title="details" class="method-name">testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers" title="details" class="method-name">testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers</a>
+										()
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodsetUp" id="setUp"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">setUp</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a42">42</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setUp
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtearDown" id="tearDown"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">tearDown</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a46">46</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			tearDown
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListCanContainSubpagesOfTwoPages" id="testCreateRecursivePageListCanContainSubpagesOfTwoPages"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListCanContainSubpagesOfTwoPages</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a273">273</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListCanContainSubpagesOfTwoPages
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListCanContainTwoSubpagesOfOnePage" id="testCreateRecursivePageListCanContainTwoSubpagesOfOnePage"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListCanContainTwoSubpagesOfOnePage</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a262">262</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListCanContainTwoSubpagesOfOnePage
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion" id="testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a218">218</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion" id="testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a228">228</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne" id="testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a241">241</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListDoesNotContainUnrelatedPages" id="testCreateRecursivePageListDoesNotContainUnrelatedPages"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListDoesNotContainUnrelatedPages</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a252">252</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListDoesNotContainUnrelatedPages
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls" id="testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a303">303</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls" id="testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a289">289</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion" id="testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a191">191</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion" id="testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a205">205</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion" id="testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a198">198</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestCreateRecursivePageListThrowsWithNegativeRecursion" id="testCreateRecursivePageListThrowsWithNegativeRecursion"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testCreateRecursivePageListThrowsWithNegativeRecursion</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a212">212</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testCreateRecursivePageListThrowsWithNegativeRecursion
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne" id="testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a139">139</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsCanBeDifferentForDifferentIgnores" id="testEnableFieldsCanBeDifferentForDifferentIgnores"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsCanBeDifferentForDifferentIgnores</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a153">153</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsCanBeDifferentForDifferentIgnores
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsCanBeDifferentForDifferentVersionParameters" id="testEnableFieldsCanBeDifferentForDifferentVersionParameters"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsCanBeDifferentForDifferentVersionParameters</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a168">168</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">TODO: This test does not work until the full versioning feature is implemented in oelib.</p>
+<p class="description"><p>TODO: This test does not work until the full versioning feature is implemented in oelib.</p></p>
+	<ul class="tags">
+				<li><span class="field">see:</span> <a href="https://bugs.oliverklee.com/show_bug.cgi?id=2180">https://bugs.oliverklee.com/show_bug.cgi?id=2180</a></li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsCanBeDifferentForDifferentVersionParameters
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne" id="testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a146">146</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsCanBeDifferentForShowHiddenZeroAndOne" id="testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a132">132</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsIsDifferentForDifferentTables" id="testEnableFieldsIsDifferentForDifferentTables"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsIsDifferentForDifferentTables</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a125">125</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsIsDifferentForDifferentTables
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsThrowsExceptionForTooBigShowHidden" id="testEnableFieldsThrowsExceptionForTooBigShowHidden"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsThrowsExceptionForTooBigShowHidden</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a120">120</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsThrowsExceptionForTooBigShowHidden
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestEnableFieldsThrowsExceptionForTooSmallShowHidden" id="testEnableFieldsThrowsExceptionForTooSmallShowHidden"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testEnableFieldsThrowsExceptionForTooSmallShowHidden</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a115">115</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testEnableFieldsThrowsExceptionForTooSmallShowHidden
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestSortExplodeWithEmptyStringReturnsEmptyArray" id="testSortExplodeWithEmptyStringReturnsEmptyArray"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testSortExplodeWithEmptyStringReturnsEmptyArray</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a82">82</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testSortExplodeWithEmptyStringReturnsEmptyArray
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestSortExplodeWithOneNumberReturnsArrayWithNumber" id="testSortExplodeWithOneNumberReturnsArrayWithNumber"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testSortExplodeWithOneNumberReturnsArrayWithNumber</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a89">89</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testSortExplodeWithOneNumberReturnsArrayWithNumber
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers" id="testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a96">96</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodtestSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers" id="testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_teststx_oelib_db_testcase.php.html#a103">103</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+						
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 07 Oct 2008 13:35:09 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.0</a>
+	</p>
+	</div></body>
+</html>

@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml">
+		<head>
+			<!-- template designed by Marco Von Ballmoos -->
+			<title>Docs For Class tx_oelib_emailCollector</title>
+			<link rel="stylesheet" href="../../media/stylesheet.css" />
+			<meta http-equiv='Content-Type' content='text/html; charset=iso-8859-1'/>
+		</head>
+		<body>
+			<div class="page-body">			
+<h2 class="class-name">Class tx_oelib_emailCollector</h2>
+
+<a name="sec-description"></a>
+<div class="info-box">
+	<div class="info-box-title">Description</div>
+	<div class="nav-bar">
+					<span class="disabled">Description</span> |
+													<a href="#sec-vars">Vars</a>
+						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+						
+					</div>
+	<div class="info-box-body">
+        		<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Class 'tx_oelib_emailCollector' for the 'oelib' extension.</p>
+<p class="description"><p>Class 'tx_oelib_emailCollector' for the 'oelib' extension.
+ This class stores all parameters which were meant to be sent as an e-mail and provides various functions to get them for testing purposes. Regarding the Strategy pattern, sendEmail() represents one concrete behavior.</p></p>
+	<ul class="tags">
+				<li><span class="field">author:</span> Saskia Metzler &lt;<a href="mailto:saskia@merlin.owl.de">saskia@merlin.owl.de</a>&gt;</li>
+			</ul>
+		<p class="notes">
+			Located in <a class="field" href="_class.tx_oelib_emailCollector.php.html">/class.tx_oelib_emailCollector.php</a> (line <span class="field"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a39">39</a></span>)
+		</p>
+		
+				
+		<pre><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html">tx_oelib_abstractMailer</a>
+   |
+   --tx_oelib_emailCollector</pre>
+	
+			</div>
+</div>
+
+
+
+
+	<a name="sec-method-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Method Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+																		<a href="#sec-vars">Vars</a>
+				 
+				|
+						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
+		</div>
+		<div class="info-box-body">			
+			<div class="method-summary">
+																																																																				
+												<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getAllEmail" title="details" class="method-name">getAllEmail</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLastBody" title="details" class="method-name">getLastBody</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">array</span>
+										<a href="#getLastEmail" title="details" class="method-name">getLastEmail</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLastHeaders" title="details" class="method-name">getLastHeaders</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLastRecipient" title="details" class="method-name">getLastRecipient</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">string</span>
+										<a href="#getLastSubject" title="details" class="method-name">getLastSubject</a>
+										()
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#sendEmail" title="details" class="method-name">sendEmail</a>
+											(<span class="var-type">string</span>&nbsp;<span class="var-name">$emailAddress</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$message</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$headers</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$encodingType</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">''</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$doNotEncodeHeader</span> = <span class="var-default">false</span>], <span class="var-type">boolean</span>&nbsp;<span class="var-name">7</span>)
+									</div>
+																<div class="method-definition">
+											<span class="method-result">void</span>
+										<a href="#setFakedReturnValue" title="details" class="method-name">setFakedReturnValue</a>
+											(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$isSuccessful</span>)
+									</div>
+								</div>
+		</div>
+	</div>		
+
+	<a name="sec-vars"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variables</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+										<a href="#sec-var-summary">Vars</a> (<span class="disabled">details</span>)
+						
+			
+										| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+					</div>
+		<div class="info-box-body">
+										<h4>Inherited Variables</h4>
+				<A NAME='inherited_vars'><!-- --></A>
+									<p>Inherited from <span class="classname"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html">tx_oelib_abstractMailer</a></span></p>
+					<blockquote>
+													<span class="var-title">
+								<span class="var-name"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html#var$enableFormatting">tx_oelib_abstractMailer::$enableFormatting</a></span><br>
+							</span>
+											</blockquote> 
+										
+		</div>
+	</div>
+	
+	<a name="sec-methods"></a>
+	<div class="info-box">
+		<div class="info-box-title">Methods</div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+															<a href="#sec-vars">Vars</a>
+																	<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
+						
+		</div>
+		<div class="info-box-body">
+			<A NAME='method_detail'></A>
+
+<a name="methodgetAllEmail" id="getAllEmail"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getAllEmail</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a123">123</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns all e-mails sent with this instance or an empty array if there is none.</p>
+<p class="description"><p>Returns all e-mails sent with this instance or an empty array if there is none.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> two-dimensional array with one element for each                         e-mail, each inner array has four elements                         'recipient', 'subject', 'message' and 'headers',                         will be empty if there are no e-mails</li>
+				<li><span class="field">see:</span> emailData</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getAllEmail
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastBody" id="getLastBody"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastBody</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a153">153</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the last e-mail's body.</p>
+<p class="description"><p>Returns the last e-mail's body.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> body of the last sent e-mail or an empty string if                         there is none</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastBody
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastEmail" id="getLastEmail"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastEmail</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a104">104</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the last e-mail or an empty array if there is none.</p>
+<p class="description"><p>Returns the last e-mail or an empty array if there is none.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> e-mail address, subject, message and headers of the                         last e-mail in an array, will be empty if there is                         no e-mail</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">array</span>
+		<span class="method-name">
+			getLastEmail
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastHeaders" id="getLastHeaders"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastHeaders</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a163">163</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the last e-mail's additional headers.</p>
+<p class="description"><p>Returns the last e-mail's additional headers.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> headers of the last sent e-mail or an empty string                         if there are none</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastHeaders
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastRecipient" id="getLastRecipient"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastRecipient</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a133">133</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the last e-mail's recipient.</p>
+<p class="description"><p>Returns the last e-mail's recipient.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> recipient of the last sent e-mail or an empty string                         if there is none</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastRecipient
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodgetLastSubject" id="getLastSubject"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">getLastSubject</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a143">143</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Returns the last e-mail's subject.</p>
+<p class="description"><p>Returns the last e-mail's subject.</p></p>
+	<ul class="tags">
+				<li><span class="field">return:</span> subject of the last sent e-mail or an empty string                         if there is none</li>
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">string</span>
+		<span class="method-name">
+			getLastSubject
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodsendEmail" id="sendEmail"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<span class="method-title">sendEmail</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a68">68</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Stores the contents which were meant to be sent as an e-mail.</p>
+<p class="description"><p>Stores the contents which were meant to be sent as an e-mail.</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			sendEmail
+		</span>
+					(<span class="var-type">string</span>&nbsp;<span class="var-name">$emailAddress</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$subject</span>, <span class="var-type">string</span>&nbsp;<span class="var-name">$message</span>, [<span class="var-type">string</span>&nbsp;<span class="var-name">$headers</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$encodingType</span> = <span class="var-default">''</span>], [<span class="var-type">string</span>&nbsp;<span class="var-name">$charset</span> = <span class="var-default">''</span>], [<span class="var-type">boolean</span>&nbsp;<span class="var-name">$doNotEncodeHeader</span> = <span class="var-default">false</span>], <span class="var-type">boolean</span>&nbsp;<span class="var-name">7</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">7</span><span class="var-description">: depending on whether success should be faked or not</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$emailAddress</span><span class="var-description">: the recipient's e-mail address, will not be                         validated, must not be empty</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$subject</span><span class="var-description">: e-mail subject, must not be empty</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$message</span><span class="var-description">: message to send, must not be empty</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$headers</span><span class="var-description">: headers, separated by linefeed, may be empty</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$encodingType</span><span class="var-description">: encoding type: &quot;base64&quot;, &quot;quoted-printable&quot; or &quot;8bit&quot;</span>			</li>
+					<li>
+				<span class="var-type">string</span>
+				<span class="var-name">$charset</span><span class="var-description">: charset to use for encoding headers (only if                         $encodingType is set to a valid value which produces                         such a header)</span>			</li>
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$doNotEncodeHeader</span><span class="var-description">: if set, the header content will not be encoded</span>			</li>
+				</ul>
+		
+			<hr class="separator" />
+		<div class="notes">Redefinition of:</div>
+		<dl>
+			<dt><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html#methodsendEmail">tx_oelib_abstractMailer::sendEmail()</a></dt>
+						<dd>This function usually should send e-mails.</dd>
+					</dl>
+			
+	</div>
+<a name="methodsetFakedReturnValue" id="setFakedReturnValue"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<span class="method-title">setFakedReturnValue</span> (line <span class="line-number"><a href="../../__filesource/fsource_TYPO3_tx_oelib_class.tx_oelib_emailCollector.php.html#a93">93</a></span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Sets the return value for sendEmail().</p>
+<p class="description"><p>Sets the return value for sendEmail().</p></p>
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			setFakedReturnValue
+		</span>
+					(<span class="var-type">boolean</span>&nbsp;<span class="var-name">$isSuccessful</span>)
+			</div>
+	
+			<ul class="parameters">
+					<li>
+				<span class="var-type">boolean</span>
+				<span class="var-name">$isSuccessful</span><span class="var-description">: true if sendEmail() should return true, false                         otherwise</span>			</li>
+				</ul>
+		
+			
+	</div>
+							<h4>Inherited Methods</h4>
+				<a name='inherited_methods'><!-- --></a>	
+									<!-- =========== Summary =========== -->
+					<p>Inherited From <span class="classname"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html">tx_oelib_abstractMailer</a></span></p>
+					<blockquote>
+													<span class="method-name"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html#methodformatEmailBody">tx_oelib_abstractMailer::formatEmailBody()</a></span><br>
+													<span class="method-name"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html#methodsendEmail">tx_oelib_abstractMailer::sendEmail()</a></span><br>
+													<span class="method-name"><a href="../../TYPO3/tx_oelib/tx_oelib_abstractMailer.html#methodsendFormattedEmails">tx_oelib_abstractMailer::sendFormattedEmails()</a></span><br>
+											</blockquote>
+										
+		</div>
+	</div>
+
+
+	<p class="notes" id="credit">
+		Documentation generated on Tue, 07 Oct 2008 13:34:59 +0200 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.0</a>
+	</p>
+	</div></body>
+</html>
