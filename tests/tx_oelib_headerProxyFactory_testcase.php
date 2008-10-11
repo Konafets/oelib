@@ -113,14 +113,5 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAllAddedHeaders()
 		);
 	}
-
-	public function testHeaderProxyInNonTestModeReallySendsCatchableHeader() {
-		$this->setExpectedException(
-			'Exception',
-			'Cannot modify header information - headers already sent by'
-		);
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
-		tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()->addHeader('123: foo.');
-	}
 }
 ?>
