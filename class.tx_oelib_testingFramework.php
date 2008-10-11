@@ -98,6 +98,11 @@ final class tx_oelib_testingFramework {
 	private static $hasTableColumnUidCache = array();
 
 	/**
+	 * @var	array cache for the results of hasTableColumn
+	 */
+	private static $hasTableColumnCache = array();
+
+	/**
 	 * @var	array		all "dirty" non-system tables (i.e. all tables that were
 	 * 					used for testing and need to be cleaned up)
 	 */
@@ -1611,9 +1616,6 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Checks whether a table has a column "uid".
 	 *
-	 * To get a boolean true as result, the table must contain a column named
-	 * "uid" that has the "auto_increment" flag set.
-	 *
 	 * @param	string		the name of the table to check
 	 *
 	 * @return	boolean		true if a valid column was found, false otherwise
@@ -1643,6 +1645,48 @@ final class tx_oelib_testingFramework {
 		}
 
 		return self::$hasTableColumnUidCache[$table];
+	}
+
+	/**
+	 * Checks whether a table has a column with a particular name.
+	 *
+	 * To get a boolean true as result, the table must contain a column with the
+	 * given name.
+	 *
+	 * @param string the name of the table to check, must not be empty
+	 * @param string the column name to check, must not be empty
+	 *
+	 * @return	boolean	true if the column with the provided name exists, false otherwise
+	 */
+	public function tableHasColumn($table, $column) {
+		if (!$this->isTableNameAllowed($table)) {
+			throw new Exception(
+				'The table name "' . $table . '" is invalid. This means it is ' .
+					'either empty or not in the list of allowed tables.'
+			);
+		}
+
+		if (!isset(self::$hasTableColumnCache[$table][$column])) {
+			$result = false;
+
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'DESCRIBE ' . $table . ';'
+			);
+			if (!$dbResult) {
+				throw new Exception(DATABASE_QUERY_ERROR);
+			}
+
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				if ($row['Field'] == $column) {
+					$result = true;
+					break;
+				}
+			}
+
+			self::$hasTableColumnCache[$table][$column] = $result;
+		}
+
+		return self::$hasTableColumnCache[$table][$column];
 	}
 
 	/**

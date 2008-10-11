@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#2275] Feature: Added method hasTableColumn() in the testing framework
 
 0.4.2 - released 2008-10-07
 - [#2252] Change: Remove the code duplication with retrievePageConfig

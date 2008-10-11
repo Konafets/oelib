@@ -1909,6 +1909,40 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding tableHasColumn()
+	// ---------------------------------------------------------------------
+
+	public function testTableHasColumnReturnsTrueOnTableWithColumn() {
+		$this->assertTrue(
+			$this->fixture->tableHasColumn(
+				OELIB_TESTTABLE,
+				'title'
+			)
+		);
+	}
+
+	public function testTableHasColumnReturnsFalseOnTableWithoutColumn() {
+		$this->assertFalse(
+			$this->fixture->tableHasColumn(
+				OELIB_TESTTABLE,
+				'inexistent_column'
+			)
+		);
+	}
+
+	public function testTableHasColumnThrowsExceptionOnInvalidTableName() {
+		$this->setExpectedException(
+			'Exception', 'The table name "inexistent_table" is invalid. This ' .
+			'means it is either empty or not in the list of allowed tables.'
+		);
+
+		$this->fixture->tableHasColumn(
+			'inexistent_table',
+			'title'
+		);
+	}
+
+	// ---------------------------------------------------------------------
 	// Tests regarding createFrontEndPage()
 	// ---------------------------------------------------------------------
 
