@@ -1621,30 +1621,7 @@ final class tx_oelib_testingFramework {
 	 * @return	boolean		true if a valid column was found, false otherwise
 	 */
 	public function hasTableColumnUid($table) {
-		if (!isset(self::$hasTableColumnUidCache[$table])) {
-			$result = false;
-
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'DESCRIBE '.$table.';'
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			// Walks through all the columns for this tables. As soon as a valid
-			// column is found, we'll exit the while loop.
-			while (!$result
-					&& ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))
-			) {
-				// Checks whether we have a valid column.
-				$result = (($row['Field'] == 'uid')
-					&& ($row['Extra'] == 'auto_increment'));
-			}
-
-			self::$hasTableColumnUidCache[$table] = $result;
-		}
-
-		return self::$hasTableColumnUidCache[$table];
+		return $this->tableHasColumn($table, 'uid');
 	}
 
 	/**
