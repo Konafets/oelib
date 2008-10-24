@@ -793,6 +793,85 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding createRelationFromTca()
+	// ---------------------------------------------------------------------
+
+	public function testCreateRelationAndUpdateCounterIncreasesZeroValueCounterByOne() {
+		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'related_records'
+		);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'related_records',
+				OELIB_TESTTABLE,
+				'uid = ' . $firstRecordUid
+			)
+		);
+
+		$this->assertEquals(
+			1,
+			$row['related_records']
+		);
+	}
+
+	public function testCreateRelationAndUpdateCounterIncreasesNonZeroValueCounterToOne() {
+		$firstRecordUid = $this->fixture->createRecord(
+			OELIB_TESTTABLE,
+			array('related_records' => 1)
+		);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'related_records'
+		);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'related_records',
+				OELIB_TESTTABLE,
+				'uid = ' . $firstRecordUid
+			)
+		);
+
+		$this->assertEquals(
+			2,
+			$row['related_records']
+		);
+	}
+
+	public function testCreateRelationAndUpdateCounterCreatesRecordInRelationTable() {
+		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'related_records'
+		);
+
+		$count = $this->fixture->countRecords(
+			OELIB_TESTTABLE_MM,
+			'uid_local=' . $firstRecordUid
+		);
+		$this->assertEquals(
+			1,
+			$count
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests regarding removeRelation()
 	// ---------------------------------------------------------------------
 
@@ -3785,6 +3864,102 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->isLoggedIn()
+		);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding getTcaForTable()
+	// ---------------------------------------------------------------------
+
+	public function testGetTcaForTableReturnsValidTcaArray() {
+		$tca = $this->fixture->getTcaForTable(OELIB_TESTTABLE);
+
+		$this->assertTrue(is_array($tca['ctrl']));
+		$this->assertTrue(is_array($tca['interface']));
+		$this->assertTrue(is_array($tca['columns']));
+		$this->assertTrue(is_array($tca['types']));
+		$this->assertTrue(is_array($tca['palettes']));
+	}
+
+	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
+		$this->setExpectedException(
+			'Exception', 'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
+		);
+
+		$this->fixture->getTcaForTable(OELIB_TESTTABLE_MM);
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding increaseRelationCounter()
+	// ---------------------------------------------------------------------
+
+	public function testIncreaseRelationCounterIncreasesNonZeroFieldValueByOne() {
+		$uid = $this->fixture->createRecord(
+			OELIB_TESTTABLE,
+			array('related_records' => 41)
+		);
+
+		$this->fixture->increaseRelationCounter(
+			OELIB_TESTTABLE,
+			$uid,
+			'related_records'
+		);
+
+		$row = $this->fixture->getAssociativeDatabaseResult(
+			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
+				'related_records',
+				OELIB_TESTTABLE,
+				'uid=' . $uid
+			)
+		);
+
+		$this->assertEquals(
+			42,
+			$row['related_records']
+		);
+	}
+
+	public function testIncreaseRelationCounterThrowsExceptionOnInvalidUid() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$invalidUid = $uid + 1;
+
+		$this->setExpectedException(
+			'Exception', 'The table ' . OELIB_TESTTABLE . ' does not contain a' .
+			' record with UID ' . $invalidUid . '.'
+		);
+		$this->fixture->increaseRelationCounter(
+			OELIB_TESTTABLE,
+			$invalidUid,
+			'related_records'
+		);
+	}
+
+	public function testIncreaseRelationCounterThrowsExceptionOnInvalidTableName() {
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->setExpectedException(
+			'Exception', 'The table name "tx_oelib_inexistent" is invalid. This ' .
+			'means it is either empty or not in the list of allowed tables'
+		);
+		$this->fixture->increaseRelationCounter(
+			'tx_oelib_inexistent',
+			$uid,
+			'related_records'
+		);
+	}
+
+	public function testIncreaseRelationCounterThrowsExceptionOnInexistentFieldName() {
+		$this->setExpectedException(
+			'Exception', 'The table ' . OELIB_TESTTABLE . ' has no column inexistent_column.'
+		);
+
+		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$this->fixture->increaseRelationCounter(
+			OELIB_TESTTABLE,
+			$uid,
+			'inexistent_column'
 		);
 	}
 }

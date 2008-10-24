@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#1403] Feature: createRelation() needs to update the relation counter field in the local record
 - [#2277] Fix: Unit test failure when pedantic is installed: testHeaderProxyInNonTestModeReallySendsCatchableHeader
 - [#2275] Feature: Added method hasTableColumn() in the testing framework
 

@@ -53,6 +53,19 @@ $TCA['tx_oelib_test'] = array(
 				'size' => '30',
 			),
 		),
+		'related_records' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'LLL:EXT:oelib/locallang_db.php:tx_oelib_test.related_records',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_oelib_test',
+				'size' => 4,
+				'minitems' => 0,
+				'maxitems' => 99,
+				'MM' => 'tx_oelib_test_article_mm',
+			),
+		),
 	),
 	'types' => array(
 		'0' => array('showitem' => 'title;;;;2-2-2'),

@@ -67,6 +67,11 @@ final class tx_oelib_testingFramework {
 	private $additionalTablePrefixes = array();
 
 	/**
+	 * @var array cache for all TCA arrays
+	 */
+	private static $tcaCache = array();
+
+	/**
 	 * @var	array		cache for all DB table names in the DB
 	 */
 	private static $allTablesCache = array();
@@ -675,6 +680,58 @@ final class tx_oelib_testingFramework {
 		if (!$dbResult) {
 			throw new Exception(DATABASE_QUERY_ERROR);
 		}
+	}
+
+	/**
+	 * Creates a relation between two records based on the rules defined in TCA
+	 * regarding the relation.
+	 *
+	 * @param string name of the table from which a relation should be created,
+	 *               must not be empty
+	 * @param integer UID of the record in the local table, must be > 0
+	 * @param integer UID of the record in the foreign table, must be > 0
+	 * @param string name of the column in which the relation counter should be
+	 *               updated, must not be empty
+	 */
+	public function createRelationAndUpdateCounter(
+		$tableName, $uidLocal, $uidForeign, $columnName
+	) {
+		if (!$this->isTableNameAllowed($tableName)) {
+			throw new Exception(
+				'The table name "' . $tableName . '" is not allowed.'
+			);
+		}
+
+		if ($uidLocal <= 0) {
+			throw new Exception(
+				'$uidLocal must be > 0, but actually is "' . $uidLocal . '"'
+			);
+		}
+		if ($uidForeign <= 0) {
+			throw new Exception(
+				'$uidForeign must be  > 0, but actually is "' . $uidForeign . '"'
+			);
+		}
+
+		$tca = $this->getTcaForTable($tableName);
+		$relationConfiguration = $tca['columns'][$columnName];
+
+		if (!isset($relationConfiguration['config']['MM'])
+			|| ($relationConfiguration['config']['MM'] == '')
+		) {
+			throw new Exception(
+				'The column ' . $columnName . ' in the table ' . $localTable .
+				' is not configured to contain m:n relations using a m:n table.'
+			);
+		}
+
+		$this->createRelation(
+			$relationConfiguration['config']['MM'],
+			$uidLocal,
+			$uidForeign
+		);
+
+		$this->increaseRelationCounter($tableName, $uidLocal, $columnName);
 	}
 
 	/**
@@ -1785,6 +1842,64 @@ final class tx_oelib_testingFramework {
 	public function clearCaches() {
 		self::$hasTableColumnUidCache = array();
 		self::$allTablesCache = array();
+	}
+
+	/**
+	 * Returns the TCA for a certain table.
+	 *
+	 * @param string the table name to look up, must not be empty
+	 *
+	 * @return array associative array with the TCA description for this table
+	 */
+	public function getTcaForTable($tableName) {
+		if (isset(self::$tcaCache[$tableName])) {
+			return self::$tcaCache[$tableName];
+		}
+
+		t3lib_div::loadTCA($tableName);
+		if (!isset($GLOBALS['TCA'][$tableName])) {
+			throw new Exception(
+				'The table "' . $tableName . '" has no TCA.'
+			);
+		}
+		self::$tcaCache[$tableName] = $GLOBALS['TCA'][$tableName];
+
+		return self::$tcaCache[$tableName];
+	}
+
+	/**
+	 * Updates an integer field of a database table by one. This is mainly needed
+	 * for counting up the relation counter when creating a database relation.
+	 *
+	 * The field to update must be of type integer.
+	 *
+	 * @param string name of the table, must not be empty
+	 * @param integer the UID of the record to modify, must be > 0
+	 * @param string the field name of the field to modify, must not be empty
+	 */
+	public function increaseRelationCounter($tableName, $uid, $fieldName) {
+		if (!$this->tableHasColumn($tableName, $fieldName)) {
+			throw new Exception(
+				'The table ' . $tableName . ' has no column ' . $fieldName . '.'
+			);
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'UPDATE ' . $tableName . ' SET ' . $fieldName . '=' .
+			$fieldName . '+1 WHERE uid=' . $uid
+		);
+		if (!$dbResult) {
+			throw new Exception(DATABASE_QUERY_ERROR);
+		}
+
+		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() == 0) {
+			throw new Exception(
+				'The table ' . $tableName . ' does not contain a record with UID ' .
+				$uid . '.'
+			);
+		}
+
+		$this->markTableAsDirty($tableName);
 	}
 }
 
