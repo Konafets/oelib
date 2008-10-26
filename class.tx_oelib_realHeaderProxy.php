@@ -28,16 +28,16 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractHeaderProx
  * Class 'tx_oelib_realHeaderProxy' for the 'oelib' extension.
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Adds a header.
 	 *
-	 * @param	string		HTTP header to send, must not be empty
+	 * @param string HTTP header to send, must not be empty
 	 */
 	public function addHeader($header) {
 		header($header);

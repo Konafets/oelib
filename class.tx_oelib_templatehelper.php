@@ -42,67 +42,64 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
  * This utitity class provides some commonly-used functions for handling
  * templates (in addition to all functionality provided by the base classes).
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
-	 * @var	string 		the prefix used for CSS classes
+	 * @var string the prefix used for CSS classes
 	 */
 	public $prefixId = '';
 	/**
-	 * @var	string		the path of this file relative to the extension
-	 * 					directory
+	 * @var string the path of this file relative to the extension directory
 	 */
 	public $scriptRelPath = '';
 	/**
-	 * @var	string		the extension key
+	 * @var string the extension key
 	 */
 	public $extKey = '';
 
 	/**
-	 * @var	boolean		whether init() already has been called (in order to
-	 * 					avoid double calls)
+	 * @var boolean whether init() already has been called (in order to
+	 *              avoid double calls)
 	 */
 	protected $isInitialized = false;
 
 	/**
-	 * @var	string		the complete HTML template
+	 * @var string the complete HTML template
 	 */
 	private $templateCode = '';
 
 	/**
-	 * @var	array		associative array of all HTML template subparts, using
-	 * 					the marker names without ### as keys, for example
-	 * 					'MY_MARKER'
+	 * @var array associative array of all HTML template subparts, using
+	 *            the marker names without ### as keys, for example "MY_MARKER"
 	 */
 	private $templateCache = array();
 
 	/**
-	 * @var	string		list of the names of all markers (and subparts) of a
-	 * 					template
+	 * @var string list of the names of all markers (and subparts) of a template
 	 */
 	private $markerNames = '';
 
 	/**
-	 * @var	array		associative array of populated markers and their
-	 * 					contents (with the keys being the marker names including
-	 * 					the wrapping hash signs ###).
+	 * @var array associative array of populated markers and their
+	 *            contents (with the keys being the marker names including
+	 *            the wrapping hash signs ###).
 	 */
 	private $markers = array();
 
 	/**
-	 * @var	array		Subpart names that shouldn't be displayed. Set a subpart
-	 * 					key like "FIELD_DATE" (the value does not matter) to
-	 * 					remove that subpart.
+	 * @var array Subpart names that shouldn't be displayed. Set a subpart
+	              key like "FIELD_DATE" (the value does not matter) to
+	              remove that subpart.
 	 */
 	private $subpartsToHide = array();
 
 	/**
-	 * @var	tx_oelib_configcheck 	the configuration check object that will
-	 * 								check this object
+	 * @var tx_oelib_configcheck the configuration check object that will
+	 *                           check this object
 	 */
 	protected $configurationCheck = null;
 
@@ -129,8 +126,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
-	 * @param	array		TypoScript configuration for the plugin, set to null
-	 * 						to load the configuration from a BE page
+	 * @param array TypoScript configuration for the plugin, set to null
+	 *              to load the configuration from a BE page
 	 */
 	public function init(array $conf = null) {
 		static $cachedConfigs = array();
@@ -199,7 +196,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Checks that this object is properly initialized.
 	 *
 	 * @return boolean true if this object is properly initialized, false
-	 * 						otherwise
+	 *                 otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -213,11 +210,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * For example, if the extension key is "foo", the TS setup for plugin.
 	 * tx_foo will be retrieved.
 	 *
-	 * @param	integer		page ID of the page for which the configuration
-	 * 						should be retrieved, must be > 0
+	 * @param integer page ID of the page for which the configuration
+	 *                should be retrieved, must be > 0
 	 *
-	 * @return	array		configuration array of the requested page for the
-	 * 						current extension key
+	 * @return array configuration array of the requested page for the
+	 *               current extension key
 	 */
 	protected function &retrievePageConfig($pageId) {
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
@@ -252,15 +249,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * from TS setup is returned. If there is no field with that name in TS setup,
 	 * an empty string is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether this is a filename, which has to be combined
-	 * 						with a path
-	 * @param	boolean		whether to ignore the flexform values and just get
-	 * 						the settings from TypoScript, may be empty
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
+	 * @param boolean whether this is a filename, which has to be combined
+	 *                with a path
+	 * @param boolean whether to ignore the flexform values and just get
+	 *                the settings from TypoScript, may be empty
 	 *
-	 * @return	string		the value of the corresponding flexforms or TS setup
-	 * 						entry (may be empty)
+	 * @return string the value of the corresponding flexforms or TS setup
+	 *                entry (may be empty)
 	 */
 	private function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false,
 		$ignoreFlexform = false
@@ -297,12 +294,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * The '[extension_name]' will be replaced by the name of the calling
 	 * extension.
 	 *
-	 * @param	string		the file name
-	 * @param	string		the path to the file (without filename), must
-	 * 						contain a slash at the end, may contain a slash at
-	 * 						the beginning (if not relative)
+	 * @param string the file name
+	 * @param string the path to the file (without filename), must
+	 *               contain a slash at the end, may contain a slash at
+	 *               the beginning (if not relative)
 	 *
-	 * @return	string		the complete path including file name
+	 * @return string the complete path including file name
 	 */
 	private function addPathToFileName($fileName, $path = '') {
 		if (empty($path)) {
@@ -318,17 +315,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * from TS setup is returned. If there is no field with that name in TS
 	 * setup, an empty string is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether this is a filename, which has to be combined
-	 * 						with a path
-	 * @param	boolean		whether to ignore the flexform values and just get
-	 * 						the settings from TypoScript, may be empty
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
+	 * @param boolean whether this is a filename, which has to be combined
+	 *                with a path
+	 * @param boolean whether to ignore the flexform values and just get
+	 *                the settings from TypoScript, may be empty
 	 *
-	 * @return	string		the trimmed value of the corresponding flexforms or
-	 * 						TS setup entry (may be empty)
+	 * @return string the trimmed value of the corresponding flexforms or
+	 *                TS setup entry (may be empty)
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function getConfValueString(
 		$fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false
@@ -347,15 +344,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * from TS setup is checked. If there is no field with that name in TS
 	 * setup, false is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
-	 * @param	boolean		whether to ignore the flexform values and just get
-	 * 						the settings from TypoScript, may be empty
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
+	 * @param boolean whether to ignore the flexform values and just get
+	 *                the settings from TypoScript, may be empty
 	 *
-	 * @return	boolean		whether there is a non-empty value in the
-	 * 						corresponding flexforms or TS setup entry
+	 * @return boolean whether there is a non-empty value in the
+	 *                 corresponding flexforms or TS setup entry
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function hasConfValueString(
 		$fieldName, $sheet = 'sDEF', $ignoreFlexform = false
@@ -374,13 +371,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * from TS setup is returned. If there is no field with that name in TS
 	 * setup, zero is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
 	 *
-	 * @return	integer		the inval'ed value of the corresponding flexforms or
-	 * 						TS setup entry
+	 * @return integer the invaled value of the corresponding flexforms or
+	 *                 TS setup entry
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function getConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return intval($this->getConfValue($fieldName, $sheet));
@@ -392,13 +389,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * value from TS setup is checked. If there is no field with that name in
 	 * TS setup, false is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
 	 *
-	 * @return	boolean		whether there is a non-zero value in the
-	 * 						corresponding flexforms or TS setup entry
+	 * @return boolean whether there is a non-zero value in the
+	 *                 corresponding flexforms or TS setup entry
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValueInteger($fieldName, $sheet);
@@ -410,13 +407,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * from TS setup is returned. If there is no field with that name in TS
 	 * setup, false is returned.
 	 *
-	 * @param	string		field name to extract
-	 * @param	string		sheet pointer, eg. "sDEF"
+	 * @param string field name to extract
+	 * @param string sheet pointer, eg. "sDEF"
 	 *
-	 * @return	boolean		the boolean value of the corresponding flexforms or
-	 * 						TS setup entry
+	 * @return boolean the boolean value of the corresponding flexforms or
+	 *                 TS setup entry
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValue($fieldName, $sheet);
@@ -427,10 +424,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * This function is intended to be used for testing purposes only.
 	 *
-	 * @param	string		key of the configuration property to set, must not
-	 * 						be empty
-	 * @param	mixed		value of the configuration property, may be empty or
-	 * 						zero
+	 * @param string key of the configuration property to set, must not
+	 *               be empty
+	 * @param mixed value of the configuration property, may be empty or zero
 	 */
 	public function setConfigurationValue($key, $value) {
 		if ($key == '') {
@@ -444,7 +440,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets the configuration.
 	 *
-	 * @return	array		configuration array, might be empty
+	 * @return array configuration array, might be empty
 	 */
 	public function getConfiguration() {
 		$this->ensureConfigurationArray();
@@ -465,10 +461,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * also via flexforms if TYPO3 mode is FE) and writes it to
 	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
-	 * @param	boolean		whether the settings in the Flexform should be
-	 * 						ignored
+	 * @param boolean whether the settings in the Flexform should be ignored
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function getTemplateCode($ignoreFlexform = false) {
 		// Trying to fetch the template code via $this->cObj in BE mode leads to
@@ -512,9 +507,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key
 	 * 'MY_SUBPART'.
 	 *
-	 * @param	string		the content of the HTML template
+	 * @param string the content of the HTML template
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function processTemplate($templateRawCode) {
 		$this->templateCode = $templateRawCode;
@@ -540,10 +535,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Finds all subparts within the current HTML template.
 	 * The subparts must be within HTML comments.
 	 *
-	 * @return	array		a list of the subpart names (uppercase, without ###,
-	 *						for example 'MY_SUBPART')
+	 * @return array a list of the subpart names (uppercase, without ###,
+	 *               for example 'MY_SUBPART')
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function findSubparts() {
 		$matches = array();
@@ -566,8 +561,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Example: If the markers ###FOO### and ###BAR### are found, the string
 	 * "#FOO#BAR#" would be returned.
 	 *
-	 * @return	string		a list of markes as one long string, separated,
-	 *						prefixed and postfixed by '#'
+	 * @return string a list of markes as one long string, separated,
+	 *                prefixed and postfixed by '#'
 	 */
 	private function findMarkers() {
 		$matches = array();
@@ -590,9 +585,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * The function <code>findMarkers</code> must be called before this function
 	 * may be called.
 	 *
-	 * @param	string	case-insensitive prefix for the marker names to look for
+	 * @param string case-insensitive prefix for the marker names to look for
 	 *
-	 * @return	array	array of matching marker names, might be empty
+	 * @return array array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
 		$matches = array();
@@ -615,16 +610,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the marker name is "one", the marker
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	string		the marker's content, may be empty
-	 * @param	string		prefix to the marker name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string the marker's content, may be empty
+	 * @param string prefix to the marker name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @deprecated	2007-12-09	Use setMarker instead.
+	 * @deprecated 2007-12-09 Use setMarker instead.
 	 */
 	function setMarkerContent($markerName, $content, $prefix = '') {
 		$this->setMarker($markerName, $content, $prefix);
@@ -639,14 +633,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the marker name is "one", the marker
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	string		the marker's content, may be empty
-	 * @param	string		prefix to the marker name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string the marker's content, may be empty
+	 * @param string prefix to the marker name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function setMarker($markerName, $content, $prefix = '') {
 		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
@@ -659,14 +652,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets a marker's content.
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
 	 *
-	 * @return	string		the marker's content or an empty string if the
-	 * 						marker has not been set before
+	 * @return string the marker's content or an empty string if the
+	 *                marker has not been set before
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function getMarker($markerName) {
 		$unifiedMarkerName = $this->createMarkerName($markerName);
@@ -686,16 +678,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the subpart name is "one", the subpart
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the subpart's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	string		the subpart's content, may be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the subpart's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string the subpart's content, may be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @deprecated	2007-12-09	Use setSubpart instead.
+	 * @deprecated 2007-12-09 Use setSubpart instead.
 	 */
 	function setSubpartContent($subpartName, $content, $prefix = '') {
 		$this->setSubpart($subpartName, $content, $prefix);
@@ -710,14 +701,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the subpart name is "one", the subpart
 	 * "###ONE###" will be written.
 	 *
-	 * @param	string		the subpart's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	string		the subpart's content, may be empty
-	 * @param	string		prefix to the subpart name (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the subpart's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string the subpart's content, may be empty
+	 * @param string prefix to the subpart name (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function setSubpart($subpartName, $content, $prefix = '') {
 		$subpartName = $this->createMarkerNameWithoutHashes(
@@ -734,15 +724,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If intval($content) is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param	integer		content with which the marker will be filled, may be empty
-	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param integer content with which the marker will be filled, may be empty
+	 * @param string prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false otherwise
+	 * @return boolean true if the marker content has been set, false otherwise
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @see	setMarkerIfNotEmpty
+	 * @see setMarkerIfNotEmpty
 	 */
 	function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
 		$condition = (intval($content) != 0);
@@ -754,18 +744,20 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Sets a marker based on whether the (string) content is non-empty.
-	 * If $content is non-empty, this function sets the marker's content, working
-	 * exactly like setMarker($markerName, $content, $markerPrefix).
+	 * If $content is non-empty, this function sets the marker's content,
+	 * working exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param	string		content with which the marker will be filled, may be empty
-	 * @param	string		prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs, case-insensitive,
+	 *               will get uppercased, must not be empty
+	 * @param string content with which the marker will be filled, may be empty
+	 * @param string prefix to the marker name for setting (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false otherwise
+	 * @return boolean true if the marker content has been set, false otherwise
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @see	setMarkerIfNotZero
+	 * @see setMarkerIfNotZero
 	 */
 	function setMarkerIfNotEmpty($markerName, $content, $markerPrefix = '') {
 		$condition = !empty($content);
@@ -781,12 +773,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Note: If the subpart to check does not exist, this function will return
 	 * false.
 	 *
-	 * @param	string		name of the subpart to check (without the ###), must
-	 * 						not be empty
+	 * @param string name of the subpart to check (without the ###), must
+	 *               not be empty
 	 *
-	 * @return	boolean		true if the subpart is visible, false otherwise
+	 * @return boolean true if the subpart is visible, false otherwise
 	 *
-	 * @access	pulic
+	 * @access pulic
 	 */
 	function isSubpartVisible($subpartName) {
 		if ($subpartName == '') {
@@ -809,14 +801,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the list is "one,two", the array keys
 	 * "###ONE###" and "###TWO###" will be written.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to
-	 *						hide (case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart names (may be empty,
-	 *						case-insensitive, will get uppercased)
+	 * @param string comma-separated list of at least 1 subpart name to
+	 *               hide (case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @deprecated	2007-08-22	Use hideSubparts instead.
+	 * @deprecated 2007-08-22 Use hideSubparts instead.
 	 */
 	function readSubpartsToHide($subparts, $prefix = '') {
 		$this->hideSubparts($subparts, $prefix);
@@ -833,10 +825,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to
-	 * 						hide (case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart names (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string comma-separated list of at least 1 subpart name to
+	 *               hide (case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
 		$subpartNames = explode(',', $subparts);
@@ -855,10 +847,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param	array		array of subpart names to hide
-	 * 						(may be empty, case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart names (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param array array of subpart names to hide
+	 *              (may be empty, case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubpartsArray(array $subparts, $prefix = '') {
 		foreach ($subparts as $currentSubpartName) {
@@ -887,16 +879,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to
-	 * 						unhide (case-insensitive, will get uppercased)
-	 * @param	string		comma-separated list of subpart names that
-	 * 						shouldn't get unhidden
-	 * @param	string		prefix to the subpart names (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string comma-separated list of at least 1 subpart name to
+	 *               unhide (case-insensitive, will get uppercased)
+	 * @param string comma-separated list of subpart names that
+	 *               shouldn't get unhidden
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @deprecated	2007-08-22	Use unhideSubparts instead.
+	 * @deprecated 2007-08-22 Use unhideSubparts instead.
 	 */
 	function readSubpartsToUnhide(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
@@ -920,13 +912,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	string		comma-separated list of at least 1 subpart name to
-	 * 						unhide (case-insensitive, will get uppercased),
-	 * 						must not be empty
-	 * @param	string		comma-separated list of subpart names that
-	 * 						shouldn't get unhidden
-	 * @param	string		prefix to the subpart names (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string comma-separated list of at least 1 subpart name to
+	 *               unhide (case-insensitive, will get uppercased),
+	 *               must not be empty
+	 * @param string comma-separated list of subpart names that
+	 *               shouldn't get unhidden
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
@@ -958,11 +950,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param	array		array of subpart names to unhide
-	 * 						(may be empty, case-insensitive, will get uppercased)
-	 * @param	array		array of subpart names that shouldn't get unhidden
-	 * @param	string		prefix to the subpart names (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param array array of subpart names to unhide
+	 *              (may be empty, case-insensitive, will get uppercased)
+	 * @param array array of subpart names that shouldn't get unhidden
+	 * @param string prefix to the subpart names (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 */
 	public function unhideSubpartsArray(
 		array $subparts, array $permanentlyHiddenSubparts = array(), $prefix = ''
@@ -986,25 +978,23 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If $condition is false, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	boolean		if this is true, the marker will be filled,
-	 * 						otherwise the wrapped marker will be hidden
-	 * @param	string		content with which the marker will be filled, may be
-	 * 						empty
-	 * @param	string		prefix to the marker name for setting (may be empty,
-	 * 						case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param boolean if this is true, the marker will be filled,
+	 *                otherwise the wrapped marker will be hidden
+	 * @param string content with which the marker will be filled, may be empty
+	 * @param string prefix to the marker name for setting (may be empty,
+	 *               case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart name for hiding (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if
-	 * 						the subpart has been hidden
+	 * @return boolean true if the marker content has been set, false if
+	 *                 the subpart has been hidden
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @see	setMarkerContent
-	 * @see	hideSubparts
+	 * @see setMarkerContent
+	 * @see hideSubparts
 	 */
 	function setOrDeleteMarker($markerName, $condition, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
@@ -1027,25 +1017,23 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If intval($condition) is zero, this function removes the wrapping
 	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	integer		content with which the marker will be filled, may be
-	 * 						empty
-	 * @param	string		prefix to the marker name for setting (may be empty,
-	 * 						case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be* empty
+	 * @param integer content with which the marker will be filled, may be empty
+	 * @param string prefix to the marker name for setting (may be empty,
+	 *               case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart name for hiding (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if
-	 * 						the subpart has been hidden
+	 * @return boolean true if the marker content has been set, false if
+	 *                 the subpart has been hidden
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @see	setOrDeleteMarker
-	 * @see	setOrDeleteMarkerIfNotEmpty
-	 * @see	setMarkerContent
-	 * @see	hideSubparts
+	 * @see setOrDeleteMarker
+	 * @see setOrDeleteMarkerIfNotEmpty
+	 * @see setMarkerContent
+	 * @see hideSubparts
 	 */
 	function setOrDeleteMarkerIfNotZero($markerName, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
@@ -1068,25 +1056,23 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If $condition is empty, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param	string		the marker's name without the ### signs,
-	 * 						case-insensitive, will get uppercased, must not be
-	 * 						empty
-	 * @param	string		content with which the marker will be filled, may be
-	 * 						empty
-	 * @param	string		prefix to the marker name for setting (may be empty,
-	 * 						case-insensitive, will get uppercased)
-	 * @param	string		prefix to the subpart name for hiding (may be empty,
-	 * 						case-insensitive, will get uppercased)
+	 * @param string the marker's name without the ### signs,
+	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string content with which the marker will be filled, may be empty
+	 * @param string prefix to the marker name for setting (may be empty,
+	 *               case-insensitive, will get uppercased)
+	 * @param string prefix to the subpart name for hiding (may be empty,
+	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return	boolean		true if the marker content has been set, false if
-	 * 						the subpart has been hidden
+	 * @return boolean true if the marker content has been set, false if
+	 *                 the subpart has been hidden
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @see	setOrDeleteMarker
-	 * @see	setOrDeleteMarkerIfNotZero
-	 * @see	setMarkerContent
-	 * @see	hideSubparts
+	 * @see setOrDeleteMarker
+	 * @see setOrDeleteMarkerIfNotZero
+	 * @see setMarkerContent
+	 * @see hideSubparts
 	 */
 	function setOrDeleteMarkerIfNotEmpty($markerName, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
@@ -1143,16 +1129,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param	string		key of an existing subpart, for example 'LIST_ITEM'
-	 * 						(without the ###), or an empty string to use the
-	 * 						complete HTML template
+	 * @param string key of an existing subpart, for example 'LIST_ITEM'
+	 *               (without the ###), or an empty string to use the
+	 *               complete HTML template
 	 *
-	 * @return	string		the subpart content or an empty string if the
-	 * 						subpart is hidden or the subpart name is missing
+	 * @return string the subpart content or an empty string if the
+	 *                subpart is hidden or the subpart name is missing
 	 *
-	 * @access	protected
+	 * @access protected
 	 *
-	 * @deprecated	2007-08-22	Use getSubpart instead.
+	 * @deprecated 2007-08-22 Use getSubpart instead.
 	 */
 	function substituteMarkerArrayCached($key = '') {
 		return $this->getSubpart($key);
@@ -1166,14 +1152,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param	string		key of an existing subpart, for example 'LIST_ITEM'
-	 * 						(without the ###), or an empty string to use the
-	 * 						complete HTML template
+	 * @param string key of an existing subpart, for example 'LIST_ITEM'
+	 *               (without the ###), or an empty string to use the
+	 *               complete HTML template
 	 *
-	 * @return	string		the subpart content or an empty string if the
-	 * 						subpart is hidden or the subpart name is missing
+	 * @return string the subpart content or an empty string if the
+	 *                subpart is hidden or the subpart name is missing
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function getSubpart($key = '') {
 		if (($key != '') && !isset($this->templateCache[$key])) {
@@ -1219,13 +1205,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Retrieves a subpart.
 	 *
-	 * @param	array		numeric array with matches from
-	 * 						preg_replace_callback; the element #1 needs to
-	 * 						contain the name of the subpart to retrieve (in
-	 * 						uppercase without the surrounding ###)
+	 * @param array numeric array with matches from
+	 *              preg_replace_callback; the element #1 needs to
+	 *              contain the name of the subpart to retrieve (in
+	 *              uppercase without the surrounding ###)
 	 *
-	 * @return	string		the contents of the corresponding subpart or an
-	 * 						empty string in case the subpart does not exist
+	 * @return string the contents of the corresponding subpart or an
+	 *                empty string in case the subpart does not exist
 	 */
 	protected function getSubpartForCallback(array $matches) {
 		return $this->getSubpart($matches[1]);
@@ -1240,7 +1226,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * entry must have the same key, but lowercased and without the ###
 	 * (e.g. "label_foo").
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function setLabels() {
 		$labels = $this->getPrefixedMarkers('label');
@@ -1259,7 +1245,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Classes are set only if they are set via TS, else the marker will be an
 	 * empty string.
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function setCss() {
 		$cssEntries = $this->getPrefixedMarkers('class');
@@ -1277,25 +1263,25 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Creates an CSS class attribute. The parameter is the class name.
 	 *
-	 * Example: If the parameter is 'foo', our extension is named 'bar' and we are in p1,
-	 * then the return value is 'class="tx-bar-pi1-foo"'.
+	 * Example: If the parameter is 'foo', our extension is named 'bar' and we
+	 * are in p1, then the return value is 'class="tx-bar-pi1-foo"'.
 	 *
-	 * If the parameter is an emty string, the return value is an empty string as well
-	 * (not an attribute with an empty value).
+	 * If the parameter is an emty string, the return value is an empty string
+	 * as well (not an attribute with an empty value).
 	 *
-	 * @param	string		a CSS class name (may be empty)
+	 * @param string a CSS class name (may be empty)
 	 *
-	 * @return	string		a CSS class attribute (may be empty)
+	 * @return string a CSS class attribute (may be empty)
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function createClassAttribute($className) {
 		return !empty($className) ? $this->pi_classParam($className) : '';
 	}
 
 	/**
-	 * Includes a link to the CSS file configured as "cssFile" and adds it to the
-	 * automatic page header with $this->prefixId.'_css' as the array key.
+	 * Includes a link to the CSS file configured as "cssFile" and adds it to
+	 * the automatic page header with $this->prefixId.'_css' as the array key.
 	 *
 	 * If no file is specified, no link is created.
 	 *
@@ -1316,7 +1302,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @access protected
 	 *
-	 * @deprecated	0.4.0 - 2007-12-14
+	 * @deprecated 0.4.0 - 2007-12-14
 	 */
 	function addCssToPageHeader() {
 		if ($this->hasConfValueString('cssFile', 's_template_special')) {
@@ -1341,7 +1327,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * This function may only be called if $this->$prefixId has been set.
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
@@ -1369,13 +1355,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * Note: The returned page list is _not_ sorted.
 	 *
-	 * @param	string		comma-separated list of page UIDs to start from,
-	 * 						must only contain numbers and commas, may be empty
-	 * @param	integer		maximum depth of recursion, must be >= 0
+	 * @param string comma-separated list of page UIDs to start from,
+	 *               must only contain numbers and commas, may be empty
+	 * @param integer maximum depth of recursion, must be >= 0
 	 *
-	 * @return	string		comma-separated list of subpage UIDs including the
-	 * 						UIDs provided in $startPages, will be empty if
-	 * 						$startPages is empty
+	 * @return string comma-separated list of subpage UIDs including the
+	 *                UIDs provided in $startPages, will be empty if
+	 *                $startPages is empty
 	 */
 	public function pi_getPidList($startPages, $recursionDepth = 0) {
 		return tx_oelib_db::createRecursivePageList(
@@ -1394,13 +1380,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * Note: The returned page list is _not_ sorted.
 	 *
-	 * @param	string		comma-separated list of page UIDs to start from,
-	 * 						must only contain numbers and commas, may be empty
-	 * @param	integer		maximum depth of recursion, must be >= 0
+	 * @param string comma-separated list of page UIDs to start from,
+	 *               must only contain numbers and commas, may be empty
+	 * @param integer maximum depth of recursion, must be >= 0
 	 *
-	 * @return	string		comma-separated list of subpage UIDs including the
-	 * 						UIDs provided in $startPages, will be empty if
-	 * 						$startPages is empty
+	 * @return string comma-separated list of subpage UIDs including the
+	 *                UIDs provided in $startPages, will be empty if
+	 *                $startPages is empty
 	 *
 	 * @deprecated 2008-10-04 use tx_oelib_db::createRecursivePageList instead
 	 */
@@ -1414,14 +1400,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Intvals all piVars that are supposed to be integers:
 	 * showUid, pointer, mode
 	 *
-	 * If some of these piVars are not set, this function will not set them either.
+	 * If some of these piVars are not set, this function will not set them
+	 * either.
 	 *
 	 * If $this->piVars is empty, this function is a no-op.
 	 *
-	 * @param	array		array of array keys for $this->piVars that will be
-	 * 						intvaled as well
+	 * @param array array of array keys for $this->piVars that will be
+	 *              intvaled as well
 	 *
-	 * @deprecated	24.08.2008		use ensureIntegerPiVars() instead
+	 * @deprecated 24.08.2008 use ensureIntegerPiVars() instead
 	 */
 	protected function securePiVars(array $additionalPiVars = array()) {
 		if ($this->piVars) {
@@ -1441,9 +1428,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param	array		array of keys for $this->piVars that will be ensured
-	 * 						to exist intvaled in $this->piVars as well, may be
-	 * 						empty
+	 * @param array array of keys for $this->piVars that will be ensured
+	 *              to exist intvaled in $this->piVars as well, may be empty
 	 */
 	protected function ensureIntegerPiVars(array $additionalPiVars = array()) {
 		if (!is_array($this->piVars)) {
@@ -1464,7 +1450,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Resets the marker contents.
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function resetMarkers() {
 		$this->markers = array();
@@ -1473,7 +1459,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Resets the list of subparts to hide.
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function resetSubpartsHiding() {
 		$this->subpartsToHide = array();
@@ -1490,18 +1476,18 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * In the FE, the src attribute is correctly filled with the URI of the
 	 * resized image.
 	 *
-	 * @throws	Exception	if $path is empty
+	 * @throws Exception if $path is empty
 	 *
-	 * @param	string		path to of the original image, must be relative to
-	 * 						the TYPO3 root or start with EXT:, must not be empty
-	 * @param	string		alt text, may be empty
-	 * @param	integer		max width in pixels, set to zero to set no limit
-	 * @param	integer		max height in pixels, set to zero to set no limit
-	 * @param	integer		(unused, must be zero)
-	 * @param	string		title text, may be empty
-	 * @param	string		id for the image, may be empty
+	 * @param string path to of the original image, must be relative to
+	 *               the TYPO3 root or start with EXT:, must not be empty
+	 * @param string alt text, may be empty
+	 * @param integer max width in pixels, set to zero to set no limit
+	 * @param integer max height in pixels, set to zero to set no limit
+	 * @param integer (unused, must be zero)
+	 * @param string title text, may be empty
+	 * @param string id for the image, may be empty
 	 *
-	 * @return	string		IMG tag (or alt text), will not be empty
+	 * @return string IMG tag (or alt text), will not be empty
 	 */
 	public function createRestrictedImage(
 		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0,
@@ -1541,11 +1527,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Extracts a value within listView.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.),
-	 * 						must not be empty
+	 * @param string TS setup field name to extract (within listView.),
+	 *               must not be empty
 	 *
-	 * @return	string		the contents of that field within listView., may be
-	 * 						empty
+	 * @return string the contents of that field within listView., may be empty
 	 */
 	private function getListViewConfigurationValue($fieldName) {
 		if (empty($fieldName)) {
@@ -1564,11 +1549,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Returns a string value within listView.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.),
-	 * 						must not be empty
+	 * @param string TS setup field name to extract (within listView.),
+	 *               must not be empty
 	 *
-	 * @return	string		the trimmed contents of that field within listView.
-	 * 						or an empty string if the value was not set
+	 * @return string the trimmed contents of that field within listView.
+	 *                or an empty string if the value was not set
 	 */
 	public function getListViewConfValueString($fieldName) {
 		return trim($this->getListViewConfigurationValue($fieldName));
@@ -1577,11 +1562,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Returns an integer value within listView.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.),
-	 * 						must not be empty
+	 * @param string TS setup field name to extract (within listView.),
+	 *               must not be empty
 	 *
-	 * @return	integer		the integer value of that field within listView. or
-	 * 						zero if the value was not set
+	 * @return integer the integer value of that field within listView. or
+	 *                 zero if the value was not set
 	 */
 	public function getListViewConfValueInteger($fieldName) {
 		return intval($this->getListViewConfigurationValue($fieldName));
@@ -1590,11 +1575,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Returns a boolean value within listView.
 	 *
-	 * @param	string		TS setup field name to extract (within listView.),
-	 * 						must not be empty
+	 * @param string TS setup field name to extract (within listView.),
+	 *               must not be empty
 	 *
-	 * @return	boolean		the boolean value of that field within listView.,
-	 * 						false if no value was set
+	 * @return boolean the boolean value of that field within listView.,
+	 *                 false if no value was set
 	 */
 	public function getListViewConfValueBoolean($fieldName) {
 		return (boolean) $this->getListViewConfigurationValue($fieldName);
@@ -1603,9 +1588,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Checks whether a front end user is logged in.
 	 *
-	 * @return	boolean		true if a user is logged in, false otherwise
+	 * @return boolean true if a user is logged in, false otherwise
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function isLoggedIn() {
 		return ((boolean) $GLOBALS['TSFE']) && ((boolean) $GLOBALS['TSFE']->loginUser);
@@ -1626,9 +1611,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Returns the UID of the currently logged-in FE user
 	 * or 0 if no FE user is logged in.
 	 *
-	 * @return	integer		the UID of the logged-in FE user or 0 if no FE user is logged in
+	 * @return integer the UID of the logged-in FE user or 0 if no FE user is
+	 *                 logged in
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function getFeUserUid() {
 		// If we don't have the FE user's UID (yet), try to retrieve it.
@@ -1642,9 +1628,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Sets the "flavor" of the object to check.
 	 *
-	 * @param	string		a short string identifying the "flavor" of the object to check (may be empty)
+	 * @param string a short string identifying the "flavor" of the object to
+	 *               check (may be empty)
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function setFlavor($flavor) {
 		if ($this->configurationCheck) {
@@ -1655,9 +1642,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Returns the current flavor of the object to check.
 	 *
-	 * @return	string		the current flavor of the object to check (or an empty string if no flavor is set)
+	 * @return string the current flavor of the object to check (or an empty
+	 *                string if no flavor is set)
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function getFlavor() {
 		$result = '';
@@ -1674,9 +1662,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If this->configurationCheck is null, this function is a no-op.
 	 *
-	 * @param	string		error text to set (may be empty)
+	 * @param string error text to set (may be empty)
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function setErrorMessage($message) {
 		if ($this->configurationCheck) {
@@ -1689,12 +1677,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * (if any). If there are several objects of this class, still only one
 	 * error message is created (in order to prevent duplicate messages).
 	 *
-	 * @param	boolean		whether to use the raw message instead of the wrapped message
-	 * @param	string		flavor to use temporarily for this call (leave empty to not change the flavor)
+	 * @param boolean whether to use the raw message instead of the wrapped
+	 *                message
+	 * @param string flavor to use temporarily for this call (leave empty to not
+	 *               change the flavor)
 	 *
-	 * @return	string		a formatted error message (if there are errors) or an empty string
+	 * @return string a formatted error message (if there are errors) or an
+	 *                empty string
 	 *
-	 * @access	public
+	 * @access public
 	 */
 	function checkConfiguration($useRawMessage = false, $temporaryFlavor = '') {
 		static $hasDisplayedMessage = false;
@@ -1733,10 +1724,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * directly and it doesn't need to get handled to other configcheck
 	 * objects.
 	 *
-	 * @return	string		the wrapped error text (or an empty string if there
-	 * 						are no errors)
+	 * @return string the wrapped error text (or an empty string if there
+	 * are no errors)
 	 *
-	 * @access	protected
+	 * @access protected
 	 */
 	function getWrappedConfigCheckMessage() {
 		$result = '';
@@ -1751,8 +1742,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Gets the ID of the currently selected back-end page.
 	 *
-	 * @return	integer		the current back-end page ID (or 0 if there is an
-	 * 						error)
+	 * @return integer the current back-end page ID (or 0 if there is an
+	 * error)
 	 */
 	public function getCurrentBePageId() {
 		return intval(t3lib_div::_GP('id'));
@@ -1769,24 +1760,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
 	 * determines for each table which of these features applies to that table.
 	 *
-	 * @param	string		table name found in the $TCA array
-	 * @param	integer		If $showHidden is set (0/1), any hidden-fields in
-	 * 						records are ignored. NOTICE: If you call this function,
-	 * 						consider what to do with the show_hidden parameter.
-	 * 						Maybe it should be set? See tslib_cObj->enableFields
-	 * 						where it's implemented correctly.
-	 * @param	array		Array you can pass where keys can be "disabled",
-	 * 						"starttime", "endtime", "fe_group" (keys from
-	 * 						"enablefields" in TCA) and if set they will make sure
-	 * 						that part of the clause is not added. Thus disables
-	 * 						the specific part of the clause. For previewing etc.
-	 * @param	boolean		If set, enableFields will be applied regardless of
-	 * 						any versioning preview settings which might otherwise
-	 * 						disable enableFields.
+	 * @param string table name found in the $TCA array
+	 * @param integer If $showHidden is set (0/1), any hidden-fields in
+	 *                records are ignored. NOTICE: If you call this function,
+	 *                consider what to do with the show_hidden parameter.
+	 *                Maybe it should be set? See tslib_cObj->enableFields
+	 *                where it's implemented correctly.
+	 * @param array Array you can pass where keys can be "disabled",
+	 *              "starttime", "endtime", "fe_group" (keys from
+	 *              "enablefields" in TCA) and if set they will make sure
+	 *              that part of the clause is not added. Thus disables
+	 *              the specific part of the clause. For previewing etc.
+	 * @param boolean If set, enableFields will be applied regardless of
+	 *                any versioning preview settings which might otherwise
+	 *                disable enableFields.
 	 *
-	 * @return	string		the clause starting like " AND ...=... AND ...=..."
+	 * @return string the clause starting like " AND ...=... AND ...=..."
 	 *
-	 * @deprecated 	2008-09-21 use tx_oelib_db::enableFields instead.
+	 * @deprecated 2008-09-21 use tx_oelib_db::enableFields instead.
 	 */
 	public function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),
@@ -1807,10 +1798,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * not end with an underscore. In addition, it must be prefixed and suffixed
 	 * with ###.
 	 *
-	 * @param	string		marker name to check (with the hashes), may be
-	 * 						empty
+	 * @param string marker name to check (with the hashes), may be empty
 	 *
-	 * @return	boolean		true if the marker name is valid, false otherwise
+	 * @return boolean true if the marker name is valid, false otherwise
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
 		return (boolean) preg_match(
@@ -1827,10 +1817,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * start with a lowercase or uppercase letter ranging from A to Z. It must
 	 * not end with an underscore.
 	 *
-	 * @param	string		marker name to check (without the hashes), may be
-	 * 						empty
+	 * @param string marker name to check (without the hashes), may be empty
 	 *
-	 * @return	boolean		true if the marker name is valid, false otherwise
+	 * @return boolean true if the marker name is valid, false otherwise
 	 */
 	private function isMarkerNameValidWithoutHashes($markerName) {
 		return $this->isMarkerNameValidWithHashes('###'.$markerName.'###');

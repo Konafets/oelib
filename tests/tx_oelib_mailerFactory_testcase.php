@@ -28,10 +28,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php'
  * Testcase for the mailer factory class and the e-mail collector class in the
  * 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	private $fixture;

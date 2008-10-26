@@ -29,11 +29,11 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerProxyFactory
  * Testcase for the header proxy factory class and the header collector class
  * in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Niels Pardon <mail@niels-pardon.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	/** instance of the object to test */

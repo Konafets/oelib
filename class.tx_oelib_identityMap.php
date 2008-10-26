@@ -31,14 +31,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  * This class represents an identity map that stores and retrieves model
  * instances by their UIDs.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_identityMap {
 	/**
-	 * @var	array	the items in this map with their UIDs as keys
+	 * @var array the items in this map with their UIDs as keys
 	 */
 	protected $items = array();
 
@@ -59,7 +59,7 @@ class tx_oelib_identityMap {
 	/**
 	 * Adds a model to the identity map.
 	 *
-	 * @param	tx_oelib_model	model to add, must have a UID
+	 * @param tx_oelib_model model to add, must have a UID
 	 */
 	public function add(tx_oelib_model $model) {
 		if (!$model->hasUid()) {
@@ -72,13 +72,12 @@ class tx_oelib_identityMap {
 	/**
 	 * Retrieves a model from the map by UID.
 	 *
-	 * @throws	tx_oelib_notFoundException	if this map does not have a model
-	 * 										with that particular UID
+	 * @throws tx_oelib_notFoundException if this map does not have a model
+	 *                                    with that particular UID
 	 *
-	 * @param	integer						the UID of the model to retrieve,
-	 * 										must be > 0
+	 * @param integer the UID of the model to retrieve, must be > 0
 	 *
-	 * @return	tx_oelib_model				the stored model with the UID $uid
+	 * @return tx_oelib_model the stored model with the UID $uid
 	 */
 	public function get($uid) {
 		if ($uid <= 0) {

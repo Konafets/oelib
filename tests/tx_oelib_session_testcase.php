@@ -29,13 +29,15 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.p
 /**
  * Testcase for the tx_oelib_session class in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_session_testcase  extends tx_phpunit_testcase {
-	/** @var	tx_oelib_testingFramework	for creating a fake front end */
+	/**
+     * @var tx_oelib_testingFramework for creating a fake front end
+     */
 	private $testingFramework;
 
 	public function setUp() {

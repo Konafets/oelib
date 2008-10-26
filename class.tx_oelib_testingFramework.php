@@ -45,24 +45,24 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  *
  * This class provides various functions to handle dummy records in unit tests.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Mario Rimann <typo3-coding@rimann.org>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Niels Pardon <mail@niels-pardon.de>
+ * @author Mario Rimann <typo3-coding@rimann.org>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 final class tx_oelib_testingFramework {
 	/**
-	 * @var	string		prefix of the extension for which this instance of the
-	 * 					testing framework was instantiated (e.g. "tx_seminars")
+	 * @var string prefix of the extension for which this instance of the
+	 *             testing framework was instantiated (e.g. "tx_seminars")
 	 */
 	private $tablePrefix = '';
 
 	/**
-	 * @var	array		prefixes of additional extensions to which this instance
-	 * 					of the testing framework has access (e.g. "tx_seminars")
+	 * @var array prefixes of additional extensions to which this instance
+	 *            of the testing framework has access (e.g. "tx_seminars")
 	 */
 	private $additionalTablePrefixes = array();
 
@@ -72,25 +72,25 @@ final class tx_oelib_testingFramework {
 	private static $tcaCache = array();
 
 	/**
-	 * @var	array		cache for all DB table names in the DB
+	 * @var array cache for all DB table names in the DB
 	 */
 	private static $allTablesCache = array();
 
 	/**
-	 * @var	array		all own DB table names to which this instance of the
-	 * 					testing framework has access
+	 * @var array all own DB table names to which this instance of the
+	 *            testing framework has access
 	 */
 	private $ownAllowedTables = array();
 
 	/**
-	 * @var	array		all additional DB table names to which this instance of
-	 * 					the testing framework has access
+	 * @var array all additional DB table names to which this instance of
+	 *            the testing framework has access
 	 */
 	private $additionalAllowedTables = array();
 
 	/**
-	 * @var	array		all sytem table names to which this instance of the
-	 * 					testing framework has access
+	 * @var array all sytem table names to which this instance of the
+	 *            testing framework has access
 	 */
 	private $allowedSystemTables = array(
 		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template',
@@ -98,64 +98,64 @@ final class tx_oelib_testingFramework {
 	);
 
 	/**
-	 * @var	array		cache for the results of hasTableColumnUid
+	 * @var array cache for the results of hasTableColumnUid
 	 */
 	private static $hasTableColumnUidCache = array();
 
 	/**
-	 * @var	array cache for the results of hasTableColumn
+	 * @var array cache for the results of hasTableColumn
 	 */
 	private static $hasTableColumnCache = array();
 
 	/**
-	 * @var	array		all "dirty" non-system tables (i.e. all tables that were
-	 * 					used for testing and need to be cleaned up)
+	 * @var array all "dirty" non-system tables (i.e. all tables that were
+	 * used for testing and need to be cleaned up)
 	 */
 	private $dirtyTables = array();
 
 	/**
-	 * @var	array		all "dirty" system tables (i.e. all tables that were
-	 * 					used for testing and need to be cleaned up)
+	 * @var array all "dirty" system tables (i.e. all tables that were
+	 *            used for testing and need to be cleaned up)
 	 */
 	private $dirtySystemTables = array();
 
 	/**
-	 * @var	array	sorting values of all relation tables
+	 * @var array sorting values of all relation tables
 	 */
 	private $relationSorting = array();
 
 	/**
-	 * @var	integer		the number of unusable UIDs after the maximum UID in a
-	 * 					table before the auto increment value will be reset by
-	 * 					resetAutoIncrementLazily
+	 * @var integer the number of unusable UIDs after the maximum UID in a
+	 * table before the auto increment value will be reset by
+	 * resetAutoIncrementLazily
 	 */
 	private $resetAutoIncrementThreshold = 100;
 
 	/**
-	 * @var	array	the names of the created dummy files relative to the upload
-	 * 				folder of the extension to test
+	 * @var array the names of the created dummy files relative to the upload
+	 *            folder of the extension to test
 	 */
 	private $dummyFiles = array();
 
 	/**
-	 * @var	array	the names of the created dummy folders relative to the
-	 * 				upload folder of the extension to test
+	 * @var array the names of the created dummy folders relative to the
+	 *            upload folder of the extension to test
 	 */
 	private $dummyFolders = array();
 
 	/**
-	 * @var	string		the absolute path to the upload folder of the extension
-	 * 					to test
+	 * @var string the absolute path to the upload folder of the extension
+	 * to test
 	 */
 	private $uploadFolderPath = '';
 
 	/**
-	 * @var	t3lib_basicFileFunctions	an instance of t3lib_basicFileFunctions
-	 * 									for retrieving a unique file name
+	 * @var t3lib_basicFileFunctions an instance of t3lib_basicFileFunctions
+	 *                               for retrieving a unique file name
 	 */
 	private static $fileNameProcessor = null;
 
-	/** @var	boolean		whether a fake front end has been created */
+	/** @var boolean whether a fake front end has been created */
 	private $hasFakeFrontEnd = false;
 
 	/**
@@ -171,11 +171,11 @@ final class tx_oelib_testingFramework {
 	 * If you need dummy records on tables of multiple extensions, you'll have to
 	 * instantiate the testing frame work multiple times (once per extension).
 	 *
-	 * @param	string		the table name prefix of the extension for which
-	 * 						this instance of the testing framework should be used
-	 * @param	array		the additional table name prefixes of the extensions
-	 * 						for which this instance of the testing framework
-	 * 						should be used, may be empty
+	 * @param string the table name prefix of the extension for which
+	 *               this instance of the testing framework should be used
+	 * @param array the additional table name prefixes of the extensions
+	 *              for which this instance of the testing framework
+	 *              should be used, may be empty
 	 */
 	public function __construct(
 		$tablePrefix, array $additionalTablePrefixes = array()
@@ -198,13 +198,13 @@ final class tx_oelib_testingFramework {
 	 * Should there be any problem creating the record (wrong table name or a
 	 * problem with the database), 0 instead of a valid UID will be returned.
 	 *
-	 * @param	string		the name of the table on which the record should
-	 * 						be created, must not be empty
-	 * @param	array		associative array that contains the data to save in
-	 * 						the new record, may be empty, but must not contain
-	 * 						the	 key "uid"
+	 * @param string the name of the table on which the record should
+	 *               be created, must not be empty
+	 * @param array associative array that contains the data to save in
+	 *              the new record, may be empty, but must not contain
+	 *              the key "uid"
 	 *
-	 * @return	integer		the UID of the new record, will be > 0
+	 * @return integer the UID of the new record, will be > 0
 	 */
 	public function createRecord($table, array $recordData = array()) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -232,13 +232,13 @@ final class tx_oelib_testingFramework {
 	 * Should there be any problem creating the record (wrong table name or a
 	 * problem with the database), 0 instead of a valid UID will be returned.
 	 *
-	 * @param	string		the name of the table on which the record should
-	 * 						be created, must not be empty
-	 * @param	array		associative array that contains the data to save in
-	 * 						the new record, may be empty, but must not contain
-	 * 						the	 key "uid"
+	 * @param string the name of the table on which the record should
+	 *               be created, must not be empty
+	 * @param array associative array that contains the data to save in
+	 *              the new record, may be empty, but must not contain
+	 *              the key "uid"
 	 *
-	 * @return	integer		the UID of the new record, will be > 0
+	 * @return integer the UID of the new record, will be > 0
 	 */
 	private function createRecordWithoutTableNameChecks(
 		$table, array $recordData
@@ -264,12 +264,12 @@ final class tx_oelib_testingFramework {
 	 * Creates a front-end page on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param	integer		UID of the page on which the page should be created
-	 * @param	array		associative array that contains the data to save in
-	 * 						the new page, may be empty, but must not contain
-	 * 						the keys "uid", "pid" or "doktype"
+	 * @param integer UID of the page on which the page should be created
+	 * @param array associative array that contains the data to save in
+	 *              the new page, may be empty, but must not contain
+	 *              the keys "uid", "pid" or "doktype"
 	 *
-	 * @return	integer		the UID of the new page, will be > 0
+	 * @return integer the UID of the new page, will be > 0
 	 */
 	public function createFrontEndPage(
 		$parentId = 0, array $recordData = array()
@@ -281,13 +281,13 @@ final class tx_oelib_testingFramework {
 	 * Creates a system folder on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param	integer		UID of the page on which the system folder should be
-	 * 						created
-	 * @param	array		associative array that contains the data to save in
-	 * 						the new page, may be empty, but must not contain
-	 * 						the keys "uid", "pid" or "doktype"
+	 * @param integer UID of the page on which the system folder should be
+	 *                created
+	 * @param array associative array that contains the data to save in
+	 *              the new page, may be empty, but must not contain
+	 *              the keys "uid", "pid" or "doktype"
 	 *
-	 * @return	integer		the UID of the new system folder, will be > 0
+	 * @return integer the UID of the new system folder, will be > 0
 	 */
 	public function createSystemFolder(
 		$parentId = 0, array $recordData = array()
@@ -302,14 +302,13 @@ final class tx_oelib_testingFramework {
 	 * The record will be created on the page with the UID given by the second
 	 * parameter $parentId.
 	 *
-	 * @param	integer		document type of the record to create, must be > 0
-	 * @param	integer		UID of the page on which the record should be
-	 * 						created
-	 * @param	array		associative array that contains the data to save in
-	 * 						the record, may be empty, but must not contain the
-	 * 						keys "uid", "pid" or "doktype"
+	 * @param integer document type of the record to create, must be > 0
+	 * @param integer UID of the page on which the record should be created
+	 * @param array associative array that contains the data to save in
+	 *              the record, may be empty, but must not contain the
+	 *              keys "uid", "pid" or "doktype"
 	 *
-	 * @return	integer		the UID of the new record, will be > 0
+	 * @return integer the UID of the new record, will be > 0
 	 */
 	private function createGeneralPageRecord(
 		$documentType, $parentId, array $recordData
@@ -347,13 +346,13 @@ final class tx_oelib_testingFramework {
 	 * element's type can be overwritten by setting the key 'CType' in the
 	 * parameter $recordData.
 	 *
-	 * @param	integer		UID of the page on which the content element should
-	 * 						be created
-	 * @param	array		associative array that contains the data to save in
-	 * 						the content element, may be empty, but must not
-	 * 						contain the keys "uid" or "pid"
+	 * @param integer UID of the page on which the content element should
+	 *                be created
+	 * @param array associative array that contains the data to save in
+	 *              the content element, may be empty, but must not
+	 *              contain the keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new content element, will be > 0
+	 * @return integer the UID of the new content element, will be > 0
 	 */
 	public function createContentElement(
 		$pageId = 0, array $recordData = array()
@@ -383,13 +382,13 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a new page cache entry.
 	 *
-	 * @param	integer		UID of the page for which a cache entry should be
-	 * 						created, must be > 0
-	 * @param	array		associative array that contains the data to save
-	 * 						as an entry in "cache_pages", may be empty, but must
-	 * 						not contain the keys "page_id" or "id"
+	 * @param integer UID of the page for which a cache entry should be
+	 *                created, must be > 0
+	 * @param array associative array that contains the data to save
+	 *              as an entry in "cache_pages", may be empty, but must
+	 *              not contain the keys "page_id" or "id"
 	 *
-	 * @return	integer		the ID of the new cache entry, will be > 0
+	 * @return integer the ID of the new cache entry, will be > 0
 	 */
 	public function createPageCacheEntry(
 		$pageId = 0, array $recordData = array()
@@ -417,13 +416,13 @@ final class tx_oelib_testingFramework {
 	 * Creates a template on the page with the UID given by the first parameter
 	 * $pageId.
 	 *
-	 * @param	integer		UID of the page on which the template should be
-	 * 						created, must be > 0
-	 * @param	array		associative array that contains the data to save in
-	 * 						the new template, may be empty, but must not contain
-	 * 						the keys "uid" or "pid"
+	 * @param integer UID of the page on which the template should be
+	 *                created, must be > 0
+	 * @param array associative array that contains the data to save in
+	 *              the new template, may be empty, but must not contain
+	 *              the keys "uid" or "pid"
 	 *
-	 * @return	integer		the UID of the new template, will be > 0
+	 * @return integer the UID of the new template, will be > 0
 	 */
 	public function createTemplate(
 		$pageId, array $recordData = array()
@@ -455,11 +454,11 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a FE user group.
 	 *
-	 * @param	array		associative array that contains the data to save
-	 * 						in the new user group record, may be empty, but must
-	 * 						not contain the key "uid"
+	 * @param array associative array that contains the data to save
+	 *              in the new user group record, may be empty, but must
+	 *              not contain the key "uid"
 	 *
-	 * @return	integer		the UID of the new user group, will be > 0
+	 * @return integer the UID of the new user group, will be > 0
 	 */
 	public function createFrontEndUserGroup(
 		array $recordData = array()
@@ -478,14 +477,14 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a FE user record.
 	 *
-	 * @param	string		comma-separated list of UIDs of the user groups to
-	 * 						which the new user belongs, each must be > 0, may
-	 * 						contain spaces and must not be empty
-	 * @param	array		associative array that contains the data to save
-	 * 						in the new user record, may be empty, but must not
-	 * 						contain the keys "uid" or "usergroup"
+	 * @param string comma-separated list of UIDs of the user groups to
+	 *               which the new user belongs, each must be > 0, may
+	 *               contain spaces and must not be empty
+	 * @param array associative array that contains the data to save
+	 *              in the new user record, may be empty, but must not
+	 *              contain the keys "uid" or "usergroup"
 	 *
-	 * @return	integer		the UID of the new FE user, will be > 0
+	 * @return integer the UID of the new FE user, will be > 0
 	 */
 	public function createFrontEndUser(
 		$frontEndUserGroups, array $recordData = array()
@@ -524,12 +523,12 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates and logs in an FE user.
 	 *
-	 * @param	string		comma-separated list of UIDs of the user groups to
-	 * 						which the new user belongs, each must be > 0, may
-	 * 						contain spaces; if empty a new front-end user group
-	 * 						is created
+	 * @param string comma-separated list of UIDs of the user groups to
+	 *               which the new user belongs, each must be > 0, may
+	 *               contain spaces; if empty a new front-end user group
+	 *               is created
 	 *
-	 * @return	integer		the UID of the new FE user, will be > 0
+	 * @return integer the UID of the new FE user, will be > 0
 	 */
 	public function createAndLoginFrontEndUser($frontEndUserGroups = '') {
 		if ($frontEndUserGroups == '') {
@@ -552,11 +551,11 @@ final class tx_oelib_testingFramework {
 	 * must not contain a new UID for the record. If you need to change the UID,
 	 * you have to create a new record!
 	 *
-	 * @param	string		the name of the table, must not be empty
-	 * @param	integer		the UID of the record to change, must not be empty
-	 * @param	array		associative array containing key => value pairs for
-	 * 						those fields of the record that need to be changed,
-	 * 						must not be empty
+	 * @param string the name of the table, must not be empty
+	 * @param integer the UID of the record to change, must not be empty
+	 * @param array associative array containing key => value pairs for
+	 *              those fields of the record that need to be changed,
+	 *              must not be empty
 	 */
 	public function changeRecord($table, $uid, $recordData) {
 		$dummyColumnName = $this->getDummyColumnName($table);
@@ -611,9 +610,9 @@ final class tx_oelib_testingFramework {
 	 * this method. Should there for any reason exist a real record with that
 	 * UID, it won't be deleted.
 	 *
-	 * @param	string		name of the table from which the record should be
-	 * 						deleted, must not be empty
-	 * @param	integer		UID of the record to delete, must be > 0
+	 * @param string name of the table from which the record should be
+	 *               deleted, must not be empty
+	 * @param integer UID of the record to delete, must be > 0
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -634,13 +633,13 @@ final class tx_oelib_testingFramework {
 	 * Creates a relation between two records on different tables (so called
 	 * m:n relation).
 	 *
-	 * @param	string		name of the m:n table to which the record should be
-	 * 						added, must not be empty
-	 * @param	integer		UID of the local table, must be > 0
-	 * @param	integer		UID of the foreign table, must be > 0
-	 * @param	integer		sorting value of the relation, the default value is
-	 * 						0, which enables automatic sorting, a value >= 0
-	 * 						overwrites the automatic sorting
+	 * @param string name of the m:n table to which the record should be
+	 *               added, must not be empty
+	 * @param integer UID of the local table, must be > 0
+	 * @param integer UID of the foreign table, must be > 0
+	 * @param integer sorting value of the relation, the default value is
+	 *                0, which enables automatic sorting, a value >= 0
+	 *                overwrites the automatic sorting
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -741,10 +740,10 @@ final class tx_oelib_testingFramework {
 	 * for any reason exist a real record with that combination of local and
 	 * foreign UID, it won't be deleted!
 	 *
-	 * @param	string		name of the table from which the record should be
-	 * 						deleted, must not be empty
-	 * @param	integer		UID on the local table, must be > 0
-	 * @param	integer		UID on the foreign table, must be > 0
+	 * @param string name of the table from which the record should be
+	 *               deleted, must not be empty
+	 * @param integer UID on the local table, must be > 0
+	 * @param integer UID on the foreign table, must be > 0
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -773,8 +772,7 @@ final class tx_oelib_testingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param	boolean		whether a deep clean up should be performed, may
-	 * 						be empty
+	 * @param boolean whether a deep clean up should be performed, may be empty
 	 */
 	public function cleanUp($performDeepCleanUp = false) {
 		$this->cleanUpTableSet(false, $performDeepCleanUp);
@@ -796,10 +794,9 @@ final class tx_oelib_testingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param	boolean		whether to clean up the system tables (true) or
-	 * 						the non-system test tables (false)
-	 * @param	boolean		whether a deep clean up should be performed, may
-	 * 						be empty
+	 * @param boolean whether to clean up the system tables (true) or
+	 *                the non-system test tables (false)
+	 * @param boolean whether a deep clean up should be performed, may be empty
 	 */
 	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
 		if ($useSystemTables) {
@@ -861,12 +858,11 @@ final class tx_oelib_testingFramework {
 	 * Creates an empty dummy file with a unique file name in the calling
 	 * extension's upload directory.
 	 *
-	 * @param	string		path of the dummy file to create, relative to the
-	 * 						calling extension's upload directory, must not be
-	 * 						empty
+	 * @param string path of the dummy file to create, relative to the
+	 *               calling extension's upload directory, must not be empty
 	 *
-	 * @return	string		the absolute path of the created dummy file, will
-	 * 						not be empty
+	 * @return string the absolute path of the created dummy file, will
+	 *                not be empty
 	 */
 	public function createDummyFile($fileName = 'test.txt') {
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
@@ -887,13 +883,13 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
-	 * @throws	exception if the file does not exist
-	 * @throws	exception if the file was not created with the current instance
-	 * 			of the testing framework
-	 * @throws 	exception if the file could not be deleted
+	 * @throws exception if the file does not exist
+	 * @throws exception if the file was not created with the current instance
+	 *                   of the testing framework
+	 * @throws exception if the file could not be deleted
 	 *
-	 * @param	string		the path to the file to delete relative to
-	 * 						$this->uploadFolderPath, must not be empty
+	 * @param string the path to the file to delete relative to
+	 *               $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFile($fileName) {
 		$absolutePathToFile = $this->uploadFolderPath . $fileName;
@@ -927,11 +923,11 @@ final class tx_oelib_testingFramework {
 	 * Creates a dummy folder with a unique folder name in the calling extension's
 	 * upload directory.
 	 *
-	 * @param	string		name of the dummy folder to create relative to
-	 * 						$this->uploadFolderPath, must not be empty
+	 * @param string name of the dummy folder to create relative to
+	 *               $this->uploadFolderPath, must not be empty
 	 *
-	 * @return	string		the absolute path of the created dummy folder, will
-	 * 						not be empty
+	 * @return string the absolute path of the created dummy folder, will
+	 *                not be empty
 	 */
 	public function createDummyFolder($folderName) {
 		$uniqueFolderName = $this->getUniqueFileOrFolderPath($folderName);
@@ -958,13 +954,13 @@ final class tx_oelib_testingFramework {
 	 * Deletes the dummy folder specified in the first parameter $folderName.
 	 * The folder must be empty (no files or subfolders).
 	 *
-	 * @throws	exception if the folder does not exist
-	 * @throws	exception if the folder was not created with the current instance
-	 * 			of the testing framework
-	 * @throws 	exception if the folder could not be deleted
+	 * @throws exception if the folder does not exist
+	 * @throws exception if the folder was not created with the current instance
+	 *                   of the testing framework
+	 * @throws exception if the folder could not be deleted
 	 *
-	 * @param	string		the path to the folder to delete relative to
-	 * 						$this->uploadFolderPath, must not be empty
+	 * @param string the path to the folder to delete relative to
+	 *               $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFolder($folderName) {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
@@ -997,8 +993,8 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns the absolute path to the upload folder of the extension to test.
 	 *
-	 * @return	string		the absolute path to the upload folder of the
-	 * 						extension to test, including the trailing slash
+	 * @return string the absolute path to the upload folder of the
+	 *                extension to test, including the trailing slash
 	 */
 	public function getUploadFolderPath() {
 		return $this->uploadFolderPath;
@@ -1008,15 +1004,14 @@ final class tx_oelib_testingFramework {
 	 * Returns the path relative to the calling extension's upload directory for
 	 * a path given in the first parameter $absolutePath.
 	 *
-	 * @throws	exception if the first parameter $absolutePath is not within
-	 * 			the calling extension's upload directory
+	 * @throws exception if the first parameter $absolutePath is not within
+	 *                   the calling extension's upload directory
 	 *
-	 * @param	string		the absolute path to process, must be within the
-	 * 						calling extension's upload directory, must not be
-	 * 						empty
+	 * @param string the absolute path to process, must be within the
+	 *               calling extension's upload directory, must not be empty
 	 *
-	 * @return	string		the path relative to the calling extension's upload
-	 * 						directory
+	 * @return string the path relative to the calling extension's upload
+	 *                directory
 	 */
 	public function getPathRelativeToUploadDirectory($absolutePath) {
 		if (!preg_match(
@@ -1038,10 +1033,10 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns a unique absolut path of a file or folder.
 	 *
-	 * @param	string		the path of a file or folder relative to the calling
-	 * 						extension's upload directory, must not be empty
+	 * @param string the path of a file or folder relative to the calling
+	 *               extension's upload directory, must not be empty
 	 *
-	 * @return	string		the unique absolut path of a file or folder
+	 * @return string the unique absolut path of a file or folder
 	 */
 	public function getUniqueFileOrFolderPath($path) {
 		if (empty($path)) {
@@ -1076,11 +1071,11 @@ final class tx_oelib_testingFramework {
 	 * Note: This function does not set TYPO3_MODE to "FE" (because the value of
 	 * a constant cannot be changed after it has once been set).
 	 *
-	 * @throws	Exception	if $pageUid is < 0
+	 * @throws Exception if $pageUid is < 0
 	 *
-	 * @param	integer		UID of a page record to use, must be >= 0
+	 * @param integer UID of a page record to use, must be >= 0
 	 *
-	 * @return	integer		the UID of the used front-end page, will be > 0
+	 * @return integer the UID of the used front-end page, will be > 0
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
 		if ($pageUid < 0) {
@@ -1153,8 +1148,8 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns whether this testing framework instance has a fake front end.
 	 *
-	 * @return	boolean		true if this instance has a fake front end, false
-	 * 						otherwise
+	 * @return boolean true if this instance has a fake front end, false
+	 *                 otherwise
 	 */
 	public function hasFakeFrontEnd() {
 		return $this->hasFakeFrontEnd;
@@ -1180,9 +1175,9 @@ final class tx_oelib_testingFramework {
 	 * If a front-end user currently is logged in, he/she will be logged out
 	 * first.
 	 *
-	 * @throws	Exception	if no front end has been created
+	 * @throws Exception if no front end has been created
 	 *
-	 * @param	integer		UID of the FE user, must be > 0
+	 * @param integer UID of the FE user, must be > 0
 	 */
 	public function loginFrontEndUser($userId) {
 		if (intval($userId) == 0) {
@@ -1211,7 +1206,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * If no front-end user is logged in, this function does nothing.
 	 *
-	 * @throws	Exception	if no front end has been created
+	 * @throws Exception if no front end has been created
 	 */
 	public function logoutFrontEndUser() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1232,9 +1227,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Checks whether a FE user is logged in.
 	 *
-	 * @throws	Exception	if no front end has been created
+	 * @throws Exception if no front end has been created
 	 *
-	 * @return	boolean		true if a FE user is logged in, false otherwise
+	 * @return boolean true if a FE user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1260,9 +1255,9 @@ final class tx_oelib_testingFramework {
 	 * way more data per table and not just the table name. This method deals
 	 * with this by just using the keys from the returned array.
 	 *
-	 * @return	array		list of table names
+	 * @return array list of table names
 	 *
-	 * @see	https://bugs.oliverklee.com/show_bug.cgi?id=1726
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1726
 	 * @see http://typo3.svn.sourceforge.net/viewvc/typo3/TYPO3core/branches/TYPO3_4-2/t3lib/class.t3lib_db.php?r1=3326&r2=3365
 	 */
 	private function getListOfAllTables() {
@@ -1333,10 +1328,10 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables for
 	 * this instance of the testing framework.
 	 *
-	 * @param	string		the name of the table to check, must not be empty
+	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return	boolean		true if the name of the table is in the list of
-	 * 						allowed tables, false otherwise
+	 * @return boolean true if the name of the table is in the list of
+	 *                 allowed tables, false otherwise
 	 */
 	private function isOwnTableNameAllowed($table) {
 		return in_array($table, $this->ownAllowedTables);
@@ -1346,10 +1341,10 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of additional allowed
 	 * tables for this instance of the testing framework.
 	 *
-	 * @param	string		the name of the table to check, must not be empty
+	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return	boolean		true if the name of the table is in the list of
-	 * 						additional allowed tables, false otherwise
+	 * @return boolean true if the name of the table is in the list of
+	 *                 additional allowed tables, false otherwise
 	 */
 	private function isAdditionalTableNameAllowed($table) {
 		return in_array($table, $this->additionalAllowedTables);
@@ -1359,10 +1354,10 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed
 	 * system tables for this instance of the testing framework.
 	 *
-	 * @param	string		the name of the table to check, must not be empty
+	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return	boolean		true if the name of the table is in the list of
-	 * 						allowed system tables, false otherwise
+	 * @return boolean true if the name of the table is in the list of
+	 *                 allowed system tables, false otherwise
 	 */
 	private function isSystemTableNameAllowed($table) {
 		return in_array($table, $this->allowedSystemTables);
@@ -1372,11 +1367,11 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables or
 	 * additional allowed tables for this instance of the testing framework.
 	 *
-	 * @param	string		the name of the table to check, must not be empty
+	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return	boolean		true if the name of the table is in the list of
-	 * 						allowed tables or additional allowed tables, false
-	 * 						otherwise
+	 * @return boolean true if the name of the table is in the list of
+	 *                 allowed tables or additional allowed tables, false
+	 *                 otherwise
 	 */
 	private function isNoneSystemTableNameAllowed($table) {
 		return $this->isOwnTableNameAllowed($table)
@@ -1387,11 +1382,11 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables,
 	 * additional allowed tables or allowed system tables.
 	 *
-	 * @param	string		the name of the table to check, must not be empty
+	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return	boolean		true if the name of the table is in the list of
-	 * 						allowed tables, additional allowed tables or allowed
-	 * 						system tables, false otherwise
+	 * @return boolean true if the name of the table is in the list of
+	 *                 allowed tables, additional allowed tables or allowed
+	 *                 system tables, false otherwise
 	 */
 	private function isTableNameAllowed($table) {
 		return $this->isNoneSystemTableNameAllowed($table)
@@ -1408,10 +1403,9 @@ final class tx_oelib_testingFramework {
 	 * prefix e.g. "tx_seminars_is_dummy_record" if $this->tablePrefix =
 	 * "tx_seminars".
 	 *
-	 * @param	string		the table name to look up, must not be empty
+	 * @param string the table name to look up, must not be empty
 	 *
-	 * @return	string		the name of the column that marks a record as dummy
-	 * 						record
+	 * @return string the name of the column that marks a record as dummy record
 	 */
 	private function getDummyColumnName($table) {
 		$result = 'is_dummy_record';
@@ -1428,10 +1422,10 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Retrieves a database result row as an associative array.
 	 *
-	 * @param	mixed	either a DB query result resource or false (for failed
-	 * 					queries)
+	 * @param mixed either a DB query result resource or false (for failed
+	 *              queries)
 	 *
-	 * @return	array	the database result as an associative array
+	 * @return array the database result as an associative array
 	 */
 	public function getAssociativeDatabaseResult($queryResult) {
 		if (!$queryResult) {
@@ -1450,12 +1444,11 @@ final class tx_oelib_testingFramework {
 	 * Counts the dummy records in the table given by the first parameter $table
 	 * that match a given WHERE clause.
 	 *
-	 * @param	string		the name of the table to query, must not be empty
-	 * @param	string		the WHERE part of the query, may be empty (all
-	 * 						records will be counted in that case)
+	 * @param string the name of the table to query, must not be empty
+	 * @param string the WHERE part of the query, may be empty (all
+	 * records will be counted in that case)
 	 *
-	 * @return	integer		the number of records that have been found, will
-	 * 						be >= 0
+	 * @return integer the number of records that have been found, will be >= 0
 	 */
 	public function countRecords($table, $whereClause = '') {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1486,12 +1479,12 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there are any dummy records in the table given by the
 	 * first parameter $table that match a given WHERE clause.
 	 *
-	 * @param	string		the name of the table to query, must not be empty
-	 * @param	string		the WHERE part of the query, may be empty (all
-	 * 						records will be counted in that case)
+	 * @param string the name of the table to query, must not be empty
+	 * @param string the WHERE part of the query, may be empty (all
+	 *               records will be counted in that case)
 	 *
-	 * @return	boolean		true if there is at least one matching record,
-	 * 						false otherwise
+	 * @return boolean true if there is at least one matching record,
+	 *                 false otherwise
 	 */
 	public function existsRecord($table, $whereClause = '') {
 		return ($this->countRecords($table, $whereClause) > 0);
@@ -1501,10 +1494,10 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there is a dummy record in the table given by the first
 	 * parameter $table that has the given UID.
 	 *
-	 * @param	string		the name of the table to query, must not be empty
-	 * @param	integer		the UID of the record to look up, must be > 0
+	 * @param string the name of the table to query, must not be empty
+	 * @param integer the UID of the record to look up, must be > 0
 	 *
-	 * @return	boolean		true if there is a matching record, false otherwise
+	 * @return boolean true if there is a matching record, false otherwise
 	 */
 	public function existsRecordWithUid($table, $uid) {
 		if ($uid <= 0) {
@@ -1518,12 +1511,12 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there is exactly one dummy record in the table given by
 	 * the first parameter $table that matches a given WHERE clause.
 	 *
-	 * @param	string		the name of the table to query, must not be empty
-	 * @param	string		the WHERE part of the query, may be empty (all
-	 * 						records will be counted in that case)
+	 * @param string the name of the table to query, must not be empty
+	 * @param string the WHERE part of the query, may be empty (all
+	 *               records will be counted in that case)
 	 *
-	 * @return	boolean		true if there is exactly one matching record,
-	 * 						false otherwise
+	 * @return boolean true if there is exactly one matching record,
+	 *                 false otherwise
 	 */
 	public function existsExactlyOneRecord($table, $whereClause = '') {
 		return ($this->countRecords($table, $whereClause) == 1);
@@ -1533,10 +1526,10 @@ final class tx_oelib_testingFramework {
 	 * Eagerly resets the auto increment value for a given table to the highest
 	 * existing UID + 1.
 	 *
-	 * @param	string		the name of the table on which we're going to reset
-	 * 						the auto increment entry, must not be empty
+	 * @param string the name of the table on which we're going to reset
+	 *               the auto increment entry, must not be empty
 	 *
-	 * @see		resetAutoIncrementLazily
+	 * @see resetAutoIncrementLazily
 	 */
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1575,10 +1568,10 @@ final class tx_oelib_testingFramework {
 	 * The threshhold is 100 by default and can be set using
 	 * setResetAutoIncrementThreshold.
 	 *
-	 * @param	string		the name of the table on which we're going to reset
-	 * 						the auto increment entry, must not be empty
+	 * @param string the name of the table on which we're going to reset
+	 *               the auto increment entry, must not be empty
 	 *
-	 * @see		resetAutoIncrement
+	 * @see resetAutoIncrement
 	 */
 	public function resetAutoIncrementLazily($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1607,9 +1600,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Sets the threshold for resetAutoIncrementLazily.
 	 *
-	 * @param	integer		threshold, must be > 0
+	 * @param integer threshold, must be > 0
 	 *
-	 * @see		resetAutoIncrementLazily
+	 * @see resetAutoIncrementLazily
 	 */
 	public function setResetAutoIncrementThreshold($threshold) {
 		if ($threshold <= 0) {
@@ -1626,10 +1619,9 @@ final class tx_oelib_testingFramework {
 	 * has been checked to be non-empty, valid and pointing to an existing
 	 * database table that has the "uid" column.
 	 *
-	 * @param	string		the name of an existing table that has the "uid"
-	 * 						column
+	 * @param string the name of an existing table that has the "uid" column
 	 *
-	 * @return	integer		the highest UID from this table, will be >= 0
+	 * @return integer the highest UID from this table, will be >= 0
 	 */
 	private function getMaximumUidFromTable($table) {
 		$row = $this->getAssociativeDatabaseResult(
@@ -1647,11 +1639,11 @@ final class tx_oelib_testingFramework {
 	 * This function is only valid for tables that actually have an auto
 	 * increment value.
 	 *
-	 * @param	string		the name of the table for which the auto increment
-	 * 						value should be retrieved, must not be empty
+	 * @param string the name of the table for which the auto increment
+	 *               value should be retrieved, must not be empty
 	 *
-	 * @return	integer		the current auto_increment value of table $table,
-	 * 						will be > 0
+	 * @return integer the current auto_increment value of table $table,
+	 *                 will be > 0
 	 */
 	public function getAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1673,9 +1665,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Checks whether a table has a column "uid".
 	 *
-	 * @param	string		the name of the table to check
+	 * @param string the name of the table to check
 	 *
-	 * @return	boolean		true if a valid column was found, false otherwise
+	 * @return boolean true if a valid column was found, false otherwise
 	 */
 	public function hasTableColumnUid($table) {
 		return $this->tableHasColumn($table, 'uid');
@@ -1690,7 +1682,7 @@ final class tx_oelib_testingFramework {
 	 * @param string the name of the table to check, must not be empty
 	 * @param string the column name to check, must not be empty
 	 *
-	 * @return	boolean	true if the column with the provided name exists, false otherwise
+	 * @return boolean true if the column with the provided name exists, false otherwise
 	 */
 	public function tableHasColumn($table, $column) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1726,8 +1718,8 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns the list of allowed table names.
 	 *
-	 * @return	array		all allowed table names for this instance of the
-	 * 						testing framework
+	 * @return array all allowed table names for this instance of the
+	 *               testing framework
 	 */
 	public function getListOfOwnAllowedTableNames() {
 		return $this->ownAllowedTables;
@@ -1736,8 +1728,8 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns the list of additional allowed table names.
 	 *
-	 * @return	array		all additional allowed table names for this instance
-	 * 						of the testing framework, may be empty
+	 * @return array all additional allowed table names for this instance
+	 *               of the testing framework, may be empty
 	 */
 	public function getListOfAdditionalAllowedTableNames() {
 		return $this->additionalAllowedTables;
@@ -1748,9 +1740,9 @@ final class tx_oelib_testingFramework {
 	 * represents a list of tables that were used for testing and contain dummy
 	 * records and thus are called "dirty" until the next clean up).
 	 *
-	 * @param	string		the table name or a comma-separated list of table
-	 * 						names to put on the list of dirty tables, must not
-	 * 						be empty
+	 * @param string the table name or a comma-separated list of table
+	 *               names to put on the list of dirty tables, must not
+	 *               be empty
 	 */
 	public function markTableAsDirty($tableNames) {
 		foreach (explode(',', $tableNames) as $currentTable) {
@@ -1771,8 +1763,8 @@ final class tx_oelib_testingFramework {
 	 * Returns the list of tables that contain dummy records from testing. These
 	 * tables are called "dirty tables" as they need to be cleaned up.
 	 *
-	 * @return	array		associative array containing names of database tables
-	 * 						that need to be cleaned up
+	 * @return array associative array containing names of database tables
+	 *               that need to be cleaned up
 	 */
 	public function getListOfDirtyTables() {
 		return $this->dirtyTables;
@@ -1783,8 +1775,8 @@ final class tx_oelib_testingFramework {
 	 * testing. These tables are called "dirty tables" as they need to be
 	 * cleaned up.
 	 *
-	 * @return	array		associative array containing names of system
-	 * 						database tables that need to be cleaned up
+	 * @return array associative array containing names of system
+	 *               database tables that need to be cleaned up
 	 */
 	public function getListOfDirtySystemTables() {
 		return $this->dirtySystemTables;
@@ -1799,12 +1791,12 @@ final class tx_oelib_testingFramework {
 	 * relation between these two dummy records, so you're sure there aren't
 	 * already relations for a local UID in the database.
 	 *
-	 * @see		https://bugs.oliverklee.com/show_bug.cgi?id=1423
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1423
 	 *
-	 * @param	string		the relation table, must not be empty
-	 * @param	integer		UID of the local table, must be > 0
+	 * @param string the relation table, must not be empty
+	 * @param integer UID of the local table, must be > 0
 	 *
-	 * @return	integer		the next sorting value to use (> 0)
+	 * @return integer the next sorting value to use (> 0)
 	 */
 	public function getRelationSorting($table, $uidLocal) {
 		if (!$this->relationSorting[$table][$uidLocal]) {
@@ -1820,10 +1812,9 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the value of the parameter $table is the name of a
 	 * database table that has been registered in TYPO3.
 	 *
-	 * @param	string		the name of of table to check, must not be empty
+	 * @param string the name of of table to check, must not be empty
 	 *
-	 * @return	boolean		true if the table is registered in TYPO3, false
-	 * 						otherwise
+	 * @return boolean true if the table is registered in TYPO3, false otherwise
 	 */
 	private function isTable($table) {
 		if ($table == '') {

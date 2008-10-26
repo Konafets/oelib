@@ -29,19 +29,19 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_sal
 /**
  * Testcase for salutation switching in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
- * @author		Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var	tx_oelib_salutationswitcherchild
+	 * @var tx_oelib_salutationswitcherchild
 	 */
 	private $fixture;
 	/**
-	 * @var	tx_oelib_testingFramework
+	 * @var tx_oelib_testingFramework
 	 */
 	private $testingFramework;
 

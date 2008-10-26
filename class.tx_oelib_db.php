@@ -29,20 +29,20 @@ require_once(PATH_t3lib . 'class.t3lib_page.php');
  *
  * This class provides some static database-related functions.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_db {
 	/**
-	 * @var	t3lib_pageSelect		page object which we will use to call
-	 * 								enableFields on
+	 * @var t3lib_pageSelect page object which we will use to call
+	 *                       enableFields on
 	 */
 	private static $pageForEnableFields = null;
 
 	/**
-	 * @var	array		cached results for the enableFields function
+	 * @var array cached results for the enableFields function
 	 */
 	private static $enableFieldsCache = array();
 
@@ -57,23 +57,22 @@ class tx_oelib_db {
 	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
 	 * determines for each table which of these features applies to that table.
 	 *
-	 * @param	string		table name found in the $TCA array
-	 * @param	integer		If $showHidden is set (0/1), any hidden-fields in
-	 * 						records are ignored. NOTICE: If you call this function,
-	 * 						consider what to do with the show_hidden parameter.
-	 * 						Maybe it should be set? See tslib_cObj->enableFields
-	 * 						where it's implemented correctly.
-	 * @param	array		Array you can pass where keys can be "disabled",
-	 * 						"starttime", "endtime", "fe_group" (keys from
-	 * 						"enablefields" in TCA) and if set they will make sure
-	 * 						that part of the clause is not added. Thus disables
-	 * 						the specific part of the clause. For previewing etc.
-	 * @param	boolean		If set, enableFields will be applied regardless of
-	 * 						any versioning preview settings which might otherwise
-	 * 						disable enableFields.
+	 * @param string table name found in the $TCA array
+	 * @param integer If $showHidden is set (0/1), any hidden-fields in
+	 *                records are ignored. NOTICE: If you call this function,
+	 *                consider what to do with the show_hidden parameter.
+	 *                Maybe it should be set? See tslib_cObj->enableFields
+	 *                where it's implemented correctly.
+	 * @param array Array you can pass where keys can be "disabled",
+	 *              "starttime", "endtime", "fe_group" (keys from
+	 *              "enablefields" in TCA) and if set they will make sure
+	 *              that part of the clause is not added. Thus disables
+	 *              the specific part of the clause. For previewing etc.
+	 * @param boolean If set, enableFields will be applied regardless of
+	 *                any versioning preview settings which might otherwise
+	 *                disable enableFields.
 	 *
-	 * @return	string		the WHERE clause starting like
-	 * 						" AND ...=... AND ...=..."
+	 * @return string the WHERE clause starting like " AND ...=... AND ...=..."
 	 */
 	public static function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),
@@ -135,13 +134,13 @@ class tx_oelib_db {
 	 *
 	 * Note: The returned page list is _not_ sorted.
 	 *
-	 * @param	string		comma-separated list of page UIDs to start from,
-	 * 						must only contain numbers and commas, may be empty
-	 * @param	integer		maximum depth of recursion, must be >= 0
+	 * @param string comma-separated list of page UIDs to start from,
+	 *               must only contain numbers and commas, may be empty
+	 * @param integer maximum depth of recursion, must be >= 0
 	 *
-	 * @return	string		comma-separated list of subpage UIDs including the
-	 * 						UIDs provided in $startPages, will be empty if
-	 * 						$startPages is empty
+	 * @return string comma-separated list of subpage UIDs including the
+	 *                UIDs provided in $startPages, will be empty if
+	 *                $startPages is empty
 	 */
 	public static function createRecursivePageList(
 		$startPages, $recursionDepth = 0

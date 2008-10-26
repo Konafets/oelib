@@ -28,10 +28,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
 /**
  * Testcase for the tx_oelib_db class in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	/**
@@ -58,10 +58,9 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * Explodes a comma-separated list of integer values and sorts them
 	 * numerically.
 	 *
-	 * @param	string		comma-separated list of values, may be empty
+	 * @param string comma-separated list of values, may be empty
 	 *
-	 * @return	array		the separate values, sorted numerically, may be
-	 * 						empty
+	 * @return array the separate values, sorted numerically, may be empty
 	 */
 	private function sortExplode($valueList) {
 		if ($valueList == '') {
@@ -163,7 +162,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * TODO: This test does not work until the full versioning feature is
 	 * implemented in oelib.
 	 *
-	 * @see	https://bugs.oliverklee.com/show_bug.cgi?id=2180
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2180
 	 */
 	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
 		$this->markTestSkipped(

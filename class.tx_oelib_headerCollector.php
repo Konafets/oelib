@@ -31,10 +31,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractHeaderProx
  * sending them and provides various functions to get them for testing purposes.
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	/** headers which were meant to be sent */
@@ -43,7 +43,7 @@ class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Stores a HTTP header which was meant to be sent.
 	 *
-	 * @param	string		HTTP header to send, must not be empty
+	 * @param string HTTP header to send, must not be empty
 	 */
 	public function addHeader($header) {
 		$this->headers[] = $header;
@@ -52,7 +52,7 @@ class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Returns the last header or an empty string if there are none.
 	 *
-	 * @return	string		last header, will be empty if there are none
+	 * @return string last header, will be empty if there are none
 	 */
 	public function getLastAddedHeader() {
 		if (empty($this->headers)) {
@@ -66,7 +66,7 @@ class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	 * Returns all headers added with this instance or an empty array if there
 	 * is none.
 	 *
-	 * @return	array		all added headers, will be empty if there is none
+	 * @return array all added headers, will be empty if there is none
 	 */
 	public function getAllAddedHeaders() {
 		return $this->headers;

@@ -28,17 +28,17 @@
  * need to implement the concrete behavior.
  * Regarding the Strategy pattern, addHeader() represents the abstract strategy.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 abstract class tx_oelib_abstractHeaderProxy {
 	/**
 	 * This function usually should add a HTTP header.
 	 *
-	 * @param	string		HTTP header to send, e.g. 'Status: 404 Not Found',
-	 * 						must not be empty
+	 * @param string HTTP header to send, e.g. 'Status: 404 Not Found',
+	 *               must not be empty
 	 */
 	public abstract function addHeader($header);
 }

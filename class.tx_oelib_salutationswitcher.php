@@ -31,10 +31,10 @@ require_once(PATH_tslib . 'class.tslib_pibase.php');
 /**
  * Class 'tx_oelib_salutationswitcher' for the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	/**
@@ -76,15 +76,15 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * Note: Although this function is deprecated, it must not be removed
 	 * because some pi_base functions rely on its existence.
 	 *
-	 * @param	string		the local language key for which to
-	 * 						return the value, must not be empty
-	 * @param	string		(unused, for legacy purposes)
-	 * @param	boolean		whether the output should be passed through
-	 * 						htmlspecialchars()
+	 * @param string the local language key for which to
+	 *               return the value, must not be empty
+	 * @param string (unused, for legacy purposes)
+	 * @param boolean whether the output should be passed through
+	 *                htmlspecialchars()
 	 *
-	 * @return	string		the value from LOCAL_LANG
+	 * @return string the value from LOCAL_LANG
 	 *
-	 * @deprecated	2007-08-22	Use translate instead.
+	 * @deprecated 2007-08-22 Use translate instead.
 	 */
 	public function pi_getLL($key, $unused = '', $useHtmlSpecialChars = false) {
 		return $this->translate($key, $useHtmlSpecialChars);
@@ -107,12 +107,12 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * If it doesn't exist, this functions tries to use the string with the key
 	 * 'greeting'.
 	 *
-	 * @param	string		the local language key for which to
-	 * 						return the value, must not be empty
-	 * @param	boolean		whether the output should be passed through
-	 * 						htmlspecialchars()
+	 * @param string the local language key for which to
+	 *               return the value, must not be empty
+	 * @param boolean whether the output should be passed through
+	 *                htmlspecialchars()
 	 *
-	 * @return	string		the requested local language key, might be empty
+	 * @return string the requested local language key, might be empty
 	 */
 	public function translate(
 		$key, $useHtmlSpecialChars = false
@@ -140,10 +140,10 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * Retrieves the localized string for the local language key $key, using the
 	 * BE localization methods.
 	 *
-	 * @param	string		the local language key for which to
-	 * 						return the value, must not be empty
+	 * @param string the local language key for which to
+	 *               return the value, must not be empty
 	 *
-	 * @return	string		the requested local language key, might be empty
+	 * @return string the requested local language key, might be empty
 	 */
 	private function translateInBackEnd($key) {
 		return $GLOBALS['LANG']->getLL($key);
@@ -164,10 +164,10 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * If it doesn't exist, this functions tries to use the string with the key
 	 * 'greeting'.
 	 *
-	 * @param	string		the local language key for which to
-	 * 						return the value, must not be empty
+	 * @param string the local language key for which to
+	 *               return the value, must not be empty
 	 *
-	 * @return	string		the requested local language key, might be empty
+	 * @return string the requested local language key, might be empty
 	 */
 	private function translateInFrontEnd($key) {
 		$hasFoundATranslation = false;
@@ -197,7 +197,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	/**
 	 * Compiles a list of language keys for which localizations have been loaded.
 	 *
-	 * @return	array		a list of language keys (may be empty)
+	 * @return array a list of language keys (may be empty)
 	 */
 	private function getAvailableLanguages() {
 		if ($this->availableLanguages === null) {
@@ -233,7 +233,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * Gets an ordered list of language label suffixes that should be tried to
 	 * get localizations in the preferred order of formality.
 	 *
-	 * @return	array		ordered list of suffixes from "", "_formal" and "_informal", will not be empty
+	 * @return array ordered list of suffixes from "", "_formal" and "_informal", will not be empty
 	 */
 	private function getSuffixesToTry() {
 		if ($this->suffixesToTry === null) {

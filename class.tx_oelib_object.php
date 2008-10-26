@@ -28,10 +28,10 @@
  * This class represents an object that allows getting and setting its data,
  * but only via protected methods so that encapsulation is retained.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_object {
 	/**
@@ -42,27 +42,27 @@ abstract class tx_oelib_object {
 	/**
 	 * Gets the value of the data item for the key $key.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
+	 * @param string the key of the data item to get, must not be empty
 	 *
-	 * @return	mixed		the data for the key $key, will be an empty string
-	 * 						if the key has not been set yet
+	 * @return mixed the data for the key $key, will be an empty string
+	 *               if the key has not been set yet
 	 */
 	abstract protected function get($key);
 
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
-	 * @param	mixed		the data for the key $key
+	 * @param string the key of the data item to get, must not be empty
+	 * @param mixed the data for the key $key
 	 */
 	abstract protected function set($key, $value);
 
 	/**
 	 * Checks that $key is not empty.
 	 *
-	 * @throws	Exception	if $key is empty
+	 * @throws Exception if $key is empty
 	 *
-	 * @param	string		a key to check
+	 * @param string a key to check
 	 */
 	protected function checkForNonEmptyKey($key) {
 		if ($key == '') {
@@ -73,10 +73,9 @@ abstract class tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a string.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	string		the string value of the given key, may be empty
+	 * @return string the string value of the given key, may be empty
 	 */
 	protected function getAsString($key) {
 		$this->checkForNonEmptyKey($key);
@@ -87,10 +86,10 @@ abstract class tx_oelib_object {
 	/**
 	 * Checks whether a non-empty string is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-empty,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-empty,
+	 *                 false otherwise
 	 */
 	protected function hasString($key) {
 		return ($this->getAsString($key) != '');
@@ -99,8 +98,8 @@ abstract class tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a string).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	protected function setAsString($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -111,11 +110,10 @@ abstract class tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to an integer.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	integer		the integer value of the given key, may be positive,
-	 * 						negative or zero
+	 * @return integer the integer value of the given key, may be positive,
+	 *                 negative or zero
 	 */
 	protected function getAsInteger($key) {
 		$this->checkForNonEmptyKey($key);
@@ -126,10 +124,10 @@ abstract class tx_oelib_object {
 	/**
 	 * Checks whether a non-zero integer is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-zero,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-zero,
+	 *                 false otherwise
 	 */
 	protected function hasInteger($key) {
 		return ($this->getAsInteger($key) != 0);
@@ -138,8 +136,8 @@ abstract class tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to an integer).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	protected function setAsInteger($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -151,10 +149,9 @@ abstract class tx_oelib_object {
 	 * Gets the value stored in under the key $key, converted to an array of
 	 * trimmed strings.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	array		the array value of the given key, may be empty
+	 * @return array the array value of the given key, may be empty
 	 */
 	protected function getAsTrimmedArray($key) {
 		$stringValue = $this->getAsString($key);
@@ -170,10 +167,9 @@ abstract class tx_oelib_object {
 	 * Gets the value stored under the key $key, converted to an array of
 	 * integers.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	array		the array value of the given key, may be empty
+	 * @return array the array value of the given key, may be empty
 	 */
 	protected function getAsIntegerArray($key) {
 		$stringValue = $this->getAsString($key);
@@ -193,11 +189,11 @@ abstract class tx_oelib_object {
 	 * getAsIntegerArray to split that element at the comma. This is a known
 	 * limitation.
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	array		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param array the value to set, may be empty
 	 *
-	 * @see	getAsTrimmedArray
-	 * @see	getAsIntegerArray
+	 * @see getAsTrimmedArray
+	 * @see getAsIntegerArray
 	 */
 	protected function setAsArray($key, array $value) {
 		$this->setAsString($key, implode(',', $value));
@@ -206,10 +202,9 @@ abstract class tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a boolean.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	boolean		the boolean value of the given key
+	 * @return boolean the boolean value of the given key
 	 */
 	protected function getAsBoolean($key) {
 		$this->checkForNonEmptyKey($key);
@@ -220,8 +215,8 @@ abstract class tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a boolean).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	protected function setAsBoolean($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -232,11 +227,10 @@ abstract class tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a float.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	float		the float value of the given key, may be positive,
-	 * 						negative or zero
+	 * @return float the float value of the given key, may be positive,
+	 *               negative or zero
 	 */
 	protected function getAsFloat($key) {
 		$this->checkForNonEmptyKey($key);
@@ -247,10 +241,10 @@ abstract class tx_oelib_object {
 	/**
 	 * Checks whether a non-zero float is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-zero,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-zero,
+	 *                 false otherwise
 	 */
 	protected function hasFloat($key) {
 		return ($this->getAsFloat($key) != 0.00);
@@ -259,8 +253,8 @@ abstract class tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a float).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	protected function setAsFloat($key, $value) {
 		$this->checkForNonEmptyKey($key);

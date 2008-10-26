@@ -30,19 +30,18 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
  * This class represents an object that allows getting and setting its data
  * via public methods.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a string.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	string		the string value of the given key, may be empty
+	 * @return string the string value of the given key, may be empty
 	 */
 	public function getAsString($key) {
 		return parent::getAsString($key);
@@ -51,10 +50,10 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Checks whether a non-empty string is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-empty,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-empty,
+	 *                 false otherwise
 	 */
 	public function hasString($key) {
 		return parent::hasString($key);
@@ -63,8 +62,8 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a string).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	public function setAsString($key, $value) {
 		parent::setAsString($key, $value);
@@ -73,11 +72,10 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to an integer.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	integer		the integer value of the given key, may be positive,
-	 * 						negative or zero
+	 * @return integer the integer value of the given key, may be positive,
+	 *                 negative or zero
 	 */
 	public function getAsInteger($key) {
 		return parent::getAsInteger($key);
@@ -86,10 +84,10 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Checks whether a non-zero integer is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-zero,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-zero,
+	 *                 false otherwise
 	 */
 	public function hasInteger($key) {
 		return parent::hasInteger($key);
@@ -98,8 +96,8 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to an integer).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	public function setAsInteger($key, $value) {
 		parent::setAsInteger($key, $value);
@@ -109,10 +107,9 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	 * Gets the value stored in under the key $key, converted to an array of
 	 * trimmed strings.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	array		the array value of the given key, may be empty
+	 * @return array the array value of the given key, may be empty
 	 */
 	public function getAsTrimmedArray($key) {
 		return parent::getAsTrimmedArray($key);
@@ -122,10 +119,9 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	 * Gets the value stored under the key $key, converted to an array of
 	 * integers.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	array		the array value of the given key, may be empty
+	 * @return array the array value of the given key, may be empty
 	 */
 	public function getAsIntegerArray($key) {
 		return parent::getAsIntegerArray($key);
@@ -139,11 +135,11 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	 * getAsIntegerArray to split that element at the comma. This is a known
 	 * limitation.
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	array		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param array the value to set, may be empty
 	 *
-	 * @see	getAsTrimmedArray
-	 * @see	getAsIntegerArray
+	 * @see getAsTrimmedArray
+	 * @see getAsIntegerArray
 	 */
 	public function setAsArray($key, array $value) {
 		parent::setAsArray($key, $value);
@@ -152,10 +148,9 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a boolean.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	boolean		the boolean value of the given key
+	 * @return boolean the boolean value of the given key
 	 */
 	public function getAsBoolean($key) {
 		return parent::getAsBoolean($key);
@@ -164,8 +159,8 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a boolean).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	public function setAsBoolean($key, $value) {
 		parent::setAsBoolean($key, $value);
@@ -174,11 +169,10 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a float.
 	 *
-	 * @param	string		the key of the element to retrieve, must not be
-	 * 						empty
+	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return	float		the float value of the given key, may be positive,
-	 * 						negative or zero
+	 * @return float the float value of the given key, may be positive,
+	 *               negative or zero
 	 */
 	public function getAsFloat($key) {
 		return parent::getAsFloat($key);
@@ -187,10 +181,10 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Checks whether a non-zero float is stored under the key $key.
 	 *
-	 * @param	string		the key of the element to check, must not be empty
+	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return	boolean		true if the value for the given key is non-zero,
-	 * 						false otherwise
+	 * @return boolean true if the value for the given key is non-zero,
+	 *                 false otherwise
 	 */
 	public function hasFloat($key) {
 		return parent::hasFloat($key);
@@ -199,8 +193,8 @@ abstract class tx_oelib_publicObject extends tx_oelib_object {
 	/**
 	 * Sets a value for the key $key (and converts it to a float).
 	 *
-	 * @param	string		the key of the element to set, must not be empty
-	 * @param	mixed		the value to set, may be empty
+	 * @param string the key of the element to set, must not be empty
+	 * @param mixed the value to set, may be empty
 	 */
 	public function setAsFloat($key, $value) {
 		parent::setAsFloat($key, $value);

@@ -30,14 +30,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * This class represents a mapper for a testing model.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	/**
-	 * @var	string		the name of the database table for this mapper
+	 * @var string the name of the database table for this mapper
 	 */
 	protected $tableName = 'tx_oelib_test';
 
@@ -45,10 +45,9 @@ class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	 * Creates a model of the correct type for this mapper and fills it with
 	 * the data provided as $data.
 	 *
-	 * @param	array				the data with which the model should be
-	 * 								filled, may be empty
+	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return	tx_oelib_testingModel		the filled model
+	 * @return tx_oelib_testingModel the filled model
  	 */
 	protected function createAndFillModel(array $data) {
 		$model = t3lib_div::makeInstance('tx_oelib_testingModel');
@@ -62,7 +61,7 @@ class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	 *
 	 * This function is intendend to be used for testing purposes only.
 	 *
-	 * @param	tx_oelib_identityMap	the map to set
+	 * @param tx_oelib_identityMap the map to set
 	 */
 	public function setMap(tx_oelib_identityMap $map) {
 		$this->map = $map;

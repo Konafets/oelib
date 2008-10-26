@@ -30,15 +30,15 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  * This class represents a mapper that is broken because it has no table name
  * defined.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_dataMapper {
 	/**
-	 * @var	string		a comma-separated list of DB column names to retrieve
-	 * 					or "*" for all columns
+	 * @var string a comma-separated list of DB column names to retrieve
+	 *             or "*" for all columns
 	 */
 	protected $columns = '*';
 
@@ -46,10 +46,10 @@ class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_dataMapper {
 	 * Creates a model of the correct type for this mapper and fills it with
 	 * the data provided as $data.
 	 *
-	 * @param	array				the data with which the model should be
-	 * 								filled, may be empty
+	 * @param array the data with which the model should be
+	 *              filled, may be empty
 	 *
-	 * @return	tx_oelib_testingModel		the filled model
+	 * @return tx_oelib_testingModel the filled model
  	 */
 	protected function createAndFillModel(array $data) {
 		$model = t3lib_div::makeInstance('tx_oelib_testingModel');

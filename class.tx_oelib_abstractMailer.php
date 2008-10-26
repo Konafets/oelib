@@ -30,10 +30,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  * need to implement the concrete behavior.
  * Regarding the Strategy pattern, sendEmail() represents the abstract strategy.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 abstract class tx_oelib_abstractMailer {
 	/** whether an e-mail should be formatted before it is sent */
@@ -42,18 +42,18 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * This function usually should send e-mails.
 	 *
-	 * @param	string		the recipient's e-mail address, will not be
-	 * 						validated, must not be empty
-	 * @param	string		e-mail subject, must not be empty
-	 * @param	string		message to send, must not be empty
-	 * @param	string		headers, separated by linefeed, may be empty
-	 * @param	string		encoding type: "base64", "quoted-printable" or "8bit"
-	 * @param	string		charset to use for encoding headers (only if
-	 * 						$encodingType is set to a valid value which produces
-	 * 						such a header)
-	 * @param	boolean		if set, the header content will not be encoded
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 * @param string headers, separated by linefeed, may be empty
+	 * @param string encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param string charset to use for encoding headers (only if
+	 *               $encodingType is set to a valid value which produces
+	 *               such a header)
+	 * @param boolean if set, the header content will not be encoded
 	 *
-	 * @return	boolean		true if the e-mail was sent, false otherwise
+	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
 	public abstract function sendEmail(
 		$emailAddress,
@@ -70,7 +70,7 @@ abstract class tx_oelib_abstractMailer {
 	 * Formatting will replace single linefeeds or carriage returns by carriage
 	 * return plus linefeed and strip multiple blank lines.
 	 *
-	 * @param	boolean		true to enable formatting, false to disable
+	 * @param boolean true to enable formatting, false to disable
 	 */
 	public function sendFormattedEmails($enableFormatting) {
 		$this->enableFormatting = $enableFormatting;
@@ -83,10 +83,10 @@ abstract class tx_oelib_abstractMailer {
 	 * surplus blank lines, so there are no more than two linefeeds behind one
 	 * another.
 	 *
-	 * @param	string		raw e-mail body, must not be empty
+	 * @param string raw e-mail body, must not be empty
 	 *
-	 * @return	string		e-mail body, formatted if formatting is enabled,
-	 * 						will not be empty
+	 * @return string e-mail body, formatted if formatting is enabled,
+	 *                will not be empty
 	 */
 	protected function formatEmailBody($rawEmailBody) {
 		if (!$this->enableFormatting) {

@@ -27,16 +27,16 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templatehelper.php
  * This is mere a class to test the configuration check class in the 'oelib'
  * extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 final class tx_oelib_dummyObjectToCheck extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param	array		configuration for the dummy object, may be empty
+	 * @param array configuration for the dummy object, may be empty
 	 */
 	public function __construct(array $configuration) {
 		$this->init($configuration);

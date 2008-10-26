@@ -29,11 +29,11 @@ define('OELIB_EXTENSION_KEY', 'oelib');
 /**
  * Testcase for the configuration proxy class in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Niels Pardon <mail@niels-pardon.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	private $fixture;

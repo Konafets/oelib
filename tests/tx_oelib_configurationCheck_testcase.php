@@ -27,10 +27,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_dum
 /**
  * Testcase for the configuration check class in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	/** configuration check object to be tested */
@@ -63,8 +63,8 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	/**
 	 * Sets the configuration value for the locale to $localeKey.
 	 *
-	 * @param	string		key for the locale, to receive a non-configured
-	 * 						locale, provide an empty string
+	 * @param string key for the locale, to receive a non-configured
+	 *               locale, provide an empty string
 	 */
 	private function setConfigurationForLocale($localeKey) {
 		$GLOBALS['TSFE']->config['config']['locale_all'] = $localeKey;
@@ -73,9 +73,9 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	/**
 	 * Returns a key of an installed locales which contains "utf".
 	 *
-	 * @return	string		installed locale with "utf" in the key (e.g.
-	 * 						"en_US.utf8"), may be empty if none of the installed
-	 * 						locales contains "utf"
+	 * @return string installed locale with "utf" in the key (e.g.
+	 *                "en_US.utf8"), may be empty if none of the installed
+	 *                locales contains "utf"
 	 */
 	private function getInstalledUtfLocale() {
 		if (TYPO3_OS == 'WIN') {

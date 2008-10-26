@@ -33,27 +33,27 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  *
  * This class represents a mapper that maps database record to model instances.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_dataMapper {
 	/**
-	 * @var	string		the name of the database table for this mapper,
-	 * 					must not be empty in subclasses
+	 * @var string the name of the database table for this mapper,
+	 *             must not be empty in subclasses
 	 */
 	protected $tableName = '';
 
 	/**
-	 * @var	string		a comma-separated list of DB column names to retrieve
-	 * 					or "*" for all columns, must not be empty
+	 * @var string a comma-separated list of DB column names to retrieve
+	 *             or "*" for all columns, must not be empty
 	 */
 	protected $columns = '*';
 
 	/**
-	 * @var	tx_oelib_identityMap	a map that holds the models that already
-	 * 								have been retrieved
+	 * @var tx_oelib_identityMap a map that holds the models that already
+	 *                           have been retrieved
 	 */
 	protected $map = null;
 
@@ -89,13 +89,12 @@ abstract class tx_oelib_dataMapper {
 	 * Retrieves a record from the DB by UID and creates a model from it. If
 	 * the model already is cached in memory, the cached instance is returned.
 	 *
-	 * @throws	tx_oelib_notFoundException	if there is no record in the DB
-	 * 										with that particular UID
+	 * @throws tx_oelib_notFoundException if there is no record in the DB
+	 *                                    with that particular UID
 	 *
-	 * @param	integer						the UID of the record to retrieve,
-	 * 										must be > 0
+	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return	tx_oelib_model				the stored model with the UID $uid
+	 * @return tx_oelib_model the stored model with the UID $uid
 	 */
 	public function find($uid) {
 		try {
@@ -111,13 +110,12 @@ abstract class tx_oelib_dataMapper {
 	 * Retrieves a record from the DB without consulting this mapper's map,
 	 * and then stores it in the map.
 	 *
-	 * @throws	tx_oelib_notFoundException	if there is no record in the DB
-	 * 										with that particular UID
+	 * @throws tx_oelib_notFoundException if there is no record in the DB
+	 *                                    with that particular UID
 	 *
-	 * @param	integer						the UID of the record to retrieve,
-	 * 										must be > 0
+	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return	tx_oelib_model				the stored model with the UID $uid
+	 * @return tx_oelib_model the stored model with the UID $uid
 	 */
 	protected function load($uid) {
 		$queryResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -150,10 +148,9 @@ abstract class tx_oelib_dataMapper {
 	 * Creates a model of the correct type for this mapper and fills it with
 	 * the data provided as $data.
 	 *
-	 * @param	array				the data with which the model should be
-	 * 								filled, may be empty
+	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return	tx_oelib_model		the filled model
+	 * @return tx_oelib_model the filled model
 	 */
 	protected abstract function createAndFillModel(array $data);
 }

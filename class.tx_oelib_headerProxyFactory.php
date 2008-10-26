@@ -33,10 +33,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_headerCollector.ph
  * collector stores the headers that were added and does not send them. This
  * mode is for testing purposes.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_headerProxyFactory {
 	/** the singleton factory */
@@ -57,7 +57,7 @@ class tx_oelib_headerProxyFactory {
 	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
-	 * @return	tx_oelib_headerProxyFactory		the singleton factory
+	 * @return tx_oelib_headerProxyFactory the singleton factory
 	 */
 	public static function getInstance() {
 		if (!is_object(self::$instance)) {
@@ -71,7 +71,7 @@ class tx_oelib_headerProxyFactory {
 	 * Retrieves the singleton header proxy instance. Depending on the mode,
 	 * this instance is either a header collector or a real header proxy.
 	 *
-	 * @return	tx_oelib_abstractHeaderProxy		the singleton header proxy
+	 * @return tx_oelib_abstractHeaderProxy the singleton header proxy
 	 */
 	public function getHeaderProxy() {
 		if ($this->isTestMode) {

@@ -29,19 +29,19 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
  *
  * This class represents a general domain model.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_model extends tx_oelib_object {
 	/**
-	 * @var	array	the data for this object
+	 * @var array the data for this object
 	 */
 	private $data = array();
 
 	/**
-	 * @var	boolean		whether this model has any data set
+	 * @var boolean whether this model has any data set
 	 */
 	private $hasData = false;
 
@@ -51,8 +51,8 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	 * After instantiation, this model's data can be set via via setData() or
 	 * set().
 	 *
-	 * @see	setData
-	 * @see	set
+	 * @see setData
+	 * @see set
 	 */
 	public function __construct() {
 	}
@@ -70,7 +70,7 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	 * This function should be called directly after instantiation and must only
 	 * be called once.
 	 *
-	 * @param	array		the data for this model, may be empty
+	 * @param array the data for this model, may be empty
 	 */
 	public function setData(array $data) {
 		if ($this->hasData) {
@@ -90,10 +90,10 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	 * Before this function may be called, setData() or set() must have been
 	 * called once.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
+	 * @param string the key of the data item to get, must not be empty
 	 *
-	 * @return	mixed		the data for the key $key, will be an empty string
-	 * 						if the key has not been set yet
+	 * @return mixed the data for the key $key, will be an empty string
+	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
 		if (!$this->hasData) {
@@ -112,8 +112,8 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
-	 * @param	mixed		the data for the key $key
+	 * @param string the key of the data item to get, must not be empty
+	 * @param mixed the data for the key $key
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
@@ -124,8 +124,8 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	/**
 	 * Gets this model's UIDs.
 	 *
-	 * @return	integer		this model's UID, will be zero if this model does
-	 * 						not have a UID yet
+	 * @return integer this model's UID, will be zero if this model does
+	 *                 not have a UID yet
 	 */
 	public function getUid() {
 		return $this->getAsInteger('uid');
@@ -134,8 +134,7 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	/**
 	 * Checks whether this model has a UID.
 	 *
-	 * @return	boolean		true if this model has a non-zero UID, false
-	 * 						otherwise
+	 * @return boolean true if this model has a non-zero UID, false otherwise
 	 */
 	public function hasUid() {
 		return $this->hasInteger('uid');

@@ -33,10 +33,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_emailCollector.php
  * the data provided to sendEmail() and does not send it. This mode is for
  * testing purposes.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_mailerFactory {
 	/** the singleton factory */
@@ -57,7 +57,7 @@ class tx_oelib_mailerFactory {
 	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
-	 * @return	tx_oelib_mailerFactory		the singleton factory
+	 * @return tx_oelib_mailerFactory the singleton factory
 	 */
 	public static function getInstance() {
 		if (!is_object(self::$instance)) {
@@ -71,7 +71,7 @@ class tx_oelib_mailerFactory {
 	 * Retrieves the singleton mailer instance. Depending on the mode, this
 	 * instance is either an e-mail collector or a real mailer.
 	 *
-	 * @return	tx_oelib_abstractMailer		the singleton mailer object
+	 * @return tx_oelib_abstractMailer the singleton mailer object
 	 */
 	public function getMailer() {
 		if ($this->isTestMode) {

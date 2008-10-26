@@ -30,10 +30,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher
  * This is mere a class used for unit tests of the 'oelib' extension. Don't
  * use it for any other purpose.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher {
 	public $prefixId = 'tx_oelib_salutationswitcherchild';
@@ -44,10 +44,10 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * The constructor.
 	 *
-	 * @param	array	TS setup configuration array, may be empty
+	 * @param array TS setup configuration array, may be empty
 	 */
 	public function __construct(array $configuration) {
-		// Call the base classe's constructor manually as this isn't done
+		// Calls the base classe's constructor manually as this isn't done
 		// automatically.
 		parent::tslib_pibase();
 
@@ -60,8 +60,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the current language for this plugin and loads the language files.
 	 *
-	 * @param	string		two-letter lowercase language like "en" or "de"
-	 * 						or "default" (which is an alias for "en")
+	 * @param string two-letter lowercase language like "en" or "de" or
+	 *               "default" (which is an alias for "en")
 	 */
 	public function setLanguage($language) {
 		if ($this->getLanguage() != $language) {
@@ -76,10 +76,10 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Gets the current language.
 	 *
-	 * @return	string		the two-letter key of the current language like "en",
-	 * 						"de" or "default" (which is the only non-two-letter
-	 *						code and an alias for "en"), will return an empty
-	 *						string if no language key has been set yet
+	 * @return string the two-letter key of the current language like "en",
+	 *                "de" or "default" (which is the only non-two-letter
+	 *                code and an alias for "en"), will return an empty
+	 *                string if no language key has been set yet
 	 */
 	public function getLanguage() {
 		return $this->LLkey;
@@ -88,8 +88,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the current fallback language for this plugin and loads the language files.
 	 *
-	 * @param	string		two-letter lowercase fallback language like "en" or "de"
-	 * 						or "default" (which is an alias for "en")
+	 * @param string two-letter lowercase fallback language like "en" or "de"
+	 *               or "default" (which is an alias for "en")
 	 */
 	public function setFallbackLanguage($language) {
 		if ($this->getFallbackLanguage() != $language) {
@@ -104,10 +104,10 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Gets the current fallback language.
 	 *
-	 * @return	string		the two-letter key of the current fallback language like "en",
-	 * 						"de" or "default" (which is the only non-two-letter
-	 *						code and an alias for "en"), will return an empty
-	 *						string if no language key has been set yet
+	 * @return string the two-letter key of the current fallback language like
+	 *                "en", "de" or "default" (which is the only non-two-letter
+	 *                code and an alias for "en"), will return an empty
+	 *                string if no language key has been set yet
 	 */
 	public function getFallbackLanguage() {
 		return $this->altLLkey;
@@ -116,7 +116,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the salutation mode.
 	 *
-	 * @param	string		the salutation mode to use ("formal" or "informal")
+	 * @param string the salutation mode to use ("formal" or "informal")
 	 */
 	public function setSalutationMode($salutation) {
 		$this->conf['salutation'] = $salutation;
@@ -125,7 +125,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Gets the salutation mode.
 	 *
-	 * @return	string		the current salutation mode to use: "formal", "informal" or an empty string
+	 * @return string the current salutation mode to use: "formal", "informal"
+	 *                or an empty string
 	 */
 	public function getSalutationMode() {
 		return $this->conf['salutation'];

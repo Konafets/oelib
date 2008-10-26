@@ -34,30 +34,30 @@ define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
 /**
  * Testcase for the testing framework in the 'oelib' extension.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Mario Rimann <typo3-coding@rimann.org>
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
- * @author		Saskia Metzler <saskia@merlin.owl.de>
- * @author		Niels Pardon <mail@niels-pardon.de>
+ * @author Mario Rimann <typo3-coding@rimann.org>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
-	/** @var	tx_oelib_testingFramework */
+	/** @var tx_oelib_testingFramework */
 	private $fixture;
 
 	/**
-	 * @var	string	absolute path to a "foreign" file which was created for test
-	 * 				purposes and which should be deleted in tearDown(); this is
-	 *				needed for testDeleteDummyFileWithForeignFileThrowsException
+	 * @var string absolute path to a "foreign" file which was created for test
+	 *             purposes and which should be deleted in tearDown(); this is
+	 *             needed for testDeleteDummyFileWithForeignFileThrowsException
 	 */
 	private $foreignFileToDelete = '';
 
 	/**
-	 * @var	string	absolute path to a "foreign" folder which was created for
-	 * 				test purposes and which should be deleted in tearDown();
-	 * 				this is needed for
-	 * 				testDeleteDummyFolderWithForeignFolderThrowsException
+	 * @var string absolute path to a "foreign" folder which was created for
+	 *             test purposes and which should be deleted in tearDown();
+	 *             this is needed for
+	 *             testDeleteDummyFolderWithForeignFolderThrowsException
 	 */
 	private $foreignFolderToDelete = '';
 
@@ -88,10 +88,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	 * the first parameter $uidLocal and the foreign UID given by the second
 	 * parameter $uidForeign.
 	 *
-	 * @param	integer		the UID of the local record, must be > 0
-	 * @param	integer		the UID of the foreign record, must be > 0
+	 * @param integer the UID of the local record, must be > 0
+	 * @param integer the UID of the foreign record, must be > 0
 	 *
-	 * @return	integer		the sorting value of the relation
+	 * @return integer the sorting value of the relation
 	 */
 	private function getSortingOfRelation($uidLocal, $uidForeign) {
 		$row = $this->fixture->getAssociativeDatabaseResult(

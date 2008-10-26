@@ -31,10 +31,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_abstractMailer.php
  * provides various functions to get them for testing purposes.
  * Regarding the Strategy pattern, sendEmail() represents one concrete behavior.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Saskia Metzler <saskia@merlin.owl.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
@@ -52,18 +52,18 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Stores the contents which were meant to be sent as an e-mail.
 	 *
-	 * @param	string		the recipient's e-mail address, will not be
-	 * 						validated, must not be empty
-	 * @param	string		e-mail subject, must not be empty
-	 * @param	string		message to send, must not be empty
-	 * @param	string		headers, separated by linefeed, may be empty
-	 * @param	string		encoding type: "base64", "quoted-printable" or "8bit"
-	 * @param	string		charset to use for encoding headers (only if
-	 * 						$encodingType is set to a valid value which produces
-	 * 						such a header)
-	 * @param	boolean		if set, the header content will not be encoded
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 * @param string headers, separated by linefeed, may be empty
+	 * @param string encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param string charset to use for encoding headers (only if
+	 *               $encodingType is set to a valid value which produces
+	 *               such a header)
+	 * @param boolean if set, the header content will not be encoded
 	 *
-	 * @param	boolean		depending on whether success should be faked or not
+	 * @param boolean depending on whether success should be faked or not
 	 */
 	public function sendEmail(
 		$emailAddress,
@@ -87,8 +87,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Sets the return value for sendEmail().
 	 *
-	 * @param	boolean		true if sendEmail() should return true, false
-	 * 						otherwise
+	 * @param boolean true if sendEmail() should return true, false otherwise
 	 */
 	public function setFakedReturnValue($isSuccessful) {
 		$this->fakeSuccess = $isSuccessful;
@@ -97,9 +96,9 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns the last e-mail or an empty array if there is none.
 	 *
-	 * @return	array		e-mail address, subject, message and headers of the
-	 * 						last e-mail in an array, will be empty if there is
-	 * 						no e-mail
+	 * @return array e-mail address, subject, message and headers of the
+	 *               last e-mail in an array, will be empty if there is
+	 *               no e-mail
 	 */
 	public function getLastEmail() {
 		if (empty($this->emailData)) {
@@ -113,12 +112,12 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 * Returns all e-mails sent with this instance or an empty array if there is
 	 * none.
 	 *
-	 * @return	array		two-dimensional array with one element for each
-	 * 						e-mail, each inner array has four elements
-	 * 						'recipient', 'subject', 'message' and 'headers',
-	 * 						will be empty if there are no e-mails
+	 * @return array two-dimensional array with one element for each
+	 *               e-mail, each inner array has four elements
+	 *               'recipient', 'subject', 'message' and 'headers',
+	 *               will be empty if there are no e-mails
 	 *
-	 * @see		emailData
+	 * @see emailData
 	 */
 	public function getAllEmail() {
 		return $this->emailData;
@@ -127,8 +126,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns the last e-mail's recipient.
 	 *
-	 * @return	string		recipient of the last sent e-mail or an empty string
-	 * 						if there is none
+	 * @return string recipient of the last sent e-mail or an empty string
+	 *                if there is none
 	 */
 	public function getLastRecipient() {
 		return $this->getElementFromLastEmail('recipient');
@@ -137,8 +136,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns the last e-mail's subject.
 	 *
-	 * @return	string		subject of the last sent e-mail or an empty string
-	 * 						if there is none
+	 * @return string subject of the last sent e-mail or an empty string
+	 *                if there is none
 	 */
 	public function getLastSubject() {
 		return $this->getElementFromLastEmail('subject');
@@ -147,8 +146,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns the last e-mail's body.
 	 *
-	 * @return	string		body of the last sent e-mail or an empty string if
-	 * 						there is none
+	 * @return string body of the last sent e-mail or an empty string if
+	 *                there is none
 	 */
 	public function getLastBody() {
 		return $this->getElementFromLastEmail('message');
@@ -157,8 +156,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns the last e-mail's additional headers.
 	 *
-	 * @return	string		headers of the last sent e-mail or an empty string
-	 * 						if there are none
+	 * @return string headers of the last sent e-mail or an empty string
+	 *                if there are none
 	 */
 	public function getLastHeaders() {
 		return $this->getElementFromLastEmail('headers');
@@ -167,11 +166,11 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns an element from the array with the last e-mail.
 	 *
-	 * @param	string		key of the element to return, must be 'recipient',
-	 * 						'subject', 'message' or 'headers'
+	 * @param string key of the element to return, must be 'recipient',
+	 *               'subject', 'message' or 'headers'
 	 *
-	 * @return	string		value of the element, will be an empty string if
-	 * 						there was none
+	 * @return string value of the element, will be an empty string if
+	 *                there was none
 	 */
 	private function getElementFromLastEmail($key) {
 		if (!in_array($key, array('recipient', 'subject', 'message', 'headers'))) {

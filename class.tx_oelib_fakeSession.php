@@ -32,14 +32,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
  *
  * It is intended for testing purposes.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_fakeSession extends tx_oelib_session {
 	/**
-	 * @var	array	the data for this session
+	 * @var array the data for this session
 	 */
 	private $sessionData = array();
 
@@ -63,10 +63,10 @@ class tx_oelib_fakeSession extends tx_oelib_session {
 	/**
 	 * Gets the value of the data item for the key $key.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
+	 * @param string the key of the data item to get, must not be empty
 	 *
-	 * @return	mixed		the data for the key $key, will be an empty string
-	 * 						if the key has not been set yet
+	 * @return mixed the data for the key $key, will be an empty string
+	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
 		if (!isset($this->sessionData[$key])) {
@@ -79,8 +79,8 @@ class tx_oelib_fakeSession extends tx_oelib_session {
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param	string		the key of the data item to get, must not be empty
-	 * @param	mixed		the data for the key $key
+	 * @param string the key of the data item to get, must not be empty
+	 * @param mixed the data for the key $key
 	 */
 	protected function set($key, $value) {
 		$this->sessionData[$key] = $value;

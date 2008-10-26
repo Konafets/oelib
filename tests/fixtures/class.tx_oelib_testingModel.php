@@ -29,16 +29,16 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
  *
  * This class represents a domain model for testing purposes.
  *
- * @package		TYPO3
- * @subpackage	tx_oelib
+ * @package TYPO3
+ * @subpackage tx_oelib
  *
- * @author		Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 final class tx_oelib_testingModel extends tx_oelib_model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
-	 * @param	string		the value to set, may be empty
+	 * @param string the value to set, may be empty
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);
@@ -47,7 +47,7 @@ final class tx_oelib_testingModel extends tx_oelib_model {
 	/**
 	 * Gets the "title" data item.
 	 *
-	 * @return	string		the value of the "title" data item, may be empty
+	 * @return string the value of the "title" data item, may be empty
 	 */
 	public function getTitle() {
 		return $this->getAsString('title');
@@ -58,7 +58,7 @@ final class tx_oelib_testingModel extends tx_oelib_model {
 	 *
 	 * This function is for testing purposes only.
 	 *
-	 * @param	integer		the UID to set, must be >= 0
+	 * @param integer the UID to set, must be >= 0
 	 */
 	public function setUid($uid) {
 		$this->setAsInteger('uid', $uid);
