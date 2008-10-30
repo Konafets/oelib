@@ -23,7 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'mappers/class.tx_oelib_testingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');

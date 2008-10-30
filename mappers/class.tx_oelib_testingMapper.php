@@ -68,7 +68,7 @@ class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_testingMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_testingMapper.php']);
 }
 ?>

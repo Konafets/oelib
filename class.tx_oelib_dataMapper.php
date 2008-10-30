@@ -99,11 +99,11 @@ abstract class tx_oelib_dataMapper {
 	public function find($uid) {
 		try {
 			$result = $this->map->get($uid);
-			return $result;
 		} catch (tx_oelib_notFoundException $exception) {
 			$result = $this->load($uid);
-			return $result;
 		}
+
+		return $result;
 	}
 
 	/**
@@ -138,7 +138,6 @@ abstract class tx_oelib_dataMapper {
 		}
 
 		$model = $this->createAndFillModel($data);
-
 		$this->map->add($model);
 
 		return $model;
