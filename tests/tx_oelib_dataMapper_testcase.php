@@ -43,7 +43,7 @@ class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 	/**
-	 * @var tx_oelib_dataMapper the indentity map to test
+	 * @var tx_oelib_dataMapper the data mapper to test
 	 */
 	private $fixture;
 

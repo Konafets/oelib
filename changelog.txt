@@ -1,4 +1,5 @@
 0.4.3 - currently working on
+- [#2041] Feature: Provide an abstraction for FE users
 - [#2313] Feature: Add a class "mapperRegistry"
 - [#2120] Change: Use tabs for indentation only at the beginning of lines
 - [#1403] Feature: createRelation() needs to update the relation counter field in the local record
