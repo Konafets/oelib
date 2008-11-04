@@ -91,9 +91,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	private $markers = array();
 
 	/**
-	 * @var array Subpart names that shouldn't be displayed. Set a subpart
-	              key like "FIELD_DATE" (the value does not matter) to
-	              remove that subpart.
+	 * @var array Subpart names that shouldn't be displayed. Set a subpart key
+	 *            like "FIELD_DATE" (the value does not matter) to remove that
+	 *            subpart.
 	 */
 	private $subpartsToHide = array();
 
@@ -617,29 +617,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *               case-insensitive, will get uppercased)
 	 *
 	 * @access protected
-	 *
-	 * @deprecated 2007-12-09 Use setMarker instead.
-	 */
-	function setMarkerContent($markerName, $content, $prefix = '') {
-		$this->setMarker($markerName, $content, $prefix);
-	}
-
-	/**
-	 * Sets a marker's content.
-	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the
-	 * marker "###FIELD_ONE###" will be written.
-	 *
-	 * If the prefix is empty and the marker name is "one", the marker
-	 * "###ONE###" will be written.
-	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param string the marker's content, may be empty
-	 * @param string prefix to the marker name (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
 	 */
 	function setMarker($markerName, $content, $prefix = '') {
 		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
@@ -667,29 +644,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		}
 
 		return $this->markers[$unifiedMarkerName];
-	}
-
-	/**
-	 * Sets a subpart's content.
-	 *
-	 * Example: If the prefix is "field" and the subpart name is "one", the
-	 * subpart "###FIELD_ONE###" will be written.
-	 *
-	 * If the prefix is empty and the subpart name is "one", the subpart
-	 * "###ONE###" will be written.
-	 *
-	 * @param string the subpart's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param string the subpart's content, may be empty
-	 * @param string prefix to the subpart name (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 2007-12-09 Use setSubpart instead.
-	 */
-	function setSubpartContent($subpartName, $content, $prefix = '') {
-		$this->setSubpart($subpartName, $content, $prefix);
 	}
 
 	/**
@@ -790,31 +744,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Takes a comma-separated list of subpart names and writes them to
-	 * $this->subpartsToHide. In the process, the names are changed from 'aname'
-	 * to '###BLA_ANAME###' and used as keys. The corresponding values in the
-	 * array are empty strings.
-	 *
-	 * Example: If the prefix is "field" and the list is "one,two", the array keys
-	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be written.
-	 *
-	 * If the prefix is empty and the list is "one,two", the array keys
-	 * "###ONE###" and "###TWO###" will be written.
-	 *
-	 * @param string comma-separated list of at least 1 subpart name to
-	 *               hide (case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 2007-08-22 Use hideSubparts instead.
-	 */
-	function readSubpartsToHide($subparts, $prefix = '') {
-		$this->hideSubparts($subparts, $prefix);
-	}
-
-	/**
 	 * Takes a comma-separated list of subpart names and sets them to hidden. In
 	 * the process, the names are changed from 'aname' to '###BLA_ANAME###' and
 	 * used as keys.
@@ -861,39 +790,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			$this->subpartsToHide[$fullSubpartName] = true;
 		}
-	}
-
-	/**
-	 * Takes a comma-separated list of subpart names and unhides them if they
-	 * have been hidden beforehand.
-	 *
-	 * Note: All subpartNames that are provided with the second parameter will
-	 * not be unhidden. This is to avoid unhiding subparts that are hidden by
-	 * the configuration.
-	 *
-	 * In the process, the names are changed from 'aname' to '###BLA_ANAME###'.
-	 *
-	 * Example: If the prefix is "field" and the list is "one,two", the subparts
-	 * "###FIELD_ONE###" and "###FIELD_TWO###" will be unhidden.
-	 *
-	 * If the prefix is empty and the list is "one,two", the subparts
-	 * "###ONE###" and "###TWO###" will be unhidden.
-	 *
-	 * @param string comma-separated list of at least 1 subpart name to
-	 *               unhide (case-insensitive, will get uppercased)
-	 * @param string comma-separated list of subpart names that
-	 *               shouldn't get unhidden
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 2007-08-22 Use unhideSubparts instead.
-	 */
-	function readSubpartsToUnhide(
-		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
-	) {
-		$this->unhideSubparts($subparts, $permanentlyHiddenSubparts, $prefix);
 	}
 
 	/**
@@ -1137,29 +1033,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                subpart is hidden or the subpart name is missing
 	 *
 	 * @access protected
-	 *
-	 * @deprecated 2007-08-22 Use getSubpart instead.
-	 */
-	function substituteMarkerArrayCached($key = '') {
-		return $this->getSubpart($key);
-	}
-
-	/**
-	 * Retrieves a named subpart, recursively filling in its inner subparts
-	 * and markers. Inner subparts that are marked to be hidden will be
-	 * substituted with empty strings.
-	 *
-	 * This function either works on the subpart with the name $key or the
-	 * complete HTML template if $key is an empty string.
-	 *
-	 * @param string key of an existing subpart, for example 'LIST_ITEM'
-	 *               (without the ###), or an empty string to use the
-	 *               complete HTML template
-	 *
-	 * @return string the subpart content or an empty string if the
-	 *                subpart is hidden or the subpart name is missing
-	 *
-	 * @access protected
 	 */
 	function getSubpart($key = '') {
 		if (($key != '') && !isset($this->templateCache[$key])) {
@@ -1277,46 +1150,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	function createClassAttribute($className) {
 		return !empty($className) ? $this->pi_classParam($className) : '';
-	}
-
-	/**
-	 * Includes a link to the CSS file configured as "cssFile" and adds it to
-	 * the automatic page header with $this->prefixId.'_css' as the array key.
-	 *
-	 * If no file is specified, no link is created.
-	 *
-	 * This function may only be called if $this->$prefixId has been set.
-	 *
-	 * This function is deprecated as the CSS file should be added via TypoScript
-	 * to the page. Copy the variable cssFile from your TS setup to your TS
-	 * constants and change the value of the TS setup variable so it points to
-	 * the TS constant variable. Additionally you should add the TS constant
-	 * cssFile to your TS setup page.includeCSS. See the example for details:
-	 *
-	 * TS constants:
-	 * plugin.tx_yourextension_pi1.cssFile = /path/to/yourextension.css
-	 *
-	 * TS setup:
-	 * plugin.tx_yourextension_pi1.cssFile = {$plugin.tx_yourextension_pi1.cssFile}
-	 * page.includeCSS.yourextension = {$plugin.tx_yourextension_pi1.cssFile}
-	 *
-	 * @access protected
-	 *
-	 * @deprecated 0.4.0 - 2007-12-14
-	 */
-	function addCssToPageHeader() {
-		if ($this->hasConfValueString('cssFile', 's_template_special')) {
-			// We use an explicit array key so the CSS file gets included only
-			// once even if there are two instances of the front end plugin
-			// on the same page.
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_css']
-				 = '<style type="text/css">@import "'
-				 .$this->getConfValueString(
-					'cssFile',
-					's_template_special',
-					true
-				).'";</style>';
-		}
 	}
 
 	/**
