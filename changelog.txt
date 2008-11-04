@@ -1,4 +1,5 @@
 0.4.4 - currently working on
+- [#2323] Feature: Add a class template
 
 0.4.3 - released 2008-11-04
 - [#2041] Feature: Provide an abstraction for FE users
