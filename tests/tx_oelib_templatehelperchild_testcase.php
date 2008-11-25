@@ -26,6 +26,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templateRegistry.php');
 
 /**
  * Testcase for the template helper class in the 'oelib' extension.
@@ -43,6 +44,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	public function setUp() {
+		tx_oelib_templateRegistry::getInstance()->enableTestMode();
+
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 		tx_oelib_configurationProxy::getInstance('oelib')
@@ -56,6 +59,8 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->__destruct();
 		unset($this->fixture, $this->testingFramework);
+
+		tx_oelib_templateRegistry::purgeInstance();
 	}
 
 

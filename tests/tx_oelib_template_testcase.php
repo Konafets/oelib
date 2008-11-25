@@ -2886,5 +2886,46 @@ class tx_oelib_template_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->getPrefixedMarkers('foo');
 	}
+
+
+	//////////////////////////////
+	// Tests for resetTemplate()
+	//////////////////////////////
+
+	public function testResetTemplateResetsASetMarker() {
+		$this->fixture->processTemplate('###MARKER###');
+		$this->fixture->setMarker('marker', 'test');
+		$this->fixture->resetTemplate();
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getMarker('marker')
+		);
+	}
+
+	public function testResetTemplateResetsASetSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->foo<!-- ###SUBPART### -->'
+		);
+		$this->fixture->setSubpart('SUBPART', 'test');
+		$this->fixture->resetTemplate();
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getSubpart('SUBPART')
+		);
+	}
+
+	public function testResetTemplateUnhidesAHiddenSubpart() {
+		$this->fixture->processTemplate(
+			'<!-- ###SUBPART### -->foo<!-- ###SUBPART### -->'
+		);
+		$this->fixture->hideSubparts('SUBPART');
+		$this->fixture->resetTemplate();
+
+		$this->assertTrue(
+			$this->fixture->isSubpartVisible('SUBPART')
+		);
+	}
 }
 ?>

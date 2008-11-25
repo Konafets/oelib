@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templateRegistry.php');
 
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
@@ -52,10 +53,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @var string the prefix used for CSS classes
 	 */
 	public $prefixId = '';
+
 	/**
 	 * @var string the path of this file relative to the extension directory
 	 */
 	public $scriptRelPath = '';
+
 	/**
 	 * @var string the extension key
 	 */
@@ -68,40 +71,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	protected $isInitialized = false;
 
 	/**
-	 * @var string the complete HTML template
-	 */
-	private $templateCode = '';
-
-	/**
-	 * @var array associative array of all HTML template subparts, using
-	 *            the marker names without ### as keys, for example "MY_MARKER"
-	 */
-	private $templateCache = array();
-
-	/**
-	 * @var string list of the names of all markers (and subparts) of a template
-	 */
-	private $markerNames = '';
-
-	/**
-	 * @var array associative array of populated markers and their
-	 *            contents (with the keys being the marker names including
-	 *            the wrapping hash signs ###).
-	 */
-	private $markers = array();
-
-	/**
-	 * @var array Subpart names that shouldn't be displayed. Set a subpart key
-	 *            like "FIELD_DATE" (the value does not matter) to remove that
-	 *            subpart.
-	 */
-	private $subpartsToHide = array();
-
-	/**
 	 * @var tx_oelib_configcheck the configuration check object that will
 	 *                           check this object
 	 */
 	protected $configurationCheck = null;
+
+	/**
+	 * @var string the file name of the template set via TypoScript or FlexForms
+	 */
+	private $templateFileName = '';
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
@@ -462,10 +440,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
 	 * @param boolean whether the settings in the Flexform should be ignored
-	 *
-	 * @access protected
 	 */
-	function getTemplateCode($ignoreFlexform = false) {
+	public function getTemplateCode($ignoreFlexform = false) {
 		// Trying to fetch the template code via $this->cObj in BE mode leads to
 		// a non-catchable error in the tslib_content class because the cObj
 		// configuration array is not initialized properly.
@@ -484,16 +460,25 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		);
 
 		if (!$ignoreFlexform) {
-			$templateRawCode = $this->cObj->fileResource($templateFileName);
-		} else {
-			// If there is no need to care about flexforms, the template file is
-			// fetched directly from the local configuration array.
-			$templateRawCode = file_get_contents(
-				t3lib_div::getFileAbsFileName($templateFileName)
+			$templateFileName = $GLOBALS['TSFE']->tmpl->getFileName(
+				$templateFileName
 			);
 		}
 
-		$this->processTemplate($templateRawCode);
+		$this->templateFileName = $templateFileName;
+
+		$this->getTemplate()->resetTemplate();
+	}
+
+	/**
+	 * Returns the template object from the template registry for the file name
+	 * in $this->templateFileName.
+	 *
+	 * @return tx_oelib_template the template object for the template file name
+	 *                           in $this->templateFileName
+	 */
+	private function getTemplate() {
+		return tx_oelib_templateRegistry::get($this->templateFileName);
 	}
 
 	/**
@@ -508,71 +493,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 'MY_SUBPART'.
 	 *
 	 * @param string the content of the HTML template
-	 *
-	 * @access protected
 	 */
-	function processTemplate($templateRawCode) {
-		$this->templateCode = $templateRawCode;
-		$this->markerNames = $this->findMarkers();
-
-		$subpartNames = $this->findSubparts();
-
-		foreach ($subpartNames as $subpartName) {
-			$matches = array();
-			preg_match(
-				'/<!-- *###'.$subpartName.'### *-->(.*)'
-					.'<!-- *###'.$subpartName.'### *-->/msSU',
-				$templateRawCode,
-				$matches
-			);
-			if (isset($matches[1])) {
-				$this->templateCache[$subpartName] = $matches[1];
-			}
-		}
-	}
-
-	/**
-	 * Finds all subparts within the current HTML template.
-	 * The subparts must be within HTML comments.
-	 *
-	 * @return array a list of the subpart names (uppercase, without ###,
-	 *               for example 'MY_SUBPART')
-	 *
-	 * @access protected
-	 */
-	function findSubparts() {
-		$matches = array();
-		preg_match_all(
-			'/<!-- *(###)([A-Z]([A-Z0-9_]*[A-Z0-9])?)(###)/',
-			$this->templateCode,
-			$matches
-		);
-
-		return array_unique($matches[2]);
-	}
-
-	/**
-	 * Finds all markers within the current HTML template.
-	 * Note: This also finds subpart names.
-	 *
-	 * The result is one long string that is easy to process using regular
-	 * expressions.
-	 *
-	 * Example: If the markers ###FOO### and ###BAR### are found, the string
-	 * "#FOO#BAR#" would be returned.
-	 *
-	 * @return string a list of markes as one long string, separated,
-	 *                prefixed and postfixed by '#'
-	 */
-	private function findMarkers() {
-		$matches = array();
-		preg_match_all(
-			'/(###)(([A-Z0-9_]*[A-Z0-9])?)(###)/', $this->templateCode, $matches
-		);
-
-		$markerNames = array_unique($matches[2]);
-
-		return '#'.implode('#', $markerNames).'#';
+	public function processTemplate($templateRawCode) {
+		$this->getTemplate()->processTemplate($templateRawCode);
 	}
 
 	/**
@@ -590,15 +513,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return array array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
-		$matches = array();
-		preg_match_all(
-			'/(#)('.strtoupper($prefix).'_[^#]+)/',
-			$this->markerNames, $matches
-		);
-
-		$result = array_unique($matches[2]);
-
-		return $result;
+		try {
+			return $this->getTemplate()->getPrefixedMarkers($prefix);
+		} catch (Exception $exception) {
+			return array();
+		}
 	}
 
 	/**
@@ -615,15 +534,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string the marker's content, may be empty
 	 * @param string prefix to the marker name (may be empty,
 	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
 	 */
-	function setMarker($markerName, $content, $prefix = '') {
-		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
-
-		if ($this->isMarkerNameValidWithHashes($unifiedMarkerName)) {
-			$this->markers[$unifiedMarkerName] = $content;
-		}
+	public function setMarker($markerName, $content, $prefix = '') {
+		$this->getTemplate()->setMarker($markerName, $content, $prefix);
 	}
 
 	/**
@@ -634,16 +547,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string the marker's content or an empty string if the
 	 *                marker has not been set before
-	 *
-	 * @access protected
 	 */
-	function getMarker($markerName) {
-		$unifiedMarkerName = $this->createMarkerName($markerName);
-		if (!isset($this->markers[$unifiedMarkerName])) {
-			return '';
-		}
-
-		return $this->markers[$unifiedMarkerName];
+	public function getMarker($markerName) {
+		return $this->getTemplate()->getMarker($markerName);
 	}
 
 	/**
@@ -660,16 +566,21 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string the subpart's content, may be empty
 	 * @param string prefix to the subpart name (may be empty,
 	 *               case-insensitive, will get uppercased)
-	 *
-	 * @access protected
 	 */
-	function setSubpart($subpartName, $content, $prefix = '') {
-		$subpartName = $this->createMarkerNameWithoutHashes(
-			$subpartName, $prefix
-		);
-
-		if ($this->isMarkerNameValidWithoutHashes($subpartName)) {
-			$this->templateCache[$subpartName] = $content;
+	public function setSubpart($subpartName, $content, $prefix = '') {
+		try {
+			$this->getTemplate()->setSubpart($subpartName, $content, $prefix);
+		} catch (Exception $exception) {
+			$this->setErrorMessage('The subpart <strong>' . $key .
+				'</strong> is missing in the HTML template file <strong>' .
+				$this->getConfValueString(
+					'templateFile', 's_template_special', true
+				) .
+				'</strong>. If you are using a modified HTML template, please ' .
+				'fix it. If you are using the original HTML template file, ' .
+				'please file a bug report in the ' .
+				'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
+			);
 		}
 	}
 
@@ -684,16 +595,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean true if the marker content has been set, false otherwise
 	 *
-	 * @access protected
-	 *
 	 * @see setMarkerIfNotEmpty
 	 */
-	function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
-		$condition = (intval($content) != 0);
-		if ($condition) {
-			$this->setMarker($markerName, ((string) $content), $markerPrefix);
-		}
-		return $condition;
+	public function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
+		return $this->getTemplate()->setMarkerIfNotZero(
+			$markerName, $content, $markerPrefix
+		);
 	}
 
 	/**
@@ -709,16 +616,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean true if the marker content has been set, false otherwise
 	 *
-	 * @access protected
-	 *
 	 * @see setMarkerIfNotZero
 	 */
-	function setMarkerIfNotEmpty($markerName, $content, $markerPrefix = '') {
-		$condition = !empty($content);
-		if ($condition) {
-			$this->setMarker($markerName, $content, $markerPrefix);
-		}
-		return $condition;
+	public function setMarkerIfNotEmpty($markerName, $content, $markerPrefix = '') {
+		return $this->getTemplate()->setMarkerIfNotEmpty(
+			$markerName, $content, $markerPrefix
+		);
 	}
 
 	/**
@@ -731,16 +634,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *               not be empty
 	 *
 	 * @return boolean true if the subpart is visible, false otherwise
-	 *
-	 * @access pulic
 	 */
-	function isSubpartVisible($subpartName) {
-		if ($subpartName == '') {
-			return false;
-		}
-
-		return (isset($this->templateCache[$subpartName])
-			&& !isset($this->subpartsToHide[$subpartName]));
+	public function isSubpartVisible($subpartName) {
+		return $this->getTemplate()->isSubpartVisible($subpartName);
 	}
 
 	/**
@@ -760,9 +656,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
-		$subpartNames = explode(',', $subparts);
-
-		$this->hideSubpartsArray($subpartNames, $prefix);
+		$this->getTemplate()->hideSubparts($subparts, $prefix);
 	}
 
 	/**
@@ -782,14 +676,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubpartsArray(array $subparts, $prefix = '') {
-		foreach ($subparts as $currentSubpartName) {
-			$fullSubpartName = $this->createMarkerNameWithoutHashes(
-				$currentSubpartName,
-				$prefix
-			);
-
-			$this->subpartsToHide[$fullSubpartName] = true;
-		}
+		$this->getTemplate()->hideSubpartsArray($subparts, $prefix);
 	}
 
 	/**
@@ -819,14 +706,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
 	) {
-		$subpartNames = explode(',', $subparts);
-		if ($permanentlyHiddenSubparts != '') {
-			$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
-		} else {
-			$hiddenSubpartNames = array();
-		}
-
-		$this->unhideSubpartsArray($subpartNames, $hiddenSubpartNames, $prefix);
+		$this->getTemplate()->unhideSubparts(
+			$subparts, $permanentlyHiddenSubparts, $prefix
+		);
 	}
 
 	/**
@@ -855,16 +737,9 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	public function unhideSubpartsArray(
 		array $subparts, array $permanentlyHiddenSubparts = array(), $prefix = ''
 	) {
-		foreach ($subparts as $currentSubpartName) {
-			// Only unhide the current subpart if it is not on the list of
-			// permanently hidden subparts (e.g. by configuration).
-			if (!in_array($currentSubpartName, $permanentlyHiddenSubparts)) {
-				$currentMarkerName = $this->createMarkerNameWithoutHashes(
-					$currentSubpartName, $prefix
-				);
-				unset($this->subpartsToHide[$currentMarkerName]);
-			}
-		}
+		$this->getTemplate()->unhideSubpartsArray(
+			$subparts, $permanentlyHiddenSubparts, $prefix
+		);
 	}
 
 	/**
@@ -887,21 +762,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return boolean true if the marker content has been set, false if
 	 *                 the subpart has been hidden
 	 *
-	 * @access protected
-	 *
 	 * @see setMarkerContent
 	 * @see hideSubparts
 	 */
-	function setOrDeleteMarker($markerName, $condition, $content,
+	public function setOrDeleteMarker($markerName, $condition, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
 	) {
-		if ($condition) {
-			$this->setMarker($markerName, $content, $markerPrefix);
-		} else {
-			$this->hideSubparts($markerName, $wrapperPrefix);
-		}
-
-		return $condition;
+		return $this->getTemplate()->setOrDeleteMarker(
+			$markerName, $condition, $content, $markerPrefix, $wrapperPrefix
+		);
 	}
 
 	/**
@@ -924,22 +793,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return boolean true if the marker content has been set, false if
 	 *                 the subpart has been hidden
 	 *
-	 * @access protected
-	 *
 	 * @see setOrDeleteMarker
 	 * @see setOrDeleteMarkerIfNotEmpty
 	 * @see setMarkerContent
 	 * @see hideSubparts
 	 */
-	function setOrDeleteMarkerIfNotZero($markerName, $content,
+	public function setOrDeleteMarkerIfNotZero($markerName, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
 	) {
-		return $this->setOrDeleteMarker(
-			$markerName,
-			(intval($content) != 0),
-			((string) $content),
-			$markerPrefix,
-			$wrapperPrefix
+		return $this->getTemplate()->setOrDeleteMarkerIfNotZero(
+			$markerName, $content, $markerPrefix, $wrapperPrefix
 		);
 	}
 
@@ -963,58 +826,17 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return boolean true if the marker content has been set, false if
 	 *                 the subpart has been hidden
 	 *
-	 * @access protected
-	 *
 	 * @see setOrDeleteMarker
 	 * @see setOrDeleteMarkerIfNotZero
 	 * @see setMarkerContent
 	 * @see hideSubparts
 	 */
-	function setOrDeleteMarkerIfNotEmpty($markerName, $content,
+	public function setOrDeleteMarkerIfNotEmpty($markerName, $content,
 		$markerPrefix = '', $wrapperPrefix = ''
 	) {
-		return $this->setOrDeleteMarker(
-			$markerName,
-			(!empty($content)),
-			$content,
-			$markerPrefix,
-			$wrapperPrefix
+		return $this->getTemplate()->setOrDeleteMarkerIfNotEmpty(
+			$markerName, $content, $markerPrefix, $wrapperPrefix
 		);
-	}
-
-	/**
-	 * Creates an uppercase marker (or subpart) name from a given name and an
-	 * optional prefix, wrapping the result in three hash signs (###).
-	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the
-	 * result will be "###FIELD_ONE###".
-	 *
-	 * If the prefix is empty and the marker name is "one", the result will be
-	 * "###ONE###".
-	 */
-	private function createMarkerName($markerName, $prefix = '') {
-		return '###'
-			.$this->createMarkerNameWithoutHashes($markerName, $prefix).'###';
-	}
-
-	/**
-	 * Creates an uppercase marker (or subpart) name from a given name and an
-	 * optional prefix, but without wrapping it in hash signs.
-	 *
-	 * Example: If the prefix is "field" and the marker name is "one", the
-	 * result will be "FIELD_ONE".
-	 *
-	 * If the prefix is empty and the marker name is "one", the result will be
-	 * "ONE".
-	 */
-	private function createMarkerNameWithoutHashes($markerName, $prefix = '') {
-		// If a prefix is provided, uppercases it and separates it with an
-		// underscore.
-		if (!empty($prefix)) {
-			$prefix .= '_';
-		}
-
-		return strtoupper($prefix.trim($markerName));
 	}
 
 	/**
@@ -1031,63 +853,24 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string the subpart content or an empty string if the
 	 *                subpart is hidden or the subpart name is missing
-	 *
-	 * @access protected
 	 */
-	function getSubpart($key = '') {
-		if (($key != '') && !isset($this->templateCache[$key])) {
-			$this->setErrorMessage('The subpart <strong>'.$key.'</strong> is '
-				.'missing in the HTML template file <strong>'
-				.$this->getConfValueString(
-					'templateFile',
-					's_template_special',
-					true)
-				.'</strong>. If you are using a modified HTML template, please '
-				.'fix it. If you are using the original HTML template file, '
-				.'please file a bug report in the '
-				.'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
+	public function getSubpart($key = '') {
+		try {
+			return $this->getTemplate()->getSubpart($key);
+		} catch (Exception $exception) {
+			$this->setErrorMessage('The subpart <strong>' . $key .
+				'</strong> is missing in the HTML template file <strong>' .
+				$this->getConfValueString(
+					'templateFile', 's_template_special', true
+				) .
+				'</strong>. If you are using a modified HTML template, please ' .
+				'fix it. If you are using the original HTML template file, ' .
+				'please file a bug report in the ' .
+				'<a href="https://bugs.oliverklee.com/">bug tracker</a>.'
 			);
 
 			return '';
 		}
-
-		if (($key != '') && !$this->isSubpartVisible($key)) {
-			return '';
-		}
-
-		$templateCode = ($key != '')
-			? $this->templateCache[$key] : $this->templateCode;
-
-		// recursively replaces subparts with their contents
-		$noSubpartMarkers = preg_replace_callback(
-			'/<!-- *###([^#]*)### *-->(.*)'
-				.'<!-- *###\1### *-->/msSU',
-			array(
-				$this,
-				'getSubpartForCallback'
-			),
-			$templateCode
-		);
-
-		// replaces markers with their contents
-		return str_replace(
-			array_keys($this->markers), $this->markers, $noSubpartMarkers
-		);
-	}
-
-	/**
-	 * Retrieves a subpart.
-	 *
-	 * @param array numeric array with matches from
-	 *              preg_replace_callback; the element #1 needs to
-	 *              contain the name of the subpart to retrieve (in
-	 *              uppercase without the surrounding ###)
-	 *
-	 * @return string the contents of the corresponding subpart or an
-	 *                empty string in case the subpart does not exist
-	 */
-	protected function getSubpartForCallback(array $matches) {
-		return $this->getSubpart($matches[1]);
 	}
 
 	/**
@@ -1098,14 +881,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * "LABEL_" (e.g. "###LABEL_FOO###"), and the corresponding localization
 	 * entry must have the same key, but lowercased and without the ###
 	 * (e.g. "label_foo").
-	 *
-	 * @access protected
 	 */
-	function setLabels() {
-		$labels = $this->getPrefixedMarkers('label');
+	public function setLabels() {
+		try {
+			$labels = $this->getTemplate()->getPrefixedMarkers('label');
+		} catch (Exception $exception) {
+			$labels = array();
+		}
 
 		foreach ($labels as $currentLabel) {
-			$this->setMarker(
+			$this->getTemplate()->setMarker(
 				$currentLabel, $this->translate(strtolower($currentLabel))
 			);
 		}
@@ -1117,14 +902,16 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * Classes are set only if they are set via TS, else the marker will be an
 	 * empty string.
-	 *
-	 * @access protected
 	 */
-	function setCss() {
-		$cssEntries = $this->getPrefixedMarkers('class');
+	public function setCss() {
+		try {
+			$cssEntries = $this->getTemplate()->getPrefixedMarkers('class');
+		} catch (Exception $exception) {
+			$cssEntries = array();
+		}
 
 		foreach ($cssEntries as $currentCssEntry) {
-			$this->setMarker(
+			$this->getTemplate()->setMarker(
 				$currentCssEntry,
 				$this->createClassAttribute(
 					$this->getConfValueString(strtolower($currentCssEntry))
@@ -1145,10 +932,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string a CSS class name (may be empty)
 	 *
 	 * @return string a CSS class attribute (may be empty)
-	 *
-	 * @access protected
 	 */
-	function createClassAttribute($className) {
+	private function createClassAttribute($className) {
 		return !empty($className) ? $this->pi_classParam($className) : '';
 	}
 
@@ -1159,10 +944,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If no file is specified, no link is created.
 	 *
 	 * This function may only be called if $this->$prefixId has been set.
-	 *
-	 * @access protected
 	 */
-	function addJavaScriptToPageHeader() {
+	public function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
 			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js']
 				= '<script type="text/javascript" src="'
@@ -1172,6 +955,27 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					true
 				).'"></script>';
 		}
+	}
+
+	/**
+	 * Resets the marker contents.
+	 */
+	public function resetMarkers() {
+		$this->getTemplate()->resetMarkers();
+	}
+
+	/**
+	 * Resets the list of subparts to hide.
+	 */
+	public function resetSubpartsHiding() {
+		$this->getTemplate()->resetSubpartsHiding();
+	}
+
+	/**
+	 * Resets the template to it's original state.
+	 */
+	public function resetTemplate() {
+		$this->getTemplate()->resetTemplate();
 	}
 
 	/**
@@ -1278,24 +1082,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$this->piVars[$key] = 0;
 			}
 		}
-	}
-
-	/**
-	 * Resets the marker contents.
-	 *
-	 * @access protected
-	 */
-	function resetMarkers() {
-		$this->markers = array();
-	}
-
-	/**
-	 * Resets the list of subparts to hide.
-	 *
-	 * @access protected
-	 */
-	function resetSubpartsHiding() {
-		$this->subpartsToHide = array();
 	}
 
 	/**
@@ -1619,43 +1405,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		return tx_oelib_db::enableFields(
 			$table, $showHidden, $ignoreArray, $noVersionPreview
 		);
-	}
-
-	/**
-	 * Checks whether a marker name (or subpart name) is valid (including the
-	 * leading and trailing hashes ###).
-	 *
-	 * A valid marker name must be a non-empty string, consisting of uppercase
-	 * and lowercase letters ranging A to Z, digits and underscores. It must
-	 * start with a lowercase or uppercase letter ranging from A to Z. It must
-	 * not end with an underscore. In addition, it must be prefixed and suffixed
-	 * with ###.
-	 *
-	 * @param string marker name to check (with the hashes), may be empty
-	 *
-	 * @return boolean true if the marker name is valid, false otherwise
-	 */
-	private function isMarkerNameValidWithHashes($markerName) {
-		return (boolean) preg_match(
-			'/^###[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
-		);
-	}
-
-	/**
-	 * Checks whether a marker name (or subpart name) is valid (excluding the
-	 * leading and trailing hashes ###).
-	 *
-	 * A valid marker name must be a non-empty string, consisting of uppercase
-	 * and lowercase letters ranging A to Z, digits and underscores. It must
-	 * start with a lowercase or uppercase letter ranging from A to Z. It must
-	 * not end with an underscore.
-	 *
-	 * @param string marker name to check (without the hashes), may be empty
-	 *
-	 * @return boolean true if the marker name is valid, false otherwise
-	 */
-	private function isMarkerNameValidWithoutHashes($markerName) {
-		return $this->isMarkerNameValidWithHashes('###'.$markerName.'###');
 	}
 
 	/**

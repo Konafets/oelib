@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_template.php');
+
 /**
  * Class 'tx_oelib_templateRegistry' for the 'oelib' extension.
  *
@@ -42,6 +44,11 @@ class tx_oelib_templateRegistry {
 	 * @var array already created templates (by file name)
 	 */
 	private $templates = array();
+
+	/**
+	 * @var boolean whether this registry is in test mode
+	 */
+	private $testMode = false;
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
@@ -75,6 +82,7 @@ class tx_oelib_templateRegistry {
 	 * Retrieves a template by template file name.
 	 *
 	 * @param string the file name of the template to retrieve, must not be empty
+	 *               (except when in test mode)
 	 *
 	 * @return tx_oelib_template the template for the given template file name
 	 *
@@ -88,11 +96,16 @@ class tx_oelib_templateRegistry {
 	 * Retrieves a template by template file name.
 	 *
 	 * @param string the file name of the template to retrieve, must not be empty
+	 *               (except when in test mode)
 	 *
 	 * @return tx_oelib_template the template for the given template file name
 	 */
 	public function getByFileName($templateFileName) {
 		if ($templateFileName == '') {
+			if ($this->testMode) {
+				return $this->getTestTemplate();
+			}
+
 			throw new Exception(
 				'The parameter $templateFileName must not be empty.'
 			);
@@ -105,6 +118,26 @@ class tx_oelib_templateRegistry {
 		}
 
 		return $this->templates[$templateFileName];
+	}
+
+	/**
+	 * Enables the test mode of this fixture.
+	 */
+	public function enableTestMode() {
+		$this->testMode = true;
+	}
+
+	/**
+	 * Retrieves a template for test purposes.
+	 *
+	 * @return tx_oelib_template the template for test purposes
+	 */
+	private function getTestTemplate() {
+		if (!isset($this->templates['test'])) {
+			$this->templates['test'] = t3lib_div::makeInstance('tx_oelib_template');
+		}
+
+		return $this->templates['test'];
 	}
 }
 

@@ -704,7 +704,7 @@ class tx_oelib_template {
 	 * @return boolean true if the marker name is valid, false otherwise
 	 */
 	private function isMarkerNameValidWithoutHashes($markerName) {
-		return $this->isMarkerNameValidWithHashes('###'.$markerName.'###');
+		return $this->isMarkerNameValidWithHashes('###' . $markerName . '###');
 	}
 
 	/**
@@ -719,6 +719,23 @@ class tx_oelib_template {
 	 */
 	public function resetSubpartsHiding() {
 		$this->subpartsToHide = array();
+	}
+
+	/**
+	 * Resets the template to it's original state.
+	 *
+	 * This function needs to be called when you need a fresh template for the
+	 * current view without already set markers and/or subparts of other views.
+	 * This is e.g. useful for testing purposes to load the HTML template file
+	 * only once into memory and reset it for every single unit test.
+	 */
+	public function resetTemplate() {
+		$this->markerNames = '';
+		$this->templateCache = array();
+		$this->resetMarkers();
+		$this->resetSubpartsHiding();
+
+		$this->processTemplate($this->templateCode);
 	}
 }
 

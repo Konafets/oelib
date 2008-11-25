@@ -1,4 +1,5 @@
 0.4.4 - currently working on
+- [#2341] Change: Use the new template and templateRegistry in tx_oelib_templatehelper
 - [#2324] Feature: Add a class templateRegistry
 - [#2323] Feature: Add a class template
 
