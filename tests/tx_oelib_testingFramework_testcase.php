@@ -3738,6 +3738,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->loginFrontEndUser($feUserId);
 	}
 
+	public function testLoginFrontEndUserSetsGroupDataOfUser() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup(
+			array('title' => 'foo')
+		);
+		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$this->fixture->loginFrontEndUser($feUserId);
+
+		$this->assertEquals(
+			array($feUserGroupUid => 'foo'),
+			$GLOBALS['TSFE']->fe_user->groupData['title']
+		);
+	}
+
 	public function testLogoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 

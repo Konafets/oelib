@@ -1198,6 +1198,7 @@ final class tx_oelib_testingFramework {
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
 		$GLOBALS['TSFE']->fe_user->user
 			= $GLOBALS['TSFE']->fe_user->getRawUserByUid($userId);
+		$GLOBALS['TSFE']->fe_user->fetchGroupData();
 		$GLOBALS['TSFE']->loginUser = 1;
 	}
 
