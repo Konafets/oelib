@@ -1,4 +1,5 @@
 0.4.4 - currently working on
+- [#2412] Fix: Full stop is missing in error message for missing locales
 - [#2327] Fix: FE Editor will not allow me to edit oder enter events
 - [#2341] Change: Use the new template and templateRegistry in tx_oelib_templatehelper
 - [#2324] Feature: Add a class templateRegistry
