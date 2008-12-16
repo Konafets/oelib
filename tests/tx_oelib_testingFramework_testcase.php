@@ -3247,8 +3247,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testFrontEndUserCanBeCreated() {
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$uid = $this->fixture->createFrontEndUser();
 
 		$this->assertNotEquals(
 			0,
@@ -3268,8 +3267,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$uid = $this->fixture->createFrontEndUser();
 		$this->assertNotEquals(
 			0,
 			$uid
@@ -3282,8 +3280,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserTableWillBeCleanedUp() {
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$uid = $this->fixture->createFrontEndUser();
 		$this->assertNotEquals(
 			0,
 			$uid
@@ -3299,8 +3296,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserHasNoUserNameByDefault() {
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$uid = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$uid = $this->fixture->createFrontEndUser();
 
 		$row = $this->fixture->getAssociativeDatabaseResult(
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -3317,9 +3313,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserCanHaveAUserName() {
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$uid = $this->fixture->createFrontEndUser(
-			$feUserGroupUid,
+			'',
 			array('username' => 'Test name')
 		);
 
@@ -3363,8 +3358,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 0));
+		$this->fixture->createFrontEndUser('', array('uid' => 0));
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUid() {
@@ -3372,8 +3366,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "uid" must not be set in $recordData.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createFrontEndUser($feUserGroupUid, array('uid' => 99999));
+		$this->fixture->createFrontEndUser('', array('uid' => 99999));
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
@@ -3381,8 +3374,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 0));
+		$this->fixture->createFrontEndUser('', array('usergroup' => 0));
 	}
 
 	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
@@ -3390,8 +3382,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createFrontEndUser($feUserGroupUid, array('usergroup' => 99999));
+		$this->fixture->createFrontEndUser('', array('usergroup' => 99999));
 	}
 
 	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
@@ -3399,34 +3390,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Exception', 'The column "usergroup" must not be set in $recordData.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createFrontEndUser(
-			$feUserGroupUid, array('usergroup' => '1,2,4,5')
+			'', array('usergroup' => '1,2,4,5')
 		);
 	}
 
-	public function testFrontEndUserMustHaveANonZeroUserGroup() {
-		$this->setExpectedException(
-			'Exception', '$frontEndUserGroups must not be empty.'
-		);
-
-		$this->fixture->createFrontEndUser(0);
-	}
-
-	public function testFrontEndUserMustHaveANonEmptyUserGroup() {
-		$this->setExpectedException(
-			'Exception', '$frontEndUserGroups must not be empty.'
-		);
-
+	public function testCreateFrontEndUserWithEmptyGroupCreatesGroup() {
 		$this->fixture->createFrontEndUser('');
-	}
 
-	public function testFrontEndUserMustHaveNotOnlyASpaceAsValueForTheUserGroup() {
-		$this->setExpectedException(
-			'Exception', '$frontEndUserGroups must not be empty.'
+		$this->assertTrue(
+			$this->fixture->existsExactlyOneRecord('fe_groups')
 		);
-
-		$this->fixture->createFrontEndUser(' ');
 	}
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
@@ -3682,8 +3656,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testLoginFrontEndUserSwitchesToLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$feUserId = $this->fixture->createFrontEndUser();
 		$this->fixture->loginFrontEndUser($feUserId);
 
 		$this->assertTrue(
@@ -3694,8 +3667,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testLoginFrontEndUserSetsLoginUserToOne() {
 		$this->fixture->createFakeFrontEnd();
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$feUserId = $this->fixture->createFrontEndUser();
 		$this->fixture->loginFrontEndUser($feUserId);
 
 		$this->assertEquals(
@@ -3707,9 +3679,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testLoginFrontEndUserRetrievesNameOfUser() {
 		$this->fixture->createFakeFrontEnd();
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$feUserId = $this->fixture->createFrontEndUser(
-			$feUserGroupUid, array('name' => 'John Doe')
+			'', array('name' => 'John Doe')
 		);
 		$this->fixture->loginFrontEndUser($feUserId);
 
@@ -3733,8 +3704,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'Please create a front end before calling loginFrontEndUser.'
 		);
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$feUserId = $this->fixture->createFrontEndUser();
 		$this->fixture->loginFrontEndUser($feUserId);
 	}
 
@@ -3756,8 +3726,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testLogoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 
-		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
+		$feUserId = $this->fixture->createFrontEndUser();
 		$this->fixture->loginFrontEndUser($feUserId);
 		$this->fixture->logoutFrontEndUser();
 
@@ -3800,17 +3769,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			$this->fixture->countRecords('fe_users')
-		);
-	}
-
-	public function testCreateAndLogInFrontEndUserCreatesFrontEndUserGroup() {
-		$this->fixture->createFakeFrontEnd();
-		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
-
-		$this->assertEquals(
-			1,
-			$this->fixture->countRecords('fe_groups')
 		);
 	}
 
@@ -3862,7 +3820,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateAFrontEndUserGroup() {
 		$this->fixture->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
-		$frontEndUserUid = $this->fixture->createAndLogInFrontEndUser(
+		$this->fixture->createAndLogInFrontEndUser(
 			$frontEndUserGroupUid
 		);
 

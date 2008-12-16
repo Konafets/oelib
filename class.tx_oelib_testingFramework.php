@@ -479,7 +479,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string comma-separated list of UIDs of the user groups to
 	 *               which the new user belongs, each must be > 0, may
-	 *               contain spaces and must not be empty
+	 *               contain spaces, if empty a new FE user group will be
+	 *               created
 	 * @param array associative array that contains the data to save
 	 *              in the new user record, may be empty, but must not
 	 *              contain the keys "uid" or "usergroup"
@@ -487,12 +488,12 @@ final class tx_oelib_testingFramework {
 	 * @return integer the UID of the new FE user, will be > 0
 	 */
 	public function createFrontEndUser(
-		$frontEndUserGroups, array $recordData = array()
+		$frontEndUserGroups = '', array $recordData = array()
 	) {
 		$frontEndUserGroupsWithoutSpaces = str_replace(' ', '', $frontEndUserGroups);
 
-		if (empty($frontEndUserGroupsWithoutSpaces)) {
-			throw new Exception('$frontEndUserGroups must not be empty.');
+		if ($frontEndUserGroupsWithoutSpaces == '') {
+			$frontEndUserGroupsWithoutSpaces = $this->createFrontEndUserGroup();
 		}
 		if (!preg_match('/^([1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
 		) {
@@ -531,10 +532,6 @@ final class tx_oelib_testingFramework {
 	 * @return integer the UID of the new FE user, will be > 0
 	 */
 	public function createAndLoginFrontEndUser($frontEndUserGroups = '') {
-		if ($frontEndUserGroups == '') {
-			$frontEndUserGroups = $this->createFrontEndUserGroup();
-		}
-
 		$frontEndUserUid = $this->createFrontEndUser($frontEndUserGroups);
 
 		$this->loginFrontEndUser($frontEndUserUid);
