@@ -44,8 +44,6 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	private $testingFramework;
 
 	public function setUp() {
-		tx_oelib_templateRegistry::getInstance()->enableTestMode();
-
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 		tx_oelib_configurationProxy::getInstance('oelib')
@@ -86,6 +84,25 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertNull(
 			$result
+		);
+	}
+
+
+	/////////////////////////////////////////////////////////////
+	// Tests concerning using the template without an HTML file
+	/////////////////////////////////////////////////////////////
+
+	public function testProcessTemplateWithoutTemplateFileDoesNotThrowException() {
+		$this->fixture->processTemplate('foo');
+	}
+
+	public function testProcessTemplateTwoTimesWillUseTheLastSetTemplate() {
+		$this->fixture->processTemplate('foo');
+		$this->fixture->processTemplate('bar');
+
+		$this->assertEquals(
+			'bar',
+			$this->fixture->getSubpart()
 		);
 	}
 

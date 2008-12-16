@@ -46,11 +46,6 @@ class tx_oelib_templateRegistry {
 	private $templates = array();
 
 	/**
-	 * @var boolean whether this registry is in test mode
-	 */
-	private $testMode = false;
-
-	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -102,13 +97,7 @@ class tx_oelib_templateRegistry {
 	 */
 	public function getByFileName($templateFileName) {
 		if ($templateFileName == '') {
-			if ($this->testMode) {
-				return $this->getTestTemplate();
-			}
-
-			throw new Exception(
-				'The parameter $templateFileName must not be empty.'
-			);
+			return $this->getAnonymousTemplate();
 		}
 
 		if (!isset($this->templates[$templateFileName])) {
@@ -121,23 +110,19 @@ class tx_oelib_templateRegistry {
 	}
 
 	/**
-	 * Enables the test mode of this fixture.
-	 */
-	public function enableTestMode() {
-		$this->testMode = true;
-	}
-
-	/**
-	 * Retrieves a template for test purposes.
+	 * Retrieves a template without a file name.
 	 *
-	 * @return tx_oelib_template the template for test purposes
+	 * The content of this template then can be set by processTemplate.
+	 *
+	 * @return tx_oelib_template an anonymous template
 	 */
-	private function getTestTemplate() {
-		if (!isset($this->templates['test'])) {
-			$this->templates['test'] = t3lib_div::makeInstance('tx_oelib_template');
+	private function getAnonymousTemplate() {
+		if (!isset($this->templates['anonymous'])) {
+			$this->templates['anonymous']
+				= t3lib_div::makeInstance('tx_oelib_template');
 		}
 
-		return $this->templates['test'];
+		return $this->templates['anonymous'];
 	}
 }
 

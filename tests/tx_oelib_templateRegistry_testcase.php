@@ -74,12 +74,10 @@ class tx_oelib_templateRegistry_testcase extends tx_phpunit_testcase {
 	// Tests concerning get()
 	///////////////////////////
 
-	public function testGetForEmptyTemplateFileNameThrowsException() {
-		$this->setExpectedException(
-			'Exception', 'The parameter $templateFileName must not be empty.'
+	public function testGetForEmptyTemplateFileNameReturnsTemplateInstance() {
+		$this->assertTrue(
+			tx_oelib_templateRegistry::get('') instanceof tx_oelib_template
 		);
-
-		tx_oelib_templateRegistry::get('');
 	}
 
 	public function testGetForExistingTemplateFileNameReturnsTemplate() {
@@ -94,44 +92,6 @@ class tx_oelib_templateRegistry_testcase extends tx_phpunit_testcase {
 			tx_oelib_templateRegistry::get('EXT:oelib/tests/fixtures/oelib.html'),
 			tx_oelib_templateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
 		);
-	}
-
-
-	//////////////////////////////////////
-	// Tests concerning enableTestMode()
-	//////////////////////////////////////
-
-	public function testGetWithEmptyStringAndEnabledTestModeDoesNotThrowException() {
-		tx_oelib_templateRegistry::getInstance()->enableTestMode();
-		tx_oelib_templateRegistry::get('');
-	}
-
-	public function testGetWithEmptyStringAndEnabledTestModeReturnsTemplate() {
-		tx_oelib_templateRegistry::getInstance()->enableTestMode();
-
-		$this->assertTrue(
-			tx_oelib_templateRegistry::get('') instanceof tx_oelib_template
-		);
-	}
-
-	public function testGetWithEmptyStringAndEnabledTestModeCalledTwoTimesReturnsSameInstance() {
-		tx_oelib_templateRegistry::getInstance()->enableTestMode();
-
-		$this->assertSame(
-			tx_oelib_templateRegistry::get(''),
-			tx_oelib_templateRegistry::get('')
-		);
-	}
-
-	public function testPurgeInstanceDisablesTestModeAndGetWithEmptyStringThrowsException() {
-		$this->setExpectedException(
-			'Exception', 'The parameter $templateFileName must not be empty.'
-		);
-
-		tx_oelib_templateRegistry::getInstance()->enableTestMode();
-		tx_oelib_templateRegistry::purgeInstance();
-
-		tx_oelib_templateRegistry::get('');
 	}
 }
 ?>
