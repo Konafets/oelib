@@ -28,7 +28,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  * Class 'tx_oelib_mapperRegistry' for the 'oelib' extension.
  *
  * This class represents a registry for mappers. The mappers must be located in
- * the directory mappers/ in each extension. Extension can use mappers from
+ * the directory Mapper/ in each extension. Extension can use mappers from
  * other extensions as well.
  *
  * Note: This does not work with user_ extensions yet.
@@ -104,10 +104,11 @@ class tx_oelib_mapperRegistry {
 		if ($className == '') {
 			throw new Exception('$key must not be empty.');
 		}
-		if (!preg_match('/^tx_[a-z0-9]+_[a-z][a-zA-Z]*/', $className)) {
+		if (!preg_match('/^tx_[a-z0-9]+_[a-zA-Z_]+/', $className)) {
 			throw new Exception(
-				'$className must be in the format tx_extensionname_className,' .
-					' but was "' . $className . '".'
+				'$className must be in the format ' .
+					'tx_extensionname[_Folder]_ClassName, but was "' .
+					$className . '".'
 			);
 		}
 
@@ -143,7 +144,7 @@ class tx_oelib_mapperRegistry {
 
 		$extensionName = $matches[1];
 
-		return t3lib_extMgm::extPath($extensionName) . 'mappers/class.' .
+		return t3lib_extMgm::extPath($extensionName) . 'Mapper/class.' .
 			$className . '.php';
 	}
 }

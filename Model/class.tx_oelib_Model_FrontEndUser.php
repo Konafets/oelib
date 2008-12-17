@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
 
 /**
- * Class 'tx_oelib_frontEndUser' for the 'oelib' extension.
+ * Class 'tx_oelib_Model_FrontEndUser' for the 'oelib' extension.
  *
  * This class represents a front-end user.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_frontEndUser extends tx_oelib_model {
+class tx_oelib_Model_FrontEndUser extends tx_oelib_model {
 	/**
 	 * Gets this user's user name.
 	 *
@@ -222,7 +222,7 @@ class tx_oelib_frontEndUser extends tx_oelib_model {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/models/class.tx_oelib_frontEndUser.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/models/class.tx_oelib_frontEndUser.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']);
 }
 ?>

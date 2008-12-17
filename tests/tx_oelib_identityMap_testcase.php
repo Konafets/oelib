@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
 
 /**
@@ -74,14 +74,14 @@ class tx_oelib_identityMap_testcase extends tx_phpunit_testcase {
 			'Exception', 'Add() requires a model that has a UID.'
 		);
 
-		$model = new tx_oelib_testingModel();
+		$model = new tx_oelib_Model_Testing();
 		$model->setData(array());
 
 		$this->fixture->add($model);
 	}
 
-	public function testGetWithExistingUidAfterAddWithModelWithUidReturnsSameObject() {
-		$model = new tx_oelib_testingModel();
+	public function testGetWithExistingUidAfterAddWithModelHavingAUidReturnsSameObject() {
+		$model = new tx_oelib_Model_Testing();
 		$model->setUid(42);
 		$this->fixture->add($model);
 
@@ -92,11 +92,11 @@ class tx_oelib_identityMap_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddForExistingUidReturnsModelWithGivenUidForSeveralUids() {
-		$model1 = new tx_oelib_testingModel();
+		$model1 = new tx_oelib_Model_Testing();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
 
-		$model2 = new tx_oelib_testingModel();
+		$model2 = new tx_oelib_Model_Testing();
 		$model2->setUid(4);
 		$this->fixture->add($model2);
 
@@ -111,11 +111,11 @@ class tx_oelib_identityMap_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetForExistingUidAfterAddingTwoModelsWithSameUidReturnsTheLastAddedModel() {
-		$model1 = new tx_oelib_testingModel();
+		$model1 = new tx_oelib_Model_Testing();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
 
-		$model2 = new tx_oelib_testingModel();
+		$model2 = new tx_oelib_Model_Testing();
 		$model2->setUid(1);
 		$this->fixture->add($model2);
 

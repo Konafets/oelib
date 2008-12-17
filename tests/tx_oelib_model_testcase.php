@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
 
 /**
  * Testcase for the tx_oelib_model class in the 'oelib' extension.
@@ -34,12 +34,12 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_tes
  */
 class tx_oelib_model_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_testingModel the model to test
+	 * @var tx_oelib_Model_Testing the model to test
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_testingModel();
+		$this->fixture = new tx_oelib_Model_Testing();
 	}
 
 	public function tearDown() {

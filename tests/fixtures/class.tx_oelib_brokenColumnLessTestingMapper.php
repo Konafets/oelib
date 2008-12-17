@@ -54,10 +54,10 @@ class tx_oelib_brokenColumnLessTestingMapper extends tx_oelib_dataMapper {
 	 * @param array the data with which the model should be
 	 *              filled, may be empty
 	 *
-	 * @return tx_oelib_testingModel the filled model
+	 * @return tx_oelib_Model_Testing the filled model
  	 */
 	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_testingModel');
+		$model = t3lib_div::makeInstance('tx_oelib_Model_Testing');
 		$model->setData($data);
 
 		return $model;

@@ -86,8 +86,8 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 	public function testGetForMalformedKeyThrowsException() {
 		$this->setExpectedException(
 			'Exception',
-			'$className must be in the format tx_extensionname_className, ' .
-				'but was "foo".'
+			'$className must be in the format ' .
+				'tx_extensionname[_Folder]_ClassName, but was "foo".'
 		);
 
 		tx_oelib_mapperRegistry::get('foo');
@@ -104,15 +104,15 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForExistingClassReturnsObjectOfRequestedClass() {
 		$this->assertTrue(
-			tx_oelib_mapperRegistry::get('tx_oelib_testingMapper')
-				instanceof tx_oelib_testingMapper
+			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing')
+				instanceof tx_oelib_Mapper_Testing
 		);
 	}
 
 	public function testGetForExistingClassCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
-			tx_oelib_mapperRegistry::get('tx_oelib_testingMapper'),
-			tx_oelib_mapperRegistry::get('tx_oelib_testingMapper')
+			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing'),
+			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing')
 		);
 	}
 }

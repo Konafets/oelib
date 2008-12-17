@@ -22,31 +22,31 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'mappers/class.tx_oelib_frontEndUserMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_FrontEndUser.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
 /**
- * Testcase for the tx_oelib_frontEndUserMapper class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Mapper_FrontEndUser class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_frontEndUserMapper_testcase extends tx_phpunit_testcase {
+class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
-	 * @var tx_oelib_frontEndUserMapper the object to test
+	 * @var tx_oelib_Mapper_FrontEndUser the object to test
 	 */
 	private $fixture;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_frontEndUserMapper();
+		$this->fixture = new tx_oelib_Mapper_FrontEndUser();
 	}
 
 	public function tearDown() {
@@ -65,7 +65,7 @@ class tx_oelib_frontEndUserMapper_testcase extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->find($uid) instanceof tx_oelib_frontEndUser
+			$this->fixture->find($uid) instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
 

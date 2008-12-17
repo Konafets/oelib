@@ -22,8 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'mappers/class.tx_oelib_testingMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_Testing.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
@@ -50,7 +50,7 @@ class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_testingMapper();
+		$this->fixture = new tx_oelib_Mapper_Testing();
 	}
 
 	public function tearDown() {
@@ -107,7 +107,7 @@ class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindWithUidOfCachedModelReturnsThatModel() {
-		$model = new tx_oelib_testingModel();
+		$model = new tx_oelib_Model_Testing();
 		$model->setUid(1);
 
 		$map = new tx_oelib_identityMap();

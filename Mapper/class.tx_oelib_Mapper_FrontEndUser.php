@@ -22,11 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'models/class.tx_oelib_frontEndUser.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_FrontEndUser.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
 
 /**
- * Class 'tx_oelib_frontEndUserMapper' for the 'oelib' extension.
+ * Class 'tx_oelib_Mapper_FrontEndUser' for the 'oelib' extension.
  *
  * This class represents a mapper for front-end users.
  *
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_frontEndUserMapper extends tx_oelib_dataMapper {
+class tx_oelib_Mapper_FrontEndUser extends tx_oelib_dataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -47,17 +47,17 @@ class tx_oelib_frontEndUserMapper extends tx_oelib_dataMapper {
 	 *
 	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return tx_oelib_frontEndUser the filled model
+	 * @return tx_oelib_Model_FrontEndUser the filled model
  	 */
 	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_frontEndUser');
+		$model = t3lib_div::makeInstance('tx_oelib_Model_FrontEndUser');
 		$model->setData($data);
 
 		return $model;
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_frontEndUserMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_frontEndUserMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_FrontEndUser.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_FrontEndUser.php']);
 }
 ?>

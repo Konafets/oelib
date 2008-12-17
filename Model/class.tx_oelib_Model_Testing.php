@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
 
 /**
- * Class 'tx_oelib_testingModel' for the 'oelib' extension.
+ * Class 'tx_oelib_Model_Testing' for the 'oelib' extension.
  *
  * This class represents a domain model for testing purposes.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class tx_oelib_testingModel extends tx_oelib_model {
+final class tx_oelib_Model_Testing extends tx_oelib_model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
@@ -65,7 +65,7 @@ final class tx_oelib_testingModel extends tx_oelib_model {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingModel.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingModel.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Testing.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Testing.php']);
 }
 ?>

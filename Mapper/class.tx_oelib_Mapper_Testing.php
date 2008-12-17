@@ -22,11 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingModel.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
 
 /**
- * Class 'tx_oelib_testingMapper' for the 'oelib' extension.
+ * Class 'tx_oelib_Mapper_Testing' for the 'oelib' extension.
  *
  * This class represents a mapper for a testing model.
  *
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_testingMapper extends tx_oelib_dataMapper {
+class tx_oelib_Mapper_Testing extends tx_oelib_dataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -47,10 +47,10 @@ class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	 *
 	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return tx_oelib_testingModel the filled model
+	 * @return tx_oelib_Model_Testing the filled model
  	 */
 	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_testingModel');
+		$model = t3lib_div::makeInstance('tx_oelib_Model_Testing');
 		$model->setData($data);
 
 		return $model;
@@ -68,7 +68,7 @@ class tx_oelib_testingMapper extends tx_oelib_dataMapper {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_testingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/mappers/class.tx_oelib_testingMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Testing.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Testing.php']);
 }
 ?>

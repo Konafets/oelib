@@ -23,24 +23,24 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'models/class.tx_oelib_frontEndUser.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_FrontEndUser.php');
 
 /**
- * Testcase for the tx_oelib_frontEndUser class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Model_FrontEndUser class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_frontEndUser_testcase extends tx_phpunit_testcase {
+class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_frontEndUser
+	 * @var tx_oelib_Model_FrontEndUser
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_frontEndUser();
+		$this->fixture = new tx_oelib_Model_FrontEndUser();
 	}
 
 	public function tearDown() {
