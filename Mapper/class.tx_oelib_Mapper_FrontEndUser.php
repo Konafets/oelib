@@ -55,6 +55,35 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 
 		return $model;
 	}
+
+	/**
+	 * Gets the currently logged in front-end user.
+	 *
+	 * @return tx_oelib_Model_FrontEndUser the logged in front-end user, will
+	 *                                     be null if no user is logged in or
+	 *                                     if there is no front end
+	 */
+	public function getLoggedInUser() {
+		if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']
+			|| !((boolean) $GLOBALS['TSFE']->loginUser)
+		) {
+			return null;
+		}
+
+		$data = $GLOBALS['TSFE']->fe_user->user;
+		$uid = $data['uid'];
+
+		try {
+			$model = $this->map->get($uid);
+		} catch (tx_oelib_notFoundException $exception) {
+			// The data already is in memory. So there's no need to read it from
+			// the DB again.
+			$model = $this->createAndFillModel($data);
+			$this->map->add($model);
+		}
+
+		return $model;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_FrontEndUser.php']) {

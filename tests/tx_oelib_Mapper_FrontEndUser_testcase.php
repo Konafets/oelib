@@ -76,5 +76,47 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)->getUid()
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests concerning getLoggedInUser
+	/////////////////////////////////////
+
+	public function testGetLoggedInUserWithoutFrontEndReturnsNull() {
+		$this->testingFramework->discardFakeFrontEnd();
+
+		$this->assertNull(
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserWithoutLoggedInUserReturnsNull() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->logoutFrontEndUser();
+
+		$this->assertNull(
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserInstance() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->getLoggedInUser()
+				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
+	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserWithUidOfLoggedInUser() {
+		$this->testingFramework->createFakeFrontEnd();
+		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->getLoggedInUser()->getUid()
+		);
+	}
 }
 ?>

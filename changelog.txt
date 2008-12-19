@@ -1,4 +1,5 @@
 0.4.4 - currently working on
+- [#2321] Feature: The FE user data mapper should be able to get and use the currently logged-in FE user
 - [#2322] Feature: Create an autoloader for models and other classes
 - [#2417] Feature: CreateFrontEndUser should automatically create a group if needed
 - [#2412] Fix: Full stop is missing in error message for missing locales
