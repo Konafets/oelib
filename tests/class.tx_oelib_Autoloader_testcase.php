@@ -47,6 +47,12 @@ class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoadWithNameOfInexistentExtensionReturnsFalse() {
+		$this->assertFalse(
+			tx_oelib_Autoloader::load('tx_foo_Nothing')
+		);
+	}
+
 	public function testLoadWithNameOfInexistentClassReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_CatchMe')

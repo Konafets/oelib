@@ -74,14 +74,20 @@ class tx_oelib_Autoloader {
 	private static function createPath($className) {
 		$matches = array();
 
-		if (!preg_match('/tx_([a-z]+)_(([a-zA-Z]+_)*)([a-zA-Z]+)/', $className, $matches)) {
+		if (!preg_match(
+			'/tx_([a-z]+)_(([a-zA-Z]+_)*)([a-zA-Z]+)/', $className, $matches
+		)) {
 			return '';
 		}
 
-		$extensionName = $matches[1];
+		$extensionKey = $matches[1];
+		if (!t3lib_extMgm::isLoaded($extensionKey)) {
+			return '';
+		}
+
 		$directories = str_replace('_', '/', $matches[2]);
 
-		return t3lib_extMgm::extPath($extensionName) . $directories . 'class.' .
+		return t3lib_extMgm::extPath($extensionKey) . $directories . 'class.' .
 			$className . '.php';
 	}
 }
