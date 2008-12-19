@@ -22,10 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Session.php');
 
 /**
- * Class 'tx_oelib_fakeSession' for the 'oelib' extension.
+ * Class 'tx_oelib_FakeSession' for the 'oelib' extension.
  *
  * This class represents a fake session that doesn't use any real sessions,
  * thus not sending any HTTP headers.
@@ -37,7 +37,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_fakeSession extends tx_oelib_session {
+class tx_oelib_FakeSession extends tx_oelib_Session {
 	/**
 	 * @var array the data for this session
 	 */
@@ -87,7 +87,7 @@ class tx_oelib_fakeSession extends tx_oelib_session {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeSession.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeSession.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FakeSession.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FakeSession.php']);
 }
 ?>

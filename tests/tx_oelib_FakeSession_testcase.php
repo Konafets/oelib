@@ -22,24 +22,24 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_FakeSession.php');
 
 /**
- * Testcase for the tx_oelib_fakeSession class in the 'oelib' extension.
+ * Testcase for the tx_oelib_FakeSession class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_fakeSession_testcase  extends tx_phpunit_testcase {
+class tx_oelib_FakeSession_testcase  extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_fakeSession the object to test
+	 * @var tx_oelib_FakeSession the object to test
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_fakeSession();
+		$this->fixture = new tx_oelib_FakeSession();
 	}
 
 	public function tearDown() {
@@ -52,7 +52,7 @@ class tx_oelib_fakeSession_testcase  extends tx_phpunit_testcase {
 	/////////////////////////////////////////////////////////
 
 	public function testFakeSessionCanBeInstantiatedDirectly() {
-		new tx_oelib_fakeSession();
+		new tx_oelib_FakeSession();
 	}
 
 

@@ -23,7 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_FrontEndUser.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_DataMapper.php');
 
 /**
  * Class 'tx_oelib_Mapper_FrontEndUser' for the 'oelib' extension.
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_FrontEndUser extends tx_oelib_dataMapper {
+class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */

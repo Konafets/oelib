@@ -23,22 +23,22 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mapperRegistry.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_MapperRegistry.php');
 
 /**
- * Testcase for the tx_oelib_mapperRegistry class in the 'oelib' extension.
+ * Testcase for the tx_oelib_MapperRegistry class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
+class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 	}
 
 	public function tearDown() {
-		tx_oelib_mapperRegistry::purgeInstance();
+		tx_oelib_MapperRegistry::purgeInstance();
 	}
 
 
@@ -48,25 +48,25 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetInstanceReturnsMapperRegistryInstance() {
 		$this->assertTrue(
-			tx_oelib_mapperRegistry::getInstance()
-				instanceof tx_oelib_mapperRegistry
+			tx_oelib_MapperRegistry::getInstance()
+				instanceof tx_oelib_MapperRegistry
 		);
 	}
 
 	public function testGetInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
-			tx_oelib_mapperRegistry::getInstance(),
-			tx_oelib_mapperRegistry::getInstance()
+			tx_oelib_MapperRegistry::getInstance(),
+			tx_oelib_MapperRegistry::getInstance()
 		);
 	}
 
 	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
-		$firstInstance = tx_oelib_mapperRegistry::getInstance();
-		tx_oelib_mapperRegistry::purgeInstance();
+		$firstInstance = tx_oelib_MapperRegistry::getInstance();
+		tx_oelib_MapperRegistry::purgeInstance();
 
 		$this->assertNotSame(
 			$firstInstance,
-			tx_oelib_mapperRegistry::getInstance()
+			tx_oelib_MapperRegistry::getInstance()
 		);
 	}
 
@@ -80,7 +80,7 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 			'Exception', '$key must not be empty.'
 		);
 
-		tx_oelib_mapperRegistry::get('');
+		tx_oelib_MapperRegistry::get('');
 	}
 
 	public function testGetForMalformedKeyThrowsException() {
@@ -90,7 +90,7 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 				'tx_extensionname[_Folder]_ClassName, but was "foo".'
 		);
 
-		tx_oelib_mapperRegistry::get('foo');
+		tx_oelib_MapperRegistry::get('foo');
 	}
 
 	public function testGetForInexistentClassThrowsNotFoundException() {
@@ -99,20 +99,20 @@ class tx_oelib_mapperRegistry_testcase extends tx_phpunit_testcase {
 			'No mapper class "tx_oelib_inexistentMapper" could be found.'
 		);
 
-		tx_oelib_mapperRegistry::get('tx_oelib_inexistentMapper');
+		tx_oelib_MapperRegistry::get('tx_oelib_inexistentMapper');
 	}
 
 	public function testGetForExistingClassReturnsObjectOfRequestedClass() {
 		$this->assertTrue(
-			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing')
+			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing')
 				instanceof tx_oelib_Mapper_Testing
 		);
 	}
 
 	public function testGetForExistingClassCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
-			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing'),
-			tx_oelib_mapperRegistry::get('tx_oelib_Mapper_Testing')
+			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing'),
+			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing')
 		);
 	}
 }

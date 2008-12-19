@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_DataMapper.php');
 
 /**
  * Class 'tx_oelib_brokenTableLessTestingMapper' for the 'oelib' extension.
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_dataMapper {
+class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_DataMapper {
 	/**
 	 * @var string a comma-separated list of DB column names to retrieve
 	 *             or "*" for all columns

@@ -23,7 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_DataMapper.php');
 
 /**
  * Class 'tx_oelib_Mapper_Testing' for the 'oelib' extension.
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_dataMapper.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_Testing extends tx_oelib_dataMapper {
+class tx_oelib_Mapper_Testing extends tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -61,9 +61,9 @@ class tx_oelib_Mapper_Testing extends tx_oelib_dataMapper {
 	 *
 	 * This function is intendend to be used for testing purposes only.
 	 *
-	 * @param tx_oelib_identityMap the map to set
+	 * @param tx_oelib_IdentityMap the map to set
 	 */
-	public function setMap(tx_oelib_identityMap $map) {
+	public function setMap(tx_oelib_IdentityMap $map) {
 		$this->map = $map;
 	}
 }

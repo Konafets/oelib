@@ -23,24 +23,24 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_IdentityMap.php');
 
 /**
- * Testcase for the tx_oelib_identityMap class in the 'oelib' extension.
+ * Testcase for the tx_oelib_IdentityMap class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_identityMap_testcase extends tx_phpunit_testcase {
+class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_identityMap the indentity map to test
+	 * @var tx_oelib_IdentityMap the indentity map to test
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_identityMap();
+		$this->fixture = new tx_oelib_IdentityMap();
 	}
 
 	public function tearDown() {

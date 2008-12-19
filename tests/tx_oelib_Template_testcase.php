@@ -23,7 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_template.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Template.php');
 
 /**
  * Testcase for the template class in the 'oelib' extension.
@@ -34,14 +34,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_template.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_template_testcase extends tx_phpunit_testcase {
+class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_template
+	 * @var tx_oelib_Template
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_template();
+		$this->fixture = new tx_oelib_Template();
 	}
 
 	public function tearDown() {
@@ -2880,7 +2880,7 @@ class tx_oelib_template_testcase extends tx_phpunit_testcase {
 	public function testGetPrefixedMarkersWithoutCallingFindMarkersFirstThrowsException() {
 		$this->setExpectedException(
 			'Exception',
-			'The method tx_oelib_template->findMarkers() has to be called ' .
+			'The method tx_oelib_Template->findMarkers() has to be called ' .
 				'before this method is called.'
 		);
 

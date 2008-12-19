@@ -22,22 +22,22 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templateRegistry.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_TemplateRegistry.php');
 
 /**
- * Testcase for the tx_oelib_templateRegistry class in the 'oelib' extension.
+ * Testcase for the tx_oelib_TemplateRegistry class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_templateRegistry_testcase extends tx_phpunit_testcase {
+class tx_oelib_TemplateRegistry_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 	}
 
 	public function tearDown() {
-		tx_oelib_templateRegistry::purgeInstance();
+		tx_oelib_TemplateRegistry::purgeInstance();
 	}
 
 
@@ -47,25 +47,25 @@ class tx_oelib_templateRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetInstanceReturnsTemplateRegistryInstance() {
 		$this->assertTrue(
-			tx_oelib_templateRegistry::getInstance()
-				instanceof tx_oelib_templateRegistry
+			tx_oelib_TemplateRegistry::getInstance()
+				instanceof tx_oelib_TemplateRegistry
 		);
 	}
 
 	public function testGetInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
-			tx_oelib_templateRegistry::getInstance(),
-			tx_oelib_templateRegistry::getInstance()
+			tx_oelib_TemplateRegistry::getInstance(),
+			tx_oelib_TemplateRegistry::getInstance()
 		);
 	}
 
 	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
-		$firstInstance = tx_oelib_templateRegistry::getInstance();
-		tx_oelib_templateRegistry::purgeInstance();
+		$firstInstance = tx_oelib_TemplateRegistry::getInstance();
+		tx_oelib_TemplateRegistry::purgeInstance();
 
 		$this->assertNotSame(
 			$firstInstance,
-			tx_oelib_templateRegistry::getInstance()
+			tx_oelib_TemplateRegistry::getInstance()
 		);
 	}
 
@@ -76,21 +76,21 @@ class tx_oelib_templateRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForEmptyTemplateFileNameReturnsTemplateInstance() {
 		$this->assertTrue(
-			tx_oelib_templateRegistry::get('') instanceof tx_oelib_template
+			tx_oelib_TemplateRegistry::get('') instanceof tx_oelib_template
 		);
 	}
 
 	public function testGetForExistingTemplateFileNameReturnsTemplate() {
 		$this->assertTrue(
-			tx_oelib_templateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
+			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
 				instanceof tx_oelib_template
 		);
 	}
 
 	public function testGetForExistingTemplateFileNameCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
-			tx_oelib_templateRegistry::get('EXT:oelib/tests/fixtures/oelib.html'),
-			tx_oelib_templateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
+			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html'),
+			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
 		);
 	}
 }

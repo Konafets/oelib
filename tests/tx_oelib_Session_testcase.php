@@ -22,19 +22,19 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_session.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeSession.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Session.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_FakeSession.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
 /**
- * Testcase for the tx_oelib_session class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Session class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_session_testcase  extends tx_phpunit_testcase {
+class tx_oelib_Session_testcase  extends tx_phpunit_testcase {
 	/**
      * @var tx_oelib_testingFramework for creating a fake front end
      */
@@ -43,7 +43,7 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		tx_oelib_session::purgeInstances();
+		tx_oelib_Session::purgeInstances();
 	}
 
 	public function tearDown() {
@@ -65,7 +65,7 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 
 		$GLOBALS['TSFE'] = null;
 
-		tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER);
+		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER);
 	}
 
 	public function testGetInstanceWithInvalidTypeThrowsException() {
@@ -76,15 +76,15 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 
 		$this->testingFramework->createFakeFrontEnd();
 
-		tx_oelib_session::getInstance(42);
+		tx_oelib_Session::getInstance(42);
 	}
 
 	public function testGetInstanceWithUserTypeReturnsSessionInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertTrue(
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER)
-				instanceof tx_oelib_session
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER)
+				instanceof tx_oelib_Session
 		);
 	}
 
@@ -92,8 +92,8 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertTrue(
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
-				instanceof tx_oelib_session
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
+				instanceof tx_oelib_Session
 		);
 	}
 
@@ -101,8 +101,8 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertSame(
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER),
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER),
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER)
 		);
 	}
 
@@ -110,19 +110,19 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertNotSame(
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER),
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER),
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 		);
 	}
 
 	public function testGetInstanceWithSameTypesAfterPurgeInstancesReturnsNewInstance() {
 		$this->testingFramework->createFakeFrontEnd();
-		$firstInstance = tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER);
-		tx_oelib_session::purgeInstances();
+		$firstInstance = tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER);
+		tx_oelib_Session::purgeInstances();
 
 		$this->assertNotSame(
 			$firstInstance,
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER)
 		);
 	}
 
@@ -132,44 +132,44 @@ class tx_oelib_session_testcase  extends tx_phpunit_testcase {
 			'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
 		);
 
-		tx_oelib_session::setInstance(42, new tx_oelib_fakeSession());
+		tx_oelib_Session::setInstance(42, new tx_oelib_FakeSession());
 	}
 
 	public function testGetInstanceWithUserTypeReturnsInstanceFromSetInstance() {
-		$instance = new tx_oelib_fakeSession();
-		tx_oelib_session::setInstance(tx_oelib_session::TYPE_USER, $instance);
+		$instance = new tx_oelib_FakeSession();
+		tx_oelib_Session::setInstance(tx_oelib_Session::TYPE_USER, $instance);
 
 		$this->assertSame(
 			$instance,
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER)
 		);
 	}
 
 	public function testGetInstanceWithTemporaryTypeReturnsInstanceFromSetInstance() {
-		$instance = new tx_oelib_fakeSession();
-		tx_oelib_session::setInstance(
-			tx_oelib_session::TYPE_TEMPORARY, $instance
+		$instance = new tx_oelib_FakeSession();
+		tx_oelib_Session::setInstance(
+			tx_oelib_Session::TYPE_TEMPORARY, $instance
 		);
 
 		$this->assertSame(
 			$instance,
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 		);
 	}
 
 	public function testGetInstanceWithDifferentTypesReturnsDifferentInstancesSetViaSetInstance() {
-		tx_oelib_session::setInstance(
-			tx_oelib_session::TYPE_USER,
-			new tx_oelib_fakeSession()
+		tx_oelib_Session::setInstance(
+			tx_oelib_Session::TYPE_USER,
+			new tx_oelib_FakeSession()
 		);
-		tx_oelib_session::setInstance(
-			tx_oelib_session::TYPE_TEMPORARY,
-			new tx_oelib_fakeSession()
+		tx_oelib_Session::setInstance(
+			tx_oelib_Session::TYPE_TEMPORARY,
+			new tx_oelib_FakeSession()
 		);
 
 		$this->assertNotSame(
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_USER),
-			tx_oelib_session::getInstance(tx_oelib_session::TYPE_TEMPORARY)
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER),
+			tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_TEMPORARY)
 		);
 	}
 }

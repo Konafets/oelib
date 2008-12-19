@@ -25,14 +25,14 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingObject.php');
 
 /**
- * Testcase for the tx_oelib_object class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Object class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_object_testcase extends tx_phpunit_testcase {
+class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingObject the object to test
 	 */

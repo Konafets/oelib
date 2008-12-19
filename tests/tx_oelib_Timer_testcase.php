@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_timer.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Timer.php');
 
 /**
  * Testcase for the timer class in the 'oelib' extension.
@@ -32,14 +32,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_timer.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_timer_testcase extends tx_phpunit_testcase {
+class tx_oelib_Timer_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_timer
+	 * @var tx_oelib_Timer
 	 */
 	private $fixture;
 
 	protected function setUp() {
-		$this->fixture = tx_oelib_timer::getInstance();
+		$this->fixture = tx_oelib_Timer::getInstance();
 	}
 
 	protected function tearDown() {
@@ -52,7 +52,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSingleton() {
-		$this->assertSame($this->fixture, tx_oelib_timer::getInstance());
+		$this->assertSame($this->fixture, tx_oelib_Timer::getInstance());
 	}
 
 	public function testStatisticsWithoutBuckets() {
@@ -97,7 +97,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testStatisticsForDefaultBucketWithDelayUsingShortcut() {
-		tx_oelib_timer::oB();
+		tx_oelib_Timer::oB();
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -134,7 +134,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testStatisticsForOneBucketWithDelayUsingShortcut() {
-		tx_oelib_timer::oB('test');
+		tx_oelib_Timer::oB('test');
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
@@ -301,7 +301,7 @@ class tx_oelib_timer_testcase extends tx_phpunit_testcase {
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->fixture->openBucket('bucket_2');
-		tx_oelib_timer::rB();
+		tx_oelib_Timer::rB();
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 

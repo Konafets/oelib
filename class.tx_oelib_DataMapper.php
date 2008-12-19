@@ -23,13 +23,13 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Model.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_IdentityMap.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
- * Class 'tx_oelib_dataMapper' for the 'oelib' extension.
+ * Class 'tx_oelib_DataMapper' for the 'oelib' extension.
  *
  * This class represents a mapper that maps database record to model instances.
  *
@@ -38,7 +38,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_dataMapper {
+abstract class tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper,
 	 *             must not be empty in subclasses
@@ -52,7 +52,7 @@ abstract class tx_oelib_dataMapper {
 	protected $columns = '*';
 
 	/**
-	 * @var tx_oelib_identityMap a map that holds the models that already
+	 * @var tx_oelib_IdentityMap a map that holds the models that already
 	 *                           have been retrieved
 	 */
 	protected $map = null;
@@ -72,7 +72,7 @@ abstract class tx_oelib_dataMapper {
 			);
 		}
 
-		$this->map = t3lib_div::makeInstance('tx_oelib_identityMap');
+		$this->map = t3lib_div::makeInstance('tx_oelib_IdentityMap');
 	}
 
 	/**
@@ -94,7 +94,7 @@ abstract class tx_oelib_dataMapper {
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_model the stored model with the UID $uid
+	 * @return tx_oelib_Model the stored model with the UID $uid
 	 */
 	public function find($uid) {
 		try {
@@ -115,7 +115,7 @@ abstract class tx_oelib_dataMapper {
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_model the stored model with the UID $uid
+	 * @return tx_oelib_Model the stored model with the UID $uid
 	 */
 	protected function load($uid) {
 		$queryResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -149,12 +149,12 @@ abstract class tx_oelib_dataMapper {
 	 *
 	 * @param array the data with which the model should be filled, may be empty
 	 *
-	 * @return tx_oelib_model the filled model
+	 * @return tx_oelib_Model the filled model
 	 */
 	protected abstract function createAndFillModel(array $data);
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_dataMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_dataMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']);
 }
 ?>

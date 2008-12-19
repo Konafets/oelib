@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
- * Class 'tx_oelib_template' for the 'oelib' extension.
+ * Class 'tx_oelib_Template' for the 'oelib' extension.
  *
  * This class represents a HTML template with markers (###MARKER###) and
  * subparts (<!-- ###SUBPART### --><!-- ###SUBPART### -->).
@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_template {
+class tx_oelib_Template {
 	/**
 	 * @var string the complete HTML template
 	 */
@@ -184,7 +184,7 @@ class tx_oelib_template {
 	public function getPrefixedMarkers($prefix) {
 		if ($this->markerNames == '') {
 			throw new Exception(
-				'The method tx_oelib_template->findMarkers() has to be called ' .
+				'The method tx_oelib_Template->findMarkers() has to be called ' .
 					'before this method is called.'
 			);
 		}
@@ -739,7 +739,7 @@ class tx_oelib_template {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_template.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_template.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Template.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Template.php']);
 }
 ?>

@@ -22,11 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Model.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
- * Class 'tx_oelib_identityMap' for the 'oelib' extension.
+ * Class 'tx_oelib_IdentityMap' for the 'oelib' extension.
  *
  * This class represents an identity map that stores and retrieves model
  * instances by their UIDs.
@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_identityMap {
+class tx_oelib_IdentityMap {
 	/**
 	 * @var array the items in this map with their UIDs as keys
 	 */
@@ -59,9 +59,9 @@ class tx_oelib_identityMap {
 	/**
 	 * Adds a model to the identity map.
 	 *
-	 * @param tx_oelib_model model to add, must have a UID
+	 * @param tx_oelib_Model model to add, must have a UID
 	 */
-	public function add(tx_oelib_model $model) {
+	public function add(tx_oelib_Model $model) {
 		if (!$model->hasUid()) {
 			throw new Exception('Add() requires a model that has a UID.');
 		}
@@ -77,7 +77,7 @@ class tx_oelib_identityMap {
 	 *
 	 * @param integer the UID of the model to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_model the stored model with the UID $uid
+	 * @return tx_oelib_Model the stored model with the UID $uid
 	 */
 	public function get($uid) {
 		if ($uid <= 0) {
@@ -97,7 +97,7 @@ class tx_oelib_identityMap {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_identityMap.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_identityMap.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_IdentityMap.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_IdentityMap.php']);
 }
 ?>

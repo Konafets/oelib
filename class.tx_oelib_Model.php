@@ -22,10 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Object.php');
 
 /**
- * Class 'tx_oelib_model' for the 'oelib' extension.
+ * Class 'tx_oelib_Model' for the 'oelib' extension.
  *
  * This class represents a general domain model.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_object.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_model extends tx_oelib_object {
+abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * @var array the data for this object
 	 */
@@ -141,7 +141,7 @@ abstract class tx_oelib_model extends tx_oelib_object {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_model.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_model.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']);
 }
 ?>

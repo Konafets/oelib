@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_PublicObject.php');
 
 /**
  * Class 'tx_oelib_testingObject' for the 'oelib' extension.
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php')
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class tx_oelib_testingObject extends tx_oelib_publicObject {
+final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	/**
 	 * @var array the data for this object
 	 */

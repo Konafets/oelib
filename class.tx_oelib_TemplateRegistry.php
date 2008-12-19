@@ -22,10 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_template.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Template.php');
 
 /**
- * Class 'tx_oelib_templateRegistry' for the 'oelib' extension.
+ * Class 'tx_oelib_TemplateRegistry' for the 'oelib' extension.
  *
  * This class represents a registry for templates.
  *
@@ -34,9 +34,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_template.php');
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_templateRegistry {
+class tx_oelib_TemplateRegistry {
 	/**
-	 * @var tx_oelib_templateRegistry the Singleton instance
+	 * @var tx_oelib_TemplateRegistry the Singleton instance
 	 */
 	private static $instance = null;
 
@@ -55,11 +55,11 @@ class tx_oelib_templateRegistry {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_templateRegistry the current Singleton instance
+	 * @return tx_oelib_TemplateRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_templateRegistry();
+			self::$instance = new tx_oelib_TemplateRegistry();
 		}
 
 		return self::$instance;
@@ -79,7 +79,7 @@ class tx_oelib_templateRegistry {
 	 * @param string the file name of the template to retrieve, must not be empty
 	 *               (except when in test mode)
 	 *
-	 * @return tx_oelib_template the template for the given template file name
+	 * @return tx_oelib_Template the template for the given template file name
 	 *
 	 * @see getByFile
 	 */
@@ -93,7 +93,7 @@ class tx_oelib_templateRegistry {
 	 * @param string the file name of the template to retrieve, must not be empty
 	 *               (except when in test mode)
 	 *
-	 * @return tx_oelib_template the template for the given template file name
+	 * @return tx_oelib_Template the template for the given template file name
 	 */
 	public function getByFileName($templateFileName) {
 		if ($templateFileName == '') {
@@ -101,7 +101,7 @@ class tx_oelib_templateRegistry {
 		}
 
 		if (!isset($this->templates[$templateFileName])) {
-			$template = t3lib_div::makeInstance('tx_oelib_template');
+			$template = t3lib_div::makeInstance('tx_oelib_Template');
 			$template->processTemplateFromFile($templateFileName);
 			$this->templates[$templateFileName] = $template;
 		}
@@ -114,19 +114,19 @@ class tx_oelib_templateRegistry {
 	 *
 	 * The content of this template then can be set by processTemplate.
 	 *
-	 * @return tx_oelib_template an anonymous template
+	 * @return tx_oelib_Template an anonymous template
 	 */
 	private function getAnonymousTemplate() {
 		if (!isset($this->templates['anonymous'])) {
 			$this->templates['anonymous']
-				= t3lib_div::makeInstance('tx_oelib_template');
+				= t3lib_div::makeInstance('tx_oelib_Template');
 		}
 
 		return $this->templates['anonymous'];
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templateRegistry.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templateRegistry.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_TemplateRegistry.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_TemplateRegistry.php']);
 }
 ?>

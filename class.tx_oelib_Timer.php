@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
- * Class 'tx_oelib_timer' for the 'oelib' extension.
+ * Class 'tx_oelib_Timer' for the 'oelib' extension.
  *
  * This singleton class provides functions for performance measurement.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_timer {
+class tx_oelib_Timer {
 	/**
 	 * @var boolean whether the timer currently is running
 	 */
@@ -67,7 +67,7 @@ class tx_oelib_timer {
 	private $lastTime = 0.00;
 
 	/**
-	 * @var tx_oelib_timer the singleton instance
+	 * @var tx_oelib_Timer the singleton instance
 	 */
 	private static $instance = null;
 
@@ -88,11 +88,11 @@ class tx_oelib_timer {
 	 * Retrieves the singleton timer instance. This function usually should be
 	 * called statically.
 	 *
-	 * @return tx_oelib_timer a reference to the singleton timer object
+	 * @return tx_oelib_Timer a reference to the singleton timer object
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_timer();
+			self::$instance = new tx_oelib_Timer();
 		}
 
 		return self::$instance;
@@ -129,7 +129,7 @@ class tx_oelib_timer {
 	 * @param string the name of the bucket to open, must not be empty
 	 */
 	public static function oB($bucketName = 'default') {
-		tx_oelib_timer::getInstance()->openBucket($bucketName);
+		tx_oelib_Timer::getInstance()->openBucket($bucketName);
 	}
 
 	/**
@@ -269,7 +269,7 @@ class tx_oelib_timer {
 	 * @see returnToPreviousBucket
 	 */
 	public static function rB() {
-		tx_oelib_timer::getInstance()->returnToPreviousBucket();
+		tx_oelib_Timer::getInstance()->returnToPreviousBucket();
 	}
 
 	/**
@@ -280,7 +280,7 @@ class tx_oelib_timer {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_timer.php']) {
-	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_timer.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Timer.php']) {
+	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Timer.php']);
 }
 ?>

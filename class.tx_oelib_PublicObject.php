@@ -22,54 +22,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Object.php');
+
 /**
- * Class 'tx_oelib_object' for the 'oelib' extension.
+ * Class 'tx_oelib_PublicObject' for the 'oelib' extension.
  *
- * This class represents an object that allows getting and setting its data,
- * but only via protected methods so that encapsulation is retained.
+ * This class represents an object that allows getting and setting its data
+ * via public methods.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_object {
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	abstract public function __destruct();
-
-	/**
-	 * Gets the value of the data item for the key $key.
-	 *
-	 * @param string the key of the data item to get, must not be empty
-	 *
-	 * @return mixed the data for the key $key, will be an empty string
-	 *               if the key has not been set yet
-	 */
-	abstract protected function get($key);
-
-	/**
-	 * Sets the value of the data item for the key $key.
-	 *
-	 * @param string the key of the data item to get, must not be empty
-	 * @param mixed the data for the key $key
-	 */
-	abstract protected function set($key, $value);
-
-	/**
-	 * Checks that $key is not empty.
-	 *
-	 * @throws Exception if $key is empty
-	 *
-	 * @param string a key to check
-	 */
-	protected function checkForNonEmptyKey($key) {
-		if ($key == '') {
-			throw new Exception('$key must not be empty.');
-		}
-	}
-
+abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a string.
 	 *
@@ -77,10 +43,8 @@ abstract class tx_oelib_object {
 	 *
 	 * @return string the string value of the given key, may be empty
 	 */
-	protected function getAsString($key) {
-		$this->checkForNonEmptyKey($key);
-
-		return trim((string) $this->get($key));
+	public function getAsString($key) {
+		return parent::getAsString($key);
 	}
 
 	/**
@@ -91,8 +55,8 @@ abstract class tx_oelib_object {
 	 * @return boolean true if the value for the given key is non-empty,
 	 *                 false otherwise
 	 */
-	protected function hasString($key) {
-		return ($this->getAsString($key) != '');
+	public function hasString($key) {
+		return parent::hasString($key);
 	}
 
 	/**
@@ -101,10 +65,8 @@ abstract class tx_oelib_object {
 	 * @param string the key of the element to set, must not be empty
 	 * @param mixed the value to set, may be empty
 	 */
-	protected function setAsString($key, $value) {
-		$this->checkForNonEmptyKey($key);
-
-		$this->set($key, (string) $value);
+	public function setAsString($key, $value) {
+		parent::setAsString($key, $value);
 	}
 
 	/**
@@ -115,10 +77,8 @@ abstract class tx_oelib_object {
 	 * @return integer the integer value of the given key, may be positive,
 	 *                 negative or zero
 	 */
-	protected function getAsInteger($key) {
-		$this->checkForNonEmptyKey($key);
-
-		return intval($this->get($key));
+	public function getAsInteger($key) {
+		return parent::getAsInteger($key);
 	}
 
 	/**
@@ -129,8 +89,8 @@ abstract class tx_oelib_object {
 	 * @return boolean true if the value for the given key is non-zero,
 	 *                 false otherwise
 	 */
-	protected function hasInteger($key) {
-		return ($this->getAsInteger($key) != 0);
+	public function hasInteger($key) {
+		return parent::hasInteger($key);
 	}
 
 	/**
@@ -139,10 +99,8 @@ abstract class tx_oelib_object {
 	 * @param string the key of the element to set, must not be empty
 	 * @param mixed the value to set, may be empty
 	 */
-	protected function setAsInteger($key, $value) {
-		$this->checkForNonEmptyKey($key);
-
-		$this->set($key, intval($value));
+	public function setAsInteger($key, $value) {
+		parent::setAsInteger($key, $value);
 	}
 
 	/**
@@ -153,14 +111,8 @@ abstract class tx_oelib_object {
 	 *
 	 * @return array the array value of the given key, may be empty
 	 */
-	protected function getAsTrimmedArray($key) {
-		$stringValue = $this->getAsString($key);
-
-		if ($stringValue == '') {
-			return array();
-		}
-
-		return t3lib_div::trimExplode(',', $stringValue);
+	public function getAsTrimmedArray($key) {
+		return parent::getAsTrimmedArray($key);
 	}
 
 	/**
@@ -171,14 +123,8 @@ abstract class tx_oelib_object {
 	 *
 	 * @return array the array value of the given key, may be empty
 	 */
-	protected function getAsIntegerArray($key) {
-		$stringValue = $this->getAsString($key);
-
-		if ($stringValue == '') {
-			return array();
-		}
-
-		return t3lib_div::intExplode(',', $stringValue);
+	public function getAsIntegerArray($key) {
+		return parent::getAsIntegerArray($key);
 	}
 
 	/**
@@ -195,8 +141,8 @@ abstract class tx_oelib_object {
 	 * @see getAsTrimmedArray
 	 * @see getAsIntegerArray
 	 */
-	protected function setAsArray($key, array $value) {
-		$this->setAsString($key, implode(',', $value));
+	public function setAsArray($key, array $value) {
+		parent::setAsArray($key, $value);
 	}
 
 	/**
@@ -206,10 +152,8 @@ abstract class tx_oelib_object {
 	 *
 	 * @return boolean the boolean value of the given key
 	 */
-	protected function getAsBoolean($key) {
-		$this->checkForNonEmptyKey($key);
-
-		return (boolean) $this->get($key);
+	public function getAsBoolean($key) {
+		return parent::getAsBoolean($key);
 	}
 
 	/**
@@ -218,10 +162,8 @@ abstract class tx_oelib_object {
 	 * @param string the key of the element to set, must not be empty
 	 * @param mixed the value to set, may be empty
 	 */
-	protected function setAsBoolean($key, $value) {
-		$this->checkForNonEmptyKey($key);
-
-		$this->set($key, (boolean) $value);
+	public function setAsBoolean($key, $value) {
+		parent::setAsBoolean($key, $value);
 	}
 
 	/**
@@ -232,10 +174,8 @@ abstract class tx_oelib_object {
 	 * @return float the float value of the given key, may be positive,
 	 *               negative or zero
 	 */
-	protected function getAsFloat($key) {
-		$this->checkForNonEmptyKey($key);
-
-		return (float) $this->get($key);
+	public function getAsFloat($key) {
+		return parent::getAsFloat($key);
 	}
 
 	/**
@@ -246,8 +186,8 @@ abstract class tx_oelib_object {
 	 * @return boolean true if the value for the given key is non-zero,
 	 *                 false otherwise
 	 */
-	protected function hasFloat($key) {
-		return ($this->getAsFloat($key) != 0.00);
+	public function hasFloat($key) {
+		return parent::hasFloat($key);
 	}
 
 	/**
@@ -256,14 +196,12 @@ abstract class tx_oelib_object {
 	 * @param string the key of the element to set, must not be empty
 	 * @param mixed the value to set, may be empty
 	 */
-	protected function setAsFloat($key, $value) {
-		$this->checkForNonEmptyKey($key);
-
-		$this->set($key, (float) $value);
+	public function setAsFloat($key, $value) {
+		parent::setAsFloat($key, $value);
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_object.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_object.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_PublicObject.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_PublicObject.php']);
 }
 ?>

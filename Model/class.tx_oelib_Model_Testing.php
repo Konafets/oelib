@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Model.php');
 
 /**
  * Class 'tx_oelib_Model_Testing' for the 'oelib' extension.
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class tx_oelib_Model_Testing extends tx_oelib_model {
+final class tx_oelib_Model_Testing extends tx_oelib_Model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *

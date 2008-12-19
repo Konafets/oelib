@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Model.php');
 
 /**
  * Class 'tx_oelib_Model_FrontEndUser' for the 'oelib' extension.
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_model.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_FrontEndUser extends tx_oelib_model {
+class tx_oelib_Model_FrontEndUser extends tx_oelib_Model {
 	/**
 	 * Gets this user's user name.
 	 *

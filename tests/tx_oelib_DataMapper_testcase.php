@@ -26,24 +26,24 @@ require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testin
 require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_Testing.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_identityMap.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_IdentityMap.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
 /**
- * Testcase for the tx_oelib_dataMapper class in the 'oelib' extension.
+ * Testcase for the tx_oelib_DataMapper class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
+class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
-	 * @var tx_oelib_dataMapper the data mapper to test
+	 * @var tx_oelib_DataMapper the data mapper to test
 	 */
 	private $fixture;
 
@@ -110,7 +110,7 @@ class tx_oelib_dataMapper_testcase extends tx_phpunit_testcase {
 		$model = new tx_oelib_Model_Testing();
 		$model->setUid(1);
 
-		$map = new tx_oelib_identityMap();
+		$map = new tx_oelib_IdentityMap();
 		$map->add($model);
 		$this->fixture->setMap($map);
 

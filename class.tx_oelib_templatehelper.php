@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_salutationswitcher.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_templateRegistry.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_TemplateRegistry.php');
 
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
@@ -474,11 +474,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Returns the template object from the template registry for the file name
 	 * in $this->templateFileName.
 	 *
-	 * @return tx_oelib_template the template object for the template file name
+	 * @return  the template object for the template file name
 	 *                           in $this->templateFileName
 	 */
 	private function getTemplate() {
-		return tx_oelib_templateRegistry::get($this->templateFileName);
+		return tx_oelib_TemplateRegistry::get($this->templateFileName);
 	}
 
 	/**

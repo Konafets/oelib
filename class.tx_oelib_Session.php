@@ -22,10 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_PublicObject.php');
 
 /**
- * Class 'tx_oelib_session' for the 'oelib' extension.
+ * Class 'tx_oelib_Session' for the 'oelib' extension.
  *
  * This Singleton class represents a session and its data.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php')
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_session extends tx_oelib_publicObject {
+class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * @var integer session type for persistent data that is stored for the
 	 *              logged-in front-end user and will be available when the
@@ -99,14 +99,14 @@ class tx_oelib_session extends tx_oelib_publicObject {
 	 *                (persistent) or TYPE_TEMPORARY (only for the lifetime
 	 *                of the session cookie)
 	 *
-	 * @return tx_oelib_session the current Singleton instance for the given
+	 * @return tx_oelib_Session the current Singleton instance for the given
 	 *                          type
 	 */
 	public static function getInstance($type) {
 		self::checkType($type);
 
 		if (!isset(self::$instances[$type])) {
-			self::$instances[$type] = new tx_oelib_session($type);
+			self::$instances[$type] = new tx_oelib_Session($type);
 		}
 
 		return self::$instances[$type];
@@ -116,9 +116,9 @@ class tx_oelib_session extends tx_oelib_publicObject {
 	 * Sets the instance for the given type.
 	 *
 	 * @param integer the type to set, must be either TYPE_USER or TYPE_TEMPORARY
-	 * @param tx_oelib_session the instance to set
+	 * @param tx_oelib_Session the instance to set
 	 */
-	public function setInstance($type, tx_oelib_session $instance) {
+	public function setInstance($type, tx_oelib_Session $instance) {
 		self::checkType($type);
 
 		self::$instances[$type] = $instance;
@@ -178,7 +178,7 @@ class tx_oelib_session extends tx_oelib_publicObject {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_session.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_session.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Session.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Session.php']);
 }
 ?>

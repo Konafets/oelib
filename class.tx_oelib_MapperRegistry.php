@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
- * Class 'tx_oelib_mapperRegistry' for the 'oelib' extension.
+ * Class 'tx_oelib_MapperRegistry' for the 'oelib' extension.
  *
  * This class represents a registry for mappers. The mappers must be located in
  * the directory Mapper/ in each extension. Extension can use mappers from
@@ -38,9 +38,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoun
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_mapperRegistry {
+class tx_oelib_MapperRegistry {
 	/**
-	 * @var tx_oelib_mapperRegistry the Singleton instance
+	 * @var tx_oelib_MapperRegistry the Singleton instance
 	 */
 	private static $instance = null;
 
@@ -62,11 +62,11 @@ class tx_oelib_mapperRegistry {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_mapperRegistry the current Singleton instance
+	 * @return tx_oelib_MapperRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_mapperRegistry();
+			self::$instance = new tx_oelib_MapperRegistry();
 		}
 
 		return self::$instance;
@@ -149,7 +149,7 @@ class tx_oelib_mapperRegistry {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_mapperRegistry.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_mapperRegistry.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_MapperRegistry.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_MapperRegistry.php']);
 }
 ?>

@@ -22,10 +22,10 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_PublicObject.php');
 
 /**
- * Class 'tx_oelib_fakeConfiguration' for the 'oelib' extension.
+ * Class 'tx_oelib_FakeConfiguration' for the 'oelib' extension.
  *
  * This class represents the fake configuration.
  *
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_publicObject.php')
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_fakeConfiguration extends tx_oelib_publicObject {
+class tx_oelib_FakeConfiguration extends tx_oelib_PublicObject {
 	/**
 	 * @var array the configuration data
 	 */
@@ -89,7 +89,7 @@ class tx_oelib_fakeConfiguration extends tx_oelib_publicObject {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeConfiguration.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_fakeConfiguration.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FakeConfiguration.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FakeConfiguration.php']);
 }
 ?>

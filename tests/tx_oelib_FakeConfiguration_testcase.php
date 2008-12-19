@@ -22,24 +22,24 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_fakeConfiguration.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_FakeConfiguration.php');
 
 /**
- * Testcase for the tx_oelib_fakeConfiguration class in the 'oelib' extension.
+ * Testcase for the tx_oelib_FakeConfiguration class in the 'oelib' extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_fakeConfiguration_testcase extends tx_phpunit_testcase {
+class tx_oelib_FakeConfiguration_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_fakeConfiguration the fake configuration to test
+	 * @var tx_oelib_FakeConfiguration the fake configuration to test
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_fakeConfiguration();
+		$this->fixture = new tx_oelib_FakeConfiguration();
 	}
 
 	public function tearDown() {
