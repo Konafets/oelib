@@ -22,9 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Model.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_IdentityMap.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 

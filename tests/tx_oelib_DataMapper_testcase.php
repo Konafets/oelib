@@ -22,12 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'Mapper/class.tx_oelib_Mapper_Testing.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_IdentityMap.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
 
 /**
  * Testcase for the tx_oelib_DataMapper class in the 'oelib' extension.

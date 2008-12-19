@@ -152,10 +152,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$configurationCheckClassname = t3lib_div::makeInstanceClassName(
 					'tx_' . $this->extKey . '_configcheck'
 				);
-				$configurationCheckFile = t3lib_extMgm::extPath($this->extKey) .
-					'class.' . $configurationCheckClassname . '.php';
-				if (is_file($configurationCheckFile)) {
-					require_once($configurationCheckFile);
+				if (tx_oelib_Autoloader::load($configurationCheckClassname)) {
 					$this->configurationCheck
 						= new $configurationCheckClassname($this);
 				}
