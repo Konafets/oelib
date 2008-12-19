@@ -22,7 +22,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_mailerFactory.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
  * Testcase for the mailer factory class and the e-mail collector class in the

@@ -23,7 +23,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_db.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
  * Class 'tx_oelib_configcheck' for the 'oelib' extension.

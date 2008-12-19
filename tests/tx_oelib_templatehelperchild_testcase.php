@@ -23,10 +23,8 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_configurationProxy.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_TemplateRegistry.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
  * Testcase for the template helper class in the 'oelib' extension.

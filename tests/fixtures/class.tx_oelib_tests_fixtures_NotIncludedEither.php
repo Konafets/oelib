@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2008 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -22,29 +22,20 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-
 /**
- * Class 'tx_oelib_realHeaderProxy' for the 'oelib' extension.
- * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
+ * Class 'tx_oelib_NotIncludedEither' for the 'oelib' extension.
+ *
+ * This class is for testing purposes only.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
- * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
-	/**
-	 * Adds a header.
-	 *
-	 * @param string HTTP header to send, must not be empty
-	 */
-	public function addHeader($header) {
-		header($header);
-	}
+class tx_oelib_tests_fixtures_NotIncludedEither {
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_realHeaderProxy.php']) {
-	include_once ($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_realHeaderProxy.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_NotIncludedEither.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_NotIncludedEither.php']);
 }
 ?>

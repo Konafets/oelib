@@ -25,7 +25,7 @@
 require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
 
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_testingFramework.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
 define('OELIB_TESTTABLE', 'tx_oelib_test');
