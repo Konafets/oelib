@@ -1,3 +1,5 @@
+0.6.0 - currently working on
+
 0.5.0 - released 2008-12-21
 - [#2435] Change: Allow having non-identical template objects for the same template file
 - [#2321] Feature: The FE user data mapper should be able to get and use the currently logged-in FE user
