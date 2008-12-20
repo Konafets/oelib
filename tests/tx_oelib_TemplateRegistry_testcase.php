@@ -37,7 +37,6 @@ class tx_oelib_TemplateRegistry_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
-		tx_oelib_TemplateRegistry::purgeInstance();
 	}
 
 
@@ -80,6 +79,13 @@ class tx_oelib_TemplateRegistry_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetForEmptyTemplateFileNameCalledTwoTimesReturnsNewInstance() {
+		$this->assertNotSame(
+			tx_oelib_TemplateRegistry::get(''),
+			tx_oelib_TemplateRegistry::get('')
+		);
+	}
+
 	public function testGetForExistingTemplateFileNameReturnsTemplate() {
 		$this->assertTrue(
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
@@ -87,10 +93,21 @@ class tx_oelib_TemplateRegistry_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetForExistingTemplateFileNameCalledTwoTimesReturnsTheSameInstance() {
-		$this->assertSame(
+	public function testGetForExistingTemplateFileNameCalledTwoTimesReturnsNewInstance() {
+		$this->assertNotSame(
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html'),
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
+		);
+	}
+
+	public function testGetForExistingTemplateFileNameReturnsProcessedTemplate() {
+		$template = tx_oelib_TemplateRegistry::get(
+			'EXT:oelib/tests/fixtures/oelib.html'
+		);
+
+		$this->assertEquals(
+			'Hello world!' . LF,
+			$template->getSubpart()
 		);
 	}
 }

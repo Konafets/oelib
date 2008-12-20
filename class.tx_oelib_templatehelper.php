@@ -30,8 +30,8 @@ require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
 require_once(PATH_typo3 . 'sysext/cms/tslib/class.tslib_content.php');
 require_once(PATH_typo3 . 'sysext/lang/lang.php');
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
  * Class 'tx_oelib_templatehelper' for the 'oelib' extension
@@ -79,6 +79,11 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	private $templateFileName = '';
 
 	/**
+	 * @var tx_oelib_Template this object's (only) template
+	 */
+	private $template = null;
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -86,6 +91,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->configurationCheck->__destruct();
 			unset($this->configurationCheck);
 		}
+		unset($this->template);
 
 		parent::__destruct();
 	}
@@ -460,8 +466,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		}
 
 		$this->templateFileName = $templateFileName;
-
-		$this->getTemplate()->resetTemplate();
 	}
 
 	/**
@@ -472,7 +476,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                           in $this->templateFileName
 	 */
 	private function getTemplate() {
-		return tx_oelib_TemplateRegistry::get($this->templateFileName);
+		if (!$this->template) {
+			$this->template = tx_oelib_TemplateRegistry::get(
+				$this->templateFileName
+			);
+		}
+
+		return $this->template;
 	}
 
 	/**
@@ -952,24 +962,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Resets the marker contents.
-	 */
-	public function resetMarkers() {
-		$this->getTemplate()->resetMarkers();
-	}
-
-	/**
 	 * Resets the list of subparts to hide.
 	 */
 	public function resetSubpartsHiding() {
 		$this->getTemplate()->resetSubpartsHiding();
-	}
-
-	/**
-	 * Resets the template to it's original state.
-	 */
-	public function resetTemplate() {
-		$this->getTemplate()->resetTemplate();
 	}
 
 	/**

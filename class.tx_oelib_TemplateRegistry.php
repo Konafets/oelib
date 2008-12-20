@@ -74,55 +74,46 @@ class tx_oelib_TemplateRegistry {
 	}
 
 	/**
-	 * Retrieves a template by template file name.
+	 * Creates a new template for a provided template file name with an already
+	 * parsed the template file.
 	 *
-	 * @param string the file name of the template to retrieve, must not be empty
-	 *               (except when in test mode)
+	 * If the template file name is empty, no template file will be used for
+	 * that template.
+	 *
+	 * @param string the file name of the template to retrieve, may not be empty
+	 *               to get a template that is not related to a template file.
 	 *
 	 * @return tx_oelib_Template the template for the given template file name
 	 *
-	 * @see getByFile
+	 * @see getByFileName
 	 */
 	public static function get($templateFileName) {
 		return self::getInstance()->getByFileName($templateFileName);
 	}
 
 	/**
-	 * Retrieves a template by template file name.
+	 * Creates a new template for a provided template file name with an already
+	 * parsed the template file.
 	 *
-	 * @param string the file name of the template to retrieve, must not be empty
-	 *               (except when in test mode)
+	 * If the template file name is empty, no template file will be used for
+	 * that template.
+	 *
+	 * @param string the file name of the template to retrieve, may not be empty
+	 *               to get a template that is not related to a template file.
 	 *
 	 * @return tx_oelib_Template the template for the given template file name
 	 */
-	public function getByFileName($templateFileName) {
-		if ($templateFileName == '') {
-			return $this->getAnonymousTemplate();
-		}
-
-		if (!isset($this->templates[$templateFileName])) {
+	public function getByFileName($fileName) {
+		if (!isset($this->templates[$fileName])) {
 			$template = t3lib_div::makeInstance('tx_oelib_Template');
-			$template->processTemplateFromFile($templateFileName);
-			$this->templates[$templateFileName] = $template;
+
+			if ($fileName != '') {
+				$template->processTemplateFromFile($fileName);
+			}
+			$this->templates[$fileName] = $template;
 		}
 
-		return $this->templates[$templateFileName];
-	}
-
-	/**
-	 * Retrieves a template without a file name.
-	 *
-	 * The content of this template then can be set by processTemplate.
-	 *
-	 * @return tx_oelib_Template an anonymous template
-	 */
-	private function getAnonymousTemplate() {
-		if (!isset($this->templates['anonymous'])) {
-			$this->templates['anonymous']
-				= t3lib_div::makeInstance('tx_oelib_Template');
-		}
-
-		return $this->templates['anonymous'];
+		return clone $this->templates[$fileName];
 	}
 }
 
