@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_NotIncluded' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_pi1_NotIncluded1' for the 'oelib' extension.
  *
  * This class is for testing purposes only.
  *
@@ -32,10 +32,10 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_tests_fixtures_NotIncluded {
+class tx_oelib_tests_fixtures_pi1_NotIncluded1 {
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_NotIncluded.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_NotIncluded.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/pi1/class.tx_oelib_tests_fixtures_pi1_NotIncluded1.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/pi1/class.tx_oelib_tests_fixtures_pi1_NotIncluded1.php']);
 }
 ?>

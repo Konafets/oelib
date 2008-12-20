@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_NotIncludedEither' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_NotIncludedEither' for the 'oelib' extension.
  *
  * This class is for testing purposes only.
  *

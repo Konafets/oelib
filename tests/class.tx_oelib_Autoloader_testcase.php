@@ -71,6 +71,12 @@ class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoadWithNameOfExistingClassWithDigitsInPathReturnsTrue() {
+		$this->assertTrue(
+			tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_pi1_NotIncluded1')
+		);
+	}
+
 	public function testLoadWithNameOfExistingNotLoadedClassLoadsClass() {
 		tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_NotIncluded');
 
