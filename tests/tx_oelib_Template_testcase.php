@@ -22,8 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
  * Testcase for the template class in the 'oelib' extension.
@@ -74,7 +74,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNotExistingSubpartNameThrowsException() {
 		$this->setExpectedException(
-			'tx_oelib_notFoundException', 'The parameter $key must be an existing subpart name.'
+			'tx_oelib_Exception_NotFound', 'The parameter $key must be an existing subpart name.'
 		);
 
 		$this->assertEquals(

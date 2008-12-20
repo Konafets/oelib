@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
-
 /**
  * Class 'tx_oelib_MapperRegistry' for the 'oelib' extension.
  *
@@ -83,7 +81,7 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * Retrieves a dataMapper by class name.
 	 *
-	 * @throws tx_oelib_notFoundException if there is no such mapper
+	 * @throws tx_oelib_Exception_NotFound if there is no such mapper
 	 *
 	 * @param string the name of an existing mapper class
 	 *
@@ -96,7 +94,7 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * Retrieves a dataMapper by class name.
 	 *
-	 * @throws tx_oelib_notFoundException if there is no such mapper class
+	 * @throws tx_oelib_Exception_NotFound if there is no such mapper class
 	 *
 	 * @param string the name of an existing mapper class
 	 */
@@ -117,7 +115,7 @@ class tx_oelib_MapperRegistry {
 				$path = $this->createPathFromClassName($className);
 
 				if (!file_exists($path)) {
-					throw new tx_oelib_notFoundException(
+					throw new tx_oelib_Exception_NotFound(
 						'No mapper class "' . $className . '" could be found.'
 					);
 				}

@@ -94,7 +94,7 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForInexistentClassThrowsNotFoundException() {
 		$this->setExpectedException(
-			'tx_oelib_notFoundException',
+			'tx_oelib_Exception_NotFound',
 			'No mapper class "tx_oelib_inexistentMapper" could be found.'
 		);
 

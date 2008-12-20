@@ -126,7 +126,7 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 
 	public function testGetForInexistentUidThrowsNotFoundException() {
 		$this->setExpectedException(
-			'tx_oelib_notFoundException',
+			'tx_oelib_Exception_NotFound',
 			'This map currently does not contain a model with the UID 42.'
 		);
 

@@ -22,9 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_FrontEndUser.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_DataMapper.php');
-
 /**
  * Class 'tx_oelib_Mapper_FrontEndUser' for the 'oelib' extension.
  *
@@ -75,7 +72,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 
 		try {
 			$model = $this->map->get($uid);
-		} catch (tx_oelib_notFoundException $exception) {
+		} catch (tx_oelib_Exception_NotFound $exception) {
 			// The data already is in memory. So there's no need to read it from
 			// the DB again.
 			$model = $this->createAndFillModel($data);

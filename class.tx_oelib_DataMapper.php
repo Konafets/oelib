@@ -24,7 +24,6 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
  * Class 'tx_oelib_DataMapper' for the 'oelib' extension.
@@ -87,8 +86,8 @@ abstract class tx_oelib_DataMapper {
 	 * Retrieves a record from the DB by UID and creates a model from it. If
 	 * the model already is cached in memory, the cached instance is returned.
 	 *
-	 * @throws tx_oelib_notFoundException if there is no record in the DB
-	 *                                    with that particular UID
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     with that particular UID
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
@@ -97,7 +96,7 @@ abstract class tx_oelib_DataMapper {
 	public function find($uid) {
 		try {
 			$result = $this->map->get($uid);
-		} catch (tx_oelib_notFoundException $exception) {
+		} catch (tx_oelib_Exception_NotFound $exception) {
 			$result = $this->load($uid);
 		}
 
@@ -108,8 +107,8 @@ abstract class tx_oelib_DataMapper {
 	 * Retrieves a record from the DB without consulting this mapper's map,
 	 * and then stores it in the map.
 	 *
-	 * @throws tx_oelib_notFoundException if there is no record in the DB
-	 *                                    with that particular UID
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     with that particular UID
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
@@ -129,7 +128,7 @@ abstract class tx_oelib_DataMapper {
 		$GLOBALS['TYPO3_DB']->sql_free_result($queryResult);
 
 		if (!$data) {
-			throw new tx_oelib_notFoundException(
+			throw new tx_oelib_Exception_NotFound(
 				'The record with the UID ' . $uid . ' could not be retrieved ' .
 					'from the table ' . $this->tableName . '.'
 			);

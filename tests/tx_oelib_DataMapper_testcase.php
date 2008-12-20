@@ -149,7 +149,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function testFindWithUidOfInexistentRecordThrowsNotFoundException() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->setExpectedException(
-			'tx_oelib_notFoundException',
+			'tx_oelib_Exception_NotFound',
 			'The record with the UID ' . $uid . ' could not be retrieved ' .
 					'from the table tx_oelib_test.'
 		);

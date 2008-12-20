@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_notFoundException' for the 'oelib' extension.
+ * Class 'tx_oelib_Exception_NotFound' for the 'oelib' extension.
  *
  * This exception can be used to indicate that an element was not found in an
  * identity map.
@@ -33,10 +33,10 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_notFoundException extends Exception {
+class tx_oelib_Exception_NotFound extends Exception {
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/exceptions/class.tx_oelib_notFoundException.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/exceptions/class.tx_oelib_notFoundException.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Exception/class.tx_oelib_Exception_NotFound.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Exception/class.tx_oelib_Exception_NotFound.php']);
 }
 ?>

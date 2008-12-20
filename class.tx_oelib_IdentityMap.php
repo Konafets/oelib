@@ -23,7 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
 
 /**
  * Class 'tx_oelib_IdentityMap' for the 'oelib' extension.
@@ -72,8 +71,8 @@ class tx_oelib_IdentityMap {
 	/**
 	 * Retrieves a model from the map by UID.
 	 *
-	 * @throws tx_oelib_notFoundException if this map does not have a model
-	 *                                    with that particular UID
+	 * @throws tx_oelib_Exception_NotFound if this map does not have a model
+	 *                                     with that particular UID
 	 *
 	 * @param integer the UID of the model to retrieve, must be > 0
 	 *
@@ -87,7 +86,7 @@ class tx_oelib_IdentityMap {
 		}
 
 		if (!isset($this->items[$uid])) {
-			throw new tx_oelib_notFoundException(
+			throw new tx_oelib_Exception_NotFound(
 				'This map currently does not contain a model with the UID ' .
 					$uid . '.'
 			);

@@ -22,9 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'Model/class.tx_oelib_Model_Testing.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_DataMapper.php');
-
 /**
  * Class 'tx_oelib_Mapper_Testing' for the 'oelib' extension.
  *

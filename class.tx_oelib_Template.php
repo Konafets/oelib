@@ -22,8 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'exceptions/class.tx_oelib_notFoundException.php');
-
 /**
  * Class 'tx_oelib_Template' for the 'oelib' extension.
  *
@@ -624,7 +622,7 @@ class tx_oelib_Template {
 			}
 
 			if (!isset($this->templateCache[$key])) {
-				throw new tx_oelib_notFoundException(
+				throw new tx_oelib_Exception_NotFound(
 					'The parameter $key must be an existing subpart name.'
 				);
 			}
