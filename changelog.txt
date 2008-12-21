@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2100] Feature: Add class tx_oelib_Exception_AccessDenied
 
 0.5.0 - released 2008-12-21
 - [#2435] Change: Allow having non-identical template objects for the same template file
