@@ -746,15 +746,13 @@ class tx_oelib_configcheck {
 	 *               not be empty
 	 * @param boolean whether the value can also be set via flexforms
 	 *               (this will be mentioned in the error message)
-	 * @param string flexforms sheet pointer, eg. "sDEF", will be ignored
-	 *               if $canUseFlexforms is set to false
 	 * @param string a sentence explaining what that configuration value
 	 *               is needed for, must not be empty
 	 *
 	 * @access protected
 	 */
 	function checkIfPositiveIntegerValue(
-		$value, $fieldName, $canUseFlexforms, $sheet, $explanation
+		$value, $fieldName, $canUseFlexforms, $explanation
 	) {
 		$this->checkForNonEmptyStringValue(
 			$value,
@@ -799,7 +797,6 @@ class tx_oelib_configcheck {
 			$value,
 			$fieldName,
 			$canUseFlexforms,
-			$sheet,
 			$explanation
 		);
 	}
@@ -1690,14 +1687,13 @@ class tx_oelib_configcheck {
 	 * @access protected
 	 */
 	function checkListViewIfPositiveInteger($fieldName, $explanation) {
-		$fieldSubPath = 'listView.'.$fieldName;
+		$fieldSubPath = 'listView.' . $fieldName;
 		$value = $this->objectToCheck->getListViewConfValueString($fieldName);
 
 		$this->checkIfPositiveIntegerValue(
 			$value,
 			$fieldSubPath,
 			false,
-			'',
 			$explanation
 		);
 	}
