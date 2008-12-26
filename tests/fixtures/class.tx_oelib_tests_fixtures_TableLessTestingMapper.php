@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Class 'tx_oelib_brokenTableLessTestingMapper' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_TableLessTestingMapper' for the 'oelib' extension.
  *
  * This class represents a mapper that is broken because it has no table name
  * defined.
@@ -35,7 +35,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_DataMapper {
+class tx_oelib_tests_fixtures_TableLessTestingMapper extends tx_oelib_DataMapper {
 	/**
 	 * @var string a comma-separated list of DB column names to retrieve
 	 *             or "*" for all columns
@@ -43,23 +43,12 @@ class tx_oelib_brokenTableLessTestingMapper extends tx_oelib_DataMapper {
 	protected $columns = '*';
 
 	/**
-	 * Creates a model of the correct type for this mapper and fills it with
-	 * the data provided as $data.
-	 *
-	 * @param array the data with which the model should be
-	 *              filled, may be empty
-	 *
-	 * @return tx_oelib_Model_Testing the filled model
- 	 */
-	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_Model_Testing');
-		$model->setData($data);
-
-		return $model;
-	}
+	 * @var string the model class name for this mapper, must not be empty
+	 */
+	protected $modelClassName = 'tx_oelib_tests_fixtures_TestingModel';
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_brokenTableLessTestingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_brokenTableLessTestingMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TableLessTestingMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TableLessTestingMapper.php']);
 }
 ?>

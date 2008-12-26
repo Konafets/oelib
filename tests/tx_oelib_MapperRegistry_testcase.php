@@ -103,15 +103,15 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForExistingClassReturnsObjectOfRequestedClass() {
 		$this->assertTrue(
-			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing')
-				instanceof tx_oelib_Mapper_Testing
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
+				instanceof tx_oelib_tests_fixtures_TestingMapper
 		);
 	}
 
 	public function testGetForExistingClassCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
-			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing'),
-			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Testing')
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper'),
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
 		);
 	}
 }

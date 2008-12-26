@@ -34,12 +34,12 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_Model_Testing the model to test
+	 * @var tx_oelib_tests_fixtures_TestingModel the model to test
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_Testing();
+		$this->fixture = new tx_oelib_tests_fixtures_TestingModel();
 	}
 
 	public function tearDown() {
@@ -135,6 +135,28 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->hasUid()
 		);
+	}
+
+	public function testSetUidTwoTimesThrowsAnException() {
+		$this->setExpectedException(
+			'Exception', 'The UID of a model cannot be set a second time.'
+		);
+		$this->fixture->setUid(42);
+		$this->fixture->setUid(42);
+	}
+
+	public function testSetUidForAModelWithAUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The UID of a model cannot be set a second time.'
+		);
+
+		$this->fixture->setData(array('uid' => 1));
+		$this->fixture->setUid(42);
+	}
+
+	public function testSetUidForAModelWithoutUidDoesNotFail() {
+		$this->fixture->setData(array());
+		$this->fixture->setUid(42);
 	}
 }
 ?>

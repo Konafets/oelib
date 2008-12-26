@@ -49,6 +49,11 @@ abstract class tx_oelib_DataMapper {
 	protected $columns = '*';
 
 	/**
+	 * @var string the model class name for this mapper, must not be empty
+	 */
+	protected $modelClassName = '';
+
+	/**
 	 * @var tx_oelib_IdentityMap a map that holds the models that already
 	 *                           have been retrieved
 	 */
@@ -66,6 +71,11 @@ abstract class tx_oelib_DataMapper {
 		if ($this->columns == '') {
 			throw new Exception(
 				get_class($this) . '::columns must not be empty.'
+			);
+		}
+		if ($this->modelClassName == '') {
+			throw new Exception(
+				get_class($this) . '::modelClassName must not be empty.'
 			);
 		}
 
@@ -148,7 +158,12 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @return tx_oelib_Model the filled model
 	 */
-	protected abstract function createAndFillModel(array $data);
+	protected function createAndFillModel(array $data) {
+		$model = t3lib_div::makeInstance($this->modelClassName);
+		$model->setData($data);
+
+		return $model;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']) {

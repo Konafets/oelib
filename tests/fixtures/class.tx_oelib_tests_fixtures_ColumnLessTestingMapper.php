@@ -22,50 +22,38 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+
 /**
- * Class 'tx_oelib_Mapper_Testing' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_ColumnLessTestingMapper' for the 'oelib' extension.
  *
- * This class represents a mapper for a testing model.
+ * This class represents a mapper that is broken because it has no columns
+ * defined.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_Testing extends tx_oelib_DataMapper {
+class tx_oelib_tests_fixtures_ColumnLessTestingMapper extends tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
 	protected $tableName = 'tx_oelib_test';
 
 	/**
-	 * Creates a model of the correct type for this mapper and fills it with
-	 * the data provided as $data.
-	 *
-	 * @param array the data with which the model should be filled, may be empty
-	 *
-	 * @return tx_oelib_Model_Testing the filled model
- 	 */
-	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_Model_Testing');
-		$model->setData($data);
-
-		return $model;
-	}
+	 * @var string a comma-separated list of DB column names to retrieve
+	 *             or "*" for all columns
+	 */
+	protected $columns = '';
 
 	/**
-	 * Sets the map for this mapper.
-	 *
-	 * This function is intendend to be used for testing purposes only.
-	 *
-	 * @param tx_oelib_IdentityMap the map to set
+	 * @var string the model class name for this mapper, must not be empty
 	 */
-	public function setMap(tx_oelib_IdentityMap $map) {
-		$this->map = $map;
-	}
+	protected $modelClassName = 'tx_oelib_tests_fixtures_TestingModel';
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Testing.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Testing.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ColumnLessTestingMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ColumnLessTestingMapper.php']);
 }
 ?>

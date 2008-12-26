@@ -25,9 +25,9 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Class 'tx_oelib_brokenColumnLessTestingMapper' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_ModelLessTestingMapper' for the 'oelib' extension.
  *
- * This class represents a mapper that is broken because it has no table name
+ * This class represents a mapper that is broken because it has no model name
  * defined.
  *
  * @package TYPO3
@@ -35,36 +35,14 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_brokenColumnLessTestingMapper extends tx_oelib_DataMapper {
+class tx_oelib_tests_fixtures_ModelLessTestingMapper extends tx_oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
 	protected $tableName = 'tx_oelib_test';
-
-	/**
-	 * @var string a comma-separated list of DB column names to retrieve
-	 *             or "*" for all columns
-	 */
-	protected $columns = '';
-
-	/**
-	 * Creates a model of the correct type for this mapper and fills it with
-	 * the data provided as $data.
-	 *
-	 * @param array the data with which the model should be
-	 *              filled, may be empty
-	 *
-	 * @return tx_oelib_Model_Testing the filled model
- 	 */
-	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_Model_Testing');
-		$model->setData($data);
-
-		return $model;
-	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_brokenColumnLessTestingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_brokenColumnLessTestingMapper.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ModelLessTestingMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ModelLessTestingMapper.php']);
 }
 ?>

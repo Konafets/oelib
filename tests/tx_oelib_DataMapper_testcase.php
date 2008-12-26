@@ -23,8 +23,6 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenTableLessTestingMapper.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_brokenColumnLessTestingMapper.php');
 
 /**
  * Testcase for the tx_oelib_DataMapper class in the 'oelib' extension.
@@ -47,7 +45,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_Mapper_Testing();
+		$this->fixture = new tx_oelib_tests_fixtures_TestingMapper();
 	}
 
 	public function tearDown() {
@@ -65,19 +63,28 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function testInstantiationOfSubclassWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'Exception',
-			'tx_oelib_brokenTableLessTestingMapper::tableName must not be empty.'
+			'tx_oelib_tests_fixtures_TableLessTestingMapper::tableName must not be empty.'
 		);
 
-		new tx_oelib_brokenTableLessTestingMapper();
+		new tx_oelib_tests_fixtures_TableLessTestingMapper();
 	}
 
 	public function testInstantiationOfSubclassWithEmptyColumnListThrowsException() {
 		$this->setExpectedException(
 			'Exception',
-			'tx_oelib_brokenColumnLessTestingMapper::columns must not be empty.'
+			'tx_oelib_tests_fixtures_ColumnLessTestingMapper::columns must not be empty.'
 		);
 
-		new tx_oelib_brokenColumnLessTestingMapper();
+		new tx_oelib_tests_fixtures_ColumnLessTestingMapper();
+	}
+
+	public function testInstantiationOfSubclassWithEmptyModelNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'tx_oelib_tests_fixtures_ModelLessTestingMapper::modelClassName must not be empty.'
+		);
+
+		new tx_oelib_tests_fixtures_ModelLessTestingMapper();
 	}
 
 
@@ -104,7 +111,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindWithUidOfCachedModelReturnsThatModel() {
-		$model = new tx_oelib_Model_Testing();
+		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(1);
 
 		$map = new tx_oelib_IdentityMap();

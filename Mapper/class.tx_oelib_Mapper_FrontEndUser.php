@@ -39,19 +39,9 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	protected $tableName = 'fe_users';
 
 	/**
-	 * Creates a model of the correct type for this mapper and fills it with
-	 * the data provided as $data.
-	 *
-	 * @param array the data with which the model should be filled, may be empty
-	 *
-	 * @return tx_oelib_Model_FrontEndUser the filled model
- 	 */
-	protected function createAndFillModel(array $data) {
-		$model = t3lib_div::makeInstance('tx_oelib_Model_FrontEndUser');
-		$model->setData($data);
-
-		return $model;
-	}
+	 * @var string the model class name for this mapper, must not be empty
+	 */
+	protected $modelClassName = 'tx_oelib_Model_FrontEndUser';
 
 	/**
 	 * Gets the currently logged in front-end user.

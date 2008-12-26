@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_Testing' for the 'oelib' extension.
+ * Class 'tx_oelib_tests_fixtures_TestingModel' for the 'oelib' extension.
  *
  * This class represents a domain model for testing purposes.
  *
@@ -32,7 +32,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class tx_oelib_Model_Testing extends tx_oelib_Model {
+final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
@@ -52,18 +52,16 @@ final class tx_oelib_Model_Testing extends tx_oelib_Model {
 	}
 
 	/**
-	 * Sets this models UID.
-	 *
-	 * This function is for testing purposes only.
+	 * Sets this model's UID.
 	 *
 	 * @param integer the UID to set, must be >= 0
 	 */
 	public function setUid($uid) {
-		$this->setAsInteger('uid', $uid);
+		parent::setUid($uid);
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Testing.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Testing.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingModel.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingModel.php']);
 }
 ?>

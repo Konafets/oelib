@@ -73,14 +73,14 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 			'Exception', 'Add() requires a model that has a UID.'
 		);
 
-		$model = new tx_oelib_Model_Testing();
+		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setData(array());
 
 		$this->fixture->add($model);
 	}
 
 	public function testGetWithExistingUidAfterAddWithModelHavingAUidReturnsSameObject() {
-		$model = new tx_oelib_Model_Testing();
+		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(42);
 		$this->fixture->add($model);
 
@@ -91,11 +91,11 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testAddForExistingUidReturnsModelWithGivenUidForSeveralUids() {
-		$model1 = new tx_oelib_Model_Testing();
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
 
-		$model2 = new tx_oelib_Model_Testing();
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$model2->setUid(4);
 		$this->fixture->add($model2);
 
@@ -110,11 +110,11 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetForExistingUidAfterAddingTwoModelsWithSameUidReturnsTheLastAddedModel() {
-		$model1 = new tx_oelib_Model_Testing();
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
 
-		$model2 = new tx_oelib_Model_Testing();
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$model2->setUid(1);
 		$this->fixture->add($model2);
 

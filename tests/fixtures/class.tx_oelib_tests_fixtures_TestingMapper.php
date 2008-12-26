@@ -1,0 +1,61 @@
+<?php
+/***************************************************************
+* Copyright notice
+*
+* (c) 2008 Oliver Klee <typo3-coding@oliverklee.de>
+* All rights reserved
+*
+* This script is part of the TYPO3 project. The TYPO3 project is
+* free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* The GNU General Public License can be found at
+* http://www.gnu.org/copyleft/gpl.html.
+*
+* This script is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+/**
+ * Class 'tx_oelib_tests_fixtures_TestingMapper' for the 'oelib' extension.
+ *
+ * This class represents a mapper for a testing model.
+ *
+ * @package TYPO3
+ * @subpackage tx_oelib
+ *
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
+ */
+class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
+	/**
+	 * @var string the name of the database table for this mapper
+	 */
+	protected $tableName = 'tx_oelib_test';
+
+	/**
+	 * @var string the model class name for this mapper, must not be empty
+	 */
+	protected $modelClassName = 'tx_oelib_tests_fixtures_TestingModel';
+
+	/**
+	 * Sets the map for this mapper.
+	 *
+	 * This function is intendend to be used for testing purposes only.
+	 *
+	 * @param tx_oelib_IdentityMap the map to set
+	 */
+	public function setMap(tx_oelib_IdentityMap $map) {
+		$this->map = $map;
+	}
+}
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingMapper.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingMapper.php']);
+}
+?>

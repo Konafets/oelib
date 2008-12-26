@@ -36,14 +36,20 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
-	 * @var array the data for this object
+	 * @var integer this model's UID, will be 0 if this model has been created
+	 *              in memory
+	 */
+	private $uid = 0;
+
+	/**
+	 * @var array the data for this object (without the UID column)
 	 */
 	private $data = array();
 
 	/**
 	 * @var boolean whether this model has any data set
 	 */
-	private $hasData = false;
+	private $dataHasBeenSet = false;
 
 	/**
 	 * The (empty) constructor.
@@ -73,15 +79,36 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * @param array the data for this model, may be empty
 	 */
 	public function setData(array $data) {
-		if ($this->hasData) {
+		if ($this->dataHasBeenSet) {
 			throw new Exception(
 				'setData must only be called once per model instance.'
 			);
 		}
 
 		$this->data = $data;
+		if (isset($data['uid'])) {
+			if ($data['uid'] > 0) {
+				$this->setUid($data['uid']);
+			}
+			unset($data['uid']);
+		}
 
-		$this->hasData = true;
+		$this->dataHasBeenSet = true;
+	}
+
+	/**
+	 * Sets this model's UID.
+	 *
+	 * @param integer the UID to set, must be > 0
+	 */
+	protected function setUid($uid) {
+		if ($this->hasUid()) {
+			throw new Exception(
+				'The UID of a model cannot be set a second time.'
+			);
+		}
+
+		$this->uid = $uid;
 	}
 
 	/**
@@ -96,9 +123,14 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
-		if (!$this->hasData) {
+		if (!$this->dataHasBeenSet) {
 			throw new Exception(
 				'Please call setData() directly after instantiation first.'
+			);
+		}
+		if ($key == 'uid') {
+			throw new Exception(
+				'The UID column needs to be accessed using the getUid function.'
 			);
 		}
 
@@ -118,7 +150,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
 
-		$this->hasData = true;
+		$this->dataHasBeenSet = true;
 	}
 
 	/**
@@ -128,7 +160,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *                 not have a UID yet
 	 */
 	public function getUid() {
-		return $this->getAsInteger('uid');
+		return $this->uid;
 	}
 
 	/**
@@ -137,7 +169,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * @return boolean true if this model has a non-zero UID, false otherwise
 	 */
 	public function hasUid() {
-		return $this->hasInteger('uid');
+		return ($this->uid > 0);
 	}
 }
 
