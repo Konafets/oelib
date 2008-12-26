@@ -302,10 +302,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string the trimmed value of the corresponding flexforms or
 	 *                TS setup entry (may be empty)
-	 *
-	 * @access public
 	 */
-	function getConfValueString(
+	public function getConfValueString(
 		$fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false
 	) {
 		return trim($this->getConfValue(
@@ -329,10 +327,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean whether there is a non-empty value in the
 	 *                 corresponding flexforms or TS setup entry
-	 *
-	 * @access public
 	 */
-	function hasConfValueString(
+	public function hasConfValueString(
 		$fieldName, $sheet = 'sDEF', $ignoreFlexform = false
 	) {
 		return ($this->getConfValueString(
@@ -352,12 +348,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string field name to extract
 	 * @param string sheet pointer, eg. "sDEF"
 	 *
-	 * @return integer the invaled value of the corresponding flexforms or
+	 * @return integer the intvaled value of the corresponding flexforms or
 	 *                 TS setup entry
-	 *
-	 * @access public
 	 */
-	function getConfValueInteger($fieldName, $sheet = 'sDEF') {
+	public function getConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return intval($this->getConfValue($fieldName, $sheet));
 	}
 
@@ -372,10 +366,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean whether there is a non-zero value in the
 	 *                 corresponding flexforms or TS setup entry
-	 *
-	 * @access public
 	 */
-	function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
+	public function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValueInteger($fieldName, $sheet);
 	}
 
@@ -390,10 +382,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean the boolean value of the corresponding flexforms or
 	 *                 TS setup entry
-	 *
-	 * @access public
 	 */
-	function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
+	public function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
 		return (boolean) $this->getConfValue($fieldName, $sheet);
 	}
 
@@ -1198,10 +1188,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Checks whether a front end user is logged in.
 	 *
 	 * @return boolean true if a user is logged in, false otherwise
-	 *
-	 * @access public
 	 */
-	function isLoggedIn() {
+	public function isLoggedIn() {
 		return ((boolean) $GLOBALS['TSFE']) && ((boolean) $GLOBALS['TSFE']->loginUser);
 	}
 
@@ -1222,10 +1210,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return integer the UID of the logged-in FE user or 0 if no FE user is
 	 *                 logged in
-	 *
-	 * @access public
 	 */
-	function getFeUserUid() {
+	public function getFeUserUid() {
 		// If we don't have the FE user's UID (yet), try to retrieve it.
 		if (!$this->feuser) {
 			$this->retrieveFeUser();
@@ -1239,10 +1225,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param string a short string identifying the "flavor" of the object to
 	 *               check (may be empty)
-	 *
-	 * @access public
 	 */
-	function setFlavor($flavor) {
+	public function setFlavor($flavor) {
 		if ($this->configurationCheck) {
 			$this->configurationCheck->setFlavor($flavor);
 		}
@@ -1253,10 +1237,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string the current flavor of the object to check (or an empty
 	 *                string if no flavor is set)
-	 *
-	 * @access public
 	 */
-	function getFlavor() {
+	public function getFlavor() {
 		$result = '';
 
 		if ($this->configurationCheck) {
@@ -1272,10 +1254,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If this->configurationCheck is null, this function is a no-op.
 	 *
 	 * @param string error text to set (may be empty)
-	 *
-	 * @access protected
 	 */
-	function setErrorMessage($message) {
+	protected function setErrorMessage($message) {
 		if ($this->configurationCheck) {
 			$this->configurationCheck->setErrorMessage($message);
 		}
@@ -1293,10 +1273,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string a formatted error message (if there are errors) or an
 	 *                empty string
-	 *
-	 * @access public
 	 */
-	function checkConfiguration($useRawMessage = false, $temporaryFlavor = '') {
+	public function checkConfiguration($useRawMessage = false, $temporaryFlavor = '') {
 		static $hasDisplayedMessage = false;
 		$result = '';
 
@@ -1333,12 +1311,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * directly and it doesn't need to get handled to other configcheck
 	 * objects.
 	 *
-	 * @return string the wrapped error text (or an empty string if there
-	 * are no errors)
-	 *
-	 * @access protected
+	 * @return string the wrapped error text (or an empty string if there are no
+	 *                errors)
 	 */
-	function getWrappedConfigCheckMessage() {
+	public function getWrappedConfigCheckMessage() {
 		$result = '';
 
 		if ($this->configurationCheck) {

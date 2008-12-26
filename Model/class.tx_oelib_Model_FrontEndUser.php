@@ -51,7 +51,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model {
 	 *
 	 * @return string the user's real name, will not be empty for valid records
 	 */
-	function getName() {
+	public function getName() {
 		if ($this->hasString('name')) {
 			$result = $this->getAsString('name');
 		} elseif (

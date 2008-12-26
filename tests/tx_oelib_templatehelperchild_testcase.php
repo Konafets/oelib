@@ -900,7 +900,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests for replacing subparts with their content on output.
 	///////////////////////////////////////////////////////////////
 
-	function testGetUnchangedSubpartInCompleteTemplate() {
+	public function testGetUnchangedSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code.'
 				.'<!-- ###INNER_SUBPART### -->'
@@ -919,7 +919,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	function testGetUnchangedDoubleSubpartInCompleteTemplate() {
+	public function testGetUnchangedDoubleSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code.'
 				.'<!-- ###INNER_SUBPART### -->'
@@ -944,7 +944,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	function testGetUnchangedSubpartInRequestedSubpart() {
+	public function testGetUnchangedSubpartInRequestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code.'
@@ -965,7 +965,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	function testGetUnchangedDoubleSubpartInRequestedSubpart() {
+	public function testGetUnchangedDoubleSubpartInRequestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code.'
