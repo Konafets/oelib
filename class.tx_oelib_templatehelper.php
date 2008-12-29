@@ -479,7 +479,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Stores the given HTML template and retrieves all subparts, writing them
 	 * to $this->templateCache.
 	 *
-	 * The subpart names are automatically retrieved from $templateRawCode and
+	 * The subpart names are automatically retrieved from $templateCode and
 	 * are used as array keys. For this, the ### are removed, but the names stay
 	 * uppercase.
 	 *
@@ -488,8 +488,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param string the content of the HTML template
 	 */
-	public function processTemplate($templateRawCode) {
-		$this->getTemplate()->processTemplate($templateRawCode);
+	public function processTemplate($templateCode) {
+		$this->getTemplate()->processTemplate($templateCode);
 	}
 
 	/**

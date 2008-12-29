@@ -42,9 +42,10 @@ class tx_oelib_Template {
 
 	/**
 	 * @var array associative array of all HTML template subparts, using
-	 *            the marker names without ### as keys, for example "MY_MARKER"
+	 *            the uppercase marker names without ### as keys, for example
+	 *            "MY_MARKER"
 	 */
-	private $templateCache = array();
+	private $subparts = array();
 
 	/**
 	 * @var string list of the names of all markers (and subparts) of a template
@@ -72,32 +73,23 @@ class tx_oelib_Template {
 	}
 
 	/**
-	 * Gets the HTML template in the file specified in the paramter $filename,
-	 * stores it and retrieves all subparts, writing them to $this->templateCache.
-	 *
-	 * The subpart names are automatically retrieved from $templateRawCode and
-	 * are used as array keys. For this, the ### are removed, but the names stay
-	 * uppercase.
-	 *
-	 * Example: The subpart ###MY_SUBPART### will be stored with the array key
-	 * 'MY_SUBPART'.
+	 * Gets the HTML template in the file specified in the parameter $filename,
+	 * stores it and retrieves all subparts, writing them to $this->subparts.
 	 *
 	 * @param string the file name of the HTML template to process, must be an
 	 *               existing file, must not be empty
 	 */
 	public function processTemplateFromFile($fileName) {
-		$templateRawCode = file_get_contents(
-			t3lib_div::getFileAbsFileName($fileName)
+		$this->processTemplate(
+			file_get_contents(t3lib_div::getFileAbsFileName($fileName))
 		);
-
-		$this->processTemplate($templateRawCode);
 	}
 
 	/**
 	 * Stores the given HTML template and retrieves all subparts, writing them
-	 * to $this->templateCache.
+	 * to $this->subparts.
 	 *
-	 * The subpart names are automatically retrieved from $templateRawCode and
+	 * The subpart names are automatically retrieved from $templateCode and
 	 * are used as array keys. For this, the ### are removed, but the names stay
 	 * uppercase.
 	 *
@@ -106,42 +98,40 @@ class tx_oelib_Template {
 	 *
 	 * @param string the content of the HTML template
 	 */
-	public function processTemplate($templateRawCode) {
-		$this->templateCode = $templateRawCode;
+	public function processTemplate($templateCode) {
+		$this->templateCode = $templateCode;
 		$this->findMarkers();
-
-		$subpartNames = $this->findSubparts();
-
-		foreach ($subpartNames as $subpartName) {
-			$matches = array();
-			preg_match(
-				'/<!-- *###' . $subpartName . '### *-->(.*)' .
-					'<!-- *###' . $subpartName . '### *-->/msSU',
-				$templateRawCode,
-				$matches
-			);
-			if (isset($matches[1])) {
-				$this->templateCache[$subpartName] = $matches[1];
-			}
-		}
+		$this->extractSubparts($templateCode);
 	}
 
 	/**
-	 * Finds all subparts within the current HTML template.
-	 * The subparts must be within HTML comments.
+	 * Recursively extracts all subparts from $templateCode and writes them to
+	 * $this->subparts.
 	 *
-	 * @return array a list of the subpart names (uppercase, without ###,
-	 *               for example 'MY_SUBPART')
+	 * @param string the template code to process, may be empty
 	 */
-	private function findSubparts() {
+	private function extractSubparts($templateCode) {
+		// If there are no HTML comments in  the template code, there cannot be
+		// any subparts. So there's no need to use an expensive regular
+		// expression to find any subparts in that case.
+		if (strpos($templateCode, '<!--') === false) {
+			return;
+		}
+
 		$matches = array();
 		preg_match_all(
-			'/<!-- *(###)([A-Z]([A-Z0-9_]*[A-Z0-9])?)(###)/',
-			$this->templateCode,
-			$matches
+			'/<!-- *###([A-Z0-9_]+)### *-->(.*)' .
+				'<!-- *###\1### *-->/msU',
+			$templateCode, $matches, PREG_SET_ORDER
 		);
-
-		return array_unique($matches[2]);
+		foreach ($matches as $match) {
+			$subpartName = $match[1];
+			$subpartContent = $match[2];
+			if (!isset($this->subparts[$subpartName])) {
+				$this->subparts[$subpartName] = $subpartContent;
+				$this->extractSubparts($subpartContent);
+			}
+		}
 	}
 
 	/**
@@ -265,7 +255,7 @@ class tx_oelib_Template {
 			);
 		}
 
-		$this->templateCache[$subpartName] = $content;
+		$this->subparts[$subpartName] = $content;
 	}
 
 	/**
@@ -328,7 +318,7 @@ class tx_oelib_Template {
 			return false;
 		}
 
-		return (isset($this->templateCache[$subpartName])
+		return (isset($this->subparts[$subpartName])
 			&& !isset($this->subpartsToHide[$subpartName]));
 	}
 
@@ -621,7 +611,7 @@ class tx_oelib_Template {
 				throw new Exception('The value of the parameter $key is not valid.');
 			}
 
-			if (!isset($this->templateCache[$key])) {
+			if (!isset($this->subparts[$key])) {
 				throw new tx_oelib_Exception_NotFound(
 					'The parameter $key must be an existing subpart name.'
 				);
@@ -631,15 +621,15 @@ class tx_oelib_Template {
 				return '';
 			}
 
-			$templateCode = $this->templateCache[$key];
+			$templateCode = $this->subparts[$key];
 		} else {
 			$templateCode = $this->templateCode;
 		}
 
 		// recursively replaces subparts with their contents
 		$noSubpartMarkers = preg_replace_callback(
-			'/<!-- *###([^#]*)### *-->(.*)' .
-				'<!-- *###\1### *-->/msSU',
+			'/<!-- *###([A-Z0-9_]+)### *-->(.*)' .
+				'<!-- *###\1### *-->/msU',
 			array(
 				$this,
 				'getSubpartForCallback'
