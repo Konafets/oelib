@@ -48,12 +48,13 @@ class tx_oelib_Template {
 	private $subparts = array();
 
 	/**
-	 * @var string list of the names of all markers (and subparts) of a template
+	 * @var array all uppercased marker names in the current template without
+	 *            the hashes, for example ("FOO", "BAR")
 	 */
-	private $markerNames = '';
+	private $markerNames = array();
 
 	/**
-	 * @var array associative array of populated markers and their
+	 * @var array associative array of *populated* markers and their
 	 *            contents (with the keys being the marker names including
 	 *            the wrapping hash signs ###).
 	 */
@@ -100,8 +101,8 @@ class tx_oelib_Template {
 	 */
 	public function processTemplate($templateCode) {
 		$this->templateCode = $templateCode;
-		$this->findMarkers();
 		$this->extractSubparts($templateCode);
+		$this->findMarkers();
 	}
 
 	/**
@@ -135,24 +136,19 @@ class tx_oelib_Template {
 	}
 
 	/**
-	 * Finds all markers within the current HTML template.
-	 * Note: This also finds subpart names.
-	 *
-	 * The result is one long string that is easy to process using regular
-	 * expressions.
-	 *
-	 * Example: If the markers ###FOO### and ###BAR### are found, the string
-	 * "#FOO#BAR#" would be returned.
+	 * Finds all markers within the current HTML template and writes their names
+	 * to $this->markerNames.
 	 */
 	private function findMarkers() {
 		$matches = array();
+
 		preg_match_all(
-			'/(###)(([A-Z0-9_]*[A-Z0-9])?)(###)/', $this->templateCode, $matches
+			'/###([A-Z0-9_]+)###/',
+			$this->templateCode,
+			$matches
 		);
 
-		$markerNames = array_unique($matches[2]);
-
-		$this->markerNames = '#' . implode('#', $markerNames) . '#';
+		$this->markerNames = array_unique($matches[1]);
 	}
 
 	/**
@@ -170,20 +166,14 @@ class tx_oelib_Template {
 	 * @return array array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
-		if ($this->markerNames == '') {
-			throw new Exception(
-				'The method tx_oelib_Template->findMarkers() has to be called ' .
-					'before this method is called.'
-			);
+		$upperCasePrefix = strtoupper($prefix) . '_';
+
+		$result = array();
+		foreach ($this->markerNames as $marker) {
+			if (strpos($marker, $upperCasePrefix) === 0) {
+				$result[] = $marker;
+			}
 		}
-
-		$matches = array();
-		preg_match_all(
-			'/(#)(' . strtoupper($prefix) . '_[^#]+)/',
-			$this->markerNames, $matches
-		);
-
-		$result = array_unique($matches[2]);
 
 		return $result;
 	}

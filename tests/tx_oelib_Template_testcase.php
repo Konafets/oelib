@@ -2877,14 +2877,45 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('MY_SUBPART');
 	}
 
-	public function testGetPrefixedMarkersWithoutCallingFindMarkersFirstThrowsException() {
-		$this->setExpectedException(
-			'Exception',
-			'The method tx_oelib_Template->findMarkers() has to be called ' .
-				'before this method is called.'
-		);
 
-		$this->fixture->getPrefixedMarkers('foo');
+	////////////////////////////////////////
+	// Tests concerning getPrefixedMarkers
+	////////////////////////////////////////
+
+	public function testGetPrefixedMarkersForNoMatchesReturnsEmptyArray() {
+		$this->fixture->processTemplate('');
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getPrefixedMarkers('foo')
+		);
+	}
+
+	public function testGetPrefixedMarkersForOneMatchReturnsArrayWithCompleteMarkerName() {
+		$this->fixture->processTemplate('###FOO_BAR###');
+
+		$this->assertEquals(
+			array('FOO_BAR'),
+			$this->fixture->getPrefixedMarkers('foo')
+		);
+	}
+
+	public function testGetPrefixedMarkersForTwoIdenticalMatchesReturnsArrayWithCompleteMarkerNameOnce() {
+		$this->fixture->processTemplate('###FOO_BAR### ###FOO_BAR###');
+
+		$this->assertEquals(
+			array('FOO_BAR'),
+			$this->fixture->getPrefixedMarkers('foo')
+		);
+	}
+
+	public function testGetPrefixedMarkersForTwoMatchesReturnsArrayWithCompleteMarkerNames() {
+		$this->fixture->processTemplate('###FOO_BAR### ###FOO_BAZ###');
+
+		$this->assertEquals(
+			array('FOO_BAR', 'FOO_BAZ'),
+			$this->fixture->getPrefixedMarkers('foo')
+		);
 	}
 }
 ?>
