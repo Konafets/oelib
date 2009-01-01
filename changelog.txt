@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2502] Change: Update copyrights to 2009
 - [#2468] Change: Clean up and speed up the HTML template parsing
 - [#768] Change: Use real visibility keywords (public/protected/private)
 - [#2085] Fix: configcheck::checkIfPositiveIntegerValue: unused parameter $sheet
