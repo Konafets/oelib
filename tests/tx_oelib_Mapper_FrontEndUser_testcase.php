@@ -118,5 +118,16 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLoggedInUser()->getUid()
 		);
 	}
+
+	public function testGetLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
+		$this->testingFramework->createFakeFrontEnd();
+		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+		$user = $this->fixture->find($uid);
+
+		$this->assertSame(
+			$user,
+			$this->fixture->getLoggedInUser()
+		);
+	}
 }
 ?>

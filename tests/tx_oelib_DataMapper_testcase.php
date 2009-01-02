@@ -153,17 +153,58 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidOfInexistentRecordThrowsNotFoundException() {
-		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+	//////////////////////////
+	// Tests concerning load
+	//////////////////////////
+
+	public function testLoadWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound',
-			'The record with the UID ' . $uid . ' could not be retrieved ' .
-					'from the table tx_oelib_test.'
+			'Exception',
+			'load must only be called with models that already have a UID.'
 		);
 
-		$this->testingFramework->deleteRecord('tx_oelib_test', $uid);
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->load($model);
+	}
 
-		$this->fixture->find($uid);
+	public function testLoadWithModelWithUidFillsModelWithData() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertEquals(
+			'foo',
+			$model->getTitle()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning the model states
+	//////////////////////////////////////
+
+	public function testFindInitiallyReturnsGhostModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isGhost()
+		);
+	}
+
+	public function testFindAndAccessingDataMakesModelLoaded() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$this->fixture->find($uid)->getTitle();
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isLoaded()
+		);
 	}
 }
 ?>

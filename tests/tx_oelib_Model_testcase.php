@@ -121,6 +121,15 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetUidForSetUidViaSetDataReturnsTheSetUid() {
+		$this->fixture->setData(array('uid' => 42));
+
+		$this->assertEquals(
+			42,
+			$this->fixture->getUid()
+		);
+	}
+
 	public function testHasUidForNoUidReturnsFalse() {
 		$this->fixture->setData(array());
 
@@ -145,7 +154,7 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->fixture->setUid(42);
 	}
 
-	public function testSetUidForAModelWithAUidThrowsException() {
+	public function testSetUidForAModelWithAUidSetViaSetDataThrowsException() {
 		$this->setExpectedException(
 			'Exception', 'The UID of a model cannot be set a second time.'
 		);
@@ -157,6 +166,53 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	public function testSetUidForAModelWithoutUidDoesNotFail() {
 		$this->fixture->setData(array());
 		$this->fixture->setUid(42);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning the model states
+	//////////////////////////////////////
+
+	public function testInitiallyHasEmptyState() {
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	public function testAfterSettingDataWithoutUidHasLoadedState() {
+		$this->fixture->setData(array());
+
+		$this->assertTrue(
+			$this->fixture->isLoaded()
+		);
+	}
+
+	public function testAfterSettingDataWithUidHasLoadedState() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertTrue(
+			$this->fixture->isLoaded()
+		);
+	}
+
+	public function testAfterSettingUidWithoutDataHasGhostState() {
+		$this->fixture->setUid(1);
+
+		$this->assertTrue(
+			$this->fixture->isGhost()
+		);
+	}
+
+
+	public function testGetOnAModelWithoutLoadCallbackThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Ghosts need a load callback function before their data can be ' .
+				'accessed.'
+		);
+
+		$this->fixture->setUid(1);
+		$this->fixture->getTitle();
 	}
 }
 ?>

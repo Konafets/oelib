@@ -27,7 +27,10 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 /**
  * Class 'tx_oelib_Model' for the 'oelib' extension.
  *
- * This class represents a general domain model.
+ * This class represents a general domain model which is capable of lazy loading
+ * (using ghosts).
+ *
+ * A model can have one of the following states: empty, ghost, loading, loaded.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -35,6 +38,27 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_Model extends tx_oelib_Object {
+	/**
+	 * @var integer a status indicating that this model has neither data nur UID
+	 *              yet
+	 */
+	const STATUS_EMPTY = 0;
+	/**
+	 * @var integer a status indicating that this model's data has not been
+	 *              loaded yet (lazily), but that the model already has a UID
+	 */
+	const STATUS_GHOST = 1;
+	/**
+	 * @var integer a status indicating that this model's data currently is
+	 *              being loaded
+	 */
+	const STATUS_LOADING = 2;
+	/**
+	 * @var integer a status indicating that this model's data has already been
+	 *              loaded (with or without UID)
+	 */
+	const STATUS_LOADED = 3;
+
 	/**
 	 * @var integer this model's UID, will be 0 if this model has been created
 	 *              in memory
@@ -47,9 +71,15 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	private $data = array();
 
 	/**
-	 * @var boolean whether this model has any data set
+	 * @var integer this model's load status, will be STATUS_EMTPY,
+	 *              STATUS_GHOST, STATUS_LOADING or STATUS_LOADED
 	 */
-	private $dataHasBeenSet = false;
+	private $loadStatus = self::STATUS_EMPTY;
+
+	/**
+	 * @var array the callback function that fills this model with data
+	 */
+	private $loadCallback = array();
 
 	/**
 	 * The (empty) constructor.
@@ -79,36 +109,56 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * @param array the data for this model, may be empty
 	 */
 	public function setData(array $data) {
-		if ($this->dataHasBeenSet) {
+		if ($this->isLoaded()) {
 			throw new Exception(
 				'setData must only be called once per model instance.'
 			);
 		}
 
 		$this->data = $data;
-		if (isset($data['uid'])) {
-			if ($data['uid'] > 0) {
-				$this->setUid($data['uid']);
+		if (isset($this->data['uid'])) {
+			if (!$this->hasUid()) {
+				$this->setUid($this->data['uid']);
 			}
-			unset($data['uid']);
+			unset($this->data['uid']);
 		}
 
-		$this->dataHasBeenSet = true;
+		$this->loadStatus = self::STATUS_LOADED;
 	}
 
 	/**
 	 * Sets this model's UID.
 	 *
+	 * This function may only be called on models that do not have a UID yet.
+	 *
+	 * If this function is called on an empty model, the model state is changed
+	 * to ghost.
+	 *
 	 * @param integer the UID to set, must be > 0
 	 */
-	protected function setUid($uid) {
+	public function setUid($uid) {
 		if ($this->hasUid()) {
 			throw new Exception(
 				'The UID of a model cannot be set a second time.'
 			);
 		}
+		if ($this->isEmpty()) {
+			$this->loadStatus = self::STATUS_GHOST;
+		}
 
 		$this->uid = $uid;
+	}
+
+	/**
+	 * Sets the value of the data item for the key $key.
+	 *
+	 * @param string the key of the data item to get, must not be empty
+	 * @param mixed the data for the key $key
+	 */
+	protected function set($key, $value) {
+		$this->data[$key] = $value;
+
+		$this->loadStatus = self::STATUS_LOADED;
 	}
 
 	/**
@@ -123,17 +173,13 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
-		if (!$this->dataHasBeenSet) {
-			throw new Exception(
-				'Please call setData() directly after instantiation first.'
-			);
-		}
 		if ($key == 'uid') {
 			throw new Exception(
 				'The UID column needs to be accessed using the getUid function.'
 			);
 		}
 
+		$this->load();
 		if (!isset($this->data[$key])) {
 			return '';
 		}
@@ -142,15 +188,26 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
-	 * Sets the value of the data item for the key $key.
-	 *
-	 * @param string the key of the data item to get, must not be empty
-	 * @param mixed the data for the key $key
+	 * Makes sure this model has some data by loading the data for ghost models.
 	 */
-	protected function set($key, $value) {
-		$this->data[$key] = $value;
+	private function load() {
+		if ($this->isEmpty()) {
+			throw new Exception(
+				'Please call setData() directly after instantiation first.'
+			);
+		}
 
-		$this->dataHasBeenSet = true;
+		if ($this->isGhost()) {
+			if (!$this->hasLoadCallBack()) {
+				throw new Exception(
+					'Ghosts need a load callback function before their data ' .
+						'can be accessed.'
+				);
+			}
+
+			$this->loadStatus = self::STATUS_LOADING;
+			call_user_func($this->loadCallback, $this);
+		}
 	}
 
 	/**
@@ -170,6 +227,54 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	public function hasUid() {
 		return ($this->uid > 0);
+	}
+
+	/**
+	 * Checks whether this model is a empty (has neither data nor UID).
+	 *
+	 * @return boolean true if this model is empty, false otherwise
+	 */
+	public function isEmpty() {
+		return ($this->loadStatus == self::STATUS_EMPTY);
+	}
+
+	/**
+	 * Checks whether this model is a ghost (has a UID, but is not fully loaded
+	 * yet).
+	 *
+	 * @return boolean true if this model is a ghost, false otherwise
+	 */
+	public function isGhost() {
+		return ($this->loadStatus == self::STATUS_GHOST);
+	}
+
+	/**
+	 * Checks whether this model is fully loaded (has data).
+	 *
+	 * @return boolean true if this model is fully loaded, false otherwise
+	 */
+	public function isLoaded() {
+		return ($this->loadStatus == self::STATUS_LOADED);
+	}
+
+	/**
+	 * Sets the callback function for loading this model with data.
+	 *
+	 * @param array the callback function for loading this model with data
+	 */
+	public function setLoadCallback(array $callback) {
+		$this->loadCallback = $callback;
+	}
+
+	/**
+	 * Checks whether this model has a callback function set for loading its
+	 * data.
+	 *
+	 * @return boolean true if this model has a loading callback function set,
+	 *                 false otherwise
+	 */
+	private function hasLoadCallBack() {
+		return !empty($this->loadCallback);
 	}
 }
 

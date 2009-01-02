@@ -93,38 +93,60 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Retrieves a record from the DB by UID and creates a model from it. If
-	 * the model already is cached in memory, the cached instance is returned.
+	 * Retrieves a model for the record with the UID $uid. If that particular
+	 * model already is cached in memory, the cached instance is returned.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
-	 *                                     with that particular UID
+	 * The model may still be a ghost which will get fully initialized once its
+	 * data is accessed.
+	 *
+	 * Note: This function does not check that a record with the UID $uid
+	 * actually exists in the database.
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_Model the stored model with the UID $uid
+	 * @return tx_oelib_Model the model with the UID $uid
 	 */
 	public function find($uid) {
 		try {
-			$result = $this->map->get($uid);
+			$model = $this->map->get($uid);
 		} catch (tx_oelib_Exception_NotFound $exception) {
-			$result = $this->load($uid);
+			$model = $this->createGhost($uid);
+			$this->map->add($model);
 		}
 
-		return $result;
+		return $model;
 	}
 
 	/**
-	 * Retrieves a record from the DB without consulting this mapper's map,
-	 * and then stores it in the map.
+	 * Loads a model's data from the database (retrieved by using the
+	 * model's UID) and fills the model with it.
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
-	 *                                     with that particular UID
+	 *                                     with the model's UID
+	 *
+	 * @param tx_oelib_Model the model to fill, must have a UID
+	 */
+	public function load(tx_oelib_Model $model) {
+		if (!$model->hasUid()) {
+			throw new Exception(
+				'load must only be called with models that already have a UID.'
+			);
+		}
+
+		$model->setData($this->retrieveRecord($model->getUid()));
+	}
+
+	/**
+	 * Reads a record from the database by UID (from this mapper's table).
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     with the UID $uid
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_Model the stored model with the UID $uid
+	 * @return array the record from the database, will not be empty
 	 */
-	protected function load($uid) {
+	private function retrieveRecord($uid) {
 		$queryResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			$this->columns,
 			$this->tableName,
@@ -144,23 +166,18 @@ abstract class tx_oelib_DataMapper {
 			);
 		}
 
-		$model = $this->createAndFillModel($data);
-		$this->map->add($model);
-
-		return $model;
+		return $data;
 	}
 
 	/**
-	 * Creates a model of the correct type for this mapper and fills it with
-	 * the data provided as $data.
+	 * Creates a new ghost model with the UID $uid.
 	 *
-	 * @param array the data with which the model should be filled, may be empty
-	 *
-	 * @return tx_oelib_Model the filled model
+	 * @return tx_oelib_Model a ghost model with the UID $uid
 	 */
-	protected function createAndFillModel(array $data) {
+	protected function createGhost($uid) {
 		$model = t3lib_div::makeInstance($this->modelClassName);
-		$model->setData($data);
+		$model->setUid($uid);
+		$model->setLoadCallback(array($this, 'load'));
 
 		return $model;
 	}

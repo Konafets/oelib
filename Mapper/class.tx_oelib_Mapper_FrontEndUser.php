@@ -44,9 +44,9 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_FrontEndUser';
 
 	/**
-	 * Gets the currently logged in front-end user.
+	 * Gets the currently logged-in front-end user.
 	 *
-	 * @return tx_oelib_Model_FrontEndUser the logged in front-end user, will
+	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
 	 *                                     be null if no user is logged in or
 	 *                                     if there is no front end
 	 */
@@ -65,7 +65,8 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			// The data already is in memory. So there's no need to read it from
 			// the DB again.
-			$model = $this->createAndFillModel($data);
+			$model = $this->createGhost($uid);
+			$model->setData($data);
 			$this->map->add($model);
 		}
 
