@@ -33,6 +33,32 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Exception_Database_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var boolean the saved content of $GLOBALS['TYPO3_DB']->debugOutput
+	 */
+	private $savedDebugOutput;
+
+	/**
+	 * @var boolean the saved content of
+	 *              $GLOBALS['TYPO3_DB']->store_lastBuiltQuery
+	 */
+	private $savedStoreLastBuildQuery;
+
+	public function setUp() {
+		$this->savedDebugOutput = $GLOBALS['TYPO3_DB']->debugOutput;
+		$this->savedStoreLastBuildQuery
+			= $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
+
+		$GLOBALS['TYPO3_DB']->debugOutput = false;
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+	}
+
+	public function tearDown() {
+		$GLOBALS['TYPO3_DB']->debugOutput = $this->savedDebugOutput;
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery
+			= $this->savedStoreLastBuildQuery;
+	}
+
 	public function testMessageContainsErrorMessage() {
 		$fixture = new tx_oelib_Exception_Database();
 
@@ -43,12 +69,8 @@ class tx_oelib_Exception_Database_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMessageForInvalidQueryContainsErrorMessageFromDatabase() {
-		// silences any error messages
-		$GLOBALS['TYPO3_DB']->debugOutput = false;
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('asdf', 'tx_oelib_test', '');
-
 		$fixture = new tx_oelib_Exception_Database();
-		$GLOBALS['TYPO3_DB']->debugOutput = true;
 
 		$this->assertContains(
 			'asdf',
@@ -57,20 +79,13 @@ class tx_oelib_Exception_Database_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMessageForInvalidQueryWithLastQueryEnabledContainsLastQuery() {
-		// silences any error messages
-		$GLOBALS['TYPO3_DB']->debugOutput = false;
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('asdf', 'tx_oelib_test', '');
-
 		$fixture = new tx_oelib_Exception_Database();
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = false;
-		$GLOBALS['TYPO3_DB']->debugOutput = true;
 
 		$this->assertContains(
 			'SELECT',
 			$fixture->getMessage()
 		);
-
 	}
 }
 ?>

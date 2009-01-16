@@ -41,11 +41,13 @@ class tx_oelib_Exception_Database extends Exception {
 	 * The constructor.
 	 */
 	public function __construct() {
-		$message = DATABASE_QUERY_ERROR . LF .
-			$GLOBALS['TYPO3_DB']->sql_error() . LF;
+		$message = 'There was an error with the database query.' . LF .
+			$GLOBALS['TYPO3_DB']->sql_error();
 
-		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery) {
-			$message .= 'The last built query:' . LF .
+		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery
+			|| $GLOBALS['TYPO3_DB']->debugOutput
+		) {
+			$message .= LF . 'The last built query:' . LF .
 				$GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
 		}
 
