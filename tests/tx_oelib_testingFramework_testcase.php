@@ -651,13 +651,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE,
-			'uid=' . $uid.' AND is_dummy_record=0'
+			'uid = ' . $uid . ' AND is_dummy_record = 0'
 		);
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
 
 		// Checks whether the record still had existed.
 		$this->assertEquals(
@@ -1006,15 +1003,11 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$numberOfCreatedRelations = $counter['number'];
 
 		// Deletes the record as it will not be caught by the clean up function.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE_MM,
-			'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
-				.' AND is_dummy_record=0'
+			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
+				.' AND is_dummy_record = 0'
 		);
-
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
 
 		// Checks whether the relation had been created further up.
 		$this->assertEquals(
@@ -1444,13 +1437,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
-		if (!$deleteResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
@@ -1540,13 +1530,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
-		if (!$deleteResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
@@ -1632,12 +1619,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, $uid
 		);
 
-		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE, 'uid = ' . $uid
 		);
-		if (!$deleteResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
@@ -1727,13 +1711,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		$deleteResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
-		if (!$deleteResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);

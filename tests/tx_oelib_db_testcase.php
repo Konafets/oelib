@@ -376,5 +376,67 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, ''
 		);
 	}
+
+
+	/////////////////////
+	// Tests for delete
+	/////////////////////
+
+	public function testDeleteForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::delete(
+			'', 'uid = 0'
+		);
+	}
+
+	public function testDeleteDeletesRecord() {
+		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		tx_oelib_db::delete(
+			OELIB_TESTTABLE, 'uid = ' . $uid
+		);
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecordWithUid(
+				OELIB_TESTTABLE, $uid
+			)
+		);
+	}
+
+	public function testDeleteForNoDeletedRecordReturnsZero() {
+		$this->assertEquals(
+			0,
+			tx_oelib_db::delete(
+				OELIB_TESTTABLE, 'uid = 0'
+			)
+		);
+	}
+
+	public function testDeleteForOneDeletedRecordReturnsOne() {
+		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			1,
+			tx_oelib_db::delete(
+				OELIB_TESTTABLE, 'uid = ' . $uid
+			)
+		);
+	}
+
+	public function testDeleteForTwoDeletedRecordsReturnsTwo() {
+		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			2,
+			tx_oelib_db::delete(
+				OELIB_TESTTABLE,
+				'uid IN(' . $uid1 . ',' . $uid2 . ')'
+			)
+		);
+	}
 }
 ?>

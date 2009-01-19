@@ -244,6 +244,37 @@ class tx_oelib_db {
 
 		return self::$hasTableColumnCache[$table][$column];
 	}
+
+
+	////////////////////////////////
+	// Wrappers for common queries
+	////////////////////////////////
+
+	/**
+	 * Executes an DELETE query.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 *
+	 * @param string the name of the table from which to delete, must not be
+	 *               empty
+	 * @param string the WHERE clause to select the records, may be empty
+	 *
+	 * @return integer the number of affected rows, might be 0
+	 */
+	public static function delete($tableName, $whereClause) {
+		if ($tableName == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			$tableName, $whereClause
+		);
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		return $GLOBALS['TYPO3_DB']->sql_affected_rows();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_db.php']) {

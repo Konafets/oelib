@@ -601,17 +601,16 @@ final class tx_oelib_testingFramework {
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception('The table name "' . $table . '" is not allowed.');
+			throw new Exception(
+				'The table name "' . $table . '" is not allowed.'
+			);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			$table,
-			'uid=' . $uid . ' AND ' . $this->getDummyColumnName($table) . '=1'
+			'uid = ' . $uid . ' AND ' . $this->getDummyColumnName($table) .
+				' = 1'
 		);
-
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 	}
 
 	/**
@@ -732,18 +731,16 @@ final class tx_oelib_testingFramework {
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception('The table name "' . $table . '" is not allowed.');
+			throw new Exception(
+				'The table name "' . $table . '" is not allowed.'
+			);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		tx_oelib_db::delete(
 			$table,
-			'uid_local=' . $uidLocal . ' AND uid_foreign=' . $uidForeign .
-				' AND ' . $this->getDummyColumnName($table) . '=1'
+			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign .
+				' AND ' . $this->getDummyColumnName($table) . ' = 1'
 		);
-
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 	}
 
 	/**
@@ -797,19 +794,16 @@ final class tx_oelib_testingFramework {
 		foreach ($tablesToCleanUp as $currentTable) {
 			$dummyColumnName = $this->getDummyColumnName($currentTable);
 
-			// Runs a delete query for each allowed table. A "one-query-deletes-them-all"
-			// approach was tested but we didn't find a working solution for that.
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			// Runs a delete query for each allowed table. A
+			// "one-query-deletes-them-all" approach was tested but we didn't
+			// find a working solution for that.
+			tx_oelib_db::delete(
 				$currentTable,
-				$dummyColumnName.'=1'
+				$dummyColumnName . ' = 1'
 			);
 
 			// Resets the auto increment setting of the current table.
 			$this->resetAutoIncrementLazily($currentTable);
-
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
 		}
 
 		// Resets the list of dirty tables.
