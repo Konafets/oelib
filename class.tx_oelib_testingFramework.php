@@ -577,15 +577,11 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+		tx_oelib_db::update(
 			$table,
-			'uid=' . $uid . ' AND ' . $dummyColumnName . '=1',
+			'uid = ' . $uid . ' AND ' . $dummyColumnName . ' = 1',
 			$recordData
 		);
-
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 	}
 
 	/**

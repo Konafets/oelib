@@ -251,7 +251,7 @@ class tx_oelib_db {
 	////////////////////////////////
 
 	/**
-	 * Executes an DELETE query.
+	 * Executes a DELETE query.
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
@@ -268,6 +268,32 @@ class tx_oelib_db {
 
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			$tableName, $whereClause
+		);
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		return $GLOBALS['TYPO3_DB']->sql_affected_rows();
+	}
+
+	/**
+	 * Executes an UPDATE query.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 *
+	 * @param string the name of the table to change, must not be empty
+	 * @param string the WHERE clause to select the records, may be empty
+	 * @param array key/value pairs of the fields to change, may be empty
+	 *
+	 * @return integer the number of affected rows, might be 0
+	 */
+	public static function update($tableName, $whereClause, array $fields) {
+		if ($tableName == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+			$tableName, $whereClause, $fields
 		);
 		if (!$dbResult) {
 			throw new tx_oelib_Exception_Database();

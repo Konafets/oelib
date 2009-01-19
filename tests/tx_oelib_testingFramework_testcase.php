@@ -27,8 +27,12 @@ require_once(PATH_t3lib . 'class.t3lib_basicfilefunc.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_templatehelperchild.php');
 
-define('OELIB_TESTTABLE', 'tx_oelib_test');
-define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
+if (!defined('OELIB_TESTTABLE')) {
+	define('OELIB_TESTTABLE', 'tx_oelib_test');
+}
+if (!defined('OELIB_TESTTABLE_MM')) {
+	define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
+}
 
 /**
  * Testcase for the testing framework in the 'oelib' extension.

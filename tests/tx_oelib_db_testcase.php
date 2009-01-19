@@ -24,6 +24,10 @@
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
+if (!defined('OELIB_TESTTABLE')) {
+	define('OELIB_TESTTABLE', 'tx_oelib_test');
+}
+
 /**
  * Testcase for the tx_oelib_db class in the 'oelib' extension.
  *
@@ -112,47 +116,47 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 	public function testEnableFieldsThrowsExceptionForTooSmallShowHidden() {
 		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is -2');
-		tx_oelib_db::enableFields('tx_oelib_test', -2);
+		tx_oelib_db::enableFields(OELIB_TESTTABLE, -2);
 	}
 
 	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
 		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is 2');
-		tx_oelib_db::enableFields('tx_oelib_test', 2);
+		tx_oelib_db::enableFields(OELIB_TESTTABLE, 2);
 	}
 
 	public function testEnableFieldsIsDifferentForDifferentTables() {
 		$this->assertNotEquals(
-			tx_oelib_db::enableFields('tx_oelib_test'),
+			tx_oelib_db::enableFields(OELIB_TESTTABLE),
 			tx_oelib_db::enableFields('pages')
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
 		$this->assertNotEquals(
-			tx_oelib_db::enableFields('tx_oelib_test', 0),
-			tx_oelib_db::enableFields('tx_oelib_test', 1)
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1)
 		);
 	}
 
 	public function testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
 		$this->assertEquals(
-			tx_oelib_db::enableFields('tx_oelib_test', 0),
-			tx_oelib_db::enableFields('tx_oelib_test', -1)
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
 		$this->assertNotEquals(
-			tx_oelib_db::enableFields('tx_oelib_test', 1),
-			tx_oelib_db::enableFields('tx_oelib_test', -1)
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1),
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForDifferentIgnores() {
 		$this->assertNotEquals(
-			tx_oelib_db::enableFields('tx_oelib_test', 0, array()),
+			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0, array()),
 			tx_oelib_db::enableFields(
-				'tx_oelib_test', 0, array('endtime' => true)
+				OELIB_TESTTABLE, 0, array('endtime' => true)
 			)
 		);
 	}
@@ -173,10 +177,10 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotEquals(
 			tx_oelib_db::enableFields(
-				'tx_oelib_test', 0, array(), false
+				OELIB_TESTTABLE, 0, array(), false
 			),
 			tx_oelib_db::enableFields(
-				'tx_oelib_test', 0, array(), true
+				OELIB_TESTTABLE, 0, array(), true
 			)
 		);
 	}
@@ -376,8 +380,8 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, ''
 		);
 	}
-
-
+	
+	
 	/////////////////////
 	// Tests for delete
 	/////////////////////
@@ -435,6 +439,69 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::delete(
 				OELIB_TESTTABLE,
 				'uid IN(' . $uid1 . ',' . $uid2 . ')'
+			)
+		);
+	}
+
+
+	/////////////////////
+	// Tests for update
+	/////////////////////
+
+	public function testUpdateForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::update(
+			'', 'uid = 0', array()
+		);
+	}
+
+	public function testUpdateChangesRecord() {
+		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		tx_oelib_db::update(
+			OELIB_TESTTABLE, 'uid = ' . $uid, array('title' => 'foo')
+		);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				OELIB_TESTTABLE, 'title = "foo"'
+			)
+		);
+	}
+
+	public function testUpdateForNoChangedRecordReturnsZero() {
+		$this->assertEquals(
+			0,
+			tx_oelib_db::update(
+				OELIB_TESTTABLE, 'uid = 0', array('title' => 'foo')
+			)
+		);
+	}
+
+	public function testUpdateForOneChangedRecordReturnsOne() {
+		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			1,
+			tx_oelib_db::update(
+				OELIB_TESTTABLE, 'uid = ' . $uid, array('title' => 'foo')
+			)
+		);
+	}
+
+	public function testUpdateForTwoChangedRecordsReturnsTwo() {
+		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+
+		$this->assertEquals(
+			2,
+			tx_oelib_db::update(
+				OELIB_TESTTABLE,
+				'uid IN(' . $uid1 . ',' . $uid2 . ')',
+				array('title' => 'foo')
 			)
 		);
 	}
