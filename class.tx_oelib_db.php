@@ -47,6 +47,16 @@ class tx_oelib_db {
 	private static $enableFieldsCache = array();
 
 	/**
+	 * @var array cache for the results of hasTableColumnUid
+	 */
+	private static $hasTableColumnUidCache = array();
+
+	/**
+	 * @var array cache for the results of hasTableColumn
+	 */
+	private static $hasTableColumnCache = array();
+
+	/**
 	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
 	 * longer accessible statically.
 	 *
@@ -178,6 +188,61 @@ class tx_oelib_db {
 			$result = $startPages;
 		}
 		return $result;
+	}
+
+	/**
+	 * Checks whether a table has a column "uid".
+	 *
+	 * @param string the name of the table to check
+	 *
+	 * @return boolean true if a valid column was found, false otherwise
+	 */
+	public static function tableHasColumnUid($table) {
+		return self::tableHasColumn($table, 'uid');
+	}
+
+	/**
+	 * Checks whether a table has a column with a particular name.
+	 *
+	 * To get a boolean true as result, the table must contain a column with the
+	 * given name.
+	 *
+	 * @param string the name of the table to check, must not be empty
+	 * @param string the column name to check, must not be empty
+	 *
+	 * @return boolean true if the column with the provided name exists, false
+	 *                 otherwise
+	 */
+	public static function tableHasColumn($table, $column) {
+		if ($table == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+		if ($column == '') {
+			throw new Exception('The column name must not be empty.');
+		}
+
+		if (!isset(self::$hasTableColumnCache[$table][$column])) {
+			$result = false;
+
+			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+				'DESCRIBE ' . $table . ';'
+			);
+			if (!$dbResult) {
+				throw new tx_oelib_Exception_Database();
+			}
+
+			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+				if ($row['Field'] == $column) {
+					$result = true;
+					break;
+				}
+			}
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+			self::$hasTableColumnCache[$table][$column] = $result;
+		}
+
+		return self::$hasTableColumnCache[$table][$column];
 	}
 }
 

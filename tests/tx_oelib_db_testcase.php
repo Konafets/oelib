@@ -311,5 +311,70 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::createRecursivePageList($uid, 0)
 		);
 	}
+
+
+	////////////////////////////////////////
+	// Tests regarding tableHasColumnUid()
+	////////////////////////////////////////
+
+	public function testTableHasColumnUidIsTrueOnTableWithColumnUid() {
+		$this->assertTrue(
+			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testTableHasColumnUidIsFalseOnTableWithoutColumnUid() {
+		$this->assertFalse(
+			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE_MM)
+		);
+	}
+
+	public function testTableHasColumnUidCanReturnDifferentResultsForDifferentTables() {
+		$this->assertNotEquals(
+			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE),
+			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE_MM)
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests regarding tableHasColumn()
+	/////////////////////////////////////
+
+	public function testTableHasColumnReturnsTrueOnTableWithColumn() {
+		$this->assertTrue(
+			tx_oelib_db::tableHasColumn(
+				OELIB_TESTTABLE, 'title'
+			)
+		);
+	}
+
+	public function testTableHasColumnReturnsFalseOnTableWithoutColumn() {
+		$this->assertFalse(
+			tx_oelib_db::tableHasColumn(
+				OELIB_TESTTABLE, 'inexistent_column'
+			)
+		);
+	}
+
+	public function testTableHasColumnThrowsExceptionOnEmptyTableName() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::tableHasColumn(
+			'', 'title'
+		);
+	}
+
+	public function testTableHasColumnThrowsExceptionOnEmptyColumnName() {
+		$this->setExpectedException(
+			'Exception', 'The column name must not be empty.'
+		);
+
+		tx_oelib_db::tableHasColumn(
+			OELIB_TESTTABLE, ''
+		);
+	}
 }
 ?>

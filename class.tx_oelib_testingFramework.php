@@ -96,16 +96,6 @@ final class tx_oelib_testingFramework {
 	);
 
 	/**
-	 * @var array cache for the results of hasTableColumnUid
-	 */
-	private static $hasTableColumnUidCache = array();
-
-	/**
-	 * @var array cache for the results of hasTableColumn
-	 */
-	private static $hasTableColumnCache = array();
-
-	/**
 	 * @var array all "dirty" non-system tables (i.e. all tables that were
 	 * used for testing and need to be cleaned up)
 	 */
@@ -1539,7 +1529,7 @@ final class tx_oelib_testingFramework {
 		// is no column "uid" that has the "auto_increment" flag set, we should
 		// not try to reset this inexistent auto increment index to avoid DB
 		// errors.
-		if (!$this->hasTableColumnUid($table)) {
+		if (!tx_oelib_db::tableHasColumnUid($table)) {
 			return;
 		}
 
@@ -1581,7 +1571,7 @@ final class tx_oelib_testingFramework {
 		// is no column "uid" that has the "auto_increment" flag set, we should
 		// not try to reset this inexistent auto increment index to avoid
 		// database errors.
-		if (!$this->hasTableColumnUid($table)) {
+		if (!tx_oelib_db::tableHasColumnUid($table)) {
 			return;
 		}
 
@@ -1656,59 +1646,6 @@ final class tx_oelib_testingFramework {
 		);
 
 		return $row['Auto_increment'];
-	}
-
-	/**
-	 * Checks whether a table has a column "uid".
-	 *
-	 * @param string the name of the table to check
-	 *
-	 * @return boolean true if a valid column was found, false otherwise
-	 */
-	public function hasTableColumnUid($table) {
-		return $this->tableHasColumn($table, 'uid');
-	}
-
-	/**
-	 * Checks whether a table has a column with a particular name.
-	 *
-	 * To get a boolean true as result, the table must contain a column with the
-	 * given name.
-	 *
-	 * @param string the name of the table to check, must not be empty
-	 * @param string the column name to check, must not be empty
-	 *
-	 * @return boolean true if the column with the provided name exists, false otherwise
-	 */
-	public function tableHasColumn($table, $column) {
-		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The table name "' . $table . '" is invalid. This means it is ' .
-					'either empty or not in the list of allowed tables.'
-			);
-		}
-
-		if (!isset(self::$hasTableColumnCache[$table][$column])) {
-			$result = false;
-
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'DESCRIBE ' . $table . ';'
-			);
-			if (!$dbResult) {
-				throw new Exception(DATABASE_QUERY_ERROR);
-			}
-
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				if ($row['Field'] == $column) {
-					$result = true;
-					break;
-				}
-			}
-
-			self::$hasTableColumnCache[$table][$column] = $result;
-		}
-
-		return self::$hasTableColumnCache[$table][$column];
 	}
 
 	/**
@@ -1827,7 +1764,6 @@ final class tx_oelib_testingFramework {
 	 * framework.
 	 */
 	public function clearCaches() {
-		self::$hasTableColumnUidCache = array();
 		self::$allTablesCache = array();
 	}
 
@@ -1865,7 +1801,13 @@ final class tx_oelib_testingFramework {
 	 * @param string the field name of the field to modify, must not be empty
 	 */
 	public function increaseRelationCounter($tableName, $uid, $fieldName) {
-		if (!$this->tableHasColumn($tableName, $fieldName)) {
+		if (!$this->isTableNameAllowed($tableName)) {
+			throw new Exception(
+				'The table name "' . $tableName . '" is invalid. This means ' .
+					'it is either empty or not in the list of allowed tables.'
+			);
+		}
+		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
 			throw new Exception(
 				'The table ' . $tableName . ' has no column ' . $fieldName . '.'
 			);
@@ -1881,8 +1823,8 @@ final class tx_oelib_testingFramework {
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() == 0) {
 			throw new Exception(
-				'The table ' . $tableName . ' does not contain a record with UID ' .
-				$uid . '.'
+				'The table ' . $tableName .
+					' does not contain a record with UID ' . $uid . '.'
 			);
 		}
 
