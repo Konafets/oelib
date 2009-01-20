@@ -32,7 +32,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_FrontEndUser extends tx_oelib_Model {
+class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements tx_oelib_Interface_MailRole {
 	/**
 	 * Gets this user's user name.
 	 *
