@@ -699,7 +699,7 @@ final class tx_oelib_testingFramework {
 			|| ($relationConfiguration['config']['MM'] == '')
 		) {
 			throw new Exception(
-				'The column ' . $columnName . ' in the table ' . $localTable .
+				'The column ' . $columnName . ' in the table ' . $tableName .
 				' is not configured to contain m:n relations using a m:n table.'
 			);
 		}
