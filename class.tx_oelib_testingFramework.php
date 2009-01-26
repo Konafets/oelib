@@ -234,18 +234,13 @@ final class tx_oelib_testingFramework {
 		$dummyColumnName = $this->getDummyColumnName($table);
 		$recordData[$dummyColumnName] = 1;
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
-			$recordData
+		$uid = tx_oelib_db::insert(
+			$table, $recordData
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
-		$result = $GLOBALS['TYPO3_DB']->sql_insert_id();
 		$this->markTableAsDirty($table);
 
-		return $result;
+		return $uid;
 	}
 
 	/**
@@ -650,15 +645,9 @@ final class tx_oelib_testingFramework {
 			$this->getDummyColumnName($table) => 1
 		);
 
-		// Stores the record in the database.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			$table,
-			$recordData
+		tx_oelib_db::insert(
+			$table, $recordData
 		);
-
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 	}
 
 	/**

@@ -27,6 +27,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 if (!defined('OELIB_TESTTABLE')) {
 	define('OELIB_TESTTABLE', 'tx_oelib_test');
 }
+if (!defined('OELIB_TESTTABLE_MM')) {
+	define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
+}
 
 /**
  * Testcase for the tx_oelib_db class in the 'oelib' extension.
@@ -380,8 +383,8 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, ''
 		);
 	}
-	
-	
+
+
 	/////////////////////
 	// Tests for delete
 	/////////////////////
@@ -502,6 +505,68 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 				OELIB_TESTTABLE,
 				'uid IN(' . $uid1 . ',' . $uid2 . ')',
 				array('title' => 'foo')
+			)
+		);
+	}
+
+
+	/////////////////////
+	// Tests for insert
+	/////////////////////
+
+	public function testInsertForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::insert(
+			'', array('is_dummy_record' => 1)
+		);
+	}
+
+	public function testInsertForEmptyRecordDataThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$recordData must not be empty.'
+		);
+
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE, array()
+		);
+	}
+
+	public function testInsertInsertsRecord() {
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('title' => 'foo', 'is_dummy_record' => 1)
+		);
+		$this->testingFramework->markTableAsDirty(OELIB_TESTTABLE);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				OELIB_TESTTABLE, 'title = "foo"'
+			)
+		);
+	}
+
+	public function testInsertForTableWithUidReturnsUidOfCreatedRecord() {
+		$uid = tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('is_dummy_record' => 1)
+		);
+		$this->testingFramework->markTableAsDirty(OELIB_TESTTABLE);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecordWithUid(
+				OELIB_TESTTABLE, $uid
+			)
+		);
+	}
+
+	public function testInsertForTableWithoutUidReturnsZero() {
+		$this->testingFramework->markTableAsDirty(OELIB_TESTTABLE_MM);
+
+		$this->assertEquals(
+			0,
+			tx_oelib_db::insert(
+				OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
 			)
 		);
 	}

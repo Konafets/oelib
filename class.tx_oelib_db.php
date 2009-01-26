@@ -301,6 +301,36 @@ class tx_oelib_db {
 
 		return $GLOBALS['TYPO3_DB']->sql_affected_rows();
 	}
+
+	/**
+	 * Executes an INSERT query.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 *
+	 * @param string the name of the table in which the record should be
+	 *               created, must not be empty
+	 * @param array key/value pairs of the record to insert, must not be empty
+	 *
+	 * @return integer the UID of the created record, will be 0 if the table
+	 *                 has no UID column
+	 */
+	public static function insert($tableName, array $recordData) {
+		if ($tableName == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+		if (empty($recordData)) {
+			throw new Exception('$recordData must not be empty.');
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+			$tableName, $recordData
+		);
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		return $GLOBALS['TYPO3_DB']->sql_insert_id();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_db.php']) {

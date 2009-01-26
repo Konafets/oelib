@@ -181,21 +181,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMarkTableAsDirtyWillCleanUpANonSystemTable() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE,
-			array(
-				'is_dummy_record' => 1
-			)
-		);
-
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
-
-		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-		$this->assertNotEquals(
-			0,
-			$uid
+		$uid = tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('is_dummy_record' => 1)
 		);
 
 		$this->fixture->markTableAsDirty(OELIB_TESTTABLE);
@@ -207,21 +194,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testMarkTableAsDirtyWillCleanUpASystemTable() {
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'pages',
-			array(
-				'tx_oelib_is_dummy_record' => 1
-			)
-		);
-
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
-
-		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-		$this->assertNotEquals(
-			0,
-			$uid
+		$uid = tx_oelib_db::insert (
+			'pages', array('tx_oelib_is_dummy_record' => 1)
 		);
 
 		$this->fixture->markTableAsDirty('pages');
@@ -235,18 +209,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testMarkTableAsDirtyWillCleanUpAdditionalAllowedTable() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			'user_oelibtest_test',
-			array(
-				'tx_oelib_is_dummy_record' => 1
-			)
+		$uid = tx_oelib_db::insert(
+			'user_oelibtest_test', array('tx_oelib_is_dummy_record' => 1)
 		);
-
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
-
-		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 
 		$this->fixture->markTableAsDirty('user_oelibtest_test');
 		$this->fixture->cleanUp();
@@ -622,7 +587,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testDeleteRecordOnNonTestRecordNotDeletesRecord() {
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+		$uid = tx_oelib_db::insert(
 			OELIB_TESTTABLE,
 			array(
 				'title' => 'TEST',
@@ -630,19 +595,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			)
 		);
 
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
-
-		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
-
-		// Checks whether the creation of the record was successful.
-		$this->assertNotEquals(
-			0,
-			$uid
-		);
-
-		// Runs our delete method which should NOT affect the record created above.
+		// Runs our delete method which should NOT affect the record created
+		// above.
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Remembers whether the record still exists.
@@ -972,7 +926,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+		tx_oelib_db::insert(
 			OELIB_TESTTABLE_MM,
 			array(
 				'uid_local' => $uidLocal,
@@ -980,10 +934,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 				'is_dummy_record' => 0
 			)
 		);
-
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
 
 		// Runs our delete method which should NOT affect the record created
 		// above.
@@ -1031,15 +981,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 		// Creates a dummy record directly in the database, without putting this
 		// table name to the list of dirty tables.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE_MM,
-			array(
-				'is_dummy_record' => 1
-			)
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
 		);
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
 
 		// Runs a regular clean up. This should now delete only the first record
 		// which was created through the testing framework and thus that table
@@ -1069,17 +1013,11 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Creates a dummy record (and marks that table as dirty).
 		$this->fixture->createRecord(OELIB_TESTTABLE);
 
-		// Creates a dummy record directly in the database, without putting this
+		// Creates a dummy record directly in the database without putting this
 		// table name to the list of dirty tables.
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE_MM,
-			array(
-				'is_dummy_record' => 1
-			)
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
 		);
-		if (!$dbResult) {
-			$this->fail(DATABASE_QUERY_ERROR);
-		}
 
 		// Deletes all dummy records.
 		$this->fixture->cleanUp(true);
@@ -1429,13 +1367,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountRecordsIgnoresNonDummyRecords() {
-		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE,
-			array('title' => 'foo')
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('title' => 'foo')
 		);
-		if (!$insertResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
 		$testResult = $this->fixture->countRecords(
 			OELIB_TESTTABLE, 'title = "foo"'
@@ -1522,13 +1456,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testExistsRecordIgnoresNonDummyRecords() {
-		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE,
-			array('title' => 'foo')
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('title' => 'foo')
 		);
-		if (!$insertResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
 		$testResult = $this->fixture->existsRecord(
 			OELIB_TESTTABLE, 'title = "foo"'
@@ -1610,14 +1540,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testExistsRecordWithUidIgnoresNonDummyRecords() {
-		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE,
-			array('title' => 'foo')
+		$uid = tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('title' => 'foo')
 		);
-		if (!$insertResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-		$uid = $GLOBALS['TYPO3_DB']->sql_insert_id();
 
 		$testResult = $this->fixture->existsRecordWithUid(
 			OELIB_TESTTABLE, $uid
@@ -1703,13 +1628,9 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testExistsExactlyOneRecordIgnoresNonDummyRecords() {
-		$insertResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
-			OELIB_TESTTABLE,
-			array('title' => 'foo')
+		tx_oelib_db::insert(
+			OELIB_TESTTABLE, array('title' => 'foo')
 		);
-		if (!$insertResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
 		$testResult = $this->fixture->existsExactlyOneRecord(
 			OELIB_TESTTABLE, 'title = "foo"'
