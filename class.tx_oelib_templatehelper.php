@@ -1024,7 +1024,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param array array of array keys for $this->piVars that will be
 	 *              intvaled as well
 	 *
-	 * @deprecated 24.08.2008 use ensureIntegerPiVars() instead
+	 * @deprecated 2008-08-24 use ensureIntegerPiVars() instead
 	 */
 	protected function securePiVars(array $additionalPiVars = array()) {
 		if ($this->piVars) {
