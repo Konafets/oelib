@@ -52,7 +52,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 */
 	public function getLoggedInUser() {
 		if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']
-			|| !((boolean) $GLOBALS['TSFE']->loginUser)
+			|| !is_array($GLOBALS['TSFE']->fe_user->user)
 		) {
 			return null;
 		}

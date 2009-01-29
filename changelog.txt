@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2642] Fix: Login fails with TYPO3 4.2.5
 - [#2451] Fix: Undefined variable in createRelationAndUpdateCounter
 - [#2554] Feature: Create new Mail class that represents one e-mail
 - [#2311] Change: Move most of countRecords from the testing framework to oelib_db
