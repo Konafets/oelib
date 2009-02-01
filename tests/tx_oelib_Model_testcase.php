@@ -99,6 +99,39 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////
+	// Tests concerning existsKey
+	///////////////////////////////
+
+	public function testExistsKeyForInexistentKeyReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->existsKey('foo')
+		);
+	}
+
+	public function testExistsKeyForExistingKeyWithNonEmptyDataReturnsTrue() {
+		$this->fixture->setData(
+			array('foo' => 'bar')
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsKey('foo')
+		);
+	}
+
+	public function testExistsKeyForExistingKeyWithEmptyDataReturnsTrue() {
+		$this->fixture->setData(
+			array('foo' => '')
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsKey('foo')
+		);
+	}
+
+
 	/////////////////////////////
 	// Tests concerning the UID
 	/////////////////////////////

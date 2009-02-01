@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2654] Feature: Add Model::existsKey()
 - [#2652] Change: Enable query logging in the DB query wrappers
 - [#2645] Feature: Add a status "dead" for models that could not be found in the DB
 - [#2481] Feature: Add a function DataMapper::existsModelWithUid

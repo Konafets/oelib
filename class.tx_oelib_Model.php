@@ -119,7 +119,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->data = $data;
-		if (isset($this->data['uid'])) {
+		if ($this->existsKey('uid')) {
 			if (!$this->hasUid()) {
 				$this->setUid($this->data['uid']);
 			}
@@ -191,11 +191,23 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->load();
-		if (!isset($this->data[$key])) {
+		if (!$this->existsKey($key)) {
 			return '';
 		}
 
 		return $this->data[$key];
+	}
+
+	/**
+	 * Checks whether a data item with a certain key exists.
+	 *
+	 * @param string the key of the data item to check, must not be empty
+	 *
+	 * @return boolean true if a data item with the key $key exists, false
+	 *                 otherwise
+	 */
+	protected function existsKey($key) {
+		return isset($this->data[$key]);
 	}
 
 	/**

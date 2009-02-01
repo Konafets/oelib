@@ -50,6 +50,18 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function getTitle() {
 		return $this->getAsString('title');
 	}
+
+	/**
+	 * Checks whether a data item with a certain key exists.
+	 *
+	 * @param string the key of the data item to check, must not be empty
+	 *
+	 * @return boolean true if a data item with the key $key exists, false
+	 *                 otherwise
+	 */
+	public function existsKey($key) {
+		return parent::existsKey($key);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingModel.php']) {
