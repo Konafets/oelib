@@ -62,6 +62,21 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function existsKey($key) {
 		return parent::existsKey($key);
 	}
+
+	/**
+	 * Gets the value stored in under the key $key as a model.
+	 *
+	 * @throws Exception if there is a data item stored for the key $key that
+	 *                   is not a model instance
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return tx_oelib_Model the data item for the given key, will be null if
+	 *                        it has not been set
+	 */
+	public function getAsModel($key) {
+		return parent::getAsModel($key);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingModel.php']) {

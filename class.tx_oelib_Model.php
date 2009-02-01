@@ -211,6 +211,34 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Gets the value stored in under the key $key as a model.
+	 *
+	 * @throws Exception if there is a data item stored for the key $key that
+	 *                   is not a model instance
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return tx_oelib_Model the data item for the given key, will be null if
+	 *                        it has not been set
+	 */
+	protected function getAsModel($key) {
+		$this->checkForNonEmptyKey($key);
+		if (!$this->existsKey($key)) {
+			return null;
+		}
+
+		$result = $this->get($key);
+
+		if (($result !== null) && (!$result instanceof tx_oelib_Model)) {
+			throw new Exception(
+				'The data item for the key "' . $key . '" is no model instance.'
+			);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Makes sure this model has some data by loading the data for ghost models.
 	 */
 	private function load() {

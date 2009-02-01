@@ -132,6 +132,61 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////
+	// Tests concerning getAsModel
+	////////////////////////////////
+
+	public function testGetAsModelWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getAsModel('');
+	}
+
+	public function testGetAsModelWithInexistentKeyReturnsNull() {
+		$this->fixture->setData(array());
+
+		$this->assertNull(
+			$this->fixture->getAsModel('foo')
+		);
+	}
+
+	public function testGetAsModelWithKeyForStringDataThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The data item for the key "foo" is no model instance.'
+		);
+
+		$this->fixture->setData(array('foo' => 'bar'));
+
+		$this->fixture->getAsModel('foo');
+	}
+
+	public function testGetAsModelReturnsNullSetViaSetData() {
+		$this->fixture->setData(
+			array('foo' => null)
+		);
+
+		$this->assertNull(
+			$this->fixture->getAsModel('foo')
+		);
+	}
+
+	public function testGetAsModelReturnsModelSetViaSetData() {
+		$otherModel = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->setData(
+			array('foo' => $otherModel)
+		);
+
+		$this->assertSame(
+			$otherModel,
+			$this->fixture->getAsModel('foo')
+		);
+
+		$otherModel->__destruct();
+	}
+
+
 	/////////////////////////////
 	// Tests concerning the UID
 	/////////////////////////////
