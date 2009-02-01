@@ -1166,11 +1166,12 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testGetAutoIncrementReturnsOneForTruncatedTable() {
+		tx_oelib_db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'TRUNCATE TABLE ' . OELIB_TESTTABLE . ';'
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$this->assertEquals(

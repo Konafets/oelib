@@ -1516,6 +1516,7 @@ final class tx_oelib_testingFramework {
 
 		$newAutoIncrementValue = $this->getMaximumUidFromTable($table) + 1;
 
+		tx_oelib_db::enableQueryLogging();
 		// Updates the auto increment index for this table. The index will be
 		// set to one UID above the highest existing UID.
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
@@ -1523,7 +1524,7 @@ final class tx_oelib_testingFramework {
 				$newAutoIncrementValue . ';'
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 	}
 
@@ -1618,6 +1619,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
+		tx_oelib_db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
 		);
@@ -1796,12 +1798,13 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
+		tx_oelib_db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'UPDATE ' . $tableName . ' SET ' . $fieldName . '=' .
 			$fieldName . '+1 WHERE uid=' . $uid
 		);
 		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() == 0) {

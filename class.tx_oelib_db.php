@@ -222,6 +222,7 @@ class tx_oelib_db {
 		if (!isset(self::$hasTableColumnCache[$table][$column])) {
 			$result = false;
 
+			self::enableQueryLogging();
 			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 				'DESCRIBE ' . $table . ';'
 			);
@@ -264,6 +265,7 @@ class tx_oelib_db {
 			throw new Exception('The table name must not be empty.');
 		}
 
+		self::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
 			$tableName, $whereClause
 		);
@@ -290,6 +292,7 @@ class tx_oelib_db {
 			throw new Exception('The table name must not be empty.');
 		}
 
+		self::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			$tableName, $whereClause, $fields
 		);
@@ -320,6 +323,7 @@ class tx_oelib_db {
 			throw new Exception('$recordData must not be empty.');
 		}
 
+		self::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
 			$tableName, $recordData
 		);
@@ -355,6 +359,8 @@ class tx_oelib_db {
 		if ($fields == '') {
 			throw new Exception('$fields must not be empty.');
 		}
+
+		self::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			$fields, $tableNames, $whereClause, $groupBy, $orderBy, $limit
 		);
@@ -432,6 +438,13 @@ class tx_oelib_db {
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
+	}
+
+	/**
+	 * Enables query logging in TYPO3's DB class.
+	 */
+	public static function enableQueryLogging() {
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
 	}
 }
 
