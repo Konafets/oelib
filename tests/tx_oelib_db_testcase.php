@@ -570,5 +570,122 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	//////////////////////////////////////////////////////////
+	// Tests concerning select, selectSingle, selectMultiple
+	//////////////////////////////////////////////////////////
+
+	public function testSelectForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table names must not be empty.'
+		);
+
+		tx_oelib_db::select('*', '');
+	}
+
+	public function testSelectForEmptyFieldListThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$fields must not be empty.'
+		);
+
+		tx_oelib_db::select('', OELIB_TESTTABLE);
+	}
+
+	public function testSelectReturnsRessource() {
+		$this->assertTrue(
+			is_resource(tx_oelib_db::select('title', OELIB_TESTTABLE))
+		);
+	}
+
+	public function testSelectSingleForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table names must not be empty.'
+		);
+
+		tx_oelib_db::selectSingle('*', '');
+	}
+
+	public function testSelectSingleForEmptyFieldListThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$fields must not be empty.'
+		);
+
+		tx_oelib_db::selectSingle('', OELIB_TESTTABLE);
+	}
+
+	public function testSelectSingleCanFindOneRow() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE
+		);
+
+		$this->assertEquals(
+			array('uid' => $uid),
+			tx_oelib_db::selectSingle('uid', OELIB_TESTTABLE, 'uid = ' . $uid)
+		);
+	}
+
+	public function testSelectSingleForNoResultsThrowsEmptyQueryResultException() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_EmptyQueryResult'
+		);
+
+		tx_oelib_db::selectSingle('uid', OELIB_TESTTABLE, 'title = "nothing"');
+	}
+
+	public function testSelectMultipleForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table names must not be empty.'
+		);
+
+		tx_oelib_db::selectMultiple('*', '');
+	}
+
+	public function testSelectMultipleForEmptyFieldListThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$fields must not be empty.'
+		);
+
+		tx_oelib_db::selectMultiple('', OELIB_TESTTABLE);
+	}
+
+	public function testSelectMultipleForNoResultsReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			tx_oelib_db::selectMultiple(
+				'uid', OELIB_TESTTABLE, 'title = "nothing"'
+			)
+		);
+	}
+
+	public function testSelectMultipleCanFindOneRow() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE
+		);
+
+		$this->assertEquals(
+			array(array('uid' => $uid)),
+			tx_oelib_db::selectMultiple('uid', OELIB_TESTTABLE, 'uid = ' . $uid)
+		);
+	}
+
+	public function testSelectMultipleCanFindTwoRows() {
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			array(
+				array('title' => 'foo'),
+				array('title' => 'foo'),
+			),
+			tx_oelib_db::selectMultiple(
+				'title', OELIB_TESTTABLE, 'title = "foo"'
+			)
+		);
+	}
 }
 ?>

@@ -1387,19 +1387,24 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Retrieves a database result row as an associative array.
 	 *
+	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
+	 *                                             record
+	 *
 	 * @param mixed either a DB query result resource or false (for failed
 	 *              queries)
 	 *
 	 * @return array the database result as an associative array
+	 *
+	 * @deprecated 2009-01-25, use tx_oelib_db::selectSingle instead
 	 */
 	public function getAssociativeDatabaseResult($queryResult) {
 		if (!$queryResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
+			throw new tx_oelib_Exception_Database();
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
 		if (!$row) {
-			throw new Exception(DATABASE_RESULT_ERROR);
+			throw new tx_oelib_Exception_EmptyQueryResult();
 		}
 
 		return $row;
@@ -1428,14 +1433,11 @@ final class tx_oelib_testingFramework {
 			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
 			: $whereForDummyColumn;
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$row = tx_oelib_db::selectSingle(
 			'COUNT(*) AS number',
 			$table,
 			$compoundWhereClause
 		);
-
-		$row = $this->getAssociativeDatabaseResult($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return intval($row['number']);
 	}
@@ -1589,10 +1591,8 @@ final class tx_oelib_testingFramework {
 	 * @return integer the highest UID from this table, will be >= 0
 	 */
 	private function getMaximumUidFromTable($table) {
-		$row = $this->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->sql_query(
-				'SELECT MAX(uid) AS uid FROM ' . $table . ';'
-			)
+		$row = tx_oelib_db::selectSingle(
+			'MAX(uid) AS uid', $table
 		);
 
 		return $row['uid'];
@@ -1618,11 +1618,15 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		$row = $this->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->sql_query(
-				'SHOW TABLE STATUS WHERE Name=\'' . $table . '\';'
-			)
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
 		);
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $row['Auto_increment'];
 	}

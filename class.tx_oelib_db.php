@@ -165,14 +165,11 @@ class tx_oelib_db {
 			return '';
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = tx_oelib_db::select(
 			'uid',
 			'pages',
 			'pid IN (' . $startPages . ')' . tx_oelib_db::enableFields('pages')
 		);
-		if (!$dbResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
 
 		$subPages = array();
 		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
@@ -187,6 +184,7 @@ class tx_oelib_db {
 		} else {
 			$result = $startPages;
 		}
+
 		return $result;
 	}
 
@@ -330,6 +328,110 @@ class tx_oelib_db {
 		}
 
 		return $GLOBALS['TYPO3_DB']->sql_insert_id();
+	}
+
+	/**
+	 * Executes a SELECT query.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 *
+	 * @param string list of fields to select, may be "*", must not be empty
+	 * @param string comma-separated list of tables from which to select, must
+	 *               not be empty
+	 * @param string WHERE clause, may be empty
+	 * @param string GROUP BY field(s), may be empty
+	 * @param string ORDER BY field(s), may be empty
+	 * @param string LIMIT value ([begin,]max), may be empty
+	 *
+	 * @return resource MySQL result pointer
+	 */
+	public static function select(
+		$fields, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
+		$limit = ''
+	) {
+		if ($tableNames == '') {
+			throw new Exception('The table names must not be empty.');
+		}
+		if ($fields == '') {
+			throw new Exception('$fields must not be empty.');
+		}
+		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$fields, $tableNames, $whereClause, $groupBy, $orderBy, $limit
+		);
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		return $dbResult;
+	}
+
+	/**
+	 * Executes a SELECT query and returns the single result row as an
+	 * associative array.
+	 *
+	 * If there is more than one matching record, only one will be returned.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
+	 *                                             record
+	 *
+	 * @param string list of fields to select, may be "*", must not be empty
+	 * @param string comma-separated list of tables from which to select, must
+	 *               not be empty
+	 * @param string WHERE clause, may be empty
+	 * @param string GROUP BY field(s), may be empty
+	 *
+	 * @return array the single result row, will not be empty
+	 */
+	public static function selectSingle(
+		$fields, $tableNames, $whereClause = '', $groupBy = ''
+	) {
+		$result = self::selectMultiple(
+			$fields, $tableNames, $whereClause, $groupBy, '', 1
+		);
+		if (empty($result)) {
+			throw new tx_oelib_Exception_EmptyQueryResult();
+		}
+
+		return $result[0];
+	}
+
+	/**
+	 * Executes a SELECT query and returns the result rows as a two-dimensional
+	 * associative array.
+	 *
+	 * If there is more than one matching record, only one will be returned.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
+	 *                                             record
+	 *
+	 * @param string list of fields to select, may be "*", must not be empty
+	 * @param string comma-separated list of tables from which to select, must
+	 *               not be empty
+	 * @param string WHERE clause, may be empty
+	 * @param string GROUP BY field(s), may be empty
+	 * @param string ORDER BY field(s), may be empty
+	 * @param string LIMIT value ([begin,]max), may be empty
+	 *
+	 * @return array the query result rows, will be empty if there are no
+	 *               matching records
+	 */
+	public static function selectMultiple(
+		$fields, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
+		$limit = ''
+	) {
+		$result = array();
+		$dbResult = self::select(
+			$fields, $tableNames, $whereClause, $groupBy, $orderBy, $limit
+		);
+
+		while ($recordData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$result[] = $recordData;
+		}
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		return $result;
 	}
 }
 

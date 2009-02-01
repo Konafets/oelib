@@ -1430,38 +1430,29 @@ class tx_oelib_configcheck {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-			$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+			$offendingPids = tx_oelib_db::selectMultiple(
 				'uid',
 				'pages',
 				'uid IN (' .$pids . ') AND NOT (doktype' . $typeCondition . ')' .
 					tx_oelib_db::enableFields('pages')
 			);
+			$dbResultCount = count($offendingPids);
 
-			if ($dbResult) {
-				$dbResultCount = $GLOBALS['TYPO3_DB']->sql_num_rows($dbResult);
-				if ($dbResultCount) {
-					$offendingPids = array();
-					while ($dbResultAssoc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc(
-						$dbResult)
-					) {
-						$offendingPids[] = $dbResultAssoc['uid'];
-					}
+			if ($dbResultCount > 0) {
+				$pageIdPlural = ($dbResultCount > 1) ? 's' : '';
+				$bePlural = ($dbResultCount > 1) ? 'are' : 'is';
 
-					$pageIdPlural = ($dbResultCount > 1) ? 's' : '';
-					$bePlural = ($dbResultCount > 1) ? 'are' : 'is';
-
-					$message = 'The TS setup variable <strong>'
-						.$this->getTSSetupPath().$fieldName
-						.'</strong> contains the page ID'.$pageIdPlural
-						.' <strong>'.implode(',', $offendingPids).'</strong> '
-						.'which '.$bePlural.' of an incorrect page type. '
-						.$explanation.'<br />';
-					$this->setErrorMessageAndRequestCorrection(
-						$fieldName,
-						$canUseFlexforms,
-						$message
-					);
-				}
+				$message = 'The TS setup variable <strong>' .
+					$this->getTSSetupPath() . $fieldName .
+					'</strong> contains the page ID' . $pageIdPlural .
+					' <strong>' . implode(',', $offendingPids) . '</strong> ' .
+					'which ' . $bePlural . ' of an incorrect page type. ' .
+					$explanation.'<br />';
+				$this->setErrorMessageAndRequestCorrection(
+					$fieldName,
+					$canUseFlexforms,
+					$message
+				);
 			}
 		}
 	}

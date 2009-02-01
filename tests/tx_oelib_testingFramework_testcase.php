@@ -97,12 +97,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	 * @return integer the sorting value of the relation
 	 */
 	private function getSortingOfRelation($uidLocal, $uidForeign) {
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'sorting',
-				OELIB_TESTTABLE_MM,
-				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
-			)
+		$row = tx_oelib_db::selectSingle(
+			'sorting',
+			OELIB_TESTTABLE_MM,
+			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
 		);
 
 		return $row['sorting'];
@@ -290,12 +288,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				OELIB_TESTTABLE,
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			OELIB_TESTTABLE,
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -356,12 +352,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('title' => 'bar')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				OELIB_TESTTABLE,
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			OELIB_TESTTABLE,
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -600,12 +594,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Remembers whether the record still exists.
-		$counter = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'COUNT(*) AS number',
-				OELIB_TESTTABLE,
-				'uid = ' . $uid
-			)
+		$counter = tx_oelib_db::selectSingle(
+			'COUNT(*) AS number',
+			OELIB_TESTTABLE,
+			'uid = ' . $uid
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
@@ -761,12 +753,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'related_records'
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'related_records',
-				OELIB_TESTTABLE,
-				'uid = ' . $firstRecordUid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'related_records',
+			OELIB_TESTTABLE,
+			'uid = ' . $firstRecordUid
 		);
 
 		$this->assertEquals(
@@ -789,12 +779,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'related_records'
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'related_records',
-				OELIB_TESTTABLE,
-				'uid = ' . $firstRecordUid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'related_records',
+			OELIB_TESTTABLE,
+			'uid = ' . $firstRecordUid
 		);
 
 		$this->assertEquals(
@@ -947,12 +935,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// 1. reads the value to test
 		// 2. deletes the test record
 		// 3. tests the previously read value (and possibly fails)
-		$counter = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'COUNT(*) AS number',
-				OELIB_TESTTABLE_MM,
-				'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
-			)
+		$counter = tx_oelib_db::selectSingle(
+			'COUNT(*) AS number',
+			OELIB_TESTTABLE_MM,
+			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
 		);
 		$numberOfCreatedRelations = $counter['number'];
 
@@ -1136,22 +1122,26 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding getAssociativeDatabaseResult()
 	// ---------------------------------------------------------------------
 
-	public function testGetAssociativeDatabaseResultFailsIfResourceIsFalse() {
-		$this->setExpectedException('Exception', DATABASE_QUERY_ERROR);
+	public function testGetAssociativeDatabaseResultThrowsExceptionIfResourceIsFalse() {
+		$this->setExpectedException('tx_oelib_Exception_Database');
+
 		$this->fixture->getAssociativeDatabaseResult(false);
 	}
 
-	public function testGetAssociativeDatabaseResultFailsIfDataBaseResultIsEmpty() {
-		$this->setExpectedException('Exception', DATABASE_RESULT_ERROR);
+	public function testGetAssociativeDatabaseResultThrowsExceptionIfDataBaseResultIsEmpty() {
+		$this->setExpectedException('tx_oelib_Exception_EmptyQueryResult');
+
 		$uid = $this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => '')
 		);
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'title',
 			OELIB_TESTTABLE,
-			'uid=' . $uid.' AND title="foo"'
+			'uid = ' . $uid.' AND title = "foo"'
 		);
 		$this->fixture->getAssociativeDatabaseResult($dbResult);
+
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 	}
 
 	public function testGetAssociativeDatabaseResultSucceedsForNonEmptyResults() {
@@ -1159,13 +1149,15 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'uid',
 			OELIB_TESTTABLE,
-			'uid=' . $uid
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
 			array('uid' => $uid),
 			$this->fixture->getAssociativeDatabaseResult($dbResult)
 		);
+
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 	}
 
 
@@ -1896,12 +1888,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'doktype',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'doktype',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -1918,12 +1908,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -1941,12 +1929,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -1991,12 +1977,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testFrontEndPageHasNoTitleByDefault() {
 		$uid = $this->fixture->createFrontEndPage();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2011,12 +1995,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('title' => 'Test title')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2096,12 +2078,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'doktype',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'doktype',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2118,12 +2098,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2141,12 +2119,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2191,12 +2167,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testSystemFolderHasNoTitleByDefault() {
 		$uid = $this->fixture->createSystemFolder();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2211,12 +2185,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('title' => 'Test title')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'pages',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'pages',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2296,12 +2268,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2319,12 +2289,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$uid
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'pid',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'pid',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2369,12 +2337,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testContentElementHasNoHeaderByDefault() {
 		$uid = $this->fixture->createContentElement();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'header',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'header',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2389,12 +2355,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('header' => 'Test header')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'header',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'header',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2406,12 +2370,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testContentElementIsTextElementByDefault() {
 		$uid = $this->fixture->createContentElement();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'CType',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'CType',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2426,12 +2388,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('CType' => 'list')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'CType',
-				'tt_content',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'CType',
+			'tt_content',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2498,12 +2458,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$id
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'page_id',
-				'cache_pages',
-				'id='.$id
-			)
+		$row = tx_oelib_db::selectSingle(
+			'page_id',
+			'cache_pages',
+			'id = '.$id
 		);
 
 		$this->assertEquals(
@@ -2644,12 +2602,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testTemplateInitiallyHasNoConfig() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'config',
-				'sys_template',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'config',
+			'sys_template',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2664,12 +2620,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$pageId,
 			array('config' => 'plugin.tx_oelib.test = 1')
 		);
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'config',
-				'sys_template',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'config',
+			'sys_template',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2699,12 +2653,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testTemplateInitiallyHasNoConstants() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'constants',
-				'sys_template',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'constants',
+			'sys_template',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -2719,12 +2671,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$pageId,
 			array('constants' => 'plugin.tx_oelib.test = 1')
 		);
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'constants',
-				'sys_template',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'constants',
+			'sys_template',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -3039,12 +2989,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testFrontEndUserGroupHasNoTitleByDefault() {
 		$uid = $this->fixture->createFrontEndUserGroup();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'fe_groups',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'fe_groups',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -3058,12 +3006,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('title' => 'Test title')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'title',
-				'fe_groups',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'title',
+			'fe_groups',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -3145,12 +3091,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testFrontEndUserHasNoUserNameByDefault() {
 		$uid = $this->fixture->createFrontEndUser();
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'username',
-				'fe_users',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'username',
+			'fe_users',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -3165,12 +3109,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			array('username' => 'Test name')
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'username',
-				'fe_users',
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'username',
+			'fe_users',
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(
@@ -3646,17 +3588,11 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$frontEndUserGroupUid
 		);
 
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResultRow = tx_oelib_db::selectSingle(
 			'usergroup',
 			'fe_users',
-			'uid=' . $frontEndUserUid
+			'uid = ' . $frontEndUserUid
 		);
-
-		$dbResultRow = $this->fixture->getAssociativeDatabaseResult(
-			$dbResult
-		);
-
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		$this->assertEquals(
 			$frontEndUserGroupUid,
@@ -3727,12 +3663,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'related_records'
 		);
 
-		$row = $this->fixture->getAssociativeDatabaseResult(
-			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-				'related_records',
-				OELIB_TESTTABLE,
-				'uid=' . $uid
-			)
+		$row = tx_oelib_db::selectSingle(
+			'related_records',
+			OELIB_TESTTABLE,
+			'uid = ' . $uid
 		);
 
 		$this->assertEquals(

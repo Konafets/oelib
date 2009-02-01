@@ -167,19 +167,13 @@ abstract class tx_oelib_DataMapper {
 	 * @return array the record from the database, will not be empty
 	 */
 	private function retrieveRecord($uid) {
-		$queryResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
-			$this->columns,
-			$this->tableName,
-			'uid = ' . $uid . tx_oelib_db::enableFields($this->tableName)
-		);
-		if (!$queryResult) {
-			throw new Exception(DATABASE_QUERY_ERROR);
-		}
-
-		$data = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($queryResult);
-
-		if (!$data) {
+		try {
+			$data = tx_oelib_db::selectSingle(
+				$this->columns,
+				$this->tableName,
+				'uid = ' . $uid . tx_oelib_db::enableFields($this->tableName)
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			throw new tx_oelib_Exception_NotFound(
 				'The record with the UID ' . $uid . ' could not be retrieved ' .
 					'from the table ' . $this->tableName . '.'
