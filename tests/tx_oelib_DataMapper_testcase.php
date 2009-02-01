@@ -206,5 +206,53 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)->isLoaded()
 		);
 	}
+
+
+	/////////////////////////////////
+	// Tests concerning existsModel
+	/////////////////////////////////
+
+	public function testExistsModelForUidOfLoadedModelReturnsTrue() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->fixture->load($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->fixture->existsModel($uid)
+		);
+	}
+
+	public function testExistsModelForUidOfNotLoadedModelInDatabaseReturnsTrue() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->existsModel($uid)
+		);
+	}
+
+	public function testExistsModelForInexistentUidReturnsFalse() {
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$this->assertFalse(
+			$this->fixture->existsModel($uid)
+		);
+	}
+
+	public function testExistsModelForGhostModelWithInexistentUidReturnsFalse() {
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+		$this->fixture->find($uid);
+
+		$this->assertFalse(
+			$this->fixture->existsModel($uid)
+		);
+	}
+
+	public function testExistsModelForExistingUidLoadsModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->fixture->existsModel($uid);
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isLoaded()
+		);
+	}
 }
 ?>

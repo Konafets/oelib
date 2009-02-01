@@ -115,6 +115,29 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Checks whether a model with a certain UID actually exists in the database
+	 * and could be loaded.
+	 *
+	 * @param integer the UID of the record to retrieve, must be > 0
+	 *
+	 * @return boolean true if a model with the UID $uid exists in the database,
+	 *                 false otherwise
+	 */
+	public function existsModel($uid) {
+		$result = true;
+
+		try {
+			if (!$this->find($uid)->isLoaded()) {
+				$this->load($this->find($uid));
+			}
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$result = false;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Loads a model's data from the database (retrieved by using the
 	 * model's UID) and fills the model with it.
 	 *
