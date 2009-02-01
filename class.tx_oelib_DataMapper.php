@@ -124,25 +124,21 @@ abstract class tx_oelib_DataMapper {
 	 *                 false otherwise
 	 */
 	public function existsModel($uid) {
-		$result = true;
+		$model = $this->find($uid);
 
-		try {
-			if (!$this->find($uid)->isLoaded()) {
-				$this->load($this->find($uid));
-			}
-		} catch (tx_oelib_Exception_NotFound $exception) {
-			$result = false;
+		if ($model->isGhost()) {
+			$this->load($model);
 		}
 
-		return $result;
+		return $model->isLoaded();
 	}
 
 	/**
 	 * Loads a model's data from the database (retrieved by using the
 	 * model's UID) and fills the model with it.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
-	 *                                     with the model's UID
+	 * If a model's data cannot be retrieved from the DB, the model will be set
+	 * to the "dead" state.
 	 *
 	 * @param tx_oelib_Model the model to fill, must have a UID
 	 */
@@ -153,7 +149,11 @@ abstract class tx_oelib_DataMapper {
 			);
 		}
 
-		$model->setData($this->retrieveRecord($model->getUid()));
+		try {
+			$model->setData($this->retrieveRecord($model->getUid()));
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$model->markAsDead();
+		}
 	}
 
 	/**

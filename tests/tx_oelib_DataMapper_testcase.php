@@ -168,7 +168,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->load($model);
 	}
 
-	public function testLoadWithModelWithUidFillsModelWithData() {
+	public function testLoadWithModelWithExistingUidFillsModelWithData() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -204,6 +204,32 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->find($uid)->isLoaded()
+		);
+	}
+
+	public function testLoadWithModelWithExistingUidMarksModelAsLoaded() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertTrue(
+			$model->isLoaded()
+		);
+	}
+
+	public function testLoadWithModelWithInexistentUidMarksModelAsDead() {
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertTrue(
+			$model->isDead()
 		);
 	}
 

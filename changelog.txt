@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2645] Feature: Add a status "dead" for models that could not be found in the DB
 - [#2481] Feature: Add a function DataMapper::existsModelWithUid
 - [#2642] Fix: Login fails with TYPO3 4.2.5
 - [#2451] Fix: Undefined variable in createRelationAndUpdateCounter

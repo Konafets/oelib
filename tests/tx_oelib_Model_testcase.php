@@ -195,6 +195,14 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testAfterSettingDataWithUidNotHasDeadState() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertFalse(
+			$this->fixture->isDead()
+		);
+	}
+
 	public function testAfterSettingUidWithoutDataHasGhostState() {
 		$this->fixture->setUid(1);
 
@@ -203,6 +211,13 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testAfterMarkAsDeadHasDeadState() {
+		$this->fixture->markAsDead();
+
+		$this->assertTrue(
+			$this->fixture->isDead()
+		);
+	}
 
 	public function testGetOnAModelWithoutLoadCallbackThrowsException() {
 		$this->setExpectedException(

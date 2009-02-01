@@ -56,6 +56,11 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *              loaded (with or without UID)
 	 */
 	const STATUS_LOADED = 3;
+	/**
+	 * @var integer a status indicating that this model's data could not be
+	 *              retrieved from the DB
+	 */
+	const STATUS_DEAD = 4;
 
 	/**
 	 * @var integer this model's UID, will be 0 if this model has been created
@@ -122,6 +127,14 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->loadStatus = self::STATUS_LOADED;
+	}
+
+	/**
+	 * Marks this model as "dead", ie. that retrieving its data from the DB has
+	 * failed.
+	 */
+	public function markAsDead() {
+		$this->loadStatus = self::STATUS_DEAD;
 	}
 
 	/**
@@ -253,6 +266,16 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	public function isLoaded() {
 		return ($this->loadStatus == self::STATUS_LOADED);
+	}
+
+	/**
+	 * Checks whether this model is dead (retrieving its data from the DB has
+	 * failed).
+	 *
+	 * @return boolean true if this model is dead, false otherwise
+	 */
+	public function isDead() {
+		return ($this->loadStatus == self::STATUS_DEAD);
 	}
 
 	/**
