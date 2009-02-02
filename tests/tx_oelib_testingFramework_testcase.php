@@ -3562,6 +3562,18 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateAndLogInFrontEndUserWithRecordDataCreatesFrontEndUserWithThatData() {
+		$this->fixture->createFakeFrontEnd();
+		$this->fixture->createAndLogInFrontEndUser(
+			'', array('name' => 'John Doe')
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords('fe_users', 'name = "John Doe"')
+		);
+	}
+
 	public function testCreateAndLogInFrontEndUserLogsInFrontEndUser() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->createAndLogInFrontEndUser();
