@@ -687,5 +687,30 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////////
+	// Tests concerning existsTable
+	/////////////////////////////////
+
+	public function testExistsTableWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::existsTable('');
+	}
+
+	public function testExistsTableForExistingTableReturnsTrue() {
+		$this->assertTrue(
+			tx_oelib_db::existsTable(OELIB_TESTTABLE)
+		);
+	}
+
+	public function testExistsTableForInexistentTableReturnsFalse() {
+		$this->assertFalse(
+			tx_oelib_db::existsTable('tx_oelib_doesnotexist')
+		);
+	}
 }
 ?>

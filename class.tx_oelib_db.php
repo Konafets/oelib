@@ -47,9 +47,10 @@ class tx_oelib_db {
 	private static $enableFieldsCache = array();
 
 	/**
-	 * @var array cache for the results of hasTableColumnUid
+	 * @var array cache for the results of existsTable with the table names
+	 *            as keys and true as value
 	 */
-	private static $hasTableColumnUidCache = array();
+	private static $existsTableCache = array();
 
 	/**
 	 * @var array cache for the results of hasTableColumn
@@ -438,6 +439,48 @@ class tx_oelib_db {
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		return $result;
+	}
+
+	/**
+	 * Checks whether a database table exists.
+	 *
+	 * @param string the name of the table to check for, must not be empty
+	 *
+	 * @return boolean true if the table $tableName exists, false otherwise
+	 */
+	public function existsTable($tableName) {
+		if ($tableName == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+
+		self::retrieveTableNames();
+
+		return isset(self::$existsTableCache[$tableName]);
+	}
+
+	/**
+	 * Retrieves the table names of the current DB and stores them in
+	 * self::$tableNameCache.
+	 *
+	 * This function does nothing if the table names already have been
+	 * retrieved.
+	 */
+	private static function retrieveTableNames() {
+		if (!empty(self::$existsTableCache)) {
+			return;
+		}
+
+		$dbResult = $GLOBALS['TYPO3_DB']->sql_query('SHOW TABLES;');
+		if (!$dbResult) {
+			throw new tx_oelib_Exception_Database();
+		}
+
+		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+			$tableName = array_shift($row);
+			self::$existsTableCache[$tableName] = true;
+		}
+
+		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 	}
 
 	/**
