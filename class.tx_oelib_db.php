@@ -53,7 +53,8 @@ class tx_oelib_db {
 	private static $existsTableCache = array();
 
 	/**
-	 * @var array cache for the results of hasTableColumn
+	 * @var array cache for the results of hasTableColumn with the column names
+	 *            as keys and true as value
 	 */
 	private static $hasTableColumnCache = array();
 
@@ -220,8 +221,8 @@ class tx_oelib_db {
 			throw new Exception('The column name must not be empty.');
 		}
 
-		if (!isset(self::$hasTableColumnCache[$table][$column])) {
-			$result = false;
+		if (!isset(self::$hasTableColumnCache[$table])) {
+			self::$hasTableColumnCache[$table] = array();
 
 			self::enableQueryLogging();
 			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
@@ -232,17 +233,13 @@ class tx_oelib_db {
 			}
 
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				if ($row['Field'] == $column) {
-					$result = true;
-					break;
-				}
+				self::$hasTableColumnCache[$table][$row['Field']] = true;
 			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-			self::$hasTableColumnCache[$table][$column] = $result;
+			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
-		return self::$hasTableColumnCache[$table][$column];
+		return isset(self::$hasTableColumnCache[$table][$column]);
 	}
 
 

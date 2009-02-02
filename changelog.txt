@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2641] Change: tx_oelib_db::tableHasColumn can improve its caching
 - [#2632] Feature: Add a function oelib_db::existsTable
 - [#2627] Feature: Add a parameter $recordData to createAndLoginFrontEndUser
 - [#2629] Cleanup: Remove XCLASS stuff from all classes in tests/ and tests/fixtures/
