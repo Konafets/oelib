@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2629] Cleanup: Remove XCLASS stuff from all classes in tests/ and tests/fixtures/
 - [#2459] Feature: Add getAsModel to the model class
 - [#2654] Feature: Add Model::existsKey()
 - [#2652] Change: Enable query logging in the DB query wrappers

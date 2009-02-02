@@ -138,8 +138,4 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 		parent::ensureIntegerPiVars($additionalPiVars);
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_templatehelperchild.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_templatehelperchild.php']);
-}
 ?>

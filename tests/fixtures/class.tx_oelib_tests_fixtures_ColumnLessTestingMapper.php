@@ -50,8 +50,4 @@ class tx_oelib_tests_fixtures_ColumnLessTestingMapper extends tx_oelib_DataMappe
 	 */
 	protected $modelClassName = 'tx_oelib_tests_fixtures_TestingModel';
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ColumnLessTestingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ColumnLessTestingMapper.php']);
-}
 ?>

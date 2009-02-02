@@ -54,8 +54,4 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 		$this->map = $map;
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_TestingMapper.php']);
-}
 ?>
