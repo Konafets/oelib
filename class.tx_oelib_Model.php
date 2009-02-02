@@ -319,6 +319,13 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Checks whether this model is hidden.
+	 */
+	public function isHidden() {
+		return $this->getAsBoolean('hidden');
+	}
+
+	/**
 	 * Sets the callback function for loading this model with data.
 	 *
 	 * @param array the callback function for loading this model with data

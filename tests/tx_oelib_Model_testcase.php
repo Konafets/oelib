@@ -98,6 +98,26 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testIsHiddenReturnsTrueForHiddenObject() {
+		$this->fixture->setData(
+			array('hidden' => 1)
+		);
+
+		$this->assertTrue(
+			$this->fixture->isHidden()
+		);
+	}
+
+	public function testIsHiddenReturnsFalseForNonHiddenObject() {
+		$this->fixture->setData(
+			array('hidden' => 0)
+		);
+
+		$this->assertFalse(
+			$this->fixture->isHidden()
+		);
+	}
+
 
 	///////////////////////////////
 	// Tests concerning existsKey
