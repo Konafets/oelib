@@ -1670,7 +1670,7 @@ final class tx_oelib_testingFramework {
 	 *               be empty
 	 */
 	public function markTableAsDirty($tableNames) {
-		foreach (explode(',', $tableNames) as $currentTable) {
+		foreach (t3lib_div::trimExplode(',', $tableNames) as $currentTable) {
 			if ($this->isNoneSystemTableNameAllowed($currentTable)) {
 				$this->dirtyTables[$currentTable] = $currentTable;
 			} elseif ($this->isSystemTableNameAllowed($currentTable)) {

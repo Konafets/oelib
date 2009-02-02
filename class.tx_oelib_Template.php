@@ -329,7 +329,7 @@ class tx_oelib_Template {
 	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
-		$subpartNames = explode(',', $subparts);
+		$subpartNames = t3lib_div::trimExplode(',', $subparts, true);
 
 		$this->hideSubpartsArray($subpartNames, $prefix);
 	}
@@ -388,12 +388,11 @@ class tx_oelib_Template {
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
 	) {
-		$subpartNames = explode(',', $subparts);
-		if ($permanentlyHiddenSubparts != '') {
-			$hiddenSubpartNames = explode(',', $permanentlyHiddenSubparts);
-		} else {
-			$hiddenSubpartNames = array();
-		}
+		$subpartNames = t3lib_div::trimExplode(',', $subparts, true);
+
+		$hiddenSubpartNames = t3lib_div::trimExplode(
+			',', $permanentlyHiddenSubparts, true
+		);
 
 		$this->unhideSubpartsArray($subpartNames, $hiddenSubpartNames, $prefix);
 	}

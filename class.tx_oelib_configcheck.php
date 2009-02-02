@@ -867,20 +867,19 @@ class tx_oelib_configcheck {
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
-			$allValues = explode(
+			$allValues = t3lib_div::trimExplode(
 				',',
-				$this->objectToCheck->getConfValueString($fieldName, $sheet)
+				$this->objectToCheck->getConfValueString($fieldName, $sheet),
+				true
 			);
 
 			$overviewOfValues = '('.implode(', ', $allowedValues).')';
-			foreach ($allValues as $currentRawValue) {
-				$currentTrimmedValue = trim($currentRawValue);
-
-				if (!in_array($currentTrimmedValue, $allowedValues, true)) {
+			foreach ($allValues as $currentValue) {
+				if (!in_array($currentValue, $allowedValues, true)) {
 					$message = 'The TS setup variable <strong>'
 						.$this->getTSSetupPath().$fieldName
 						.'</strong> contains the value <strong>'
-						.htmlspecialchars($currentTrimmedValue).'</strong>, '
+						.htmlspecialchars($currentValue).'</strong>, '
 						.'but only the following values are allowed: '
 						.'<br /><strong>'.$overviewOfValues.'</strong><br />'
 						.$explanation;
@@ -1647,10 +1646,12 @@ class tx_oelib_configcheck {
 	public function getInstalledLocales() {
 		$result = array();
 
-		foreach (explode(LF, shell_exec('locale -a')) as $localeKey) {
+		foreach (t3lib_div::trimExplode(LF, shell_exec('locale -a'), true)
+			as $localeKey
+		) {
 			// The output of "locale -a" contains more lines than we need.
 			if (strpos($localeKey, '_') !== false) {
-				$result[] = trim($localeKey);
+				$result[] = $localeKey;
 			}
 		}
 
