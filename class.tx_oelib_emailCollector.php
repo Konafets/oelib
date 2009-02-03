@@ -44,7 +44,9 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 */
 	private $emailData = array();
 
-	/** whether sendEmail() should return true or false */
+	/**
+	 * @var boolean whether sendEmail() should always return true
+	 */
 	private $fakeSuccess = true;
 
 	/**
@@ -61,7 +63,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 *               such a header)
 	 * @param boolean if set, the header content will not be encoded
 	 *
-	 * @param boolean depending on whether success should be faked or not
+	 * @return boolean depending on whether success should be faked or not
 	 */
 	public function sendEmail(
 		$emailAddress,

@@ -64,6 +64,27 @@ abstract class tx_oelib_abstractMailer {
 	);
 
 	/**
+	 * Sends an tx_oelib_Mail object.
+	 *
+	 * @param tx_oelib_Mail the tx_oelib_Mail object to send
+	 */
+	public function send(tx_oelib_Mail $email) {
+		$sender = ($email->getSender() != '') ?
+			'From: ' . $this->formatMailRole($email->getSender()) : '';
+
+		$eMailBody = $this->formatEmailBody($email->getMessage());
+
+		foreach ($email->getRecipients() as $recipient) {
+			$this->sendEmail(
+				$this->formatMailRole($recipient),
+				$email->getSubject(),
+				$eMailBody,
+				$sender
+			);
+		}
+	}
+
+	/**
 	 * Sets whether the e-mail body should be formatted before sending the e-mail.
 	 * Formatting will replace single linefeeds or carriage returns by carriage
 	 * return plus linefeed and strip multiple blank lines.
@@ -94,6 +115,24 @@ abstract class tx_oelib_abstractMailer {
 		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
 
 		return preg_replace('/(\r\n){2,}/', CRLF.CRLF, $body);
+	}
+
+	/**
+	 * Formats a mail role for the e-mail sending process.
+	 *
+	 * @param tx_oelib_Interface_MailRole the mail role to format
+	 *
+	 * @return string the mail role formatted as string, e.g.
+	 *                '"John Doe" <john@doe.com>' or just 'john@doe.com' if the
+	 *                name is empty
+	 */
+	protected function formatMailRole(tx_oelib_Interface_MailRole $mailRole) {
+		if ($mailRole->getName() == '') {
+			return $mailRole->getEMailAddress();
+		}
+
+		return '"'. $mailRole->getName() . '"' .
+			' <' . $mailRole->getEMailAddress() . '>';
 	}
 }
 

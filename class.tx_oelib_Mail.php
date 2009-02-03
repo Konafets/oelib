@@ -52,7 +52,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->data);
+		unset($this->data, $this->sender, $this->recipients);
 	}
 
 	/**

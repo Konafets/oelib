@@ -258,6 +258,148 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function sendWithAnEMailAndGetIt() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertEquals(
+			array(
+				'recipient' => self::$email['recipient'],
+				'subject' => self::$email['subject'],
+				'message' => self::$email['message'],
+				'headers' => 'From: any-sender@email-address.org',
+			),
+			$this->fixture->getLastEmail()
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+		unset($sender, $recipient, $eMail);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendWithTwoEMailsAndGetTheLastEMail() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$otherRecipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$otherEmail['recipient']
+		);
+
+		$otherEMail = new tx_oelib_Mail();
+		$otherEMail->setSender($sender);
+		$otherEMail->addRecipient($otherRecipient);
+		$otherEMail->setSubject(self::$otherEmail['subject']);
+		$otherEMail->setMessage(self::$otherEmail['message']);
+
+		$this->fixture->send($eMail);
+		$this->fixture->send($otherEMail);
+
+		$this->assertEquals(
+			array(
+				'recipient' => self::$otherEmail['recipient'],
+				'subject' => self::$otherEmail['subject'],
+				'message' => self::$otherEmail['message'],
+				'headers' => 'From: any-sender@email-address.org',
+			),
+			$this->fixture->getLastEmail()
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+		$otherRecipient->__destruct();
+		$otherEMail->__destruct();
+		unset($sender, $recipient, $eMail, $otherRecipient, $otherEMail);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendWithTwoEMailsAndGetBothEMails() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$otherRecipient =new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$otherEmail['recipient']
+		);
+
+		$otherEMail = new tx_oelib_Mail();
+		$otherEMail->setSender($sender);
+		$otherEMail->addRecipient($otherRecipient);
+		$otherEMail->setSubject(self::$otherEmail['subject']);
+		$otherEMail->setMessage(self::$otherEmail['message']);
+
+		$this->fixture->send($eMail);
+		$this->fixture->send($otherEMail);
+
+		$this->assertEquals(
+			array(
+				array(
+					'recipient' => self::$email['recipient'],
+					'subject' => self::$email['subject'],
+					'message' => self::$email['message'],
+					'headers' => 'From: any-sender@email-address.org',
+				),
+				array(
+					'recipient' => self::$otherEmail['recipient'],
+					'subject' => self::$otherEmail['subject'],
+					'message' => self::$otherEmail['message'],
+					'headers' => 'From: any-sender@email-address.org',
+				),
+			),
+			$this->fixture->getAllEmail()
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+		$otherRecipient->__destruct();
+		$otherEMail->__destruct();
+		unset($sender, $recipient, $eMail, $otherRecipient, $otherEMail);
+	}
+
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.
@@ -337,8 +479,8 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * is defined.
 	 */
 	private function addHeadersToTestEmail() {
-		self::$email['headers'] = 'From: any-sender@email-address.org'.LF.
-			'CC: "another recipient" <another-recipient@email-address.org>'.LF.
+		self::$email['headers'] = 'From: any-sender@email-address.org' . LF .
+			'CC: "another recipient" <another-recipient@email-address.org>' . LF .
 			'Reply-To: any-sender@email-address.org';
 	}
 }
