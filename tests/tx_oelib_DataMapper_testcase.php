@@ -183,7 +183,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadWithModelWithExistingUidOfHiddenRecordMarksModelAsDead() {
+	public function testLoadWithModelWithExistingUidOfHiddenRecordMarksModelAsLoaded() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo', 'hidden' => 1)
 		);
@@ -193,22 +193,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->load($model);
 
 		$this->assertTrue(
-			$model->isDead()
-		);
-	}
-
-	public function testLoadWithModelWithExistingUidOfHiddenRecordAndHiddenBeingAllowedFillsModelWithData() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_oelib_test', array('title' => 'foo', 'hidden' => 1)
-		);
-
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$model->setUid($uid);
-		$this->fixture->load($model, true);
-
-		$this->assertEquals(
-			'foo',
-			$model->getTitle()
+			$model->isLoaded()
 		);
 	}
 
@@ -334,7 +319,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
-		$this->fixture->load($this->fixture->find($uid), true);
+		$this->fixture->load($this->fixture->find($uid));
 
 		$this->assertFalse(
 			$this->fixture->existsModel($uid)
@@ -345,7 +330,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
-		$this->fixture->load($this->fixture->find($uid), true);
+		$this->fixture->load($this->fixture->find($uid));
 
 		$this->assertTrue(
 			$this->fixture->existsModel($uid, true)
@@ -355,6 +340,17 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function testExistsModelForExistentUidOfLoadedNonHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 0)
+		);
+		$this->fixture->load($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->fixture->existsModel($uid, true)
+		);
+	}
+
+	public function testExistsModelForExistentUidOfHiddenRecordAfterLoadingAsNonHiddenAndHiddenBeingAllowedReturnsTrue() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('hidden' => 1)
 		);
 		$this->fixture->load($this->fixture->find($uid));
 

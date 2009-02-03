@@ -142,9 +142,8 @@ abstract class tx_oelib_DataMapper {
 	 * to the "dead" state.
 	 *
 	 * @param tx_oelib_Model the model to fill, must have a UID
-	 * @param boolean whether hidden records should be allowed to be retrieved
 	 */
-	public function load(tx_oelib_Model $model, $allowHidden = false) {
+	public function load(tx_oelib_Model $model) {
 		if (!$model->hasUid()) {
 			throw new Exception(
 				'load must only be called with models that already have a UID.'
@@ -152,31 +151,29 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		try {
-			$model->setData($this->retrieveRecord($model->getUid(), $allowHidden));
+			$model->setData($this->retrieveRecord($model->getUid()));
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$model->markAsDead();
 		}
 	}
 
 	/**
-	 * Reads a record from the database by UID (from this mapper's table).
+	 * Reads a record from the database by UID (from this mapper's table). Also
+	 * hidden records will be retrieved.
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
 	 *
 	 * @param integer the UID of the record to retrieve, must be > 0
-	 * @param boolean whether hidden records should be allowed to be retrieved
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
-	private function retrieveRecord($uid, $allowHidden) {
+	private function retrieveRecord($uid) {
 		try {
 			$data = tx_oelib_db::selectSingle(
 				$this->columns,
 				$this->tableName,
-				'uid = ' . $uid . tx_oelib_db::enableFields(
-					$this->tableName, ($allowHidden ? 1 : -1)
-				)
+				'uid = ' . $uid . tx_oelib_db::enableFields($this->tableName, 1)
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			throw new tx_oelib_Exception_NotFound(
