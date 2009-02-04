@@ -880,36 +880,30 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
-	 * @throws exception if the file does not exist
-	 * @throws exception if the file was not created with the current instance
+	 * @throws Exception if the file was not created with the current instance
 	 *                   of the testing framework
-	 * @throws exception if the file could not be deleted
+	 * @throws Exception if the file could not be deleted
 	 *
 	 * @param string the path to the file to delete relative to
 	 *               $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFile($fileName) {
 		$absolutePathToFile = $this->uploadFolderPath . $fileName;
-
-		if (!file_exists($absolutePathToFile)) {
-			throw new Exception(
-				'The file "' . $absolutePathToFile . '" which you ' .
-					'are trying to delete does not exist.'
-			);
-		}
+		$fileExists = file_exists($absolutePathToFile);
 
 		if (!isset($this->dummyFiles[$fileName])) {
 			throw new Exception(
 				'The file "' . $absolutePathToFile . '" which you ' .
-			 		'are trying to delete was not created by this instance of ' .
-			 		'the testing framework.'
+			 		'are trying to delete ' . (!$fileExists
+			 			? 'does not exist and has never been '
+			 			: 'was not '
+			 		) . 'created by this instance of the testing framework.'
 			);
 		}
 
-		if (!@unlink($absolutePathToFile)) {
+		if ($fileExists && !@unlink($absolutePathToFile)) {
 			throw new Exception(
-				'The file "' . $absolutePathToFile . '" could not ' .
-					'be deleted.'
+				'The file "' . $absolutePathToFile . '" could not be deleted.'
 			);
 		}
 
