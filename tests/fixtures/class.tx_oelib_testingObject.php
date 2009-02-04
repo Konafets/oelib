@@ -84,8 +84,4 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 		parent::checkForNonEmptyKey($key);
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingObject.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_testingObject.php']);
-}
 ?>

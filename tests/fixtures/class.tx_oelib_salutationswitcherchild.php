@@ -132,8 +132,4 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 		return $this->conf['salutation'];
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_salutationswitcherchild.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_salutationswitcherchild.php']);
-}
 ?>

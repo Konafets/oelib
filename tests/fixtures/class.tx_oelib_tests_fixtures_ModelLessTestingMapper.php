@@ -41,8 +41,4 @@ class tx_oelib_tests_fixtures_ModelLessTestingMapper extends tx_oelib_DataMapper
 	 */
 	protected $tableName = 'tx_oelib_test';
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ModelLessTestingMapper.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_tests_fixtures_ModelLessTestingMapper.php']);
-}
 ?>
