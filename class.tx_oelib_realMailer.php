@@ -75,6 +75,23 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 
 		return true;
 	}
+
+	/**
+	 * This function sends an e-mail.
+	 *
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 * @param string headers, separated by linefeed, may be empty
+	 *
+	 * @return boolean true if the e-mail was sent, false otherwise
+	 */
+	public function mail($emailAddress, $subject, $message, $headers = '') {
+		$this->checkParameters($emailAddress, $subject, $message);
+
+		return @mail($emailAddress, $subject, $message, $headers);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_realMailer.php']) {

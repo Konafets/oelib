@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
+
 /**
  * Abstract class 'tx_oelib_abstractMailer' for the 'oelib' extension.
  * This class declares the function sendEmail() for its inheritants. So they
@@ -34,7 +36,9 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 abstract class tx_oelib_abstractMailer {
-	/** whether an e-mail should be formatted before it is sent */
+	/**
+	 * @var boolean whether an e-mail should be formatted before it is sent
+	 */
 	protected $enableFormatting = true;
 
 	/**
@@ -64,6 +68,19 @@ abstract class tx_oelib_abstractMailer {
 	);
 
 	/**
+	 * This function sends an e-mail.
+	 *
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 * @param string headers, separated by linefeed, may be empty
+	 *
+	 * @return boolean true if the e-mail was sent, false otherwise
+	 */
+	public abstract function mail($emailAddress, $subject, $message, $headers = '');
+
+	/**
 	 * Sends an tx_oelib_Mail object.
 	 *
 	 * @param tx_oelib_Mail the tx_oelib_Mail object to send
@@ -73,14 +90,40 @@ abstract class tx_oelib_abstractMailer {
 			throw new Exception('$email must have a sender set.');
 		}
 
-		$eMailBody = $this->formatEmailBody($email->getMessage());
+		$mimeEMail = new Mail_mime();
+		$mimeEMail->setFrom(
+			$mimeEMail->encodeRecipients(
+				$this->formatMailRole($email->getSender())
+			)
+		);
+		$mimeEMail->setTXTBody($this->formatEmailBody($email->getMessage()));
+
+		foreach ($email->getAttachments() as $attachment) {
+			$mimeEMail->addAttachment(
+				$attachment->getContent(),
+				$attachment->getContentType(),
+				$attachment->getFileName(),
+				false,
+				'base64'
+			);
+		}
+
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+
+		$buildParameter = array(
+			'text_encoding' => '8bit',
+			'head_charset' => $characterSet,
+			'text_charset' => $characterSet,
+			'html_charset' => $characterSet,
+		);
 
 		foreach ($email->getRecipients() as $recipient) {
-			$this->sendEmail(
+			$this->mail(
 				$recipient->getEMailAddress(),
 				$email->getSubject(),
-				$eMailBody,
-				'From: ' . $this->formatMailRole($email->getSender())
+				$mimeEMail->get($buildParameter),
+				$mimeEMail->txtHeaders()
 			);
 		}
 	}
@@ -134,6 +177,29 @@ abstract class tx_oelib_abstractMailer {
 
 		return '"'. $mailRole->getName() . '"' .
 			' <' . $mailRole->getEMailAddress() . '>';
+	}
+
+	/**
+	 * Checks that none of the parameters is empty and throws an exception if
+	 * one of them is empty.
+	 *
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 */
+	protected function checkParameters($emailAddress, $subject, $message) {
+		if ($emailAddress == '') {
+			throw new Exception('$emailAddress must not be empty.');
+		}
+
+		if ($subject == '') {
+			throw new Exception('$subject must not be empty.');
+		}
+
+		if ($message == '') {
+			throw new Exception('$message must not be empty.');
+		}
 	}
 }
 

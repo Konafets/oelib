@@ -85,6 +85,23 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	}
 
 	/**
+	 * This function sends an e-mail.
+	 *
+	 * @param string the recipient's e-mail address, will not be
+	 *               validated, must not be empty
+	 * @param string e-mail subject, must not be empty
+	 * @param string message to send, must not be empty
+	 * @param string headers, separated by linefeed, may be empty
+	 *
+	 * @return boolean true if the e-mail was sent, false otherwise
+	 */
+	public function mail($emailAddress, $subject, $message, $headers = '') {
+		$this->checkParameters($emailAddress, $subject, $message);
+
+		return $this->sendEmail($emailAddress, $subject, $message, $headers);
+	}
+
+	/**
 	 * Sets the return value for sendEmail().
 	 *
 	 * @param boolean true if sendEmail() should return true, false otherwise

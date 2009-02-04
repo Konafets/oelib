@@ -22,6 +22,7 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
 
 /**
  * Testcase for the mailer factory class and the e-mail collector class in the
@@ -288,12 +289,26 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+
+		$buildParameter = array(
+			'text_encoding' => '8bit',
+			'head_charset' => $characterSet,
+			'text_charset' => $characterSet,
+			'html_charset' => $characterSet,
+		);
+
+		$mimeEMail = new Mail_mime();
+		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setTXTBody(self::$email['message']);
+
 		$this->assertEquals(
 			array(
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
-				'message' => self::$email['message'],
-				'headers' => 'From: any-sender@email-address.org',
+				'message' => $mimeEMail->get($buildParameter),
+				'headers' => $mimeEMail->txtHeaders(),
 			),
 			$this->fixture->getLastEmail()
 		);
@@ -335,12 +350,26 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+
+		$buildParameter = array(
+			'text_encoding' => '8bit',
+			'head_charset' => $characterSet,
+			'text_charset' => $characterSet,
+			'html_charset' => $characterSet,
+		);
+
+		$mimeEMail = new Mail_mime();
+		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setTXTBody(self::$otherEmail['message']);
+
 		$this->assertEquals(
 			array(
 				'recipient' => self::$otherEmail['recipient'],
 				'subject' => self::$otherEmail['subject'],
-				'message' => self::$otherEmail['message'],
-				'headers' => 'From: any-sender@email-address.org',
+				'message' => $mimeEMail->get($buildParameter),
+				'headers' => $mimeEMail->txtHeaders(),
 			),
 			$this->fixture->getLastEmail()
 		);
@@ -384,19 +413,37 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+
+		$buildParameter = array(
+			'text_encoding' => '8bit',
+			'head_charset' => $characterSet,
+			'text_charset' => $characterSet,
+			'html_charset' => $characterSet,
+		);
+
+		$mimeEMail = new Mail_mime();
+		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setTXTBody(self::$email['message']);
+
+		$otherMimeEMail = new Mail_mime();
+		$otherMimeEMail->setFrom($sender->getEMailAddress());
+		$otherMimeEMail->setTXTBody(self::$otherEmail['message']);
+
 		$this->assertEquals(
 			array(
 				array(
 					'recipient' => self::$email['recipient'],
 					'subject' => self::$email['subject'],
-					'message' => self::$email['message'],
-					'headers' => 'From: any-sender@email-address.org',
+					'message' => $mimeEMail->get($buildParameter),
+					'headers' => $mimeEMail->txtHeaders(),
 				),
 				array(
 					'recipient' => self::$otherEmail['recipient'],
 					'subject' => self::$otherEmail['subject'],
-					'message' => self::$otherEmail['message'],
-					'headers' => 'From: any-sender@email-address.org',
+					'message' => $otherMimeEMail->get($buildParameter),
+					'headers' => $otherMimeEMail->txtHeaders(),
 				),
 			),
 			$this->fixture->getAllEmail()
@@ -419,6 +466,33 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$eMail = new tx_oelib_Mail();
 
 		$this->fixture->send($eMail);
+	}
+
+	/**
+	 * @test
+	 */
+	public function mailWithEmptySenderThrowsException() {
+		$this->setExpectedException('Exception', '$emailAddress must not be empty.');
+
+		$this->fixture->mail('', 'subject', 'message');
+	}
+
+	/**
+	 * @test
+	 */
+	public function mailWithEmptySubjectThrowsException() {
+		$this->setExpectedException('Exception', '$subject must not be empty.');
+
+		$this->fixture->mail('john@doe.com', '', 'message');
+	}
+
+	/**
+	 * @test
+	 */
+	public function mailWithEmptyMessageThrowsException() {
+		$this->setExpectedException('Exception', '$message must not be empty.');
+
+		$this->fixture->mail('john@doe.com', 'subject', '');
 	}
 
 
