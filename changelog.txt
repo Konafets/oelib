@@ -1,4 +1,5 @@
 0.5.2 - currently working on
+- [#2642] Fix: Login fails with TYPO3 4.2.5
 - [#2451] Fix: Undefined variable in createRelationAndUpdateCounter
 - [#2494] Change: The autoloader should include the constants
 

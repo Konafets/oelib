@@ -1236,7 +1236,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		return (boolean) $GLOBALS['TSFE']->loginUser;
+		return is_array($GLOBALS['TSFE']->fe_user->user);
 	}
 
 

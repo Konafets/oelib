@@ -1189,7 +1189,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return boolean true if a user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
-		return ((boolean) $GLOBALS['TSFE']) && ((boolean) $GLOBALS['TSFE']->loginUser);
+		return ((boolean) $GLOBALS['TSFE'])
+			&& is_array($GLOBALS['TSFE']->fe_user->user);
 	}
 
 	/**
