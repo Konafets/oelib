@@ -37,10 +37,10 @@
  */
 abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
-	 * @var integer a status indicating that this model has neither data nur UID
+	 * @var integer a status indicating that this model has neither data nor UID
 	 *              yet
 	 */
-	const STATUS_EMPTY = 0;
+	const STATUS_VIRGIN = 0;
 	/**
 	 * @var integer a status indicating that this model's data has not been
 	 *              loaded yet (lazily), but that the model already has a UID
@@ -74,10 +74,10 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	private $data = array();
 
 	/**
-	 * @var integer this model's load status, will be STATUS_EMTPY,
+	 * @var integer this model's load status, will be STATUS_VIRGIN,
 	 *              STATUS_GHOST, STATUS_LOADING or STATUS_LOADED
 	 */
-	private $loadStatus = self::STATUS_EMPTY;
+	private $loadStatus = self::STATUS_VIRGIN;
 
 	/**
 	 * @var array the callback function that fills this model with data
@@ -153,7 +153,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 				'The UID of a model cannot be set a second time.'
 			);
 		}
-		if ($this->isEmpty()) {
+		if ($this->isVirgin()) {
 			$this->loadStatus = self::STATUS_GHOST;
 		}
 
@@ -242,7 +242,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Makes sure this model has some data by loading the data for ghost models.
 	 */
 	private function load() {
-		if ($this->isEmpty()) {
+		if ($this->isVirgin()) {
 			throw new Exception(
 				'Please call setData() directly after instantiation first.'
 			);
@@ -281,12 +281,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
-	 * Checks whether this model is a empty (has neither data nor UID).
+	 * Checks whether this is a virgin model (which has neither data nor UID).
 	 *
-	 * @return boolean true if this model is empty, false otherwise
+	 * @return boolean true if this is a virgin model, false otherwise
 	 */
-	public function isEmpty() {
-		return ($this->loadStatus == self::STATUS_EMPTY);
+	public function isVirgin() {
+		return ($this->loadStatus == self::STATUS_VIRGIN);
 	}
 
 	/**

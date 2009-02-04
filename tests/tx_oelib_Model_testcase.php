@@ -281,9 +281,9 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	// Tests concerning the model states
 	//////////////////////////////////////
 
-	public function testInitiallyHasEmptyState() {
+	public function testInitiallyHasVirginState() {
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->fixture->isVirgin()
 		);
 	}
 
