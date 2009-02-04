@@ -49,9 +49,19 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	private $data = array();
 
 	/**
+	 * @var array attachments of the e-mail
+	 */
+	private $attachments = array();
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		foreach ($this->attachments as $key => $attachment) {
+			$attachment->__destruct();
+			unset($this->attachments[$key]);
+		}
+
 		unset($this->data, $this->sender, $this->recipients);
 	}
 
@@ -169,6 +179,24 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	public function getMessage() {
 		return $this->getAsString('message');
+	}
+
+	/**
+	 * Adds an attachment to the e-mail.
+	 *
+	 * @param tx_oelib_Attachment the attachment to add
+	 */
+	public function addAttachment(tx_oelib_Attachment $attachment) {
+		$this->attachments[] = $attachment;
+	}
+
+	/**
+	 * Returns the attachments of the e-mail.
+	 *
+	 * @return array the attachments of the e-mail, might be empty
+	 */
+	public function getAttachments() {
+		return $this->attachments;
 	}
 }
 

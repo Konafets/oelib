@@ -76,7 +76,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 
 	////////////////////////////////////////////////////////
-	// Tests regarding setting and getting the recipients.
+	// Tests regarding adding and getting the recipients.
 	////////////////////////////////////////////////////////
 
 	public function testGetRecipientsInitiallyReturnsEmptyArray() {
@@ -202,6 +202,59 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->setMessage('');
+	}
+
+
+	////////////////////////////////////////////////////
+	// Tests regarding adding and getting attachments.
+	////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getAttachmentsInitiallyReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAttachments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAttachmentsWithOneAttachmentReturnsOneAttachment() {
+		$attachment = new tx_oelib_Attachment();
+		$attachment->setFileName('test.txt');
+		$attachment->setContentType('text/plain');
+		$attachment->setContent('Test');
+		$this->fixture->addAttachment($attachment);
+
+		$this->assertEquals(
+			array($attachment),
+			$this->fixture->getAttachments()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAttachmentsWithTwoAttachmentsReturnsTwoAttachments() {
+		$attachment = new tx_oelib_Attachment();
+		$attachment->setFileName('test.txt');
+		$attachment->setContentType('text/plain');
+		$attachment->setContent('Test');
+		$this->fixture->addAttachment($attachment);
+
+		$otherAttachment = new tx_oelib_Attachment();
+		$otherAttachment->setFileName('second_test.txt');
+		$otherAttachment->setContentType('text/plain');
+		$otherAttachment->setContent('Second Test');
+		$this->fixture->addAttachment($otherAttachment);
+
+		$this->assertEquals(
+			array($attachment, $otherAttachment),
+			$this->fixture->getAttachments()
+		);
 	}
 }
 ?>
