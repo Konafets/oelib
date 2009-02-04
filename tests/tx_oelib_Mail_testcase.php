@@ -74,6 +74,32 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		$sender->__destruct();
 	}
 
+	/**
+	 * @test
+	 */
+	public function hasSenderInitiallyReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasSender()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasSenderWithSenderReturnsTrue() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'John Doe', 'foo@bar.com'
+		);
+
+		$this->fixture->setSender($sender);
+
+		$this->assertTrue(
+			$this->fixture->hasSender()
+		);
+
+		$sender->__destruct();
+	}
+
 
 	////////////////////////////////////////////////////////
 	// Tests regarding adding and getting the recipients.

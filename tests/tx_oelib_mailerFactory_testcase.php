@@ -410,6 +410,17 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		unset($sender, $recipient, $eMail, $otherRecipient, $otherEMail);
 	}
 
+	/**
+	 * @test
+	 */
+	public function sendWithoutSenderThrowsException() {
+		$this->setExpectedException('Exception', '$email must have a sender set.');
+
+		$eMail = new tx_oelib_Mail();
+
+		$this->fixture->send($eMail);
+	}
+
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.

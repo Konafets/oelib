@@ -69,17 +69,18 @@ abstract class tx_oelib_abstractMailer {
 	 * @param tx_oelib_Mail the tx_oelib_Mail object to send
 	 */
 	public function send(tx_oelib_Mail $email) {
-		$sender = ($email->getSender() != '') ?
-			'From: ' . $this->formatMailRole($email->getSender()) : '';
+		if (!$email->hasSender()) {
+			throw new Exception('$email must have a sender set.');
+		}
 
 		$eMailBody = $this->formatEmailBody($email->getMessage());
 
 		foreach ($email->getRecipients() as $recipient) {
 			$this->sendEmail(
-				$this->formatMailRole($recipient),
+				$recipient->getEMailAddress(),
 				$email->getSubject(),
 				$eMailBody,
-				$sender
+				'From: ' . $this->formatMailRole($email->getSender())
 			);
 		}
 	}

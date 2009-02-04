@@ -111,6 +111,15 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	}
 
 	/**
+	 * Returns whether the e-mail has a sender.
+	 *
+	 * @return boolean true if the e-mail has a sender, false otherwise
+	 */
+	public function hasSender() {
+		return is_object($this->sender);
+	}
+
+	/**
 	 * Adds a recipient for the e-mail.
 	 *
 	 * @param tx_oelib_Interface_MailRole a recipient for the e-mail, must not be empty
