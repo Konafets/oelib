@@ -2766,12 +2766,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(file_exists($dummyFile));
 	}
 
+	public function testDeleteDummyFileWithAlreadyDeletedFileThrowsNoException() {
+		$dummyFile = $this->fixture->createDummyFile();
+		unlink($dummyFile);
+
+		$this->fixture->deleteDummyFile(basename($dummyFile));
+	}
+
 	public function testDeleteDummyFileWithInexistentFileThrowsException() {
 		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 
 		$this->setExpectedException(
 			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
-				'trying to delete does not exist.'
+				'trying to delete does not exist and has never been created by ' .
+				'this instance of the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFile(basename($uniqueFileName));
