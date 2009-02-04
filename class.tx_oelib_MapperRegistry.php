@@ -75,6 +75,9 @@ class tx_oelib_MapperRegistry {
 	 * instance.
 	 */
 	public static function purgeInstance() {
+		if (self::$instance) {
+			self::$instance->__destruct();
+		}
 		self::$instance = null;
 	}
 

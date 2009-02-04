@@ -46,7 +46,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
+		tx_oelib_headerProxyFactory::purgeInstance();
 		unset($this->fixture);
 	}
 
@@ -59,13 +59,35 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 
 	public function testGetHeaderProxyInNonTestMode() {
 		// new instances always have a disabled test mode
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
+		tx_oelib_headerProxyFactory::purgeInstance();
 
 		$this->assertEquals(
 			'tx_oelib_realHeaderProxy',
 			get_class(tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy())
 		);
 	}
+
+	public function testGetHeaderProxyInSameModeAfterPurgeInstanceReturnsNewInstance() {
+		tx_oelib_headerProxyFactory::purgeInstance();
+		$instance = tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy();
+		tx_oelib_headerProxyFactory::purgeInstance();
+
+		$this->assertNotSame(
+			$instance,
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+		);
+	}
+
+	public function testGetHeaderProxyInSameModeAfterDiscardInstanceReturnsNewInstance() {
+		tx_oelib_headerProxyFactory::purgeInstance();
+		$instance = tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy();
+		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
+
+		$this->assertNotSame(
+			$instance,
+			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
+		);
+			}
 
 	public function testGetHeaderProxyReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
 		$this->assertSame(
@@ -76,7 +98,7 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 
 	public function testGetHeaderProxyNotReturnsTheSameObjectWhenCalledInTheSameClassInAnotherMode() {
 		// new instances always have a disabled test mode
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
+		tx_oelib_headerProxyFactory::purgeInstance();
 
 		$this->assertNotSame(
 			$this->fixture,

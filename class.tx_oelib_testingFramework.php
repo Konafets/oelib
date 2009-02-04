@@ -754,6 +754,11 @@ final class tx_oelib_testingFramework {
 		$this->cleanUpFiles();
 		$this->cleanUpFolders();
 		$this->discardFakeFrontEnd();
+
+		tx_oelib_headerProxyFactory::purgeInstance();
+		tx_oelib_mailerFactory::purgeInstance();
+		tx_oelib_MapperRegistry::purgeInstance();
+		tx_oelib_Session::purgeInstances();
 	}
 
 	/**

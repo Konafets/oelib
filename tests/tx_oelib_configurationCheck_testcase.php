@@ -52,6 +52,8 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
+		$this->objectToCheck->__destruct();
+
 		unset($this->fixture, $this->objectToCheck);
 	}
 

@@ -58,7 +58,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	protected function tearDown() {
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
+		tx_oelib_mailerFactory::purgeInstance();
 		unset($this->fixture);
 	}
 
@@ -71,7 +71,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 	public function testGetMailerInNonTestMode() {
 		// initially, the test mode is disabled
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
+		tx_oelib_mailerFactory::purgeInstance();
 
 		$this->assertEquals(
 			'tx_oelib_realMailer',
@@ -86,8 +86,18 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetMailerNotReturnsTheSameObjectWhenTheInstanceWasDiscarded() {
+	public function testGetMailerAfterPurgeInstanceReturnsNewObject() {
+		tx_oelib_mailerFactory::purgeInstance();
+
+		$this->assertNotSame(
+			$this->fixture,
+			tx_oelib_mailerFactory::getInstance()->getMailer()
+		);
+	}
+
+	public function testGetMailerAfterDiscardInstanceReturnsNewObject() {
 		tx_oelib_mailerFactory::getInstance()->discardInstance();
+
 		$this->assertNotSame(
 			$this->fixture,
 			tx_oelib_mailerFactory::getInstance()->getMailer()

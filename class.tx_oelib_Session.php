@@ -142,6 +142,11 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 * instances.
 	 */
 	public static function purgeInstances() {
+		foreach (self::$instances as $key => $instance) {
+			$instance->__destruct();
+			unset(self::$instances[$key]);
+		}
+
 		self::$instances = array();
 	}
 

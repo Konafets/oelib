@@ -60,8 +60,10 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 
-	public function testGetInstance() {
-		$this->assertTrue(is_object($this->fixture));
+	public function testGetInstanceReturnsObject() {
+		$this->assertTrue(
+			is_object($this->fixture)
+		);
 	}
 
 	public function testGetInstanceThrowsExeptionIfNoExtensionKeyGiven() {

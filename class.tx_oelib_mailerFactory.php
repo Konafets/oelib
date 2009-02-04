@@ -36,19 +36,32 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_mailerFactory {
-	/** the singleton factory */
+	/**
+	 * @var tx_oelib_mailerFactory the singleton factory
+	 */
 	private static $instance = null;
 
-	/** whether the test mode is set */
+	/**
+	 * @var boolean whether the test mode is set
+	 */
 	private $isTestMode = false;
 
-	/** the mailer object */
+	/**
+	 * @var tx_oelib_abstractMailer the mailer
+	 */
 	private $mailer = null;
 
 	/**
 	 * Don't call this constructor; use getInstance() instead.
 	 */
 	private function __construct() {
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->mailer);
 	}
 
 	/**
@@ -88,11 +101,21 @@ class tx_oelib_mailerFactory {
 
 	/**
 	 * Discards the current mailer instance.
+	 *
+	 * @deprecated 2009-02-04 use purgeInstance instead
 	 */
 	public function discardInstance() {
-		// Returns all member variables to their initial states.
-		$this->mailer = null;
-		$this->isTestMode = false;
+		self::purgeInstance();
+	}
+
+	/**
+	 * Purges the current instance so that getInstance will create a new
+	 * instance.
+	 */
+	public static function purgeInstance() {
+		if (self::$instance) {
+			self::$instance->__destruct();
+		}
 		self::$instance = null;
 	}
 

@@ -40,8 +40,6 @@ class tx_oelib_Session_testcase  extends tx_phpunit_testcase {
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
-
-		tx_oelib_Session::purgeInstances();
 	}
 
 	public function tearDown() {

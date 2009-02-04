@@ -52,6 +52,13 @@ class tx_oelib_headerProxyFactory {
 	}
 
 	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
+		unset($this->headerProxy);
+	}
+
+	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
 	 * @return tx_oelib_headerProxyFactory the singleton factory
@@ -88,11 +95,21 @@ class tx_oelib_headerProxyFactory {
 
 	/**
 	 * Discards the current header proxy instance.
+	 *
+	 * @deprecated 2009-02-04 use purgeInstance instead
 	 */
 	public function discardInstance() {
-		// Returns all member variables to their initial states.
-		$this->headerProxy = null;
-		$this->isTestMode = false;
+		self::purgeInstance();
+	}
+
+	/**
+	 * Purges the current instance so that getInstance will create a new
+	 * instance.
+	 */
+	public static function purgeInstance() {
+		if (self::$instance) {
+			self::$instance->__destruct();
+		}
 		self::$instance = null;
 	}
 
