@@ -96,7 +96,14 @@ abstract class tx_oelib_abstractMailer {
 				$this->formatMailRole($email->getSender())
 			)
 		);
-		$mimeEMail->setTXTBody($this->formatEmailBody($email->getMessage()));
+
+		if ($email->hasMessage()) {
+			$mimeEMail->setTXTBody($this->formatEmailBody($email->getMessage()));
+		}
+
+		if ($email->hasHTMLMessage()) {
+			$mimeEMail->setHTMLBody($email->getHTMLMessage());
+		}
 
 		foreach ($email->getAttachments() as $attachment) {
 			$mimeEMail->addAttachment(

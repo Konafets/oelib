@@ -471,6 +471,49 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function sendWithHTMLMessage() {
+		$htmlMessage = '<h1>Very cool HTML message</h1>' . CRLF .
+			'<p>Great to have HTML e-mails in oelib.</p>';
+
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setHTMLMessage($htmlMessage);
+
+		$this->fixture->send($eMail);
+
+		$this->assertEquals(
+			array(
+				'recipient' => self::$email['recipient'],
+				'subject' => self::$email['subject'],
+				'message' => '<h1>Very cool HTML message</h1>' . CRLF . CRLF.
+					'<p>Great to have HTML e-mails in oelib.</p>',
+				'headers' => 'MIME-Version: 1.0' . CRLF .
+					'From: any-sender@email-address.org' . CRLF .
+					'Content-Transfer-Encoding: quoted-printable' . CRLF .
+					'Content-Type: text/html; charset="utf-8"' . CRLF,
+			),
+			$this->fixture->getLastEmail()
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+		unset($sender, $recipient, $eMail);
+	}
+
+	/**
+	 * @test
+	 */
 	public function mailWithEmptySenderThrowsException() {
 		$this->setExpectedException('Exception', '$emailAddress must not be empty.');
 

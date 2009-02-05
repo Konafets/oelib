@@ -191,6 +191,47 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	}
 
 	/**
+	 * Returns whether the e-mail has a message.
+	 *
+	 * @return boolean true if the e-mail has a message, false otherwise
+	 */
+	public function hasMessage() {
+		return $this->hasString('message');
+	}
+
+	/**
+	 * Sets the HTML message of the e-mail.
+	 *
+	 * @param string the HTML message of the e-mail, must not be empty
+	 */
+	public function setHTMLMessage($message) {
+		if ($message == '') {
+			throw new Exception('$message must not be empty.');
+		}
+
+		$this->setAsString('html_message', $message);
+	}
+
+	/**
+	 * Returns the HTML message of the e-mail.
+	 *
+	 * @return string the HTML message of the e-mail, will be empty if the
+	 *                message has not been set
+	 */
+	public function getHTMLMessage() {
+		return $this->getAsString('html_message');
+	}
+
+	/**
+	 * Returns whether the e-mail has an HTML message.
+	 *
+	 * @return string true if the e-mail has an HTML message, false otherwise
+	 */
+	public function hasHTMLMessage() {
+		return $this->hasString('html_message');
+	}
+
+	/**
 	 * Adds an attachment to the e-mail.
 	 *
 	 * @param tx_oelib_Attachment the attachment to add

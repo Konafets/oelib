@@ -230,6 +230,83 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		$this->fixture->setMessage('');
 	}
 
+	/**
+	 * @test
+	 */
+	public function hasMessageInitiallyReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasMessage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasMessageWithMessageReturnsTrue() {
+		$this->fixture->setMessage('test');
+
+		$this->assertTrue(
+			$this->fixture->hasMessage()
+		);
+	}
+
+
+	//////////////////////////////////////////////////////////
+	// Tests regarding setting and getting the HTML message.
+	//////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getHTMLMessageInitiallyReturnsEmptyString() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getHTMLMessage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getHTMLMessageWithNonEmptyMessageReturnsMessage() {
+		$this->fixture->setHTMLMessage('test message');
+
+		$this->assertEquals(
+			'test message',
+			$this->fixture->getHTMLMessage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setHTMLMessageWithEmptyMessageThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$message must not be empty.'
+		);
+
+		$this->fixture->setHTMLMessage('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasHTMLMessageInitiallyReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasHTMLMessage()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasHTMLMessageWithHTMLMessageReturnsTrue() {
+		$this->fixture->setHTMLMessage('<p>test</p>');
+
+		$this->assertTrue(
+			$this->fixture->hasHTMLMessage()
+		);
+	}
 
 	////////////////////////////////////////////////////
 	// Tests regarding adding and getting attachments.
