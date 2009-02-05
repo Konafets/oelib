@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2662] Fix: Include of the FE class fails if tslib is not defined
 - [#2530] Feature: Enhance the mailer classes to also send HTML e-mails
 - [#2664] Feature: Add dataMapper::getNewGhost
 - [#2457] Feature: Add foreign key mapping

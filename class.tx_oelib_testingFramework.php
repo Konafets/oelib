@@ -24,7 +24,7 @@
 
 // In the back end, PATH_tslib isn't defined yet.
 if (!defined('PATH_tslib')) {
-	define('PATH_tslib', t3lib_extMgm::extPath('cms') . 'tslib/');
+	require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 }
 
 require_once(PATH_t3lib . 'class.t3lib_timetrack.php');

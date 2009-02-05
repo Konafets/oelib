@@ -22,6 +22,11 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+// In the back end, PATH_tslib isn't defined yet.
+if (!defined('PATH_tslib')) {
+	define('PATH_tslib', t3lib_extMgm::extPath('cms') . 'tslib/');
+}
+
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
