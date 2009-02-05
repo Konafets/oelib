@@ -33,11 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
-	public function testLoadWithEmptyStringThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$className must not be empty.'
-		);
-
+	public function testLoadWithEmptyStringDoesNotFail() {
 		tx_oelib_Autoloader::load('');
 	}
 
