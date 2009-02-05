@@ -45,13 +45,13 @@ class tx_oelib_Autoloader {
 	/**
 	 * Tries to load a class by class name.
 	 *
-	 * @param string the name of the class to load, must not be empty
+	 * @param string the name of the class to load, may be empty
 	 *
 	 * @return boolean true if the class could be loaded, false otherwise
 	 */
 	public static function load($className) {
 		if ($className == '') {
-			throw new Exception('$className must not be empty.');
+			return false;
 		}
 
 		if (class_exists($className, false)
