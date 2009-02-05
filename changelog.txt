@@ -1,4 +1,4 @@
-0.5.2 - currently working on
+0.5.2 - released 2009-02-05
 - [#2659] Fix: Autoloader should not bail out on an empty class name
 - [#2662] Fix: Include of the FE class fails if tslib is not defined
 - [#2217] Fix: tx_oelib_testingFramework::cleanUp() must not fail if a file created by the testing framework does not exist
