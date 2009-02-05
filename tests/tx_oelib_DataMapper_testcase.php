@@ -408,5 +408,37 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)->getFriend()->getUid()
 		);
 	}
+
+
+	/////////////////////////////////
+	// Tests concerning getNewGhost
+	/////////////////////////////////
+
+	public function testGetNewGhostReturnsModel() {
+		$this->assertTrue(
+			$this->fixture->getNewGhost() instanceof tx_oelib_Model
+		);
+	}
+
+	public function testGetNewGhostReturnsGhost() {
+		$this->assertTrue(
+			$this->fixture->getNewGhost()->isGhost()
+		);
+	}
+
+	public function testGetNewGhostReturnsModelWithUid() {
+		$this->assertTrue(
+			$this->fixture->getNewGhost()->hasUid()
+		);
+	}
+
+	public function testGetNewGhostCreatesRegisteredGhost() {
+		$ghost = $this->fixture->getNewGhost();
+
+		$this->assertSame(
+			$ghost,
+			$this->fixture->find($ghost->getUid())
+		);
+	}
 }
 ?>

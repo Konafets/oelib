@@ -40,6 +40,11 @@ class tx_oelib_IdentityMap {
 	protected $items = array();
 
 	/**
+	 * @var integer the highest used UID
+	 */
+	private $highestUid = 0;
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -64,6 +69,7 @@ class tx_oelib_IdentityMap {
 		}
 
 		$this->items[$model->getUid()] = $model;
+		$this->highestUid = max($this->highestUid, $model->getUid());
 	}
 
 	/**
@@ -91,6 +97,16 @@ class tx_oelib_IdentityMap {
 		}
 
 		return $this->items[$uid];
+	}
+
+	/**
+	 * Gets a UID that has not been used in the map before and that is greater
+	 * than the greatest used UID.
+	 *
+	 * @return integer a new UID, will be > 0
+	 */
+	public function getNewUid() {
+		return $this->highestUid + 1;
 	}
 }
 

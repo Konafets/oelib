@@ -108,7 +108,6 @@ abstract class tx_oelib_DataMapper {
 			$model = $this->map->get($uid);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$model = $this->createGhost($uid);
-			$this->map->add($model);
 		}
 
 		return $model;
@@ -200,7 +199,7 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Creates a new ghost model with the UID $uid.
+	 * Creates a new ghost model with the UID $uid and registers it.
 	 *
 	 * @return tx_oelib_Model a ghost model with the UID $uid
 	 */
@@ -208,8 +207,21 @@ abstract class tx_oelib_DataMapper {
 		$model = t3lib_div::makeInstance($this->modelClassName);
 		$model->setUid($uid);
 		$model->setLoadCallback(array($this, 'load'));
+		$this->map->add($model);
 
 		return $model;
+	}
+
+	/**
+	 * Creates a new registered ghost with a UID that has not been used in this
+	 * data mapper yet.
+	 *
+	 * Note: The UID is not guaranteed to be unused in the database.
+	 *
+	 * @return tx_oelib_Model a new ghost
+	 */
+	public function getNewGhost() {
+		return $this->createGhost($this->map->getNewUid());
 	}
 }
 

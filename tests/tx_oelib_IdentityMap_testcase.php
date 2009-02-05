@@ -132,5 +132,57 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->get(42);
 	}
+
+
+	///////////////////////////////
+	// Tests concerning getNewUid
+	///////////////////////////////
+
+	public function testGetNewUidForEmptyMapReturnsOne() {
+		$this->assertEquals(
+			1,
+			$this->fixture->getNewUid()
+		);
+	}
+
+	public function testGetNewUidForNonEmptyMapReturnsUidNotInMap() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound'
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(1);
+		$this->fixture->add($model);
+
+		$newUid = $this->fixture->getNewUid();
+
+		$this->fixture->get($newUid);
+	}
+
+	public function testGetNewUidForNonEmptyMapReturnsUidGreaterThanGreatestUid() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(42);
+		$this->fixture->add($model);
+
+		$this->assertGreaterThan(
+			42,
+			$this->fixture->getNewUid()
+		);
+	}
+
+	public function testGetNewUidForMapWithTwoItemsInReverseOrderReturnsUidGreaterThanTheGreatesUid() {
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$model2->setUid(2);
+		$this->fixture->add($model2);
+
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$model1->setUid(1);
+		$this->fixture->add($model1);
+
+		$this->assertGreaterThan(
+			2,
+			$this->fixture->getNewUid()
+		);
+	}
 }
 ?>

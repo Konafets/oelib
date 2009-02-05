@@ -67,7 +67,6 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 			// the DB again.
 			$model = $this->createGhost($uid);
 			$model->setData($data);
-			$this->map->add($model);
 		}
 
 		return $model;
