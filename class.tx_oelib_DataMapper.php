@@ -151,10 +151,24 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		try {
-			$model->setData($this->retrieveRecord($model->getUid()));
+			$data = $this->retrieveRecord($model->getUid());
+			$this->createRelations($data);
+			$model->setData($data);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$model->markAsDead();
 		}
+	}
+
+	/**
+	 * Processes a model's data and creates any relations that are hidden within
+	 * it using foreign key mapping.
+	 *
+	 * This function is intended to be overwritten in derived classes if
+	 * necessary.
+	 *
+	 * @param array the model data to process, might be modified
+	 */
+	protected function createRelations(array &$data) {
 	}
 
 	/**

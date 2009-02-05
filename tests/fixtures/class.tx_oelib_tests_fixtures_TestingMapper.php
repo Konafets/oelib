@@ -53,5 +53,19 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	public function setMap(tx_oelib_IdentityMap $map) {
 		$this->map = $map;
 	}
+
+	/**
+	 * Processes a model's data and creates any relations that are hidden within
+	 * it using foreign key mapping.
+	 *
+	 * @param array the model data to process, will be modified
+	 */
+	protected function createRelations(array &$data) {
+		$friendUid = intval($data['friend']);
+
+		$data['friend'] = ($friendUid > 0)
+			? $this->find($friendUid)
+			: null;
+	}
 }
 ?>

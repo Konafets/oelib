@@ -223,13 +223,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	protected function getAsModel($key) {
 		$this->checkForNonEmptyKey($key);
-		if (!$this->existsKey($key)) {
+		$result = $this->get($key);
+		if (!$this->existsKey($key) || $result === null) {
 			return null;
 		}
 
-		$result = $this->get($key);
-
-		if (($result !== null) && (!$result instanceof tx_oelib_Model)) {
+		if (!$result instanceof tx_oelib_Model) {
 			throw new Exception(
 				'The data item for the key "' . $key . '" is no model instance.'
 			);

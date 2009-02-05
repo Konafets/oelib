@@ -77,5 +77,16 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function getAsModel($key) {
 		return parent::getAsModel($key);
 	}
+
+	/**
+	 * Gets the "friend" data item.
+	 *
+	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
+	 *                                              will be null if this model
+	 *                                              has no friend
+	 */
+	public function getFriend() {
+		return $this->getAsModel('friend');
+	}
 }
 ?>

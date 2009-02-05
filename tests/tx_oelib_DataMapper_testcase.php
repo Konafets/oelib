@@ -358,5 +358,55 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->existsModel($uid, true)
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Test concerning the foreign key mapping
+	////////////////////////////////////////////
+
+	public function testRelatedRecordWithZeroUidIsNull() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertNull(
+			$this->fixture->find($uid)->getFriend()
+		);
+	}
+
+	public function testRelatedRecordWithExistingUidReturnsRelatedRecord() {
+		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('friend' => $friendUid)
+		);
+
+		$this->assertEquals(
+			$friendUid,
+			$this->fixture->find($uid)->getFriend()->getUid()
+		);
+	}
+
+	public function testRelatedRecordWithExistingUidReturnsRelatedRecordThatCanBeLoaded() {
+		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('friend' => $friendUid)
+		);
+
+		$this->fixture->find($uid)->getFriend()->getTitle();
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getFriend()->isLoaded()
+		);
+	}
+
+	public function testRelatedRecordWithInexistentUidReturnsRelatedRecordAsGhost() {
+		$friendUid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('friend' => $friendUid)
+		);
+
+		$this->assertEquals(
+			$friendUid,
+			$this->fixture->find($uid)->getFriend()->getUid()
+		);
+	}
 }
 ?>
