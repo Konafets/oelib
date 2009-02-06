@@ -129,5 +129,19 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLoggedInUser()
 		);
 	}
+
+	public function testGetLoggedInUserUsesUserDataFromMemory() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'John Doe')
+		);
+
+		$GLOBALS['TSFE']->fe_user->user['name'] = 'Jane Doe';
+
+		$this->assertEquals(
+			'Jane Doe',
+			$this->fixture->getLoggedInUser()->getName()
+		);
+	}
 }
 ?>

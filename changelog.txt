@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2658] Change: Add more tests for the mappers and model
 - [#2626] Feature: Add a pageFinder class
 - [#2663] Feature: Create a model and mapper FrontEndUserGroup
 - [#2659] Fix: Autoloader should not bail out on an empty class name

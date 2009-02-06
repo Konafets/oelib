@@ -191,6 +191,10 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->load();
+		if ($this->isDead()) {
+			throw new Exception('This model is dead and cannot have any data.');
+		}
+
 		if (!$this->existsKey($key)) {
 			return '';
 		}

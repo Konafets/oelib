@@ -124,8 +124,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
-		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+	public function testFindWithUidReturnsModelWithThatUid() {
+		$uid = 42;
 
 		$this->assertEquals(
 			$uid,
@@ -144,8 +144,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidOfExistingRecordCalledTwoTimesReturnsSameModel() {
-		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+	public function testFindWithUidCalledTwoTimesReturnsSameModel() {
+		$uid = 42;
 
 		$this->assertEquals(
 			$this->fixture->find($uid),
@@ -181,11 +181,13 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			'foo',
 			$model->getTitle()
 		);
+
+		$model->__destruct();
 	}
 
 	public function testLoadWithModelWithExistingUidOfHiddenRecordMarksModelAsLoaded() {
 		$uid = $this->testingFramework->createRecord(
-			'tx_oelib_test', array('title' => 'foo', 'hidden' => 1)
+			'tx_oelib_test', array('hidden' => 1)
 		);
 
 		$model = new tx_oelib_tests_fixtures_TestingModel();
@@ -195,6 +197,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$model->isLoaded()
 		);
+
+		$model->__destruct();
 	}
 
 
@@ -203,14 +207,14 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////
 
 	public function testFindInitiallyReturnsGhostModel() {
-		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = 42;
 
 		$this->assertTrue(
 			$this->fixture->find($uid)->isGhost()
 		);
 	}
 
-	public function testFindAndAccessingDataMakesModelLoaded() {
+	public function testFindAndAccessingDataLoadsModel() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -221,7 +225,28 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadWithModelWithExistingUidMarksModelAsLoaded() {
+	public function testIsHiddenOnGhostInDatabaseLoadsModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$model = $this->fixture->find($uid);
+		$model->isHidden();
+
+		$this->assertTrue(
+			$model->isLoaded()
+		);
+	}
+
+	public function testIsHiddenOnGhostNotInDatabaseThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'This model is dead and cannot have any data.'
+		);
+
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$this->fixture->find($uid)->isHidden();
+	}
+
+	public function testLoadWithModelWithExistingUidLoadsModel() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -233,6 +258,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$model->isLoaded()
 		);
+
+		$model->__destruct();
 	}
 
 	public function testLoadWithModelWithInexistentUidMarksModelAsDead() {
@@ -245,6 +272,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$model->isDead()
 		);
+
+		$model->__destruct();
 	}
 
 

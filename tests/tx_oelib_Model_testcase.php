@@ -98,7 +98,7 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenReturnsTrueForHiddenObject() {
+	public function testIsHiddenForLoadedHiddenObjectReturnsTrue() {
 		$this->fixture->setData(
 			array('hidden' => 1)
 		);
@@ -108,7 +108,7 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenReturnsFalseForNonHiddenObject() {
+	public function testIsHiddenForLoadedNonHiddenObjectReturnsFalse() {
 		$this->fixture->setData(
 			array('hidden' => 0)
 		);
@@ -336,6 +336,29 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setUid(1);
 		$this->fixture->getTitle();
+	}
+
+	public function testGetOnDeadModelThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'This model is dead and cannot have any data.'
+		);
+
+		$this->fixture->markAsDead();
+		$this->fixture->getTitle();
+	}
+
+	public function testGetUidOnDeadModelDoesNotFail() {
+		$this->fixture->markAsDead();
+		$this->fixture->getUid();
+	}
+
+	public function testIsHiddenOnDeadModelThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'This model is dead and cannot have any data.'
+		);
+
+		$this->fixture->markAsDead();
+		$this->fixture->isHidden();
 	}
 }
 ?>
