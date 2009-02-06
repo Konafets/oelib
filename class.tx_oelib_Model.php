@@ -126,6 +126,13 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 			unset($this->data['uid']);
 		}
 
+		$this->markAsLoaded();
+	}
+
+	/**
+	 * Marks this model as "loaded", ie. that it has some real data.
+	 */
+	protected function markAsLoaded() {
 		$this->loadStatus = self::STATUS_LOADED;
 	}
 
@@ -169,7 +176,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
 
-		$this->loadStatus = self::STATUS_LOADED;
+		$this->markAsLoaded();
 	}
 
 	/**
