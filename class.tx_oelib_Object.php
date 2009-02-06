@@ -154,13 +154,7 @@ abstract class tx_oelib_Object {
 	 * @return array the array value of the given key, may be empty
 	 */
 	protected function getAsTrimmedArray($key) {
-		$stringValue = $this->getAsString($key);
-
-		if ($stringValue == '') {
-			return array();
-		}
-
-		return t3lib_div::trimExplode(',', $stringValue);
+		return t3lib_div::trimExplode(',', $this->getAsString($key), true);
 	}
 
 	/**
