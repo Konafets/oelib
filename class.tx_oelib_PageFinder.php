@@ -37,6 +37,11 @@ class tx_oelib_PageFinder {
 	private static $instance = null;
 
 	/**
+	 * @var integer the manually set page UID
+	 */
+	private $storedPageUid = 0;
+
+	/**
 	 * Don't call this constructor; use getInstance instead.
 	 */
 	private function __construct() {
@@ -71,6 +76,43 @@ class tx_oelib_PageFinder {
 		}
 
 		self::$instance = null;
+	}
+
+	/**
+	 * Returns the UID of the current page.
+	 *
+	 * Will start with looking into the manually set page UID, then if a FE
+	 * page UID is present and finally if a BE page UID is present.
+	 *
+	 * @return integer the ID of the current page, will be zero if no page is
+	 *                 present
+	 */
+	public function getPageUid() {
+		if ($this->storedPageUid > 0) {
+			$result =  $this->storedPageUid;
+		} elseif (is_object($GLOBALS['TSFE']) && ($GLOBALS['TSFE']->id > 0)) {
+			$result = $GLOBALS['TSFE']->id;
+		} elseif (intval(t3lib_div::_GP('id')) > 0) {
+			$result = intval(t3lib_div::_GP('id'));
+		} else {
+			$result = 0;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Manually sets a page UID which always will be returned by getPageUid.
+	 *
+	 * @param integer the page UID to store manually, must be > 0
+	 */
+	public function setPageUid($uidToStore) {
+		if ($uidToStore <= 0) {
+			throw new Exception('The given page UID was "' . $uidToStore . '". ' .
+				'Only integer values greater than zero are allowed.'
+			);
+		}
+		$this->storedPageUid = $uidToStore;
 	}
 }
 

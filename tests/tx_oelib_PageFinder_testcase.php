@@ -33,11 +33,19 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
+	private $testingFramework;
+
 	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 	}
 
 	public function tearDown() {
-		tx_oelib_PageFinder::purgeInstance();
+		$this->testingFramework->cleanUp();
+
+		unset($this->testingFramework);
 	}
 
 
@@ -67,6 +75,91 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 			$firstInstance,
 			tx_oelib_PageFinder::getInstance()
 		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning getPageUid
+	////////////////////////////////
+
+	public function test_getPageUid_WithFrontEndPageUid_ReturnsFrontEndPageUid() {
+		$pageUid = $this->testingFramework->createFakeFrontEnd($pageUid);
+
+		$this->assertEquals(
+			$pageUid,
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+	}
+
+	public function test_getPageUid_WithoutFrontEndAndWithBackendPageUid_ReturnsBackEndPageUid() {
+		$_POST['id'] = 42;
+
+		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+		unset($_POST['id']);
+
+		$this->assertEquals(
+			42,
+			$pageUid
+		);
+	}
+
+	public function test_getPageUid_WithFrontEndAndBackendPageUid_ReturnsFrontEndPageUid() {
+		$fePageUid = $this->testingFramework->createFakeFrontEnd();
+
+		$_POST['id'] = 42;
+
+		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+
+		unset($_POST['id']);
+
+		$this->assertEquals(
+			$fePageUid,
+			$pageUid
+		);
+	}
+
+	public function test_getPageUid_ForManuallySetPageUidAndSetFrontEndPageUid_ReturnsManuallySetPageUid() {
+		$fePageUid = $this->testingFramework->createFakeFrontEnd();
+		tx_oelib_PageFinder::getInstance()->setPageUid(42);
+
+		$this->assertEquals(
+			42,
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+	}
+
+
+	////////////////////////////////
+	// tests concerning setPageUid
+	////////////////////////////////
+
+	public function test_GetPageUid_WithSetPageUidViaSetPageUid_ReturnsSetPageUid() {
+		tx_oelib_PageFinder::getInstance()->setPageUid(42);
+
+		$this->assertEquals(
+			42,
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+	}
+
+	public function test_setPageUid_WithZeroGiven_ThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given page UID was "0". Only integer values greater ' .
+				'than zero are allowed.'
+		);
+
+		tx_oelib_PageFinder::getInstance()->setPageUid(0);
+	}
+
+	public function test_setPageUid_WithNegativeNumberGiven_ThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given page UID was "-21". Only integer values greater ' .
+				'than zero are allowed.'
+		);
+
+		tx_oelib_PageFinder::getInstance()->setPageUid(-21);
 	}
 }
 ?>
