@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2663] Feature: Create a model and mapper FrontEndUserGroup
 - [#2659] Fix: Autoloader should not bail out on an empty class name
 - [#2662] Fix: Include of the FE class fails if tslib is not defined
 - [#2530] Feature: Enhance the mailer classes to also send HTML e-mails
