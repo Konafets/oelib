@@ -78,6 +78,34 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////
+	// Tests concerning isLoggedIn
+	////////////////////////////////
+
+	public function testIsLoggedInForNoFrontEndReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testIsLoggedInForFrontEndWithoutLoggedInUserReturnsFalse() {
+		$this->testingFramework->createFakeFrontEnd();
+
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testIsLoggedInWithLoggedInFrontEndUserReturnsTrue() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+
 	/////////////////////////////////////
 	// Tests concerning getLoggedInUser
 	/////////////////////////////////////

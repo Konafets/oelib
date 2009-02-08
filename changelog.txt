@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2661] Change: The front-end user mapper should use the logged-in user's data whenever possible
 - [#2676] Fix: Test errors for inexistent objects in the specialized contact form and thumbnails view
 - [#2658] Change: Add more tests for the mappers and model
 - [#2626] Feature: Add a pageFinder class

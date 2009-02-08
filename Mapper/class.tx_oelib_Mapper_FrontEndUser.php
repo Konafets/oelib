@@ -51,9 +51,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *                                     if there is no front end
 	 */
 	public function getLoggedInUser() {
-		if (!isset($GLOBALS['TSFE']) || !$GLOBALS['TSFE']
-			|| !is_array($GLOBALS['TSFE']->fe_user->user)
-		) {
+		if (!$this->isLoggedIn()) {
 			return null;
 		}
 
@@ -70,6 +68,18 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 		}
 
 		return $model;
+	}
+
+	/**
+	 * Checks whether any front-end user is logged in (and whether a front end
+	 * exists at all).
+	 *
+	 * @return boolean true if a front end exists and a front-end user is logged
+	 *                 in, false otherwise
+	 */
+	public function isLoggedIn() {
+		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
+			is_array($GLOBALS['TSFE']->fe_user->user);
 	}
 }
 
