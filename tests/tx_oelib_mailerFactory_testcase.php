@@ -491,6 +491,9 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+
 		$this->assertEquals(
 			array(
 				'recipient' => self::$email['recipient'],
@@ -500,7 +503,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 				'headers' => 'MIME-Version: 1.0' . CRLF .
 					'From: any-sender@email-address.org' . CRLF .
 					'Content-Transfer-Encoding: quoted-printable' . CRLF .
-					'Content-Type: text/html; charset="utf-8"' . CRLF,
+					'Content-Type: text/html; charset="' . $characterSet . '"' . CRLF,
 			),
 			$this->fixture->getLastEmail()
 		);
