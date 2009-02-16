@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2643] Feature: Add a list class
 - [#2710] Fix: Character set for the e-mail tests must not be constant
 - [#2661] Change: The front-end user mapper should use the logged-in user's data whenever possible
 - [#2676] Fix: Test errors for inexistent objects in the specialized contact form and thumbnails view
