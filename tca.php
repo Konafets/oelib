@@ -6,7 +6,7 @@ if (!defined ('TYPO3_MODE')) {
 $TCA['tx_oelib_test'] = array(
 	'ctrl' => $TCA['tx_oelib_test']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,starttime,endtime,title',
+		'showRecordFieldList' => 'hidden,starttime,endtime,title,friend,owner,children,related_records',
 	),
 	'columns' => array(
 		'hidden' => array(
@@ -53,10 +53,46 @@ $TCA['tx_oelib_test'] = array(
 				'size' => '30',
 			),
 		),
+		'friend' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'Friend (n:1 relation within the same table):',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_oelib_test',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+		'owner' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'Owner (n:1 relation to another table):',
+			'config' => array(
+				'type' => 'group',
+				'foreign_table' => 'fe_users',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+			),
+		),
+		'children' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'Children (m:n relation using a comma-separated list)',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_oelib_test',
+				'size' => 4,
+				'minitems' => 0,
+				'maxitems' => 99,
+			),
+		),
 		'related_records' => array(
 			'l10n_mode' => 'exclude',
 			'exclude' => 1,
-			'label' => 'LLL:EXT:oelib/locallang_db.php:tx_oelib_test.related_records',
+			'label' => 'Related records (m:n relation using an m:n table)',
 			'config' => array(
 				'type' => 'select',
 				'foreign_table' => 'tx_oelib_test',
@@ -68,7 +104,7 @@ $TCA['tx_oelib_test'] = array(
 		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'title;;;;2-2-2'),
+		'0' => array('showitem' => 'title;;;;2-2-2, friend, owner, children, related_records'),
 	),
 	'palettes' => array(
 		'1' => array('showitem' => 'starttime, endtime'),

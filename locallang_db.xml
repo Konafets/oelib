@@ -11,7 +11,6 @@
 		<languageKey index="default" type="array">
 			<label index="tx_oelib_test">oelib test records</label>
 			<label index="tx_oelib_test.title">Title:</label>
-			<label index="tx_oelib_test.related_records">Related Records:</label>
 		</languageKey>
 	</data>
 </T3locallang>
