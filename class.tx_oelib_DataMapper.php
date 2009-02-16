@@ -193,7 +193,7 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
-	private function retrieveRecord($uid) {
+	protected function retrieveRecord($uid) {
 		try {
 			$data = tx_oelib_db::selectSingle(
 				$this->columns,

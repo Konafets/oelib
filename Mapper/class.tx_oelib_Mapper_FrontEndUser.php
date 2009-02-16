@@ -55,19 +55,30 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 			return null;
 		}
 
-		$data = $GLOBALS['TSFE']->fe_user->user;
-		$uid = $data['uid'];
+		return $this->find($GLOBALS['TSFE']->fe_user->user['uid']);
+	}
 
-		try {
-			$model = $this->map->get($uid);
-		} catch (tx_oelib_Exception_NotFound $exception) {
-			// The data already is in memory. So there's no need to read it from
-			// the DB again.
-			$model = $this->createGhost($uid);
-			$model->setData($data);
+	/**
+	 * Reads a record from the database by UID (from this mapper's table). Also
+	 * hidden records will be retrieved.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     with the UID $uid
+	 *
+	 * @param integer the UID of the record to retrieve, must be > 0
+	 *
+	 * @return array the record from the database, will not be empty
+	 */
+	protected function retrieveRecord($uid) {
+		if ($this->isLoggedIn() &&
+			($GLOBALS['TSFE']->fe_user->user['uid'] == $uid)
+		) {
+			$data = $GLOBALS['TSFE']->fe_user->user;
+		} else {
+			$data = parent::retrieveRecord($uid);
 		}
 
-		return $model;
+		return $data;
 	}
 
 	/**
