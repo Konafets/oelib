@@ -218,6 +218,16 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements tx_oelib_Int
 	public function hasImage() {
 		return $this->hasString('image');
 	}
+
+	/**
+	 * Checks whether this user has agreed to receive HTML e-mails.
+	 *
+	 * @return boolean true if the user agreed to receive HTML e-mails, false
+	 *                 otherwise
+	 */
+	public function wantsHtmlEMail() {
+		return $this->getAsBoolean('module_sys_dmail_html');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {

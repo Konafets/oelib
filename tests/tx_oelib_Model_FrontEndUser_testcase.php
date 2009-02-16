@@ -553,5 +553,34 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getImage()
 		);
 	}
+
+
+	////////////////////////////////////
+	// Tests concerning wantsHtmlEMail
+	////////////////////////////////////
+
+	public function test_WantsHtmlEMail_ForMissingModuleSysDmailHtmlField_ReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->wantsHtmlEMail()
+		);
+	}
+
+	public function test_WantsHtmlEMail_ForModuleSysDmailHtmlOne_ReturnsTrue() {
+		$this->fixture->setData(array('module_sys_dmail_html' => 1));
+
+		$this->assertTrue(
+			$this->fixture->wantsHtmlEMail()
+		);
+	}
+
+	public function test_WantsHtmlEMail_ForModuleSysDmailHtmlZero_ReturnsFalse() {
+		$this->fixture->setData(array('module_sys_dmail_html' => 0));
+
+		$this->assertFalse(
+			$this->fixture->wantsHtmlEMail()
+		);
+	}
 }
 ?>
