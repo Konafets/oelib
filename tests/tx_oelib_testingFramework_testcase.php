@@ -74,7 +74,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->fixture->setResetAutoIncrementThreshold(1);
 		$this->fixture->cleanUp();
-		$this->fixture->clearCaches();
 		$this->deleteForeignFile();
 		$this->deleteForeignFolder();
 
@@ -3642,29 +3641,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->isLoggedIn()
 		);
-	}
-
-
-	// ---------------------------------------------------------------------
-	// Tests regarding getTcaForTable()
-	// ---------------------------------------------------------------------
-
-	public function testGetTcaForTableReturnsValidTcaArray() {
-		$tca = $this->fixture->getTcaForTable(OELIB_TESTTABLE);
-
-		$this->assertTrue(is_array($tca['ctrl']));
-		$this->assertTrue(is_array($tca['interface']));
-		$this->assertTrue(is_array($tca['columns']));
-		$this->assertTrue(is_array($tca['types']));
-		$this->assertTrue(is_array($tca['palettes']));
-	}
-
-	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
-		$this->setExpectedException(
-			'Exception', 'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
-		);
-
-		$this->fixture->getTcaForTable(OELIB_TESTTABLE_MM);
 	}
 
 

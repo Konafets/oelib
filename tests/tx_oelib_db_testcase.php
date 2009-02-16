@@ -689,6 +689,23 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////
+	// Tests concerning getAllTableNames
+	//////////////////////////////////////
+
+	public function testGetAllTableNamesContainsExistingTable() {
+		$this->assertTrue(
+			in_array('tx_oelib_test', tx_oelib_db::getAllTableNames())
+		);
+	}
+
+	public function testGetAllTableNamesNotContainsInexistentTable() {
+		$this->assertFalse(
+			in_array('tx_oelib_doesnotexist', tx_oelib_db::getAllTableNames())
+		);
+	}
+
+
 	/////////////////////////////////
 	// Tests concerning existsTable
 	/////////////////////////////////
@@ -711,6 +728,29 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			tx_oelib_db::existsTable('tx_oelib_doesnotexist')
 		);
+	}
+
+
+	////////////////////////////////////
+	// Tests concerning getTcaForTable
+	////////////////////////////////////
+
+	public function testGetTcaForTableReturnsValidTcaArray() {
+		$tca = tx_oelib_db::getTcaForTable(OELIB_TESTTABLE);
+
+		$this->assertTrue(is_array($tca['ctrl']));
+		$this->assertTrue(is_array($tca['interface']));
+		$this->assertTrue(is_array($tca['columns']));
+		$this->assertTrue(is_array($tca['types']));
+		$this->assertTrue(is_array($tca['palettes']));
+	}
+
+	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
+		$this->setExpectedException(
+			'Exception', 'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
+		);
+
+		tx_oelib_db::getTcaForTable(OELIB_TESTTABLE_MM);
 	}
 }
 ?>

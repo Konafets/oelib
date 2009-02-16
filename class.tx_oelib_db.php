@@ -48,15 +48,22 @@ class tx_oelib_db {
 
 	/**
 	 * @var array cache for the results of existsTable with the table names
-	 *            as keys and true as value
+	 *            as keys and the table SHOW STATUS information (in an array)
+	 *            as values
 	 */
-	private static $existsTableCache = array();
+	private static $tableNameCache = array();
 
 	/**
 	 * @var array cache for the results of hasTableColumn with the column names
-	 *            as keys and true as value
+	 *            as keys and the SHOW COLUMNS field information (in an array)
+	 *            as values
 	 */
-	private static $hasTableColumnCache = array();
+	private static $tableColumnCache = array();
+
+	/**
+	 * @var array cache for all TCA arrays
+	 */
+	private static $tcaCache = array();
 
 	/**
 	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
@@ -221,25 +228,13 @@ class tx_oelib_db {
 			throw new Exception('The column name must not be empty.');
 		}
 
-		if (!isset(self::$hasTableColumnCache[$table])) {
-			self::$hasTableColumnCache[$table] = array();
+		if (!isset(self::$tableColumnCache[$table])) {
+			self::$tableColumnCache[$table] =
+				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
 
-			self::enableQueryLogging();
-			$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-				'DESCRIBE ' . $table . ';'
-			);
-			if (!$dbResult) {
-				throw new tx_oelib_Exception_Database();
-			}
-
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-				self::$hasTableColumnCache[$table][$row['Field']] = true;
-			}
-
-			$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 		}
 
-		return isset(self::$hasTableColumnCache[$table][$column]);
+		return isset(self::$tableColumnCache[$table][$column]);
 	}
 
 
@@ -439,6 +434,18 @@ class tx_oelib_db {
 	}
 
 	/**
+	 * Returns a list of all table names that are available in the current
+	 * database.
+	 *
+	 * @return array list of table names
+	 */
+	public static function getAllTableNames() {
+		self::retrieveTableNames();
+
+		return array_keys(self::$tableNameCache);
+	}
+
+	/**
 	 * Checks whether a database table exists.
 	 *
 	 * @param string the name of the table to check for, must not be empty
@@ -452,7 +459,7 @@ class tx_oelib_db {
 
 		self::retrieveTableNames();
 
-		return isset(self::$existsTableCache[$tableName]);
+		return isset(self::$tableNameCache[$tableName]);
 	}
 
 	/**
@@ -463,21 +470,11 @@ class tx_oelib_db {
 	 * retrieved.
 	 */
 	private static function retrieveTableNames() {
-		if (!empty(self::$existsTableCache)) {
+		if (!empty(self::$tableNameCache)) {
 			return;
 		}
 
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query('SHOW TABLES;');
-		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
-		}
-
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
-			$tableName = array_shift($row);
-			self::$existsTableCache[$tableName] = true;
-		}
-
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		self::$tableNameCache = $GLOBALS['TYPO3_DB']->admin_get_tables();
 	}
 
 	/**
@@ -485,6 +482,29 @@ class tx_oelib_db {
 	 */
 	public static function enableQueryLogging() {
 		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+	}
+
+	/**
+	 * Returns the TCA for a certain table.
+	 *
+	 * @param string the table name to look up, must not be empty
+	 *
+	 * @return array associative array with the TCA description for this table
+	 */
+	public static function getTcaForTable($tableName) {
+		if (isset(self::$tcaCache[$tableName])) {
+			return self::$tcaCache[$tableName];
+		}
+
+		t3lib_div::loadTCA($tableName);
+		if (!isset($GLOBALS['TCA'][$tableName])) {
+			throw new Exception(
+				'The table "' . $tableName . '" has no TCA.'
+			);
+		}
+		self::$tcaCache[$tableName] = $GLOBALS['TCA'][$tableName];
+
+		return self::$tcaCache[$tableName];
 	}
 }
 

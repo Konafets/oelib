@@ -65,16 +65,6 @@ final class tx_oelib_testingFramework {
 	private $additionalTablePrefixes = array();
 
 	/**
-	 * @var array cache for all TCA arrays
-	 */
-	private static $tcaCache = array();
-
-	/**
-	 * @var array cache for all DB table names in the DB
-	 */
-	private static $allTablesCache = array();
-
-	/**
 	 * @var array all own DB table names to which this instance of the
 	 *            testing framework has access
 	 */
@@ -143,7 +133,9 @@ final class tx_oelib_testingFramework {
 	 */
 	private static $fileNameProcessor = null;
 
-	/** @var boolean whether a fake front end has been created */
+	/**
+	 * @var boolean whether a fake front end has been created
+	 */
 	private $hasFakeFrontEnd = false;
 
 	/**
@@ -688,7 +680,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		$tca = $this->getTcaForTable($tableName);
+		$tca = tx_oelib_db::getTcaForTable($tableName);
 		$relationConfiguration = $tca['columns'][$columnName];
 
 		if (!isset($relationConfiguration['config']['MM'])
@@ -1219,30 +1211,6 @@ final class tx_oelib_testingFramework {
 	// ----------------------------------------------------------------------
 
 	/**
-	 * Returns a list of all table names that are available in the current
-	 * database. There is no check whether these tables are accessible for the
-	 * testing framework - this has to be done separately!
-	 *
-	 * Note: Since TYPO3 4.2, the t3lib_DB::admin_get_tables() method returns
-	 * way more data per table and not just the table name. This method deals
-	 * with this by just using the keys from the returned array.
-	 *
-	 * @return array list of table names
-	 *
-	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1726
-	 * @see http://typo3.svn.sourceforge.net/viewvc/typo3/TYPO3core/branches/TYPO3_4-2/t3lib/class.t3lib_db.php?r1=3326&r2=3365
-	 */
-	private function getListOfAllTables() {
-		if (empty(self::$allTablesCache)) {
-			self::$allTablesCache = array_keys(
-				$GLOBALS['TYPO3_DB']->admin_get_tables()
-			);
-		}
-
-		return self::$allTablesCache;
-	}
-
-	/**
 	 * Generates a list of allowed tables to which this instance of the testing
 	 * framework has access to create/remove test records.
 	 *
@@ -1255,7 +1223,7 @@ final class tx_oelib_testingFramework {
 	 */
 	private function createListOfOwnAllowedTables() {
 		$this->ownAllowedTables = array();
-		$allTables = $this->getListOfAllTables();
+		$allTables = tx_oelib_db::getAllTableNames();
 		$length = strlen($this->tablePrefix);
 
 		foreach ($allTables as $currentTable) {
@@ -1280,7 +1248,7 @@ final class tx_oelib_testingFramework {
 	 * $this->additionalAllowedTables.
 	 */
 	private function createListOfAdditionalAllowedTables() {
-		$allTables = implode(',', $this->getListOfAllTables());
+		$allTables = implode(',', tx_oelib_db::getAllTableNames());
 		$additionalTablePrefixes = implode('|', $this->additionalTablePrefixes);
 
 		$matches = array();
@@ -1734,52 +1702,16 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Checks whether the value of the parameter $table is the name of a
-	 * database table that has been registered in TYPO3.
-	 *
-	 * @param string the name of of table to check, must not be empty
-	 *
-	 * @return boolean true if the table is registered in TYPO3, false otherwise
-	 */
-	private function isTable($table) {
-		if ($table == '') {
-			throw new Exception('$table must not be empty.');
-		}
-
-		return (in_array($table, $this->getListOfAllTables()));
-	}
-
-	/**
-	 * Clears all static caches of the testing framework.
-	 *
-	 * This function usually should only be called when testing the testing
-	 * framework.
-	 */
-	public function clearCaches() {
-		self::$allTablesCache = array();
-	}
-
-	/**
 	 * Returns the TCA for a certain table.
 	 *
 	 * @param string the table name to look up, must not be empty
 	 *
 	 * @return array associative array with the TCA description for this table
+	 *
+	 * @deprecated 2009-02-12 use tx_oelib_db::getTcaForTable instead
 	 */
 	public function getTcaForTable($tableName) {
-		if (isset(self::$tcaCache[$tableName])) {
-			return self::$tcaCache[$tableName];
-		}
-
-		t3lib_div::loadTCA($tableName);
-		if (!isset($GLOBALS['TCA'][$tableName])) {
-			throw new Exception(
-				'The table "' . $tableName . '" has no TCA.'
-			);
-		}
-		self::$tcaCache[$tableName] = $GLOBALS['TCA'][$tableName];
-
-		return self::$tcaCache[$tableName];
+		return tx_oelib_db::getTcaForTable($tableName);
 	}
 
 	/**
