@@ -413,6 +413,18 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testRelatedRecordWithExistingUidCanReturnOtherModelType() {
+		$ownerUid = $this->testingFramework->createFrontEndUser();
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('owner' => $ownerUid)
+		);
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getOwner()
+				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
 	public function testRelatedRecordWithExistingUidReturnsRelatedRecordThatCanBeLoaded() {
 		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(

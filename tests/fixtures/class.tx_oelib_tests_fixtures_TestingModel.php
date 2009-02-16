@@ -88,5 +88,15 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function getFriend() {
 		return $this->getAsModel('friend');
 	}
+
+	/**
+	 * Gets the "owner" data item.
+	 *
+	 * @return tx_oelib_Model_FrontEndUser the "owner" data item, will be null
+	 *                                     if this model has no owner
+	 */
+	public function getOwner() {
+		return $this->getAsModel('owner');
+	}
 }
 ?>

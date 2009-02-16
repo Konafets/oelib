@@ -57,6 +57,12 @@ abstract class tx_oelib_DataMapper {
 	protected $map = null;
 
 	/**
+	 * @var array the (possible) relations of the created models in the format
+	 *            DB column name => mapper name
+	 */
+	protected $relations = array();
+
+	/**
 	 * The constructor.
 	 */
 	public function __construct() {
@@ -168,6 +174,12 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, might be modified
 	 */
 	protected function createRelations(array &$data) {
+		foreach ($this->relations as $columnName => $mapperName) {
+			$uid = intval($data[$columnName]);
+			$data[$columnName] = ($uid > 0)
+				? tx_oelib_MapperRegistry::get($mapperName)->find($uid)
+				: null;
+		}
 	}
 
 	/**
