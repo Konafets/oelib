@@ -104,26 +104,26 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_getPageUid_WithFrontEndAndBackendPageUid_ReturnsFrontEndPageUid() {
-		$fePageUid = $this->testingFramework->createFakeFrontEnd();
+		$frontEndPageUid = $this->testingFramework->createFakeFrontEnd();
 
-		$_POST['id'] = 42;
+		$_POST['id'] = $frontEndPageUid + 1;
 
 		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
 
 		unset($_POST['id']);
 
 		$this->assertEquals(
-			$fePageUid,
+			$frontEndPageUid,
 			$pageUid
 		);
 	}
 
 	public function test_getPageUid_ForManuallySetPageUidAndSetFrontEndPageUid_ReturnsManuallySetPageUid() {
-		$fePageUid = $this->testingFramework->createFakeFrontEnd();
-		tx_oelib_PageFinder::getInstance()->setPageUid(42);
+		$frontEndPageUid = $this->testingFramework->createFakeFrontEnd();
+		tx_oelib_PageFinder::getInstance()->setPageUid($frontEndPageUid + 1);
 
 		$this->assertEquals(
-			42,
+			$frontEndPageUid + 1,
 			tx_oelib_PageFinder::getInstance()->getPageUid()
 		);
 	}
@@ -160,6 +160,53 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 		);
 
 		tx_oelib_PageFinder::getInstance()->setPageUid(-21);
+	}
+
+
+	/////////////////////////////////
+	// Tests concerning forceSource
+	/////////////////////////////////
+
+	public function test_ForceSource_WithSourceSetToFrontEndAndManuallySetPageUid_ReturnsFrontEndPageUid() {
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_FRONT_END
+		);
+		$frontEndPageUid = $this->testingFramework->createFakeFrontEnd();
+		tx_oelib_PageFinder::getInstance()->setPageUid($frontEndPageUid + 1);
+
+		$this->assertEquals(
+			$frontEndPageUid,
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+	}
+
+	public function test_ForceSource_WithSourceSetToBackEndAndSetFrontEndUid_ReturnsBackEndEndPageUid() {
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_BACK_END
+		);
+		$this->testingFramework->createFakeFrontEnd();
+
+		$_POST['id'] = 42;
+		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+		unset($_POST['id']);
+
+		$this->assertEquals(
+			42,
+			$pageUid
+		);
+	}
+
+	public function test_ForceSource_WithSourceSetToFrontEndAndManuallySetPageUidButNoFrontEndUidSet_ReturnsZero() {
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_FRONT_END
+		);
+
+		tx_oelib_PageFinder::getInstance()->setPageUid(15);
+
+		$this->assertEquals(
+			0,
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
 	}
 }
 ?>
