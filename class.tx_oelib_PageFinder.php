@@ -36,7 +36,8 @@ class tx_oelib_PageFinder {
 	 */
 	const SOURCE_AUTO = 0,
 		SOURCE_FRONT_END = 1,
-		SOURCE_BACK_END = 2;
+		SOURCE_BACK_END = 2,
+		SOURCE_MANUAL = 3;
 
 	/**
 	 * @var tx_oelib_PageFinder the Singleton instance
@@ -51,7 +52,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * @var integer the source the page is retrieved from
 	 */
-	private $pageUidSource = self::SOURCE_AUTO;
+	private $manualPageUidSource = self::SOURCE_AUTO;
 
 	/**
 	 * Don't call this constructor; use getInstance instead.
@@ -93,7 +94,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Returns the UID of the current page.
 	 *
-	 * If pageUidSource is set to SOURCE_FRONT_END or SOURCE_BACK_END, this
+	 * If manualPageUidSource is set to SOURCE_FRONT_END or SOURCE_BACK_END, this
 	 * function returns the UID set in this part. Otherwise starts with looking
 	 * into the manually set page UID, then if a FE page UID is present
 	 * and finally if a BE page UID is present.
@@ -102,16 +103,18 @@ class tx_oelib_PageFinder {
 	 *                 present
 	 */
 	public function getPageUid() {
-		if ($this->isForceSourceSet()) {
-			return $this->getForcedPageUid();
-		}
-
-		if ($this->storedPageUid > 0) {
-			$result = $this->storedPageUid;
-		} elseif (is_object($GLOBALS['TSFE']) && ($GLOBALS['TSFE']->id > 0)) {
-			$result = $this->retrievePageUID(self::SOURCE_FRONT_END);
-		} else {
-			$result = $this->retrievePageUID(self::SOURCE_BACK_END);
+		switch ($this->getCurrentSource()) {
+			case self::SOURCE_MANUAL:
+				$result = $this->storedPageUid;
+				break;
+			case self::SOURCE_FRONT_END:
+				$result = intval($GLOBALS['TSFE']->id);
+				break;
+			case self::SOURCE_BACK_END:
+				$result = intval(t3lib_div::_GP('id'));
+				break;
+			default:
+				$result = 0;
 		}
 
 		return $result;
@@ -138,59 +141,60 @@ class tx_oelib_PageFinder {
 	 * @param integer SOURCE_BACK_END or SOURCE_FRONT_END
 	 */
 	public function forceSource($modeToForce) {
-		$this->pageUidSource = $modeToForce;
+		$this->manualPageUidSource = $modeToForce;
 	}
 
 	/**
-	 * Checks if the pageUidSource has been set.
+	 * Returns the current source for the page UID.
 	 *
-	 * @return boolean true if pageUidSource is set to SOURCE_BACK_END or
-	 *                 SOURCE_FRONT_END, false otherwise
+	 * @throws Exception if no source could be detected
+	 *
+	 * @return integer either SOURCE_BACK_END, SOURCE_FRONT_END or SOURCE_MANUAL
 	 */
-	private function isForceSourceSet() {
-		return ($this->pageUidSource != self::SOURCE_AUTO);
-	}
-
-	/**
-	 * Returns the UID of the page in the source set in force mode.
-	 * Must only be called after forceModeIsSet and the function returned true.
-	 *
-	 * @return integer the UID of the page fromn the forced source, may be zero
-	 */
-	private function getForcedPageUid() {
-		return ($this->pageUidSource == self::SOURCE_FRONT_END)
-			? $this->retrievePageUID(self::SOURCE_FRONT_END)
-			: $this->retrievePageUID(self::SOURCE_BACK_END);
-	}
-
-	/**
-	 * Returns the page UID from given source.
-	 *
-	 * @param integer the source to fetch the page UID from, must be
-	 *                SOURCE_FRONT_END or SOURCE_BACK_END
-	 *
-	 * @return integer the page UID, will be empty if no page UID in given
-	 *                 source was set
-	 */
-	private function retrievePageUID($pidSource) {
-		if (!in_array(
-			$pidSource, array(self::SOURCE_BACK_END, self::SOURCE_FRONT_END)
-		)) {
-			throw new Exception('The given PID source was "' . $pidSource . '".' .
-				'Only the values "' . self::SOURCE_FRONT_END . '" and "' .
-				self::SOURCE_BACK_END . '" are allowed.'
+	public function getCurrentSource() {
+		if ($this->manualPageUidSource != self::SOURCE_AUTO) {
+			$result = $this->manualPageUidSource;
+		} elseif ($this->hasManualPageUid()) {
+			$result = self::SOURCE_MANUAL;
+		} elseif ($this->hasFrontEnd()) {
+			$result = self::SOURCE_FRONT_END;
+		} elseif ($this->hasBackEnd()) {
+			$result = self::SOURCE_BACK_END;
+		} else {
+			throw new Exception(
+				'No source for the page UID could be determined.'
 			);
 		}
 
-		if ($pidSource == self::SOURCE_BACK_END) {
-			$result = intval(t3lib_div::_GP('id'));
-		} else {
-			$result = (is_object($GLOBALS['TSFE']))
-				? $GLOBALS['TSFE']->id
-				: 0;
-		}
-
 		return $result;
+	}
+
+	/**
+	 * Checks whether a front end (with a non-zero page UID) is present.
+	 *
+	 * @return boolean true if there is a front end with a non-zero page UID,
+	 *                 false otherwise
+	 */
+	private function hasFrontEnd() {
+		return (is_object($GLOBALS['TSFE']) && ($GLOBALS['TSFE']->id > 0));
+	}
+
+	/**
+	 * Checks whether a back-end page UID has been set.
+	 *
+	 * @return boolean true if a back-end page UID has been set, false otherwise
+	 */
+	private function hasBackEnd() {
+		return (intval(t3lib_div::_GP('id')) > 0);
+	}
+
+	/**
+	 * Checks whether a manual page UID has been set.
+	 *
+	 * @return booelan true if a page UID has been set manually, false otherwise
+	 */
+	private function hasManualPageUid() {
+		return ($this->storedPageUid > 0);
 	}
 }
 

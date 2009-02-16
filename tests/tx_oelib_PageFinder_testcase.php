@@ -83,7 +83,7 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 	////////////////////////////////
 
 	public function test_getPageUid_WithFrontEndPageUid_ReturnsFrontEndPageUid() {
-		$pageUid = $this->testingFramework->createFakeFrontEnd($pageUid);
+		$pageUid = $this->testingFramework->createFakeFrontEnd();
 
 		$this->assertEquals(
 			$pageUid,
@@ -206,6 +206,71 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning getCurrentSource
+	//////////////////////////////////////
+
+	public function test_GetCurrentSource_ForNoSourceForcedAndNoPageUidSet_ThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'No source for the page UID could be determined.'
+		);
+
+		tx_oelib_PageFinder::getInstance()->getCurrentSource();
+	}
+
+	public function test_GetCurrentSource_ForSourceForcedToFrontEnd_ReturnsSourceFrontEnd() {
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_FRONT_END
+		);
+
+		$this->assertEquals(
+			tx_oelib_PageFinder::SOURCE_FRONT_END,
+			tx_oelib_PageFinder::getInstance()->getCurrentSource()
+		);
+	}
+
+	public function test_GetCurrentSource_ForSourceForcedToBackEnd_ReturnsSourceBackEnd() {
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_BACK_END
+		);
+
+		$this->assertEquals(
+			tx_oelib_PageFinder::SOURCE_BACK_END,
+			tx_oelib_PageFinder::getInstance()->getCurrentSource()
+		);
+	}
+
+	public function test_GetCurrentSource_ForManuallySetPageId_ReturnsSourceManual() {
+		tx_oelib_PageFinder::getInstance()->setPageUid(42);
+
+		$this->assertEquals(
+			tx_oelib_PageFinder::SOURCE_MANUAL,
+			tx_oelib_PageFinder::getInstance()->getCurrentSource()
+		);
+	}
+
+	public function test_GetCurrentSource_ForSetFrontEndPageUid_ReturnsSourceFrontEnd() {
+		$this->testingFramework->createFakeFrontEnd();
+
+		$this->assertEquals(
+			tx_oelib_PageFinder::SOURCE_FRONT_END,
+			tx_oelib_PageFinder::getInstance()->getCurrentSource()
+		);
+	}
+
+	public function test_GetCurrentSource_ForSetBackEndPageUid_ReturnsSourceBackEnd() {
+		$_POST['id'] = 42;
+		$pageSource = tx_oelib_PageFinder::getInstance()->getCurrentSource();
+		unset($_POST['id']);
+
+		$this->assertEquals(
+			tx_oelib_PageFinder::SOURCE_BACK_END,
+			$pageSource
 		);
 	}
 }
