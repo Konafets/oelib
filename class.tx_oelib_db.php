@@ -455,6 +455,43 @@ class tx_oelib_db {
 	////////////////////////////////////////////////
 
 	/**
+	 * Gets the column data for a table.
+	 *
+	 * @param string the name of the table for which the column names should be
+	 *               retrieved, must not be empty
+	 *
+	 * @return array the column data for the table $table with the column names
+	 *               as keys and the SHOW COLUMNS field information (in an
+	 *               array) as values
+	 */
+	public function getColumnsInTable($table) {
+		self::retrieveColumnsForTable($table);
+
+		return self::$tableColumnCache[$table];
+	}
+
+	/**
+	 * Retrieves and caches the column data for the table $table.
+	 *
+	 * If the column data for that table already is cached, this function does
+	 * nothing.
+	 *
+	 * @param string the name of the table for which the column names should be
+	 *               retrieved, must not be empty
+	 */
+	private static function retrieveColumnsForTable($table) {
+		if ($table == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+
+		if (!isset(self::$tableColumnCache[$table])) {
+			self::$tableColumnCache[$table] =
+				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
+
+		}
+	}
+
+	/**
 	 * Checks whether a table has a column with a particular name.
 	 *
 	 * To get a boolean true as result, the table must contain a column with the
@@ -467,18 +504,11 @@ class tx_oelib_db {
 	 *                 otherwise
 	 */
 	public static function tableHasColumn($table, $column) {
-		if ($table == '') {
-			throw new Exception('The table name must not be empty.');
-		}
 		if ($column == '') {
 			throw new Exception('The column name must not be empty.');
 		}
 
-		if (!isset(self::$tableColumnCache[$table])) {
-			self::$tableColumnCache[$table] =
-				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
-
-		}
+		self::retrieveColumnsForTable($table);
 
 		return isset(self::$tableColumnCache[$table][$column]);
 	}
@@ -486,7 +516,7 @@ class tx_oelib_db {
 	/**
 	 * Checks whether a table has a column "uid".
 	 *
-	 * @param string the name of the table to check
+	 * @param string the name of the table to check, must not be empty
 	 *
 	 * @return boolean true if a valid column was found, false otherwise
 	 */

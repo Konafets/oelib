@@ -320,9 +320,46 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////
+	// Tests concerning getColumnsInTable
+	///////////////////////////////////////
+
+	public function testGetColumnsInTableForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::getColumnsInTable('');
+	}
+
+	public function testGetColumnsInTableReturnsArrayThatContainsExistingColumn() {
+		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+
+		$this->assertTrue(
+			isset($columns['title'])
+		);
+	}
+
+	public function testGetColumnsInTableReturnsArrayThatNotContainsInexistentColumn() {
+		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+
+		$this->assertFalse(
+			isset($columns['does_not_exist'])
+		);
+	}
+
+
 	////////////////////////////////////////
 	// Tests regarding tableHasColumnUid()
 	////////////////////////////////////////
+
+	public function testTableHasColumnUidForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::tableHasColumnUid('');
+	}
 
 	public function testTableHasColumnUidIsTrueOnTableWithColumnUid() {
 		$this->assertTrue(
