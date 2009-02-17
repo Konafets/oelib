@@ -66,6 +66,13 @@ class tx_oelib_db {
 	private static $tcaCache = array();
 
 	/**
+	 * Enables query logging in TYPO3's DB class.
+	 */
+	public static function enableQueryLogging() {
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+	}
+
+	/**
 	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
 	 * longer accessible statically.
 	 *
@@ -195,46 +202,6 @@ class tx_oelib_db {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Checks whether a table has a column "uid".
-	 *
-	 * @param string the name of the table to check
-	 *
-	 * @return boolean true if a valid column was found, false otherwise
-	 */
-	public static function tableHasColumnUid($table) {
-		return self::tableHasColumn($table, 'uid');
-	}
-
-	/**
-	 * Checks whether a table has a column with a particular name.
-	 *
-	 * To get a boolean true as result, the table must contain a column with the
-	 * given name.
-	 *
-	 * @param string the name of the table to check, must not be empty
-	 * @param string the column name to check, must not be empty
-	 *
-	 * @return boolean true if the column with the provided name exists, false
-	 *                 otherwise
-	 */
-	public static function tableHasColumn($table, $column) {
-		if ($table == '') {
-			throw new Exception('The table name must not be empty.');
-		}
-		if ($column == '') {
-			throw new Exception('The column name must not be empty.');
-		}
-
-		if (!isset(self::$tableColumnCache[$table])) {
-			self::$tableColumnCache[$table] =
-				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
-
-		}
-
-		return isset(self::$tableColumnCache[$table][$column]);
 	}
 
 
@@ -433,6 +400,11 @@ class tx_oelib_db {
 		return $result;
 	}
 
+
+	/////////////////////////////////////
+	// Functions concerning table names
+	/////////////////////////////////////
+
 	/**
 	 * Returns a list of all table names that are available in the current
 	 * database.
@@ -443,6 +415,21 @@ class tx_oelib_db {
 		self::retrieveTableNames();
 
 		return array_keys(self::$tableNameCache);
+	}
+
+	/**
+	 * Retrieves the table names of the current DB and stores them in
+	 * self::$tableNameCache.
+	 *
+	 * This function does nothing if the table names already have been
+	 * retrieved.
+	 */
+	private static function retrieveTableNames() {
+		if (!empty(self::$tableNameCache)) {
+			return;
+		}
+
+		self::$tableNameCache = $GLOBALS['TYPO3_DB']->admin_get_tables();
 	}
 
 	/**
@@ -462,27 +449,55 @@ class tx_oelib_db {
 		return isset(self::$tableNameCache[$tableName]);
 	}
 
+
+	////////////////////////////////////////////////
+	// Functions concerning the columns of a table
+	////////////////////////////////////////////////
+
 	/**
-	 * Retrieves the table names of the current DB and stores them in
-	 * self::$tableNameCache.
+	 * Checks whether a table has a column with a particular name.
 	 *
-	 * This function does nothing if the table names already have been
-	 * retrieved.
+	 * To get a boolean true as result, the table must contain a column with the
+	 * given name.
+	 *
+	 * @param string the name of the table to check, must not be empty
+	 * @param string the column name to check, must not be empty
+	 *
+	 * @return boolean true if the column with the provided name exists, false
+	 *                 otherwise
 	 */
-	private static function retrieveTableNames() {
-		if (!empty(self::$tableNameCache)) {
-			return;
+	public static function tableHasColumn($table, $column) {
+		if ($table == '') {
+			throw new Exception('The table name must not be empty.');
+		}
+		if ($column == '') {
+			throw new Exception('The column name must not be empty.');
 		}
 
-		self::$tableNameCache = $GLOBALS['TYPO3_DB']->admin_get_tables();
+		if (!isset(self::$tableColumnCache[$table])) {
+			self::$tableColumnCache[$table] =
+				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
+
+		}
+
+		return isset(self::$tableColumnCache[$table][$column]);
 	}
 
 	/**
-	 * Enables query logging in TYPO3's DB class.
+	 * Checks whether a table has a column "uid".
+	 *
+	 * @param string the name of the table to check
+	 *
+	 * @return boolean true if a valid column was found, false otherwise
 	 */
-	public static function enableQueryLogging() {
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+	public static function tableHasColumnUid($table) {
+		return self::tableHasColumn($table, 'uid');
 	}
+
+
+	/////////////////////////////////
+	// Functions concerning the TCA
+	/////////////////////////////////
 
 	/**
 	 * Returns the TCA for a certain table.
