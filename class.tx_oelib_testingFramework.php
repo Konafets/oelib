@@ -747,11 +747,12 @@ final class tx_oelib_testingFramework {
 		$this->cleanUpFolders();
 		$this->discardFakeFrontEnd();
 
+		tx_oelib_ConfigurationRegistry::purgeInstance();
 		tx_oelib_headerProxyFactory::purgeInstance();
 		tx_oelib_mailerFactory::purgeInstance();
 		tx_oelib_MapperRegistry::purgeInstance();
-		tx_oelib_Session::purgeInstances();
 		tx_oelib_PageFinder::purgeInstance();
+		tx_oelib_Session::purgeInstances();
 	}
 
 	/**
