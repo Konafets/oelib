@@ -69,7 +69,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_MapperRegistry the current Singleton instance
+	 * @return tx_oelib_PageFinder the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
