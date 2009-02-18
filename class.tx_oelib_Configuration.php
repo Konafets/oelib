@@ -25,7 +25,8 @@
 /**
  * Class 'tx_oelib_Configuration' for the 'oelib' extension.
  *
- * This class represents a set of configuration options within a certain scope.
+ * This class represents a set of configuration options within a certain
+ * namespace.
  *
  * @package TYPO3
  * @subpackage tx_oelib

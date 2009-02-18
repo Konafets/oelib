@@ -74,31 +74,31 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 	// Test concerning get and set
 	////////////////////////////////
 
-	public function testGetForEmptyScopeThrowsException() {
+	public function testGetForEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$scope must not be empty.'
+			'Exception', '$namespace must not be empty.'
 		);
 
 		tx_oelib_ConfigurationRegistry::get('');
 	}
 
-	public function testGetForNonEmptyScopeReturnsConfigurationInstance() {
+	public function testGetForNonEmptyNamespaceReturnsConfigurationInstance() {
 		$this->assertTrue(
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				instanceof tx_oelib_Configuration
 		);
 	}
 
-	public function testGetForTheSameScopeCalledTwoTimesReturnsTheSameInstance() {
+	public function testGetForTheSameNamespaceCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib'),
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 		);
 	}
 
-	public function testSetWithEmptyScopeThrowsException() {
+	public function testSetWithEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$scope must not be empty.'
+			'Exception', '$namespace must not be empty.'
 		);
 
 		tx_oelib_ConfigurationRegistry::getInstance()->set(
@@ -118,7 +118,7 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetTwoTimesForTheSameScopeDoesNotFail() {
+	public function testSetTwoTimesForTheSameNamespaceDoesNotFail() {
 		tx_oelib_ConfigurationRegistry::getInstance()->set(
 			'foo',  new tx_oelib_Configuration()
 		);

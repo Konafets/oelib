@@ -40,7 +40,7 @@ class tx_oelib_ConfigurationRegistry {
 	private static $instance = null;
 
 	/**
-	 * @var array already created configurations (by scope)
+	 * @var array already created configurations (by namespace)
 	 */
 	private $configurations = array();
 
@@ -54,21 +54,21 @@ class tx_oelib_ConfigurationRegistry {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		foreach (array_keys($this->configurations) as $scope) {
-			$this->dropConfiguration($scope);
+		foreach (array_keys($this->configurations) as $namespace) {
+			$this->dropConfiguration($namespace);
 		}
 	}
 
 	/**
-	 * Destructs a configuration for a given scope and drops the reference to
+	 * Destructs a configuration for a given namespace and drops the reference to
 	 * it.
 	 *
-	 * @param string the scope of the configuration to drop, must not be empty,
+	 * @param string the namespace of the configuration to drop, must not be empty,
 	 *               must have been set in this registry
 	 */
-	private function dropConfiguration($scope) {
-		$this->configurations[$scope]->__destruct();
-		unset($this->configurations[$scope]);
+	private function dropConfiguration($namespace) {
+		$this->configurations[$namespace]->__destruct();
+		unset($this->configurations[$namespace]);
 	}
 
 	/**
@@ -98,62 +98,63 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * Retrieves a dataMapper by class name.
 	 *
-	 * @param string the name of a configuration scope, e.g. "plugin.tx_oelib",
+	 * @param string the name of a configuration namespace, e.g. "plugin.tx_oelib",
 	 *               must not be empty
 	 *
-	 * @return tx_oelib_Configuration the configuration for the given scope
+	 * @return tx_oelib_Configuration the configuration for the given namespace
 	 *
-	 * @see getByScope
+	 * @see getByNamespace
 	 */
-	public static function get($scope) {
-		return self::getInstance()->getByScope($scope);
+	public static function get($namespace) {
+		return self::getInstance()->getByNamespace($namespace);
 	}
 
 	/**
 	 * Retrieves a dataMapper by class name.
 	 *
-	 * @param string the name of a configuration scope, e.g. "plugin.tx_oelib",
+	 * @param string the name of a configuration namespace, e.g. "plugin.tx_oelib",
 	 *               must not be empty
 	 *
-	 * @return tx_oelib_Configuration the configuration for the given scope
+	 * @return tx_oelib_Configuration the configuration for the given namespace
 	 */
-	private function getByScope($scope) {
-		$this->checkForNonEmptyScope($scope);
+	private function getByNamespace($namespace) {
+		$this->checkForNonEmptyNamespace($namespace);
 
-		if (!isset($this->configurations[$scope])) {
-			$this->configurations[$scope]
+		if (!isset($this->configurations[$namespace])) {
+			$this->configurations[$namespace]
 				= t3lib_div::makeInstance('tx_oelib_Configuration');
 		}
 
-		return $this->configurations[$scope];
+		return $this->configurations[$namespace];
 	}
 
 	/**
-	 * Sets a configuration for a certain scope.
+	 * Sets a configuration for a certain namespace.
 	 *
-	 * @param string the scope of the configuration to set, must not be empty
+	 * @param string the namespace of the configuration to set, must not be
+	 *               empty
 	 * @param tx_oelib_Configuration the configuration to set
 	 */
-	public function set($scope, tx_oelib_Configuration $configuration) {
-		$this->checkForNonEmptyScope($scope);
+	public function set($namespace, tx_oelib_Configuration $configuration) {
+		$this->checkForNonEmptyNamespace($namespace);
 
-		if (isset($this->configurations[$scope])) {
-			$this->dropConfiguration($scope);
+		if (isset($this->configurations[$namespace])) {
+			$this->dropConfiguration($namespace);
 		}
 
-		$this->configurations[$scope] = $configuration;
+		$this->configurations[$namespace] = $configuration;
 	}
 
 	/**
-	 * Checks that $scope is non-empty
+	 * Checks that $namespace is non-empty.
 	 *
-	 * @throws Exception if $scope is empty
+	 * @throws Exception if $namespace is empty
 	 *
-	 * @param string scope name to check
+	 * @param string namespace name to check
 	 */
-	private function checkForNonEmptyScope($scope) {
-		if ($scope == '') {
-			throw new Exception('$scope must not be empty.');
+	private function checkForNonEmptyNamespace($namespace) {
+		if ($namespace == '') {
+			throw new Exception('$namespace must not be empty.');
 		}
 	}
 }
