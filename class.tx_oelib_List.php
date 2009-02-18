@@ -105,10 +105,24 @@ class tx_oelib_List implements Iterator {
 	}
 
 	/**
+	 * Returns the first item.
+	 *
+	 * @return tx_oelib_Model the first item, will be null if this list is
+	 *                        empty
+	 */
+	public function first() {
+		if ($this->isEmpty()) {
+			return null;
+		}
+
+		return $this->items[0];
+	}
+
+	/**
 	 * Returns the current item.
 	 *
 	 * @return tx_oelib_Model the current item, will be null if this list is
-	 *                        null or the pointer is after the last item
+	 *                        empty or the pointer is after the last item
 	 */
 	public function current() {
 		if (!$this->valid()) {

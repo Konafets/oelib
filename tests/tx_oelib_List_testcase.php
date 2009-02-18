@@ -259,6 +259,61 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 
 
 	///////////////////////////
+	// Tests concerning first
+	///////////////////////////
+
+	public function testFirstForEmptyListReturnsNull() {
+		$this->assertNull(
+			$this->fixture->first()
+		);
+	}
+
+	public function testFirstForListWithOneItemReturnsThatItem() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->first()
+		);
+
+		$model->__destruct();
+	}
+
+	public function testFirstWithTwoItemsReturnsTheFirstItem() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->assertSame(
+			$model1,
+			$this->fixture->first()
+		);
+
+		$model1->__destruct();
+		$model2->__destruct();
+	}
+
+	public function testFirstWithTwoItemsAfterNextReturnsTheFirstItem() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->fixture->next();
+
+		$this->assertSame(
+			$model1,
+			$this->fixture->first()
+		);
+
+		$model1->__destruct();
+		$model2->__destruct();
+	}
+
+
+	///////////////////////////
 	// Tests concerning valid
 	///////////////////////////
 
