@@ -28,7 +28,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * Testcase for the tx_oelib_Model_FrontEndUser class in the 'oelib' extension.
  *
  * @package TYPO3
- * @subpackage
+ * @subpackage oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
