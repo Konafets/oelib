@@ -237,11 +237,13 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsHiddenOnGhostNotInDatabaseThrowsException() {
-		$this->setExpectedException(
-			'Exception', 'This model is dead and cannot have any data.'
-		);
-
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound',
+			'This tx_oelib_tests_fixtures_TestingModel with the UID ' . $uid .
+				' is dead and cannot have any data.'
+		);
 
 		$this->fixture->find($uid)->isHidden();
 	}
