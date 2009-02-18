@@ -906,7 +906,7 @@ class tx_oelib_configcheck {
 	 *               is needed for, must not be empty
 	 * @param string a DB table name (must not be empty)
 	 */
-	protected function checkIfSingleInTableNotEmpty(
+	public function checkIfSingleInTableNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
 	) {
 		$this->checkIfSingleInSetNotEmpty(
@@ -1041,9 +1041,7 @@ class tx_oelib_configcheck {
 	 * @return array array with the column names as values
 	 */
 	protected function getDbColumnNames($tableName) {
-		$columns = $GLOBALS['TYPO3_DB']->admin_get_fields($tableName);
-
-		return array_keys($columns);
+		return array_keys(tx_oelib_db::getColumnsInTable($tableName));
 	}
 
 	/**

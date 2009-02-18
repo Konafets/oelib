@@ -33,10 +33,15 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_dum
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
-	/** configuration check object to be tested */
+	/**
+	 * @var tx_oelib_configcheck configuration check object to be tested
+	 */
 	private $fixture;
 
-	/** dummy object to be checked by the configuration check object */
+	/**
+	 * @var tx_oelib_dummyObjectToCheck dummy object to be checked by the
+	 *                                  configuration check object
+	 */
 	private $objectToCheck;
 
 	protected function setUp() {
@@ -45,13 +50,16 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 				'emptyString' => '',
 				'nonEmptyString' => 'foo',
 				'validEmail' => 'any-address@valid-email.org',
-				'internalEmail' => 'user@servername'
+				'internalEmail' => 'user@servername',
+				'existingColumn' => 'title',
+				'inexistentColumn' => 'does_not_exist',
 			)
 		);
 		$this->fixture = new tx_oelib_configcheck($this->objectToCheck);
 	}
 
 	protected function tearDown() {
+		$this->fixture->__destruct();
 		$this->objectToCheck->__destruct();
 
 		unset($this->fixture, $this->objectToCheck);
@@ -163,6 +171,28 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'emptyString',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIfSingleInTableNotEmptyForValueNotInTableComplains() {
+		$this->fixture->checkIfSingleInTableNotEmpty(
+			'inexistentColumn', false, '', '', 'tx_oelib_test'
+		);
+
+		$this->assertContains(
+			'inexistentColumn',
+			$this->fixture->getRawMessage()
+		);
+	}
+
+	public function testCheckIfSingleInTableNotEmptyForValueNotInTableNotComplains() {
+		$this->fixture->checkIfSingleInTableNotEmpty(
+			'existingColumn', false, '', '', 'tx_oelib_test'
+		);
+
+		$this->assertEquals(
+			'',
 			$this->fixture->getRawMessage()
 		);
 	}
