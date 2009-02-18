@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_List' for the 'realty' extension.
+ * Class 'tx_oelib_List' for the 'oelib' extension.
  *
  * This class represents a list of models.
  *
