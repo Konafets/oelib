@@ -748,6 +748,7 @@ final class tx_oelib_testingFramework {
 		$this->discardFakeFrontEnd();
 
 		tx_oelib_ConfigurationRegistry::purgeInstance();
+		tx_oelib_FrontEndLoginManager::purgeInstance();
 		tx_oelib_headerProxyFactory::purgeInstance();
 		tx_oelib_mailerFactory::purgeInstance();
 		tx_oelib_MapperRegistry::purgeInstance();
