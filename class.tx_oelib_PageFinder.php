@@ -37,7 +37,8 @@ class tx_oelib_PageFinder {
 	const SOURCE_AUTO = 0,
 		SOURCE_FRONT_END = 1,
 		SOURCE_BACK_END = 2,
-		SOURCE_MANUAL = 3;
+		SOURCE_MANUAL = 3,
+		NO_SOURCE_FOUND = 4;
 
 	/**
 	 * @var tx_oelib_PageFinder the Singleton instance
@@ -100,7 +101,7 @@ class tx_oelib_PageFinder {
 	 * and finally if a BE page UID is present.
 	 *
 	 * @return integer the ID of the current page, will be zero if no page is
-	 *                 present
+	 *                 present or no page source could be found
 	 */
 	public function getPageUid() {
 		switch ($this->getCurrentSource()) {
@@ -147,9 +148,8 @@ class tx_oelib_PageFinder {
 	/**
 	 * Returns the current source for the page UID.
 	 *
-	 * @throws Exception if no source could be detected
-	 *
-	 * @return integer either SOURCE_BACK_END, SOURCE_FRONT_END or SOURCE_MANUAL
+	 * @return integer either SOURCE_BACK_END, SOURCE_FRONT_END or SOURCE_MANUAL,
+	 *                 will be NO_SOURCE_FOUND if no source could be detected
 	 */
 	public function getCurrentSource() {
 		if ($this->manualPageUidSource != self::SOURCE_AUTO) {
@@ -161,9 +161,7 @@ class tx_oelib_PageFinder {
 		} elseif ($this->hasBackEnd()) {
 			$result = self::SOURCE_BACK_END;
 		} else {
-			throw new Exception(
-				'No source for the page UID could be determined.'
-			);
+			$result = self::NO_SOURCE_FOUND;
 		}
 
 		return $result;

@@ -215,13 +215,11 @@ class tx_oelib_PageFinder_testcase extends tx_phpunit_testcase {
 	// Tests concerning getCurrentSource
 	//////////////////////////////////////
 
-	public function test_GetCurrentSource_ForNoSourceForcedAndNoPageUidSet_ThrowsException() {
-		$this->setExpectedException(
-			'Exception',
-			'No source for the page UID could be determined.'
+	public function test_GetCurrentSource_ForNoSourceForcedAndNoPageUidSet_ReturnsNoSourceFound() {
+		$this->assertEquals(
+			tx_oelib_PageFinder::NO_SOURCE_FOUND,
+			$this->fixture->getCurrentSource()
 		);
-
-		$this->fixture->getCurrentSource();
 	}
 
 	public function test_GetCurrentSource_ForSourceForcedToFrontEnd_ReturnsSourceFrontEnd() {

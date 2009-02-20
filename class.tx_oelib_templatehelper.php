@@ -1333,7 +1333,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * error)
 	 */
 	public function getCurrentBePageId() {
-		return intval(t3lib_div::_GP('id'));
+		return tx_oelib_PageFinder::getInstance()->getPageUid();
 	}
 
 	/**
