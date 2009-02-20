@@ -359,5 +359,124 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAttachments()
 		);
 	}
+
+
+	//////////////////////////////////////////////////////
+	// Tests regarding setting and getting the CSS file.
+	//////////////////////////////////////////////////////
+
+	public function test_SetCssFile_ForNoCssFileGiven_DoesNotSetCssFile() {
+		$this->fixture->setCssFile('');
+
+		$this->assertFalse(
+			$this->fixture->hasCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForStringGivenWhichIsNoFile_DoesNotSetCssFile() {
+		$this->fixture->setCssFile('foo');
+
+		$this->assertFalse(
+			$this->fixture->hasCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForGivenCssFileWithAbsolutePath_SetsCssFile() {
+		$this->fixture->setCssFile(
+			t3lib_extMgm::extPath('oelib') . 'tests/fixtures/test.css'
+		);
+
+		$this->assertTrue(
+			$this->fixture->hasCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForGivenCssFileWithAbsoluteExtPath_SetsCssFile() {
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
+
+		$this->assertTrue(
+			$this->fixture->hasCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForGivenCssFile_StoresContentsOfCssFile() {
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
+
+		$this->assertContains(
+			'h3',
+			$this->fixture->getCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForSetCssFileAndThenGivenEmtpyString_ClearesStoredCssFileData() {
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
+		$this->fixture->setCssFile('');
+
+		$this->assertFalse(
+			$this->fixture->hasCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForSetCssFileAndThenGivenNewCssFile_RemovesOldCssDataFromStorage() {
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test_2.css');
+
+		$this->assertNotContains(
+			'h3',
+			$this->fixture->getCssFile()
+		);
+	}
+
+	public function test_SetCssFile_ForSetCssFileAndThenGivenNewCssFile_StoresNewCssData() {
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
+		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test_2.css');
+
+		$this->assertContains(
+			'h4',
+			$this->fixture->getCssFile()
+		);
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Tests concerning the mogrification of the HTML Messages and the CSS file
+	/////////////////////////////////////////////////////////////////////////////
+
+	public function test_SetHtmlMessage_WithNoCssFileStored_OnlyStoresTheHtmlMessage() {
+		$htmlMessage =
+			'<html>' .
+				'<head><title>foo</title></head>' .
+				'<body><h3>Bar</h3></body>' .
+			'</html>';
+		$this->fixture->setHTMLMessage($htmlMessage);
+
+		$this->assertEquals(
+			$htmlMessage,
+			$this->fixture->getHTMLMessage()
+		);
+	}
+
+	public function test_SetHtmlMessage_WithCssFileStored_StoresAttributesFromCssInHtmlMessage() {
+		$this->fixture->setCssFile(
+			t3lib_extMgm::extPath('oelib') . 'tests/fixtures/test.css'
+		);
+		$this->fixture->setHTMLMessage(
+			'<html>' .
+				'<head><title>foo</title></head>' .
+				'<body><h3>Bar</h3></body>' .
+			'</html>'
+		);
+
+		$this->assertEquals(
+			'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"' .
+				' "http://www.w3.org/TR/REC-html40/loose.dtd">' . LF .
+			'<html>' . LF .
+				'<head><title>foo</title></head>' . LF .
+				'<body><h3 style="font-weight: bold;">Bar</h3></body>' . LF .
+			'</html>'
+			,
+			$this->fixture->getHTMLMessage()
+		);
+	}
 }
 ?>

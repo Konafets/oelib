@@ -22,6 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(t3lib_extMgm::extPath('oelib') . 'contrib/emogrifier/emogrifier.php');
+
 /**
  * Class 'tx_oelib_Mail' for the 'oelib' extension.
  *
@@ -52,6 +54,11 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * @var array attachments of the e-mail
 	 */
 	private $attachments = array();
+
+	/**
+	 * @var array contains the CSS files which already have been read
+	 */
+	private static $cssFileCache = array();
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
@@ -209,7 +216,14 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			throw new Exception('$message must not be empty.');
 		}
 
-		$this->setAsString('html_message', $message);
+		if ($this->hasCssFile()) {
+			$emogrifier = new Emogrifier($message, $this->getCssFile());
+			$messageToStore = $emogrifier->emogrify();
+		} else {
+			$messageToStore = $message;
+		}
+
+		$this->setAsString('html_message', $messageToStore);
 	}
 
 	/**
@@ -247,6 +261,56 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	public function getAttachments() {
 		return $this->attachments;
+	}
+
+	/**
+	 * Sets the CSS file for sending an e-mail.
+	 *
+	 * @param string the complete path to a valid CSS file, may be empty
+	 */
+	public function setCssFile($cssFile) {
+		if (!$this->cssFileIsCached($cssFile)) {
+			$absoluteFileName = t3lib_div::getFileAbsFileName($cssFile);
+			if (($cssFile != '') && is_readable($absoluteFileName)
+			) {
+				self::$cssFileCache[$cssFile]
+					= file_get_contents($absoluteFileName);
+			} else {
+				self::$cssFileCache[$cssFile] = '';
+			}
+		}
+
+		$this->setAsString('cssFile', self::$cssFileCache[$cssFile]);
+	}
+
+	/**
+	 * Returns whether e-mail has a CSS file.
+	 *
+	 * @return boolean true if a CSS file has been set, false otherwise
+	 */
+	public function hasCssFile() {
+		return $this->hasString('cssFile');
+	}
+
+	/**
+	 * Returns the stored content of the CSS file.
+	 *
+	 * @return string the file contents of the CSS file, will be empty if no CSS
+	 *                file was stored
+	 */
+	public function getCssFile() {
+		return $this->getAsString('cssFile');
+	}
+
+	/**
+	 * Checks whether the given CSS file has already been read.
+	 *
+	 * @param string the absolute path to the CSS file, must not be empty
+	 *
+	 * @return boolean true when the CSS file was read earlier, false otherwise
+	 */
+	private function cssFileIsCached($cssFile) {
+		return isset(self::$cssFileCache[$cssFile]);
 	}
 }
 

@@ -1,0 +1,16 @@
+The Emogrifier is used with permisson of Pelago Corporation who is the creator
+of the Emogrifier.
+
+There is no license applied to the Emogrifier, but it can be used for free as
+stated in an e-mail from the author received on 2009-02-17:
+
+"[...] We never did finalize the licensing on that, but our intent is to
+leave it fully open. I'm not sure if that will be GNU or Berkeley or
+creative commons. But you can be assured that you can use the extension in
+your seminars as freely as you would like.[...]"
+
+
+The Emogrifier homepage can be found here:
+http://pelagodesign.com/sidecar/emogrifier/
+
+(c) Copyright 2008-2009 Pelago Corporation, http://pelagodesign.com/
