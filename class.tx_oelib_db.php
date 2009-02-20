@@ -505,7 +505,7 @@ class tx_oelib_db {
 	 */
 	public static function tableHasColumn($table, $column) {
 		if ($column == '') {
-			throw new Exception('The column name must not be empty.');
+			return false;
 		}
 
 		self::retrieveColumnsForTable($table);

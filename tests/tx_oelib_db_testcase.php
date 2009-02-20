@@ -411,13 +411,11 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTableHasColumnThrowsExceptionOnEmptyColumnName() {
-		$this->setExpectedException(
-			'Exception', 'The column name must not be empty.'
-		);
-
-		tx_oelib_db::tableHasColumn(
-			OELIB_TESTTABLE, ''
+	public function testTableHasColumnReturnsFalseOnEmptyColumnName() {
+		$this->assertFalse(
+			tx_oelib_db::tableHasColumn(
+				OELIB_TESTTABLE, ''
+			)
 		);
 	}
 
