@@ -193,9 +193,15 @@ class tx_oelib_ConfigurationRegistry {
 	 * Retrieves the complete TypoScript setup for the current page as a nested
 	 * array.
 	 *
-	 * @return array the TypoScriptSetup for the current page, might be empty
+	 * @return array the TypoScriptSetup for the current page, will be empty if
+	 *               no page is selected or if the TS setup of the page is empty
 	 */
 	private function &getCompleteTypoScriptSetup() {
+		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+		if ($pageUid == 0) {
+			return array();
+		}
+
 		if ($this->existsFrontEnd()) {
 			return $GLOBALS['TSFE']->tmpl->setup;
 		}
@@ -205,9 +211,7 @@ class tx_oelib_ConfigurationRegistry {
 		$template->init();
 
 		$page = t3lib_div::makeInstance('t3lib_pageSelect');
-		$rootline = $page->getRootLine(
-			tx_oelib_PageFinder::getInstance()->getPageUid()
-		);
+		$rootline = $page->getRootLine($pageUid);
 		$template->runThroughTemplates($rootline, 0);
 		$template->generateConfig();
 
