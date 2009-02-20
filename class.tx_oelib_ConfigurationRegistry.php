@@ -22,6 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+require_once(PATH_t3lib . 'class.t3lib_page.php');
+require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
+
 /**
  * Class 'tx_oelib_ConfigurationRegistry' for the 'oelib' extension.
  *
@@ -122,7 +125,7 @@ class tx_oelib_ConfigurationRegistry {
 
 		if (!isset($this->configurations[$namespace])) {
 			$this->configurations[$namespace]
-				= t3lib_div::makeInstance('tx_oelib_Configuration');
+				= $this->retrieveConfigurationFromTypoScriptSetup($namespace);
 		}
 
 		return $this->configurations[$namespace];
@@ -156,6 +159,73 @@ class tx_oelib_ConfigurationRegistry {
 		if ($namespace == '') {
 			throw new Exception('$namespace must not be empty.');
 		}
+	}
+
+	/**
+	 * Retrieves the configuration from TS Setup of the current page for a given
+	 * namespace.
+	 *
+	 * @param string the namespace of the configuration to retrieve, must
+	 *               not be empty
+	 *
+	 * @return array the TypoScript configuration for that namespace, might be
+	 *               empty
+	 */
+	private function retrieveConfigurationFromTypoScriptSetup($namespace) {
+		$data = $this->getCompleteTypoScriptSetup();
+
+		$namespaceParts = explode('.', $namespace);
+		foreach ($namespaceParts as $namespacePart) {
+			if (!array_key_exists($namespacePart . '.', $data)) {
+				$data = array();
+				break;
+			}
+
+			$data =& $data[$namespacePart . '.'];
+		}
+
+		$configuration = t3lib_div::makeInstance('tx_oelib_Configuration');
+		$configuration->setData($data);
+		return $configuration;
+	}
+
+	/**
+	 * Retrieves the complete TypoScript setup for the current page as a nested
+	 * array.
+	 *
+	 * @return array the TypoScriptSetup for the current page, might be empty
+	 */
+	private function &getCompleteTypoScriptSetup() {
+		if ($this->existsFrontEnd()) {
+			return $GLOBALS['TSFE']->tmpl->setup;
+		}
+
+		$template = t3lib_div::makeInstance('t3lib_TStemplate');
+		$template->tt_track = 0;
+		$template->init();
+
+		$page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$rootline = $page->getRootLine(
+			tx_oelib_PageFinder::getInstance()->getPageUid()
+		);
+		$template->runThroughTemplates($rootline, 0);
+		$template->generateConfig();
+
+		return $template->setup;
+	}
+
+	/**
+	 * Checks whether there is an initialized front end.
+	 *
+	 * Note: This function can return true even in the BE if there is a front
+	 * end.
+	 *
+	 * @return boolean true if there is an initialized front end, false
+	 *                 otherwise
+	 */
+	private function existsFrontEnd() {
+		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE'])
+			&& is_object($GLOBALS['TSFE']->tmpl);
 	}
 }
 

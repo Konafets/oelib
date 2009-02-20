@@ -1063,9 +1063,14 @@ final class tx_oelib_testingFramework {
 		$frontEnd->initFEuser();
 		$frontEnd->determineId();
 		$frontEnd->initTemplate();
+
 		$frontEnd->tmpl->getFileName_backPath = PATH_site;
-		// $frontEnd->getConfigArray() doesn't work here because the dummy FE
-		// page is not required to have a template.
+		$frontEnd->tmpl->runThroughTemplates(
+			$frontEnd->sys_page->getRootLine($pageUid), 0
+		);
+		$frontEnd->tmpl->generateConfig();
+		// $frontEnd->getConfigArray() doesn't work here. So we set an empty
+		// configuration.
 		$frontEnd->config = array();
 		$frontEnd->settingLanguage();
 		$frontEnd->settingLocale();

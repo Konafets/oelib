@@ -3306,6 +3306,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testCreateFakeFrontEndReadsTypoScriptSetupFromPage() {
+		$pageUid = $this->fixture->createFrontEndPage();
+		$this->fixture->createTemplate(
+			$pageUid,
+			array('config' => 'foo = 42')
+		);
+
+		$this->fixture->createFakeFrontEnd($pageUid);
+
+		$this->assertEquals(
+			42,
+			$GLOBALS['TSFE']->tmpl->setup['foo']
+		);
+	}
+
 	public function testCreateFakeFrontEndCreatesConfiguration() {
 		$GLOBALS['TSFE'] = null;
 		$this->fixture->createFakeFrontEnd();

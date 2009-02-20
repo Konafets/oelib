@@ -34,11 +34,19 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
+	private $testingFramework;
+
 	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 	}
 
 	public function tearDown() {
-		tx_oelib_ConfigurationRegistry::purgeInstance();
+		$this->testingFramework->cleanUp();
+
+		unset($this->testingFramework);
 	}
 
 
@@ -84,6 +92,10 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetForNonEmptyNamespaceReturnsConfigurationInstance() {
+		tx_oelib_PageFinder::getInstance()->setPageUid(
+			$this->testingFramework->createFrontEndPage()
+		);
+
 		$this->assertTrue(
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				instanceof tx_oelib_Configuration
@@ -91,6 +103,10 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetForTheSameNamespaceCalledTwoTimesReturnsTheSameInstance() {
+		tx_oelib_PageFinder::getInstance()->setPageUid(
+			$this->testingFramework->createFrontEndPage()
+		);
+
 		$this->assertSame(
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib'),
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
@@ -125,6 +141,85 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 		);
 		tx_oelib_ConfigurationRegistry::getInstance()->set(
 			'foo',  new tx_oelib_Configuration()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning TypoScript setup
+	//////////////////////////////////////
+
+	public function testGetReturnsDataFromTypoScriptSetupFromManuallySetPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createTemplate(
+			$pageUid,
+			array('config' => 'plugin.tx_oelib.test = 42')
+		);
+
+		tx_oelib_PageFinder::getInstance()->setPageUid($pageUid);
+
+		$this->assertEquals(
+			42,
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
+				->getAsInteger('test')
+		);
+	}
+
+	public function testGetReturnsDataFromTypoScriptSetupFromBackEndPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createTemplate(
+			$pageUid,
+			array('config' => 'plugin.tx_oelib.test = 42')
+		);
+		$_POST['id'] = $pageUid;
+
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_BACK_END
+		);
+
+		$this->assertEquals(
+			42,
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
+				->getAsInteger('test')
+		);
+
+		unset($_POST['id']);
+	}
+
+	public function testGetReturnsDataFromTypoScriptSetupFromFrontEndPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createTemplate(
+			$pageUid,
+			array('config' => 'plugin.tx_oelib.test = 42')
+		);
+
+		$this->testingFramework->createFakeFrontEnd($pageUid);
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_FRONT_END
+		);
+
+		$this->assertEquals(
+			42,
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
+				->getAsInteger('test')
+		);
+	}
+
+	public function testGetAfterSetReturnsManuallySetConfigurationEvenIfThereIsAPage() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createTemplate(
+			$pageUid,
+			array('config' => 'plugin.tx_oelib.bar = 42')
+		);
+		tx_oelib_PageFinder::getInstance()->setPageUid($pageUid);
+
+		$configuration = new tx_oelib_Configuration();
+		tx_oelib_ConfigurationRegistry::getInstance()
+			->set('plugin.tx_oelib', $configuration);
+
+		$this->assertSame(
+			$configuration,
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 		);
 	}
 }
