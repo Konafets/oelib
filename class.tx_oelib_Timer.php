@@ -70,7 +70,7 @@ class tx_oelib_Timer {
 	private static $instance = null;
 
 	/**
-	 * The constructor.
+	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
 	}
@@ -94,6 +94,17 @@ class tx_oelib_Timer {
 		}
 
 		return self::$instance;
+	}
+
+	/**
+	 * Purges the current instance so that getInstance will create a new
+	 * instance.
+	 */
+	public static function purgeInstance() {
+		if (self::$instance) {
+			self::$instance->__destruct();
+		}
+		self::$instance = null;
 	}
 
 	/**

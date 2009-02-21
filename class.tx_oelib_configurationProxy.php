@@ -34,19 +34,25 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_configurationProxy {
-	/** the singleton configuration proxy objects */
+	/**
+	 * @var array the singleton configuration proxy objects
+	 */
 	private static $instances = array();
 
 	/**
-	 * stored configuration data for each extension which currently uses the
-	 * configuration proxy
+	 * @var array stored configuration data for each extension which currently
+	 *            uses the configuration proxy
 	 */
 	private $configuration = array();
 
-	/** key of the extension for which the EM configuration is stored */
+	/**
+	 * @var string key of the extension for which the EM configuration is stored
+	 */
 	private $extensionKey = '';
 
-	/** whether the configuration is already loaded */
+	/**
+	 * @var boolean whether the configuration is already loaded
+	 */
 	private $isConfigurationLoaded = false;
 
 	/**
@@ -82,6 +88,14 @@ class tx_oelib_configurationProxy {
 		}
 
 		return self::$instances[$extensionKey];
+	}
+
+	/**
+	 * Purges the current instances so that getInstance will create new
+	 * instances.
+	 */
+	public static function purgeInstances() {
+		self::$instances = array();
 	}
 
 	/**

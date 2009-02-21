@@ -44,6 +44,12 @@ class tx_oelib_TemplateRegistry {
 	private $templates = array();
 
 	/**
+	 * The constructor. Use getInstance() instead.
+	 */
+	private function __construct() {
+	}
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {

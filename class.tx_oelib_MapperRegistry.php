@@ -48,6 +48,12 @@ class tx_oelib_MapperRegistry {
 	private $mappers = array();
 
 	/**
+	 * The constructor. Use getInstance() instead.
+	 */
+	private function __construct() {
+	}
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -88,6 +94,8 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @param string the name of an existing mapper class
 	 *
+	 * @return tx_oelib_DataMapper the mapper with the class $className
+	 *
 	 * @see getByClassName
 	 */
 	public static function get($className) {
@@ -100,6 +108,8 @@ class tx_oelib_MapperRegistry {
 	 * @throws tx_oelib_Exception_NotFound if there is no such mapper class
 	 *
 	 * @param string the name of an existing mapper class
+	 *
+	 * @return tx_oelib_DataMapper the mapper with the class $className
 	 */
 	private function getByClassName($className) {
 		if ($className == '') {
@@ -114,39 +124,16 @@ class tx_oelib_MapperRegistry {
 		}
 
 		if (!isset($this->mappers[$className])) {
-			if (!class_exists($className)) {
-				$path = $this->createPathFromClassName($className);
-
-				if (!file_exists($path)) {
-					throw new tx_oelib_Exception_NotFound(
-						'No mapper class "' . $className . '" could be found.'
-					);
-				}
-
-				include_once($path);
+			if (!tx_oelib_Autoloader::load($className)) {
+				throw new tx_oelib_Exception_NotFound(
+					'No mapper class "' . $className . '" could be found.'
+				);
 			}
 
 			$this->mappers[$className] = t3lib_div::makeInstance($className);
 		}
 
 		return $this->mappers[$className];
-	}
-
-	/**
-	 * Creates the path to a mapper class.
-	 *
-	 * @param string the name of an existing mapper class in an extension
-	 *
-	 * @return string the path to that class, will not be empty
-	 */
-	private function createPathFromClassName($className) {
-		$matches = array();
-		preg_match('/^tx_([a-z]+)_/', $className, $matches);
-
-		$extensionName = $matches[1];
-
-		return t3lib_extMgm::extPath($extensionName) . 'Mapper/class.' .
-			$className . '.php';
 	}
 }
 

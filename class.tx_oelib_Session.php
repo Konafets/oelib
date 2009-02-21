@@ -65,7 +65,7 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	private static $instances = array();
 
 	/**
-	 * The constructor.
+	 * The constructor. Use getInstance() instead.
 	 *
 	 * @throws Exception if there is no front end
 	 *

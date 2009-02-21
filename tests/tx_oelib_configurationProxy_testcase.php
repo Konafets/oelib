@@ -35,8 +35,14 @@ define('OELIB_EXTENSION_KEY', 'oelib');
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_configurationProxy
+	 */
 	private $fixture;
 
+	/**
+	 * @var array
+	 */
 	private $testConfiguration = array(
 		'testValueString' => 'foo',
 		'testValueEmptyString' => '',
@@ -48,7 +54,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	);
 
 	public function setUp() {
-		$this->fixture = tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
+		$this->fixture
+			= tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
@@ -56,6 +63,7 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		tx_oelib_configurationProxy::purgeInstances();
 		unset($this->fixture);
 	}
 
