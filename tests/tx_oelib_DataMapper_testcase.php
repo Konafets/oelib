@@ -453,6 +453,44 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////////////////////////
+	// Test concerning the m:n mapping with comma-separated UIDs
+	//////////////////////////////////////////////////////////////
+
+	public function testCommaSeparatedRelationsWithEmptyStringCreatesEmptyList() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getChildren()->isEmpty()
+		);
+	}
+
+	public function testCommaSeparatedRelationsWithOneUidReturnsListWithRelatedModel() {
+		$childUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('children' => $childUid)
+		);
+
+		$this->assertEquals(
+			(string) $childUid,
+			$this->fixture->find($uid)->getChildren()->getUids()
+		);
+	}
+
+	public function testCommaSeparatedRelationsWithTwoUidsReturnsListWithBothRelatedModels() {
+		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('children' => $childUid1 . ',' . $childUid2)
+		);
+
+		$this->assertEquals(
+			$childUid1 . ',' . $childUid2,
+			$this->fixture->find($uid)->getChildren()->getUids()
+		);
+	}
+
+
 	/////////////////////////////////
 	// Tests concerning getNewGhost
 	/////////////////////////////////

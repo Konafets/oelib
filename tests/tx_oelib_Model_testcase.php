@@ -207,6 +207,55 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////
+	// Tests concerning getAsList
+	////////////////////////////////
+
+	public function testGetAsListWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getAsList('');
+	}
+
+	public function testGetAsListWithInexistentKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The data item for the key "foo" is no list instance.'
+		);
+
+		$this->fixture->setData(array());
+
+		$this->assertNull(
+			$this->fixture->getAsList('foo')
+		);
+	}
+
+	public function testGetAsListWithKeyForStringDataThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The data item for the key "foo" is no list instance.'
+		);
+
+		$this->fixture->setData(array('foo' => 'bar'));
+
+		$this->fixture->getAsList('foo');
+	}
+
+	public function testGetAsListReturnsListSetViaSetData() {
+		$list = new tx_oelib_List();
+		$this->fixture->setData(
+			array('foo' => $list)
+		);
+
+		$this->assertSame(
+			$list,
+			$this->fixture->getAsList('foo')
+		);
+
+		$list->__destruct();
+	}
+
+
 	/////////////////////////////
 	// Tests concerning the UID
 	/////////////////////////////

@@ -79,6 +79,21 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the value stored in under the key $key as a list of models.
+	 *
+	 * @throws Exception if there is a data item stored for the key $key that
+	 *                   is not a list instance or if that item has not been
+	 *                   set yet
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return tx_oelib_List the data item for the given key
+	 */
+	public function getAsList($key) {
+		return parent::getAsList($key);
+	}
+
+	/**
 	 * Gets the "friend" data item.
 	 *
 	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
@@ -97,6 +112,16 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 */
 	public function getOwner() {
 		return $this->getAsModel('owner');
+	}
+
+	/**
+	 * Gets the "children" data item.
+	 *
+	 * @return tx_oelib_List the "children" data item, will be empty (but not
+	 *                       null) if this model has no children
+	 */
+	public function getChildren() {
+		return $this->getAsList('children');
 	}
 }
 ?>

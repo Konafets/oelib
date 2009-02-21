@@ -100,7 +100,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		unset($this->data);
+		foreach ($this->data as $key => $item) {
+			if ($item instanceof tx_oelib_List) {
+				$item->__destruct();
+			}
+			unset($this->data[$key]);
+		}
 	}
 
 	/**
@@ -239,6 +244,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	protected function getAsModel($key) {
 		$this->checkForNonEmptyKey($key);
+
 		$result = $this->get($key);
 		if (!$this->existsKey($key) || $result === null) {
 			return null;
@@ -247,6 +253,30 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		if (!$result instanceof tx_oelib_Model) {
 			throw new Exception(
 				'The data item for the key "' . $key . '" is no model instance.'
+			);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Gets the value stored in under the key $key as a list of models.
+	 *
+	 * @throws Exception if there is a data item stored for the key $key that
+	 *                   is not a list instance or if that item has not been
+	 *                   set yet
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return tx_oelib_List the data item for the given key
+	 */
+	public function getAsList($key) {
+		$this->checkForNonEmptyKey($key);
+
+		$result = $this->get($key);
+		if (!$result instanceof tx_oelib_List) {
+			throw new Exception(
+				'The data item for the key "' . $key . '" is no list instance.'
 			);
 		}
 

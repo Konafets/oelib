@@ -228,6 +228,16 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements tx_oelib_Int
 	public function wantsHtmlEMail() {
 		return $this->getAsBoolean('module_sys_dmail_html');
 	}
+
+	/**
+	 * Gets this user's user groups.
+	 *
+	 * @return tx_oelib_List this user's FE user groups, will not be empty if
+	 *                       the user data is valid
+	 */
+	public function getUserGroups() {
+		return $this->getAsList('usergroup');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {

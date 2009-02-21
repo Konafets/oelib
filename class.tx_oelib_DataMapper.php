@@ -168,18 +168,71 @@ abstract class tx_oelib_DataMapper {
 	 * Processes a model's data and creates any relations that are hidden within
 	 * it using foreign key mapping.
 	 *
-	 * This function is intended to be overwritten in derived classes if
-	 * necessary.
-	 *
 	 * @param array the model data to process, might be modified
 	 */
 	protected function createRelations(array &$data) {
-		foreach ($this->relations as $columnName => $mapperName) {
-			$uid = intval($data[$columnName]);
-			$data[$columnName] = ($uid > 0)
-				? tx_oelib_MapperRegistry::get($mapperName)->find($uid)
-				: null;
+		$tca = tx_oelib_db::getTcaForTable($this->tableName);
+
+		foreach ($this->relations as $key => $mapperName) {
+			if (!isset($tca['columns'][$key])) {
+				throw new Exception(
+					'In the table ' . $this->tableName . ', the column ' .
+						$key . ' does not have a TCA entry.'
+				);
+			}
+
+			$cardinality = (isset($tca['columns'][$key]['config']['maxitems']))
+				? intval($tca['columns'][$key]['config']['maxitems']) : 1;
+
+			if ($cardinality == 1) {
+				$this->createManyToOneRelation($data, $key, $mapperName);
+			} else {
+				$this->createCommaSeparatedRelation($data, $key, $mapperName);
+			}
 		}
+	}
+
+	/**
+	 * Creates an n:1 relation using foreign key mapping.
+	 *
+	 * @param array the model data to process, will be modified
+	 * @param string the key of the data item for which the relation should
+	 *               be created, must not be empty
+	 * @param string the name of the mapper to use, must not be empty
+	 */
+	private function createManyToOneRelation(array &$data, $key, $mapperName) {
+		$uid = isset($data[$key]) ? intval($data[$key]) : 0;
+
+		$data[$key] = ($uid > 0)
+			? tx_oelib_MapperRegistry::get($mapperName)->find($uid)
+			: null;
+	}
+
+	/**
+	 * Creates an n:1 relation using a comma-separated list of UIDs.
+	 *
+	 * @param array the model data to process, will be modified
+	 * @param string the key of the data item for which the relation should
+	 *               be created, must not be empty
+	 * @param string the name of the mapper to use, must not be empty
+	 */
+	private function createCommaSeparatedRelation(
+		array &$data, $key, $mapperName
+	) {
+		$list = t3lib_div::makeInstance('tx_oelib_List');
+
+		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
+		if ($uidList != '') {
+			$uids = t3lib_div::intExplode(',', $uidList);
+
+			foreach ($uids as $uid) {
+				$list->add(
+					tx_oelib_MapperRegistry::get($mapperName)->find($uid)
+				);
+			}
+		}
+
+		$data[$key] = $list;
 	}
 
 	/**

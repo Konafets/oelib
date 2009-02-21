@@ -78,6 +78,28 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 	}
 
 
+
+	//////////////////////////////
+	// Test concerning getGroups
+	//////////////////////////////
+
+	public function testGetUserGroupsGetsRelatedGroupsAsList() {
+		$groupMapper
+			= tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
+
+		$group1 = $groupMapper->getNewGhost();
+		$group2 = $groupMapper->getNewGhost();
+		$groupUids = $group1->getUid() . ',' . $group2->getUid();
+
+		$uid = $this->testingFramework->createFrontEndUser($groupUids);
+
+		$this->assertEquals(
+			$groupUids,
+			$this->fixture->find($uid)->getUserGroups()->getUids()
+		);
+	}
+
+
 	////////////////////////////////
 	// Tests concerning isLoggedIn
 	////////////////////////////////

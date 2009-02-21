@@ -50,6 +50,7 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	protected $relations = array(
 		'friend' => 'tx_oelib_tests_fixtures_TestingMapper',
 		'owner' => 'tx_oelib_Mapper_FrontEndUser',
+		'children' => 'tx_oelib_tests_fixtures_TestingMapper',
 	);
 
 	/**
