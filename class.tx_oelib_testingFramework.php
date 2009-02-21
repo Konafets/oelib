@@ -1065,17 +1065,21 @@ final class tx_oelib_testingFramework {
 		$frontEnd->initFEuser();
 		$frontEnd->determineId();
 		$frontEnd->initTemplate();
+		$frontEnd->config = array();
 
 		$frontEnd->tmpl->getFileName_backPath = PATH_site;
-		$frontEnd->tmpl->runThroughTemplates(
-			$frontEnd->sys_page->getRootLine($pageUid), 0
-		);
-		$frontEnd->tmpl->generateConfig();
-		// $frontEnd->getConfigArray() doesn't work here. So we set an empty
-		// configuration.
-		$frontEnd->config = array();
-		$frontEnd->settingLanguage();
-		$frontEnd->settingLocale();
+
+		if (($pageUid > 0)
+			&& in_array('sys_template', $this->dirtySystemTables)
+		) {
+			$frontEnd->tmpl->runThroughTemplates(
+				$frontEnd->sys_page->getRootLine($pageUid), 0
+			);
+			$frontEnd->tmpl->generateConfig();
+			$frontEnd->settingLanguage();
+			$frontEnd->settingLocale();
+		}
+
 		$frontEnd->newCObj();
 
 		$GLOBALS['TSFE'] = $frontEnd;
