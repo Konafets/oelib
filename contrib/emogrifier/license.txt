@@ -1,4 +1,6 @@
-The Emogrifier is used with permisson of Pelago Corporation who is the creator
+Emogrifier is (c) Copyright 2008-2009 Pelago Corporation, http://pelagodesign.com/
+
+The Emogrifier is used with permisson of Pelago Corporation, who is the creator
 of the Emogrifier.
 
 There is no license applied to the Emogrifier, but it can be used for free as
@@ -12,5 +14,3 @@ your seminars as freely as you would like.[...]"
 
 The Emogrifier homepage can be found here:
 http://pelagodesign.com/sidecar/emogrifier/
-
-(c) Copyright 2008-2009 Pelago Corporation, http://pelagodesign.com/
