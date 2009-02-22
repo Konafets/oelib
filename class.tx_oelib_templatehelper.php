@@ -564,7 +564,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		try {
 			$this->getTemplate()->setSubpart($subpartName, $content, $prefix);
 		} catch (Exception $exception) {
-			$this->setErrorMessage('The subpart <strong>' . $key .
+			$this->setErrorMessage('The subpart <strong>' . $subpartName .
 				'</strong> is missing in the HTML template file <strong>' .
 				$this->getConfValueString(
 					'templateFile', 's_template_special', true
