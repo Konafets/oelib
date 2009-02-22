@@ -1188,11 +1188,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean true if a user is logged in, false otherwise
 	 *
-	 * @deprecated 2009-02-06 use tx_oelib_Mapper_FrontEndUser::isLoggedIn
+	 * @deprecated 2009-02-06 use tx_oelib_FrontEndLoginManager::isLoggedIn()
 	 */
 	public function isLoggedIn() {
-		return tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
-			->isLoggedIn();
+		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
 	}
 
 	/**

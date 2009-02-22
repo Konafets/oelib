@@ -74,6 +74,34 @@ class tx_oelib_FrontEndLoginManager {
 		}
 		self::$instance = null;
 	}
+
+	/**
+	 * Checks whether any front-end user is logged in (and whether a front end
+	 * exists at all).
+	 *
+	 * @return boolean true if a front end exists and a front-end user is logged
+	 *                 in, false otherwise
+	 */
+	public function isLoggedIn() {
+		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
+			is_array($GLOBALS['TSFE']->fe_user->user);
+	}
+
+	/**
+	 * Gets the currently logged-in front-end user.
+	 *
+	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
+	 *                                     be null if no user is logged in or
+	 *                                     if there is no front end
+	 */
+	public function getLoggedInUser() {
+		if (!$this->isLoggedIn()) {
+			return null;
+		}
+
+		return tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
+			->find($GLOBALS['TSFE']->fe_user->user['uid']);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FrontEndLoginManager.php']) {

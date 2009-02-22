@@ -33,11 +33,26 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_FrontEndLoginManager_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_FrontEndLoginManager
+	 */
+	private $fixture;
+
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
+	private $testingFramework;
+
 	public function setUp() {
+		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+
+		$this->fixture = tx_oelib_FrontEndLoginManager::getInstance();
 	}
 
 	public function tearDown() {
-		tx_oelib_FrontEndLoginManager::purgeInstance();
+		$this->testingFramework->cleanUp();
+
+		unset($this->fixture, $this->testingFramework);
 	}
 
 
@@ -47,25 +62,119 @@ class tx_oelib_FrontEndLoginManager_testcase extends tx_phpunit_testcase {
 
 	public function testGetInstanceReturnsFrontEndLoginManagerInstance() {
 		$this->assertTrue(
-			tx_oelib_FrontEndLoginManager::getInstance()
-				instanceof tx_oelib_FrontEndLoginManager
+			$this->fixture instanceof tx_oelib_FrontEndLoginManager
 		);
 	}
 
 	public function testGetInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
-			tx_oelib_FrontEndLoginManager::getInstance(),
+			$this->fixture,
 			tx_oelib_FrontEndLoginManager::getInstance()
 		);
 	}
 
 	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
-		$firstInstance = tx_oelib_FrontEndLoginManager::getInstance();
 		tx_oelib_FrontEndLoginManager::purgeInstance();
 
 		$this->assertNotSame(
-			$firstInstance,
+			$this->fixture,
 			tx_oelib_FrontEndLoginManager::getInstance()
+		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning isLoggedIn
+	////////////////////////////////
+
+	public function testIsLoggedInForNoFrontEndReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testIsLoggedInForFrontEndWithoutLoggedInUserReturnsFalse() {
+		$this->testingFramework->createFakeFrontEnd();
+
+		$this->assertFalse(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testIsLoggedInWithLoggedInFrontEndUserReturnsTrue() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning getLoggedInUser
+	/////////////////////////////////////
+
+	public function testGetLoggedInUserWithoutFrontEndReturnsNull() {
+		$this->testingFramework->discardFakeFrontEnd();
+
+		$this->assertNull(
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserWithoutLoggedInUserReturnsNull() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->logoutFrontEndUser();
+
+		$this->assertNull(
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserInstance() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->getLoggedInUser()
+				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
+	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserWithUidOfLoggedInUser() {
+		$this->testingFramework->createFakeFrontEnd();
+		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->getLoggedInUser()->getUid()
+		);
+	}
+
+	public function testGetLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
+		$this->testingFramework->createFakeFrontEnd();
+		$uid = $this->testingFramework->createAndLoginFrontEndUser();
+		$user = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
+			->find($uid);
+
+		$this->assertSame(
+			$user,
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserUsesUserDataFromMemory() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser(
+			'', array('name' => 'John Doe')
+		);
+
+		$GLOBALS['TSFE']->fe_user->user['name'] = 'Jane Doe';
+
+		$this->assertEquals(
+			'Jane Doe',
+			$this->fixture->getLoggedInUser()->getName()
 		);
 	}
 }
