@@ -42,7 +42,9 @@ abstract class tx_oelib_abstractMailer {
 	protected $enableFormatting = true;
 
 	/**
-	 * This function usually should send e-mails.
+	 * Sends a plain-text e-mail.
+	 *
+	 * Note: This function cannot handle multi-part e-mails.
 	 *
 	 * @param string the recipient's e-mail address, will not be
 	 *               validated, must not be empty
@@ -68,7 +70,9 @@ abstract class tx_oelib_abstractMailer {
 	);
 
 	/**
-	 * This function sends an e-mail.
+	 * Sends an e-mail.
+	 *
+	 * This function can handle plain-text and multi-part e-mails.
 	 *
 	 * @param string the recipient's e-mail address, will not be
 	 *               validated, must not be empty
