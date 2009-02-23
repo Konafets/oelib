@@ -43,6 +43,15 @@ CREATE TABLE tx_oelib_test_article_mm (
 
 
 #
+# Table structure for table 'be_users'
+#
+CREATE TABLE be_users (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
+);
+
+
+#
 # Table structure for table 'cache_pages'
 #
 CREATE TABLE cache_pages (

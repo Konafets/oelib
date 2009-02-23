@@ -1,4 +1,6 @@
 0.6.0 - currently working on
+- [#2725] Feature: Add a BE user class
+- [#2728] Feature: The testing framework should create BE users
 - [#2730] Fix: Undefined variable in catch section of tx_oelib_templatehelper::setSubpart
 - [#2458] Feature: Support relations by comma-separated lists
 - [#2717] Change: Speed up the fake FE

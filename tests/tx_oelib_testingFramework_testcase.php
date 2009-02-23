@@ -3232,6 +3232,88 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
+	// Tests regarding createBackEndUser()
+	// ---------------------------------------------------------------------
+
+	public function testCreateBackEndUserReturnsUidGreaterZero() {
+		$this->assertNotEquals(
+			0,
+			$this->fixture->createBackEndUser()
+		);
+	}
+
+	public function testCreateBackEndUserCreatesBackEndUserRecordInTheDatabase() {
+		$this->assertEquals(
+			1,
+			$this->fixture->countRecords(
+				'be_users', 'uid=' . $this->fixture->createBackEndUser()
+			)
+		);
+	}
+
+	public function testCreateBackEndUserMarksBackEndUserTableAsDirty() {
+		$this->assertEquals(
+			0,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+		$this->fixture->createBackEndUser();
+
+		$this->greaterThan(
+			1,
+			count($this->fixture->getListOfDirtySystemTables())
+		);
+	}
+
+	public function testCleanUpCleansUpDirtyBackEndUserTable() {
+		$uid = $this->fixture->createBackEndUser();
+
+		$this->fixture->cleanUp();
+		$this->assertEquals(
+			0,
+			$this->fixture->countRecords('be_users', 'uid=' . $uid)
+		);
+	}
+
+	public function testCreateBackEndUserCreatesRecordWithoutUserNameByDefault() {
+		$uid = $this->fixture->createBackEndUser();
+
+		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
+
+		$this->assertEquals(
+			'',
+			$row['username']
+		);
+	}
+
+	public function testCreateBackEndUserForUserNameProvidedCreatesRecordWithUserName() {
+		$uid = $this->fixture->createBackEndUser(array('username' => 'Test name'));
+
+		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
+
+		$this->assertEquals(
+			'Test name',
+			$row['username']
+		);
+	}
+
+	public function testCreateBackEndUserWithZeroUidProvidedInRecordDataThrowsExeption() {
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+
+		$this->fixture->createBackEndUser(array('uid' => 0));
+	}
+
+	public function testCreateBackEndUserWithNonZeroUidProvidedInRecordDataThrowsExeption() {
+		$this->setExpectedException(
+			'Exception', 'The column "uid" must not be set in $recordData.'
+		);
+
+		$this->fixture->createBackEndUser(array('uid' => 999999));
+	}
+
+
+	// ---------------------------------------------------------------------
 	// Tests concerning fakeFrontend
 	// ---------------------------------------------------------------------
 

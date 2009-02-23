@@ -81,8 +81,8 @@ final class tx_oelib_testingFramework {
 	 *            testing framework has access
 	 */
 	private $allowedSystemTables = array(
-		'cache_pages', 'fe_groups', 'fe_users', 'pages', 'sys_template',
-		'tt_content'
+		'be_users', 'cache_pages', 'fe_groups', 'fe_users', 'pages',
+		'sys_template', 'tt_content'
 	);
 
 	/**
@@ -435,9 +435,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @return integer the UID of the new user group, will be > 0
 	 */
-	public function createFrontEndUserGroup(
-		array $recordData = array()
-	) {
+	public function createFrontEndUserGroup(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
 			throw new Exception(
 				'The column "uid" must not be set in $recordData.'
@@ -519,6 +517,27 @@ final class tx_oelib_testingFramework {
 		$this->loginFrontEndUser($frontEndUserUid);
 
 		return $frontEndUserUid;
+	}
+
+	/**
+	 * Creates a BE user record.
+	 *
+	 * @param array associative array that contains the data to save
+	 *              in the new user record, may be empty, but must not
+	 *              contain the key "uid"
+	 *
+	 * @return integer the UID of the new BE user, will be > 0
+	 */
+	public function createBackEndUser(array $recordData = array()) {
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+
+		return $this->createRecordWithoutTableNameChecks(
+			'be_users', $recordData
+		);
 	}
 
 	/**
