@@ -123,5 +123,15 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function getChildren() {
 		return $this->getAsList('children');
 	}
+
+	/**
+	 * Gets the "related_records" data item.
+	 *
+	 * @return tx_oelib_List the "related_records" data item, will be empty (but
+	 *                       not null) if this model has no related records
+	 */
+	public function getRelatedRecords() {
+		return $this->getAsList('related_records');
+	}
 }
 ?>

@@ -171,25 +171,43 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, might be modified
 	 */
 	protected function createRelations(array &$data) {
-		$tca = tx_oelib_db::getTcaForTable($this->tableName);
-
-		foreach ($this->relations as $key => $mapperName) {
-			if (!isset($tca['columns'][$key])) {
-				throw new Exception(
-					'In the table ' . $this->tableName . ', the column ' .
-						$key . ' does not have a TCA entry.'
-				);
-			}
-
-			$cardinality = (isset($tca['columns'][$key]['config']['maxitems']))
-				? intval($tca['columns'][$key]['config']['maxitems']) : 1;
+		foreach (array_keys($this->relations) as $key) {
+			$relationConfiguration
+				= $this->getRelationConfigurationFromTca($key);
+			$cardinality = (isset($relationConfiguration['maxitems']))
+				? intval($relationConfiguration['maxitems']) : 1;
 
 			if ($cardinality == 1) {
-				$this->createManyToOneRelation($data, $key, $mapperName);
+				$this->createManyToOneRelation($data, $key);
 			} else {
-				$this->createCommaSeparatedRelation($data, $key, $mapperName);
+				if (isset($relationConfiguration['MM'])) {
+					$this->createMToNRelation($data, $key);
+				} else {
+					$this->createCommaSeparatedRelation($data, $key);
+				}
 			}
 		}
+	}
+
+	/**
+	 * Retrieves the configuration of a relation from the TCA.
+	 *
+	 * @param string the key of the relation to retrieve, must not be empty
+	 *
+	 * @return array configuration for that relation, will not be empty if the
+	 *               TCA is valid
+	 */
+	private function getRelationConfigurationFromTca($key) {
+		$tca = tx_oelib_db::getTcaForTable($this->tableName);
+
+		if (!isset($tca['columns'][$key])) {
+			throw new Exception(
+				'In the table ' . $this->tableName . ', the column ' .
+					$key . ' does not have a TCA entry.'
+			);
+		}
+
+		return $tca['columns'][$key]['config'];
 	}
 
 	/**
@@ -198,13 +216,12 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, will be modified
 	 * @param string the key of the data item for which the relation should
 	 *               be created, must not be empty
-	 * @param string the name of the mapper to use, must not be empty
 	 */
-	private function createManyToOneRelation(array &$data, $key, $mapperName) {
+	private function createManyToOneRelation(array &$data, $key) {
 		$uid = isset($data[$key]) ? intval($data[$key]) : 0;
 
 		$data[$key] = ($uid > 0)
-			? tx_oelib_MapperRegistry::get($mapperName)->find($uid)
+			? tx_oelib_MapperRegistry::get($this->relations[$key])->find($uid)
 			: null;
 	}
 
@@ -214,21 +231,50 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, will be modified
 	 * @param string the key of the data item for which the relation should
 	 *               be created, must not be empty
-	 * @param string the name of the mapper to use, must not be empty
 	 */
-	private function createCommaSeparatedRelation(
-		array &$data, $key, $mapperName
-	) {
+	private function createCommaSeparatedRelation(array &$data, $key) {
 		$list = t3lib_div::makeInstance('tx_oelib_List');
 
 		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
 		if ($uidList != '') {
+			$mapper = tx_oelib_MapperRegistry::get($this->relations[$key]);
 			$uids = t3lib_div::intExplode(',', $uidList);
 
 			foreach ($uids as $uid) {
 				$list->add(
-					tx_oelib_MapperRegistry::get($mapperName)->find($uid)
+					$mapper->find($uid)
 				);
+			}
+		}
+
+		$data[$key] = $list;
+	}
+
+	/**
+	 * Creates an m:n relation using an m:n table.
+	 *
+	 * Note: This doesn't work for the reverse direction of bidirectional
+	 * relations yet.
+	 *
+	 * @param array the model data to process, will be modified
+	 * @param string the key of the data item for which the relation should
+	 *               be created, must not be empty
+	 */
+	private function createMToNRelation(array &$data, $key) {
+		$list = t3lib_div::makeInstance('tx_oelib_List');
+
+		if ($data[$key] > 0) {
+			$mapper = tx_oelib_MapperRegistry::get($this->relations[$key]);
+			$relationConfiguration
+				= $this->getRelationConfigurationFromTca($key);
+			$mnTable = $relationConfiguration['MM'];
+			$relationUids = tx_oelib_db::selectMultiple(
+				'uid_foreign', $mnTable, 'uid_local = ' . $data['uid'], '',
+				'sorting'
+			);
+
+			foreach ($relationUids as $relationUid) {
+				$list->add($mapper->find($relationUid['uid_foreign']));
 			}
 		}
 

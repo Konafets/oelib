@@ -391,9 +391,9 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////
-	// Test concerning the foreign key mapping
-	////////////////////////////////////////////
+	/////////////////////////////////////////////
+	// Tests concerning the foreign key mapping
+	/////////////////////////////////////////////
 
 	public function testRelatedRecordWithZeroUidIsNull() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
@@ -453,9 +453,9 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////////////////////////
-	// Test concerning the m:n mapping with comma-separated UIDs
-	//////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+	// Tests concerning the m:n mapping with a comma-separated list of UIDs
+	/////////////////////////////////////////////////////////////////////////
 
 	public function testCommaSeparatedRelationsWithEmptyStringCreatesEmptyList() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
@@ -487,6 +487,66 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$childUid1 . ',' . $childUid2,
 			$this->fixture->find($uid)->getChildren()->getUids()
+		);
+	}
+
+
+	////////////////////////////////////////////////////////
+	// Tests concerning the m:n mapping using an m:n table
+	////////////////////////////////////////////////////////
+
+	public function testMNRelationsWithEmptyStringCreatesEmptyList() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getRelatedRecords()->isEmpty()
+		);
+	}
+
+	public function testMNRelationsWithOneRelatedModelReturnsListWithRelatedModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid, 'related_records'
+		);
+
+		$this->assertEquals(
+			(string) $relatedUid,
+			$this->fixture->find($uid)->getRelatedRecords()->getUids()
+		);
+	}
+
+	public function testMNRelationsWithTwoRelatedModelsReturnsListWithBothRelatedModels() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid1, 'related_records'
+		);
+		$relatedUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid2, 'related_records'
+		);
+
+		$this->assertEquals(
+			$relatedUid1 . ',' . $relatedUid2,
+			$this->fixture->find($uid)->getRelatedRecords()->getUids()
+		);
+	}
+
+	public function testMNRelationsReturnsListSortedBySorting() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid2, 'related_records'
+		);
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid1, 'related_records'
+		);
+
+		$this->assertEquals(
+			$relatedUid2 . ',' . $relatedUid1,
+			$this->fixture->find($uid)->getRelatedRecords()->getUids()
 		);
 	}
 
