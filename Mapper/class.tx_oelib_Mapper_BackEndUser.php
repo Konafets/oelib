@@ -46,7 +46,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	/**
 	 * Finds a back-end user by user name.
 	 *
-	 * @param string user name, must not be empty
+	 * @param string user name, case-insensitive, must not be empty
 	 *
 	 * @return tx_oelib_Model_BackEndUser model of the back-end user with the
 	 *                                    provided user name, will be null if

@@ -103,6 +103,27 @@ class tx_oelib_Mapper_BackEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testFindByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
+			$this->fixture->findByUserName('FOO')->getUid()
+		);
+	}
+
+	public function testFindByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
+			$this->fixture->findByUserName('FOO')->getUid()
+		);
+	}
+
+	public function testFindByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
+			$this->fixture->findByUserName('foo')->getUid()
+		);
+	}
+
 	public function testFindByUserNameWithNameOfNonExistentUserReturnsNull() {
 		$this->testingFramework->createBackEndUser(
 			array('username' => 'foo', 'deleted' => 1)
