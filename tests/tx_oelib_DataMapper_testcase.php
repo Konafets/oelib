@@ -201,6 +201,22 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$model->__destruct();
 	}
 
+	public function testLoadForModelWithExistingUidMarksModelAsClean() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertFalse(
+			$model->isDirty()
+		);
+
+		$model->__destruct();
+	}
+
 
 	//////////////////////////////////////
 	// Tests concerning the model states

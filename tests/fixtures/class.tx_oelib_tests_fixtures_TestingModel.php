@@ -133,5 +133,19 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function getRelatedRecords() {
 		return $this->getAsList('related_records');
 	}
+
+	/**
+	 * Marks this model's data as clean.
+	 */
+	public function markAsClean() {
+		parent::markAsClean();
+	}
+
+	/**
+	 * Marks this model's data as dirty.
+	 */
+	public function markAsDirty() {
+		parent::markAsDirty();
+	}
 }
 ?>

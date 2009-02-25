@@ -76,9 +76,14 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 
 	/**
 	 * @var integer this model's load status, will be STATUS_VIRGIN,
-	 *              STATUS_GHOST, STATUS_LOADING or STATUS_LOADED
+	 *              STATUS_GHOST, STATUS_DEAD, STATUS_LOADING or STATUS_LOADED
 	 */
 	private $loadStatus = self::STATUS_VIRGIN;
+
+	/**
+	 * @var boolean whether this model's initial data has changed
+	 */
+	private $isDirty = false;
 
 	/**
 	 * @var array the callback function that fills this model with data
@@ -115,6 +120,9 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * This function should be called directly after instantiation and must only
 	 * be called once.
 	 *
+	 * The data which is set via this function is considered to be the initial
+	 * data.
+	 *
 	 * @param array the data for this model, may be empty
 	 */
 	public function setData(array $data) {
@@ -133,6 +141,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->markAsLoaded();
+		$this->markAsClean();
 	}
 
 	/**
@@ -148,6 +157,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	public function markAsDead() {
 		$this->loadStatus = self::STATUS_DEAD;
+		$this->markAsClean();
 	}
 
 	/**
@@ -186,6 +196,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		$this->data[$key] = $value;
 
 		$this->markAsLoaded();
+		$this->markAsDirty();
 	}
 
 	/**
@@ -392,6 +403,30 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	private function hasLoadCallBack() {
 		return !empty($this->loadCallback);
+	}
+
+	/**
+	 * Marks this model's data as clean.
+	 */
+	protected function markAsClean() {
+		$this->isDirty = false;
+	}
+
+	/**
+	 * Marks this model's data as dirty.
+	 */
+	protected function markAsDirty() {
+		$this->isDirty = true;
+	}
+
+	/**
+	 * Checks whether this model has been marked as dirty which means that this
+	 * model's data has changed compared to the initial state.
+	 *
+	 * @return boolean true if this model has been marked as dirty
+	 */
+	public function isDirty() {
+		return $this->isDirty;
 	}
 }
 

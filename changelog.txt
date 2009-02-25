@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2679] Feature: Track the dirty/clean state of models
 - [#2755] Fix: BE user mapper needs to lowercase the CLI user before DB search
 - [#2737] Fix: set on a ghost should load the object
 - [#2460] Feature: Add a m:n table mapper

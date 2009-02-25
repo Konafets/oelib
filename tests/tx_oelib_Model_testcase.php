@@ -424,5 +424,86 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->fixture->markAsDead();
 		$this->fixture->isHidden();
 	}
+
+
+	//////////////////////
+	// Tests for isDirty
+	//////////////////////
+
+	public function testIsDirtyAfterMarkAsDirtyReturnsTrue() {
+		$this->fixture->markAsDirty();
+
+		$this->assertTrue(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyAfterMarkAsCleanReturnsFalse() {
+		$this->fixture->markAsClean();
+
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyAfterSetReturnsTrue() {
+		$this->fixture->setTitle('foo');
+
+		$this->assertTrue(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyAfterSetDataReturnsFalse() {
+		$this->fixture->setData(array('title' => 'foo'));
+
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyOnModelInVirginStateReturnsFalse() {
+		$this->assertTrue(
+			$this->fixture->isVirgin()
+		);
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyOnModelInGhostStateReturnsFalse() {
+		$this->fixture->setUid(1);
+
+		$this->assertTrue(
+			$this->fixture->isGhost()
+		);
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyOnInitiallyDeadModelReturnsFalse() {
+		$this->fixture->markAsDead();
+
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testIsDirtyOnModelWhichTurnedIntoDeadStateReturnsFalse() {
+		$this->fixture->setTitle('foo');
+
+		$this->assertTrue(
+			$this->fixture->isDirty()
+		);
+
+		$this->fixture->markAsDead();
+		$this->assertTrue(
+			$this->fixture->isDead()
+		);
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
 }
 ?>
