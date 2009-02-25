@@ -28,7 +28,8 @@
  * This class represents a general domain model which is capable of lazy loading
  * (using ghosts).
  *
- * A model can have one of the following states: empty, ghost, loading, loaded.
+ * A model can have one of the following states: dead, ghost, loading, loaded,
+ * virgin.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -179,6 +180,9 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * @param mixed the data for the key $key
 	 */
 	protected function set($key, $value) {
+		if ($this->isGhost()) {
+			$this->load();
+		}
 		$this->data[$key] = $value;
 
 		$this->markAsLoaded();

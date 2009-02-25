@@ -387,6 +387,17 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->fixture->getTitle();
 	}
 
+	public function testSetOnAModelInStatusGhostWithoutLoadCallbackThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Ghosts need a load callback function before their data can be ' .
+				'accessed.'
+		);
+
+		$this->fixture->setUid(1);
+		$this->fixture->setTitle('foo');
+	}
+
 	public function testGetOnDeadModelThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',

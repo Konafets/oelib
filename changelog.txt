@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2737] Fix: set on a ghost should load the object
 - [#2460] Feature: Add a m:n table mapper
 - [#2725] Feature: Add a BE user class
 - [#2728] Feature: The testing framework should create BE users
