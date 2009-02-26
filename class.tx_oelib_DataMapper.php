@@ -120,6 +120,33 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Retrieves a model based on the WHERE clause given in the parameter
+	 * $whereClause.
+	 *
+	 * @param string the WHERE clause used to retrieve the model, must not be
+	 *               empty, must be a valid WHERE clause
+	 *
+	 * @return tx_oelib_Model the model, null if there was no model found
+	 */
+	protected function findSingleByWhereClause($whereClause) {
+		if ($whereClause == '') {
+			throw new Exception('The parameter $whereClause must not be empty.');
+		}
+
+		try {
+			$uid = tx_oelib_db::selectSingle(
+				'uid', $this->tableName, $whereClause .
+				tx_oelib_db::enableFields($this->tableName)
+			);
+			$model = $this->find($uid['uid']);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			$model = null;
+		}
+
+		return $model;
+	}
+
+	/**
 	 * Checks whether a model with a certain UID actually exists in the database
 	 * and could be loaded.
 	 *

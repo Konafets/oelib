@@ -58,18 +58,10 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 			throw new Exception('$userName must not be empty.');
 		}
 
-		try {
-			$uid = tx_oelib_db::selectSingle(
-				'uid', 'be_users', 'username = ' .
-					$GLOBALS['TYPO3_DB']->fullQuoteStr($userName, 'be_users') .
-					tx_oelib_db::enableFields('be_users')
-			);
-			$model = $this->find($uid['uid']);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
-			$model = null;
-		}
-
-		return $model;
+		return $this->findSingleByWhereClause(
+			'username = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
+				$userName, 'be_users'
+			));
 	}
 
 	/**

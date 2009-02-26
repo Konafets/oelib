@@ -64,5 +64,13 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	public function setMap(tx_oelib_IdentityMap $map) {
 		$this->map = $map;
 	}
+
+	/**
+	 * This is a broken call to findSingleByWhereClause() which should throws
+	 * an exception.
+	 */
+	public function brokenFindSingleByWhereClause() {
+		$this->findSingleByWhereClause('');
+	}
 }
 ?>

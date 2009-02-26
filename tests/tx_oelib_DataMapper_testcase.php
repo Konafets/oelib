@@ -597,5 +597,21 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($ghost->getUid())
 		);
 	}
+
+
+	////////////////////////////////////////////////
+	// Tests concerning findSingleByWhereClause().
+	////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseWithEmptyWhereClauseThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The parameter $whereClause must not be empty.'
+		);
+
+		$this->fixture->brokenFindSingleByWhereClause();
+	}
 }
 ?>
