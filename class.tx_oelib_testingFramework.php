@@ -528,11 +528,18 @@ final class tx_oelib_testingFramework {
 	 *               which the new user belongs, each must be > 0, may
 	 *               contain spaces; if empty a new front-end user group
 	 *               is created
+	 * @param array associative array that contains the data to save
+	 *              in the new user record, may be empty, but must not
+	 *              contain the keys "uid" or "usergroup"
 	 *
 	 * @return integer the UID of the new FE user, will be > 0
 	 */
-	public function createAndLoginFrontEndUser($frontEndUserGroups = '') {
-		$frontEndUserUid = $this->createFrontEndUser($frontEndUserGroups);
+	public function createAndLoginFrontEndUser(
+		$frontEndUserGroups = '', array $recordData = array()
+	) {
+		$frontEndUserUid = $this->createFrontEndUser(
+			$frontEndUserGroups, $recordData
+		);
 
 		$this->loginFrontEndUser($frontEndUserUid);
 
