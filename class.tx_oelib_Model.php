@@ -117,11 +117,15 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Sets the complete data for this model.
 	 *
-	 * This function should be called directly after instantiation and must only
-	 * be called once.
-	 *
 	 * The data which is set via this function is considered to be the initial
 	 * data.
+	 *
+	 * This function should be called directly after instantiation and must only
+	 * be called once. Usually, this function is called on only a few occasions:
+	 *
+	 * 1. when the data mapper loads a model
+	 * 2. when a new model is created in some unit tests
+	 * 3. before a new model should be saved to the database
 	 *
 	 * @param array the data for this model, may be empty
 	 */
