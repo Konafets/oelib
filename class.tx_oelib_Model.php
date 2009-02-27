@@ -194,6 +194,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * @param mixed the data for the key $key
 	 */
 	protected function set($key, $value) {
+		if ($key == 'deleted') {
+			throw new Exception(
+				'$key must not be "deleted". Please use setToDeleted() instead.'
+			);
+		}
+
 		if ($this->isGhost()) {
 			$this->load();
 		}
@@ -431,6 +437,18 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 */
 	public function isDirty() {
 		return $this->isDirty;
+	}
+
+	/**
+	 * Sets the "deleted" property for the current model.
+	 */
+	protected function setToDeleted() {
+		if ($this->isLoaded()) {
+			$this->data['deleted'] = true;
+			$this->markAsDirty();
+		} else {
+			$this->markAsDead();
+		}
 	}
 }
 

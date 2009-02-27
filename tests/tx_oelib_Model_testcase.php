@@ -505,5 +505,73 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 			$this->fixture->isDirty()
 		);
 	}
+
+
+	//////////////////////////////////////////
+	// Tests concerning the deleted property
+	//////////////////////////////////////////
+
+	public function testSetToDeletedOnVirginModelMarksModelAsDead() {
+		$this->assertTrue(
+			$this->fixture->isVirgin()
+		);
+
+		$this->fixture->setToDeleted();
+
+		$this->assertTrue(
+			$this->fixture->isDead()
+		);
+	}
+
+	public function testSetToDeletedOnGhostModelMarksModelAsDead() {
+		$this->fixture->setUid(1);
+
+		$this->assertTrue(
+			$this->fixture->isGhost()
+		);
+
+		$this->fixture->setToDeleted();
+
+		$this->assertTrue(
+			$this->fixture->isDead()
+		);
+	}
+
+	public function testSetToDeletedOnLoadedModelMarksModelAsDirty() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertTrue(
+			$this->fixture->isLoaded()
+		);
+
+		$this->fixture->setToDeleted();
+
+		$this->assertTrue(
+			$this->fixture->isDirty()
+		);
+	}
+
+	public function testSetToDeletedOnLoadedModelMarksModelAsDeleted() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertTrue(
+			$this->fixture->isLoaded()
+		);
+
+		$this->fixture->setToDeleted();
+
+		$this->assertTrue(
+			$this->fixture->getAsBoolean('deleted')
+		);
+	}
+
+	public function testSettingDeletedByUsingSetThrowsAnException() {
+		$this->setExpectedException(
+			Exception,
+			'$key must not be "deleted". Please use setToDeleted() instead.'
+		);
+
+		$this->fixture->setDeletedPropertyUsingSet();
+	}
 }
 ?>

@@ -94,6 +94,17 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the value stored in under the key $key, converted to a boolean.
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return boolean the boolean value of the given key
+	 */
+	public function getAsBoolean($key) {
+		return parent::getAsBoolean($key);
+	}
+
+	/**
 	 * Gets the "friend" data item.
 	 *
 	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
@@ -146,6 +157,22 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 */
 	public function markAsDirty() {
 		parent::markAsDirty();
+	}
+
+	/**
+	 * Sets the "deleted" property for the current model.
+	 */
+	public function setToDeleted() {
+		parent::setToDeleted();
+	}
+
+	/**
+	 * Sets the deleted property via set().
+	 *
+	 * Note: This function is expected to fail.
+	 */
+	public function setDeletedPropertyUsingSet() {
+		$this->setAsBoolean('deleted', true);
 	}
 }
 ?>
