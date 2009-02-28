@@ -64,6 +64,11 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	const STATUS_DEAD = 4;
 
 	/**
+	 * @var boolean whether this model is read-only
+	 */
+	protected $readOnly = false;
+
+	/**
 	 * @var integer this model's UID, will be 0 if this model has been created
 	 *              in memory
 	 */
@@ -197,6 +202,11 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		if ($key == 'deleted') {
 			throw new Exception(
 				'$key must not be "deleted". Please use setToDeleted() instead.'
+			);
+		}
+		if ($this->isReadOnly()) {
+			throw new Exception(
+				'set() must not be called on a read-only model.'
 			);
 		}
 
@@ -440,15 +450,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
-	 * Sets the "deleted" property for the current model.
+	 * Checks whether this model is read-only.
+	 *
+	 * @return boolean true if this model is read-only, false if it is writable
 	 */
-	protected function setToDeleted() {
-		if ($this->isLoaded()) {
-			$this->data['deleted'] = true;
-			$this->markAsDirty();
-		} else {
-			$this->markAsDead();
-		}
+	public function isReadOnly() {
+		return $this->readOnly;
 	}
 }
 

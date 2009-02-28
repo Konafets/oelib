@@ -573,5 +573,54 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setDeletedPropertyUsingSet();
 	}
+
+
+	//////////////////////////////////////
+	// Tests concerning read-only models
+	//////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function isReadOnlyOnReadWriteModelReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->isReadOnly()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isReadOnlyOnReadOnlyModelReturnsTrue() {
+		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
+
+		$this->assertTrue(
+			$model->isReadOnly()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function setDataOnReadOnlyModelDoesNotFail() {
+		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
+		$model->setData(array());
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function setOnReadOnlyModelThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'set() must not be called on a read-only model.'
+		);
+
+		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
+		$model->setTitle('foo');
+	}
 }
 ?>

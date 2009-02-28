@@ -37,6 +37,7 @@ class tx_oelib_Model_Country_testcase extends tx_phpunit_testcase {
 	}
 
 	public function tearDown() {
+		tx_oelib_MapperRegistry::purgeInstance();
 	}
 
 
@@ -127,6 +128,24 @@ class tx_oelib_Model_Country_testcase extends tx_phpunit_testcase {
 			'GBR',
 			$fixture->getIsoAlpha3Code()
 		);
+	}
+
+
+	////////////////////////////////
+	// Tests concerning isReadOnly
+	////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function isReadOnlyIsTrue() {
+		$model = new tx_oelib_Model_Country();
+
+		$this->assertTrue(
+			$model->isReadOnly()
+		);
+
+		$model->__destruct();
 	}
 }
 ?>
