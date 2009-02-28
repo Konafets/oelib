@@ -450,6 +450,18 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Sets the "deleted" property for the current model.
+	 */
+	protected function setToDeleted() {
+		if ($this->isLoaded()) {
+			$this->data['deleted'] = true;
+			$this->markAsDirty();
+		} else {
+			$this->markAsDead();
+		}
+	}
+
+	/**
 	 * Checks whether this model is read-only.
 	 *
 	 * @return boolean true if this model is read-only, false if it is writable
