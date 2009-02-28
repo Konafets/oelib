@@ -259,6 +259,53 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////
+	// Tests concerning getListOfModels
+	/////////////////////////////////////
+
+	public function testGetListOfModelsReturnsInstanceOfList() {
+		$this->assertTrue(
+			$this->fixture->getListOfModels(array(array('uid' => 1)))
+				instanceof tx_oelib_List
+		);
+	}
+
+	public function testGetListOfModelsForAnEmptyArrayProvidedReturnsEmptyList() {
+		$this->assertTrue(
+			$this->fixture->getListOfModels(array())->isEmpty()
+		);
+	}
+
+	public function testGetListOfModelsForOneRecordsProvidedReturnsListWithOneElement() {
+		$this->assertEquals(
+			1,
+			$this->fixture->getListOfModels(array(array('uid' => 1)))->count()
+		);
+	}
+
+	public function testGetListOfModelsForTwoRecordsProvidedReturnsListWithTwoElements() {
+		$this->assertEquals(
+			2,
+			$this->fixture->getListOfModels(array(array('uid' => 1), array('uid' => 2)))->count()
+		);
+	}
+
+	public function testGetListOfModelsReturnsListOfModelInstances() {
+		$this->assertTrue(
+			$this->fixture->getListOfModels(array(array('uid' => 1)))->current()
+				instanceof tx_oelib_Model
+		);
+	}
+
+	public function testGetListOfModelsReturnsListOfModelWithProvidedTitel() {
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getListOfModels(array(array('uid' => 1, 'title' => 'foo')))
+				->current()->getTitle()
+		);
+	}
+
+
 	//////////////////////////
 	// Tests concerning load
 	//////////////////////////

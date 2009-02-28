@@ -147,6 +147,31 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Returns a list of models for the provided two-dimensional array with
+	 * model data.
+	 *
+	 * @param array two-dimensional array, each inner array must at least
+	 *              contain the element "uid", may be empty
+	 *
+	 * @return tx_oelib_List A list of models with the UIDs provided. The models
+	 *                       will be filled with the data provided in case they
+	 *                       did not have any data before, otherwise the already
+	 *                       loaded data will be used. If $dataOfModels was
+	 *                       empty, an empty list will be returned.
+	 *
+	 * @see getModel()
+	 */
+	public function getListOfModels(array $dataOfModels) {
+		$list = t3lib_div::makeInstance('tx_oelib_List');
+
+		foreach ($dataOfModels as $modelRecord) {
+			$list->add($this->getModel($modelRecord));
+		}
+
+		return $list;
+	}
+
+	/**
 	 * Retrieves a model based on the WHERE clause given in the parameter
 	 * $whereClause.
 	 *
