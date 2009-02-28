@@ -154,6 +154,111 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////
+	// Tests concerning getModel
+	//////////////////////////////
+
+	public function testGetModelWithArrayWithoutUidElementProvidedThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'$data must contain an element "uid".'
+		);
+
+		$this->fixture->getModel(array());
+	}
+
+	public function testGetModelForNonMappedUidReturnsModelInstance() {
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => 2))
+				instanceof tx_oelib_Model
+		);
+	}
+
+	public function testGetModelForNonMappedUidReturnsLoadedModel() {
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => 2))->isLoaded()
+		);
+	}
+
+	public function testGetModelForMappedUidOfGhostReturnsModelInstance() {
+		$mappedUid = $this->fixture->getNewGhost()->getUid();
+
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => $mappedUid))
+				instanceof tx_oelib_Model
+		);
+	}
+
+	public function testGetModelForMappedUidOfGhostReturnsLoadedModel() {
+		$mappedUid = $this->fixture->getNewGhost()->getUid();
+
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => $mappedUid))->isLoaded()
+		);
+	}
+
+	public function testGetModelForMappedUidOfGhostReturnsLoadedModelWithTheProvidedData() {
+		$mappedModel = $this->fixture->getNewGhost();
+
+		$this->assertEquals(
+			'new title',
+			$this->fixture->getModel(
+				array('uid' => $mappedModel->getUid(), 'title' => 'new title')
+			)->getTitle()
+		);
+	}
+
+	public function testGetModelForMappedUidOfGhostReturnsThatModel() {
+		$mappedModel = $this->fixture->getNewGhost();
+
+		$this->assertSame(
+			$mappedModel,
+			$this->fixture->getModel(array('uid' => $mappedModel->getUid()))
+		);
+	}
+
+	public function testGetModelForMappedUidOfLoadedModelReturnsThatModelInstance() {
+		$mappedModel = $this->fixture->getNewGhost();
+		$mappedModel->setData(array('title' => 'foo'));
+
+		$this->assertSame(
+			$mappedModel,
+			$this->fixture->getModel(array('uid' => $mappedModel->getUid()))
+		);
+	}
+
+	public function testGetModelForMappedUidOfLoadedModelAndNoNewDataProvidedReturnsModelWithTheInitialData() {
+		$mappedModel = $this->fixture->getNewGhost();
+		$mappedModel->setData(array('title' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getModel(array('uid' => $mappedModel->getUid()))->getTitle()
+		);
+	}
+
+	public function testGetModelForMappedUidOfLoadedModelAndNewDataProvidedReturnsModelWithTheInitialData() {
+		$mappedModel = $this->fixture->getNewGhost();
+		$mappedModel->setData(array('title' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getModel(
+				array('uid' => $mappedModel->getUid(), 'title' => 'new title')
+			)->getTitle()
+		);
+	}
+
+	public function testGetModelForMappedUidOfDeadModelReturnsDeadModel() {
+		$mappedModel = $this->fixture->getNewGhost();
+		$mappedModel->markAsDead();
+
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => $mappedModel->getUid()))->isDead()
+		);
+	}
+
+
 	//////////////////////////
 	// Tests concerning load
 	//////////////////////////
