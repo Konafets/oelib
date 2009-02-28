@@ -120,6 +120,33 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Returns a model for the provided array. If the UID provided with the
+	 * array is already mapped, this yet existing model will be returned
+	 * irrespective of the other provided data, otherwise the model will be
+	 * loaded with the provided data.
+	 *
+	 * @param array data for the model to return, must at least contain an
+	 *              element with the key "uid"
+	 *
+	 * @return tx_oelib_Model model for the provided UID, filled with the data
+	 *                        provided in case it did not have any data in
+	 *                        memory before
+	 */
+	public function getModel(array $data) {
+		if (!isset($data['uid'])) {
+			throw new Exception('$data must contain an element "uid".');
+		}
+
+		$model = $this->find($data['uid']);
+
+		if ($model->isGhost()) {
+			$model->setData($data);
+		}
+
+		return $model;
+	}
+
+	/**
 	 * Retrieves a model based on the WHERE clause given in the parameter
 	 * $whereClause.
 	 *

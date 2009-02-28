@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2764] Feature: Add internal functions for the DataMapper to create models from arrays of data
 - [#2767] Feature: Add a "readOnly" flag to models
 - [#2771] Feature: Add function setToDeleted to the model
 - [#2766] Feature: Add country model and mapper
