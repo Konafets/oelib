@@ -173,29 +173,26 @@ abstract class tx_oelib_DataMapper {
 
 	/**
 	 * Retrieves a model based on the WHERE clause given in the parameter
-	 * $whereClause.
+	 * $whereClauseParts. Hidden records will be retrieved as well.
 	 *
-	 * @param string the WHERE clause used to retrieve the model, must not be
-	 *               empty, must be a valid WHERE clause
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     which matches the WHERE clause
 	 *
-	 * @return tx_oelib_Model the model, null if there was no model found
+	 * @param array WHERE clause parts for the record to retrieve, each element
+	 *              must consist of a column name as key and a value to search
+	 *              for as value (will automatically get quoted), must not be
+	 *              empty
+	 *
+	 * @return tx_oelib_Model the model
 	 */
-	protected function findSingleByWhereClause($whereClause) {
-		if ($whereClause == '') {
-			throw new Exception('The parameter $whereClause must not be empty.');
-		}
-
-		try {
-			$uid = tx_oelib_db::selectSingle(
-				'uid', $this->tableName, $whereClause .
-				tx_oelib_db::enableFields($this->tableName)
+	protected function findSingleByWhereClause(array $whereClauseParts) {
+		if (empty($whereClauseParts)) {
+			throw new Exception(
+				'The parameter $whereClauseParts must not be empty.'
 			);
-			$model = $this->find($uid['uid']);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
-			$model = null;
 		}
 
-		return $model;
+		return $this->getModel($this->retrieveRecord($whereClauseParts));
 	}
 
 	/**
@@ -212,7 +209,7 @@ abstract class tx_oelib_DataMapper {
 		$model = $this->find($uid);
 
 		if ($model->isGhost()) {
-			$this->load($model, $allowHidden);
+			$this->load($model);
 		}
 
 		return $model->isLoaded() && (!$model->isHidden() || $allowHidden);
@@ -235,7 +232,7 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		try {
-			$data = $this->retrieveRecord($model->getUid());
+			$data = $this->retrieveRecordByUid($model->getUid());
 			$this->createRelations($data);
 			$model->setData($data);
 		} catch (tx_oelib_Exception_NotFound $exception) {
@@ -361,8 +358,55 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Reads a record from the database by UID (from this mapper's table). Also
-	 * hidden records will be retrieved.
+	 * Reads a record from the database (from this mapper's table) by the
+	 * WHERE clause provided. Hidden records will be retrieved as well.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     which matches the WHERE clause
+	 *
+	 * @param array WHERE clause parts for the record to retrieve, each element
+	 *              must consist of a column name as key and a value to search
+	 *              for as value (will automatically get quoted), must not be
+	 *              empty
+	 *
+	 * @return array the record from the database, will not be empty
+	 */
+	protected function retrieveRecord(array $whereClauseParts) {
+		$whereClauses = array();
+		foreach ($whereClauseParts as $key => $value) {
+			$columnDefinition = tx_oelib_db::getColumnDefinition(
+				$this->tableName, $key
+			);
+
+			$whereClauses[] = $key . ' = ' . (
+				(strpos($columnDefinition['Type'], 'int') !== false)
+					? $value
+					: $GLOBALS['TYPO3_DB']->fullQuoteStr(
+						$value, $this->tableName
+					)
+			);
+		}
+		$whereClause = implode(' AND ', $whereClauses);
+
+		try {
+			$data = tx_oelib_db::selectSingle(
+				$this->columns,
+				$this->tableName,
+				$whereClause . tx_oelib_db::enableFields($this->tableName, 1)
+			);
+		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
+			throw new tx_oelib_Exception_NotFound(
+				'The record where "' . $whereClause . '" could not be ' .
+					'retrieved from the table ' . $this->tableName . '.'
+			);
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Reads a record from the database by UID (from this mapper's table).
+	 * Hidden records will be retrieved as well.
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
@@ -371,21 +415,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
-	protected function retrieveRecord($uid) {
-		try {
-			$data = tx_oelib_db::selectSingle(
-				$this->columns,
-				$this->tableName,
-				'uid = ' . $uid . tx_oelib_db::enableFields($this->tableName, 1)
-			);
-		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
-			throw new tx_oelib_Exception_NotFound(
-				'The record with the UID ' . $uid . ' could not be retrieved ' .
-					'from the table ' . $this->tableName . '.'
-			);
-		}
-
-		return $data;
+	protected function retrieveRecordByUid($uid) {
+		return $this->retrieveRecord(array('uid' => $uid));
 	}
 
 	/**

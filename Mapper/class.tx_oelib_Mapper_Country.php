@@ -44,41 +44,39 @@ class tx_oelib_Mapper_Country extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_Country';
 
 	/**
-	 * Finds a country by it's ISO 3166-1 alpha-2 code.
+	 * Finds a country by its ISO 3166-1 alpha-2 code.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record with the
+	 *                                     provided ISO 3166-1 alpha-2 code
 	 *
 	 * @param string the ISO 3166-1 alpha-2 code to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_Country the country, null if there was no country
-	 *                                found
+	 * @return tx_oelib_Model_Country the country
 	 */
 	public function findByIsoAlpha2Code($isoAlpha2Code) {
 		if ($isoAlpha2Code == '') {
 			throw new Exception('The parameter $isoAlpha2Code must not be empty.');
 		}
 
-		return $this->findSingleByWhereClause(
-			'cn_iso_2 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
-				$isoAlpha2Code, $this->tableName
-			));
+		return $this->findSingleByWhereClause(array('cn_iso_2' => $isoAlpha2Code));
 	}
 
 	/**
-	 * Finds a country by it's ISO 3166-1 alpha-3 code.
+	 * Finds a country by its ISO 3166-1 alpha-3 code.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record with the
+	 *                                     provided ISO 3166-1 alpha-3 code
 	 *
 	 * @param string the ISO 3166-1 alpha-3 code to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_Country the country, null if there was no country
-	 *                                found
+	 * @return tx_oelib_Model_Country the country
 	 */
 	public function findByIsoAlpha3Code($isoAlpha3Code) {
 		if ($isoAlpha3Code == '') {
 			throw new Exception('The parameter $isoAlpha3Code must not be empty.');
 		}
 
-		return $this->findSingleByWhereClause(
-			'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
-				$isoAlpha3Code, $this->tableName
-			));
+		return $this->findSingleByWhereClause(array('cn_iso_3' => $isoAlpha3Code));
 	}
 }
 

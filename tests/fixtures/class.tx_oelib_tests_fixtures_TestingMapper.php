@@ -66,11 +66,21 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	}
 
 	/**
-	 * This is a broken call to findSingleByWhereClause() which should throws
-	 * an exception.
+	 * Retrieves a model based on the WHERE clause given in the parameter
+	 * $whereClauseParts. Hidden records will be retrieved as well.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     which matches the WHERE clause
+	 *
+	 * @param array WHERE clause parts for the record to retrieve, each element
+	 *              must consist of a column name as key and a value to search
+	 *              for as value (will automatically get quoted), must not be
+	 *              empty
+	 *
+	 * @return tx_oelib_Model the model
 	 */
-	public function brokenFindSingleByWhereClause() {
-		$this->findSingleByWhereClause('');
+	public function findSingleByWhereClause(array $whereClauseParts) {
+		return parent::findSingleByWhereClause($whereClauseParts);
 	}
 }
 ?>

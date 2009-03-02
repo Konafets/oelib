@@ -349,6 +349,27 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 
+	//////////////////////////////////////////
+	// Tests concerning getColumnDefinition
+	//////////////////////////////////////////
+
+	public function testGetColumnDefinitionForEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::getColumnDefinition('', 'uid');
+	}
+
+	public function testGetColumnDefinitionReturnsArrayThatContainsFieldName() {
+		$definition = tx_oelib_db::getColumnDefinition('tx_oelib_test', 'title');
+
+		$this->assertTrue(
+			$definition['Field'] == 'title'
+		);
+	}
+
+
 	////////////////////////////////////////
 	// Tests regarding tableHasColumnUid()
 	////////////////////////////////////////

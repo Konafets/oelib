@@ -44,24 +44,24 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_BackEndUser';
 
 	/**
-	 * Finds a back-end user by user name.
+	 * Finds a back-end user by user name. Hidden user records will be retrieved
+	 * as well.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no back-end user with the
+	 *                                     provided user name in the be_user
+	 *                                     table
 	 *
 	 * @param string user name, case-insensitive, must not be empty
 	 *
 	 * @return tx_oelib_Model_BackEndUser model of the back-end user with the
-	 *                                    provided user name, will be null if
-	 *                                    the user with the requested name was
-	 *                                    not found in the database
+	 *                                    provided user name
 	 */
 	public function findByUserName($userName) {
 		if ($userName == '') {
 			throw new Exception('$userName must not be empty.');
 		}
 
-		return $this->findSingleByWhereClause(
-			'username = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
-				$userName, 'be_users'
-			));
+		return $this->findSingleByWhereClause(array('username' => $userName));
 	}
 
 	/**
@@ -71,9 +71,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 * is defined.
 	 *
 	 * @return tx_oelib_Model_BackEndUser model of the back-end user for the
-	 *                                    defined CLI key, will be null if the
-	 *                                    user for the defined key was not found
-	 *                                    in the database
+	 *                                    defined CLI key
 	 */
 	public function findByCliKey() {
 		if (!defined('TYPO3_cliKey')) {

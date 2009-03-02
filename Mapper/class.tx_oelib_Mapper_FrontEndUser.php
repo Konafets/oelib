@@ -77,13 +77,13 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
-	protected function retrieveRecord($uid) {
+	protected function retrieveRecordByUid($uid) {
 		if ($this->isLoggedIn() &&
 			($GLOBALS['TSFE']->fe_user->user['uid'] == $uid)
 		) {
 			$data = $GLOBALS['TSFE']->fe_user->user;
 		} else {
-			$data = parent::retrieveRecord($uid);
+			$data = parent::retrieveRecordByUid($uid);
 		}
 
 		return $data;

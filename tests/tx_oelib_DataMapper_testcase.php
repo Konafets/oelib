@@ -755,15 +755,52 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	// Tests concerning findSingleByWhereClause().
 	////////////////////////////////////////////////
 
-	/**
-	 * @test
-	 */
-	public function findSingleByWhereClauseWithEmptyWhereClauseThrowsException() {
+	public function testFindSingleByWhereClauseWithEmptyWhereClausePartsThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The parameter $whereClause must not be empty.'
+			'Exception',
+			'The parameter $whereClauseParts must not be empty.'
 		);
 
-		$this->fixture->brokenFindSingleByWhereClause();
+		$this->fixture->findSingleByWhereClause(array());
+	}
+
+	public function testFindSingleByWhereClauseWithUidOfInexistentRecordThrowsException() {
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$this->setExpectedException(
+			'Exception',
+			'The record where "uid = ' . $uid . '" could not be retrieved' .
+				' from the table tx_oelib_test.'
+		);
+
+		$this->fixture->findSingleByWhereClause(
+			array('uid' => $uid)
+		);
+	}
+
+	public function testFindSingleByWhereClauseWithUidOfExistentNotMappedRecordReturnsModelWithTheData() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->findSingleByWhereClause(array('title' => 'foo', 'is_dummy_record' => '1'))
+				->getTitle()
+		);
+	}
+
+	public function testFindSingleByWhereClauseWithUidOfExistentYetMappedRecordReturnsModelWithTheMappedData() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$this->fixture->find($uid)->setTitle('bar');
+
+		$this->assertEquals(
+			'bar',
+			$this->fixture->findSingleByWhereClause(array('title' => 'foo', 'is_dummy_record' => '1'))
+				->getTitle()
+		);
 	}
 }
 ?>

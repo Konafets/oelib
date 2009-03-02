@@ -471,6 +471,23 @@ class tx_oelib_db {
 	}
 
 	/**
+	 * Gets the column definition for a field in $table.
+	 *
+	 * @param string the name of the table for which the column names should be
+	 *               retrieved, must not be empty
+	 * @param string the name of the field of which to retrieve the definition,
+	 *               must not be empty
+	 *
+	 * @return array the field definition for the field in $table, will not be
+	 *               empty
+	 */
+	public function getColumnDefinition($table, $column) {
+		self::retrieveColumnsForTable($table);
+
+		return self::$tableColumnCache[$table][$column];
+	}
+
+	/**
 	 * Retrieves and caches the column data for the table $table.
 	 *
 	 * If the column data for that table already is cached, this function does
