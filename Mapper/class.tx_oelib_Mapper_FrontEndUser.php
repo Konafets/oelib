@@ -57,13 +57,11 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
 	 *                                     be null if no user is logged in or
 	 *                                     if there is no front end
+	 *
+	 * @deprecated 2009-03-02 use tx_oelib_FrontEndLoginManager::getLoggedInUser
 	 */
 	public function getLoggedInUser() {
-		if (!$this->isLoggedIn()) {
-			return null;
-		}
-
-		return $this->find($GLOBALS['TSFE']->fe_user->user['uid']);
+		return tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser();
 	}
 
 	/**
@@ -78,7 +76,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 * @return array the record from the database, will not be empty
 	 */
 	protected function retrieveRecordByUid($uid) {
-		if ($this->isLoggedIn() &&
+		if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn() &&
 			($GLOBALS['TSFE']->fe_user->user['uid'] == $uid)
 		) {
 			$data = $GLOBALS['TSFE']->fe_user->user;
@@ -87,18 +85,6 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 		}
 
 		return $data;
-	}
-
-	/**
-	 * Checks whether any front-end user is logged in (and whether a front end
-	 * exists at all).
-	 *
-	 * @return boolean true if a front end exists and a front-end user is logged
-	 *                 in, false otherwise
-	 */
-	public function isLoggedIn() {
-		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
-			is_array($GLOBALS['TSFE']->fe_user->user);
 	}
 }
 

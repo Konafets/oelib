@@ -115,6 +115,14 @@ class tx_oelib_FrontEndLoginManager_testcase extends tx_phpunit_testcase {
 	// Tests concerning getLoggedInUser
 	/////////////////////////////////////
 
+	public function testGetLoggedInUserWithEmptyMapperNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$mapperName must not be empty.'
+		);
+
+		$this->fixture->getLoggedInUser('');
+	}
+
 	public function testGetLoggedInUserWithoutFrontEndReturnsNull() {
 		$this->testingFramework->discardFakeFrontEnd();
 
@@ -139,6 +147,16 @@ class tx_oelib_FrontEndLoginManager_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->getLoggedInUser()
 				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
+	public function testGetLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
+		$this->testingFramework->createFakeFrontEnd();
+		$this->testingFramework->createAndLoginFrontEndUser();
+
+		$this->assertTrue(
+			$this->fixture->getLoggedInUser('tx_oelib_tests_fixtures_TestingMapper')
+				instanceof tx_oelib_tests_fixtures_TestingModel
 		);
 	}
 

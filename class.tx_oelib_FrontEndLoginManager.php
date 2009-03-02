@@ -90,16 +90,24 @@ class tx_oelib_FrontEndLoginManager {
 	/**
 	 * Gets the currently logged-in front-end user.
 	 *
+	 * @param string the name of the mapper to use for getting the front-end
+	 *               user model, must not be empty
+	 *
 	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
 	 *                                     be null if no user is logged in or
 	 *                                     if there is no front end
 	 */
-	public function getLoggedInUser() {
+	public function getLoggedInUser(
+		$mapperName = 'tx_oelib_Mapper_FrontEndUser'
+	) {
+		if ($mapperName == '') {
+			throw new Exception('$mapperName must not be empty.');
+		}
 		if (!$this->isLoggedIn()) {
 			return null;
 		}
 
-		return tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
+		return tx_oelib_MapperRegistry::get($mapperName)
 			->find($GLOBALS['TSFE']->fe_user->user['uid']);
 	}
 }
