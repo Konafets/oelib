@@ -114,5 +114,37 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning denied database access
+	////////////////////////////////////////////
+
+	public function testGetAfterDenyDatabaseAccessReturnsNewMapperInstanceWithDatabaseAccessDisabled() {
+		tx_oelib_MapperRegistry::denyDatabaseAccess();
+
+		$this->assertFalse(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')->hasDatabaseAccess()
+		);
+	}
+
+	public function testGetAfterDenyDatabaseAccessReturnsExistingMapperInstanceWithDatabaseAccessDisabled() {
+		tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper');
+		tx_oelib_MapperRegistry::denyDatabaseAccess();
+
+		$this->assertFalse(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')->hasDatabaseAccess()
+		);
+	}
+
+	public function testGetAfterInstanceWithDeniedDatabaseAccessWasPurgedReturnsMapperWithDatabaseAccessGranted() {
+		tx_oelib_MapperRegistry::getInstance();
+		tx_oelib_MapperRegistry::denyDatabaseAccess();
+		tx_oelib_MapperRegistry::purgeInstance();
+
+		$this->assertTrue(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')->hasDatabaseAccess()
+		);
+	}
 }
 ?>

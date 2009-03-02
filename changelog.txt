@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2228] Feature: Add a DB-less mode/testing mode to the mappers
 - [#2474] Feature: Add functions FrontEndUser::hasGroupUids
 - [#2471] Feature: Mappers should be able to return a result list for an array of arrays with model data
 - [#2764] Feature: Add internal functions for the DataMapper to create models from arrays of data

@@ -802,5 +802,59 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 				->getTitle()
 		);
 	}
+
+
+	//////////////////////////////////////////////
+	// Tests concerning disabled database access
+	//////////////////////////////////////////////
+
+	public function testHasDatabaseAccessInitiallyReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->hasDatabaseAccess()
+		);
+	}
+
+	public function testHasDatabaseAccessAfterDisableDatabaseAccessReturnsFalse() {
+		$this->fixture->disableDatabaseAccess();
+
+		$this->assertFalse(
+			$this->fixture->hasDatabaseAccess()
+		);
+	}
+
+	public function testLoadWithUidOfRecordInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->disableDatabaseAccess();
+		$this->fixture->load($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isDead()
+		);
+	}
+
+	public function testLoadWithUidOfRecordNotInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+
+		$this->fixture->disableDatabaseAccess();
+		$this->fixture->load($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isDead()
+		);
+	}
+
+	public function testFindSingleByWhereClauseAndDatabaseAccessDisabledThrowsException() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound',
+			'No record can be retrieved from the database because database' .
+					' access is disabled for this mapper instance.'
+		);
+
+		$this->fixture->disableDatabaseAccess();
+		$this->fixture->findSingleByWhereClause(array('title' => 'foo'));
+	}
 }
 ?>

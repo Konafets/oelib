@@ -48,6 +48,11 @@ class tx_oelib_MapperRegistry {
 	private $mappers = array();
 
 	/**
+	 * @var boolean whether database access should be denied for mappers
+	 */
+	private $denyDatabaseAccess = false;
+
+	/**
 	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
@@ -133,7 +138,18 @@ class tx_oelib_MapperRegistry {
 			$this->mappers[$className] = t3lib_div::makeInstance($className);
 		}
 
+		if ($this->denyDatabaseAccess) {
+			$this->mappers[$className]->disableDatabaseAccess();
+		}
+
 		return $this->mappers[$className];
+	}
+
+	/**
+	 * Disables database access for all mappers received with get().
+	 */
+	public static function denyDatabaseAccess() {
+		self::getInstance()->denyDatabaseAccess = true;
 	}
 }
 

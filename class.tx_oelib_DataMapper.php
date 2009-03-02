@@ -63,6 +63,11 @@ abstract class tx_oelib_DataMapper {
 	protected $relations = array();
 
 	/**
+	 * @var boolean whether database access is denied for this mapper
+	 */
+	 private $denyDatabaseAccess = false;
+
+	/**
 	 * The constructor.
 	 */
 	public function __construct() {
@@ -363,6 +368,7 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     which matches the WHERE clause
+	 * @throws tx_oelib_Exception_NotFound if database access is disabled
 	 *
 	 * @param array WHERE clause parts for the record to retrieve, each element
 	 *              must consist of a column name as key and a value to search
@@ -372,6 +378,13 @@ abstract class tx_oelib_DataMapper {
 	 * @return array the record from the database, will not be empty
 	 */
 	protected function retrieveRecord(array $whereClauseParts) {
+		if (!$this->hasDatabaseAccess()) {
+			throw new tx_oelib_Exception_NotFound(
+				'No record can be retrieved from the database because database' .
+					' access is disabled for this mapper instance.'
+			);
+		}
+
 		$whereClauses = array();
 		foreach ($whereClauseParts as $key => $value) {
 			$columnDefinition = tx_oelib_db::getColumnDefinition(
@@ -443,6 +456,26 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function getNewGhost() {
 		return $this->createGhost($this->map->getNewUid());
+	}
+
+	/**
+	 * Disables all database querying, so model data can only be fetched from
+	 * memory.
+	 *
+	 * This function is for testing purposes only. For testing, it should be
+	 * used whenever possible.
+	 */
+	public function disableDatabaseAccess() {
+		$this->denyDatabaseAccess = true;
+	}
+
+	/**
+	 * Checks whether the database may be accessed.
+	 *
+	 * @return boolean true is database access is granted, false otherwise
+	 */
+	public function hasDatabaseAccess() {
+		return !$this->denyDatabaseAccess;
 	}
 }
 

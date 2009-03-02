@@ -242,7 +242,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		$this->load();
 		if ($this->isDead()) {
 			throw new tx_oelib_Exception_NotFound(
-				'This ' . get_class($this). ' with the UID ' . $this->getUid() .
+				'This ' . get_class($this) . ' with the UID ' . $this->getUid() .
 					' is dead and cannot have any data.'
 			);
 		}
