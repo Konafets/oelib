@@ -238,6 +238,33 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements tx_oelib_Int
 	public function getUserGroups() {
 		return $this->getAsList('usergroup');
 	}
+
+	/**
+	 * Checks whether this user is a member of at least one of the user groups
+	 * provided as comma-separated UID list.
+	 *
+	 * @param string comma-separated list of user group UIDs, can also consist
+	 *               of only one UID but must not be empty
+	 *
+	 * @return boolean true if the user is member of at least one of the user
+	 *                 groups provided, false otherwise
+	 */
+	public function hasGroupMembership($uidList) {
+		if ($uidList == '') {
+			throw new Exception('$uidList must not be empty.');
+		}
+
+		$isMember = false;
+
+		foreach (t3lib_div::trimExplode(',', $uidList, true) as $uid) {
+			if ($this->getUserGroups()->hasUid($uid)) {
+				$isMember = true;
+				break;
+			}
+		}
+
+		return $isMember;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {

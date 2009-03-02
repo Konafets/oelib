@@ -582,5 +582,76 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->wantsHtmlEMail()
 		);
 	}
+
+
+	///////////////////////////////////////
+	// Test concerning hasGroupMembership
+	///////////////////////////////////////
+
+	public function testHasGroupMembershipWithEmptyUidListThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'$uidList must not be empty.'
+		);
+
+		$this->fixture->hasGroupMembership('');
+	}
+
+	public function testHasGroupMembershipForUserOnlyInProvidedGroupReturnsTrue() {
+		$userGroup = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUserGroup')->getNewGhost();
+		$list = new tx_oelib_List();
+		$list->add($userGroup);
+
+		$this->fixture->setData(array('usergroup' => $list));
+
+		$this->assertTrue(
+			$this->fixture->hasGroupMembership($userGroup->getUid())
+		);
+	}
+
+	public function testHasGroupMembershipForUserInProvidedGroupAndInAnotherReturnsTrue() {
+		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
+		$userGroup = $groupMapper->getNewGhost();
+		$list = new tx_oelib_List();
+		$list->add($groupMapper->getNewGhost());
+		$list->add($userGroup);
+
+		$this->fixture->setData(array('usergroup' => $list));
+
+		$this->assertTrue(
+			$this->fixture->hasGroupMembership($userGroup->getUid())
+		);
+	}
+
+	public function testHasGroupMembershipForUserInOneOfTheProvidedGroupsReturnsTrue() {
+		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
+		$userGroup = $groupMapper->getNewGhost();
+		$list = new tx_oelib_List();
+		$list->add($userGroup);
+
+		$this->fixture->setData(array('usergroup' => $list));
+
+		$this->assertTrue(
+			$this->fixture->hasGroupMembership(
+				$userGroup->getUid() . ',' . $groupMapper->getNewGhost()->getUid()
+			)
+		);
+	}
+
+	public function testHasGroupMembershipForUserNoneOfTheProvidedGroupsReturnsFalse() {
+		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
+		$list = new tx_oelib_List();
+		$list->add($groupMapper->getNewGhost());
+		$list->add($groupMapper->getNewGhost());
+
+		$this->fixture->setData(array('usergroup' => $list));
+
+		$this->assertFalse(
+			$this->fixture->hasGroupMembership(
+				$groupMapper->getNewGhost()->getUid() . ',' . $groupMapper->getNewGhost()->getUid()
+			)
+		);
+	}
 }
 ?>
