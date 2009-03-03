@@ -223,6 +223,45 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/////////////////////////////////////////
+	// Tests concerning getting the company
+	/////////////////////////////////////////
+
+	public function testHasCompanyForEmptyCompanyReturnsFalse() {
+		$this->fixture->setData(array('company' => ''));
+
+		$this->assertFalse(
+			$this->fixture->hasCompany()
+		);
+	}
+
+	public function testHasCompanyForNonEmptyCompanyReturnsTrue() {
+		$this->fixture->setData(array('company' => 'Test Inc.'));
+
+		$this->assertTrue(
+			$this->fixture->hasCompany()
+		);
+	}
+
+	public function testGetCompanyForEmptyCompanyReturnsEmptyString() {
+		$this->fixture->setData(array('company' => ''));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getCompany()
+		);
+	}
+
+	public function testGetCompanyForNonEmptyCompanyReturnsCompany() {
+		$this->fixture->setData(array('company' => 'Test Inc.'));
+
+		$this->assertEquals(
+			'Test Inc.',
+			$this->fixture->getCompany()
+		);
+	}
+
+
 	////////////////////////////////////////
 	// Tests concerning getting the street
 	////////////////////////////////////////

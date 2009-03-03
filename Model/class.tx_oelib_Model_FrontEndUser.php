@@ -79,6 +79,24 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements tx_oelib_Int
 	}
 
 	/**
+	 * Gets this user's company.
+	 *
+	 * @return string this user's company, may be empty
+	 */
+	public function getCompany() {
+		return $this->getAsString('company');
+	}
+
+	/**
+	 * Checks whether this user has a non-empty company set.
+	 *
+	 * @return boolean true if this user has a company set, false otherwise
+	 */
+	public function hasCompany() {
+		return $this->hasString('company');
+	}
+
+	/**
 	 * Gets this user's street.
 	 *
 	 * @return string this user's street, may be multi-line, may be empty
