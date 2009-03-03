@@ -258,6 +258,13 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testGetModelForNonMappedUidReturnsModelWithChildrenList() {
+		$this->assertTrue(
+			$this->fixture->getModel(array('uid' => 2))->getChildren()
+				instanceof tx_oelib_List
+		);
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning getListOfModels

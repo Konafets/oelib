@@ -145,6 +145,7 @@ abstract class tx_oelib_DataMapper {
 		$model = $this->find($data['uid']);
 
 		if ($model->isGhost()) {
+			$this->createRelations($data);
 			$model->setData($data);
 		}
 
