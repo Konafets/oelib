@@ -33,38 +33,43 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_Model_Language_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_Model_Language
+	 */
+	private $fixture;
+
 	public function setUp() {
+		$this->fixture = new tx_oelib_Model_Language();
 	}
 
 	public function tearDown() {
-		tx_oelib_MapperRegistry::purgeInstance();
+		$this->fixture->__destruct();
+		unset($this->fixture);
 	}
 
 
-	//////////////////////////////////////////////////
-	// Tests regarding getting the local short name.
-	//////////////////////////////////////////////////
+	////////////////////////////////////////////
+	// Tests regarding getting the local name.
+	////////////////////////////////////////////
 
 	/**
 	 * @test
 	 */
 	public function getLocalNameReturnsLocalNameOfGerman() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Language')->
-			find(43);
+		$this->fixture->setData(array('lg_name_local' => 'Deutsch'));
 
 		$this->assertEquals(
 			'Deutsch',
-			$fixture->getLocalName()
+			$this->fixture->getLocalName()
 		);
 	}
 
 	public function getLocalNameReturnsLocalNameOfEnglish() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Language')->
-			find(30);
+		$this->fixture->setData(array('lg_name_local' => 'English'));
 
 		$this->assertEquals(
 			'English',
-			$fixture->getLocalName()
+			$this->fixture->getLocalName()
 		);
 	}
 
@@ -77,12 +82,11 @@ class tx_oelib_Model_Language_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfGerman() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Language')->
-			find(43);
+		$this->fixture->setData(array('lg_iso_2' => 'DE'));
 
 		$this->assertEquals(
 			'DE',
-			$fixture->getIsoAlpha2Code()
+			$this->fixture->getIsoAlpha2Code()
 		);
 	}
 
@@ -90,12 +94,11 @@ class tx_oelib_Model_Language_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfEnglish() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Language')->
-			find(30);
+		$this->fixture->setData(array('lg_iso_2' => 'EN'));
 
 		$this->assertEquals(
 			'EN',
-			$fixture->getIsoAlpha2Code()
+			$this->fixture->getIsoAlpha2Code()
 		);
 	}
 
@@ -108,13 +111,9 @@ class tx_oelib_Model_Language_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function isReadOnlyIsTrue() {
-		$model = new tx_oelib_Model_Language();
-
 		$this->assertTrue(
-			$model->isReadOnly()
+			$this->fixture->isReadOnly()
 		);
-
-		$model->__destruct();
 	}
 }
 ?>
