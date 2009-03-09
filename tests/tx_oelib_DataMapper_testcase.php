@@ -856,12 +856,390 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function testFindSingleByWhereClauseAndDatabaseAccessDisabledThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'No record can be retrieved from the database because database' .
-					' access is disabled for this mapper instance.'
+			'No record can be retrieved from the database because database ' .
+				'access is disabled for this mapper instance.'
 		);
 
 		$this->fixture->disableDatabaseAccess();
 		$this->fixture->findSingleByWhereClause(array('title' => 'foo'));
+	}
+
+
+	////////////////////////////
+	// Tests concerning save()
+	////////////////////////////
+
+	public function testSaveForReadOnlyModelDoesNotCommitModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->setModelClassName('tx_oelib_tests_fixtures_ReadOnlyModel');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "foo" AND tstamp = ' . $GLOBALS['SIM_EXEC_TIME']
+			)
+		);
+	}
+
+	public function testSaveForDatabaseAccessDeniedDoesNotCommitDirtyLoadedModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->disableDatabaseAccess();
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForGhostDoesNotCommitModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'tstamp > 0'
+			)
+		);
+	}
+
+	public function testSaveForDeadModelDoesNotCommitDirtyModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->find($uid)->markAsDead();
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForCleanLoadedModelDoesNotCommitModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->find($uid)->markAsClean();
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithUidCommitsModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithUidDoesNotChangeTheUid() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$model = $this->fixture->find($uid);
+		$model->setTitle('bar');
+		$this->fixture->save($model);
+
+		$this->assertEquals(
+			$uid,
+			$model->getUid()
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithUidSetsTimestamp() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "bar" AND tstamp = ' . $GLOBALS['SIM_EXEC_TIME']
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithUidAndWithoutDataCommitsModelToDatabase() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$model->setData(array());
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'tstamp = ' . $GLOBALS['SIM_EXEC_TIME']
+			)
+		);
+	}
+
+	public function testIsDirtyAfterSaveForDirtyLoadedModelWithUidReturnsFalse() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertFalse(
+			$this->fixture->find($uid)->isDirty()
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidAndWithoutRelationsCommitsModelToDatabase() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData(array('is_dummy_record' => '1', 'title' => 'bar'));
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidAndWithRelationsCommitsModelToDatabase() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar"'
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidAddsModelToMapAfterSave() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->find($model->getUid())
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidSetsUidForModel() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$model->hasUid()
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidSetsUidReceivedFromDatabaseForModel() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'uid = ' . $model->getUid()
+			)
+		);
+	}
+
+	public function testIsDirtyAfterSaveForDirtyLoadedModelWithoutUidReturnsFalse() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertFalse(
+			$model->isDirty()
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidSetsTimestamp() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "bar" AND tstamp = ' . $GLOBALS['SIM_EXEC_TIME']
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithoutUidSetsCrdate() {
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData($data);
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "bar" AND crdate = ' . $GLOBALS['SIM_EXEC_TIME']
+			)
+		);
+	}
+
+	public function testSaveForDirtyLoadedModelWithNoDataDoesNotCommitModelToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "foo" AND tstamp > 0'
+			)
+		);
+
+		$model = $this->fixture->find($uid);
+		$model->markAsDirty();
+		$this->fixture->save($model);
+
+		$this->assertFalse(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "foo" AND tstamp > 0'
+			)
+		);
+	}
+
+	public function testIsDeadAfterSaveForDirtyLoadedModelWithDeletedFlagSetReturnsTrue() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->find($uid)->setToDeleted();
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->isDead()
+		);
+	}
+
+	public function testSaveForModelWithN1RelationSavesUidOfRelatedRecord() {
+		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('friend' => $friendUid)
+		);
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar" AND friend = ' . $friendUid
+			)
+		);
+	}
+
+	public function testSaveForModelWithMNCommaSeparatedRelationSavesUidList() {
+		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('children' => $childUid1 . ',' . $childUid2)
+		);
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "bar" AND children = "' . $childUid1 . ',' . $childUid2 . '"'
+			)
+		);
+	}
+
+	public function testSaveForModelWithMNTableRelationSavesNumberOfRelatedRecords() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid1, 'related_records'
+		);
+		$relatedUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $uid, $relatedUid2, 'related_records'
+		);
+
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar" AND related_records = 2'
+			)
+		);
 	}
 }
 ?>

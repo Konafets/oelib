@@ -82,5 +82,24 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	public function findSingleByWhereClause(array $whereClauseParts) {
 		return parent::findSingleByWhereClause($whereClauseParts);
 	}
+
+	/**
+	 * Sets the model class name.
+	 *
+	 * @param string model class name, must not be empty
+	 */
+	public function setModelClassName($className) {
+		$this->modelClassName = $className;
+	}
+
+	/**
+	 * Processes a model's data and creates any relations that are hidden within
+	 * it using foreign key mapping.
+	 *
+	 * @param array the model data to process, might be modified
+	 */
+	public function createRelations(array &$data) {
+		parent::createRelations($data);
+	}
 }
 ?>

@@ -561,7 +561,7 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->fixture->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->getAsBoolean('deleted')
+			$this->fixture->isDeleted()
 		);
 	}
 
@@ -572,6 +572,24 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->fixture->setDeletedPropertyUsingSet();
+	}
+
+	public function testIsDeletedForModelSetToDeletedReturnsTrue() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->fixture->setToDeleted();
+
+		$this->assertTrue(
+			$this->fixture->isDeleted()
+		);
+	}
+
+	public function testIsDeletedForNonDeletedModelReturnsFalse() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertFalse(
+			$this->fixture->isDeleted()
+		);
 	}
 
 
@@ -622,5 +640,72 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
 		$model->setTitle('foo');
 	}
+
+
+	/////////////////////////////
+	// Tests concerning getData
+	/////////////////////////////
+
+	public function testGetDataForNoDataSetReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getData()
+		);
+	}
+
+	public function testGetDataReturnsArrayWithTheSetData() {
+		$data = array('foo' => 'bar');
+		$this->fixture->setData($data);
+
+		$this->assertEquals(
+			$data,
+			$this->fixture->getData()
+		);
+	}
+
+	public function testGetDataReturnsArrayWithoutKeyUid() {
+		$this->fixture->setData(array('uid' => 1));
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getData()
+		);
+	}
+
+
+	/////////////////////////////////////////////////////
+	// Test concerning setTimestamp and setCreationDate
+	/////////////////////////////////////////////////////
+
+	public function testSetTimestampForLoadedModelSetsTheTimestamp() {
+		$this->fixture->setData(array());
+		$this->fixture->setTimestamp();
+
+		$this->assertEquals(
+			$GLOBALS['SIM_EXEC_TIME'],
+			$this->fixture->getAsInteger('tstamp')
+		);
+	}
+
+	public function testsetCreationDateForLoadedModelWithUidThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Only new objects (without UID) may receive "crdate".'
+		);
+
+		$this->fixture->setData(array('uid' => 1));
+		$this->fixture->setCreationDate();
+	}
+
+	public function testsetCreationDateForLoadedModelWithoutUidSetsCrdate() {
+		$this->fixture->setData(array());
+		$this->fixture->setCreationDate();
+
+		$this->assertEquals(
+			$GLOBALS['SIM_EXEC_TIME'],
+			$this->fixture->getAsInteger('crdate')
+		);
+	}
+
 }
 ?>

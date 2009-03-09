@@ -79,21 +79,6 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
-	 * Gets the value stored in under the key $key as a list of models.
-	 *
-	 * @throws Exception if there is a data item stored for the key $key that
-	 *                   is not a list instance or if that item has not been
-	 *                   set yet
-	 *
-	 * @param string the key of the element to retrieve, must not be empty
-	 *
-	 * @return tx_oelib_List the data item for the given key
-	 */
-	public function getAsList($key) {
-		return parent::getAsList($key);
-	}
-
-	/**
 	 * Gets the value stored in under the key $key, converted to a boolean.
 	 *
 	 * @param string the key of the element to retrieve, must not be empty
@@ -102,6 +87,18 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 */
 	public function getAsBoolean($key) {
 		return parent::getAsBoolean($key);
+	}
+
+	/**
+	 * Gets the value stored in under the key $key, converted to an integer.
+	 *
+	 * @param string the key of the element to retrieve, must not be empty
+	 *
+	 * @return integer the integer value of the given key, may be positive,
+	 *                 negative or zero
+	 */
+	public function getAsInteger($key) {
+		return parent::getAsInteger($key);
 	}
 
 	/**
@@ -143,13 +140,6 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 */
 	public function getRelatedRecords() {
 		return $this->getAsList('related_records');
-	}
-
-	/**
-	 * Marks this model's data as clean.
-	 */
-	public function markAsClean() {
-		parent::markAsClean();
 	}
 
 	/**

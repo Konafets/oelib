@@ -254,15 +254,10 @@ abstract class tx_oelib_DataMapper {
 	 */
 	protected function createRelations(array &$data) {
 		foreach (array_keys($this->relations) as $key) {
-			$relationConfiguration
-				= $this->getRelationConfigurationFromTca($key);
-			$cardinality = (isset($relationConfiguration['maxitems']))
-				? intval($relationConfiguration['maxitems']) : 1;
-
-			if ($cardinality == 1) {
+			if ($this->isManyToOneRelationConfigured($key)) {
 				$this->createManyToOneRelation($data, $key);
 			} else {
-				if (isset($relationConfiguration['MM'])) {
+				if ($this->isManyToManyRelationConfigured($key)) {
 					$this->createMToNRelation($data, $key);
 				} else {
 					$this->createCommaSeparatedRelation($data, $key);
@@ -290,6 +285,38 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return $tca['columns'][$key]['config'];
+	}
+
+	/**
+	 * Checks whether the relation is configured in the TCA to be an n:1
+	 * relation.
+	 *
+	 * @param string key of the relation, must not be empty
+	 *
+	 * @return boolean true if the relation is an n:1 relation, false
+	 *                 otherwise
+	 */
+	private function isManyToOneRelationConfigured($key) {
+		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
+		$cardinality = (isset($relationConfiguration['maxitems']))
+			? intval($relationConfiguration['maxitems']) : 1;
+
+		return ($cardinality == 1);
+	}
+
+	/**
+	 * Checks whether there is a table for an m:n relation configured in the
+	 * TCA.
+	 *
+	 * @param string key of the relation, must not be empty
+	 *
+	 * @return boolean true if the relation's configuration provides an m:n
+	 *                 table, false otherwise
+	 */
+	private function isManyToManyRelationConfigured($key) {
+		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
+
+		return isset($relationConfiguration['MM']);
 	}
 
 	/**
@@ -477,6 +504,75 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function hasDatabaseAccess() {
 		return !$this->denyDatabaseAccess;
+	}
+
+	/**
+	 * Writes a model to the database. Does nothing if database access is
+	 * denied, if the model is clean, if the model has status dead, virgin or
+	 * ghost, if the model is read-only or if there is no data to set.
+	 *
+	 * @param tx_oelib_Model model to write to the database
+	 */
+	public function save(tx_oelib_Model $model) {
+		if (!$this->hasDatabaseAccess()
+			|| !$model->isDirty()
+			|| !$model->isLoaded()
+			|| $model->isReadOnly()
+		) {
+			return;
+		}
+
+		$data = $this->getPreparedModelData($model);
+
+		if ($model->hasUid()) {
+			tx_oelib_db::update(
+				$this->tableName, 'uid = ' . $model->getUid(), $data
+			);
+		} else {
+			$model->setUid(tx_oelib_db::insert($this->tableName, $data));
+			$this->map->add($model);
+		}
+
+		$model->markAsClean();
+		if ($model->isDeleted()) {
+			$model->markAsDead();
+		}
+	}
+
+	/**
+	 * Prepares the model's data for the database. Changes the relations into a
+	 * database-applicable format. Sets the timestamp and sets the "crdate" for
+	 * new models.
+	 *
+	 * @param tx_oelib_Model model to write to the database
+	 *
+	 * @return array the model's data prepared for the database, will not be
+	 *               empty
+	 */
+	private function getPreparedModelData(tx_oelib_Model $model) {
+		if (!$model->hasUid()) {
+			$model->setCreationDate();
+		}
+		$model->setTimestamp();
+
+		$data = $model->getData();
+
+		foreach (array_keys($this->relations) as $key) {
+			if ($this->isManyToOneRelationConfigured($key)) {
+				$functionName = getUid;
+			} else {
+				if ($this->isManyToManyRelationConfigured($key)) {
+					$functionName = count;
+				} else {
+					$functionName = getUids;
+				}
+			}
+
+			$data[$key] = (isset($data[$key]) && is_object($data[$key]))
+				? $data[$key]->$functionName() : 0;
+		}
+
+		return $data;
 	}
 }
 

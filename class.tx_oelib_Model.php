@@ -154,6 +154,18 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Returns the complete data for this model.
+	 *
+	 * This function may only be called by the mapper.
+	 *
+	 * @return array this model's complete data, will be empty if a model has
+	 *               no data
+	 */
+	public function getData() {
+		return $this->data;
+	}
+
+	/**
 	 * Marks this model as "loaded", ie. that it has some real data.
 	 */
 	protected function markAsLoaded() {
@@ -428,7 +440,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Marks this model's data as clean.
 	 */
-	protected function markAsClean() {
+	public function markAsClean() {
 		$this->isDirty = false;
 	}
 
@@ -462,12 +474,41 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Checks whether this model is set to deleted.
+	 *
+	 * @return boolean true if this model is set to deleted, false otherwise
+	 */
+	public function isDeleted() {
+		return $this->getAsBoolean('deleted');
+	}
+
+	/**
 	 * Checks whether this model is read-only.
 	 *
 	 * @return boolean true if this model is read-only, false if it is writable
 	 */
 	public function isReadOnly() {
 		return $this->readOnly;
+	}
+
+	/**
+	 * Sets the the modification date and time.
+	 */
+	public function setTimestamp() {
+		$this->setAsInteger('tstamp', $GLOBALS['SIM_EXEC_TIME']);
+	}
+
+	/**
+	 * Sets the the creation date and time.
+	 */
+	public function setCreationDate() {
+		if ($this->hasUid()) {
+			throw new Exception(
+				'Only new objects (without UID) may receive "crdate".'
+			);
+		}
+
+		$this->setAsInteger('crdate', $GLOBALS['SIM_EXEC_TIME']);
 	}
 }
 
