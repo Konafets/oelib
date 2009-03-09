@@ -182,16 +182,32 @@ class tx_oelib_FrontEndLoginManager_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserUsesUserDataFromMemory() {
+	public function testGetLoggedInUserWithLoadedModelOfUserNotInDatabaseReturnsThatInstance() {
 		$this->testingFramework->createFakeFrontEnd();
-		$this->testingFramework->createAndLoginFrontEndUser(
+		$user = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
+		$user->setData(array());
+		$this->testingFramework->loginFrontEndUser($user->getUid());
+
+		$this->assertSame(
+			$user,
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function testGetLoggedInUserUsesMappedUserDataFromMemory() {
+		$this->testingFramework->createFakeFrontEnd();
+		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'John Doe')
 		);
 
 		$GLOBALS['TSFE']->fe_user->user['name'] = 'Jane Doe';
+		$this->testingFramework->changeRecord(
+			'fe_users', $feUserUid, array('name' => 'James Doe')
+		);
 
 		$this->assertEquals(
-			'Jane Doe',
+			'John Doe',
 			$this->fixture->getLoggedInUser()->getName()
 		);
 	}

@@ -3640,6 +3640,75 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testLoginFrontEndUserNotInDatabaseSwitchesToLoggedIn() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUser = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
+		$feUser->setData(array());
+		$this->fixture->loginFrontEndUser($feUser->getUid());
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
+	public function testLoginFrontEndUserNotInDatabaseSetsLoginUserToOne() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUser = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
+		$feUser->setData(array());
+		$this->fixture->loginFrontEndUser($feUser->getUid());
+
+		$this->assertEquals(
+			1,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
+	public function testLoginFrontEndUserNotInDatabaseRetrievesNameOfUser() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUser = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
+		$feUser->setData(array('name' => 'John Doe'));
+		$this->fixture->loginFrontEndUser($feUser->getUid());
+
+		$this->assertEquals(
+			'John Doe',
+			$GLOBALS['TSFE']->fe_user->user['name']
+		);
+	}
+
+	public function testLoginFrontEndUserNotInDatabaseWithoutFrontEndThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'Please create a front end before calling loginFrontEndUser.'
+		);
+
+		$feUser = tx_oelib_MapperRegistry
+			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
+		$feUser->setData(array());
+		$this->fixture->loginFrontEndUser($feUser->getUid());
+	}
+
+	public function testLoginFrontEndUserMappedAsGhostAndInDatabaseSetsGroupDataOfUser() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUserGroupUid = $this->fixture->createFrontEndUserGroup(
+			array('title' => 'foo')
+		);
+		$feUser = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
+			->find($this->fixture->createFrontEndUser($feUserGroupUid));
+		$this->fixture->loginFrontEndUser($feUser->getUid());
+
+		$this->assertEquals(
+			array($feUserGroupUid => 'foo'),
+			$GLOBALS['TSFE']->fe_user->groupData['title']
+		);
+	}
+
 	public function testLogoutFrontEndUserWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
 			'Exception',

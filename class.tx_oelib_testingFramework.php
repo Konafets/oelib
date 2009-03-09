@@ -1170,9 +1170,13 @@ final class tx_oelib_testingFramework {
 	 * If a front-end user currently is logged in, he/she will be logged out
 	 * first.
 	 *
+	 * Note: To set the logged-in users group data properly, the front-end user
+	 *       and his groups must actually exist in the database.
+	 *
 	 * @throws Exception if no front end has been created
 	 *
-	 * @param integer UID of the FE user, must be > 0
+	 * @param integer UID of the FE user, must not necessarily exist in the
+	 *                database, must be > 0
 	 */
 	public function loginFrontEndUser($userId) {
 		if (intval($userId) == 0) {
@@ -1188,11 +1192,19 @@ final class tx_oelib_testingFramework {
 			$this->logoutFrontEndUser();
 		}
 
+		$mapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
+		// loads the model from database if it is a ghost
+		$mapper->existsModel($userId);
+		$dataToSet = $mapper->find($userId)->getData();
+		$dataToSet['uid'] = $userId;
+		if (isset($dataToSet['usergroup'])) {
+			$dataToSet['usergroup'] = $dataToSet['usergroup']->getUids();
+		}
+
 		$this->suppressFrontEndCookies();
 
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
-		$GLOBALS['TSFE']->fe_user->user
-			= $GLOBALS['TSFE']->fe_user->getRawUserByUid($userId);
+		$GLOBALS['TSFE']->fe_user->user = $dataToSet;
 		$GLOBALS['TSFE']->fe_user->fetchGroupData();
 		$GLOBALS['TSFE']->loginUser = 1;
 	}

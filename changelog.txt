@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2788] Change: Allow login of FE user models which are not in database with the testingFramework
 - [#2680] Feature: Add datamapper::save
 - [#2797] Feature: Add getDescription() to the FE group model
 - [#2228] Feature: Add a DB-less mode/testing mode to the mappers
