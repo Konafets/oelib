@@ -1104,6 +1104,7 @@ final class tx_oelib_testingFramework {
 		$GLOBALS['TSFE'] = $frontEnd;
 
 		$this->hasFakeFrontEnd = true;
+		$this->logoutFrontEndUser();
 
 		return $GLOBALS['TSFE']->id;
 	}
