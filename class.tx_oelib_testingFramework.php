@@ -762,8 +762,7 @@ final class tx_oelib_testingFramework {
 	public function cleanUp($performDeepCleanUp = false) {
 		$this->cleanUpTableSet(false, $performDeepCleanUp);
 		$this->cleanUpTableSet(true, $performDeepCleanUp);
-		$this->cleanUpFiles();
-		$this->cleanUpFolders();
+		$this->deleteAllDummyFoldersAndFiles();
 		$this->discardFakeFrontEnd();
 
 		tx_oelib_configurationProxy::purgeInstances();
@@ -824,20 +823,22 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Deletes all created dummy files.
+	 * Deletes all dummy files and folders.
 	 */
-	private function cleanUpFiles() {
-		foreach ($this->dummyFiles as $dummyFile) {
-			$this->deleteDummyFile($dummyFile);
-		}
-	}
-
-	/**
-	 * Deletes all created dummy folders.
-	 */
-	private function cleanUpFolders() {
-		foreach ($this->dummyFolders as $dummyFolder) {
-			$this->deleteDummyFolder($dummyFolder);
+	private function deleteAllDummyFoldersAndFiles() {
+		// If the upload folder was created by the testing framework, it can be
+		// removed at once.
+		if (isset($this->dummyFolders['uploadFolder'])) {
+			tx_oelib_FileFunctions::rmdir($this->getUploadFolderPath(), true);
+			$this->dummyFolders = array();
+			$this->dummyFiles = array();
+		} else {
+			foreach ($this->dummyFiles as $dummyFile) {
+				$this->deleteDummyFile($dummyFile);
+			}
+			foreach ($this->dummyFolders as $dummyFolder) {
+				$this->deleteDummyFolder($dummyFolder);
+			}
 		}
 	}
 
@@ -852,32 +853,98 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string path of the dummy file to create, relative to the
 	 *               calling extension's upload directory, must not be empty
+	 * @param string content for the file to create, may be empty
 	 *
 	 * @return string the absolute path of the created dummy file, will
 	 *                not be empty
 	 */
-	public function createDummyFile($fileName = 'test.txt') {
+	public function createDummyFile($fileName = 'test.txt', $content = '') {
+		$this->createDummyUploadFolder();
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
 
-		if (!@t3lib_div::writeFile($uniqueFileName, '')) {
-			throw new Exception($uniqueFileName . ' could not be created.');
+		if (!t3lib_div::writeFile($uniqueFileName, $content)) {
+			throw new Exception(
+				'The file ' . $uniqueFileName . ' could not be created.'
+			);
 		}
 
-		$relativeFileName = $this->getPathRelativeToUploadDirectory(
-			$uniqueFileName
-		);
-
-		$this->dummyFiles[$relativeFileName] = $relativeFileName;
+		$this->addToDummyFileList($uniqueFileName);
 
 		return $uniqueFileName;
 	}
 
 	/**
-	 * Deletes the dummy file specified by the first parameter $fileName.
+	 * Creates a dummy ZIP archive with a unique file name in the calling
+	 * extension's upload directory.
 	 *
-	 * @throws Exception if the file was not created with the current instance
-	 *                   of the testing framework
-	 * @throws Exception if the file could not be deleted
+	 * @throws Exception if the PHP installation does not provide ZIPArchive
+	 *
+	 * @param string path of the dummy ZIP archive to create, relative to the
+	 *               calling extension's upload directory, must not be empty
+	 * @param array Absolute paths of the files to add to the ZIP archive. Note
+	 *              that the archives directory structure will be relative to
+	 *              the upload folder path, so only files within this folder or
+	 *              in sub-folders of this folder can be added.
+	 *              The provided array may be empty, but as ZIP archives cannot
+	 *              be empty, a content-less dummy text file will be added to
+	 *              the archive then.
+	 *
+	 * @return string the absolute path of the created dummy ZIP archive, will
+	 *                not be empty
+	 */
+	public function createDummyZipArchive(
+		$fileName = 'test.zip', array $filesToAddToArchive = array()
+	) {
+		$this->checkForZipArchive();
+
+		$this->createDummyUploadFolder();
+		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
+		$zip = t3lib_div::makeInstance('ZipArchive');
+
+		if ($zip->open($uniqueFileName, ZipArchive::CREATE) !== true) {
+			throw new Exception(
+				'The new ZIP archive "' . $fileName . '" could not be created.'
+			);
+		}
+
+		$contents = !empty($filesToAddToArchive)
+			? $filesToAddToArchive
+			: array($this->createDummyFile());
+
+		foreach ($contents as $pathToFile) {
+			if (!file_exists($pathToFile)) {
+				throw new Exception(
+					'The provided path "' . $pathToFile . '" does not point ' .
+						'to an exisiting file.'
+				);
+			}
+			$zip->addFile(
+				$pathToFile, $this->getPathRelativeToUploadDirectory($pathToFile)
+			);
+        }
+
+		$zip->close();
+		$this->addToDummyFileList($uniqueFileName);
+
+		return $uniqueFileName;
+	}
+
+	/**
+	 * Adds a file name to $this->dummyFiles.
+	 *
+	 * @param string file name to add, must be the unique name of a dummy file,
+	 *               must not be empty
+	 */
+	private function addToDummyFileList($uniqueFileName) {
+		$relativeFileName = $this->getPathRelativeToUploadDirectory(
+			$uniqueFileName
+		);
+
+		$this->dummyFiles[$relativeFileName] = $relativeFileName;
+	}
+
+	/**
+	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
 	 * @param string the path to the file to delete relative to
 	 *               $this->uploadFolderPath, must not be empty
@@ -906,8 +973,8 @@ final class tx_oelib_testingFramework {
 	}
 
 	/**
-	 * Creates a dummy folder with a unique folder name in the calling extension's
-	 * upload directory.
+	 * Creates a dummy folder with a unique folder name in the calling
+	 * extension's upload directory.
 	 *
 	 * @param string name of the dummy folder to create relative to
 	 *               $this->uploadFolderPath, must not be empty
@@ -916,10 +983,13 @@ final class tx_oelib_testingFramework {
 	 *                not be empty
 	 */
 	public function createDummyFolder($folderName) {
+		$this->createDummyUploadFolder();
 		$uniqueFolderName = $this->getUniqueFileOrFolderPath($folderName);
 
 		if (!t3lib_div::mkdir($uniqueFolderName)) {
-			throw new Exception($uniqueFolderName . ' could not be created.');
+			throw new Exception(
+				'The folder ' . $uniqueFolderName . ' could not be created.'
+			);
 		}
 
 		$relativeUniqueFolderName = $this->getPathRelativeToUploadDirectory(
@@ -940,18 +1010,13 @@ final class tx_oelib_testingFramework {
 	 * Deletes the dummy folder specified in the first parameter $folderName.
 	 * The folder must be empty (no files or subfolders).
 	 *
-	 * @throws exception if the folder does not exist
-	 * @throws exception if the folder was not created with the current instance
-	 *                   of the testing framework
-	 * @throws exception if the folder could not be deleted
-	 *
 	 * @param string the path to the folder to delete relative to
 	 *               $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFolder($folderName) {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
 
-		if (!file_exists($absolutePathToFolder)) {
+		if (!is_dir($absolutePathToFolder)) {
 			throw new Exception(
 				'The folder "' . $absolutePathToFolder . '" which you ' .
 					'are trying to delete does not exist.'
@@ -966,7 +1031,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		if (!@rmdir($absolutePathToFolder)) {
+		if (!tx_oelib_FileFunctions::rmdir($absolutePathToFolder)) {
 			throw new Exception(
 				'The folder "' . $absolutePathToFolder . '" could not ' .
 					'be deleted.'
@@ -974,6 +1039,49 @@ final class tx_oelib_testingFramework {
 		}
 
 		unset($this->dummyFolders[$folderName]);
+	}
+
+	/**
+	 * Creates the upload folder if it does not exist yet.
+	 */
+	private function createDummyUploadFolder() {
+		if (is_dir($this->getUploadFolderPath())) {
+			return;
+		}
+
+		if (t3lib_div::mkdir($this->getUploadFolderPath())) {
+			// registers the upload folder as dummy folder
+			$this->dummyFolders['uploadFolder'] = '';
+		} else {
+			throw new Exception(
+				'The upload folder ' . $this->getUploadFolderPath() .
+					' could not be created.'
+			);
+		}
+	}
+
+	/**
+	 * Sets the upload folder path.
+	 *
+	 * @throws Exception if there are dummy files within the current upload
+	 *                   folder as these files could not be deleted if the
+	 *                   upload folder path has changed
+	 *
+	 * @param string absolute path to the folder where to work on during the
+	 *               tests, can be either an existing folder which will be
+	 *               cleaned up after the tests or a path of a folder to be
+	 *               created as soon as it is needed and deleted during
+	 *               cleanUp, must end with a trailing slash
+	 */
+	public function setUploadFolderPath($absolutePath) {
+		if (!empty($this->dummyFiles) || !empty($this->dummyFolders)) {
+			throw new Exception(
+				'The upload folder path must not be changed if there are ' .
+					'already dummy files or folders.'
+			);
+		}
+
+		$this->uploadFolderPath = $absolutePath;
 	}
 
 	/**
@@ -1799,6 +1907,22 @@ final class tx_oelib_testingFramework {
 		}
 
 		$this->markTableAsDirty($tableName);
+	}
+
+	/**
+	 * Checks whether the ZIPArchive class is provided by the PHP installation.
+	 *
+	 * Note: This function can be used to mark tests as skipped if this class is
+	 *       not available but required for a test to pass succesfully.
+	 *
+	 * @throws Exception if the PHP installation does not provide ZIPArchive
+	 */
+	public function checkForZipArchive() {
+		if (!in_array('zip', get_loaded_extensions())) {
+			throw new Exception(
+				'This PHP installation does not provide the ZIPArchive class.'
+			);
+		}
 	}
 }
 

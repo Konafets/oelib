@@ -153,8 +153,20 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			return;
 		}
 
-		@rmdir($this->foreignFolderToDelete);
+		tx_oelib_FileFunctions::rmdir($this->foreignFolderToDelete);
 		$this->foreignFolderToDelete = '';
+	}
+
+	/**
+	 * Marks a test as skipped if the ZIPArchive class is not available in the
+	 * PHP installation.
+	 */
+	private function markAsSkippedForNoZipArchive() {
+		try {
+			$this->fixture->checkForZipArchive();
+		} catch (Exception $exception) {
+			$this->markTestSkipped($exception->getMessage());
+		}
 	}
 
 
@@ -1047,6 +1059,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(
 			file_exists($outerDummyFolder) && file_exists($innerDummyFolder)
 		);
+	}
+
+	public function testCleanUpDeletesCreatedDummyUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyFile();
+
+		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
+
+		$this->fixture->cleanUp();
+
+		$this->assertFalse(is_dir($this->fixture->getUploadFolderPath()));
 	}
 
 
@@ -2753,6 +2776,158 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(file_exists($dummyFile));
 	}
 
+	public function testCreateDummyFileCreatesFileWithTheProvidedContent() {
+		$dummyFile = $this->fixture->createDummyFile('test.txt', 'Hello world!');
+
+		$this->assertEquals('Hello world!', file_get_contents($dummyFile));
+	}
+
+	public function testCreateDummyFileForNonExistentUploadFolderSetCreatesUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$this->fixture->createDummyFile();
+
+		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
+	}
+
+	public function testCreateDummyFileForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyFile();
+
+		$this->assertTrue(file_exists($dummyFile));
+	}
+
+
+	// ---------------------------------------------------------------------
+	// Tests regarding createDummyZipArchive()
+	// ---------------------------------------------------------------------
+
+	public function testCreateDummyZipArchiveForNoContentProvidedCreatesZipArchive() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$dummyFile = $this->fixture->createDummyZipArchive();
+
+		$this->assertTrue(file_exists($dummyFile));
+	}
+
+	public function testCreateDummyZipArchiveForFileNameInSubFolderProvidedCreatesZipArchiveInSubFolder() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFolder = $this->fixture->getPathRelativeToUploadDirectory(
+			$this->fixture->createDummyFolder('sub-folder')
+		);
+		$dummyFile = $this->fixture->createDummyZipArchive($dummyFolder . 'foo.zip');
+
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . $dummyFolder . 'foo.zip')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForNoContentProvidedCreatesZipArchiveWithDummyFile() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyZipArchive();
+		$zip = new ZipArchive();
+		$zip->open($dummyFile);
+		$zip->extractTo($this->fixture->getUploadFolderPath());
+		$zip->close();
+
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . 'test.txt')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForFileProvidedCreatesZipArchiveWithThatFile() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyZipArchive(
+			'foo.zip', array($this->fixture->createDummyFile('bar.txt'))
+		);
+		$zip = new ZipArchive();
+		$zip->open($dummyFile);
+		$zip->extractTo($this->fixture->getUploadFolderPath());
+		$zip->close();
+
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . 'bar.txt')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForFileProvidedWithContentCreatesZipArchiveWithThatFileAndContentInIt() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyZipArchive(
+			'foo.zip', array($this->fixture->createDummyFile('bar.txt', 'foo bar'))
+		);
+		$zip = new ZipArchive();
+		$zip->open($dummyFile);
+		$zip->extractTo($this->fixture->getUploadFolderPath());
+		$zip->close();
+
+		$this->assertEquals(
+			'foo bar',
+			file_get_contents($this->fixture->getUploadFolderPath() . 'bar.txt')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForTwoFilesProvidedCreatesZipArchiveWithTheseFiles() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyZipArchive(
+			'foo.zip', array(
+				$this->fixture->createDummyFile('foo.txt'),
+				$this->fixture->createDummyFile('bar.txt'),
+			)
+		);
+		$zip = new ZipArchive();
+		$zip->open($dummyFile);
+		$zip->extractTo($this->fixture->getUploadFolderPath());
+		$zip->close();
+
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . 'foo.txt')
+		);
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . 'bar.txt')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForFileInSubFolderOfUploadFolderProvidedCreatesZipArchiveWithFileInSubFolder() {
+		$this->markAsSkippedForNoZipArchive();
+
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFolder = $this->fixture->createDummyFolder('sub-folder');
+		$dummyFile = $this->fixture->createDummyZipArchive(
+			'foo.zip', array($this->fixture->createDummyFile('sub-folder/foo.txt'))
+		);
+		$zip = new ZipArchive();
+		$zip->open($dummyFile);
+		$zip->extractTo($this->fixture->getUploadFolderPath());
+		$zip->close();
+
+		$this->assertTrue(
+			file_exists($this->fixture->getUploadFolderPath() . 'sub-folder/foo.txt')
+		);
+	}
+
+	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$this->fixture->createDummyZipArchive();
+
+		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
+	}
+
+	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFile = $this->fixture->createDummyZipArchive();
+
+		$this->assertTrue(file_exists($dummyFile));
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding deleteDummyFile()
@@ -2806,7 +2981,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function testCreateDummyFolderCreatesFolder() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 
-		$this->assertTrue(file_exists($dummyFolder));
+		$this->assertTrue(is_dir($dummyFolder));
 	}
 
 	public function testCreateDummyFolderCanCreateFolderInDummyFolder() {
@@ -2816,7 +2991,21 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 				'/test_folder'
 		);
 
-		$this->assertTrue(file_exists($innerDummyFolder));
+		$this->assertTrue(is_dir($innerDummyFolder));
+	}
+
+	public function testCreateDummyFolderForNonExistentUploadFolderSetCreatesUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$this->fixture->createDummyFolder('test_folder');
+
+		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
+	}
+
+	public function testCreateDummyFolderForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+
+		$this->assertTrue(is_dir($dummyFolder));
 	}
 
 
@@ -2830,7 +3019,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
 		);
 
-		$this->assertFalse(file_exists($dummyFolder));
+		$this->assertFalse(is_dir($dummyFolder));
 	}
 
 	public function testDeleteDummyFolderWithInexistentFolderThrowsException() {
@@ -2902,7 +3091,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 
 	// ---------------------------------------------------------------------
-	// Tests regarding getUploadFolderPath()
+	// Tests regarding set- and getUploadFolderPath()
 	// ---------------------------------------------------------------------
 
 	public function testGetUploadFolderPathReturnsUploadFolderPathIncludingTablePrefix() {
@@ -2910,6 +3099,26 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'/\/uploads\/tx_oelib\/$/',
 			$this->fixture->getUploadFolderPath()
 		);
+	}
+
+	public function testGetUploadFolderPathAfterSetReturnsSetUploadFolderPath() {
+		$this->fixture->setUploadFolderPath('/foo/bar/');
+
+		$this->assertEquals(
+			'/foo/bar/',
+			$this->fixture->getUploadFolderPath()
+		);
+	}
+
+	public function testSetUploadFolderPathAfterCreatingADummyFileThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The upload folder path must not be changed if there are ' .
+				'already dummy files or folders.'
+		);
+
+		$this->fixture->createDummyFile();
+		$this->fixture->setUploadFolderPath('/foo/bar/');
 	}
 
 
