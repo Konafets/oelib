@@ -143,6 +143,16 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the "composition" data item.
+	 *
+	 * @return tx_oelib_List the "composition" data item, will be empty (but not
+	 *                       null) if this model has no composition
+	 */
+	public function getComposition() {
+		return $this->getAsList('composition');
+	}
+
+	/**
 	 * Marks this model's data as dirty.
 	 */
 	public function markAsDirty() {

@@ -726,6 +726,79 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
+	////////////////////////////////////////////////////////////
+	// Tests concerning the 1:n mapping using a foreign field.
+	////////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationsWithEmptyStringCreatesEmptyList() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getComposition()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationsWithOneRelatedModelReturnsListWithRelatedModel() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('composition' => 1)
+		);
+		$relatedUid = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid)
+		);
+
+		$this->assertEquals(
+			(string) $relatedUid,
+			$this->fixture->find($uid)->getComposition()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationsWithTwoRelatedModelsReturnsListWithBothRelatedModels() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('composition' => 2)
+		);
+		$relatedUid1 = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation A')
+		);
+		$relatedUid2 = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation B')
+		);
+
+		$this->assertEquals(
+			$relatedUid1 . ',' . $relatedUid2,
+			$this->fixture->find($uid)->getComposition()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationsReturnsListSortedByForeignSortBy() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('composition' => 2)
+		);
+		$relatedUid1 = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation B')
+		);
+		$relatedUid2 = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation A')
+		);
+
+		$this->assertEquals(
+			$relatedUid2 . ',' . $relatedUid1,
+			$this->fixture->find($uid)->getComposition()->getUids()
+		);
+	}
+
+
 	/////////////////////////////////
 	// Tests concerning getNewGhost
 	/////////////////////////////////
@@ -1238,6 +1311,26 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->testingFramework->existsRecord(
 				'tx_oelib_test', 'title = "bar" AND related_records = 2'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithOneToManyRelationSavesNumberOfRelatedRecords() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->fixture->find($uid)->setTitle('bar');
+
+		$mapper = new tx_oelib_tests_fixtures_TestingChildMapper();
+		$this->fixture->find($uid)->getComposition()->add($mapper->getNewGhost());
+		$this->fixture->find($uid)->getComposition()->add($mapper->getNewGhost());
+
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "bar" AND composition = 2'
 			)
 		);
 	}

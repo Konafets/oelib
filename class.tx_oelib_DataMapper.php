@@ -254,7 +254,9 @@ abstract class tx_oelib_DataMapper {
 	 */
 	protected function createRelations(array &$data) {
 		foreach (array_keys($this->relations) as $key) {
-			if ($this->isManyToOneRelationConfigured($key)) {
+			if ($this->isOneToManyRelationConfigured($key)) {
+				$this->createOneToManyRelation($data, $key);
+			} elseif ($this->isManyToOneRelationConfigured($key)) {
 				$this->createManyToOneRelation($data, $key);
 			} else {
 				if ($this->isManyToManyRelationConfigured($key)) {
@@ -288,6 +290,22 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Checks whether the relation is configured in the TCA to be an 1:n
+	 * relation.
+	 *
+	 * @param string key of the relation, must not be empty
+	 *
+	 * @return boolean true if the relation is an 1:n relation, false
+	 *                 otherwise
+	 */
+	private function isOneToManyRelationConfigured($key) {
+		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
+
+		return isset($relationConfiguration['foreign_field'])
+			&& isset($relationConfiguration['foreign_table']);
+	}
+
+	/**
 	 * Checks whether the relation is configured in the TCA to be an n:1
 	 * relation.
 	 *
@@ -317,6 +335,31 @@ abstract class tx_oelib_DataMapper {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
 
 		return isset($relationConfiguration['MM']);
+	}
+
+	/**
+	 * Creates an 1:n relation using foreign field mapping.
+	 *
+	 * @param array the model data to process, will be modified
+	 * @param string the key of the data item for which the relation should
+	 *               be created, must not be empty
+	 */
+	private function createOneToManyRelation(array &$data, $key) {
+		$relationUids = array();
+
+		if ($data[$key] > 0) {
+			$relationConfiguration = $this->getRelationConfigurationFromTca($key);
+			$foreignTable = $relationConfiguration['foreign_table'];
+			$foreignField = $relationConfiguration['foreign_field'];
+			$foreignSortBy = $relationConfiguration['foreign_sortby'];
+			$relationUids = tx_oelib_db::selectMultiple(
+				'uid', $foreignTable, $foreignField . ' = ' . $data['uid'], '',
+				$foreignSortBy
+			);
+		}
+
+		$data[$key] = tx_oelib_MapperRegistry::get($this->relations[$key])
+			->getListOfModels($relationUids);
 	}
 
 	/**
@@ -558,7 +601,9 @@ abstract class tx_oelib_DataMapper {
 		$data = $model->getData();
 
 		foreach (array_keys($this->relations) as $key) {
-			if ($this->isManyToOneRelationConfigured($key)) {
+			if ($this->isOneToManyRelationConfigured($key)) {
+				$functionName = count;
+			} elseif ($this->isManyToOneRelationConfigured($key)) {
 				$functionName = getUid;
 			} else {
 				if ($this->isManyToManyRelationConfigured($key)) {

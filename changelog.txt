@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2482] Feature: Support 1:n relations (compositions)
 - [#1841] Feature: Add functions in the testing framework to create dummy ZIP archives
 - [#2588] Fix: Creating a fake FE must set the FE user status to "logged out"
 - [#2788] Change: Allow login of FE user models which are not in database with the testingFramework

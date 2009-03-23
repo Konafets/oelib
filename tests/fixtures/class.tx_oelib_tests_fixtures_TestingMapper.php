@@ -52,6 +52,7 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 		'owner' => 'tx_oelib_Mapper_FrontEndUser',
 		'children' => 'tx_oelib_tests_fixtures_TestingMapper',
 		'related_records' => 'tx_oelib_tests_fixtures_TestingMapper',
+		'composition' => 'tx_oelib_tests_fixtures_TestingChildMapper',
 	);
 
 	/**
