@@ -357,6 +357,8 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a new page cache entry.
 	 *
+	 * This function must not be called starting from TYPO3 4.3.
+	 *
 	 * @param integer UID of the page for which a cache entry should be
 	 *                created, must be > 0
 	 * @param array associative array that contains the data to save
@@ -364,10 +366,19 @@ final class tx_oelib_testingFramework {
 	 *              not contain the keys "page_id" or "id"
 	 *
 	 * @return integer the ID of the new cache entry, will be > 0
+	 *
+	 * @deprecated 2009-03-30
 	 */
 	public function createPageCacheEntry(
 		$pageId = 0, array $recordData = array()
 	) {
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+			throw new Exception(
+				'The function createPageCacheEntry must not be used in TYPO3 ' .
+				'versions above 4.2.'
+			);
+		}
+
 		if (isset($recordData['id'])) {
 			throw new Exception(
 				'The column "id" must not be set in $recordData.'

@@ -169,6 +169,17 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 	}
 
+	/**
+	 * Marks the test as skipped if the TYPO3 version is above 4.2
+	 */
+	private function markAsSkippedForTypo3Greater42() {
+		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+			$this->markTestSkipped(
+				'This test is only applicable for TYPO3 versions up to 4.2.'
+			);
+		}
+	}
+
 
 	// ---------------------------------------------------------------------
 	// Tests regarding markTableAsDirty()
@@ -2457,6 +2468,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testPageCacheEntryCanBeCreated() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$id = $this->fixture->createPageCacheEntry();
 
 		$this->assertNotEquals(
@@ -2473,6 +2486,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryCanBeCreatedForACertainFrontEndPage() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$parentUid = $this->fixture->createFrontEndPage();
 		$id = $this->fixture->createPageCacheEntry($parentUid);
 
@@ -2494,6 +2509,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCachePagesCanBeDirty() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$this->assertEquals(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -2511,6 +2528,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCachePagesWillBeCleanedUp() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$id = $this->fixture->createPageCacheEntry();
 		$this->assertNotEquals(
 			0,
@@ -2527,6 +2546,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryMustHaveNoZeroId() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$this->setExpectedException(
 			'Exception', 'The column "id" must not be set in $recordData.'
 		);
@@ -2534,6 +2555,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroId() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$this->setExpectedException(
 			'Exception', 'The column "id" must not be set in $recordData.'
 		);
@@ -2541,6 +2564,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryMustHaveNoZeroPageId() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$this->setExpectedException(
 			'Exception', 'The column "page_id" must not be set in $recordData.'
 		);
@@ -2548,10 +2573,29 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testPageCacheEntryMustHaveNoNonZeroPageId() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$this->setExpectedException(
 			'Exception', 'The column "page_id" must not be set in $recordData.'
 		);
 		$this->fixture->createPageCacheEntry(0, array('page_id' => 99999));
+	}
+
+	public function test_PageCacheEntry_ForTypo3Above42_ThrowsException() {
+		if (t3lib_div::int_from_ver(TYPO3_version) < 4002999) {
+			$this->markTestSkipped(
+				'This test is only applicable for TYPO3 versions higher than ' .
+				'4.2.'
+			);
+		}
+
+		$this->setExpectedException(
+			'Exception',
+			'The function createPageCacheEntry must not be used in TYPO3 ' .
+				'versions above 4.2.'
+		);
+
+		$this->fixture->createPageCacheEntry(0, array('id' => 0));
 	}
 
 

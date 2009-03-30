@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2325] Fix: SQL errors in tx_oelib_testingFramework_testcase with TYPO3 4.3
 - [#2794] Feature: Add a function FrontEndUserMapper::getGroupMembers
 - [#2482] Feature: Support 1:n relations (compositions)
 - [#1841] Feature: Add functions in the testing framework to create dummy ZIP archives
