@@ -98,5 +98,163 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)->getUserGroups()->getUids()
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests concerning getGroupMembers
+	/////////////////////////////////////
+
+	public function test_GetGroupMembers_ForEmptyString_ThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$groupUids must not be an empty string.'
+		);
+
+		$this->fixture->getGroupMembers('');
+	}
+
+	public function test_GetGroupMembers_ForNonExistingGroupUid_ReturnsEmptyList() {
+		$this->assertTrue(
+			$this->fixture->getGroupMembers(
+				$this->testingFramework->getAutoIncrement('fe_groups')
+			)->isEmpty()
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithNoMembers_ReturnsInstanceOfOelibList() {
+		$this->assertTrue(
+			$this->fixture->getGroupMembers(
+				$this->testingFramework->createFrontEndUserGroup()
+			) instanceof tx_oelib_list
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithNoMembers_ReturnsEmptyList() {
+		$this->assertTrue(
+			$this->fixture->getGroupMembers(
+				$this->testingFramework->createFrontEndUserGroup()
+			)->isEmpty()
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithOneMember_ReturnsOneElement() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($feUserGroupUid);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForUserWithMultipleGroupsAndGivenGroupFirst_ReturnsOneElement() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$userGroups = $feUserGroupUid . ',' .
+			$this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($userGroups);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForUserWithMultipleGroupsAndGivenGroupLast_ReturnsOneElement() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$userGroups = $this->testingFramework->createFrontEndUserGroup() . ',' .
+			$feUserGroupUid;
+		$this->testingFramework->createFrontEndUser($userGroups);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForUserWithMultipleGroupsAndGivenGroupInTheMiddle_ReturnsOneElement() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$userGroups = $this->testingFramework->createFrontEndUserGroup() .
+			',' .	$feUserGroupUid . ',' .
+			$this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($userGroups);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithOneMember_ReturnsFrontEndUserList() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($feUserGroupUid);
+
+		$this->assertTrue(
+			$this->fixture->getGroupMembers($feUserGroupUid)->first()
+				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithTwoMembers_ReturnsTwoUsers() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($feUserGroupUid);
+		$this->testingFramework->createFrontEndUser($feUserGroupUid);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForGroupWithOneMember_DoesNotReturnsUserNotInGivenGroup() {
+		$firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($firstGroupUid);
+		$secondUserUid = $this->testingFramework->createFrontEndUser(
+			$this->testingFramework->createFrontEndUserGroup()
+		);
+
+		$this->assertFalse(
+			$this->fixture->getGroupMembers($firstGroupUid)->hasUid(
+				$secondUserUid
+			)
+		);
+	}
+
+	public function test_GetGroupMembers_ForTwoGroups_ReturnsUsersOfBothGroups() {
+		$firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$secondGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($firstGroupUid);
+		$this->testingFramework->createFrontEndUser($secondGroupUid);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->getGroupMembers(
+				$firstGroupUid . ',' . $secondGroupUid
+			)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForTwoGroups_ReturnsUserInBothGroupsOnlyOnce() {
+		$userGroups = $this->testingFramework->createFrontEndUserGroup() . ',' .
+			$this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser($userGroups);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getGroupMembers($userGroups)->count()
+		);
+	}
+
+	public function test_GetGroupMembers_ForTwoGroups_CanReturnThreeUsersInGroups() {
+		$firstGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$secondGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$userGroups = $firstGroupUid . ',' . $secondGroupUid;
+		$this->testingFramework->createFrontEndUser($firstGroupUid);
+		$this->testingFramework->createFrontEndUser($secondGroupUid);
+		$this->testingFramework->createFrontEndUser($userGroups);
+
+		$this->assertEquals(
+			3,
+			$this->fixture->getGroupMembers($userGroups)->count()
+		);
+	}
 }
 ?>

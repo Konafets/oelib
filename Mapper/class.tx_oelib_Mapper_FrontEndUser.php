@@ -86,6 +86,32 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 
 		return $data;
 	}
+
+	/**
+	 * Returns the users which are in the groups with the given UIDs.
+	 *
+	 * @param string the UIDs of the user groups from which to get the users,
+	 *               must be a comma-separated list of group UIDs, must not be
+	 *               empty
+	 *
+	 * @return tx_oelib_list the found user models, will be empty if
+	 *                       no users were found for the given groups
+	 */
+	public function getGroupMembers($groupUids) {
+		if ($groupUids == '') {
+			throw new Exception('$groupUids must not be an empty string.');
+		}
+
+		return $this->getListOfModels(
+			tx_oelib_db::selectMultiple(
+				'*',
+				$this->tableName,
+				'usergroup REGEXP \'(^|,)(' .
+					implode('|', t3lib_div::intExplode(',', $groupUids)) .
+					')($|,)\''
+			)
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_FrontEndUser.php']) {

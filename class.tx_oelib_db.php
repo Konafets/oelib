@@ -369,8 +369,6 @@ class tx_oelib_db {
 	 * If there is more than one matching record, only one will be returned.
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
-	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
-	 *                                             record
 	 *
 	 * @param string list of fields to select, may be "*", must not be empty
 	 * @param string comma-separated list of tables from which to select, must
