@@ -38,13 +38,23 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	 */
 	private $fixture;
 
+	/**
+	 * @var array models that need to be cleaned up during tearDown.
+	 */
+	private $modelStorage = array();
+
 	public function setUp() {
 		$this->fixture = new tx_oelib_List;
 	}
 
 	public function tearDown() {
 		$this->fixture->__destruct();
-		unset($this->fixture);
+		foreach($this->modelStorage as $key => $model ) {
+			$model->__destruct();
+			unset($this->modelStorage[$key]);
+		}
+
+		unset($this->fixture, $this->modelStorage);
 	}
 
 
@@ -72,11 +82,13 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	 *
 	 * @param array the titles for the models, must not be empty
 	 */
-	private function addModelsToFixture(array $titles) {
+	private function addModelsToFixture(array $titles = array('')) {
 		foreach ($titles as $title) {
 			$model = new tx_oelib_tests_fixtures_TestingModel();
 			$model->setTitle($title);
 			$this->fixture->add($model);
+
+			$this->modelStorage[] = $model;
 		}
 	}
 
@@ -246,14 +258,11 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsEmptyAfterAddingModelReturnsFalse() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->assertFalse(
 			$this->fixture->isEmpty()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -269,15 +278,12 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountWithOneModelWithoutUidReturnsOne() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->assertEquals(
 			1,
 			$this->fixture->count()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testCountWithOneModelWithUidReturnsOne() {
@@ -294,18 +300,12 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCountWithTwoDifferentModelsReturnsTwo() {
-		$model1 = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model1);
-		$model2 = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->addModelsToFixture(array('',''));
 
 		$this->assertEquals(
 			2,
 			$this->fixture->count()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	public function testCountAfterAddingTheSameModelTwiceReturnsTwo() {
@@ -372,29 +372,23 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testKeyAfterNextInListWithOneElementReturnsOne() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 		$this->fixture->next();
 
 		$this->assertEquals(
 			1,
 			$this->fixture->key()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testCurrentWithOneItemAfterNextReturnsNull() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->fixture->next();
 
 		$this->assertNull(
 			$this->fixture->current()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testCurrentWithTwoItemsAfterNextReturnsTheSecondItem() {
@@ -511,32 +505,25 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testValidForOneElementInitiallyReturnsTrue() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->assertTrue(
 			$this->fixture->valid()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testValidForOneElementAfterNextReturnsFalse() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->fixture->next();
 
 		$this->assertFalse(
 			$this->fixture->valid()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testValidForOneElementAfterNextAndRewindReturnsTrue() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->fixture->next();
 		$this->fixture->rewind();
@@ -544,8 +531,6 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->valid()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -559,16 +544,13 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIteratingOverOneItemDoesNotFair() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+	public function testIteratingOverOneItemDoesNotFail() {
+		$this->addModelsToFixture();
 
 		$this->fixture->next();
 		$this->fixture->rewind();
 
-		foreach ($this->fixture as $key => $vaulue);
-
-		$model->__destruct();
+		foreach ($this->fixture as $key => $value);
 	}
 
 
@@ -584,15 +566,12 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetUidsForOneItemsWithoutUidReturnsEmptyString() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->addModelsToFixture();
 
 		$this->assertEquals(
 			'',
 			$this->fixture->getUids()
 		);
-
-		$model->__destruct();
 	}
 
 	public function testGetUidsForOneItemsWithUidReturnsThatUid() {
