@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2749] Feature: Add a function for sorting list by providing a comparison function
 - [#2325] Fix: SQL errors in tx_oelib_testingFramework_testcase with TYPO3 4.3
 - [#2794] Feature: Add a function FrontEndUserMapper::getGroupMembers
 - [#2482] Feature: Support 1:n relations (compositions)

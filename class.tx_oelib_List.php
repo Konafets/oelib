@@ -193,6 +193,21 @@ class tx_oelib_List implements Iterator {
 	public function hasUid($uid) {
 		return isset($this->uids[$uid]);
 	}
+
+	/**
+	 * Sorts this list by using the given callback function.
+	 *
+	 * The callback function, must take 2 parameters and return -1, 0 or 1.
+	 * The return value -1 means that the first parameter is sorted before the
+	 * second one, 1 means that the second parameter is sorted before the first
+	 * one and 0 means the parameters stay in order.
+	 *
+	 * @param function a callback function to use with the models stored
+	 *                 in the list, not empty
+	 */
+	public function sort($callbackFunction) {
+		usort($this->items, $callbackFunction);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_List.php']) {
