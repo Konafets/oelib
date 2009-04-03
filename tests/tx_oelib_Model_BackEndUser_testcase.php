@@ -115,5 +115,28 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLanguage()
 		);
 	}
+
+
+	////////////////////////////////////////////////
+	// Tests concerning getting the e-mail address
+	////////////////////////////////////////////////
+
+	public function testGetEMailAddressForEmptyEMailReturnsEmptyString() {
+		$this->fixture->setData(array('email' => ''));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getEMailAddress()
+		);
+	}
+
+	public function testGetEMailAddressForNonEmptyEMailReturnsEMail() {
+		$this->fixture->setData(array('email' => 'john@doe.com'));
+
+		$this->assertEquals(
+			'john@doe.com',
+			$this->fixture->getEMailAddress()
+		);
+	}
 }
 ?>

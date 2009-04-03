@@ -32,7 +32,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_Model_BackEndUser extends tx_oelib_Model {
+class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Interface_MailRole {
 	/**
 	 * Gets this user's user name.
 	 *
@@ -49,6 +49,13 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model {
 	 */
 	public function getName() {
 		return $this->getAsString('realName');
+	}
+
+	/**
+	 * Gets the user's e-mail address
+	 */
+	public function getEMailAddress() {
+		return $this->getAsString('email');
 	}
 
 	/**
