@@ -208,6 +208,17 @@ class tx_oelib_List implements Iterator {
 	public function sort($callbackFunction) {
 		usort($this->items, $callbackFunction);
 	}
+
+	/**
+	 * Appends the contents of $list to this list.
+	 *
+	 * @param tx_oelib_List list to append, may be empty
+	 */
+	public function append(tx_oelib_List $list) {
+		foreach ($list as $item) {
+			$this->add($item);
+		}
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_List.php']) {
