@@ -3751,5 +3751,39 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			$this->fixture->piVars
 		);
 	}
+
+
+	/////////////////////////////////////////
+	// Tests concerning ensureContentObject
+	/////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function ensureContentObjectForExistingContentObjectLeavesItUntouched() {
+		$contentObject = new tslib_cObj();
+		$this->fixture->cObj = $contentObject;
+
+		$this->fixture->ensureContentObject();
+
+		$this->assertSame(
+			$contentObject,
+			$this->fixture->cObj
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function ensureContentObjectForMissingContentObjectWithFrontEndUsesContentObjectFromFrontEnd() {
+		$this->fixture->cObj = null;
+
+		$this->fixture->ensureContentObject();
+
+		$this->assertSame(
+			$GLOBALS['TSFE']->cObj,
+			$this->fixture->cObj
+		);
+	}
 }
 ?>

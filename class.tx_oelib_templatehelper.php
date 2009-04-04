@@ -141,12 +141,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				}
 			}
 
-			if (!($this->cObj instanceof tslib_cObj)
-				&& ($GLOBALS['TSFE']->cObj instanceof tslib_cObj)
-			) {
-				$this->cObj = $GLOBALS['TSFE']->cObj;
-			}
-
+			$this->ensureContentObject();
 			$this->pi_setPiVarDefaults();
 			$this->pi_loadLL();
 
@@ -166,6 +161,27 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			}
 
 			$this->isInitialized = true;
+		}
+	}
+
+	/**
+	 * Ensures that $this->cObj points to a valid content object.
+	 *
+	 * If this object alread has a valid cObj, this function does nothing.
+	 *
+	 * If there is a front end and this object does not have a cObj yet, the
+	 * cObj from the front end is used.
+	 *
+	 * If this object has no cObj and there is no front end, this function will
+	 * do nothing.
+	 */
+	protected function ensureContentObject() {
+		if ($this->cObj instanceof tslib_cObj) {
+			return;
+		}
+
+		if ($GLOBALS['TSFE']->cObj instanceof tslib_cObj) {
+			$this->cObj = $GLOBALS['TSFE']->cObj;
 		}
 	}
 

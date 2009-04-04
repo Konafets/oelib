@@ -137,5 +137,20 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	public function ensureIntegerPiVars(array $additionalPiVars = array()) {
 		parent::ensureIntegerPiVars($additionalPiVars);
 	}
+
+	/**
+	 * Ensures that $this->cObj points to a valid content object.
+	 *
+	 * If this object alread has a valid cObj, this function does nothing.
+	 *
+	 * If there is a front end and this object does not have a cObj yet, the
+	 * cObj from the front end is used.
+	 *
+	 * If this object has no cObj and there is no front end, this function will
+	 * do nothing.
+	 */
+	public function ensureContentObject() {
+		parent::ensureContentObject();
+	}
 }
 ?>
