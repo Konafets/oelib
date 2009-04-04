@@ -800,5 +800,126 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$model->__destruct();
 		$otherModel->__destruct();
 	}
+
+
+	//////////////////////////////////
+	// Tests concerning purgeCurrent
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentWithEmptyListDoesNotFail() {
+		$this->fixture->purgeCurrent();
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentWithRewoundOneElementListMakesListEmpty() {
+		$this->addModelsToFixture();
+
+		$this->fixture->rewind();
+		$this->fixture->purgeCurrent();
+
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentWithRewoundOneElementListMakesPointerInvalid() {
+		$this->addModelsToFixture();
+
+		$this->fixture->rewind();
+		$this->fixture->purgeCurrent();
+
+		$this->assertFalse(
+			$this->fixture->valid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentWithOneElementListAndPointerAfterLastItemLeavesListUntouched() {
+		$this->addModelsToFixture();
+
+		$this->fixture->rewind();
+		$this->fixture->next();
+		$this->fixture->purgeCurrent();
+
+		$this->assertFalse(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForFirstOfTwoElementsMakesOneItemList() {
+		$this->addModelsToFixture(array('', ''));
+
+		$this->fixture->rewind();
+		$this->fixture->purgeCurrent();
+
+		$this->assertEquals(
+			1,
+			$this->fixture->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForSecondOfTwoElementsMakesOneItemList() {
+		$this->addModelsToFixture(array('', ''));
+
+		$this->fixture->rewind();
+		$this->fixture->next();
+		$this->fixture->purgeCurrent();
+
+		$this->assertEquals(
+			1,
+			$this->fixture->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForFirstOfTwoElementsSetsPointerToFormerSecondElement() {
+		$this->addModelsToFixture();
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$this->fixture->rewind();
+		$this->fixture->purgeCurrent();
+
+		$this->assertSame(
+			$model,
+			$this->fixture->current()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForSecondOfTwoElementsMakesPointerInvalid() {
+		$this->addModelsToFixture(array('', ''));
+
+		$this->fixture->rewind();
+		$this->fixture->next();
+		$this->fixture->purgeCurrent();
+
+		$this->assertFalse(
+			$this->fixture->valid()
+		);
+	}
 }
 ?>

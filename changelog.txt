@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2883] Feature: Add a function to tx_oelib_List to purge elements from the list
 - [#2882] Feature: Add a function to tx_oelib_List to append a list to another list
 - [#2826] Feature: Add an interface "address" and use it for the realty object model
 - [#2749] Feature: Add a function for sorting list by providing a comparison function

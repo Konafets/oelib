@@ -219,6 +219,27 @@ class tx_oelib_List implements Iterator {
 			$this->add($item);
 		}
 	}
+
+	/**
+	 * Drops the current element from the list and sets the pointer to the
+	 * next element.
+	 *
+	 * If the pointer does not point to a valid element, this function is a
+	 * no-op.
+	 */
+	function purgeCurrent() {
+		if (!$this->valid()) {
+			return;
+		}
+
+		unset($this->uids[$this->pointer]);
+		unset($this->items[$this->pointer]);
+
+		// Creates new indices if the deleted item was not the last one.
+		if ($this->valid()) {
+			$this->items = array_merge($this->items);
+		}
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_List.php']) {
