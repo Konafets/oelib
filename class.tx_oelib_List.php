@@ -221,6 +221,20 @@ class tx_oelib_List implements Iterator {
 	}
 
 	/**
+	 * Appends the contents of $list to this list. If an item with specific UID
+	 * already exists in the list, the new item to append will be igored.
+	 *
+	 * @param tx_oelib_List list to append, may be empty
+	 */
+	public function appendUnique(tx_oelib_List $list) {
+		foreach ($list as $item) {
+			if (!$this->hasUid($item->getUid())) {
+				$this->add($item);
+			}
+		}
+	}
+
+	/**
 	 * Drops the current element from the list and sets the pointer to the
 	 * next element.
 	 *

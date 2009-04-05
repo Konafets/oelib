@@ -759,6 +759,24 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function appendOneItemListToOneItemListWithTheSameItemMakesTwoItemList() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(42);
+		$this->fixture->add($model);
+
+		$this->fixture->append(clone $this->fixture);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->count()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
 	public function appendTwoItemListKeepsOrderOfAppendedItems() {
 		$otherList = new tx_oelib_List();
 		$model1 = new tx_oelib_tests_fixtures_TestingModel();
@@ -790,6 +808,127 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$otherList->add($otherModel);
 
 		$this->fixture->append($otherList);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->first()
+		);
+
+		$otherList->__destruct();
+		$model->__destruct();
+		$otherModel->__destruct();
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning appendUnique
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueForEmptyListToEmptyListMakesEmptyList() {
+		$otherList = new tx_oelib_List();
+		$this->fixture->appendUnique($otherList);
+
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+
+		$otherList->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueForTwoItemListToEmptyListMakesTwoItemList() {
+		$otherList = new tx_oelib_List();
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$otherList->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$otherList->add($model2);
+
+		$this->fixture->appendUnique($otherList);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->count()
+		);
+
+		$otherList->__destruct();
+		$model1->__destruct();
+		$model2->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueForEmptyListToTwoItemListMakesTwoItemList() {
+		$this->addModelsToFixture(array('First', 'Second'));
+
+		$otherList = new tx_oelib_List();
+		$this->fixture->appendUnique($otherList);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->count()
+		);
+
+		$otherList->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueForOneItemListToOneItemListWithTheSameItemMakesOneItemList() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(42);
+		$this->fixture->add($model);
+
+		$this->fixture->appendUnique(clone $this->fixture);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->count()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueForTwoItemListKeepsOrderOfAppendedItems() {
+		$otherList = new tx_oelib_List();
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$otherList->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$otherList->add($model2);
+
+		$this->fixture->appendUnique($otherList);
+
+		$this->assertSame(
+			$model1,
+			$this->fixture->first()
+		);
+
+		$otherList->__destruct();
+		$model1->__destruct();
+		$model2->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendUniqueAppendsItemAfterExistingItems() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$otherList = new tx_oelib_List();
+		$otherModel = new tx_oelib_tests_fixtures_TestingModel();
+		$otherList->add($otherModel);
+
+		$this->fixture->appendUnique($otherList);
 
 		$this->assertSame(
 			$model,
