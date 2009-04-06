@@ -549,6 +549,32 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Creates a new registered model with a UID that has not been used in this
+	 * data mapper yet and loads it with the data provided in $data.
+	 *
+	 * The data is considered to be in the same format as in the database.
+	 * Relations will be created as needed.
+	 *
+	 * This function should only be used in unit tests for mappers (to avoid
+	 * creating records in the DB when the DB access itself needs not be
+	 * tested).
+	 *
+	 * To use this function for testing relations to the same mapper, the mapper
+	 * needs to be accessed via the mapper registry so object identity is
+	 * ensured.
+	 *
+	 * Note: The UID is not guaranteed to be unused in the database.
+	 *
+	 * @return tx_oelib_Model a new model loaded with $data
+	 */
+	public function getLoadedTestingModel(array $data) {
+		$model = $this->getNewGhost();
+		$this->fillModel($model, $data);
+
+		return $model;
+	}
+
+	/**
 	 * Disables all database querying, so model data can only be fetched from
 	 * memory.
 	 *

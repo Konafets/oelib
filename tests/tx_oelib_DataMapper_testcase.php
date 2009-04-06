@@ -893,12 +893,79 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNewGhostCreatesRegisteredGhost() {
+	public function testGetNewGhostCreatesRegisteredModel() {
 		$ghost = $this->fixture->getNewGhost();
 
 		$this->assertSame(
 			$ghost,
 			$this->fixture->find($ghost->getUid())
+		);
+	}
+
+
+	///////////////////////////////////////////
+	// Tests concerning getLoadedTestingModel
+	///////////////////////////////////////////
+
+	public function testGetLoadedTestingModelReturnsModel() {
+		$this->fixture->disableDatabaseAccess();
+
+		$this->assertTrue(
+			$this->fixture->getLoadedTestingModel(array())
+				instanceof tx_oelib_Model
+		);
+	}
+
+	public function testGetLoadedTestingModelReturnsLoadedModel() {
+		$this->fixture->disableDatabaseAccess();
+
+		$this->assertTrue(
+			$this->fixture->getLoadedTestingModel(array())->isLoaded()
+		);
+	}
+
+	public function testGetLoadedTestingModelReturnsModelWithUid() {
+		$this->fixture->disableDatabaseAccess();
+
+		$this->assertTrue(
+			$this->fixture->getLoadedTestingModel(array())->hasUid()
+		);
+	}
+
+	public function testGetLoadedTestingModelCreatesRegisteredModel() {
+		$this->fixture->disableDatabaseAccess();
+		$model = $this->fixture->getLoadedTestingModel(array());
+
+		$this->assertSame(
+			$model,
+			$this->fixture->find($model->getUid())
+		);
+	}
+
+	public function testGetLoadedTestingModelSetsTheProvidedData() {
+		$this->fixture->disableDatabaseAccess();
+
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$model->getTitle()
+		);
+	}
+
+	public function testGetLoadedTestingModelCreatesRelations() {
+		$this->fixture->disableDatabaseAccess();
+
+		$relatedModel = $this->fixture->getNewGhost();
+		$model = $this->fixture->getLoadedTestingModel(
+			array('friend' => $relatedModel->getUid())
+		);
+
+		$this->assertEquals(
+			$relatedModel->getUid(),
+			$model->getFriend()->getUid()
 		);
 	}
 
@@ -931,14 +998,15 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindSingleByWhereClauseWithUidOfExistentNotMappedRecordReturnsModelWithTheData() {
-		$uid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertEquals(
 			'foo',
-			$this->fixture->findSingleByWhereClause(array('title' => 'foo', 'is_dummy_record' => '1'))
-				->getTitle()
+			$this->fixture->findSingleByWhereClause(
+				array('title' => 'foo', 'is_dummy_record' => '1')
+			)->getTitle()
 		);
 	}
 
@@ -950,8 +1018,9 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'bar',
-			$this->fixture->findSingleByWhereClause(array('title' => 'foo', 'is_dummy_record' => '1'))
-				->getTitle()
+			$this->fixture->findSingleByWhereClause(
+				array('title' => 'foo', 'is_dummy_record' => '1')
+			)->getTitle()
 		);
 	}
 
