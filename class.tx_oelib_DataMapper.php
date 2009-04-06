@@ -145,8 +145,7 @@ abstract class tx_oelib_DataMapper {
 		$model = $this->find($data['uid']);
 
 		if ($model->isGhost()) {
-			$this->createRelations($data);
-			$model->setData($data);
+			$this->fillModel($model, $data);
 		}
 
 		return $model;
@@ -238,12 +237,24 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		try {
-			$data = $this->retrieveRecordByUid($model->getUid());
-			$this->createRelations($data);
-			$model->setData($data);
+			$this->fillModel(
+				$model, $this->retrieveRecordByUid($model->getUid())
+			);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$model->markAsDead();
 		}
+	}
+
+	/**
+	 * Fills a model with data, including the relations.
+	 *
+	 * @param tx_oelib_Model the model to fill, needs to have a UID
+	 * @param array the model data to process as it comes from the DB, will be
+	 *              modified
+	 */
+	private function fillModel(tx_oelib_Model $model, array &$data) {
+		$this->createRelations($data);
+		$model->setData($data);
 	}
 
 	/**
