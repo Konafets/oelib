@@ -726,6 +726,78 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 
+	///////////////////////////////////////////////////////////////////////
+	// Tests concerning the bidirectional m:n mapping using an m:n table.
+	///////////////////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMNRelationsWithEmptyStringCreatesEmptyList() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->find($uid)->getBidirectional()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMNRelationsWithOneRelatedModelReturnsListWithRelatedModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $relatedUid, $uid, 'bidirectional'
+		);
+
+		$this->assertEquals(
+			(string) $uid,
+			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMNRelationsWithTwoRelatedModelsReturnsListWithBothRelatedModels() {
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $relatedUid, $uid1, 'bidirectional'
+		);
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $relatedUid, $uid2, 'bidirectional'
+		);
+
+		$this->assertEquals(
+			$uid1 . ',' . $uid2,
+			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMNRelationsReturnsListSortedByUid() {
+		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$relatedUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $relatedUid, $uid1, 'bidirectional'
+		);
+		$this->testingFramework->createRelationAndUpdateCounter(
+			'tx_oelib_test', $relatedUid, $uid2, 'bidirectional'
+		);
+
+		$this->assertEquals(
+			$uid2 . ',' . $uid1,
+			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
+		);
+	}
+
+
 	////////////////////////////////////////////////////////////
 	// Tests concerning the 1:n mapping using a foreign field.
 	////////////////////////////////////////////////////////////

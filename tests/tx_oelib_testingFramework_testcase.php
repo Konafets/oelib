@@ -835,6 +835,84 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterWithBidirectionalRelationIncreasesCounter() {
+		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'bidirectional'
+		);
+
+		$row = tx_oelib_db::selectSingle(
+			'bidirectional',
+			OELIB_TESTTABLE,
+			'uid = ' . $firstRecordUid
+		);
+
+		$this->assertEquals(
+			1,
+			$row['bidirectional']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterWithBidirectionalRelationIncreasesOppositeFieldCounterInForeignTable() {
+		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'bidirectional'
+		);
+
+		$row = tx_oelib_db::selectSingle(
+			'related_records',
+			OELIB_TESTTABLE,
+			'uid = ' . $secondRecordUid
+		);
+
+		$this->assertEquals(
+			1,
+			$row['related_records']
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterWithBidirectionalRelationCreatesRecordInRelationTable() {
+		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
+
+		$this->fixture->createRelationAndUpdateCounter(
+			OELIB_TESTTABLE,
+			$firstRecordUid,
+			$secondRecordUid,
+			'bidirectional'
+		);
+
+		$count = $this->fixture->countRecords(
+			OELIB_TESTTABLE_MM,
+			'uid_local=' . $secondRecordUid . ' AND uid_foreign=' .
+				$firstRecordUid
+		);
+		$this->assertEquals(
+			1,
+			$count
+		);
+	}
+
+
 	// ---------------------------------------------------------------------
 	// Tests regarding removeRelation()
 	// ---------------------------------------------------------------------

@@ -116,6 +116,20 @@ $TCA['tx_oelib_test'] = array(
 				'maxitems' => 99
 			),
 		),
+		'bidirectional' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'Related records (m:n relation using an m:n table)',
+			'config' => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_oelib_test',
+				'size' => 4,
+				'minitems' => 0,
+				'maxitems' => 99,
+				'MM' => 'tx_oelib_test_article_mm',
+				'MM_opposite_field' => 'related_records',
+			),
+		),
 	),
 	'types' => array(
 		'0' => array('showitem' => 'title;;;;2-2-2, friend, owner, children, related_records, composition'),

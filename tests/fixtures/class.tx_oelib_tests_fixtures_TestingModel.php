@@ -143,6 +143,16 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the "bidirectional" data item.
+	 *
+	 * @return tx_oelib_List the "bidirectional" data item, will be empty (but
+	 *                       not null) if this model has no related records
+	 */
+	public function getBidirectional() {
+		return $this->getAsList('bidirectional');
+	}
+
+	/**
 	 * Gets the "composition" data item.
 	 *
 	 * @return tx_oelib_List the "composition" data item, will be empty (but not

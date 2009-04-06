@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2751] Feature: Support bidirectional relations
 - [#2886] Change: Refactor the creation of the cObj in the templatehelper
 - [#2883] Feature: Add a function to tx_oelib_List to purge elements from the list
 - [#2882] Feature: Add a function to tx_oelib_List to append a list to another list

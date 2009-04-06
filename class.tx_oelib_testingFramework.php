@@ -722,11 +722,22 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		$this->createRelation(
-			$relationConfiguration['config']['MM'],
-			$uidLocal,
-			$uidForeign
-		);
+		if (!isset($relationConfiguration['config']['MM_opposite_field'])) {
+			$this->createRelation(
+				$relationConfiguration['config']['MM'],
+				$uidLocal,
+				$uidForeign
+			);
+		} else {
+			// Switches the order of $uidForeign and $uidLocal as the relation
+			// is the reverse part of a bidirectional relation.
+			$this->createRelationAndUpdateCounter(
+				$relationConfiguration['config']['foreign_table'],
+				$uidForeign,
+				$uidLocal,
+				$relationConfiguration['config']['MM_opposite_field']
+			);
+		}
 
 		$this->increaseRelationCounter($tableName, $uidLocal, $columnName);
 	}
