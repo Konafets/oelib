@@ -146,6 +146,30 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_GetGroupMembers_IgnoresDeletedUser() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser(
+			$feUserGroupUid,
+			array('deleted' => 1)
+		);
+
+		$this->assertTrue(
+			$this->fixture->getGroupMembers($feUserGroupUid)->isEmpty()
+		);
+	}
+
+	public function test_GetGroupMembers_IgnoresDisabledUser() {
+		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
+		$this->testingFramework->createFrontEndUser(
+			$feUserGroupUid,
+			array('disable' => 1)
+		);
+
+		$this->assertTrue(
+			$this->fixture->getGroupMembers($feUserGroupUid)->isEmpty()
+		);
+	}
+
 	public function test_GetGroupMembers_ForUserWithMultipleGroupsAndGivenGroupFirst_ReturnsOneElement() {
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$userGroups = $feUserGroupUid . ',' .
