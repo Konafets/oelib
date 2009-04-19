@@ -110,6 +110,25 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 	protected function existsKey($key) {
 		return isset($this->data[$key]);
 	}
+
+	/**
+	 * Returns the array keys of the data item for the key $key.
+	 *
+	 * @param string the key of the data item to get the array keys for, must
+	 *               not be empty
+	 *
+	 * @return array the array keys of the data item for the key $key, may be
+	 *               empty
+	 */
+	public function getArrayKeys($key) {
+		$this->checkForNonEmptyKey($key);
+
+		if (!$this->existsKey($key) || !is_array($this->data[$key])) {
+			return array();
+		}
+
+		return array_keys($this->data[$key]);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Configuration.php']) {

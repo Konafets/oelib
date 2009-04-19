@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#2950] Feature: Add a method getArrayKeys() to tx_oelib_Configuration
 - [#2915] Fix: The CLI module also selects deleted FE users
 - [#2898] Feature: Add a function mapper::getLoadedTestingModel
 - [#2751] Feature: Support bidirectional relations

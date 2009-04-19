@@ -93,5 +93,69 @@ class tx_oelib_Configuration_testcase extends tx_phpunit_testcase {
 			array('title' => 'bar')
 		);
 	}
+
+
+	////////////////////////////////////
+	// Tests regarding getArrayKeys().
+	////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getArrayKeysWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->getArrayKeys('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getArrayKeysForInexistentKeyReturnEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getArrayKeys('key')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getArrayKeysForKeyOfStringDataItemReturnsEmptyArray() {
+		$this->fixture->setData(array('key' => 'blub'));
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getArrayKeys('key')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getArrayKeysForKeyOfDataItemWithOneArrayElementReturnsKeyOfArrayElement() {
+		$this->fixture->setData(array('key' => array('test' => 'child')));
+
+		$this->assertEquals(
+			array('test'),
+			$this->fixture->getArrayKeys('key')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getArrayKeysForKeyOfDataItemWithTwoArrayElementsReturnsKeysOfArrayElements() {
+		$this->fixture->setData(
+			array('key' => array('first' => 'child', 'second' => 'child'))
+		);
+
+		$this->assertEquals(
+			array('first', 'second'),
+			$this->fixture->getArrayKeys('key')
+		);
+	}
 }
 ?>
