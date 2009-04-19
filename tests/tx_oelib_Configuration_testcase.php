@@ -102,12 +102,13 @@ class tx_oelib_Configuration_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function getArrayKeysWithEmptyKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
-		);
+	public function getArrayKeysWithEmptyKeyReturnsKeysOfDataArray() {
+		$this->fixture->setData(array('first' => 'test', 'second' => 'test'));
 
-		$this->fixture->getArrayKeys('');
+		$this->assertEquals(
+			array('first', 'second'),
+			$this->fixture->getArrayKeys()
+		);
 	}
 
 	/**

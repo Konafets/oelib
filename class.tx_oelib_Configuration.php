@@ -114,14 +114,18 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 	/**
 	 * Returns the array keys of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get the array keys for, must
-	 *               not be empty
+	 * If $key is an empty string the array keys of $this->data are returned.
+	 *
+	 * @param string the key of the data item to get the array keys for, may be
+	 *               empty
 	 *
 	 * @return array the array keys of the data item for the key $key, may be
 	 *               empty
 	 */
-	public function getArrayKeys($key) {
-		$this->checkForNonEmptyKey($key);
+	public function getArrayKeys($key = '') {
+		if ($key == '') {
+			return array_keys($this->data);
+		}
 
 		if (!$this->existsKey($key) || !is_array($this->data[$key])) {
 			return array();
