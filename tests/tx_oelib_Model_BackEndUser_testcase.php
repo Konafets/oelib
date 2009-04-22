@@ -94,9 +94,9 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////////
-	// Tests concerning getting the language
-	//////////////////////////////////////////
+	//////////////////////////////////////////////////////
+	// Tests concerning setting and getting the language
+	//////////////////////////////////////////////////////
 
 	public function testGetLanguageForNonEmptyNameReturnsLanguageKey() {
 		$this->fixture->setData(array('lang' => 'en'));
@@ -113,6 +113,48 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'',
 			$this->fixture->getLanguage()
+		);
+	}
+
+	public function testSetLanguageSetsLanguage() {
+		$this->fixture->setLanguage('de');
+
+		$this->assertEquals(
+			'de',
+			$this->fixture->getLanguage()
+		);
+	}
+
+	public function testSetLanguageWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$language must not be empty.'
+		);
+
+		$this->fixture->setLanguage('');
+	}
+
+	public function testSetLanguageWithThreeLetterKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$language must be a two-letter code from the ' .
+				'static_languages table.'
+		);
+
+		$this->fixture->setLanguage('abc');
+	}
+
+	public function testHasLanguageWithoutLanguageReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasLanguage()
+		);
+	}
+
+	public function testHasLanguageWithNonEmptyLanguageReturnsTrue() {
+		$this->fixture->setData(array('lang' => 'de'));
+
+		$this->assertTrue(
+			$this->fixture->hasLanguage()
 		);
 	}
 
