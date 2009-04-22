@@ -87,6 +87,29 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 
 		return $this->findByUserName($userName);
 	}
+
+	/**
+	 * Reads a record from the database by UID (from this mapper's table). Also
+	 * hidden records will be retrieved.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
+	 *                                     with the UID $uid
+	 *
+	 * @param integer the UID of the record to retrieve, must be > 0
+	 *
+	 * @return array the record from the database, will not be empty
+	 */
+	protected function retrieveRecordByUid($uid) {
+		if (tx_oelib_BackEndLoginManager::getInstance()->isLoggedIn() &&
+			($GLOBALS['BE_USER']->user['uid'] == $uid)
+		) {
+			$data = $GLOBALS['BE_USER']->user;
+		} else {
+			$data = parent::retrieveRecordByUid($uid);
+		}
+
+		return $data;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_BackEndUser.php']) {

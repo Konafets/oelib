@@ -23,9 +23,9 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_FrontEndLoginManager' for the 'oelib' extension.
+ * Class 'tx_oelib_BackEndLoginManager' for the 'oelib' extension.
  *
- * This class represents a manager for front-end logins, providing access to the
+ * This class represents a manager for back-end logins, providing access to the
  * logged-in user.
  *
  * @package TYPO3
@@ -33,9 +33,9 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
+class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
-	 * @var tx_oelib_FrontEndLoginManager the Singleton instance
+	 * @var tx_oelib_BackEndLoginManager the Singleton instance
 	 */
 	private static $instance = null;
 
@@ -54,11 +54,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_FrontEndLoginManager the current Singleton instance
+	 * @return tx_oelib_BackEndLoginManager the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_FrontEndLoginManager();
+			self::$instance = new tx_oelib_BackEndLoginManager();
 		}
 
 		return self::$instance;
@@ -76,29 +76,25 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	}
 
 	/**
-	 * Checks whether any front-end user is logged in (and whether a front end
-	 * exists at all).
+	 * Checks whether a back-end user is logged in.
 	 *
-	 * @return boolean true if a front end exists and a front-end user is logged
-	 *                 in, false otherwise
+	 * @return boolean true if a back-end user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
-		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
-			is_array($GLOBALS['TSFE']->fe_user->user);
+		return isset($GLOBALS['BE_USER']) && is_object($GLOBALS['BE_USER']);
 	}
 
 	/**
-	 * Gets the currently logged-in front-end user.
+	 * Gets the currently logged-in back-end user.
 	 *
-	 * @param string the name of the mapper to use for getting the front-end
+	 * @param string the name of the mapper to use for getting the back-end
 	 *               user model, must not be empty
 	 *
-	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
-	 *                                     be null if no user is logged in or
-	 *                                     if there is no front end
+	 * @return tx_oelib_Model_BackEndUser the logged-in back-end user, will
+	 *                                    be null if no user is logged in
 	 */
 	public function getLoggedInUser(
-		$mapperName = 'tx_oelib_Mapper_FrontEndUser'
+		$mapperName = 'tx_oelib_Mapper_BackEndUser'
 	) {
 		if ($mapperName == '') {
 			throw new Exception('$mapperName must not be empty.');
@@ -108,11 +104,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		}
 
 		return tx_oelib_MapperRegistry::get($mapperName)
-			->find($GLOBALS['TSFE']->fe_user->user['uid']);
+			->find($GLOBALS['BE_USER']->user['uid']);
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FrontEndLoginManager.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FrontEndLoginManager.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_BackEndLoginManager.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_BackEndLoginManager.php']);
 }
 ?>
