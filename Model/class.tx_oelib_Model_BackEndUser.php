@@ -59,39 +59,37 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	}
 
 	/**
-	 * Gets this user's language. Will be a "lg_typo3" key of the
-	 * "static_languages" table.
+	 * Gets this user's language. Will be a two-letter "lg_typo3" key of the
+	 * "static_languages" table or "default" for the default language.
 	 *
-	 * @return string this user's language key, may be empty
+	 * @return string this user's language key, will not be empty
 	 */
 	public function getLanguage() {
-		return $this->getAsString('lang');
+		return ($this->hasLanguage() ? $this->getAsString('lang') : 'default');
 	}
 
 	/**
 	 * Sets this user's language.
 	 *
-	 * @param string this user's language key, must be a non-empty two-letter
-	 *               key from the "static_languages" table
+	 * @param string this user's language key, must be a two-letter "lg_typo3"
+	 *               key of the "static_languages" table or "default" for the
+	 *               default language
 	 */
 	public function setLanguage($language) {
 		if ($language == '') {
 			throw new Exception('$language must not be empty.');
 		}
-		if (strlen($language) != 2) {
-			throw new Exception(
-				'$language must be a two-letter code from the ' .
-					'static_languages table.'
-			);
-		}
 
-		return $this->setAsString('lang', $language);
+		$this->setAsString(
+			'lang',
+			($language != 'default') ? $language : ''
+		);
 	}
 
 	/**
-	 * Checks whether this user has a non-empty language set.
+	 * Checks whether this user has a non-default language set.
 	 *
-	 * @return boolean true if this user has a non-empty language set, false
+	 * @return boolean true if this user has a non-default language set, false
 	 *                 otherwise
 	 */
 	public function hasLanguage() {

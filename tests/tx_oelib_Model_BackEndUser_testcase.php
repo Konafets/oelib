@@ -98,20 +98,20 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 	// Tests concerning setting and getting the language
 	//////////////////////////////////////////////////////
 
-	public function testGetLanguageForNonEmptyNameReturnsLanguageKey() {
-		$this->fixture->setData(array('lang' => 'en'));
+	public function testGetLanguageForNonEmptyLanguageReturnsLanguageKey() {
+		$this->fixture->setData(array('lang' => 'de'));
 
 		$this->assertEquals(
-			'en',
+			'de',
 			$this->fixture->getLanguage()
 		);
 	}
 
-	public function testGetLanguageForEmptyNameReturnsEmptyString() {
+	public function testGetLanguageForEmptyLanguageKeyReturnsDefault() {
 		$this->fixture->setData(array('lang' => ''));
 
 		$this->assertEquals(
-			'',
+			'default',
 			$this->fixture->getLanguage()
 		);
 	}
@@ -125,6 +125,15 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSetLanguageWithDefaultSetsLanguage() {
+		$this->fixture->setLanguage('default');
+
+		$this->assertEquals(
+			'default',
+			$this->fixture->getLanguage()
+		);
+	}
+
 	public function testSetLanguageWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'Exception', '$language must not be empty.'
@@ -133,17 +142,17 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		$this->fixture->setLanguage('');
 	}
 
-	public function testSetLanguageWithThreeLetterKeyThrowsException() {
-		$this->setExpectedException(
-			'Exception', '$language must be a two-letter code from the ' .
-				'static_languages table.'
-		);
-
-		$this->fixture->setLanguage('abc');
-	}
-
 	public function testHasLanguageWithoutLanguageReturnsFalse() {
 		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasLanguage()
+		);
+	}
+
+	public function testHasLanguageWithDefaultLanguageSetReturnsFalse() {
+		$this->fixture->setData(array());
+		$this->fixture->setLanguage('default');
 
 		$this->assertFalse(
 			$this->fixture->hasLanguage()
