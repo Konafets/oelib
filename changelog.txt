@@ -1,4 +1,5 @@
 0.6.0 - currently working on
+- [#1185] Feature: Add a translator class
 - [#2960] Feature: Add a function for setting a BE user's language
 - [#2959] Feature: Add a function for getting the current BE user
 - [#961] Change: Require TYPO3 4.2

@@ -797,6 +797,7 @@ final class tx_oelib_testingFramework {
 		tx_oelib_PageFinder::purgeInstance();
 		tx_oelib_Session::purgeInstances();
 		tx_oelib_Timer::purgeInstance();
+		tx_oelib_TranslatorRegistry::purgeInstance();
 	}
 
 	/**
