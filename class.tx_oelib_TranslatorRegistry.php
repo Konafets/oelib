@@ -79,7 +79,7 @@ class tx_oelib_TranslatorRegistry {
 	private function __construct() {
 		if (isset($GLOBALS['TSFE'])) {
 			$this->initializeFrontEnd();
-		} elseif (isset($GLOBALS['BE_USER'])) {
+		} elseif (isset($GLOBALS['LANG'])) {
 			$this->initializeBackEnd();
 		} else {
 			throw new Exception(
