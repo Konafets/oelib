@@ -1,3 +1,5 @@
+0.6.1 - currently working on
+
 0.6.0 - released 2009-06-05
 - [#2991] Feature: Add a test that fails if the phpmyadmin extension is installed
 - [#1185] Feature: Add a translator class
