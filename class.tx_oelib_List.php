@@ -246,7 +246,9 @@ class tx_oelib_List implements Iterator {
 			return;
 		}
 
-		unset($this->uids[$this->pointer]);
+		if ($this->current()->hasUid()) {
+			unset($this->uids[$this->current()->getUid()]);
+		}
 		unset($this->items[$this->pointer]);
 
 		// Creates new indices if the deleted item was not the last one.
