@@ -1060,5 +1060,67 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 			$this->fixture->valid()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForModelWithUidRemovesModelFromGetUids() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(1);
+		$this->fixture->add($model);
+		$this->modelStorage[] = $model;
+
+		$this->fixture->rewind();
+		$this->fixture->purgeCurrent();
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getUids()
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning cloned lists
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForClonedListNotRemovesItemFromOriginalList() {
+		$this->addModelsToFixture();
+
+		$clonedList = clone($this->fixture);
+		$clonedList->rewind();
+		$clonedList->purgeCurrent();
+
+		$this->assertEquals(
+			1,
+			$this->fixture->count()
+		);
+
+		$clonedList->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForClonedListNotRemovesUidFromOriginalList() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid(1);
+		$this->fixture->add($model);
+		$this->modelStorage[] = $model;
+
+		$clonedList = clone($this->fixture);
+		$clonedList->rewind();
+		$clonedList->purgeCurrent();
+
+		$this->assertEquals(
+			'1',
+			$this->fixture->getUids()
+		);
+
+		$clonedList->__destruct();
+	}
 }
 ?>
