@@ -95,6 +95,15 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function fixtureExtendsPublicObject() {
+		$this->assertTrue(
+			$this->fixture instanceof tx_oelib_PublicObject
+		);
+	}
+
 	public function testGetCompleteConfigurationReturnsAllTestConfigurationData() {
 		$this->assertEquals(
 			$this->testConfiguration,

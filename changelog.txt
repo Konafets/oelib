@@ -1,5 +1,6 @@
 0.7.0 - currently working on
-- [#2973] Fix: tx_oelib_List::purgeCurrent is not applicable within foreach loops 
+- [#3064] Feature: ConfigurationProxy should extend PublicObject
+- [#2973] Fix: tx_oelib_List::purgeCurrent is not applicable within foreach loops
 
 0.6.0 - released 2009-06-05
 - [#2991] Feature: Add a test that fails if the phpmyadmin extension is installed

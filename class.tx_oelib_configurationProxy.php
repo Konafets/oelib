@@ -33,7 +33,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_configurationProxy {
+class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	/**
 	 * @var array the singleton configuration proxy objects
 	 */
@@ -64,6 +64,12 @@ class tx_oelib_configurationProxy {
 	 */
 	private function __construct($extensionKey) {
 		$this->extensionKey = $extensionKey;
+	}
+
+	/**
+	 * Frees as much memory that has been used by this object as possible.
+	 */
+	public function __destruct() {
 	}
 
 	/**
@@ -137,14 +143,13 @@ class tx_oelib_configurationProxy {
 	}
 
 	/**
-	 * Returns a configuration value.
+	 * Returns a string configuration value.
 	 *
 	 * @param string key of the value to get, must not be empty
 	 *
-	 * @return mixed configuration value, will be an empty string if the
-	 *               value does not exist
+	 * @return string configuration value string, might be empty
 	 */
-	private function getConfigurationValue($key) {
+	protected function get($key) {
 		$this->loadConfigurationLazily();
 
 		if ($this->hasConfigurationValue($key)) {
@@ -157,6 +162,20 @@ class tx_oelib_configurationProxy {
 	}
 
 	/**
+	 * Returns a configuration value.
+	 *
+	 * @param string key of the value to get, must not be empty
+	 *
+	 * @return mixed configuration value, will be an empty string if the
+	 *               value does not exist
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use get() instead
+	 */
+	private function getConfigurationValue($key) {
+		return $this->get($key);
+	}
+
+	/**
 	 * Sets a new configuration value.
 	 *
 	 * The configuration setters are intended to be used for testing purposes
@@ -165,10 +184,25 @@ class tx_oelib_configurationProxy {
 	 * @param string key of the value to set, must not be empty
 	 * @param mixed value to set
 	 */
-	private function setConfigurationValue($key, $value) {
+	protected function set($key, $value) {
 		$this->loadConfigurationLazily();
 
 		$this->configuration[$key] = $value;
+	}
+
+	/**
+	 * Sets a new configuration value.
+	 *
+	 * The configuration setters are intended to be used for testing purposes
+	 * only.
+	 *
+	 * @param string key of the value to set, must not be empty
+	 * @param mixed value to set
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use set() instead
+	 */
+	private function setConfigurationValue($key, $value) {
+		$this->set($key, $value);
 	}
 
 	/**
@@ -177,9 +211,11 @@ class tx_oelib_configurationProxy {
 	 * @param string key of the value to get, must not be empty
 	 *
 	 * @return string configuration value string, might be empty
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use getAsString() instead
 	 */
 	public function getConfigurationValueString($key) {
-		return trim((string) $this->getConfigurationValue($key));
+		return $this->getAsString($key);
 	}
 
 	/**
@@ -187,9 +223,11 @@ class tx_oelib_configurationProxy {
 	 *
 	 * @param string key of the value to set, must not be empty
 	 * @param string value to set, may be empty
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use setAsString() instead
 	 */
 	public function setConfigurationValueString($key, $value) {
-		$this->setConfigurationValue($key, trim($value));
+		$this->setAsString($key, $value);
 	}
 
 	/**
@@ -198,9 +236,11 @@ class tx_oelib_configurationProxy {
 	 * @param string key of the value to get, must not be empty
 	 *
 	 * @return boolean boolean configuration value
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use getAsBoolean() instead
 	 */
 	public function getConfigurationValueBoolean($key) {
-		return (boolean) $this->getConfigurationValue($key);
+		return $this->getAsBoolean($key);
 	}
 
 	/**
@@ -208,9 +248,11 @@ class tx_oelib_configurationProxy {
 	 *
 	 * @param string key of the value to set, must not be empty
 	 * @param boolean value to set
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use setAsBoolean() instead
 	 */
 	public function setConfigurationValueBoolean($key, $value) {
-		$this->setConfigurationValue($key, intval($value));
+		$this->setAsBoolean($key, $value);
 	}
 
 	/**
@@ -219,9 +261,11 @@ class tx_oelib_configurationProxy {
 	 * @param string key of the value to get, must not be empty
 	 *
 	 * @return integer configuration value
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use getAsInteger() instead
 	 */
 	public function getConfigurationValueInteger($key) {
-		return intval($this->getConfigurationValue($key));
+		return $this->getAsInteger($key);
 	}
 
 	/**
@@ -229,9 +273,11 @@ class tx_oelib_configurationProxy {
 	 *
 	 * @param string key of the value to set, must not be empty
 	 * @param integer value to set
+	 *
+	 * @deprecated 0.7.0 - 2009-06-12 use setAsInteger() instead
 	 */
 	public function setConfigurationValueInteger($key, $value) {
-		$this->setConfigurationValue($key, $value);
+		$this->setAsInteger($key, $value);
 	}
 
 	/**
