@@ -647,14 +647,14 @@ abstract class tx_oelib_DataMapper {
 
 		foreach (array_keys($this->relations) as $key) {
 			if ($this->isOneToManyRelationConfigured($key)) {
-				$functionName = count;
+				$functionName = 'count';
 			} elseif ($this->isManyToOneRelationConfigured($key)) {
-				$functionName = getUid;
+				$functionName = 'getUid';
 			} else {
 				if ($this->isManyToManyRelationConfigured($key)) {
-					$functionName = count;
+					$functionName = 'count';
 				} else {
-					$functionName = getUids;
+					$functionName = 'getUids';
 				}
 			}
 
