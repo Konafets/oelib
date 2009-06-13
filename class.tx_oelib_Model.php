@@ -35,6 +35,7 @@
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
@@ -447,7 +448,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Marks this model's data as dirty.
 	 */
-	protected function markAsDirty() {
+	public function markAsDirty() {
 		$this->isDirty = true;
 	}
 

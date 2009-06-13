@@ -1252,10 +1252,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidAndWithRelationsCommitsModelToDatabase() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1269,10 +1270,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidAddsModelToMapAfterSave() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1285,10 +1287,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidSetsUidForModel() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1300,10 +1303,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidSetsUidReceivedFromDatabaseForModel() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1317,10 +1321,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testIsDirtyAfterSaveForDirtyLoadedModelWithoutUidReturnsFalse() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1332,10 +1337,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidSetsTimestamp() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1350,10 +1356,11 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSaveForDirtyLoadedModelWithoutUidSetsCrdate() {
-		$data = array('is_dummy_record' => '1', 'title' => 'bar');
-		$this->fixture->createRelations($data);
-
 		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$data = array('is_dummy_record' => '1', 'title' => 'bar');
+		$this->fixture->createRelations($data, $model);
+
 		$model->setData($data);
 		$model->markAsDirty();
 
@@ -1473,6 +1480,76 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->testingFramework->existsRecord(
 				'tx_oelib_test', 'title = "bar" AND composition = 2'
 			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addModelToListMarksParentModelAsDirty() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->getNewGhost();
+
+		$parent->getChildren()->add($child);
+
+		$this->assertTrue(
+			$parent->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendListMarksParentModelAsDirty() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->getNewGhost();
+		$list = new tx_oelib_List();
+		$list->add($child);
+
+		$parent->getChildren()->append($list);
+
+		$this->assertTrue(
+			$parent->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function appendListUniqueMarksParentModelAsDirty() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->getNewGhost();
+		$list = new tx_oelib_List();
+		$list->add($child);
+
+		$parent->getChildren()->appendUnique($list);
+
+		$this->assertTrue(
+			$parent->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeModelFromListMarksModelAsDirty() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->getNewGhost();
+		$parent->getChildren()->add($child);
+		$parent->getChildren()->rewind();
+
+		$parent->getChildren()->purgeCurrent();
+
+		$this->assertTrue(
+			$parent->isDirty()
 		);
 	}
 }

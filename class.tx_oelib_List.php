@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_List implements Iterator {
 	/**
@@ -50,13 +51,23 @@ class tx_oelib_List implements Iterator {
 	private $uids = array();
 
 	/**
+	 * The model this List belongs to.
+	 *
+	 * This is used for modeling relations and will remain null in any other
+	 * context.
+	 *
+	 * @var tx_oelib_Model
+	 */
+	private $parentModel = null;
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 *
 	 * Note: The models in this list are not destructed by this function (this
 	 * should happen in the data mappers).
 	 */
 	public function __destruct() {
-		unset($this->items);
+		unset($this->items, $this->parentModel);
 	}
 
 	/**
@@ -77,6 +88,8 @@ class tx_oelib_List implements Iterator {
 			$uid = $model->getUid();
 			$this->uids[$uid] = $uid;
 		}
+
+		$this->markAsDirty();
 	}
 
 	/**
@@ -241,7 +254,7 @@ class tx_oelib_List implements Iterator {
 	 * If the pointer does not point to a valid element, this function is a
 	 * no-op.
 	 */
-	function purgeCurrent() {
+	public function purgeCurrent() {
 		if (!$this->valid()) {
 			return;
 		}
@@ -254,6 +267,26 @@ class tx_oelib_List implements Iterator {
 		// Creates new indices if the deleted item was not the last one.
 		if ($this->valid()) {
 			$this->items = array_merge($this->items);
+		}
+
+		$this->markAsDirty();
+	}
+
+	/**
+	 * Sets the model this list belongs to.
+	 *
+	 * @param tx_oelib_Model $model the model this list belongs to
+	 */
+	public function setParentModel(tx_oelib_Model $model) {
+		$this->parentModel = $model;
+	}
+
+	/**
+	 * Marks the parent model as dirty.
+	 */
+	private function markAsDirty() {
+		if ($this->parentModel instanceof tx_oelib_Model) {
+			$this->parentModel->markAsDirty();
 		}
 	}
 }

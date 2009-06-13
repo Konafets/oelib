@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	/**
@@ -99,9 +100,10 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * it using foreign key mapping.
 	 *
 	 * @param array the model data to process, might be modified
+	 * @param tx_oelib_Model $model the model to create the relations for
 	 */
-	public function createRelations(array &$data) {
-		parent::createRelations($data);
+	public function createRelations(array &$data, tx_oelib_Model $model) {
+		parent::createRelations($data, $model);
 	}
 }
 ?>

@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 abstract class tx_oelib_DataMapper {
 	/**
@@ -253,7 +254,7 @@ abstract class tx_oelib_DataMapper {
 	 *              modified
 	 */
 	private function fillModel(tx_oelib_Model $model, array &$data) {
-		$this->createRelations($data);
+		$this->createRelations($data, $model);
 		$model->setData($data);
 	}
 
@@ -262,18 +263,19 @@ abstract class tx_oelib_DataMapper {
 	 * it using foreign key mapping.
 	 *
 	 * @param array the model data to process, might be modified
+	 * @param tx_oelib_Model $model the model to create the relations for
 	 */
-	protected function createRelations(array &$data) {
+	protected function createRelations(array &$data, tx_oelib_Model $model) {
 		foreach (array_keys($this->relations) as $key) {
 			if ($this->isOneToManyRelationConfigured($key)) {
-				$this->createOneToManyRelation($data, $key);
+				$this->createOneToManyRelation($data, $key, $model);
 			} elseif ($this->isManyToOneRelationConfigured($key)) {
 				$this->createManyToOneRelation($data, $key);
 			} else {
 				if ($this->isManyToManyRelationConfigured($key)) {
-					$this->createMToNRelation($data, $key);
+					$this->createMToNRelation($data, $key, $model);
 				} else {
-					$this->createCommaSeparatedRelation($data, $key);
+					$this->createCommaSeparatedRelation($data, $key, $model);
 				}
 			}
 		}
@@ -354,8 +356,11 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, will be modified
 	 * @param string the key of the data item for which the relation should
 	 *               be created, must not be empty
+	 * @param tx_oelib_Model $model the model to create the relation for
 	 */
-	private function createOneToManyRelation(array &$data, $key) {
+	private function createOneToManyRelation(
+		array &$data, $key, tx_oelib_Model $model
+	) {
 		$relationUids = array();
 
 		if ($data[$key] > 0) {
@@ -371,6 +376,7 @@ abstract class tx_oelib_DataMapper {
 
 		$data[$key] = tx_oelib_MapperRegistry::get($this->relations[$key])
 			->getListOfModels($relationUids);
+		$data[$key]->setParentModel($model);
 	}
 
 	/**
@@ -394,9 +400,13 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, will be modified
 	 * @param string the key of the data item for which the relation should
 	 *               be created, must not be empty
+	 * @param tx_oelib_Model $model the model to create the relation for
 	 */
-	private function createCommaSeparatedRelation(array &$data, $key) {
+	private function createCommaSeparatedRelation(
+		array &$data, $key, tx_oelib_Model $model
+	) {
 		$list = t3lib_div::makeInstance('tx_oelib_List');
+		$list->setParentModel($model);
 
 		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
 		if ($uidList != '') {
@@ -422,9 +432,13 @@ abstract class tx_oelib_DataMapper {
 	 * @param array the model data to process, will be modified
 	 * @param string the key of the data item for which the relation should
 	 *               be created, must not be empty
+	 * @param tx_oelib_Model $model the model to create the relation for
 	 */
-	private function createMToNRelation(array &$data, $key) {
+	private function createMToNRelation(
+		array &$data, $key, tx_oelib_Model $model
+	) {
 		$list = t3lib_div::makeInstance('tx_oelib_List');
+		$list->setParentModel($model);
 
 		if ($data[$key] > 0) {
 			$mapper = tx_oelib_MapperRegistry::get($this->relations[$key]);

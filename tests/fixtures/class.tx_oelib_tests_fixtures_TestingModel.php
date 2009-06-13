@@ -163,13 +163,6 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
-	 * Marks this model's data as dirty.
-	 */
-	public function markAsDirty() {
-		parent::markAsDirty();
-	}
-
-	/**
 	 * Sets the "deleted" property for the current model.
 	 */
 	public function setToDeleted() {

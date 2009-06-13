@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	/**
@@ -706,6 +707,5 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAsInteger('crdate')
 		);
 	}
-
 }
 ?>
