@@ -659,16 +659,28 @@ abstract class tx_oelib_DataMapper {
 
 		$data = $model->getData();
 
-		foreach (array_keys($this->relations) as $key) {
+		foreach ($this->relations as $key => $relation) {
 			if ($this->isOneToManyRelationConfigured($key)) {
 				$functionName = 'count';
 			} elseif ($this->isManyToOneRelationConfigured($key)) {
 				$functionName = 'getUid';
+
+				if ($data[$key] instanceof tx_oelib_Model) {
+					$this->saveManyToOneRelation(
+						$data[$key], tx_oelib_MapperRegistry::get($relation)
+					);
+				}
 			} else {
 				if ($this->isManyToManyRelationConfigured($key)) {
 					$functionName = 'count';
 				} else {
 					$functionName = 'getUids';
+
+					if ($data[$key] instanceof tx_oelib_List) {
+						$this->saveCommaSeparatedRelations(
+							$data[$key], tx_oelib_MapperRegistry::get($relation)
+						);
+					}
 				}
 			}
 
@@ -677,6 +689,32 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Saves the related model of an n:1-relation.
+	 *
+	 * @param tx_oelib_Model $model the model to save
+	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
+	 */
+	private function saveManyToOneRelation(
+		tx_oelib_Model $model, tx_oelib_DataMapper $mapper
+	) {
+		$mapper->save($model);
+	}
+
+	/**
+	 * Saves the related models of a comma-separated m:n relation.
+	 *
+	 * @param tx_oelib_List $list the list of models to save
+	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
+	 */
+	private function saveCommaSeparatedRelations(
+		tx_oelib_List $list, tx_oelib_DataMapper $mapper
+	) {
+		foreach ($list as $model) {
+			$mapper->save($model);
+		}
 	}
 }
 

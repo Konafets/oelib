@@ -113,6 +113,16 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Sets the "friend" data item.
+	 *
+	 * @param tx_oelib_tests_fixtures_TestingModel $friend the "friend" data
+	 *                                                     item to set
+	 */
+	public function setFriend(tx_oelib_tests_fixtures_TestingModel $friend) {
+		$this->set('friend', $friend);
+	}
+
+	/**
 	 * Gets the "owner" data item.
 	 *
 	 * @return tx_oelib_Model_FrontEndUser the "owner" data item, will be null
@@ -176,6 +186,13 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 */
 	public function setDeletedPropertyUsingSet() {
 		$this->setAsBoolean('deleted', true);
+	}
+
+	/**
+	 * Sets the dummy column to true.
+	 */
+	public function markAsDummyModel() {
+		$this->set('is_dummy_record', true);
 	}
 }
 ?>

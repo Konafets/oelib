@@ -1486,6 +1486,80 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function saveForModelWithN1RelationSavesDirtyRelatedRecord() {
+		$this->fixture->__destruct();
+		$this->fixture = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingMapper');
+
+		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('friend' => $friendUid)
+		);
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->find($friendUid)->setTitle('foo');
+
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'title = "foo" AND uid = ' . $friendUid
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithN1RelationSavesNewRelatedRecord() {
+		$this->fixture->__destruct();
+		$this->fixture = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingMapper');
+
+		$friend = new tx_oelib_tests_fixtures_TestingModel();
+		$friend->markAsDummyModel();
+		$friend->setTitle('foo');
+
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->fixture->find($uid)->setFriend($friend);
+
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test', 'uid = ' . $friend->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithMNCommaSeparatedRelationSavesDirtyRelatedRecord() {
+		$this->fixture->__destruct();
+		$this->fixture = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingMapper');
+
+		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('children' => $childUid1 . ',' . $childUid2)
+		);
+		$this->fixture->find($uid)->setTitle('bar');
+		$this->fixture->find($childUid1)->setTitle('foo');
+
+		$this->fixture->save($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test',
+				'title = "foo" AND uid = ' . $childUid1
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function addModelToListMarksParentModelAsDirty() {
 		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
 
