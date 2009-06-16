@@ -53,6 +53,11 @@ class tx_oelib_MapperRegistry {
 	private $denyDatabaseAccess = false;
 
 	/**
+	 * @var boolean whether this MapperRegistry is used in testing mode
+	 */
+	private $testingMode = false;
+
+	/**
 	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
@@ -135,7 +140,18 @@ class tx_oelib_MapperRegistry {
 				);
 			}
 
-			$this->mappers[$className] = t3lib_div::makeInstance($className);
+			if ($this->testingMode) {
+				$testingClassName = $className . 'Testing';
+				if (!class_exists($testingClassName)) {
+					eval(
+						'class ' . $testingClassName . ' extends ' . $className .
+							' {}'
+					);
+				}
+				$this->mappers[$className] = new $testingClassName();
+			} else {
+				$this->mappers[$className] = t3lib_div::makeInstance($className);
+			}
 		}
 
 		if ($this->denyDatabaseAccess) {
@@ -150,6 +166,13 @@ class tx_oelib_MapperRegistry {
 	 */
 	public static function denyDatabaseAccess() {
 		self::getInstance()->denyDatabaseAccess = true;
+	}
+
+	/**
+	 * Activates the testing mode of this MapperRegistry.
+	 */
+	public function activateTestingMode() {
+		$this->testingMode = true;
 	}
 }
 

@@ -146,5 +146,30 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getWithActivatedTestingModeReturnsMapperWithTestingLayer() {
+		tx_oelib_MapperRegistry::getInstance()->activateTestingMode();
+
+		$this->assertTrue(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
+				instanceof tx_oelib_tests_fixtures_TestingMapperTesting
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAfterInstanceWithActivatedTestingModeWasPurgedReturnsMapperWithoutTestingLayer() {
+		tx_oelib_MapperRegistry::getInstance()->activateTestingMode();
+		tx_oelib_MapperRegistry::purgeInstance();
+
+		$this->assertFalse(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
+				instanceof tx_oelib_tests_fixtures_TestingMapperTesting
+		);
+	}
 }
 ?>
