@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3074] Feature: Create a visibility structure
 - [#2681] Feature: Implement recursively saving n:1 and comma-separated relations
 - [#3067] Feature: tx_oelib_List needs a callback to the containing model
 - [#3068] Fix: Value of $functionName not quoted in the data mapper
