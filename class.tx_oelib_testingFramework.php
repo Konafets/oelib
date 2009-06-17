@@ -1205,9 +1205,8 @@ final class tx_oelib_testingFramework {
 
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
 
-		$className = t3lib_div::makeInstanceClassName('tslib_fe');
-		$frontEnd = new $className(
-			$GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
+		$frontEnd = tx_oelib_ObjectFactory::make(
+			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
 		);
 
 		// simulates a normal FE without any logged-in FE or BE user

@@ -170,7 +170,8 @@ class tx_oelib_MapperRegistry {
 				$this->mappers[$className] = new $testingClassName();
 				$this->mappers[$className]->setTestingFramework($this->testingFramework);
 			} else {
-				$this->mappers[$className] = t3lib_div::makeInstance($className);
+				$this->mappers[$className]
+					= tx_oelib_ObjectFactory::make($className);
 			}
 		}
 

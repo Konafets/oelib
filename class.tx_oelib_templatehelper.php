@@ -149,12 +149,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
 					getConfigurationValueBoolean('enableConfigCheck')
 			) {
-				$configurationCheckClassname = t3lib_div::makeInstanceClassName(
-					'tx_' . $this->extKey . '_configcheck'
-				);
+				$configurationCheckClassname
+					= 'tx_' . $this->extKey . '_configcheck';
 				if (tx_oelib_Autoloader::load($configurationCheckClassname)) {
-					$this->configurationCheck
-						= new $configurationCheckClassname($this);
+					$this->configurationCheck = tx_oelib_ObjectFactory::make(
+						$configurationCheckClassname, $this
+					);
 				}
 			} else {
 				$this->configurationCheck = null;

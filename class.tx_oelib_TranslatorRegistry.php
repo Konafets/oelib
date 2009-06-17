@@ -221,24 +221,12 @@ class tx_oelib_TranslatorRegistry {
 				);
 			}
 
-			if (TYPO3_branch == '4.3') {
-				$this->translators[$extensionName] = t3lib_div::makeInstance(
-					'tx_oelib_Translator',
-					$this->languageKey,
-					$this->alternativeLanguageKey,
-					$localizedLabels
-				);
-			} else {
-				$translatorClassName = t3lib_div::makeInstanceClassName(
-					'tx_oelib_Translator'
-				);
-				$this->translators[$extensionName] =
-					new $translatorClassName(
-						$this->languageKey,
-						$this->alternativeLanguageKey,
-						$localizedLabels
-					);
-			}
+			$this->translators[$extensionName] = tx_oelib_ObjectFactory::make(
+				'tx_oelib_Translator',
+				$this->languageKey,
+				$this->alternativeLanguageKey,
+				$localizedLabels
+			);
 		}
 
 		return $this->translators[$extensionName];
