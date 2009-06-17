@@ -109,7 +109,7 @@ class tx_oelib_TemplateRegistry {
 	 */
 	public function getByFileName($fileName) {
 		if (!isset($this->templates[$fileName])) {
-			$template = t3lib_div::makeInstance('tx_oelib_Template');
+			$template = tx_oelib_ObjectFactory::make('tx_oelib_Template');
 
 			if ($fileName != '') {
 				$template->processTemplateFromFile($fileName);

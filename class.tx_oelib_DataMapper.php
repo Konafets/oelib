@@ -87,7 +87,7 @@ abstract class tx_oelib_DataMapper {
 			);
 		}
 
-		$this->map = t3lib_div::makeInstance('tx_oelib_IdentityMap');
+		$this->map = tx_oelib_ObjectFactory::make('tx_oelib_IdentityMap');
 	}
 
 	/**
@@ -167,7 +167,7 @@ abstract class tx_oelib_DataMapper {
 	 * @see getModel()
 	 */
 	public function getListOfModels(array $dataOfModels) {
-		$list = t3lib_div::makeInstance('tx_oelib_List');
+		$list = tx_oelib_ObjectFactory::make('tx_oelib_List');
 
 		foreach ($dataOfModels as $modelRecord) {
 			$list->add($this->getModel($modelRecord));
@@ -528,7 +528,7 @@ abstract class tx_oelib_DataMapper {
 	 * @return tx_oelib_Model a ghost model with the UID $uid
 	 */
 	protected function createGhost($uid) {
-		$model = t3lib_div::makeInstance($this->modelClassName);
+		$model = tx_oelib_ObjectFactory::make($this->modelClassName);
 		$model->setUid($uid);
 		$model->setLoadCallback(array($this, 'load'));
 		$this->map->add($model);
