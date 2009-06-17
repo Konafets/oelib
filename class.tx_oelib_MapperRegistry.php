@@ -58,6 +58,11 @@ class tx_oelib_MapperRegistry {
 	private $testingMode = false;
 
 	/**
+	 * @var tx_oelib_testingFramework the testingFramework to use in testing mode
+	 */
+	private $testingFramework = null;
+
+	/**
 	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
@@ -71,6 +76,7 @@ class tx_oelib_MapperRegistry {
 			$mapper->__destruct();
 			unset($this->mappers[$key]);
 		}
+		unset($this->testingFramework);
 	}
 
 	/**
@@ -145,10 +151,24 @@ class tx_oelib_MapperRegistry {
 				if (!class_exists($testingClassName)) {
 					eval(
 						'class ' . $testingClassName . ' extends ' . $className .
-							' {}'
+							' {' .
+							'private $testingFramework;' .
+							'public function __destruct() {' .
+							'parent::__destruct();' .
+							'unset($this->testingFramework);' .
+							'}' .
+							'public function setTestingFramework(tx_oelib_testingFramework $testingFramework) {' .
+							'$this->testingFramework = $testingFramework;' .
+							'}' .
+							'protected function getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting) {' .
+							'$this->testingFramework->markTableAsDirty($mnTable);' .
+							'return array_merge(parent::getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting), array($this->testingFramework->getDummyColumnName($this->tableName) => 1));' .
+							'}' .
+							'}'
 					);
 				}
 				$this->mappers[$className] = new $testingClassName();
+				$this->mappers[$className]->setTestingFramework($this->testingFramework);
 			} else {
 				$this->mappers[$className] = t3lib_div::makeInstance($className);
 			}
@@ -170,9 +190,13 @@ class tx_oelib_MapperRegistry {
 
 	/**
 	 * Activates the testing mode of this MapperRegistry.
+	 *
+	 * @param tx_oelib_testingFramework $testingFramework the testingFramework
+	 *                                                    to use in testing mode
 	 */
-	public function activateTestingMode() {
+	public function activateTestingMode(tx_oelib_testingFramework $testingFramework) {
 		$this->testingMode = true;
+		$this->testingFramework = $testingFramework;
 	}
 }
 

@@ -630,14 +630,17 @@ abstract class tx_oelib_DataMapper {
 			tx_oelib_db::update(
 				$this->tableName, 'uid = ' . $model->getUid(), $data
 			);
+			$this->deleteManyToManyRelationIntermediateRecords($model);
 		} else {
 			$model->setUid(tx_oelib_db::insert($this->tableName, $data));
 			$this->map->add($model);
 		}
 
-		$model->markAsClean();
 		if ($model->isDeleted()) {
 			$model->markAsDead();
+		} else {
+			$this->createManyToManyRelationIntermediateRecords($model);
+			$model->markAsClean();
 		}
 	}
 
@@ -666,7 +669,7 @@ abstract class tx_oelib_DataMapper {
 				$functionName = 'getUid';
 
 				if ($data[$key] instanceof tx_oelib_Model) {
-					$this->saveManyToOneRelation(
+					$this->saveManyToOneRelatedModels(
 						$data[$key], tx_oelib_MapperRegistry::get($relation)
 					);
 				}
@@ -675,12 +678,12 @@ abstract class tx_oelib_DataMapper {
 					$functionName = 'count';
 				} else {
 					$functionName = 'getUids';
+				}
 
-					if ($data[$key] instanceof tx_oelib_List) {
-						$this->saveCommaSeparatedRelations(
-							$data[$key], tx_oelib_MapperRegistry::get($relation)
-						);
-					}
+				if ($data[$key] instanceof tx_oelib_List) {
+					$this->saveManyToManyAndCommaSeparatedRelatedModels(
+						$data[$key], tx_oelib_MapperRegistry::get($relation)
+					);
 				}
 			}
 
@@ -697,24 +700,110 @@ abstract class tx_oelib_DataMapper {
 	 * @param tx_oelib_Model $model the model to save
 	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
 	 */
-	private function saveManyToOneRelation(
+	private function saveManyToOneRelatedModels(
 		tx_oelib_Model $model, tx_oelib_DataMapper $mapper
 	) {
 		$mapper->save($model);
 	}
 
 	/**
-	 * Saves the related models of a comma-separated m:n relation.
+	 * Saves the related models of a comma-separated and a regular m:n relation.
 	 *
 	 * @param tx_oelib_List $list the list of models to save
 	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
 	 */
-	private function saveCommaSeparatedRelations(
+	private function saveManyToManyAndCommaSeparatedRelatedModels(
 		tx_oelib_List $list, tx_oelib_DataMapper $mapper
 	) {
 		foreach ($list as $model) {
 			$mapper->save($model);
 		}
+	}
+
+	/**
+	 * Deletes the records in the intermediate table of m:n relations for a
+	 * given model.
+	 *
+	 * @param tx_oelib_Model $model the model to delete the records in the
+	 *                              intermediate table of m:n relations for
+	 */
+	private function deleteManyToManyRelationIntermediateRecords(
+		tx_oelib_Model $model
+	) {
+		foreach (array_keys($this->relations) as $key) {
+			if ($this->isManyToManyRelationConfigured($key)) {
+				$relationConfiguration =
+					$this->getRelationConfigurationFromTca($key);
+				$mnTable = $relationConfiguration['MM'];
+
+				if (isset($relationConfiguration['MM_opposite_field'])) {
+					$where = 'uid_foreign=' . $model->getUid();
+				} else {
+					$where = 'uid_local=' . $model->getUid();
+				}
+				tx_oelib_db::delete($mnTable, $where);
+			}
+		}
+	}
+
+	/**
+	 * Creates records in the intermediate table of m:n relations for a given
+	 * model.
+	 *
+	 * @param tx_oelib_Model $model the model to create the records in the
+	 *                              intermediate table of m:n relations for
+	 */
+	private function createManyToManyRelationIntermediateRecords(
+		tx_oelib_Model $model
+	) {
+		$data = $model->getData();
+
+		foreach ($this->relations as $key => $relation) {
+			if (
+				$this->isManyToManyRelationConfigured($key)
+				&& ($data[$key] instanceof tx_oelib_List)
+			) {
+				$sorting = 0;
+				$relationConfiguration =
+					$this->getRelationConfigurationFromTca($key);
+				$mnTable = $relationConfiguration['MM'];
+
+				foreach ($data[$key] as $relatedModel) {
+					if (isset($relationConfiguration['MM_opposite_field'])) {
+						$uidLocal = $relatedModel->getUid();
+						$uidForeign = $model->getUid();
+					} else {
+						$uidLocal = $model->getUid();
+						$uidForeign = $relatedModel->getUid();
+					}
+					tx_oelib_db::insert(
+						$mnTable,
+						$this->getManyToManyRelationIntermediateRecordData(
+							$mnTable, $uidLocal, $uidForeign, $sorting
+						)
+					);
+					$sorting++;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Returns the record data for an intermediate m:n-relation record.
+	 *
+	 * @param string $mnTable the name of the intermediate m:n-relation table
+	 * @param integer $uidLocal the UID of the local record
+	 * @param integer $uidForeign the UID of the foreign record
+	 * @param integer $sorting the sorting of the intermediate m:n-relation record
+	 *
+	 * @return array the record data for an intermediate m:n-relation record
+	 */
+	protected function getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting) {
+		return array(
+			'uid_local' => $uidLocal,
+			'uid_foreign' => $uidForeign,
+			'sorting' => $sorting,
+		);
 	}
 }
 

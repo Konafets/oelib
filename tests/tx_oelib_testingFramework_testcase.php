@@ -4210,5 +4210,38 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			'inexistent_column'
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getDummyColumnNameForExtensionTableReturnsDummyColumnName() {
+		$this->assertEquals(
+			'is_dummy_record',
+			$this->fixture->getDummyColumnName('tx_oelib_test')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDummyColumnNameForSystemTableReturnsOelibPrefixedColumnName() {
+		$this->assertEquals(
+			'tx_oelib_is_dummy_record',
+			$this->fixture->getDummyColumnName('fe_users')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDummyColumnNameForThirdPartyExtensionTableReturnsPrefixedColumnName() {
+		$testingFramework = new tx_oelib_testingFramework(
+			'user_oelibtest', array('user_oelibtest2')
+		);
+		$this->assertEquals(
+			'user_oelibtest_is_dummy_record',
+			$testingFramework->getDummyColumnName('user_oelibtest2_test')
+		);
+	}
 }
 ?>

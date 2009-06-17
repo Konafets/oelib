@@ -45,13 +45,19 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_tests_fixtures_TestingMapper();
+		tx_oelib_MapperRegistry::getInstance()->activateTestingMode(
+			$this->testingFramework
+		);
+
+		$this->fixture = tx_oelib_MapperRegistry::get(
+			'tx_oelib_tests_fixtures_TestingMapper'
+		);
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
+		tx_oelib_MapperRegistry::purgeInstance();
 		unset($this->fixture, $this->testingFramework);
 	}
 
@@ -1487,10 +1493,6 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function saveForModelWithN1RelationSavesDirtyRelatedRecord() {
-		$this->fixture->__destruct();
-		$this->fixture = tx_oelib_MapperRegistry::
-			get('tx_oelib_tests_fixtures_TestingMapper');
-
 		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('friend' => $friendUid)
@@ -1511,10 +1513,6 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function saveForModelWithN1RelationSavesNewRelatedRecord() {
-		$this->fixture->__destruct();
-		$this->fixture = tx_oelib_MapperRegistry::
-			get('tx_oelib_tests_fixtures_TestingMapper');
-
 		$friend = new tx_oelib_tests_fixtures_TestingModel();
 		$friend->markAsDummyModel();
 		$friend->setTitle('foo');
@@ -1535,10 +1533,6 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function saveForModelWithMNCommaSeparatedRelationSavesDirtyRelatedRecord() {
-		$this->fixture->__destruct();
-		$this->fixture = tx_oelib_MapperRegistry::
-			get('tx_oelib_tests_fixtures_TestingMapper');
-
 		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
@@ -1624,6 +1618,100 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$parent->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithMNTableRelationCreatesIntermediateRelationRecord() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->find($childUid);
+
+		$parent->getRelatedRecords()->add($child);
+		$this->fixture->save($parent);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test_article_mm',
+				'uid_local=' . $parentUid . ' AND uid_foreign=' . $childUid .
+					' AND sorting=0'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithMNTableRelationsCreatesIntermediateRelationRecordAndIncrementsSorting() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child1 = $this->fixture->find($childUid1);
+		$child2 = $this->fixture->find($childUid2);
+
+		$parent->getRelatedRecords()->add($child1);
+		$parent->getRelatedRecords()->add($child2);
+		$this->fixture->save($parent);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test_article_mm',
+				'uid_local=' . $parentUid . ' AND uid_foreign=' . $childUid2 .
+					 ' AND sorting=1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithBidirectionalMNRelationCreatesIntermediateRelationRecord() {
+		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent = $this->fixture->find($parentUid);
+		$child = $this->fixture->find($childUid);
+
+		$child->getBidirectional()->add($parent);
+		$this->fixture->save($child);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test_article_mm',
+				'uid_local=' . $parentUid . ' AND uid_foreign=' . $childUid .
+					' AND sorting=0'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithBidirectionalMNRelationCreatesIntermediateRelationRecordAndIncrementsSorting() {
+		$parentUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$parentUid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$childUid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$parent1 = $this->fixture->find($parentUid1);
+		$parent2 = $this->fixture->find($parentUid2);
+		$child = $this->fixture->find($childUid);
+
+		$child->getBidirectional()->add($parent1);
+		$child->getBidirectional()->add($parent2);
+		$this->fixture->save($child);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_test_article_mm',
+				'uid_local=' . $parentUid2 . ' AND uid_foreign=' . $childUid .
+					' AND sorting=1'
+			)
 		);
 	}
 }

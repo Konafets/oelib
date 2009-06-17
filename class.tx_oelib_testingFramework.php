@@ -1524,7 +1524,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @return string the name of the column that marks a record as dummy record
 	 */
-	private function getDummyColumnName($table) {
+	public function getDummyColumnName($table) {
 		$result = 'is_dummy_record';
 
 		if ($this->isSystemTableNameAllowed($table)) {
