@@ -78,6 +78,7 @@ class tx_oelib_Visibility_Node {
 	 */
 	public function addChild(tx_oelib_Visibility_Node $child) {
 		$this->children[] = $child;
+		$child->setParent($this);
 	}
 
 	/**

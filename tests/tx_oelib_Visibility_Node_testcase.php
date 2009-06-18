@@ -104,6 +104,16 @@ class tx_oelib_Visibility_Node_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_addChild_AddsParentToChild() {
+		$childNode = new tx_oelib_Visibility_Node();
+		$this->fixture->addChild($childNode);
+
+		$this->assertSame(
+			$this->fixture,
+			$childNode->getParent()
+		);
+	}
+
 
 	///////////////////////////////
 	// Tests concerning setParent
