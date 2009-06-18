@@ -124,11 +124,6 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-
-	//////////////////////////////////////////////////////////
-	// Tests concerning the visibility of the tree structure
-	//////////////////////////////////////////////////////////
-
 	public function test_RootNodeWithoutChild_IsInvisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array()
@@ -182,6 +177,37 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$children[0]->isVisible()
+		);
+	}
+
+
+	//////////////////////////////////////
+	// Tests concerning makeNodesVisible
+	//////////////////////////////////////
+
+	public function test_makeNodesVisibleForEmptyArrayGiven_DoesNotMakeRootVisible() {
+		$this->fixture = tx_oelib_ObjectFactory::make(
+			'tx_oelib_Visibility_Tree', array()
+		);
+		$this->fixture->makeNodesVisible(array());
+
+		$this->assertFalse(
+			$this->fixture->getRootNode()->isVisible()
+		);
+	}
+
+	public function test_makeNodesVisibleForGivenNode_MakesThisNodeVisible() {
+		$this->fixture = tx_oelib_ObjectFactory::make(
+			'tx_oelib_Visibility_Tree',
+			array('testNode' => false)
+		);
+		$this->fixture->makeNodesVisible(array('testNode'));
+
+		$children = $this->fixture->getRootNode()->getChildren();
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getKeysOfHiddenSubparts()
 		);
 	}
 

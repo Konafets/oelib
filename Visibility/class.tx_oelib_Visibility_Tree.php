@@ -141,6 +141,17 @@ class tx_oelib_Visibility_Tree {
 	public function getRootNode() {
 		return $this->rootNode;
 	}
+
+	/**
+	 * Makes nodes in the tree visible.
+	 *
+	 * @param array $visibleNodes the keys of the visible nodes, may be empty
+	 */
+	public function makeNodesVisible(array $nodeKeys) {
+		foreach ($nodeKeys as $nodeKey) {
+			$this->nodes[$nodeKey]->markAsVisible();
+		}
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Visibility/class.tx_oelib_Visibility_Tree.php']) {
