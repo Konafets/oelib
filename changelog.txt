@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#2834] Feature: Add db::selectColumnForMultiple
 - [#3080] Feature: Add an object factory
 - [#2683] Feature: Implement saving of m:n-related records
 - [#3076] Feature: Let tx_oelib_MapperRegistry add a testing layer when creating mappers in testing mode

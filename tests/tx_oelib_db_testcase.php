@@ -744,6 +744,55 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function selectColumnForMultipleForNoMatchesReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			tx_oelib_db::selectColumnForMultiple(
+				'title', OELIB_TESTTABLE, 'title = "nothing"'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function selectColumnForMultipleForOneMatchReturnsArrayWithColumnContent() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			array('foo'),
+			tx_oelib_db::selectColumnForMultiple(
+				'title', OELIB_TESTTABLE, 'uid = ' . $uid
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function selectColumnForMultipleForTwoMatchReturnsArrayWithColumnContents() {
+		$uid1 = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$uid2 = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'bar')
+		);
+
+		$result = tx_oelib_db::selectColumnForMultiple(
+			'title', OELIB_TESTTABLE, 'uid = ' . $uid1 . ' OR uid = ' . $uid2
+		);
+		sort($result);
+		$this->assertEquals(
+			array('bar', 'foo'),
+			$result
+		);
+	}
+
 
 	//////////////////////////////////////
 	// Tests concerning getAllTableNames

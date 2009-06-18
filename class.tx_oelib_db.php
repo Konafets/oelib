@@ -366,8 +366,6 @@ class tx_oelib_db {
 	 * Executes a SELECT query and returns the result rows as a two-dimensional
 	 * associative array.
 	 *
-	 * If there is more than one matching record, only one will be returned.
-	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
 	 * @param string list of fields to select, may be "*", must not be empty
@@ -382,18 +380,53 @@ class tx_oelib_db {
 	 *               matching records
 	 */
 	public static function selectMultiple(
-		$fields, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
+		$fieldNames, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
 		$limit = ''
 	) {
 		$result = array();
 		$dbResult = self::select(
-			$fields, $tableNames, $whereClause, $groupBy, $orderBy, $limit
+			$fieldNames, $tableNames, $whereClause, $groupBy, $orderBy, $limit
 		);
 
 		while ($recordData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
 			$result[] = $recordData;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+
+		return $result;
+	}
+
+	/**
+	 * Executes a SELECT query and returns one column from the result rows as a
+	 * one-dimensional numeric array.
+	 *
+	 * If there is more than one matching record, only one will be returned.
+	 *
+	 * @throws tx_oelib_Exception_Database if an error has occured
+	 *
+	 * @param string name of the field to select, must not be empty
+	 * @param string comma-separated list of tables from which to select, must
+	 *               not be empty
+	 * @param string WHERE clause, may be empty
+	 * @param string GROUP BY field(s), may be empty
+	 * @param string ORDER BY field(s), may be empty
+	 * @param string LIMIT value ([begin,]max), may be empty
+	 *
+	 * @return array one column from the the query result rows, will be empty if
+	 *               there are no matching records
+	 */
+	public static function selectColumnForMultiple(
+		$fieldName, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
+		$limit = ''
+	) {
+		$rows = self::selectMultiple(
+			$fieldName, $tableNames, $whereClause, $groupBy, $orderBy, $limit
+		);
+
+		$result = array();
+		foreach ($rows as $row) {
+			$result[] = $row[$fieldName];
+		}
 
 		return $result;
 	}

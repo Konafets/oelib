@@ -447,19 +447,19 @@ abstract class tx_oelib_DataMapper {
 			$mnTable = $relationConfiguration['MM'];
 
 			if (!isset($relationConfiguration['MM_opposite_field'])) {
-				$relationUids = tx_oelib_db::selectMultiple(
-					'uid_foreign AS uid', $mnTable, 'uid_local = ' . $data['uid'],
-					'', 'sorting'
+				$relationUids = tx_oelib_db::selectColumnForMultiple(
+					'uid_foreign', $mnTable, 'uid_local = ' . $data['uid'], '',
+					'sorting'
 				);
 			} else {
-				$relationUids = tx_oelib_db::selectMultiple(
-					'uid_local AS uid', $mnTable, 'uid_foreign = ' . $data['uid'],
-					'', 'uid_local'
+				$relationUids = tx_oelib_db::selectColumnForMultiple(
+					'uid_local', $mnTable, 'uid_foreign = ' . $data['uid'], '',
+					'uid_local'
 				);
 			}
 
 			foreach ($relationUids as $relationUid) {
-				$list->add($mapper->find($relationUid['uid']));
+				$list->add($mapper->find($relationUid));
 			}
 		}
 
