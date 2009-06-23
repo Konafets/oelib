@@ -36,6 +36,21 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	tx_oelib_Interface_MailRole, tx_oelib_Interface_Address
 {
 	/**
+	 * @var integer represents the male gender for this user
+	 */
+	const GENDER_MALE = 0;
+
+	/**
+	 * @var integer represents the female gender for this user
+	 */
+	const GENDER_FEMALE = 1;
+
+	/**
+	 * @var integer represents an unknown gender for this user
+	 */
+	const GENDER_UNKNOWN = 2;
+
+	/**
 	 * Gets this user's user name.
 	 *
 	 * @return string this user's user name, will not be empty for valid users
@@ -284,6 +299,24 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 		}
 
 		return $isMember;
+	}
+
+	/**
+	 * Gets this user's gender.
+	 *
+	 * Will return "unknown gender" if sr_feuser_register is not installed.
+	 *
+	 * @return integer the gender of the user, will be
+	 *                 tx_oelib_Model_FrontEndUser::GENDER_FEMALE,
+	 *                 tx_oelib_Model_FrontEndUser::GENDER_MALE or
+	 *                 tx_oelib_Model_FrontEndUser::GENDER_UNKNOWN
+	 */
+	public function getGender() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			return self::GENDER_UNKNOWN;
+		}
+
+		return $this->getAsInteger('gender');
 	}
 }
 

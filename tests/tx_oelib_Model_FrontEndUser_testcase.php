@@ -692,5 +692,54 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	///////////////////////////////
+	// Tests concerning getGender
+	///////////////////////////////
+
+	public function test_getGender_ForNotInstalledSrFeUserRegister_ReturnsGenderUnknown() {
+		if (t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped(
+					'This test is only applicable if sr_feuser_register is ' .
+						'not loaded.'
+			);
+		}
+
+		$this->assertEquals(
+			tx_oelib_Model_FrontEndUser::GENDER_UNKNOWN,
+			$this->fixture->getGender()
+		);
+	}
+
+	public function test_getGender_ForGenderValueZero_ReturnsGenderMale() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped(
+					'This test is only applicable if sr_feuser_register is ' .
+						'loaded.'
+			);
+		}
+		$this->fixture->setData(array('gender' => 0));
+
+		$this->assertEquals(
+			tx_oelib_Model_FrontEndUser::GENDER_MALE,
+			$this->fixture->getGender()
+		);
+	}
+
+	public function test_getGender_ForGenderValueOne_ReturnsGenderFemale() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped(
+					'This test is only applicable if sr_feuser_register is ' .
+						'loaded.'
+			);
+		}
+		$this->fixture->setData(array('gender' => 1));
+
+		$this->assertEquals(
+			tx_oelib_Model_FrontEndUser::GENDER_FEMALE,
+			$this->fixture->getGender()
+		);
+	}
 }
 ?>
