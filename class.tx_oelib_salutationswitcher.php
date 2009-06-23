@@ -73,29 +73,6 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * This function checks whether the FE or BE localization functions are
 	 * available and then uses the appropriate method.
 	 *
-	 * Note: Although this function is deprecated, it must not be removed
-	 * because some pi_base functions rely on its existence.
-	 *
-	 * @param string the local language key for which to
-	 *               return the value, must not be empty
-	 * @param string (unused, for legacy purposes)
-	 * @param boolean whether the output should be passed through
-	 *                htmlspecialchars()
-	 *
-	 * @return string the value from LOCAL_LANG
-	 *
-	 * @deprecated 2007-08-22 Use translate instead.
-	 */
-	public function pi_getLL($key, $unused = '', $useHtmlSpecialChars = false) {
-		return $this->translate($key, $useHtmlSpecialChars);
-	}
-
-	/**
-	 * Retrieves the localized string for the local language key $key.
-	 *
-	 * This function checks whether the FE or BE localization functions are
-	 * available and then uses the appropriate method.
-	 *
 	 * In $this->conf['salutation'], a suffix to the key may be set (which may
 	 * be either 'formal' or 'informal'). If a corresponding key exists, the
 	 * formal/informal localized string is used instead.

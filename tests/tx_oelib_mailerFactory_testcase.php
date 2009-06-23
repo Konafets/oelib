@@ -96,15 +96,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetMailerAfterDiscardInstanceReturnsNewObject() {
-		tx_oelib_mailerFactory::getInstance()->discardInstance();
-
-		$this->assertNotSame(
-			$this->fixture,
-			tx_oelib_mailerFactory::getInstance()->getMailer()
-		);
-	}
-
 	public function testStoreAnEmailAndGetIt() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],

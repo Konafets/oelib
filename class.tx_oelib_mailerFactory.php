@@ -100,15 +100,6 @@ class tx_oelib_mailerFactory {
 	}
 
 	/**
-	 * Discards the current mailer instance.
-	 *
-	 * @deprecated 2009-02-04 use purgeInstance instead
-	 */
-	public function discardInstance() {
-		self::purgeInstance();
-	}
-
-	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
 	 */

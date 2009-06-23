@@ -3723,35 +3723,6 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSecurePiVarsDoesNotDefinePiVarArrayIfPiVarToSecureIsNotDefinedBefore() {
-		unset($this->fixture->piVars);
-		$this->fixture->securePiVars(array('foo'));
-
-		$this->assertFalse(
-			is_array($this->fixture->piVars)
-		);
-	}
-
-	public function testSecurePiVarsDoesNotAddElementToPiVarArrayIfPiVarToSecureIsNotDefinedBefore() {
-		$this->fixture->piVars = array('bar' => 1);
-		$this->fixture->securePiVars(array('foo'));
-
-		$this->assertEquals(
-			array('bar' => 1),
-			$this->fixture->piVars
-		);
-	}
-
-	public function testSecurePiVarsIntvalsAlreadyExistingPiVar() {
-		$this->fixture->piVars = array('bar' => 1.1);
-		$this->fixture->securePiVars(array('bar'));
-
-		$this->assertEquals(
-			array('bar' => 1),
-			$this->fixture->piVars
-		);
-	}
-
 
 	/////////////////////////////////////////
 	// Tests concerning ensureContentObject

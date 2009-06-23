@@ -81,8 +81,8 @@ final class tx_oelib_testingFramework {
 	 *            testing framework has access
 	 */
 	private $allowedSystemTables = array(
-		'be_users', 'cache_pages', 'fe_groups', 'fe_users', 'pages',
-		'sys_template', 'tt_content'
+		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
+		'tt_content'
 	);
 
 	/**
@@ -351,50 +351,6 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'tt_content', $completeRecordData
-		);
-	}
-
-	/**
-	 * Creates a new page cache entry.
-	 *
-	 * This function must not be called starting from TYPO3 4.3.
-	 *
-	 * @param integer UID of the page for which a cache entry should be
-	 *                created, must be > 0
-	 * @param array associative array that contains the data to save
-	 *              as an entry in "cache_pages", may be empty, but must
-	 *              not contain the keys "page_id" or "id"
-	 *
-	 * @return integer the ID of the new cache entry, will be > 0
-	 *
-	 * @deprecated 2009-03-30
-	 */
-	public function createPageCacheEntry(
-		$pageId = 0, array $recordData = array()
-	) {
-		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
-			throw new Exception(
-				'The function createPageCacheEntry must not be used in TYPO3 ' .
-				'versions above 4.2.'
-			);
-		}
-
-		if (isset($recordData['id'])) {
-			throw new Exception(
-				'The column "id" must not be set in $recordData.'
-			);
-		}
-		if (isset($recordData['page_id'])) {
-			throw new Exception(
-				'The column "page_id" must not be set in $recordData.'
-			);
-		}
-
-		$completeRecordData = $recordData;
-		$completeRecordData['page_id'] = $pageId;
-
-		return $this->createRecordWithoutTableNameChecks(
-			'cache_pages', $completeRecordData
 		);
 	}
 
@@ -1533,32 +1489,6 @@ final class tx_oelib_testingFramework {
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Retrieves a database result row as an associative array.
-	 *
-	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
-	 *                                             record
-	 *
-	 * @param mixed either a DB query result resource or false (for failed
-	 *              queries)
-	 *
-	 * @return array the database result as an associative array
-	 *
-	 * @deprecated 2009-01-25, use tx_oelib_db::selectSingle instead
-	 */
-	public function getAssociativeDatabaseResult($queryResult) {
-		if (!$queryResult) {
-			throw new tx_oelib_Exception_Database();
-		}
-
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($queryResult);
-		if (!$row) {
-			throw new tx_oelib_Exception_EmptyQueryResult();
-		}
-
-		return $row;
 	}
 
 	/**

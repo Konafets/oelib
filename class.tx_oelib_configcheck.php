@@ -344,46 +344,6 @@ class tx_oelib_configcheck {
 	 * Checks whether the CSS file (if a name is provided) actually is a file.
 	 * If no file name is provided, no error will be displayed as this is
 	 * perfectly allowed.
-	 *
-	 * @param boolean whether the CSS file can also be selected via flexforms
-	 *
-	 * @deprecated 0.4.0 - 2007-12-15 use checkCssFileFromConstants() instead
-	 */
-	protected function checkCssFile($canUseFlexforms = false) {
-		if ($this->objectToCheck->hasConfValueString(
-				'cssFile',
-				's_template_special'
-			)
-		) {
-			$fileName = $this->objectToCheck->getConfValueString(
-				'cssFile',
-				's_template_special',
-				true
-			);
-			if (!is_file($GLOBALS['TSFE']->tmpl->getFileName($fileName))) {
-				$message = 'The specified CSS file <strong>'
-					.htmlspecialchars($fileName)
-					.'</strong> cannot be read. '
-					.'If that variable does not point to an existing file, no '
-					.'special CSS will be used for styling this extension\'s HTML. '
-					.'Please either create the file <strong>'.$fileName
-					.'</strong> or select an existing file using the TS '
-					.'setup variable <strong>'.$this->getTSSetupPath()
-					.'cssFile</strong>';
-				if ($canUseFlexforms) {
-					$message .= ' or via FlexForms';
-				}
-				$message .= '. If you do not want to use any special CSS, you '
-					.'can set that variable to an empty string.';
-				$this->setErrorMessage($message);
-			}
-		}
-	}
-
-	/**
-	 * Checks whether the CSS file (if a name is provided) actually is a file.
-	 * If no file name is provided, no error will be displayed as this is
-	 * perfectly allowed.
 	 */
 	protected function checkCssFileFromConstants() {
 		if ($this->objectToCheck->hasConfValueString('cssFile')) {

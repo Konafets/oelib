@@ -78,17 +78,6 @@ class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHeaderProxyInSameModeAfterDiscardInstanceReturnsNewInstance() {
-		tx_oelib_headerProxyFactory::purgeInstance();
-		$instance = tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy();
-		tx_oelib_headerProxyFactory::getInstance()->discardInstance();
-
-		$this->assertNotSame(
-			$instance,
-			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
-		);
-			}
-
 	public function testGetHeaderProxyReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
 		$this->assertSame(
 			$this->fixture,

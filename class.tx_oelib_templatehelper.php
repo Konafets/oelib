@@ -1002,58 +1002,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Recursively creates a comma-separated list of subpage UIDs from
-	 * a list of pages. The result also includes the original pages.
-	 * The maximum level of recursion can be limited:
-	 * 0 = no recursion (the default value, will return $startPages),
-	 * 1 = only direct child pages,
-	 * ...,
-	 * 250 = all descendants for all sane cases
-	 *
-	 * Note: The returned page list is _not_ sorted.
-	 *
-	 * @param string comma-separated list of page UIDs to start from,
-	 *               must only contain numbers and commas, may be empty
-	 * @param integer maximum depth of recursion, must be >= 0
-	 *
-	 * @return string comma-separated list of subpage UIDs including the
-	 *                UIDs provided in $startPages, will be empty if
-	 *                $startPages is empty
-	 *
-	 * @deprecated 2008-10-04 use tx_oelib_db::createRecursivePageList instead
-	 */
-	public function createRecursivePageList($startPages, $recursionDepth = 0) {
-		return tx_oelib_db::createRecursivePageList(
-			$startPages, $recursionDepth
-		);
-	}
-
-	/**
-	 * Intvals all piVars that are supposed to be integers:
-	 * showUid, pointer, mode
-	 *
-	 * If some of these piVars are not set, this function will not set them
-	 * either.
-	 *
-	 * If $this->piVars is empty, this function is a no-op.
-	 *
-	 * @param array array of array keys for $this->piVars that will be
-	 *              intvaled as well
-	 *
-	 * @deprecated 2008-08-24 use ensureIntegerPiVars() instead
-	 */
-	protected function securePiVars(array $additionalPiVars = array()) {
-		if ($this->piVars) {
-			$defaultIntPiVars = array('showUid', 'pointer', 'mode');
-			foreach (array_merge($defaultIntPiVars, $additionalPiVars) as $key) {
-				if (isset($this->piVars[$key])) {
-					$this->piVars[$key] = intval($this->piVars[$key]);
-				}
-			}
-		}
-	}
-
-	/**
 	 * Intvals all piVars that are supposed to be integers. These are the keys
 	 * showUid, pointer and mode and the keys provided in $additionalPiVars.
 	 *
@@ -1349,45 +1297,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	public function getCurrentBePageId() {
 		return tx_oelib_PageFinder::getInstance()->getPageUid();
-	}
-
-	/**
-	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
-	 * longer accessible statically.
-	 *
-	 * Returns a part of a WHERE clause which will filter out records with
-	 * start/end times or deleted/hidden/fe_groups fields set to values that
-	 * should de-select them according to the current time, preview settings or
-	 * user login.
-	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
-	 * determines for each table which of these features applies to that table.
-	 *
-	 * @param string table name found in the $TCA array
-	 * @param integer If $showHidden is set (0/1), any hidden-fields in
-	 *                records are ignored. NOTICE: If you call this function,
-	 *                consider what to do with the show_hidden parameter.
-	 *                Maybe it should be set? See tslib_cObj->enableFields
-	 *                where it's implemented correctly.
-	 * @param array Array you can pass where keys can be "disabled",
-	 *              "starttime", "endtime", "fe_group" (keys from
-	 *              "enablefields" in TCA) and if set they will make sure
-	 *              that part of the clause is not added. Thus disables
-	 *              the specific part of the clause. For previewing etc.
-	 * @param boolean If set, enableFields will be applied regardless of
-	 *                any versioning preview settings which might otherwise
-	 *                disable enableFields.
-	 *
-	 * @return string the clause starting like " AND ...=... AND ...=..."
-	 *
-	 * @deprecated 2008-09-21 use tx_oelib_db::enableFields instead.
-	 */
-	public function enableFields(
-		$table, $showHidden = -1, array $ignoreArray = array(),
-		$noVersionPreview = false
-	) {
-		return tx_oelib_db::enableFields(
-			$table, $showHidden, $ignoreArray, $noVersionPreview
-		);
 	}
 
 	/**

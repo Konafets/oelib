@@ -94,15 +94,6 @@ class tx_oelib_headerProxyFactory {
 	}
 
 	/**
-	 * Discards the current header proxy instance.
-	 *
-	 * @deprecated 2009-02-04 use purgeInstance instead
-	 */
-	public function discardInstance() {
-		self::purgeInstance();
-	}
-
-	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
 	 */
