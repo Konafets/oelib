@@ -63,6 +63,22 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
+
+	/////////////////////
+	// Utility functions
+	/////////////////////
+
+	/**
+	 * Adds the headers to the static test e-mail as LF cannot be used when it
+	 * is defined.
+	 */
+	private function addHeadersToTestEmail() {
+		self::$email['headers'] = 'From: any-sender@email-address.org' . LF .
+			'CC: "another recipient" <another-recipient@email-address.org>' . LF .
+			'Reply-To: any-sender@email-address.org';
+	}
+
+
 	public function testGetMailerInTestMode() {
 		$this->assertEquals(
 			'tx_oelib_emailCollector',
@@ -489,8 +505,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			array(
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
-				'message' => '<h1>Very cool HTML message</h1>' . CRLF . CRLF.
-					'<p>Great to have HTML e-mails in oelib.</p>',
+				'message' => $htmlMessage,
 				'headers' => 'MIME-Version: 1.0' . CRLF .
 					'From: any-sender@email-address.org' . CRLF .
 					'Content-Transfer-Encoding: quoted-printable' . CRLF .
@@ -601,19 +616,16 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-
-	/////////////////////
-	// Utility functions
-	/////////////////////
-
 	/**
-	 * Adds the headers to the static test e-mail as LF cannot be used when it
-	 * is defined.
+	 * @test
 	 */
-	private function addHeadersToTestEmail() {
-		self::$email['headers'] = 'From: any-sender@email-address.org' . LF .
-			'CC: "another recipient" <another-recipient@email-address.org>' . LF .
-			'Reply-To: any-sender@email-address.org';
+	public function emailBodyWithOneCrlfStillContainsOneCrlf() {
+		$this->fixture->sendEmail('', '', 'foo' . CRLF . 'bar');
+
+		$this->assertEquals(
+			'foo' . CRLF . 'bar',
+			$this->fixture->getLastBody()
+		);
 	}
 }
 ?>
