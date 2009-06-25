@@ -300,7 +300,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => '8bit',
+			'text_encoding' => 'base64',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
@@ -361,7 +361,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => '8bit',
+			'text_encoding' => 'base64',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
@@ -424,7 +424,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => '8bit',
+			'text_encoding' => 'base64',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
