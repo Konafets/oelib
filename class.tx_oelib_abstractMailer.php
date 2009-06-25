@@ -153,11 +153,11 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * Formats the e-mail body if this is enabled.
 	 *
-	 * Replaces single linefeeds with carriage return plus linefeed and strips
-	 * surplus blank lines, so there are no more than two linefeeds behind one
-	 * another.
+	 * Replaces single linefeeds or single carriage returns with carriage return
+	 * plus linefeed and strips surplus blank lines, so there are no more than
+	 * two line breaks behind one another.
 	 *
-	 * @param string raw e-mail body, must not be empty
+	 * @param $rawEmailBody string raw e-mail body, must not be empty
 	 *
 	 * @return string e-mail body, formatted if formatting is enabled,
 	 *                will not be empty
@@ -167,9 +167,26 @@ abstract class tx_oelib_abstractMailer {
 			return $rawEmailBody;
 		}
 
-		$body = trim(preg_replace('/\n|\r/', CRLF, $rawEmailBody));
+		// Replaces multiple occurences of CR or LF (> 2) with the placeholder
+		// ###DOUBLECRLF###. We have to do this to prevent the following
+		// processing from changing this part. We will replace the placeholder
+		// at the end of the processing with a double CRLF.
+		// CRCR => ###DOUBLECRLF###, CRCRCR => ###DOUBLECRLF###, etc.
+		$body = preg_replace('/\r{2,}/', '###DOUBLECRLF###', $rawEmailBody);
+		// LFLF => ###DOUBLECRLF###, LFLFLF => ###DOUBLECRLF###, etc.
+		$body = preg_replace('/\n{2,}/', '###DOUBLECRLF###', $body);
 
-		return preg_replace('/(\r\n){2,}/', CRLF.CRLF, $body);
+		// Replaces each CR or LF left with CRLF.
+		// CR => CRLF, LF => CRLF, CRLF => CRLFCRLF
+		$body = preg_replace('/(\r|\n)/', CRLF, $body);
+
+		// Replaces all double CRLF occurences (which are a result of the
+		// previous transformation) with a single CRLF.
+		$body = str_replace(CRLF . CRLF, CRLF, $body);
+
+		// Finally replaces the placeholder with double CRLF and returns the
+		// result.
+		return trim(str_replace('###DOUBLECRLF###', CRLF . CRLF, $body));
 	}
 
 	/**
