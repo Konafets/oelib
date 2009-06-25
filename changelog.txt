@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3062] Feature: Add getters for the last name and the first name to the oelib front-end user model
 - [#2885] Feature: Add FrontEndUser::getGender
 - [#3044] Change: Remove deprecated functions for 0.7.0
 - [#2692| Feature: Add markNodesVisible function to visibility tree

@@ -741,5 +741,83 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getGender()
 		);
 	}
+
+
+	////////////////////////////////////
+	// Tests concerning the first name
+	////////////////////////////////////
+
+	public function test_hasFirstName_ForNoFirstNameSet_ReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasFirstName()
+		);
+	}
+
+	public function test_hasFirstName_ForFirstNameSet_ReturnsTrue() {
+		$this->fixture->setData(array('first_name' => 'foo'));
+
+		$this->assertTrue(
+			$this->fixture->hasFirstName()
+		);
+	}
+
+	public function test_getFirstName_ForNoFirstNameSet_ReturnsEmptyString() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getFirstName()
+		);
+	}
+
+	public function test_getFirstName_ForFirstNameSet_ReturnsFirstName() {
+		$this->fixture->setData(array('first_name' => 'foo'));
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getFirstName()
+		);
+	}
+
+
+	///////////////////////////////////
+	// Tests concerning the last name
+	///////////////////////////////////
+
+	public function test_hasLastName_ForNoLastNameSet_ReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasLastName()
+		);
+	}
+
+	public function test_hasLastName_ForLastNameSet_ReturnsTrue() {
+		$this->fixture->setData(array('last_name' => 'bar'));
+
+		$this->assertTrue(
+			$this->fixture->hasLastName()
+		);
+	}
+
+	public function test_getLastName_ForNoLastNameSet_ReturnsEmptyString() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getLastName()
+		);
+	}
+
+	public function test_getLastName_ForLastNameSet_ReturnsLastName() {
+		$this->fixture->setData(array('last_name' => 'bar'));
+
+		$this->assertEquals(
+			'bar',
+			$this->fixture->getLastName()
+		);
+	}
 }
 ?>

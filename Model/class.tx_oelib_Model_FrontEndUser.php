@@ -71,13 +71,8 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	public function getName() {
 		if ($this->hasString('name')) {
 			$result = $this->getAsString('name');
-		} elseif (
-			($this->hasString('first_name')) || ($this->hasString('last_name'))
-		) {
-			$result = trim(
-				$this->getAsString('first_name') . ' ' .
-					$this->getAsString('last_name')
-			);
+		} elseif ($this->hasFirstName() || $this->hasLastName()) {
+			$result = trim($this->getFirstName() . ' ' . $this->getLastName());
 		} else {
 			$result = $this->getUserName();
 		}
@@ -91,8 +86,8 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * @return boolean true if this user has a non-empty name, false otherwise
 	 */
 	public function hasName() {
-		return ($this->hasString('name') || $this->hasString('first_name')
-			|| $this->hasString('last_name'));
+		return ($this->hasString('name') || $this->hasFirstName()
+			|| $this->hasLastName());
 	}
 
 	/**
@@ -317,6 +312,44 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 		}
 
 		return $this->getAsInteger('gender');
+	}
+
+	/**
+	 * Checks whether this user has a first name.
+	 *
+	 * @return boolean true if the user has a first name, false otherwise
+	 */
+	public function hasFirstName() {
+		return $this->hasString('first_name');
+	}
+
+	/**
+	 * Gets this user's first name
+	 *
+	 * @return string the first name of this user, will be empty if no first
+	 *                name is set
+	 */
+	public function getFirstName() {
+		return $this->getAsString('first_name');
+	}
+
+	/**
+	 * Checks whether this user has a last name.
+	 *
+	 * @return boolean true if the user has a last name, false otherwise
+	 */
+	public function hasLastName() {
+		return $this->hasString('last_name');
+	}
+
+	/**
+	 * Gets this user's last name
+	 *
+	 * @return string the last name of this user, will be empty if no last name
+	 *                is set
+	 */
+	public function getLastName() {
+		return $this->getAsString('last_name');
 	}
 }
 
