@@ -1,4 +1,5 @@
 0.6.1 - currently working on
+- [#3135] Change: Use $_SERVER['REQUEST_TIME'] in Mail_mime class
 - [#3056] Feature: E-mails have double line breaks
 - [#3080] Feature: Add an object factory
 - [#3068] Fix: Value of $functionName not quoted in the data mapper
