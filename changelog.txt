@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3135] Change: Use $_SERVER['REQUEST_TIME'] in Mail_mime class
 - [#3056] Feature: E-mails have double line breaks
 - [#3062] Feature: Add getters for the last name and the first name to the oelib front-end user model
 - [#2885] Feature: Add FrontEndUser::getGender

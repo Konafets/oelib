@@ -294,11 +294,11 @@ class Mail_mime
 						return $filedata;
 				}
 				$this->_html_images[] = array(
-																			'body'   => $filedata,
-																			'name'   => $filename,
-																			'c_type' => $c_type,
-																			'cid'    => md5(uniqid(time()))
-																		 );
+					'body'   => $filedata,
+					'name'   => $filename,
+					'c_type' => $c_type,
+					'cid'    => md5(uniqid($_SERVER['REQUEST_TIME']))
+				);
 				return true;
 		}
 
