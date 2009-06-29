@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3138] Change: Add ?: to subpatterns in preg* functions to deactivate capturing of subpatterns where it makes sense
 - [#3136] Change: Remove srand() call from Mail_mime class
 - [#3135] Change: Use $_SERVER['REQUEST_TIME'] in Mail_mime class
 - [#3056] Feature: E-mails have double line breaks

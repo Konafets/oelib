@@ -435,7 +435,7 @@ final class tx_oelib_testingFramework {
 		if ($frontEndUserGroupsWithoutSpaces == '') {
 			$frontEndUserGroupsWithoutSpaces = $this->createFrontEndUserGroup();
 		}
-		if (!preg_match('/^([1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
+		if (!preg_match('/^(?:[1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
 		) {
 			throw new Exception(
 				'$frontEndUserGroups must contain a comma-separated list of UIDs. '

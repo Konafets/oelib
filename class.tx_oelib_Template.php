@@ -663,7 +663,7 @@ class tx_oelib_Template {
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
 		return (boolean) preg_match(
-			'/^###[a-zA-Z]([a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
+			'/^###[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
 		);
 	}
 

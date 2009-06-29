@@ -1640,7 +1640,7 @@ class tx_oelib_configcheck {
 
 		if ($allowInternalAddresses) {
 			$isValid = preg_match(
-				'/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)$/', $value
+				'/^(?:[a-zA-Z0-9_\-\.]+)@(?:[a-zA-Z0-9_\-\.]+)$/', $value
 			);
 		} else {
 			$isValid = t3lib_div::validEmail($value);

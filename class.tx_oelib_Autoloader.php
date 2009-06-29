@@ -84,7 +84,7 @@ class tx_oelib_Autoloader {
 		$matches = array();
 
 		if (!preg_match(
-			'/tx_([a-z0-9]+)_(([a-zA-Z0-9]+_)*)([a-zA-Z0-9]+)/', $className, $matches
+			'/tx_([a-z0-9]+)_((?:[a-zA-Z0-9]+_)*)(?:[a-zA-Z0-9]+)/', $className, $matches
 		)) {
 			return '';
 		}

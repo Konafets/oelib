@@ -178,7 +178,7 @@ abstract class tx_oelib_abstractMailer {
 
 		// Replaces each CR or LF left with CRLF.
 		// CR => CRLF, LF => CRLF, CRLF => CRLFCRLF
-		$body = preg_replace('/(\r|\n)/', CRLF, $body);
+		$body = preg_replace('/(?:\r|\n)/', CRLF, $body);
 
 		// Replaces all double CRLF occurences (which are a result of the
 		// previous transformation) with a single CRLF.
