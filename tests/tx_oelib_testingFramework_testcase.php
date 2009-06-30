@@ -1152,7 +1152,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 
 	public function testCleanUpDeletesCreatedDummyUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
-		$dummyFile = $this->fixture->createDummyFile();
+		$this->fixture->createDummyFile();
 
 		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
 
@@ -2938,7 +2938,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$dummyFolder = $this->fixture->getPathRelativeToUploadDirectory(
 			$this->fixture->createDummyFolder('sub-folder')
 		);
-		$dummyFile = $this->fixture->createDummyZipArchive($dummyFolder . 'foo.zip');
+		$this->fixture->createDummyZipArchive($dummyFolder . 'foo.zip');
 
 		$this->assertTrue(
 			file_exists($this->fixture->getUploadFolderPath() . $dummyFolder . 'foo.zip')
@@ -3022,7 +3022,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
-		$dummyFolder = $this->fixture->createDummyFolder('sub-folder');
+		$this->fixture->createDummyFolder('sub-folder');
 		$dummyFile = $this->fixture->createDummyZipArchive(
 			'foo.zip', array($this->fixture->createDummyFile('sub-folder/foo.txt'))
 		);
@@ -3037,6 +3037,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesUploadFolder() {
+		$this->markAsSkippedForNoZipArchive();
+
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$this->fixture->createDummyZipArchive();
 
@@ -3044,6 +3046,8 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+		$this->markAsSkippedForNoZipArchive();
+
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$dummyFile = $this->fixture->createDummyZipArchive();
 
