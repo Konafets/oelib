@@ -3,7 +3,7 @@
 - [#3138] Change: Add ?: to subpatterns in preg* functions to deactivate capturing of subpatterns where it makes sense
 - [#3136] Change: Remove srand() call from Mail_mime class
 - [#3135] Change: Use $_SERVER['REQUEST_TIME'] in Mail_mime class
-- [#3056] Feature: E-mails have double line breaks
+- [#3056] Fix: E-mails have double line breaks
 - [#3062] Feature: Add getters for the last name and the first name to the oelib front-end user model
 - [#2885] Feature: Add FrontEndUser::getGender
 - [#3044] Change: Remove deprecated functions for 0.7.0
