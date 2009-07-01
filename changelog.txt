@@ -1,4 +1,4 @@
-0.6.1 - currently working on
+0.6.1 - released 2009-07-01
 - [#2988] Fix: Skip the ZipArchive tests if no ZipArchive is available
 - [#3136] Change: Remove srand() call from Mail_mime class
 - [#3135] Change: Use $_SERVER['REQUEST_TIME'] in Mail_mime class
