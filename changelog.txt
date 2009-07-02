@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3158] Feature: Add getFirstOrFullName and getLastOrFullName to front-end user model
 - [#2988] Fix: Skip the ZipArchive tests if no ZipArchive is available
 - [#3138] Change: Add ?: to subpatterns in preg* functions to deactivate capturing of subpatterns where it makes sense
 - [#3136] Change: Remove srand() call from Mail_mime class

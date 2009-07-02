@@ -781,6 +781,26 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_getFirstOrFullName_ForUserWithFirstName_ReturnsFirstName() {
+		$this->fixture->setData(
+			array('first_name' => 'foo', 'name' => 'foo bar')
+		);
+
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getFirstOrFullName()
+		);
+	}
+
+	public function test_getFirstOrFullName_ForUserWithoutFirstName_ReturnsName() {
+		$this->fixture->setData(array('name' => 'foo bar'));
+
+		$this->assertEquals(
+			'foo bar',
+			$this->fixture->getFirstOrFullName()
+		);
+	}
+
 
 	///////////////////////////////////
 	// Tests concerning the last name
@@ -817,6 +837,26 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'bar',
 			$this->fixture->getLastName()
+		);
+	}
+
+	public function test_getLastOrFullName_ForUserWithLastName_ReturnsLastName() {
+		$this->fixture->setData(
+			array('last_name' => 'bar', 'name' => 'foo bar')
+		);
+
+		$this->assertEquals(
+			'bar',
+			$this->fixture->getLastOrFullName()
+		);
+	}
+
+	public function test_getLastOrFullName_ForUserWithoutLastName_ReturnsName() {
+		$this->fixture->setData(array('name' => 'foo bar'));
+
+		$this->assertEquals(
+			'foo bar',
+			$this->fixture->getLastOrFullName()
 		);
 	}
 }

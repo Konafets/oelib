@@ -351,6 +351,32 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	public function getLastName() {
 		return $this->getAsString('last_name');
 	}
+
+	/**
+	 * Gets this user's first name; if the user does not have a first name the
+	 * full name is returned instead.
+	 *
+	 * @return string the first name of this user if it exists, will return the
+	 *                user's full name otherwise
+	 */
+	public function getFirstOrFullName() {
+		return ($this->hasFirstName())
+			? $this->getFirstName()
+			: $this->getName();
+	}
+
+	/**
+	 * Gets this user's last name; if the user does not have a last name the
+	 * full name is returned instead.
+	 *
+	 * @return string the last name of this user if it exists, will return the
+	 *                user's full name otherwise
+	 */
+	public function getLastOrFullName() {
+		return ($this->hasLastName())
+			? $this->getLastName()
+			: $this->getName();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {
