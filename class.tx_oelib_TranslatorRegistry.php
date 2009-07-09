@@ -313,6 +313,30 @@ class tx_oelib_TranslatorRegistry {
 
 		return $result;
 	}
+
+	/**
+	 * Sets the language for the translator.
+	 *
+	 * @param string $languageKey the language key to set for the translator,
+	 *        must not be empty
+	 */
+	public function setLanguageKey($languageKey) {
+		if ($languageKey == '') {
+			throw new Exception('The given language key must not be empty.');
+		}
+
+		$this->languageKey = $languageKey;
+	}
+
+	/**
+	 * Returns the language key set for the translator.
+	 *
+	 * @return string the language key of the translator, will not be
+	 *         empty
+	 */
+	public function getLanguageKey() {
+		return $this->languageKey;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_TranslatorRegistry.php']) {
