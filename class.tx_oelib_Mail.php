@@ -61,6 +61,11 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	private static $cssFileCache = array();
 
 	/**
+	 * @var array additional headers which should be added to the e-mail headers
+	 */
+	private $additionalHeaders = array();
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -311,6 +316,44 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	private function cssFileIsCached($cssFile) {
 		return isset(self::$cssFileCache[$cssFile]);
+	}
+
+	/**
+	 * Sets the return path of the e-mail.
+	 *
+	 * The return path is stored in a way that the MIME mail class can read it.
+	 * If a return path has already been set, it will be overridden by the new
+	 * value.
+	 *
+	 * @param string $returnPath the e-mail address for the return path, may be
+	 *               empty
+	 */
+	public function setReturnPath($returnPath) {
+		if ($returnPath == '') {
+			return;
+		}
+
+		$this->additionalHeaders['Return-path'] = $returnPath;
+	}
+
+	/**
+	 * Returns the additional headers for this e-mail.
+	 *
+	 * @return array the additional headers for this e-mail, will be empty if no
+	 *               additional headers have been set
+	 */
+	public function getAdditionalHeaders() {
+		return $this->additionalHeaders;
+	}
+
+	/**
+	 * Checks whether this e-mail has any additional headers.
+	 *
+	 * @return boolean true if this e-mail has any additional headers, false
+	 *                 otherwise
+	 */
+	public function hasAdditionalHeaders() {
+		return !empty($this->additionalHeaders);
 	}
 }
 

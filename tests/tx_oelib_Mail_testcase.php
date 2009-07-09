@@ -478,5 +478,69 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 			$this->fixture->getHTMLMessage()
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning the additional headers
+	////////////////////////////////////////////
+
+	public function test_getAdditionalHeaders_ForNoAdditionalHeaders_ReturnsEmptyArray() {
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAdditionalHeaders()
+		);
+	}
+
+	public function test_setReturnPath_ForNoReturnPathSet_SetsGivenReturnPath() {
+		$this->fixture->setReturnPath('foo@bar.com');
+
+		$this->assertEquals(
+			array('Return-path' => 'foo@bar.com'),
+			$this->fixture->getAdditionalHeaders()
+		);
+	}
+
+	public function test_setReturnPath_ForAlreadySetReturnPath_OverridesOldReturnPath() {
+		$this->fixture->setReturnPath('old@mail.com');
+		$this->fixture->setReturnPath('foo@bar.com');
+
+		$this->assertEquals(
+			array('Return-path' => 'foo@bar.com'),
+			$this->fixture->getAdditionalHeaders()
+		);
+	}
+
+	public function test_setReturnPath_ForNoSetReturnPathAndEmptyStringGiven_doesNotSetAnyReturnPath() {
+		$this->fixture->setReturnPath('');
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAdditionalHeaders()
+		);
+	}
+
+	public function test_setReturnPath_ForSetReturnPathAndEmptyStringGiven_doesNotUnsetReturnPath() {
+		$this->fixture->setReturnPath('foo@bar.com');
+		$this->fixture->setReturnPath('');
+
+		$this->assertEquals(
+			array('Return-path' => 'foo@bar.com'),
+			$this->fixture->getAdditionalHeaders()
+		);
+	}
+
+	public function test_hasAdditionalHeaders_ForNoAdditionalHeadersSet_ReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasAdditionalHeaders()
+		);
+	}
+
+	public function test_hasAdditionalHeaders_ForAdditionalHeadersSet_ReturnsTrue() {
+		$this->fixture->setReturnPath('foo@bar.com');
+
+		$this->assertTrue(
+			$this->fixture->hasAdditionalHeaders()
+		);
+	}
 }
 ?>

@@ -100,6 +100,9 @@ abstract class tx_oelib_abstractMailer {
 				$this->formatMailRole($email->getSender())
 			)
 		);
+		if ($email->hasAdditionalHeaders()) {
+			$mimeEMail->headers($email->getAdditionalHeaders());
+		}
 
 		if ($email->hasMessage()) {
 			$mimeEMail->setTXTBody($this->formatEmailBody($email->getMessage()));

@@ -627,5 +627,36 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLastBody()
 		);
 	}
+
+
+	///////////////////////////////////////////////////////////
+	// Tests concerning the additional headers in the e-mails
+	///////////////////////////////////////////////////////////
+
+	public function test_send_ForEmailWithAdditionalHeader_AddsThisHeaderToSentMail() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+		$eMail->setReturnPath('mail@foobar.com');
+
+		$this->fixture->send($eMail);
+
+		$sentMail = $this->fixture->getLastEmail();
+
+		$this->assertContains(
+			'Return-path: mail@foobar.com',
+			$sentMail['headers']
+		);
+	}
 }
 ?>
