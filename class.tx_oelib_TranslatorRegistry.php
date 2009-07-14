@@ -222,12 +222,10 @@ class tx_oelib_TranslatorRegistry {
 					$extensionName
 				);
 
-				if (isset($labelsFromTyposcript[$this->languageKey])
-					&& is_array($labelsFromTyposcript[$this->languageKey])
-				) {
+				if (!empty($labelsFromTyposcript)) {
 					$localizedLabels[$this->languageKey] = array_merge(
 						$localizedLabels[$this->languageKey],
-						$labelsFromTyposcript[$this->languageKey]
+						$labelsFromTyposcript
 					);
 				}
 			}
@@ -284,6 +282,8 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * Returns the localized labels from an extension's TypoScript setup.
 	 *
+	 * Returns only the labels set for the language stored in $this->languageKey
+	 *
 	 * @param string the extension name to get the localized labels from
 	 *               TypoScript setup for, must not be empty, the corresponding
 	 *               extension must be loaded
@@ -297,29 +297,20 @@ class tx_oelib_TranslatorRegistry {
 		}
 
 		$result = array();
+		$sourceCharset = $this->getCharsetOfLanguage($this->languageKey);
+		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG.' .
+			$this->languageKey;
 
-		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG';
 		$configuration = tx_oelib_ConfigurationRegistry::get($namespace);
-		foreach ($configuration->getArrayKeys() as $languageCode) {
-			// Removes the trailing dot.
-			$languageCode = str_replace('.', '', $languageCode);
-
-			$sourceCharset = $this->getCharsetOfLanguage($languageCode);
-
-			$languageConfiguration = tx_oelib_ConfigurationRegistry::get(
-				$namespace . '.' . $languageCode
+		foreach ($configuration->getArrayKeys() as $key) {
+			// Converts the label from the source charset to the render
+			// charset.
+			$result[$key] =	$this->charsetConversion->conv(
+				$configuration->getAsString($key),
+				$sourceCharset,
+				$this->renderCharset,
+				true
 			);
-			foreach ($languageConfiguration->getArrayKeys() as $key) {
-				// Converts the label from the source charset to the render
-				// charset.
-				$result[$languageCode][$key] =
-					$this->charsetConversion->conv(
-						$languageConfiguration->getAsString($key),
-						$sourceCharset,
-						$this->renderCharset,
-						true
-					);
-			}
 		}
 
 		return $result;
