@@ -211,14 +211,25 @@ class tx_oelib_TranslatorRegistry {
 
 		if (!isset($this->translators[$extensionName])) {
 			$localizedLabels = $this->getLocalizedLabelsFromFile($extensionName);
-
 			// Overrides the localized labels with labels from TypoScript only
 			// in the front end.
-			if (isset($GLOBALS['TSFE'])) {
-				$localizedLabels = array_merge(
-					$localizedLabels,
-					$this->getLocalizedLabelsFromTypoScript($extensionName)
+
+			if (isset($GLOBALS['TSFE'])
+				&& isset($localizedLabels[$this->languageKey])
+				&& is_array($localizedLabels[$this->languageKey])
+			) {
+				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript(
+					$extensionName
 				);
+
+				if (isset($labelsFromTyposcript[$this->languageKey])
+					&& is_array($labelsFromTyposcript[$this->languageKey])
+				) {
+					$localizedLabels[$this->languageKey] = array_merge(
+						$localizedLabels[$this->languageKey],
+						$labelsFromTyposcript[$this->languageKey]
+					);
+				}
 			}
 
 			$this->translators[$extensionName] = tx_oelib_ObjectFactory::make(

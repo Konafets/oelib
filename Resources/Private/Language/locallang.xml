@@ -7,7 +7,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="label_test">I'm from file.</label>
+			<label index="label_test">I am from file.</label>
 		</languageKey>
 	</data>
 </T3locallang>
