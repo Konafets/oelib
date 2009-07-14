@@ -547,6 +547,52 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->mail('john@doe.com', 'subject', '');
 	}
 
+	public function test_sendForSubjectWithAsciiCharactersOnly_DoesNotBase64EncodeSubject() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertEquals(
+			self::$email['subject'],
+			$this->fixture->getLastSubject()
+		);
+	}
+
+	public function test_sendForSubjectWithNonAsciiCharacters_Base64EncodesSubject() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('föö');
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertContains(
+			base64_encode('föö'),
+			$this->fixture->getLastSubject()
+		);
+	}
+
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.
