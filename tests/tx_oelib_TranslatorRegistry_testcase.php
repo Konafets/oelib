@@ -37,6 +37,7 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 
 	public function tearDown() {
 		tx_oelib_TranslatorRegistry::purgeInstance();
+		tx_oelib_ConfigurationRegistry::purgeInstance();
 	}
 
 
@@ -283,7 +284,7 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 	 */
 	public function getByExtensionNameLoadsLabelsFromFile() {
 		$this->assertEquals(
-			'I\'m from file.',
+			'I am from file.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
 	}
@@ -300,10 +301,10 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 			setData(array('default.' => array()));
 		tx_oelib_ConfigurationRegistry::
 			get('plugin.tx_oelib._LOCAL_LANG.default')->
-				set('label_test', 'I\'m from TypoScript.');
+				set('label_test', 'I am from TypoScript.');
 
 		$this->assertEquals(
-			'I\'m from TypoScript.',
+			'I am from TypoScript.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
 		$testingFramework->discardFakeFrontEnd();
@@ -317,12 +318,30 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 			setData(array('default.' => array()));
 		tx_oelib_ConfigurationRegistry::
 			get('plugin.tx_oelib._LOCAL_LANG.default')->
-				set('label_test', 'I\'m from TypoScript.');
+				set('label_test', 'I am from TypoScript.');
 
 		$this->assertEquals(
-			'I\'m from file.',
+			'I am from file.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
+	}
+
+	public function test_getByExtensionNameDoesNotDeleteLanguageLabelsNotAffectedByTyposcript() {
+		$testingFramework = new tx_oelib_testingFramework('oelib');
+		$testingFramework->createFakeFrontEnd();
+		$GLOBALS['TSFE']->initLLvars();
+		tx_oelib_ConfigurationRegistry::get('config')->set('language', 'default');
+		tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->
+			setData(array('default.' => array()));
+		tx_oelib_ConfigurationRegistry::
+			get('plugin.tx_oelib._LOCAL_LANG.default')->
+				set('label_test_2', 'I am from TypoScript.');
+
+		$this->assertEquals(
+			'I am from file.',
+			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
+		);
+		$testingFramework->discardFakeFrontEnd();
 	}
 
 
