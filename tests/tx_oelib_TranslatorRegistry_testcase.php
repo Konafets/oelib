@@ -324,5 +324,27 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
 	}
+
+
+	/////////////////////////////////////
+	// Tests concerning the languageKey
+	/////////////////////////////////////
+
+	public function test_getLanguageKeyForSetKey_ReturnsSetKey() {
+		tx_oelib_TranslatorRegistry::setLanguageKey('de');
+		$this->assertEquals(
+			'de',
+			tx_oelib_TranslatorRegistry::getLanguageKey('de')
+		);
+	}
+
+	public function test_setLanguageKeyForEmptyStringGiven_ThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The given language key must not be empty.'
+		);
+
+		tx_oelib_TranslatorRegistry::setLanguageKey('');
+	}
 }
 ?>
