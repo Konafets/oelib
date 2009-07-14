@@ -76,7 +76,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	) {
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
-			'subject' => $subject,
+			'subject' => t3lib_div::encodeHeader($subject, 'base64'),
 			'message' => $this->formatEmailBody($message),
 			'headers' => $headers
 		);

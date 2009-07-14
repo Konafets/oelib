@@ -128,11 +128,14 @@ abstract class tx_oelib_abstractMailer {
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
 		);
+		$subject =  t3lib_div::encodeHeader(
+			$email->getSubject(), 'base64', $characterSet
+		);
 
 		foreach ($email->getRecipients() as $recipient) {
 			$this->mail(
 				$recipient->getEMailAddress(),
-				$email->getSubject(),
+				$subject,
 				$mimeEMail->get($buildParameter),
 				$mimeEMail->txtHeaders()
 			);
