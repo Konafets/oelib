@@ -632,6 +632,7 @@ abstract class tx_oelib_DataMapper {
 			);
 			$this->deleteManyToManyRelationIntermediateRecords($model);
 		} else {
+			$this->prepareDataForNewRecord($data);
 			$model->setUid(tx_oelib_db::insert($this->tableName, $data));
 			$this->map->add($model);
 		}
@@ -692,6 +693,14 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Prepares the data for models that get newly inserted into the DB.
+	 *
+	 * @param array $data the data of the record, will be modified
+	 */
+	protected function prepareDataForNewRecord(array &$data) {
 	}
 
 	/**

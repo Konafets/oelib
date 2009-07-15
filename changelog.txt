@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3917] Fix: A data mapper in testing mode must mark new records as dummy records
 - [#3186] Fix: The translator overrides localized keys
 - [#3165] Fix: Umlauts not encoded correctly in the e-mail subject
 - [#3176] Fix: Locallang strings cannot be overwritten using TS setup

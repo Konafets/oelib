@@ -164,6 +164,10 @@ class tx_oelib_MapperRegistry {
 							'$this->testingFramework->markTableAsDirty($mnTable);' .
 							'return array_merge(parent::getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting), array($this->testingFramework->getDummyColumnName($this->tableName) => 1));' .
 							'}' .
+							'protected function prepareDataForNewRecord(array &$data) {' .
+							'$this->testingFramework->markTableAsDirty($this->tableName);' .
+							'$data[$this->testingFramework->getDummyColumnName($this->tableName)] = 1;' .
+							'}' .
 							'}'
 					);
 				}

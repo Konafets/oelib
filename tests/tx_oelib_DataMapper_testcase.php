@@ -1230,6 +1230,20 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testSaveNewModelFromMemoryAndMapperInTestingModeMarksModelAsDummyModel() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData(array('title' => 'foo'));
+		$model->markAsDirty();
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_oelib_test', 'title = "foo"'
+			)
+		);
+	}
+
 	public function testIsDirtyAfterSaveForDirtyLoadedModelWithUidReturnsFalse() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
