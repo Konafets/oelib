@@ -495,7 +495,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('foo@bar.com');
 
 		$this->assertEquals(
-			array('Return-path' => 'foo@bar.com'),
+			array(
+				'Return-Path' => 'foo@bar.com',
+				'Errors-To' => 'foo@bar.com',
+			),
 			$this->fixture->getAdditionalHeaders()
 		);
 	}
@@ -505,7 +508,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('foo@bar.com');
 
 		$this->assertEquals(
-			array('Return-path' => 'foo@bar.com'),
+			array(
+				'Return-Path' => 'foo@bar.com',
+				'Errors-To' => 'foo@bar.com',
+			),
 			$this->fixture->getAdditionalHeaders()
 		);
 	}
@@ -524,7 +530,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('');
 
 		$this->assertEquals(
-			array('Return-path' => 'foo@bar.com'),
+			array(
+				'Return-Path' => 'foo@bar.com',
+				'Errors-To' => 'foo@bar.com',
+			),
 			$this->fixture->getAdditionalHeaders()
 		);
 	}

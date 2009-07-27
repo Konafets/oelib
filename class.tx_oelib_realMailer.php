@@ -83,18 +83,29 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 *
 	 * This function can handle plain-text and multi-part e-mails.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
-	 * @param string headers, separated by linefeed, may be empty
+	 * @param string $emailAddress
+	 *        the recipient's e-mail address, will not be validated, must not be
+	 *        empty
+	 * @param string $subject e-mail subject, must not be empty
+	 * @param string $message message to send, must not be empty
+	 * @param string $headers headers, separated by linefeed, may be empty
+	 * @param string $additionalParameters
+	 *        additional parameters to pass to the mail program as command line
+	 *        arguments
 	 *
 	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
-	public function mail($emailAddress, $subject, $message, $headers = '') {
+	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
 		$this->checkParameters($emailAddress, $subject, $message);
 
-		return @mail($emailAddress, $subject, $message, $headers);
+		if (!ini_get('safe_mode')) {
+			return @mail(
+				$emailAddress, $subject, $message, $headers,
+				$additionalParameters
+			);
+		} else {
+			return @mail($emailAddress, $subject, $message, $headers);
+		}
 	}
 }
 

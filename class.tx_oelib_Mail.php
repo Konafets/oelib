@@ -333,7 +333,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			return;
 		}
 
-		$this->additionalHeaders['Return-path'] = $returnPath;
+		$this->additionalHeaders['Return-Path'] = $returnPath;
+		$this->additionalHeaders['Errors-To'] = $returnPath;
 	}
 
 	/**

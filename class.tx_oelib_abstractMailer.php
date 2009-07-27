@@ -74,15 +74,19 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * This function can handle plain-text and multi-part e-mails.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
-	 * @param string headers, separated by linefeed, may be empty
+	 * @param string $emailAddress
+	 *        the recipient's e-mail address, will not be validated, must not be
+	 *        empty
+	 * @param string $subject e-mail subject, must not be empty
+	 * @param string $message message to send, must not be empty
+	 * @param string $headers headers, separated by linefeed, may be empty
+	 * @param string $additionalParameters
+	 *        additional parameters to pass to the mail program as command line
+	 *        arguments
 	 *
 	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
-	public abstract function mail($emailAddress, $subject, $message, $headers = '');
+	public abstract function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '');
 
 	/**
 	 * Sends an tx_oelib_Mail object.
@@ -94,6 +98,8 @@ abstract class tx_oelib_abstractMailer {
 			throw new Exception('$email must have a sender set.');
 		}
 
+		$additionalParameters = '';
+
 		$mimeEMail = new Mail_mime();
 		$mimeEMail->setFrom(
 			$mimeEMail->encodeRecipients(
@@ -101,7 +107,16 @@ abstract class tx_oelib_abstractMailer {
 			)
 		);
 		if ($email->hasAdditionalHeaders()) {
-			$mimeEMail->headers($email->getAdditionalHeaders());
+			$additionalHeaders = $email->getAdditionalHeaders();
+
+			$mimeEMail->headers($additionalHeaders);
+
+			$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
+			$returnPath = $additionalHeaders['Return-Path'];
+
+			if ($forceReturnPath && ($returnPath != '')) {
+				$additionalParameters = '-f ' . escapeshellarg($returnPath);
+			}
 		}
 
 		if ($email->hasMessage()) {
@@ -140,7 +155,8 @@ abstract class tx_oelib_abstractMailer {
 				$recipient->getEMailAddress(),
 				$subject,
 				$mimeEMail->get($buildParameter),
-				$mimeEMail->txtHeaders()
+				$mimeEMail->txtHeaders(),
+				$additionalParameters
 			);
 		}
 	}
