@@ -1728,5 +1728,105 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+
+	/////////////////////////////
+	// Tests concerning findAll
+	/////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findAllForNoRecordsReturnsEmptyList() {
+		$this->assertTrue(
+			$this->fixture->findAll()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllForOneRecordInDatabaseReturnsOneRecord() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			1,
+			$this->fixture->findAll()->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllForTwoRecordsInDatabaseReturnsTwoRecords() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			2,
+			$this->fixture->findAll()->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllForOneRecordInDatabaseReturnsLoadedRecord() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertTrue(
+			$this->fixture->findAll()->first()->isLoaded()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllIgnoresHiddenRecord() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('hidden' => 1)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAll()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllIgnoresDeletedRecord() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('deleted' => 1)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findAll()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllCanBeUsedForStaticTables() {
+		tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->findAll();
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllSortsRecordsBySorting() {
+		$uid1 = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('sorting' => 2)
+		);
+		$uid2 = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('sorting' => 1)
+		);
+
+		$this->assertEquals(
+			min($uid1, $uid2),
+			$this->fixture->findAll()->first()->getUid()
+		);
+	}
 }
 ?>

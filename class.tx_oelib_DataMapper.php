@@ -814,6 +814,44 @@ abstract class tx_oelib_DataMapper {
 			'sorting' => $sorting,
 		);
 	}
+
+	/**
+	 * Retrieves all non-deleted, non-hidden models from the DB.
+	 *
+	 * The records are sorted like in the BE.
+	 *
+	 * @return tx_oelib_List all models from the DB, already loaded
+	 */
+	public function findAll() {
+		$tca = tx_oelib_db::getTcaForTable($this->tableName);
+		if (isset($tca['ctrl']['default_sortby'])) {
+			$matches = array();
+			if (preg_match(
+				'/^ORDER BY (.+)$/', $tca['ctrl']['default_sortby'],
+				$matches
+			)) {
+				$orderBy = $matches[1];
+			}
+		} else {
+			$orderBy = '';
+		}
+
+		$rows = tx_oelib_db::selectMultiple(
+			'*', $this->tableName, $this->getUniversalWhereClause(), '', $orderBy
+		);
+
+		return $this->getListOfModels($rows);
+	}
+
+	/**
+	 * Returns the WHERE clause that selects all records from the DB.
+	 *
+	 * @return string the WHERE clause that selects all records in the DB,
+	 *                will not be empty
+	 */
+	protected function getUniversalWhereClause() {
+		return '1 = 1' . tx_oelib_db::enableFields($this->tableName);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']) {
