@@ -857,5 +857,16 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 		tx_oelib_db::getTcaForTable(OELIB_TESTTABLE_MM);
 	}
+
+	public function test_getTcaForTableCanLoadFieldsAddedByExtensions() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped(
+				'This test is only applicable if sr_feuser_register is loaded.'
+			);
+		}
+		$tca = tx_oelib_db::getTcaForTable('fe_users');
+
+		$this->assertTrue(isset($tca['columns']['gender']));
+	}
 }
 ?>
