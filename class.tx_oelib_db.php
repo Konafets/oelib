@@ -589,8 +589,8 @@ class tx_oelib_db {
 			return self::$tcaCache[$tableName];
 		}
 
-		if (isset($GLOBALS['FE'])) {
-			$GLOBALS['FE']->includeTCA();
+		if (isset($GLOBALS['TSFE'])) {
+			$GLOBALS['TSFE']->includeTCA();
 		} else {
 			t3lib_div::loadTCA($tableName);
 		}
