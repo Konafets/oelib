@@ -1,6 +1,6 @@
 0.7.0 - currently working on
 - [#3241] Feature: Add dataMapper::findAll
-- [#3226] Fix: getTcaForTable function does not include extension specific fields
+- [#3226] Change: Add a test for getTcaForTable
 - [#3218] Feature: When calling mail, exhibit the same behavior as t3lib_htmlmail::sendTheMail
 - [#3917] Fix: A data mapper in testing mode must mark new records as dummy records
 - [#3186] Fix: The translator overrides localized keys
