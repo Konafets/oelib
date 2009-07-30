@@ -589,11 +589,8 @@ class tx_oelib_db {
 			return self::$tcaCache[$tableName];
 		}
 
-		if (isset($GLOBALS['TSFE'])) {
-			$GLOBALS['TSFE']->includeTCA();
-		} else {
-			t3lib_div::loadTCA($tableName);
-		}
+		t3lib_div::loadTCA($tableName);
+
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new Exception(
 				'The table "' . $tableName . '" has no TCA.'
