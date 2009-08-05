@@ -99,8 +99,11 @@ abstract class tx_oelib_abstractMailer {
 		}
 
 		$additionalParameters = '';
+		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$mimeEMail = new Mail_mime();
+		$mimeEMail->setHeaderCharset($characterSet);
 		$mimeEMail->setFrom(
 			$mimeEMail->encodeRecipients(
 				$this->formatMailRole($email->getSender())
@@ -136,9 +139,6 @@ abstract class tx_oelib_abstractMailer {
 				'base64'
 			);
 		}
-
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
 			'text_encoding' => 'base64',

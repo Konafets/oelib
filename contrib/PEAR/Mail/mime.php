@@ -1090,6 +1090,13 @@ class Mail_mime
 				}
 		}
 
-
-
+		/**
+		 * Sets the charset for the headers.
+		 *
+		 * @param string $charset
+		 *        the charset for the email headers, must not be empty
+		 */
+		public function setHeaderCharset($charset) {
+			$this->_build_params['head_charset'] = $charset;
+		}
 } // End of class
