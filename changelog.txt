@@ -1,4 +1,5 @@
 0.6.2 - currently working on
+- [#920] Fix: Umlauts in sender names are broken
 - [#3226] Change: Add a test for getTcaForTable
 - [#3186] Fix: The translator overrides localized keys
 - [#3176] Fix: Locallang strings cannot be overwritten using TS setup

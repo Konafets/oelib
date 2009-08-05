@@ -602,6 +602,33 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function sendWithHeaderWithUmlaut_EncodesItToUtf8() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$sender->setName('Föö');
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertContains(
+			'utf-8',
+			$this->fixture->getLastHeaders()
+		);
+	}
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.
