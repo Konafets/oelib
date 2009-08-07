@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3239] Change: Test that newly saved models are registered in the mapper
 - [#920] Fix: Umlauts in sender names are broken
 - [#3241] Feature: Add dataMapper::findAll
 - [#3226] Change: Add a test for getTcaForTable
