@@ -1078,6 +1078,49 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->findSingleByWhereClause(array('title' => 'foo'));
 	}
 
+	/**
+	 * @test
+	 */
+	public function saveForGhostFromGetNewGhostThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'This model is a memory-only dummy that must not be saved.'
+		);
+
+		$model = $this->fixture->getNewGhost();
+		$this->fixture->save($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForLoadedTestingModelWithUidThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'This model is a memory-only dummy that must not be saved.'
+		);
+
+		$model = $this->fixture->getLoadedTestingModel(
+			array('uid' => 42, 'title' => 'foo')
+		);
+		$this->fixture->save($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForLoadedTestingModelWithoutUidThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'This model is a memory-only dummy that must not be saved.'
+		);
+
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'foo')
+		);
+		$this->fixture->save($model);
+	}
+
 
 	////////////////////////////
 	// Tests concerning save()
