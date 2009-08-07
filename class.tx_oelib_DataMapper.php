@@ -58,6 +58,12 @@ abstract class tx_oelib_DataMapper {
 	protected $map = null;
 
 	/**
+	 * @var array UIDs of models that are memory-only models that must not be
+	 *            saved, using the UIDs as keys and true as value
+	 */
+	protected $uidsOfMemoryOnlyDummyModels = array();
+
+	/**
 	 * @var array the (possible) relations of the created models in the format
 	 *            DB column name => mapper name
 	 */
@@ -559,7 +565,10 @@ abstract class tx_oelib_DataMapper {
 	 * @return tx_oelib_Model a new ghost
 	 */
 	public function getNewGhost() {
-		return $this->createGhost($this->map->getNewUid());
+		$model = $this->createGhost($this->map->getNewUid());
+		$this->registerModelAsMemoryOnlyDummy($model);
+
+		return $model;
 	}
 
 	/**
@@ -616,6 +625,12 @@ abstract class tx_oelib_DataMapper {
 	 * @param tx_oelib_Model model to write to the database
 	 */
 	public function save(tx_oelib_Model $model) {
+		if ($this->isModelAMemoryOnlyDummy($model)) {
+			throw new Exception(
+				'This model is a memory-only dummy that must not be saved.'
+			);
+		}
+
 		if (!$this->hasDatabaseAccess()
 			|| !$model->isDirty()
 			|| !$model->isLoaded()
@@ -851,6 +866,34 @@ abstract class tx_oelib_DataMapper {
 	 */
 	protected function getUniversalWhereClause() {
 		return '1 = 1' . tx_oelib_db::enableFields($this->tableName);
+	}
+
+	/**
+	 * Registers a model as a memory-only dummy that must not be saved.
+	 *
+	 * @param tx_oelib_Model $model the model to register
+	 */
+	private function registerModelAsMemoryOnlyDummy(tx_oelib_Model $model) {
+		if (!$model->hasUid()) {
+			return;
+		}
+
+		$this->uidsOfMemoryOnlyDummyModels[$model->getUid()] = true;
+	}
+
+	/**
+	 * Checks whether $model is a memory-only dummy that must not be saved
+	 *
+	 * @param tx_oelib_Model $model the model to check
+	 *
+	 * @return boolean true if $model is a memory-only dummy, false otherwise
+	 */
+	private function isModelAMemoryOnlyDummy(tx_oelib_Model $model) {
+			if (!$model->hasUid()) {
+			return;
+		}
+
+		return isset($this->uidsOfMemoryOnlyDummyModels[$model->getUid()]);
 	}
 }
 
