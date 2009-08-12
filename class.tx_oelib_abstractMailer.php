@@ -171,26 +171,11 @@ abstract class tx_oelib_abstractMailer {
 			return $rawEmailBody;
 		}
 
-		// Replaces multiple occurences of CR or LF (> 2) with the placeholder
-		// ###DOUBLECRLF###. We have to do this to prevent the following
-		// processing from changing this part. We will replace the placeholder
-		// at the end of the processing with a double CRLF.
-		// CRCR => ###DOUBLECRLF###, CRCRCR => ###DOUBLECRLF###, etc.
-		$body = preg_replace('/\r{2,}/', '###DOUBLECRLF###', $rawEmailBody);
-		// LFLF => ###DOUBLECRLF###, LFLFLF => ###DOUBLECRLF###, etc.
-		$body = preg_replace('/\n{2,}/', '###DOUBLECRLF###', $body);
+		$body = str_replace(CRLF, LF, $rawEmailBody);
+		$body = str_replace(CR, LF, $body);
+		$body = preg_replace('/\n{2,}/', LF . LF, $body);
 
-		// Replaces each CR or LF left with CRLF.
-		// CR => CRLF, LF => CRLF, CRLF => CRLFCRLF
-		$body = preg_replace('/(\r|\n)/', CRLF, $body);
-
-		// Replaces all double CRLF occurences (which are a result of the
-		// previous transformation) with a single CRLF.
-		$body = str_replace(CRLF . CRLF, CRLF, $body);
-
-		// Finally replaces the placeholder with double CRLF and returns the
-		// result.
-		return trim(str_replace('###DOUBLECRLF###', CRLF . CRLF, $body));
+		return trim($body);
 	}
 
 	/**
