@@ -479,7 +479,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function sendWithHTMLMessage() {
-		$htmlMessage = '<h1>Very cool HTML message</h1>' . CRLF .
+		$htmlMessage = '<h1>Very cool HTML message</h1>' . LF .
 			'<p>Great to have HTML e-mails in oelib.</p>';
 
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
@@ -625,66 +625,14 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	// Tests concerning formatting the e-mail body.
 	/////////////////////////////////////////////////
 
-	public function testOneLineFeedIsReplacedByCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.LF.'bar');
+	/**
+	 * @test
+	 */
+	public function oneLineFeedIsKeptIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . LF . 'bar');
 
 		$this->assertEquals(
-			'foo'.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testOneCarriageReturnIsReplacedByCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.CR.'bar');
-
-		$this->assertEquals(
-			'foo'.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testTwoLineFeedsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.LF.LF.'bar');
-
-		$this->assertEquals(
-			'foo'.CRLF.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testTwoCarriageReturnsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.CR.CR.'bar');
-
-		$this->assertEquals(
-			'foo'.CRLF.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testSeveralLineFeedsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.LF.LF.LF.LF.LF.'bar');
-
-		$this->assertEquals(
-			'foo'.CRLF.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testSeveralCarriageReturnsAreReplacedByTwoCrLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo'.CR.CR.CR.CR.CR.'bar');
-
-		$this->assertEquals(
-			'foo'.CRLF.CRLF.'bar',
-			$this->fixture->getLastBody()
-		);
-	}
-
-	public function testEmailBodyIsNotFormattedWhenFormattingIsDisabled() {
-		$this->fixture->sendFormattedEmails(false);
-		$this->fixture->sendEmail('', '', 'foo'.CR.CR.CR.CR.CR.'bar');
-
-		$this->assertEquals(
-			'foo'.CR.CR.CR.CR.CR.'bar',
+			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
 	}
@@ -692,11 +640,84 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function emailBodyWithOneCrlfStillContainsOneCrlf() {
+	public function oneCarriageReturnIsReplacedByLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . CR . 'bar');
+
+		$this->assertEquals(
+			'foo' . LF . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function twoLineFeedsAreKeptIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . LF . LF . 'bar');
+
+		$this->assertEquals(
+			'foo' . LF . LF . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function twoCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . CR . CR . 'bar');
+
+		$this->assertEquals(
+			'foo' . LF . LF . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function severalLineFeedsAreReplacedByTwoLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
+
+		$this->assertEquals(
+			'foo' . LF . LF . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function severalCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
+		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
+
+		$this->assertEquals(
+			'foo' . LF . LF . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function emailBodyIsNotChangesWhenFormattingIsDisabled() {
+		$this->fixture->sendFormattedEmails(false);
+		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
+
+		$this->assertEquals(
+			'foo' . CR . CR . CR . CR . CR . 'bar',
+			$this->fixture->getLastBody()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneCrLfPairIsReplacedByLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . CRLF . 'bar');
 
 		$this->assertEquals(
-			'foo' . CRLF . 'bar',
+			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
 	}
