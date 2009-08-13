@@ -560,7 +560,8 @@ abstract class tx_oelib_DataMapper {
 	 * Creates a new registered ghost with a UID that has not been used in this
 	 * data mapper yet.
 	 *
-	 * Note: The UID is not guaranteed to be unused in the database.
+	 * Important: As this ghost's UID has nothing to do with the real UIDs in
+	 * the database, this ghost must not be loaded or saved.
 	 *
 	 * @return tx_oelib_Model a new ghost
 	 */
@@ -575,8 +576,12 @@ abstract class tx_oelib_DataMapper {
 	 * Creates a new registered model with a UID that has not been used in this
 	 * data mapper yet and loads it with the data provided in $data.
 	 *
-	 * The data is considered to be in the same format as in the database.
-	 * Relations will be created as needed.
+	 * The data is considered to be in the same format as in the database,
+	 * eg. m:1 relations are provided as the foreign UID, not as the constituded
+	 * model.
+	 *
+	 * (tx_oelib_Model::setData works differently: There you need to provide the
+	 * data with the relations already being the model/list objects.)
 	 *
 	 * This function should only be used in unit tests for mappers (to avoid
 	 * creating records in the DB when the DB access itself needs not be
@@ -586,7 +591,8 @@ abstract class tx_oelib_DataMapper {
 	 * needs to be accessed via the mapper registry so object identity is
 	 * ensured.
 	 *
-	 * Note: The UID is not guaranteed to be unused in the database.
+	 * Important: As this model's UID has nothing to do with the real UIDs in
+	 * the database, this model must not be saved.
 	 *
 	 * @return tx_oelib_Model a new model loaded with $data
 	 */
