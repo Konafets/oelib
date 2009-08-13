@@ -300,7 +300,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => 'base64',
+			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
@@ -361,7 +361,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => 'base64',
+			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
@@ -424,7 +424,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
-			'text_encoding' => 'base64',
+			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
@@ -547,7 +547,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->mail('john@doe.com', 'subject', '');
 	}
 
-	public function test_sendForSubjectWithAsciiCharactersOnly_DoesNotBase64EncodeSubject() {
+	public function test_sendForSubjectWithAsciiCharactersOnly_DoesNotEncodeIt() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -570,7 +570,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sendForSubjectWithNonAsciiCharacters_Base64EncodesSubject() {
+	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithCharsetInformation() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -588,7 +588,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 
 		$this->assertContains(
-			base64_encode('föö'),
+			'utf-8',
 			$this->fixture->getLastSubject()
 		);
 	}

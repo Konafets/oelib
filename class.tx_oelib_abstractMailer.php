@@ -51,7 +51,7 @@ abstract class tx_oelib_abstractMailer {
 	 * @param string e-mail subject, must not be empty
 	 * @param string message to send, must not be empty
 	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param string encoding type: "quoted-printable" or "8bit"
 	 * @param string charset to use for encoding headers (only if
 	 *               $encodingType is set to a valid value which produces
 	 *               such a header)
@@ -141,13 +141,13 @@ abstract class tx_oelib_abstractMailer {
 		}
 
 		$buildParameter = array(
-			'text_encoding' => 'base64',
+			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
 			'text_charset' => $characterSet,
 			'html_charset' => $characterSet,
 		);
 		$subject = t3lib_div::encodeHeader(
-			$email->getSubject(), 'base64', $characterSet
+			$email->getSubject(), 'quoted-printable', $characterSet
 		);
 
 		foreach ($email->getRecipients() as $recipient) {

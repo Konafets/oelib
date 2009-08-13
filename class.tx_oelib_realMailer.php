@@ -48,7 +48,7 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 * @param string e-mail subject, must not be empty
 	 * @param string message to send, must not be empty
 	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param string encoding type: "quoted-printable" or "8bit"
 	 * @param string charset to use for encoding headers (only if
 	 *               $encodingType is set to a valid value which produces
 	 *               such a header)
