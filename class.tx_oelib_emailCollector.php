@@ -57,7 +57,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 * @param string e-mail subject, must not be empty
 	 * @param string message to send, must not be empty
 	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "base64", "quoted-printable" or "8bit"
+	 * @param string encoding type: "quoted-printable" or "8bit"
 	 * @param string charset to use for encoding headers (only if
 	 *               $encodingType is set to a valid value which produces
 	 *               such a header)
@@ -76,7 +76,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	) {
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
-			'subject' => t3lib_div::encodeHeader($subject, 'base64'),
+			'subject' => t3lib_div::encodeHeader($subject, 'quoted-printable'),
 			'message' => $this->formatEmailBody($message),
 			'headers' => $headers
 		);
