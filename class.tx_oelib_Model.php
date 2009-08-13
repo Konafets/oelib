@@ -123,7 +123,9 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Sets the complete data for this model.
 	 *
 	 * The data which is set via this function is considered to be the initial
-	 * data.
+	 * data. Fields with relations must already be filled with the constituted
+	 * models/lists, not just with the UIDs (unlike the format that
+	 * tx_oelib_DataMapper::getLoadedTestingModel takes).
 	 *
 	 * This function should be called directly after instantiation and must only
 	 * be called once. Usually, this function is called on only a few occasions:
