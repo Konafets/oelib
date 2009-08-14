@@ -236,6 +236,11 @@ abstract class tx_oelib_DataMapper {
 	 * @param tx_oelib_Model the model to fill, must have a UID
 	 */
 	public function load(tx_oelib_Model $model) {
+		if ($this->isModelAMemoryOnlyDummy($model)) {
+			throw new Exception(
+				'This ghost was created via getNewGhost and must not be loaded.'
+			);
+		}
 		if (!$model->hasUid()) {
 			throw new Exception(
 				'load must only be called with models that already have a UID.'

@@ -902,6 +902,19 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function loadingAGhostCreatedWithGetNewGhostThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'This ghost was created via getNewGhost and must not be loaded.'
+		);
+
+		$ghost = $this->fixture->getNewGhost();
+		$this->fixture->load($ghost);
+	}
+
 
 	///////////////////////////////////////////
 	// Tests concerning getLoadedTestingModel
