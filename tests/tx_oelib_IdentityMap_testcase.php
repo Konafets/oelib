@@ -118,7 +118,7 @@ class tx_oelib_IdentityMap_testcase extends tx_phpunit_testcase {
 		$model2->setUid(1);
 		$this->fixture->add($model2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$model2,
 			$this->fixture->get(1)
 		);

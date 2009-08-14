@@ -295,7 +295,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		$this->checkForNonEmptyKey($key);
 
 		$result = $this->get($key);
-		if (!$this->existsKey($key) || $result === null) {
+		if (!$this->existsKey($key) || ($result === null)) {
 			return null;
 		}
 

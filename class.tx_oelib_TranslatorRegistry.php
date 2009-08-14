@@ -154,7 +154,7 @@ class tx_oelib_TranslatorRegistry {
 	 * @return tx_oelib_TranslatorRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
-		if (self::$instance == null) {
+		if (self::$instance === null) {
 			self::$instance = new tx_oelib_TranslatorRegistry();
 		}
 
