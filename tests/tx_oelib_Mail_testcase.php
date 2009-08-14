@@ -53,8 +53,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////
 
 	public function testGetSenderInitiallyReturnsNull() {
-		$this->assertEquals(
-			null,
+		$this->assertNull(
 			$this->fixture->getSender()
 		);
 	}
@@ -66,7 +65,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->setSender($sender);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$sender,
 			$this->fixture->getSender()
 		);

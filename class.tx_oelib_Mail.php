@@ -160,7 +160,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			throw new Exception('$subject must not be empty.');
 		}
 
-		if (strpos($subject, CR) !== false || strpos($subject, LF) !== false) {
+		if ((strpos($subject, CR) !== false) || (strpos($subject, LF) !== false)) {
 			throw new Exception(
 				'$subject must not contain any line breaks or carriage returns.'
 			);

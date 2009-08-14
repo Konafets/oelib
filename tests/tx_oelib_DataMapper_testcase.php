@@ -153,7 +153,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function testFindWithUidCalledTwoTimesReturnsSameModel() {
 		$uid = 42;
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->fixture->find($uid),
 			$this->fixture->find($uid)
 		);

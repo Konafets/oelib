@@ -1424,7 +1424,7 @@ class tx_oelib_configcheck {
 		if (isset($GLOBALS['TSFE'])) {
 			if (!isset($GLOBALS['TSFE']->tmpl->setup['includeLibs.']['tx_cssstyledcontent_pi1'])
 			|| ($GLOBALS['TSFE']->tmpl->setup['includeLibs.']['tx_cssstyledcontent_pi1']
-			!== 'EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php')) {
+			!= 'EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php')) {
 			$this->setErrorMessage('The extension CSS Styled Content is not '
 				.'loaded. This will break some output of this extension. '
 				.'Please install CSS Styled Content and include its '
