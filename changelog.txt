@@ -1,3 +1,5 @@
+0.6.3 - currently working on
+
 0.6.2 - released 2009-08-15
 - [#3338] Fix: E-Mails still contain CRLF
 - [#3281] Fix: Free memory more agressively
