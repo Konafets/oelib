@@ -83,7 +83,9 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
-	public abstract function mail($emailAddress, $subject, $message, $headers = '');
+	public abstract function mail(
+		$emailAddress, $subject, $message, $headers = ''
+	);
 
 	/**
 	 * Sends an tx_oelib_Mail object.
@@ -98,7 +100,7 @@ abstract class tx_oelib_abstractMailer {
 		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
-		$mimeEMail = new Mail_mime();
+		$mimeEMail = new Mail_mime(LF);
 		$mimeEMail->setHeaderCharset($characterSet);
 		$mimeEMail->setFrom(
 			$mimeEMail->encodeRecipients(
@@ -148,9 +150,10 @@ abstract class tx_oelib_abstractMailer {
 	}
 
 	/**
-	 * Sets whether the e-mail body should be formatted before sending the e-mail.
-	 * Formatting will replace single linefeeds or carriage returns by carriage
-	 * return plus linefeed and strip multiple blank lines.
+	 * Sets whether the e-mail body should be formatted before sending the
+	 * e-mail.
+	 *
+	 * Formatting will replace CRLF and CR by LF and strip multiple blank lines.
 	 *
 	 * @param boolean true to enable formatting, false to disable
 	 */
@@ -161,8 +164,8 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * Formats the e-mail body if this is enabled.
 	 *
-	 * Replaces single linefeeds or single carriage returns with carriage return
-	 * plus linefeed and strips surplus blank lines, so there are no more than
+	 * Replaces single carriage returns or carriage return plus linefeed
+	 * with linefeeds and strips surplus blank lines, so there are no more than
 	 * two line breaks behind one another.
 	 *
 	 * @param $rawEmailBody string raw e-mail body, must not be empty

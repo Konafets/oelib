@@ -338,6 +338,42 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function sendingPlainTextMailRemovesAnyCarriageReturnFromBody() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(
+			'one long line ...........................................' . CRLF .
+			'now a blank line:' . LF . LF .
+			'another long line .........................................' . LF .
+			'and a line with umlauts: Hörbär saß früh.'
+		);
+
+		$this->fixture->send($eMail);
+
+		$this->assertNotContains(
+			CR,
+			$this->fixture->getLastBody()
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+		unset($sender, $recipient, $eMail);
+	}
+
+	/**
+	 * @test
+	 */
 	public function sendWithTwoEMailsAndGetTheLastEMail() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
@@ -515,10 +551,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
 				'message' => $htmlMessage,
-				'headers' => 'MIME-Version: 1.0' . CRLF .
-					'From: any-sender@email-address.org' . CRLF .
-					'Content-Transfer-Encoding: quoted-printable' . CRLF .
-					'Content-Type: text/html; charset="' . $characterSet . '"' . CRLF,
+				'headers' => 'MIME-Version: 1.0' . LF .
+					'From: any-sender@email-address.org' . LF .
+					'Content-Transfer-Encoding: quoted-printable' . LF .
+					'Content-Type: text/html; charset="' . $characterSet . '"' . LF,
 			),
 			$this->fixture->getLastEmail()
 		);
