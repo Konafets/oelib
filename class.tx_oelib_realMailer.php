@@ -95,7 +95,10 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 *
 	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
-	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
+	public function mail(
+		$emailAddress, $subject, $message, $headers = '',
+		$additionalParameters = ''
+	) {
 		$this->checkParameters($emailAddress, $subject, $message);
 
 		if (!ini_get('safe_mode')) {

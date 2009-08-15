@@ -101,7 +101,10 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 *
 	 * @return boolean true if the e-mail was sent, false otherwise
 	 */
-	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
+	public function mail(
+		$emailAddress, $subject, $message, $headers = '',
+		$additionalParameters = ''
+	) {
 		$this->checkParameters($emailAddress, $subject, $message);
 
 		return $this->sendEmail($emailAddress, $subject, $message, $headers);
