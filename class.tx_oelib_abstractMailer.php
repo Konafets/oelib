@@ -34,6 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
  * @subpackage tx_oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class tx_oelib_abstractMailer {
 	/**
@@ -91,7 +92,7 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * Sends an tx_oelib_Mail object.
 	 *
-	 * @param tx_oelib_Mail the tx_oelib_Mail object to send
+	 * @param tx_oelib_Mail $email the tx_oelib_Mail object to send
 	 */
 	public function send(tx_oelib_Mail $email) {
 		if (!$email->hasSender()) {
@@ -150,12 +151,15 @@ abstract class tx_oelib_abstractMailer {
 			$email->getSubject(), 'quoted-printable', $characterSet
 		);
 
+		$body = $mimeEMail->get($buildParameter);
+		$headers = $mimeEMail->txtHeaders();
+
 		foreach ($email->getRecipients() as $recipient) {
 			$this->mail(
 				$recipient->getEMailAddress(),
 				$subject,
-				$mimeEMail->get($buildParameter),
-				$mimeEMail->txtHeaders(),
+				$body,
+				$headers,
 				$additionalParameters
 			);
 		}
