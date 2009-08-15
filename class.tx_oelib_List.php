@@ -67,7 +67,19 @@ class tx_oelib_List implements Iterator {
 	 * should happen in the data mappers).
 	 */
 	public function __destruct() {
-		unset($this->items, $this->parentModel);
+		$this->rewind();
+
+		foreach ($this->items as $key => $model) {
+			// Models without UIDs are not registered at a mapper and thus will
+			// not be destructed by the mapper.
+			if (!$model->hasUid()) {
+				$model->__destruct();
+			}
+			unset($this->items[$key]);
+		}
+
+		$this->uids = array();
+		unset($this->parentModel);
 	}
 
 	/**

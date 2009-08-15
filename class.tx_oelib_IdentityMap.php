@@ -48,13 +48,13 @@ class tx_oelib_IdentityMap {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->highestUid = 0;
+
 		if (is_array($this->items)) {
 			foreach (($this->items) as $key => $item) {
 				$item->__destruct();
 				unset($this->items[$key]);
 			}
-
-			unset($this->items);
 		}
 	}
 

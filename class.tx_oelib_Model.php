@@ -115,9 +115,16 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		foreach ($this->data as $key => $item) {
 			if ($item instanceof tx_oelib_List) {
 				$item->__destruct();
+			} elseif ($item instanceof tx_oelib_Model) {
+				// Models without UIDs are not registered at a mapper and thus
+				// will not be destructed by the mapper.
+				if (!$item->hasUid()) {
+					$item->__destruct();
+				}
 			}
 			unset($this->data[$key]);
 		}
+		$this->loadCallback = array();
 	}
 
 	/**

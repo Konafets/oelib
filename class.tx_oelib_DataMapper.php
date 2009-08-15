@@ -105,6 +105,7 @@ abstract class tx_oelib_DataMapper {
 			$this->map->__destruct();
 			unset($this->map);
 		}
+		$this->uidsOfMemoryOnlyDummyModels = array();
 	}
 
 	/**
