@@ -1885,16 +1885,50 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findAllSortsRecordsBySorting() {
-		$uid1 = $this->testingFramework->createRecord(
-			'tx_oelib_test', array('sorting' => 2)
-		);
-		$uid2 = $this->testingFramework->createRecord(
-			'tx_oelib_test', array('sorting' => 1)
-		);
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertEquals(
 			min($uid1, $uid2),
 			$this->fixture->findAll()->first()->getUid()
+		);
+	}
+
+	public function test_findAllForGivenSortParameter_OverridesDefaultSorting() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'record a')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'record b')
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findAll('title')->first()->getUid()
+		);
+	}
+
+	public function test_findAllForGivenSortParameterWithSortDirection_SortsResultsBySortdirection() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'record b')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'record a')
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findAll('title DESC')->first()->getUid()
+		);
+	}
+
+	public function test_findAllForGivenSortParameter_FindsMultipleEntries() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			2,
+			$this->fixture->findAll('title ASC')->count()
 		);
 	}
 }

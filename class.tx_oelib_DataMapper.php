@@ -845,13 +845,21 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Retrieves all non-deleted, non-hidden models from the DB.
 	 *
-	 * The records are sorted like in the BE.
+	 * If no sorting is provided, the records are sorted like in the BE.
+	 *
+	 * @param string $sorting
+	 *        the sorting for the found records, must be a valid DB field
+	 *        optionally followed by "ASC" or "DESC" or may
+	 *        be empty
 	 *
 	 * @return tx_oelib_List all models from the DB, already loaded
 	 */
-	public function findAll() {
+	public function findAll($sorting = '') {
 		$tca = tx_oelib_db::getTcaForTable($this->tableName);
-		if (isset($tca['ctrl']['default_sortby'])) {
+
+		if ($sorting != '') {
+			$orderBy = $sorting;
+		} elseif (isset($tca['ctrl']['default_sortby'])) {
 			$matches = array();
 			if (preg_match(
 				'/^ORDER BY (.+)$/', $tca['ctrl']['default_sortby'],
