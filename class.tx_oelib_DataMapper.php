@@ -501,7 +501,7 @@ abstract class tx_oelib_DataMapper {
 			);
 		}
 
-		$whereClauses = array();
+		$whereClauses = array($this->getUniversalWhereClause(true));
 		foreach ($whereClauseParts as $key => $value) {
 			$columnDefinition = tx_oelib_db::getColumnDefinition(
 				$this->tableName, $key
@@ -519,9 +519,7 @@ abstract class tx_oelib_DataMapper {
 
 		try {
 			$data = tx_oelib_db::selectSingle(
-				$this->columns,
-				$this->tableName,
-				$whereClause . tx_oelib_db::enableFields($this->tableName, 1)
+				$this->columns, $this->tableName, $whereClause
 			);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			throw new tx_oelib_Exception_NotFound(
@@ -879,13 +877,17 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Returns the WHERE clause that selects all records from the DB.
+	 * Returns the WHERE clause that selects all visible records from the DB.
 	 *
-	 * @return string the WHERE clause that selects all records in the DB,
-	 *                will not be empty
+	 * @param boolean $allowHiddenRecords whether hidden records should be found
+	 *
+	 * @return string the WHERE clause that selects all visible records in the,
+	 *                DB, will not be empty
 	 */
-	protected function getUniversalWhereClause() {
-		return '1 = 1' . tx_oelib_db::enableFields($this->tableName);
+	protected function getUniversalWhereClause($allowHiddenRecords = false) {
+		return '1 = 1' . tx_oelib_db::enableFields(
+			$this->tableName, ($allowHiddenRecords ? 1 : -1)
+		);
 	}
 
 	/**

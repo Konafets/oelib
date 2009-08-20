@@ -106,9 +106,10 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 			tx_oelib_db::selectMultiple(
 				'*',
 				$this->tableName,
-				'usergroup REGEXP \'(^|,)(' .
+				$this->getUniversalWhereClause() . ' AND ' .
+					'usergroup REGEXP \'(^|,)(' .
 					implode('|', t3lib_div::intExplode(',', $groupUids)) .
-					')($|,)\'' . tx_oelib_db::enableFields($this->tableName)
+					')($|,)\''
 			)
 		);
 	}

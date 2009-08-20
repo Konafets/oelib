@@ -168,11 +168,11 @@ class tx_oelib_MapperRegistry {
 							'$this->testingFramework->markTableAsDirty($this->tableName);' .
 							'$data[$this->testingFramework->getDummyColumnName($this->tableName)] = 1;' .
 							'}' .
-							'protected function getUniversalWhereClause() {' .
+							'protected function getUniversalWhereClause($allowHiddenRecords = false) {' .
 							'$dummyColumnName = $this->testingFramework->getDummyColumnName($this->tableName);' .
 							'$additionalWhere = tx_oelib_db::tableHasColumn($this->tableName, $dummyColumnName) ' .
 							'? $dummyColumnName . \' = 1 AND \' : \'\';' .
-							'return $additionalWhere . parent::getUniversalWhereClause();' .
+							'return $additionalWhere . parent::getUniversalWhereClause($allowHiddenRecords);' .
 							'}' .
 							'}'
 					);

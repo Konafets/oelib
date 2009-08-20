@@ -125,15 +125,12 @@ class tx_oelib_Mapper_BackEndUser_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindByUserNameWithNameOfNonExistentUserThrowsException() {
+		$this->setExpectedException('tx_oelib_Exception_NotFound');
+
 		$this->testingFramework->createBackEndUser(
 			array('username' => 'foo', 'deleted' => 1)
 		);
 
-		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound',
-			'The record where "username = \'foo\'" could not be retrieved' .
-				' from the table be_users'
-		);
 		$this->assertNull(
 			$this->fixture->findByUserName('foo')
 		);

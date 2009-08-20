@@ -1003,13 +1003,9 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testFindSingleByWhereClauseWithUidOfInexistentRecordThrowsException() {
-		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
+		$this->setExpectedException('tx_oelib_Exception_NotFound');
 
-		$this->setExpectedException(
-			'Exception',
-			'The record where "uid = ' . $uid . '" could not be retrieved' .
-				' from the table tx_oelib_test.'
-		);
+		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 
 		$this->fixture->findSingleByWhereClause(
 			array('uid' => $uid)
