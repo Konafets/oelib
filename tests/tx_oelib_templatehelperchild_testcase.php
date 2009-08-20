@@ -3756,5 +3756,46 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 			$this->fixture->cObj
 		);
 	}
+
+
+	///////////////////////////////////
+	// Tests concerning getStoragePid
+	///////////////////////////////////
+
+	public function test_getStoragePidForNoSetGRSP_ReturnsZero() {
+		$this->assertEquals(
+			0,
+			$this->fixture->getStoragePid()
+		);
+	}
+
+	public function test_getStoragePidForGRSPSet_ReturnsThisId() {
+		$pageUid = $this->testingFramework->createFrontEndPage(
+			0, array('storage_pid' => 42)
+		);
+		$this->testingFramework->createFakeFrontEnd($pageUid);
+
+		$this->assertEquals(
+			42,
+			$this->fixture->getStoragePid()
+		);
+	}
+
+	public function test_hasStoragePidForGRSPSet_ReturnsTrue() {
+		$pageUid = $this->testingFramework->createFrontEndPage(
+			0, array('storage_pid' => 42)
+		);
+		$this->testingFramework->createFakeFrontEnd($pageUid);
+
+		$this->assertTrue(
+			$this->fixture->hasStoragePid()
+		);
+	}
+
+	public function test_hasStoragePidForNoGRSPSet_ReturnsFalse() {
+		$this->assertFalse(
+			$this->fixture->hasStoragePid()
+		);
+	}
 }
 ?>

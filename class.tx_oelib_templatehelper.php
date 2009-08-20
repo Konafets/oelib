@@ -1305,6 +1305,31 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	protected function setLocaleConvention() {
 		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
 	}
+
+	/**
+	 * Returns the general record storage PID for the current page.
+	 *
+	 * This function must only be called in the front end or when a front end is
+	 * present.
+	 *
+	 * @return integer the general record storage PID for the current page, will
+	 *                 be 0 if the page has no storage page set
+	 */
+	public function getStoragePid() {
+		$pageData = $GLOBALS['TSFE']->getStorageSiterootPids();
+
+		return $pageData['_STORAGE_PID'];
+	}
+
+	/**
+	 * Checks whether the current page has a general record storage PID set.
+	 *
+	 * @return boolean true if the current page has a general record storage PID
+	 *                 set, false otherwise
+	 */
+	public function hasStoragePid() {
+		return $this->getStoragePid() > 0;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_templatehelper.php']) {
