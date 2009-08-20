@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3354] Feature: add findByWhereClause to mapper
 - [#3356] Feature: The mappers in test mode should ignore all non-dummy records
 - [#3272] Feature: Provide a parameter "sorting" to mapper::findAll
 - [#3338] Fix: E-Mails still contain CRLF

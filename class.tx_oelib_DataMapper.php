@@ -853,27 +853,7 @@ abstract class tx_oelib_DataMapper {
 	 * @return tx_oelib_List all models from the DB, already loaded
 	 */
 	public function findAll($sorting = '') {
-		$tca = tx_oelib_db::getTcaForTable($this->tableName);
-
-		if ($sorting != '') {
-			$orderBy = $sorting;
-		} elseif (isset($tca['ctrl']['default_sortby'])) {
-			$matches = array();
-			if (preg_match(
-				'/^ORDER BY (.+)$/', $tca['ctrl']['default_sortby'],
-				$matches
-			)) {
-				$orderBy = $matches[1];
-			}
-		} else {
-			$orderBy = '';
-		}
-
-		$rows = tx_oelib_db::selectMultiple(
-			'*', $this->tableName, $this->getUniversalWhereClause(), '', $orderBy
-		);
-
-		return $this->getListOfModels($rows);
+		return $this->findByWhereClause('', $sorting);
 	}
 
 	/**
@@ -916,6 +896,51 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return isset($this->uidsOfMemoryOnlyDummyModels[$model->getUid()]);
+	}
+
+	/**
+	 * Retrieves all non-deleted, non-hidden models from the DB which match the
+	 * given where clause.
+	 *
+	 * @param string $whereClause
+	 *        WHERE clause for the record to retrieve must be quoted and SQL
+	 *        safe, may be empty
+	 * @param string $sorting
+	 *        the sorting for the found records, must be a valid DB field
+	 *        optionally followed by "ASC" or "DESC", may be empty
+	 *
+	 * @return tx_oelib_List all models found in DB for the given where clause,
+	 *                       will be an empty list if no models were found
+	 */
+	protected function findByWhereClause($whereClause = '', $sorting = '') {
+		$tca = tx_oelib_db::getTcaForTable($this->tableName);
+		if ($sorting != '') {
+			$orderBy = $sorting;
+		} elseif (isset($tca['ctrl']['default_sortby'])) {
+			$matches = array();
+			if (preg_match(
+				'/^ORDER BY (.+)$/', $tca['ctrl']['default_sortby'],
+				$matches
+			)) {
+				$orderBy = $matches[1];
+			}
+		} else {
+			$orderBy = '';
+		}
+
+		$completeWhereClause = ($whereClause == '')
+			? ''
+			: $whereClause . ' AND ';
+
+		$rows = tx_oelib_db::selectMultiple(
+			'*',
+			$this->tableName,
+			$completeWhereClause . $this->getUniversalWhereClause(),
+			'',
+			$orderBy
+		);
+
+		return $this->getListOfModels($rows);
 	}
 }
 

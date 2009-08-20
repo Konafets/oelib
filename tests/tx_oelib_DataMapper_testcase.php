@@ -1927,5 +1927,87 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->findAll('title ASC')->count()
 		);
 	}
+
+
+	///////////////////////////////////////
+	// Tests concerning findByWhereClause
+	///////////////////////////////////////
+
+	public function test_findByWhereClauseForNoGivenParameterAndTwoRecords_FindsBothRecords() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			2,
+			$this->fixture->findByWhereClause()->count()
+		);
+	}
+
+	public function test_findByWhereClauseForGivenWhereClauseAndOneMatchingRecord_FindsThisRecord() {
+		$foundRecordUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			$foundRecordUid,
+			$this->fixture->findByWhereClause('title like "foo"')->first()->getUid()
+		);
+	}
+
+	public function test_findByWhereClauseForGivenWhereClauseAndTwoRecordsOneMatchingOneNot_DoesNotFindNonMatchingRecord() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$notMatchingUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertNotEquals(
+			$notMatchingUid,
+			$this->fixture->findByWhereClause('title like "foo"')->first()->getUid()
+		);
+	}
+
+	public function test_findByWhereClauseForNoSortingProvided_SortsRecordsByDefaultSorting() {
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			min($uid1, $uid2),
+			$this->fixture->findByWhereClause()->first()->getUid()
+		);
+	}
+
+	public function test_findByWhereClauseForSortingProvided_SortsRecordsByGivenSorting() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$firstEntryUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			$firstEntryUid,
+			$this->fixture->findByWhereClause('','title ASC')->first()->getUid()
+		);
+	}
+
+	public function test_findByWhereClauseForSortingAndWhereClauseProvided_SortsMatchingRecords() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo', 'sorting' => 2)
+		);
+		$firstMatchingUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo', 'sorting' => 0)
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar', 'sorting' => 1)
+		);
+
+		$this->assertEquals(
+			$firstMatchingUid,
+			$this->fixture->findByWhereClause('title like "foo"','sorting ASC')
+				->first()->getUid()
+		);
+	}
 }
 ?>
