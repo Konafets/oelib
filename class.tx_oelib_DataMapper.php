@@ -944,25 +944,25 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Finds all records which are located on the given page.
+	 * Finds all records which are located on the given pages.
 	 *
-	 * @param integer $pageUid
-	 *        the UID of the page on which the records should be found, must
-	 *        be >= 0
+	 * @param string $pageUids
+	 *        comma-separated UIDs of the pages on which the records should be
+	 *        found, may be empty
 	 * @param string $sorting
 	 *        the sorting for the found records, must be a valid DB field
 	 *        optionally followed by "ASC" or "DESC", may be empty
 	 *
-	 * @return tx_oelib_List all records with the matching page UID, will be
+	 * @return tx_oelib_List all records with the matching page UIDs, will be
 	 *                       empty if no records have been found
 	 */
-	public function findByPageUid($pageUid, $sorting = '') {
-		if ($pageUid == 0) {
+	public function findByPageUid($pageUids, $sorting = '') {
+		if (($pageUids == '') || ($pageUids == '0')) {
 			return $this->findAll($sorting);
 		}
 
 		return $this->findByWhereClause(
-			$this->tableName . '.pid = ' . $pageUid,
+			$this->tableName . '.pid IN (' . $pageUids . ')',
 			$sorting
 		);
 	}

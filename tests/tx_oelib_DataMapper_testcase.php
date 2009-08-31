@@ -2035,6 +2035,17 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_findByPageUid_ForPageUidEmpty_ReturnsRecordWithNonZeroPageUid() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 42)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid('')->first()->getUid()
+		);
+	}
+
 	public function test_findByPageUid_ForNonZeroPageUid_ReturnsEntryFromThatPage() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 1)
@@ -2068,6 +2079,28 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$firstMatchingRecord,
 			$this->fixture->findByPageUid(2, 'sorting ASC')->first()->getUid()
+		);
+	}
+
+	public function test_findByPageUid_ForTwoNonZeroPageUids_CanReturnRecordFromFirstPage() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 1)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid('1,2')->first()->getUid()
+		);
+	}
+
+	public function test_findByPageUid_ForTwoNonZeroPageUids_CanReturnRecordFromSecondPage() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 2)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid('1,2')->first()->getUid()
 		);
 	}
 }
