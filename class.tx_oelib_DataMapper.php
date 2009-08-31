@@ -942,6 +942,30 @@ abstract class tx_oelib_DataMapper {
 
 		return $this->getListOfModels($rows);
 	}
+
+	/**
+	 * Finds all records which are located on the given page.
+	 *
+	 * @param integer $pageUid
+	 *        the UID of the page on which the records should be found, must
+	 *        be >= 0
+	 * @param string $sorting
+	 *        the sorting for the found records, must be a valid DB field
+	 *        optionally followed by "ASC" or "DESC", may be empty
+	 *
+	 * @return tx_oelib_List all records with the matching page UID, will be
+	 *                       empty if no records have been found
+	 */
+	public function findByPageUid($pageUid, $sorting = '') {
+		if ($pageUid == 0) {
+			return $this->findAll($sorting);
+		}
+
+		return $this->findByWhereClause(
+			$this->tableName . '.pid = ' . $pageUid,
+			$sorting
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']) {

@@ -2009,5 +2009,66 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 				->first()->getUid()
 		);
 	}
+
+
+	///////////////////////////////////
+	// Tests concerning findByPageUId
+	///////////////////////////////////
+
+	public function test_findByPageUid_ForPageUidZero_ReturnsEntryWithZeroPageUid() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid(0)->first()->getUid()
+		);
+	}
+
+	public function test_findByPageUid_ForPageUidZero_ReturnsEntryWithNonZeroPageUid() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 42)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid(0)->first()->getUid()
+		);
+	}
+
+	public function test_findByPageUid_ForNonZeroPageUid_ReturnsEntryFromThatPage() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 1)
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findByPageUid(1)->first()->getUid()
+		);
+	}
+
+	public function test_findByPageUid_ForNonZeroPageUid_DoesNotReturnEntryWithDifferentPageUId() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 2)
+		);
+
+		$this->assertTrue(
+			$this->fixture->findByPageUid(1)->isEmpty()
+		);
+	}
+
+	public function test_findByPageUid_ForPageUidAndSortingGiven_ReturnEntrySortedBySorting() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 2, 'sorting' => 3)
+		);
+
+		$firstMatchingRecord = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('pid' => 2, 'sorting' => 1)
+		);
+
+		$this->assertEquals(
+			$firstMatchingRecord,
+			$this->fixture->findByPageUid(2, 'sorting ASC')->first()->getUid()
+		);
+	}
 }
 ?>

@@ -94,7 +94,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *               must be a comma-separated list of group UIDs, must not be
 	 *               empty
 	 *
-	 * @return tx_oelib_list the found user models, will be empty if
+	 * @return tx_oelib_List the found user models, will be empty if
 	 *                       no users were found for the given groups
 	 */
 	public function getGroupMembers($groupUids) {

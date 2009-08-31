@@ -124,7 +124,7 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$this->fixture->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
-			) instanceof tx_oelib_list
+			) instanceof tx_oelib_List
 		);
 	}
 
