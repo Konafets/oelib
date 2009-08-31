@@ -1,4 +1,5 @@
 0.6.3 - currently working on
+- [#3335] Fix: The e-mail function tests need to take forceCharset into account
 
 0.6.2 - released 2009-08-15
 - [#3338] Fix: E-Mails still contain CRLF
