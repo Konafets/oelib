@@ -606,7 +606,13 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithCharsetInformation() {
+	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithUtf8CharsetInformation() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] == '') {
+			$this->markTestSkipped(
+				'This test applies to installations with forceCharset only.'
+			);
+		}
+
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -629,10 +635,45 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithIso88591CharsetInformation() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') {
+			$this->markTestSkipped(
+				'This test applies to installations without forceCharset only.'
+			);
+		}
+
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('föö');
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertContains(
+			'ISO-8859-1',
+			$this->fixture->getLastSubject()
+		);
+	}
+
 	/**
 	 * @test
 	 */
 	public function sendWithHeaderWithUmlaut_EncodesItToUtf8() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] == '') {
+			$this->markTestSkipped(
+				'This test applies to installations with forceCharset only.'
+			);
+		}
+
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -656,6 +697,41 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLastHeaders()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function sendWithHeaderWithUmlaut_EncodesItToIso88591() {
+		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') {
+			$this->markTestSkipped(
+				'This test applies to installations without forceCharset only.'
+			);
+		}
+
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$sender->setName('Föö');
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject(self::$email['subject']);
+		$eMail->setMessage(self::$email['message']);
+
+		$this->fixture->send($eMail);
+
+		$this->assertContains(
+			'ISO-8859-1',
+			$this->fixture->getLastHeaders()
+		);
+	}
+
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.
