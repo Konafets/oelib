@@ -1,4 +1,5 @@
 0.6.3 - currently working on
+- [#3388] Fix: Autoloader does not load XCLASS
 - [#3370] Fix: Models should be marked as dead on __destruct
 - [#3384] Fix: Add XCLASS stuff for the PEAR and emogrifier classes
 - [#3335] Fix: The e-mail function tests need to take forceCharset into account

@@ -69,5 +69,17 @@ class tx_oelib_ObjectFactory_testcase extends tx_phpunit_testcase {
 
 		$object->__destruct();
 	}
+
+	/**
+	 * @test
+	 */
+	public function makeInstantiatesSubclassIfXclassIsAvailable() {
+		$object = tx_oelib_ObjectFactory::make('tx_oelib_tests_fixtures_Empty');
+
+		$this->assertEquals(
+			'ux_tx_oelib_tests_fixtures_Empty',
+			get_class($object)
+		);
+	}
 }
 ?>

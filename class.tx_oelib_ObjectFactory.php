@@ -40,11 +40,15 @@ class tx_oelib_ObjectFactory {
 	 * You can use additional parameters that will be passed to the constructor
 	 * of the instantiated class.
 	 *
-	 * @param String $className the name of the existing class to create
+	 * @param string $className the name of the existing class to create
 	 *
-	 * @return Object an instance of $className
+	 * @return object an instance of $className
 	 */
 	public static function make($className) {
+		// Makes sure that the parent class is included so it can load any
+		// XCLASS subclasses.
+		tx_oelib_Autoloader::load($className);
+
 		if (func_num_args() == 1) {
 			return t3lib_div::makeInstance($className);
 		}
