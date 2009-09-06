@@ -32,7 +32,7 @@
  */
 class tx_oelib_TranslatorRegistry {
 	/**
-	 * @var tx_oelib_TranslatorRegistry
+	 * @var tx_oelib_TranslatorRegistry the Singleton instance
 	 */
 	private static $instance = null;
 
