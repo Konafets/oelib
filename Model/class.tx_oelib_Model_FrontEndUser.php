@@ -377,6 +377,26 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 			? $this->getLastName()
 			: $this->getName();
 	}
+
+	/**
+	 * Gets this user's date of birth as a UNIX timestamp.
+	 *
+	 * @return integer the user's date of birth, will be zero if no date has
+	 *                 been set
+	 */
+	public function getDateOfBirth() {
+		return $this->getAsInteger('date_of_birth');
+	}
+
+	/**
+	 * Checks whether this user has a date of birth set.
+	 *
+	 * @return boolean true if this user has a non-zero date of birth, false
+	 *                 otherwise
+	 */
+	public function hasDateOfBirth() {
+		return $this->hasInteger('date_of_birth');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {

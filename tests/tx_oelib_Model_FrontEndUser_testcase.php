@@ -859,5 +859,60 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getLastOrFullName()
 		);
 	}
+
+
+	///////////////////////////////////////
+	// Tests concerning the date of birth
+	///////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getDateOfBirthReturnsZeroForNoDateSet() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getDateOfBirth()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getDateOfBirthReturnsDateFromDateOfBirthField() {
+		// 1980-04-01
+		$date = 323391600;
+		$this->fixture->setData(array('date_of_birth' => $date));
+
+		$this->assertEquals(
+			$date,
+			$this->fixture->getDateOfBirth()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasDateOfBirthForNoDateOfBirthReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasDateOfBirth()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasDateOfBirthForNonZeroDateOfBirthReturnsTrue() {
+		// 1980-04-01
+		$date = 323391600;
+		$this->fixture->setData(array('date_of_birth' => $date));
+
+		$this->assertTrue(
+			$this->fixture->hasDateOfBirth()
+		);
+	}
 }
 ?>
