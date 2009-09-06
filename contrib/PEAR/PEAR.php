@@ -1115,4 +1115,8 @@ class PEAR_Error
  * c-basic-offset: 4
  * End:
  */
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/contrib/PEAR/PEAR.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/contrib/PEAR/PEAR.php']);
+}
 ?>

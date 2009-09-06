@@ -1100,3 +1100,8 @@ class Mail_mime
 			$this->_build_params['head_charset'] = $charset;
 		}
 } // End of class
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/contrib/PEAR/Mail/mime.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/contrib/PEAR/Mail/mime.php']);
+}
+?>
