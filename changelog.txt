@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3388] Fix: Autoloader does not load XCLASS
 - [#3387] Feature: Add accessors for the date of birth
 - [#3370] Fix: Models should be marked as dead on __destruct
 - [#3384] Fix: Add XCLASS stuff for the PEAR and emogrifier classes

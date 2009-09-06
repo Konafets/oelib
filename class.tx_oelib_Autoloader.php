@@ -50,6 +50,11 @@ class tx_oelib_Autoloader {
 	 * @return boolean true if the class could be loaded, false otherwise
 	 */
 	public static function load($className) {
+		// This is necessary so the XCLASS statements at the bottom of the
+		// included class files can access $TYPO3_CONF_VARS in the context
+		// where they are included.
+		global $TYPO3_CONF_VARS;
+
 		if ($className == '') {
 			return false;
 		}
