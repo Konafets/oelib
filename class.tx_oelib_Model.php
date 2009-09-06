@@ -112,6 +112,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->markAsDead();
+
 		foreach ($this->data as $key => $item) {
 			if ($item instanceof tx_oelib_List) {
 				$item->__destruct();

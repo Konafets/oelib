@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3370] Fix: Models should be marked as dead on __destruct
 - [#3384] Fix: Add XCLASS stuff for the PEAR and emogrifier classes
 - [#3360] Feature: Only list aux records from the GRSP in the FE editor
 - [#3335] Fix: The e-mail function tests need to take forceCharset into account
