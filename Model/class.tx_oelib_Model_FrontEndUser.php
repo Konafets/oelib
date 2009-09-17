@@ -397,6 +397,43 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	public function hasDateOfBirth() {
 		return $this->hasInteger('date_of_birth');
 	}
+
+	/**
+	 * Returns this user's age in years.
+	 *
+	 * Note: This function only works correctly for users that were born after
+	 * 1970-01-01 and that were not born in the future.
+	 *
+	 * @integer this user's age in years, will be 0 if this user has no birth
+	 *          date set
+	 */
+	public function getAge() {
+		if (!$this->hasDateOfBirth()) {
+			return 0;
+		}
+
+		$currentTimestamp = $GLOBALS['EXEC_TIME'];
+		$birthTimestmap = $this->getDateOfBirth();
+
+		$currentYear = intval(strftime('%Y', $currentTimestamp));
+		$currentMonth = intval(strftime('%m', $currentTimestamp));
+		$currentDay = intval(strftime('%d', $currentTimestamp));
+		$birthYear = intval(strftime('%Y', $birthTimestmap));
+		$birthMonth = intval(strftime('%m', $birthTimestmap));
+		$birthDay = intval(strftime('%d', $birthTimestmap));
+
+		$age = $currentYear - $birthYear;
+
+		if ($currentMonth < $birthMonth) {
+			$age--;
+		} elseif ($currentMonth == $birthMonth) {
+			if ($currentDay < $birthDay) {
+				$age--;
+			}
+		}
+
+		return $age;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {

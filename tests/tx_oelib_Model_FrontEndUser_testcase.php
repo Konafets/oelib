@@ -38,11 +38,20 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 	 */
 	private $fixture;
 
+	/**
+	 * @var integer a backup of $GLOBALS['EXEC_TIME']
+	 */
+	private $globalExecTimeBackup;
+
 	public function setUp() {
 		$this->fixture = new tx_oelib_Model_FrontEndUser();
+
+		$this->globalExecTimeBackup = $GLOBALS['EXEC_TIME'];
 	}
 
 	public function tearDown() {
+		$GLOBALS['EXEC_TIME'] = $this->globalExecTimeBackup;
+
 		$this->fixture->__destruct();
 		unset($this->fixture);
 	}
@@ -912,6 +921,88 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->hasDateOfBirth()
+		);
+	}
+
+
+	////////////////////////////
+	// Tests concerning getAge
+	////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getAgeForNoDateOfBirthReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getAge()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAgeForBornOneHourAgoReturnsZero() {
+		$now = mktime(18, 0, 0, 9, 15, 2010);
+		$GLOBALS['EXEC_TIME'] = $now;
+
+		$this->fixture->setData(
+			array('date_of_birth' => $now - 60 * 60)
+		);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getAge()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAgeForAnAgeOfTenYearsAndSomeMonthsReturnsTen() {
+		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
+
+		$this->fixture->setData(
+			array('date_of_birth' => mktime(18, 0, 0, 1, 15, 2000))
+		);
+
+		$this->assertEquals(
+			10,
+			$this->fixture->getAge()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAgeForAnAgeOfTenYearsMinusSomeMonthsReturnsNine() {
+		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
+
+		$this->fixture->setData(
+			array('date_of_birth' => mktime(18, 0, 0, 11, 15, 2000))
+		);
+
+		$this->assertEquals(
+			9,
+			$this->fixture->getAge()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAgeForAnAgeOfTenYearsMinusSomeDaysReturnsNine() {
+		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
+
+		$this->fixture->setData(
+			array('date_of_birth' => mktime(18, 0, 0, 9, 21, 2000))
+		);
+
+		$this->assertEquals(
+			9,
+			$this->fixture->getAge()
 		);
 	}
 }
