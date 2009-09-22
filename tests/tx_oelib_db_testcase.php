@@ -868,5 +868,90 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(isset($tca['columns']['gender']));
 	}
+
+
+	///////////////////////////
+	// Tests concerning count
+	///////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function countCanBeCalledWithEmptyWhereClause() {
+		tx_oelib_db::count('tx_oelib_test', '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countCanBeCalledWithMissingWhereClause() {
+		tx_oelib_db::count('tx_oelib_test');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countForNoMatchesReturnsZero() {
+		$this->assertEquals(
+			0,
+			tx_oelib_db::count(
+				'tx_oelib_test',
+				'uid = 42'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countForOneMatchReturnsOne() {
+		$this->assertEquals(
+			1,
+			tx_oelib_db::count(
+				'tx_oelib_test',
+				'uid = ' . $this->testingFramework->createRecord('tx_oelib_test')
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countForTwoMatchesReturnsTwo() {
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			2,
+			tx_oelib_db::count(
+				'tx_oelib_test',
+				'uid IN(' . $uid1 . ',' . $uid2 . ')'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countCanBeCalledForTableWithoutUid() {
+		tx_oelib_db::count('tx_oelib_test_article_mm');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countCanBeCalledWithMultipleTables() {
+		tx_oelib_db::count('tx_oelib_test, tx_oelib_testchild');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countForInvalidTableNamesThrowsException() {
+		$this->setExpectedException('Exception');
+
+
+		tx_oelib_db::count('tx_oelib_doesnotexist', 'uid = 42');
+	}
 }
 ?>

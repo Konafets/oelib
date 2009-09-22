@@ -616,11 +616,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Remembers whether the record still exists.
-		$counter = tx_oelib_db::selectSingle(
-			'COUNT(*) AS number',
-			OELIB_TESTTABLE,
-			'uid = ' . $uid
-		);
+		$counter = tx_oelib_db::count(OELIB_TESTTABLE, 'uid = ' . $uid);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		tx_oelib_db::delete(
@@ -631,7 +627,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// Checks whether the record still had existed.
 		$this->assertEquals(
 			1,
-			$counter['number']
+			$counter
 		);
 	}
 
@@ -1035,12 +1031,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		// 1. reads the value to test
 		// 2. deletes the test record
 		// 3. tests the previously read value (and possibly fails)
-		$counter = tx_oelib_db::selectSingle(
-			'COUNT(*) AS number',
+		$numberOfCreatedRelations = tx_oelib_db::count(
 			OELIB_TESTTABLE_MM,
-			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
+			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
 		);
-		$numberOfCreatedRelations = $counter['number'];
 
 		// Deletes the record as it will not be caught by the clean up function.
 		tx_oelib_db::delete(

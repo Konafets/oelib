@@ -1514,13 +1514,7 @@ final class tx_oelib_testingFramework {
 			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
 			: $whereForDummyColumn;
 
-		$row = tx_oelib_db::selectSingle(
-			'COUNT(*) AS number',
-			$table,
-			$compoundWhereClause
-		);
-
-		return intval($row['number']);
+		return tx_oelib_db::count($table, $compoundWhereClause);
 	}
 
 	/**
