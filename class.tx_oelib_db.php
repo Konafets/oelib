@@ -499,7 +499,7 @@ class tx_oelib_db {
 	 *
 	 * @return boolean true if the table $tableName exists, false otherwise
 	 */
-	public function existsTable($tableName) {
+	public static function existsTable($tableName) {
 		if ($tableName == '') {
 			throw new Exception('The table name must not be empty.');
 		}
@@ -524,7 +524,7 @@ class tx_oelib_db {
 	 *               as keys and the SHOW COLUMNS field information (in an
 	 *               array) as values
 	 */
-	public function getColumnsInTable($table) {
+	public static function getColumnsInTable($table) {
 		self::retrieveColumnsForTable($table);
 
 		return self::$tableColumnCache[$table];
@@ -541,7 +541,7 @@ class tx_oelib_db {
 	 * @return array the field definition for the field in $table, will not be
 	 *               empty
 	 */
-	public function getColumnDefinition($table, $column) {
+	public static function getColumnDefinition($table, $column) {
 		self::retrieveColumnsForTable($table);
 
 		return self::$tableColumnCache[$table][$column];
