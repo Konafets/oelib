@@ -1028,6 +1028,36 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Ensures that all values in the given array are intvaled and removes empty
+	 * or invalid values.
+	 *
+	 * @param array $keys the keys of the piVars to check, may be empty
+	 */
+	protected function ensureIntegerArrayValues(array $keys) {
+		if (empty($keys)) {
+			return;
+		}
+
+		foreach ($keys as $key) {
+			if (!isset($this->piVars[$key])
+				|| !is_array($this->piVars[$key])
+			) {
+				continue;
+			}
+
+			foreach ($this->piVars[$key] as $innerKey => $value) {
+				$integerValue = intval($value);
+
+				if ($integerValue == 0) {
+					unset($this->piVars[$key][$innerKey]);
+				} else {
+					$this->piVars[$key][$innerKey] = $integerValue;
+				}
+			}
+		}
+	}
+
+	/**
 	 * Creates an IMG for a resized image version of $path.
 	 * If the image cannot be created, the ALT text is returned instead.
 	 *

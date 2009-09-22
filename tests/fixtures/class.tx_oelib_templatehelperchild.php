@@ -139,6 +139,16 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	}
 
 	/**
+	 * Ensures that all values in the given array are intvaled and removes empty
+	 * or invalid values.
+	 *
+	 * @param array $keys the keys of the piVars to check, may be empty
+	 */
+	public function ensureIntegerArrayValues(array $keys) {
+		parent::ensureIntegerArrayValues($keys);
+	}
+
+	/**
 	 * Ensures that $this->cObj points to a valid content object.
 	 *
 	 * If this object alread has a valid cObj, this function does nothing.
