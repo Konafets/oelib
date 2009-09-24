@@ -980,11 +980,92 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function countForInvalidTableNamesThrowsException() {
-		$this->setExpectedException('Exception');
-
+	public function countWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
 
 		tx_oelib_db::count('tx_oelib_doesnotexist', 'uid = 42');
+	}
+
+
+	/////////////////////////////////
+	// Tests regarding existsRecord
+	/////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithEmptyWhereClauseIsAllowed() {
+		tx_oelib_db::existsRecord(OELIB_TESTTABLE, '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithMissingWhereClauseIsAllowed() {
+		tx_oelib_db::existsRecord(OELIB_TESTTABLE);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The table name must not be empty.'
+		);
+
+		tx_oelib_db::existsRecord('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::existsRecord('tx_oelib_doesnotexist');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordForNoMatchesReturnsFalse() {
+		$this->assertFalse(
+			tx_oelib_db::existsRecord(OELIB_TESTTABLE, 'uid = 42')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordForOneMatchReturnsTrue() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE
+		);
+
+		$this->assertTrue(
+			tx_oelib_db::existsRecord(OELIB_TESTTABLE, 'uid = ' . $uid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordForTwoMatchesReturnsTrue() {
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertTrue(
+			tx_oelib_db::existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
 	}
 }
 ?>

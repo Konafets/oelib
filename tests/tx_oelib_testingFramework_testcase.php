@@ -1479,8 +1479,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testExistsRecordForNoMatchesReturnsFalse() {
-		$this->assertEquals(
-			false,
+		$this->assertFalse(
 			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
@@ -1490,8 +1489,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
-			true,
+		$this->assertTrue(
 			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
@@ -1504,8 +1502,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
-			true,
+		$this->assertTrue(
 			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}

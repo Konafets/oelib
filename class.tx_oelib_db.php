@@ -460,6 +460,22 @@ class tx_oelib_db {
 		return $result['oelib_counter'];
 	}
 
+	/**
+	 * Checks whether there are any records in the table given by the first
+	 * parameter $table that match a given WHERE clause.
+	 *
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param string $whereClause
+	 *        the WHERE part of the query, may be empty (all records will be
+	 *        counted in that case)
+	 *
+	 * @return boolean true if there is at least one matching record,
+	 *                 false otherwise
+	 */
+	public static function existsRecord($table, $whereClause = '') {
+		return (self::count($table, $whereClause) > 0);
+	}
+
 
 	/////////////////////////////////////
 	// Functions concerning table names
