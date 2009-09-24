@@ -332,8 +332,19 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		tx_oelib_db::getColumnsInTable('');
 	}
 
+	/**
+	 * @test
+	 */
+	public function getColumnsInTableForInexistentTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::getColumnsInTable('tx_oelib_doesnotexist');
+	}
+
 	public function testGetColumnsInTableReturnsArrayThatContainsExistingColumn() {
-		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertTrue(
 			isset($columns['title'])
@@ -341,7 +352,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetColumnsInTableReturnsArrayThatNotContainsInexistentColumn() {
-		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertFalse(
 			isset($columns['does_not_exist'])
@@ -362,7 +373,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetColumnDefinitionReturnsArrayThatContainsFieldName() {
-		$definition = tx_oelib_db::getColumnDefinition('tx_oelib_test', 'title');
+		$definition = tx_oelib_db::getColumnDefinition(OELIB_TESTTABLE, 'title');
 
 		$this->assertTrue(
 			$definition['Field'] == 'title'
@@ -800,7 +811,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 	public function testGetAllTableNamesContainsExistingTable() {
 		$this->assertTrue(
-			in_array('tx_oelib_test', tx_oelib_db::getAllTableNames())
+			in_array(OELIB_TESTTABLE, tx_oelib_db::getAllTableNames())
 		);
 	}
 
@@ -850,6 +861,28 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(is_array($tca['palettes']));
 	}
 
+	/**
+	 * @test
+	 */
+	public function getTcaForTableWithEmptyTableNameThrowsExceptionTca() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::getTcaForTable('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTcaForTableWithInexistentTableNameThrowsExceptionTca() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::getTcaForTable('tx_oelib_doesnotexist');
+	}
+
 	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
 		$this->setExpectedException(
 			'Exception', 'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
@@ -878,14 +911,14 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countCanBeCalledWithEmptyWhereClause() {
-		tx_oelib_db::count('tx_oelib_test', '');
+		tx_oelib_db::count(OELIB_TESTTABLE, '');
 	}
 
 	/**
 	 * @test
 	 */
 	public function countCanBeCalledWithMissingWhereClause() {
-		tx_oelib_db::count('tx_oelib_test');
+		tx_oelib_db::count(OELIB_TESTTABLE);
 	}
 
 	/**
@@ -895,7 +928,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			0,
 			tx_oelib_db::count(
-				'tx_oelib_test',
+				OELIB_TESTTABLE,
 				'uid = 42'
 			)
 		);
@@ -908,8 +941,8 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			1,
 			tx_oelib_db::count(
-				'tx_oelib_test',
-				'uid = ' . $this->testingFramework->createRecord('tx_oelib_test')
+				OELIB_TESTTABLE,
+				'uid = ' . $this->testingFramework->createRecord(OELIB_TESTTABLE)
 			)
 		);
 	}
@@ -918,13 +951,13 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countForTwoMatchesReturnsTwo() {
-		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
-		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
+		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
 		$this->assertEquals(
 			2,
 			tx_oelib_db::count(
-				'tx_oelib_test',
+				OELIB_TESTTABLE,
 				'uid IN(' . $uid1 . ',' . $uid2 . ')'
 			)
 		);
@@ -934,7 +967,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countCanBeCalledForTableWithoutUid() {
-		tx_oelib_db::count('tx_oelib_test_article_mm');
+		tx_oelib_db::count(OELIB_TESTTABLE_MM);
 	}
 
 	/**
