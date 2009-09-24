@@ -332,8 +332,19 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		tx_oelib_db::getColumnsInTable('');
 	}
 
+	/**
+	 * @test
+	 */
+	public function getColumnsInTableForInexistentTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::getColumnsInTable('tx_oelib_doesnotexist');
+	}
+
 	public function testGetColumnsInTableReturnsArrayThatContainsExistingColumn() {
-		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertTrue(
 			isset($columns['title'])
@@ -341,7 +352,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetColumnsInTableReturnsArrayThatNotContainsInexistentColumn() {
-		$columns = tx_oelib_db::getColumnsInTable('tx_oelib_test');
+		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertFalse(
 			isset($columns['does_not_exist'])
@@ -362,7 +373,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetColumnDefinitionReturnsArrayThatContainsFieldName() {
-		$definition = tx_oelib_db::getColumnDefinition('tx_oelib_test', 'title');
+		$definition = tx_oelib_db::getColumnDefinition(OELIB_TESTTABLE, 'title');
 
 		$this->assertTrue(
 			$definition['Field'] == 'title'
@@ -751,7 +762,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 	public function testGetAllTableNamesContainsExistingTable() {
 		$this->assertTrue(
-			in_array('tx_oelib_test', tx_oelib_db::getAllTableNames())
+			in_array(OELIB_TESTTABLE, tx_oelib_db::getAllTableNames())
 		);
 	}
 
@@ -799,6 +810,28 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertTrue(is_array($tca['columns']));
 		$this->assertTrue(is_array($tca['types']));
 		$this->assertTrue(is_array($tca['palettes']));
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTcaForTableWithEmptyTableNameThrowsExceptionTca() {
+		$this->setExpectedException(
+			'Exception', 'The table name must not be empty.'
+		);
+
+		tx_oelib_db::getTcaForTable('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTcaForTableWithInexistentTableNameThrowsExceptionTca() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::getTcaForTable('tx_oelib_doesnotexist');
 	}
 
 	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {

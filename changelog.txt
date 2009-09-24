@@ -1,4 +1,5 @@
 0.6.3 - currently working on
+- [#3412] Fix: db::retrieveColumnsForTable and ::getTcaForTable need to check for the existence of the table
 - [#3413] Fix: Some functions in oelib_db are missing the "static" keyword
 - [#3388] Fix: Autoloader does not load XCLASS
 - [#3370] Fix: Models should be marked as dead on __destruct

@@ -495,14 +495,15 @@ class tx_oelib_db {
 	 *               retrieved, must not be empty
 	 */
 	private static function retrieveColumnsForTable($table) {
-		if ($table == '') {
-			throw new Exception('The table name must not be empty.');
-		}
-
 		if (!isset(self::$tableColumnCache[$table])) {
+			if (!self::existsTable($table)) {
+				throw new Exception(
+					'The table "' . $table . '" does not exist.'
+				);
+			}
+
 			self::$tableColumnCache[$table] =
 				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
-
 		}
 	}
 
@@ -556,8 +557,13 @@ class tx_oelib_db {
 			return self::$tcaCache[$tableName];
 		}
 
-		t3lib_div::loadTCA($tableName);
+		if (!self::existsTable($tableName)) {
+			throw new Exception(
+				'The table "' . $tableName . '" does not exist.'
+			);
+		}
 
+		t3lib_div::loadTCA($tableName);
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new Exception(
 				'The table "' . $tableName . '" has no TCA.'
