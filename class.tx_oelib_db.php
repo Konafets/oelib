@@ -476,6 +476,42 @@ class tx_oelib_db {
 		return (self::count($table, $whereClause) > 0);
 	}
 
+	/**
+	 * Checks whether there is exactly one record in the table given by the
+	 * first parameter $table that matches a given WHERE clause.
+	 *
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param string $whereClause
+	 *        the WHERE part of the query, may be empty (all records will be
+	 *        counted in that case)
+	 *
+	 * @return boolean true if there is exactly one matching record,
+	 *                 false otherwise
+	 */
+	public static function existsExactlyOneRecord($table, $whereClause = '') {
+		return (self::count($table, $whereClause) == 1);
+	}
+
+	/**
+	 * Checks whether there is a record in the table given by the first
+	 * parameter $table that has the given UID.
+	 *
+	 * Important: This function also returns true if there is a deleted or
+	 * hidden record with that particular UID.
+	 *
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param integer $uid the UID of the record to look up, must be > 0
+	 *
+	 * @return boolean true if there is a matching record, false otherwise
+	 */
+	public static function existsRecordWithUid($table, $uid) {
+		if ($uid <= 0) {
+			throw new Exception('$uid must be > 0.');
+		}
+
+		return (self::count($table, 'uid = ' . $uid) > 0);
+	}
+
 
 	/////////////////////////////////////
 	// Functions concerning table names

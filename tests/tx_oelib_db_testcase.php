@@ -1067,5 +1067,157 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 			tx_oelib_db::existsRecord(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
+
+
+	///////////////////////////////////////////
+	// Tests regarding existsExactlyOneRecord
+	///////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithEmptyWhereClauseIsAllowed() {
+		tx_oelib_db::existsExactlyOneRecord(OELIB_TESTTABLE, '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithMissingWhereClauseIsAllowed() {
+		tx_oelib_db::existsExactlyOneRecord(OELIB_TESTTABLE);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The table name must not be empty.'
+		);
+
+		tx_oelib_db::existsExactlyOneRecord('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::existsExactlyOneRecord('tx_oelib_doesnotexist');
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForNoMatchesReturnsFalse() {
+		$this->assertFalse(
+			tx_oelib_db::existsExactlyOneRecord(OELIB_TESTTABLE, 'uid = 42')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForOneMatchReturnsTrue() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE
+		);
+
+		$this->assertTrue(
+			tx_oelib_db::existsExactlyOneRecord(OELIB_TESTTABLE, 'uid = ' . $uid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForTwoMatchesReturnsFalse() {
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+		$this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('title' => 'foo')
+		);
+
+		$this->assertFalse(
+			tx_oelib_db::existsExactlyOneRecord(OELIB_TESTTABLE, 'title = "foo"')
+		);
+	}
+
+
+	////////////////////////////////////////
+	// Tests regarding existsRecordWithUid
+	////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithZeroUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$uid must be > 0.'
+		);
+
+		tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, 0);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithNegativeUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$uid must be > 0.'
+		);
+
+		tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, -1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithEmptyTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'The table name must not be empty.'
+		);
+
+		tx_oelib_db::existsRecordWithUid('', 42);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithInvalidTableNameThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+		);
+
+		tx_oelib_db::existsRecordWithUid('tx_oelib_doesnotexist', 42);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidForNoMatchesReturnsFalse() {
+		$this->assertFalse(
+			tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, 42)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidForMatchReturnsTrue() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE
+		);
+
+		$this->assertTrue(
+			tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, $uid)
+		);
+	}
 }
 ?>

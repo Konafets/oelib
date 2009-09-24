@@ -1550,7 +1550,6 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, -1);
 	}
 
-
 	public function testExistsRecordWithUidWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'Exception',
