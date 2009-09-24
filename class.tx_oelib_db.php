@@ -501,15 +501,22 @@ class tx_oelib_db {
 	 *
 	 * @param string $table the name of the table to query, must not be empty
 	 * @param integer $uid the UID of the record to look up, must be > 0
+	 * @param string $additionalWhereClause
+	 *        additional WHERE clause to append, must either start with " AND"
+	 *        or be completely empty
 	 *
 	 * @return boolean true if there is a matching record, false otherwise
 	 */
-	public static function existsRecordWithUid($table, $uid) {
+	public static function existsRecordWithUid(
+		$table, $uid, $additionalWhereClause = ''
+	) {
 		if ($uid <= 0) {
 			throw new Exception('$uid must be > 0.');
 		}
 
-		return (self::count($table, 'uid = ' . $uid) > 0);
+		return (
+			self::count($table, 'uid = ' . $uid . $additionalWhereClause) > 0
+		);
 	}
 
 

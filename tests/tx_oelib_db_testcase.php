@@ -1201,7 +1201,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function existsRecordWithUidForNoMatchesReturnsFalse() {
+	public function existsRecordWithUidForNoMatchReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, 42)
 		);
@@ -1217,6 +1217,21 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, $uid)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidUsesAdditionalNonEmptyWhereClause() {
+		$uid = $this->testingFramework->createRecord(
+			OELIB_TESTTABLE, array('deleted' => 1)
+		);
+
+		$this->assertFalse(
+			tx_oelib_db::existsRecordWithUid(
+				OELIB_TESTTABLE, $uid, ' AND deleted = 0'
+			)
 		);
 	}
 }
