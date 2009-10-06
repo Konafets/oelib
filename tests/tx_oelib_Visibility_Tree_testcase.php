@@ -203,7 +203,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 		$this->fixture->makeNodesVisible(array('testNode'));
 
-		$children = $this->fixture->getRootNode()->getChildren();
+		$this->fixture->getRootNode()->getChildren();
 
 		$this->assertEquals(
 			array(),

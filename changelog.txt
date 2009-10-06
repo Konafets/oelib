@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3332] Fix: Unused variable $children in tx_oelib_Visibility_Tree_testcase::test_makeNodesVisibleForGivenNode_MakesThisNodeVisible
 - [#3412] Fix: db::retrieveColumnsForTable and ::getTcaForTable need to check for the existence of the table
 - [#3411] Feature: Add tx_oelib_templatehelper::ensureIntegerArrayValues
 - [#3413] Fix: Some functions in oelib_db are missing the "static" keyword
