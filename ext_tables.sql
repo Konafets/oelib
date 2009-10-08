@@ -75,6 +75,15 @@ CREATE TABLE be_users (
 
 
 #
+# Table structure for table 'be_groups'
+#
+CREATE TABLE be_groups (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record),
+);
+
+
+#
 # Table structure for table 'cache_pages'
 #
 CREATE TABLE cache_pages (

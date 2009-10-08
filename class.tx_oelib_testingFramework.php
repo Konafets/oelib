@@ -82,7 +82,7 @@ final class tx_oelib_testingFramework {
 	 */
 	private $allowedSystemTables = array(
 		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
-		'tt_content'
+		'tt_content', 'be_groups'
 	);
 
 	/**
@@ -504,6 +504,27 @@ final class tx_oelib_testingFramework {
 
 		return $this->createRecordWithoutTableNameChecks(
 			'be_users', $recordData
+		);
+	}
+
+	/**
+	 * Creates a BE user group.
+	 *
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new user
+	 *        group record, may be empty, but must not contain the key "uid"
+	 *
+	 * @return integer the UID of the new user group, will be > 0
+	 */
+	public function createBackEndUserGroup(array $recordData = array()) {
+		if (isset($recordData['uid'])) {
+			throw new Exception(
+				'The column "uid" must not be set in $recordData.'
+			);
+		}
+
+		return $this->createRecordWithoutTableNameChecks(
+			'be_groups', $recordData
 		);
 	}
 

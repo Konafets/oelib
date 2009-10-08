@@ -4058,5 +4058,40 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			$testingFramework->getDummyColumnName('user_oelibtest2_test')
 		);
 	}
+
+
+	////////////////////////////////////////////
+	// Tests concerning createBackEndUserGroup
+	////////////////////////////////////////////
+
+	public function test_createBackEndUserGroupForNoDataGiven_CreatesBackEndGroup() {
+		$this->fixture->createBackEndUserGroup(array());
+
+		$this->assertTrue(
+			$this->fixture->existsRecord('be_groups')
+		);
+	}
+
+	public function test_createBackEndUserGroupForNoDataGiven_ReturnsUidOfCreatedBackEndGroup() {
+		$backendGroupUid = $this->fixture->createBackEndUserGroup(array());
+
+		$this->assertTrue(
+			$this->fixture->existsRecord(
+				'be_groups', 'uid = ' . $backendGroupUid
+			)
+		);
+	}
+
+	public function test_createBackEndUserGroupForTitleGiven_StoresTitleInGroupRecord() {
+		$this->fixture->createBackEndUserGroup(
+			array('title' => 'foo group')
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsRecord(
+				'be_groups', 'title = "foo group"'
+			)
+		);
+	}
 }
 ?>
