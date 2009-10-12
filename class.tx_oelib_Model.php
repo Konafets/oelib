@@ -522,6 +522,15 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 
 		$this->setAsInteger('crdate', $GLOBALS['SIM_EXEC_TIME']);
 	}
+
+	/**
+	 * Returns the page UID of this model.
+	 *
+	 * @return integer the page UID of this model, will be >= 0
+	 */
+	public function getPageUid() {
+		return $this->getAsInteger('pid');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']) {

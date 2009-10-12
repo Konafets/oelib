@@ -707,5 +707,28 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAsInteger('crdate')
 		);
 	}
+
+
+	////////////////////////////////
+	// Tests concerning getPageUid
+	////////////////////////////////
+
+	public function test_getPageUid_CanReturnTheSetPageUid() {
+		$this->fixture->setData(array('pid' => 42));
+
+		$this->assertEquals(
+			42,
+			$this->fixture->getPageUid()
+		);
+	}
+
+	public function test_getPageUidForNoSetPageUid_ReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getPageUid()
+		);
+	}
 }
 ?>
