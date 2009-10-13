@@ -45,7 +45,9 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_tests_fixtures_TestingMapper();
+		$this->fixture = tx_oelib_MapperRegistry::get(
+			'tx_oelib_tests_fixtures_TestingMapper'
+		);
 	}
 
 	public function tearDown() {
