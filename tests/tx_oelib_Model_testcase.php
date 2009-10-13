@@ -53,6 +53,36 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	// Tests for the basic functionality
 	//////////////////////////////////////
 
+	/**
+	 * @test
+	 */
+	public function destructDoesNotCrashForRelationToSelf() {
+		$fixture = new tx_oelib_tests_fixtures_TestingModel();
+		$fixture->setData(
+			array('foo' => $fixture)
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function destructDoesNotCrashForTwoModelsInACircle() {
+		$fixture1 = new tx_oelib_tests_fixtures_TestingModel();
+		$fixture2 = new tx_oelib_tests_fixtures_TestingModel();
+
+		$fixture1->setData(
+			array('foo' => $fixture2)
+		);
+		$fixture2->setData(
+			array('foo' => $fixture1)
+		);
+
+		$fixture1->__destruct();
+		$fixture2->__destruct();
+	}
+
 	public function testGetWithNoDataThrowsException() {
 		$this->setExpectedException(
 			'Exception',
@@ -205,6 +235,20 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 
 		$otherModel->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsModelForSelfReturnsSelf() {
+		$this->fixture->setData(
+			array('foo' => $this->fixture)
+		);
+
+		$this->assertSame(
+			$this->fixture,
+			$this->fixture->getAsModel('foo')
+		);
 	}
 
 
