@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3442] Fix: Documentation wrong about getPrefixedMarkers
 - [#3295] Feature: Add getPageUid to tx_oelib_Model
 - [#3430] Feature: Add a function createBackEndUserGroup to the testingFramework
 - [#3332] Fix: Unused variable $children in tx_oelib_Visibility_Tree_testcase::test_makeNodesVisibleForGivenNode_MakesThisNodeVisible

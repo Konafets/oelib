@@ -158,9 +158,6 @@ class tx_oelib_Template {
 	 *
 	 * If there are no matches, an empty array is returned.
 	 *
-	 * The function <code>findMarkers</code> must be called before this function
-	 * may be called.
-	 *
 	 * @param string case-insensitive prefix for the marker names to look for
 	 *
 	 * @return array array of matching marker names, might be empty
