@@ -590,6 +590,22 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithRelationToSelfReturnsSelf() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$this->testingFramework->changeRecord(
+			'tx_oelib_test', $uid, array('friend' => $uid)
+		);
+		$model = $this->fixture->find($uid);
+
+		$this->assertSame(
+			$model,
+			$model->getFriend()
+		);
+	}
+
 	public function testRelatedRecordWithExistingUidCanReturnOtherModelType() {
 		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$uid = $this->testingFramework->createRecord(
