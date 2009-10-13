@@ -121,8 +121,8 @@ class tx_oelib_Template {
 
 		$matches = array();
 		preg_match_all(
-			'/<!-- *###([A-Z0-9_]+)### *-->(.*)' .
-				'<!-- *###\1### *-->/msU',
+			'/<!-- *###([A-Z0-9_]+)###[^\-^>]*-->(.*)' .
+				'<!-- *###\1###[^\-^>]*-->/msU',
 			$templateCode, $matches, PREG_SET_ORDER
 		);
 		foreach ($matches as $match) {
@@ -614,8 +614,8 @@ class tx_oelib_Template {
 
 		// recursively replaces subparts with their contents
 		$noSubpartMarkers = preg_replace_callback(
-			'/<!-- *###([A-Z0-9_]+)### *-->(.*)' .
-				'<!-- *###\1### *-->/msU',
+			'/<!-- *###([A-Z0-9_]+)###[^\-^>]*-->(.*)' .
+				'<!-- *###\1###[^\-^>]*-->/msU',
 			array(
 				$this,
 				'getSubpartForCallback'

@@ -137,6 +137,114 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithTextBeforeClosingSubpartStartComment() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### start -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithTextBeforeClosingSubpartEndComment() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithTextBeforeOpeningAndClosingSubpartEndComment() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### start -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithTextBeforeClosingSubpartStartCommentReplacesNestedSubpart() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### start -->' .
+			'<!-- ###MY_INNER_SUBPART### start -->' .
+			$subpartContent .
+			'<!-- ###MY_INNER_SUBPART### -->' .
+			'<!-- ###MY_SUBPART### -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithTextBeforeClosingSubpartEndCommentReplacesNestedSubpart() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### -->' .
+			'<!-- ###MY_INNER_SUBPART### -->' .
+			$subpartContent .
+			'<!-- ###MY_INNER_SUBPART### end -->' .
+			'<!-- ###MY_SUBPART### end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithTextBeforeOpeningAndClosingSubpartEndCommentReplacesNestedSubpart() {
+ 		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart' .
+			'<!-- ###MY_SUBPART### -->' .
+			'<!-- ###MY_INNER_SUBPART### start -->' .
+			$subpartContent .
+			'<!-- ###MY_INNER_SUBPART### end -->' .
+			'<!-- ###MY_SUBPART### end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
 	public function testGetSubpartFromTemplateCanContainUtf8Umlauts() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
