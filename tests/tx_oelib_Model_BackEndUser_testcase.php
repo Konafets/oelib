@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 	/**
@@ -187,6 +188,181 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'john@doe.com',
 			$this->fixture->getEMailAddress()
+		);
+	}
+
+
+	///////////////////////////////
+	// Tests concerning getGroups
+	///////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getGroupsReturnsListFromUserGroupField() {
+		$groups = new tx_oelib_List();
+
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertSame(
+			$groups,
+			$this->fixture->getGroups()
+		);
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning getAllGroups
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForNoGroupsReturnsList() {
+		$this->fixture->setData(array('usergroup' => new tx_oelib_List()));
+
+		$this->assertTrue(
+			$this->fixture->getAllGroups() instanceof tx_oelib_List
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForNoGroupsReturnsEmptyList() {
+		$this->fixture->setData(array('usergroup' => new tx_oelib_List()));
+
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForOneGroupReturnsListWithThatGroup() {
+		$group = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
+		$groups = new tx_oelib_List();
+		$groups->add($group);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertSame(
+			$group,
+			$this->fixture->getAllGroups()->first()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForTwoGroupsReturnsBothGroups() {
+		$group1 = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
+		$group2 = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
+		$groups = new tx_oelib_List();
+		$groups->add($group1);
+		$groups->add($group2);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->hasUid($group1->getUid())
+		);
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->hasUid($group2->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForGroupWithSubgroupReturnsBothGroups() {
+		$subgroup = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
+		$group = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
+				array('subgroup' => $subgroup->getUid())
+			);
+		$groups = new tx_oelib_List();
+		$groups->add($group);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->hasUid($group->getUid())
+		);
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->hasUid($subgroup->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForGroupWithSubsubgroupContainsSubsubgroup() {
+		$subsubgroup = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
+		$subgroup = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
+				array('subgroup' => $subsubgroup->getUid())
+			);
+		$group = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
+				array('subgroup' => $subgroup->getUid())
+			);
+		$groups = new tx_oelib_List();
+		$groups->add($group);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertTrue(
+			$this->fixture->getAllGroups()->hasUid($subsubgroup->getUid())
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForGroupWithSubgroupSelfReferenceReturnsOnlyOneGroup() {
+		$group = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
+		$subgroups = new tx_oelib_List();
+		$subgroups->add($group);
+		$group->setData(array('subgroup' => $subgroups));
+
+		$groups = new tx_oelib_List();
+		$groups->add($group);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertEquals(
+			1,
+			$this->fixture->getAllGroups()->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAllGroupsForGroupWithSubgroupCycleReturnsBothGroups() {
+		$group1 = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
+		$group2 = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
+
+		$subgroups1 = new tx_oelib_List();
+		$subgroups1->add($group2);
+		$group1->setData(array('subgroup' => $subgroups1));
+
+		$subgroups2 = new tx_oelib_List();
+		$subgroups2->add($group1);
+		$group2->setData(array('subgroup' => $subgroups2));
+
+		$groups = new tx_oelib_List();
+		$groups->add($group1);
+		$this->fixture->setData(array('usergroup' => $groups));
+
+		$this->assertEquals(
+			2,
+			$this->fixture->getAllGroups()->count()
 		);
 	}
 }

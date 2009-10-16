@@ -31,6 +31,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @subpackage tx_oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Mapper_BackEndUser_testcase extends tx_phpunit_testcase {
 	/**
@@ -150,6 +151,27 @@ class tx_oelib_Mapper_BackEndUser_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->findByCliKey() instanceof tx_oelib_Model_BackEndUser
+		);
+	}
+
+
+	///////////////////////////////////
+	// Tests concerning the relations
+	///////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function usergroupRelationIsUserGroupList() {
+		$groupUid = tx_oelib_MapperRegistry::
+			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost()->getUid();
+		$userUid = $this->fixture->getLoadedTestingModel(
+			array('usergroup' => $groupUid)
+		)->getUid();
+
+		$this->assertTrue(
+			$this->fixture->find($userUid)->getGroups()->first()
+				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}
 }

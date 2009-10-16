@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3245] Feature: Add a model + mapper for BE user groups
 - [#3444] Fix: A model cannot have a relation to itself
 - [#3443] Fix: getSubpart('foo') fails if there is text after the marker in the template
 - [#3442] Fix: Documentation wrong about getPrefixedMarkers

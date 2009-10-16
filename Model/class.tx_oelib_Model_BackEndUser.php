@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Interface_MailRole {
 	/**
@@ -94,6 +95,42 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	 */
 	public function hasLanguage() {
 		return $this->hasString('lang');
+	}
+
+	/**
+	 * Returns the direct user groups of this user.
+	 *
+	 * @return tx_oelib_List the user's direct groups, will be empty if this
+	 *                       user has no groups
+	 */
+	public function getGroups() {
+		return $this->getAsList('usergroup');
+	}
+
+	/**
+	 * Recursively gets all groups and subgroups of this user.
+	 *
+	 * @return tx_oelib_List all groups and subgroups of this user, will be
+	 *                       empty if this user has no groups
+	 */
+	public function getAllGroups() {
+		$result = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$groupsToProcess = $this->getGroups();
+
+		do {
+			$groupsForNextStep = tx_oelib_ObjectFactory::make('tx_oelib_List');
+			$result->appendUnique($groupsToProcess);
+			foreach ($groupsToProcess as $group) {
+				$subgroups = $group->getSubgroups();
+				foreach ($subgroups as $subgroup)
+				if (!$result->hasUid($subgroup->getUid())) {
+					$groupsForNextStep->add($subgroup);
+				}
+			}
+			$groupsToProcess = $groupsForNextStep;
+		} while (!$groupsToProcess->isEmpty());
+
+		return $result;
 	}
 }
 

@@ -44,6 +44,14 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_BackEndUser';
 
 	/**
+	 * @var array the (possible) relations of the created models in the format
+	 *            DB column name => mapper name
+	 */
+	protected $relations = array(
+		'usergroup' => 'tx_oelib_Mapper_BackEndUserGroup',
+	);
+
+	/**
 	 * Finds a back-end user by user name. Hidden user records will be retrieved
 	 * as well.
 	 *
