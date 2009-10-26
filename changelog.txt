@@ -1,4 +1,5 @@
 0.6.4 - currently working on
+- [#3457] Fix: The language functions of the BE-user model return the default not the selected language
 
 0.6.3 - released 2009-10-14
 - [#3444] Fix: A model cannot have a relation to itself

@@ -40,6 +40,11 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	private static $instance = null;
 
 	/**
+	 * @var tx_oelib_Model_BackEndUser a fake logged-in back-end user
+	 */
+	private $loggedInUser = null;
+
+	/**
 	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
@@ -49,6 +54,7 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->loggedInUser = null;
 	}
 
 	/**
@@ -81,6 +87,10 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * @return boolean true if a back-end user is logged in, false otherwise
 	 */
 	public function isLoggedIn() {
+		if($this->loggedInUser) {
+			return true;
+		}
+
 		return isset($GLOBALS['BE_USER']) && is_object($GLOBALS['BE_USER']);
 	}
 
@@ -102,9 +112,24 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 		if (!$this->isLoggedIn()) {
 			return null;
 		}
+		if ($this->loggedInUser) {
+			return $this->loggedInUser;
+		}
 
 		return tx_oelib_MapperRegistry::get($mapperName)
 			->find($GLOBALS['BE_USER']->user['uid']);
+	}
+
+	/**
+	 * Sets the currently logged-in back-end user.
+	 *
+	 * This function is for testing purposes only!
+	 *
+	 * @param tx_oelib_Model_BackEndUser $loggedInUser
+	 *        the fake logged-in back-end user
+	 */
+	public function setLoggedInUser(tx_oelib_Model_BackEndUser $loggedInUser) {
+		$this->loggedInUser = $loggedInUser;
 	}
 }
 
