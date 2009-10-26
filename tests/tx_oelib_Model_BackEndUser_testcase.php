@@ -117,8 +117,8 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetLanguageSetsLanguage() {
-		$this->fixture->setLanguage('de');
+	public function testGetLanguageForLanguageSetInUserConfigurationReturnsThisLanguage() {
+		$this->fixture->setData(array('uc' => serialize(array('lang' => 'de'))));
 
 		$this->assertEquals(
 			'de',
@@ -126,8 +126,27 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetLanguageWithDefaultSetsLanguage() {
-		$this->fixture->setLanguage('default');
+	public function testGetLanguageForSetDefaultLanguageAndLanguageSetInUserConfigurationReturnsLanguageFromConfiguration() {
+		$this->fixture->setData(array('uc' => serialize(array('lang' => 'fr'))));
+		$this->fixture->setDefaultLanguage('de');
+
+		$this->assertEquals(
+			'fr',
+			$this->fixture->getLanguage()
+		);
+	}
+
+	public function testSetDefaultLanguageSetsLanguage() {
+		$this->fixture->setDefaultLanguage('de');
+
+		$this->assertEquals(
+			'de',
+			$this->fixture->getLanguage()
+		);
+	}
+
+	public function testSetDefaultLanguageWithDefaultSetsLanguage() {
+		$this->fixture->setDefaultLanguage('default');
 
 		$this->assertEquals(
 			'default',
@@ -135,12 +154,12 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetLanguageWithEmptyKeyThrowsException() {
+	public function testSetDefaultLanguageWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'Exception', '$language must not be empty.'
 		);
 
-		$this->fixture->setLanguage('');
+		$this->fixture->setDefaultLanguage('');
 	}
 
 	public function testHasLanguageWithoutLanguageReturnsFalse() {
@@ -153,7 +172,7 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 
 	public function testHasLanguageWithDefaultLanguageSetReturnsFalse() {
 		$this->fixture->setData(array());
-		$this->fixture->setLanguage('default');
+		$this->fixture->setDefaultLanguage('default');
 
 		$this->assertFalse(
 			$this->fixture->hasLanguage()

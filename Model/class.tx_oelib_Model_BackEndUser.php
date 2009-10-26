@@ -35,6 +35,11 @@
  */
 class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Interface_MailRole {
 	/**
+	 * @var array the user's configuration unserialized
+	 */
+	private $configuration = array();
+
+	/**
 	 * Gets this user's user name.
 	 *
 	 * @return string this user's user name, will not be empty for valid users
@@ -66,17 +71,26 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	 * @return string this user's language key, will not be empty
 	 */
 	public function getLanguage() {
-		return ($this->hasLanguage() ? $this->getAsString('lang') : 'default');
+		$configuration = $this->getConfiguration();
+		if (isset($configuration['lang']) &&
+			($configuration['lang'] != '')
+		) {
+			$result = $configuration['lang'];
+		} else {
+			$result = $this->getDefaultLanguage();
+		}
+
+		return ($result != '') ? $result : 'default';
 	}
 
 	/**
-	 * Sets this user's language.
+	 * Sets this user's default language.
 	 *
 	 * @param string this user's language key, must be a two-letter "lg_typo3"
 	 *               key of the "static_languages" table or "default" for the
 	 *               default language
 	 */
-	public function setLanguage($language) {
+	public function setDefaultLanguage($language) {
 		if ($language == '') {
 			throw new Exception('$language must not be empty.');
 		}
@@ -94,7 +108,7 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	 *                 otherwise
 	 */
 	public function hasLanguage() {
-		return $this->hasString('lang');
+		return ($this->getLanguage() != 'default');
 	}
 
 	/**
@@ -131,6 +145,30 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 		} while (!$groupsToProcess->isEmpty());
 
 		return $result;
+	}
+
+	/**
+	 * Retrieves the user's configuration, and unserializes it.
+	 *
+	 * @return array the user's configuration, will be empty if the user has no
+	 *               configuration set
+	 */
+	private function getConfiguration() {
+		if (empty($this->configuration)) {
+			$this->configuration = unserialize($this->getAsString('uc'));
+		}
+
+		return $this->configuration;
+	}
+
+	/**
+	 * Returns the user's default language.
+	 *
+	 * @return string the user's default language, will be empty if no default
+	 *                language has been set
+	 */
+	private function getDefaultLanguage() {
+		return $this->getAsString('lang');
 	}
 }
 

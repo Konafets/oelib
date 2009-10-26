@@ -123,8 +123,7 @@ class tx_oelib_TranslatorRegistry {
 	private function initializeBackEnd() {
 		$backEndUser = tx_oelib_BackEndLoginManager::getInstance()->
 			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
-		$this->languageKey = ($backEndUser->hasLanguage())
-			? $backEndUser->getLanguage() : 'default';
+		$this->languageKey = $backEndUser->getLanguage();
 		$this->renderCharset = $GLOBALS['LANG']->charset;
 		$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
 	}

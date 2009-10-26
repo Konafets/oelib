@@ -137,9 +137,9 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function initializeBackEndWithBackEndUserLanguageEnglishSetsLanguageEnglish() {
-		$backEndUser = tx_oelib_BackEndLoginManager::getInstance()->
-			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
-		$backEndUser->setLanguage('default');
+		$backEndUser = new tx_oelib_Model_BackEndUser();
+		$backEndUser->setDefaultLanguage('default');
+		tx_oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
 		$this->assertEquals(
 			'default',
@@ -151,9 +151,9 @@ class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function initializeBackEndWithBackEndUserLanguageGermanSetsLanguageGerman() {
-		$backEndUser = tx_oelib_BackEndLoginManager::getInstance()->
-			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
-		$backEndUser->setLanguage('de');
+		$backEndUser = new tx_oelib_Model_BackEndUser();
+		$backEndUser->setDefaultLanguage('de');
+		tx_oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
 		$this->assertEquals(
 			'de',

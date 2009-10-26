@@ -94,6 +94,17 @@ class tx_oelib_BackEndLoginManager_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	public function testIsLoggedInForFakedUserReturnsTrue() {
+		$this->fixture->setLoggedInUser(
+			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')
+				->getNewGhost()
+		);
+
+		$this->assertTrue(
+			$this->fixture->isLoggedIn()
+		);
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning getLoggedInUser
@@ -148,6 +159,36 @@ class tx_oelib_BackEndLoginManager_testcase extends tx_phpunit_testcase {
 		);
 
 		$GLOBALS['BE_USER']->user['realName'] = $backedUpName;
+	}
+
+
+	////////////////////////////////////
+	// Tests concerning setLoggedInUser
+	////////////////////////////////////
+
+	public function test_SetLoggedInUserForUserGiven_SetsTheLoggedInUser() {
+		$backEndUser = tx_oelib_MapperRegistry::get(
+			'tx_oelib_Mapper_BackEndUser')->getNewGhost();
+		$this->fixture->setLoggedInUser($backEndUser);
+
+		$this->assertSame(
+			$backEndUser,
+			$this->fixture->getLoggedInUser()
+		);
+	}
+
+	public function test_SetLoggedInUserForUserGivenAndAlreadyStoredLoggedInUser_OverridesTheOldUserWithTheNewOne() {
+		$oldBackEndUser = tx_oelib_MapperRegistry::get(
+			'tx_oelib_Mapper_BackEndUser')->getNewGhost();
+		$this->fixture->setLoggedInUser($oldBackEndUser);
+		$newBackEndUser = tx_oelib_MapperRegistry::get(
+			'tx_oelib_Mapper_BackEndUser')->getNewGhost();
+		$this->fixture->setLoggedInUser($newBackEndUser);
+
+		$this->assertSame(
+			$newBackEndUser,
+			$this->fixture->getLoggedInUser()
+		);
 	}
 }
 ?>
