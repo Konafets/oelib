@@ -50,7 +50,6 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 				'emptyString' => '',
 				'nonEmptyString' => 'foo',
 				'validEmail' => 'any-address@valid-email.org',
-				'internalEmail' => 'user@servername',
 				'existingColumn' => 'title',
 				'inexistentColumn' => 'does_not_exist',
 			)
@@ -225,24 +224,6 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 		$this->assertContains(
 			'nonEmptyString',
-			$this->fixture->getRawMessage()
-		);
-	}
-
-	public function testCheckIsValidEmailOrEmptyWithAnInternalEmailIfInternalEmailsAreNotAllowed() {
-		$this->fixture->checkIsValidEmailOrEmpty('internalEmail', false, '', false, '');
-
-		$this->assertContains(
-			'internalEmail',
-			$this->fixture->getRawMessage()
-		);
-	}
-
-	public function testCheckIsValidEmailOrEmptyWithAnInternalEmailIfInternalEmailsAreAllowed() {
-		$this->fixture->checkIsValidEmailOrEmpty('internalEmail', false, '', true, '');
-
-		$this->assertEquals(
-			'',
 			$this->fixture->getRawMessage()
 		);
 	}

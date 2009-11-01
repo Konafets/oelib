@@ -1,4 +1,5 @@
 0.6.4 - currently working on
+- [#3471] Fix: Test failure in tx_oelib_configurationCheck_testcase
 - [#3457] Fix: The language functions of the BE-user model return the default not the selected language
 
 0.6.3 - released 2009-10-14
