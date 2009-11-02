@@ -133,6 +133,29 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 
 		return array_keys($this->data[$key]);
 	}
+
+	/**
+	 * Returns the data for the key $key as a multidimensional array.
+	 *
+	 * The return value will be an empty array:
+	 * - if the data item is an empty array,
+	 * - if the data item is not an array,
+	 * - if the key does not exist in $this->data.
+	 *
+	 * @param string $key
+	 *        the key of the data item to get as a multidimensional array, must
+	 *        not be empty
+	 *
+	 * @return array the data for the key $key as a multidimensional array, may
+	 *               be empty
+	 */
+	public function getAsMultidimensionalArray($key) {
+		if (!isset($this->data[$key]) || !is_array($this->data[$key])) {
+			return array();
+		}
+
+		return $this->data[$key];
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Configuration.php']) {

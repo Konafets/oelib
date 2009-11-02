@@ -158,5 +158,73 @@ class tx_oelib_Configuration_testcase extends tx_phpunit_testcase {
 			$this->fixture->getArrayKeys('key')
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getAsMultidimensionalArrayReturnsMultidimensionalArray() {
+		$this->fixture->setData(
+			array('1' => array('1.1' => array('1.1.1' => 'child')))
+		);
+
+		$this->assertEquals(
+			array('1.1' => array('1.1.1' => 'child')),
+			$this->fixture->getAsMultidimensionalArray('1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsMultidimensionalArrayForInexistentKeyReturnsEmptyArray() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAsMultidimensionalArray('1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsMultidimensionalArrayForStringReturnsEmptyArray() {
+		$this->fixture->setData(
+			array('1' => 'child')
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAsMultidimensionalArray('1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsMultidimensionalArrayForIntegerReturnsEmptyArray() {
+		$this->fixture->setData(
+			array('1' => 42)
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAsMultidimensionalArray('1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsMultidimensionalArrayForFloatReturnsEmptyArray() {
+		$this->fixture->setData(
+			array('1' => 42.42)
+		);
+
+		$this->assertEquals(
+			array(),
+			$this->fixture->getAsMultidimensionalArray('1')
+		);
+	}
 }
 ?>
