@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3491] Change: Allow prices with 3 decimal digits
 - [#3482] Feature: Add a method getAsMultidimensionalArray() to tx_oelib_Configuration
 - [#3471] Fix: Test failure in tx_oelib_configurationCheck_testcase
 - [#3457] Fix: The language functions of the BE-user model return the default not the selected language
