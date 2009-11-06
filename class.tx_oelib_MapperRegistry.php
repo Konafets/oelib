@@ -209,6 +209,48 @@ class tx_oelib_MapperRegistry {
 		$this->testingMode = true;
 		$this->testingFramework = $testingFramework;
 	}
+
+	/**
+	 * Sets a mapper that can be returned via get.
+	 *
+	 * This function is a static public convenience wrapper for setByClassName.
+	 *
+	 * This function is to be used for testing purposes only.
+	 *
+	 * @param string $className the class name of the mapper to set
+	 * @param tx_oelib_DataMapper $mapper
+	 *        the mapper to set, must be an instance of $className
+	 *
+	 * @see setByClassName
+	 */
+	static public function set($className, tx_oelib_DataMapper $mapper) {
+		self::getInstance()->setByClassName($className, $mapper);
+	}
+
+	/**
+	 * Sets a mapper that can be returned via get.
+	 *
+	 * This function is to be used for testing purposes only.
+	 *
+	 * @param string $className the class name of the mapper to set
+	 * @param tx_oelib_DataMapper $mapper
+	 *        the mapper to set, must be an instance of $className
+	 */
+	private function setByClassName($className, tx_oelib_DataMapper $mapper) {
+		if (!($mapper instanceof $className)) {
+			throw new Exception(
+				'The provided mapper is not an instance of '. $className . '.'
+			);
+		}
+		if (isset($this->mappers[$className])) {
+			throw new Exception(
+				'There already exists a mapper of the same type. ' .
+				'Overwriting existing wrappers is not allowed.'
+			);
+		}
+
+		$this->mappers[$className] = $mapper;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_MapperRegistry.php']) {

@@ -175,5 +175,58 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 				instanceof tx_oelib_tests_fixtures_TestingMapperTesting
 		);
 	}
+
+
+	/////////////////////////
+	// Tests concerning set
+	/////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getReturnsMapperSetViaSet() {
+		$mapper = new tx_oelib_tests_fixtures_TestingMapper();
+		tx_oelib_MapperRegistry::set(
+			'tx_oelib_tests_fixtures_TestingMapper', $mapper
+		);
+
+		$this->assertSame(
+			$mapper,
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setThrowsExceptionForMismatchingWrapperClass() {
+		$this->setExpectedException(
+			'Exception',
+			'The provided mapper is not an instance of tx_oelib_Mapper_Foo.'
+		);
+
+		$mapper = new tx_oelib_tests_fixtures_TestingMapper();
+		tx_oelib_MapperRegistry::set(
+			'tx_oelib_Mapper_Foo', $mapper
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setThrowsExceptionIfTheMapperTypeAlreadyIsRegistered() {
+		$this->setExpectedException(
+			'Exception',
+			'There already exists a mapper of the same type. ' .
+				'Overwriting existing wrappers is not allowed.'
+		);
+
+		tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper');
+
+		$mapper = new tx_oelib_tests_fixtures_TestingMapper();
+		tx_oelib_MapperRegistry::set(
+			'tx_oelib_tests_fixtures_TestingMapper', $mapper
+		);
+	}
 }
 ?>
