@@ -58,9 +58,70 @@ class tx_oelib_Double3Validator_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function evaluateFieldValueReturnsNonEmptyString() {
-		$this->assertTrue(
-			$this->fixture->evaluateFieldValue() != ''
+	public function evaluateFieldValueForIntegerReturnsFloatWithThreeDecimals() {
+		$this->assertEquals(
+			'42.000',
+			$this->fixture->evaluateFieldValue('42')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueForFloatWithCommaReturnsFloatWithPoint() {
+		$this->assertEquals(
+			'42.123',
+			$this->fixture->evaluateFieldValue('42,123')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueForFloatWithOneDecimalDigitReturnsFloatWithThreeDecimalDigits() {
+		$this->assertEquals(
+			'42.100',
+			$this->fixture->evaluateFieldValue('42.1')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueForFloatWithTwoDecimalDigitsReturnsFloatWithThreeDecimalDigits() {
+		$this->assertEquals(
+			'42.120',
+			$this->fixture->evaluateFieldValue('42.12')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueForFloatWithThreeDecimalsReturnsFloatWithThreeDecimals() {
+		$this->assertEquals(
+			'42.123',
+			$this->fixture->evaluateFieldValue('42.123')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueWithNegativeValueReturnsNegativeValue() {
+		$this->assertEquals(
+			'-42.123',
+			$this->fixture->evaluateFieldValue('-42.123')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function evaluateFieldValueForStringReturnsZeroWithThreeDecimalDigits() {
+		$this->assertEquals(
+			'0.000',
+			$this->fixture->evaluateFieldValue('foo bar')
 		);
 	}
 }
