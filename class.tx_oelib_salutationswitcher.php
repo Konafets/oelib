@@ -84,7 +84,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 *
 	 * @return string the value from LOCAL_LANG
 	 *
-	 * @deprecated 2007-08-22 Use translate instead.
+	 * @deprecated 2007-08-22 Will be removed for oelib 0.7.0. Use translate instead.
 	 */
 	public function pi_getLL($key, $unused = '', $useHtmlSpecialChars = false) {
 		return $this->translate($key, $useHtmlSpecialChars);

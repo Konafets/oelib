@@ -1017,7 +1017,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                UIDs provided in $startPages, will be empty if
 	 *                $startPages is empty
 	 *
-	 * @deprecated 2008-10-04 use tx_oelib_db::createRecursivePageList instead
+	 * @deprecated 2008-10-04 Will be removed for oelib 0.7.0. Use tx_oelib_db::createRecursivePageList instead
 	 */
 	public function createRecursivePageList($startPages, $recursionDepth = 0) {
 		return tx_oelib_db::createRecursivePageList(
@@ -1037,7 +1037,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param array array of array keys for $this->piVars that will be
 	 *              intvaled as well
 	 *
-	 * @deprecated 2008-08-24 use ensureIntegerPiVars() instead
+	 * @deprecated 2008-08-24 Will be removed for oelib 0.7.0. Use ensureIntegerPiVars() instead
 	 */
 	protected function securePiVars(array $additionalPiVars = array()) {
 		if ($this->piVars) {
@@ -1201,7 +1201,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return boolean true if a user is logged in, false otherwise
 	 *
-	 * @deprecated 2009-02-06 use tx_oelib_FrontEndLoginManager::isLoggedIn()
+	 * @deprecated 2009-02-06 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::isLoggedIn()
 	 */
 	public function isLoggedIn() {
 		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
@@ -1376,7 +1376,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @return string the clause starting like " AND ...=... AND ...=..."
 	 *
-	 * @deprecated 2008-09-21 use tx_oelib_db::enableFields instead.
+	 * @deprecated 2008-09-21 Will be removed for oelib 0.7.0. Use tx_oelib_db::enableFields instead.
 	 */
 	public function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),

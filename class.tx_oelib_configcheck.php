@@ -347,7 +347,7 @@ class tx_oelib_configcheck {
 	 *
 	 * @param boolean whether the CSS file can also be selected via flexforms
 	 *
-	 * @deprecated 0.4.0 - 2007-12-15 use checkCssFileFromConstants() instead
+	 * @deprecated 2007-12-15 Will be removed for oelib 0.7.0. Use checkCssFileFromConstants() instead
 	 */
 	protected function checkCssFile($canUseFlexforms = false) {
 		if ($this->objectToCheck->hasConfValueString(

@@ -102,7 +102,7 @@ class tx_oelib_mailerFactory {
 	/**
 	 * Discards the current mailer instance.
 	 *
-	 * @deprecated 2009-02-04 use purgeInstance instead
+	 * @deprecated 2009-02-04 Will be removed for oelib 0.7.0. Use purgeInstance instead
 	 */
 	public function discardInstance() {
 		self::purgeInstance();

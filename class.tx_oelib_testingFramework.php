@@ -367,7 +367,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @return integer the ID of the new cache entry, will be > 0
 	 *
-	 * @deprecated 2009-03-30
+	 * @deprecated 2009-03-30 Will be removed in oelib 0.7.0.
 	 */
 	public function createPageCacheEntry(
 		$pageId = 0, array $recordData = array()
@@ -1546,7 +1546,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @return array the database result as an associative array
 	 *
-	 * @deprecated 2009-01-25, use tx_oelib_db::selectSingle instead
+	 * @deprecated 2009-01-25 Will be removed for oelib 0.7.0. Use tx_oelib_db::selectSingle instead
 	 */
 	public function getAssociativeDatabaseResult($queryResult) {
 		if (!$queryResult) {
