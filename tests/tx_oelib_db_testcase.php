@@ -925,7 +925,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countForNoMatchesReturnsZero() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			tx_oelib_db::count(
 				OELIB_TESTTABLE,
@@ -938,7 +938,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countForOneMatchReturnsOne() {
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			tx_oelib_db::count(
 				OELIB_TESTTABLE,
@@ -954,7 +954,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			tx_oelib_db::count(
 				OELIB_TESTTABLE,

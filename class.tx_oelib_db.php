@@ -457,7 +457,7 @@ class tx_oelib_db {
 			'COUNT(' . $columns . ') AS oelib_counter', $tableNames, $whereClause
 		);
 
-		return $result['oelib_counter'];
+		return intval($result['oelib_counter']);
 	}
 
 	/**
