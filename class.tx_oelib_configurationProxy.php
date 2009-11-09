@@ -169,7 +169,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @return mixed configuration value, will be an empty string if the
 	 *               value does not exist
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use get() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use get() instead
 	 */
 	private function getConfigurationValue($key) {
 		return $this->get($key);
@@ -199,7 +199,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @param string key of the value to set, must not be empty
 	 * @param mixed value to set
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use set() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use set() instead
 	 */
 	private function setConfigurationValue($key, $value) {
 		$this->set($key, $value);
@@ -212,7 +212,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 *
 	 * @return string configuration value string, might be empty
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use getAsString() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsString() instead
 	 */
 	public function getConfigurationValueString($key) {
 		return $this->getAsString($key);
@@ -224,7 +224,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @param string key of the value to set, must not be empty
 	 * @param string value to set, may be empty
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use setAsString() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsString() instead
 	 */
 	public function setConfigurationValueString($key, $value) {
 		$this->setAsString($key, $value);
@@ -237,7 +237,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 *
 	 * @return boolean boolean configuration value
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use getAsBoolean() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsBoolean() instead
 	 */
 	public function getConfigurationValueBoolean($key) {
 		return $this->getAsBoolean($key);
@@ -249,7 +249,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @param string key of the value to set, must not be empty
 	 * @param boolean value to set
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use setAsBoolean() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsBoolean() instead
 	 */
 	public function setConfigurationValueBoolean($key, $value) {
 		$this->setAsBoolean($key, $value);
@@ -262,7 +262,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 *
 	 * @return integer configuration value
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use getAsInteger() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsInteger() instead
 	 */
 	public function getConfigurationValueInteger($key) {
 		return $this->getAsInteger($key);
@@ -274,7 +274,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @param string key of the value to set, must not be empty
 	 * @param integer value to set
 	 *
-	 * @deprecated 0.7.0 - 2009-06-12 use setAsInteger() instead
+	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsInteger() instead
 	 */
 	public function setConfigurationValueInteger($key, $value) {
 		$this->setAsInteger($key, $value);

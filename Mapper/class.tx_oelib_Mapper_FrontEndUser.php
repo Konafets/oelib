@@ -58,7 +58,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *                                     be null if no user is logged in or
 	 *                                     if there is no front end
 	 *
-	 * @deprecated 2009-03-02 use tx_oelib_FrontEndLoginManager::getLoggedInUser
+	 * @deprecated 2009-03-02 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::getLoggedInUser
 	 */
 	public function getLoggedInUser() {
 		return tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser();
