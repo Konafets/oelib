@@ -350,5 +350,26 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 			$this->fixture->getRawMessage()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function checkLocaleDoesNotCheckLocalesOnWindows() {
+		if (TYPO3_OS != 'WIN') {
+			$this->markTestSkipped(
+				'This test does not run properly on non Windows systems.'
+			);
+		}
+
+		$configCheckMock = $this->getMock(
+			'tx_oelib_configcheck',
+			array('getInstalledLocales'),
+			array($this->objectToCheck)
+		);
+
+		$configCheckMock->expects($this->never())->method('getInstalledLocales');
+
+		$configCheckMock->checkLocale();
+	}
 }
 ?>
