@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3508] Cleanup: Replace space + tab with tab
 - [#3488] Fix: tx_oelib_db::count returns a string instead of an integer
 - [#3492] Feature: Add a price view helper
 - [#3487] Feature: Add MapperRegistry::set

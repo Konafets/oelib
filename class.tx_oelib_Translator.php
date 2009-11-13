@@ -58,7 +58,7 @@ class tx_oelib_Translator {
 	 * @param string the key of the alternative language to load the translations
 	 *               for, may be empty
 	 * @param array the localized labels in a nested associative array:
-	 * 				'languageKey' => array('labelkey' => 'label'),
+	 *				'languageKey' => array('labelkey' => 'label'),
 	 *              may be empty
 	 */
 	public function __construct($languageKey, $alternativeLanguageKey, array $localizedLabels) {

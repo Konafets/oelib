@@ -957,10 +957,10 @@ final class tx_oelib_testingFramework {
 		if (!isset($this->dummyFiles[$fileName])) {
 			throw new Exception(
 				'The file "' . $absolutePathToFile . '" which you ' .
-			 		'are trying to delete ' . (!$fileExists
-			 			? 'does not exist and has never been '
-			 			: 'was not '
-			 		) . 'created by this instance of the testing framework.'
+					'are trying to delete ' . (!$fileExists
+						? 'does not exist and has never been '
+						: 'was not '
+					) . 'created by this instance of the testing framework.'
 			);
 		}
 
@@ -1027,8 +1027,8 @@ final class tx_oelib_testingFramework {
 		if (!isset($this->dummyFolders[$folderName])) {
 			throw new Exception(
 				'The folder "' . $absolutePathToFolder . '" which you ' .
-			 		'are trying to delete was not created by this instance of ' .
-			 		'the testing framework.'
+					'are trying to delete was not created by this instance of ' .
+					'the testing framework.'
 			);
 		}
 

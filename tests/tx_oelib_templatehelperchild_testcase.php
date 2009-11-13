@@ -403,7 +403,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetSimpleSubpart() {
- 		$subpartContent = 'Subpart content';
+		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
 			.$subpartContent
@@ -448,7 +448,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetOneOfTwoSimpleSubparts() {
- 		$subpartContent = 'Subpart content';
+		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
 			.$subpartContent
@@ -470,7 +470,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetSimpleSubpartWithLinefeed() {
- 		$subpartContent = LF.'Subpart content'.LF;
+		$subpartContent = LF.'Subpart content'.LF;
 		$templateCode = 'Text before the subpart'.LF
 			.'<!-- ###MY_SUBPART### -->'
 			.$subpartContent
@@ -488,7 +488,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetDoubleOccuringSubpart() {
- 		$subpartContent = 'Subpart content';
+		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
 			.$subpartContent
@@ -510,7 +510,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetSubpartWithNestedInnerSubparts() {
- 		$subpartContent = 'Subpart content ';
+		$subpartContent = 'Subpart content ';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
 			.'outer start, '
