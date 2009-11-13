@@ -3093,7 +3093,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
 				'trying to delete was not created by this instance of ' .
-			 	'the testing framework.'
+				'the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFile(basename($uniqueFileName));
@@ -3169,7 +3169,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->setExpectedException(
 			'Exception', 'The folder "' . $uniqueFolderName . '" which you are ' .
 				'trying to delete was not created by this instance of ' .
-			 	'the testing framework.'
+				'the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFolder(basename($uniqueFolderName));
