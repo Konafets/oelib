@@ -1581,6 +1581,12 @@ class tx_oelib_configcheck {
 	 * Checks whether the locale is set correctly.
 	 */
 	public function checkLocale() {
+		// Skip this check if Windows is used to avoid a crash of the
+		// TYPO3-Winstaller.
+		if (TYPO3_OS == 'WIN') {
+			return;
+		}
+
 		$message = '';
 		$installedLocales = $this->getInstalledLocales();
 		$valueToCheck = isset($GLOBALS['TSFE']->config['config']['locale_all'])
