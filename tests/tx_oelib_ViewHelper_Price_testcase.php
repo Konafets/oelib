@@ -25,11 +25,13 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_oelib_ViewHelper_Price class in the 'oelib' extension.
+ * Testcase for the tx_oelib_ViewHelper_Price class in the "oelib" extension.
  *
  * @package TYPO3
- * @subpackage oelib
+ * @subpackage tx_oelib
+ *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_ViewHelper_Price_testcase extends tx_phpunit_testcase {
 	/**
@@ -43,6 +45,41 @@ class tx_oelib_ViewHelper_Price_testcase extends tx_phpunit_testcase {
 
 	public function teardown() {
 		unset($this->fixture);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithoutSettingValueOrCurrencyFirstRendersZeroWithTwoDigits() {
+		$this->assertEquals(
+			'0.00',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderWithValueWithoutSettingCurrencyUsesDecimalPointAndTwoRoundedDecimalDigits() {
+		$this->fixture->setValue(12345.678);
+
+		$this->assertEquals(
+			'12345.68',
+			$this->fixture->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderAfterSettingAnInvalidCurrencyUsesDecimalPointAndTwoRoundedDecimalDigits() {
+		$this->fixture->setValue(12345.678);
+		$this->fixture->setCurrencyFromIsoAlpha3Code('FOO');
+
+		$this->assertEquals(
+			'12345.68',
+			$this->fixture->render()
+		);
 	}
 
 	/**

@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_ViewHelper_Price' for the 'oelib' extension.
+ * Class tx_oelib_ViewHelper_Price for the "oelib" extension.
  *
  * This class represents a view helper for formatting a price.
  *
@@ -36,6 +36,7 @@
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_ViewHelper_Price {
 	/**
@@ -66,8 +67,12 @@ class tx_oelib_ViewHelper_Price {
 	 *                              must not be empty
 	 */
 	public function setCurrencyFromIsoAlpha3Code($isoAlpha3Code) {
-		$this->currency = tx_oelib_MapperRegistry::
-			get('tx_oelib_Mapper_Currency')->findByIsoAlpha3Code($isoAlpha3Code);
+		try {
+			$this->currency = tx_oelib_MapperRegistry::
+				get('tx_oelib_Mapper_Currency')->findByIsoAlpha3Code($isoAlpha3Code);
+		} catch (Exception $exception) {
+			$this->currency = null;
+		}
 	}
 
 	/**
@@ -75,13 +80,14 @@ class tx_oelib_ViewHelper_Price {
 	 *
 	 * Please call setCurrencyFromIsoAlpha3Code() prior to calling render().
 	 *
+	 * If this function is called without setting a currency first, it will
+	 * use some default rendering for the price.
+	 *
 	 * @return string the rendered price
 	 */
 	public function render() {
 		if (!$this->currency) {
-			throw new Exception(
-				'Please set the currency of the price before calling render().'
-			);
+			return number_format($this->value, 2, '.', '');
 		}
 
 		$result = '';
