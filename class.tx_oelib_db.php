@@ -446,14 +446,15 @@ class tx_oelib_db {
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
 	 * @param string $tableNames
-	 *        comma-separated list of existing tables from which to count, must
-	 *        not be empty
+	 *        comma-separated list of existing tables from which to count, can
+	 *        also be a JOIN, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
 	 *
 	 * @return integer the number of matching records, will be >= 0
 	 */
 	public static function count($tableNames, $whereClause = '') {
-		$isOnlyOneTable = (strpos($tableNames, ',') === false);
+		$isOnlyOneTable = ((strpos($tableNames, ',') === false)
+			&& (stripos(trim($tableNames), ' JOIN ') === false));
 		if ($isOnlyOneTable && self::tableHasColumnUid($tableNames)) {
 			// Counting only the "uid" column is faster than counting *.
 			$columns = 'uid';

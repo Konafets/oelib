@@ -1059,6 +1059,46 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		tx_oelib_db::count('tx_oelib_doesnotexist', 'uid = 42');
 	}
 
+	/**
+	 * @test
+	 */
+	public function countCanBeCalledWithJoinedTables() {
+		tx_oelib_db::count('tx_oelib_test JOIN tx_oelib_testchild');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countDoesNotAllowJoinWithoutTables() {
+		$this->setExpectedException(
+			'Exception', 'The table "JOIN" does not exist.'
+		);
+
+		tx_oelib_db::count('JOIN');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countDoesNotAllowJoinWithOnlyOneTableOnTheLeft() {
+		$this->setExpectedException(
+			'Exception', 'The table "tx_oelib_test JOIN " does not exist.'
+		);
+
+		tx_oelib_db::count('tx_oelib_test JOIN ');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countDoesNotAllowJoinWithOnlyOneTableOnTheRight() {
+		$this->setExpectedException(
+			'Exception', 'The table "JOIN tx_oelib_test" does not exist.'
+		);
+
+		tx_oelib_db::count('JOIN tx_oelib_test');
+	}
+
 
 	/////////////////////////////////
 	// Tests regarding existsRecord
