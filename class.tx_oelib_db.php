@@ -341,19 +341,27 @@ class tx_oelib_db {
 	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
 	 *                                             record
 	 *
-	 * @param string list of fields to select, may be "*", must not be empty
-	 * @param string comma-separated list of tables from which to select, must
-	 *               not be empty
-	 * @param string WHERE clause, may be empty
-	 * @param string GROUP BY field(s), may be empty
+	 * @param string $fields list of fields to select, may be "*", must not be empty
+	 * @param string $tablenames
+	 *        comma-separated list of tables from which to select, must not be empty
+	 * @param string $whereClause WHERE clause, may be empty
+	 * @param string $groupBy GROUP BY field(s), may be empty
+	 * @param string $orderBy ORDER BY field(s), may be empty
+	 * @param integer $offset the offset to start the result for, must be >= 0
 	 *
 	 * @return array the single result row, will not be empty
 	 */
 	public static function selectSingle(
-		$fields, $tableNames, $whereClause = '', $groupBy = ''
+		$fields,
+		$tableNames,
+		$whereClause = '',
+		$groupBy = '',
+		$orderBy = '',
+		$offset = 0
 	) {
 		$result = self::selectMultiple(
-			$fields, $tableNames, $whereClause, $groupBy, '', 1
+			$fields, $tableNames, $whereClause,
+			$groupBy, $orderBy, $offset . ',' . 1
 		);
 		if (empty($result)) {
 			throw new tx_oelib_Exception_EmptyQueryResult();
