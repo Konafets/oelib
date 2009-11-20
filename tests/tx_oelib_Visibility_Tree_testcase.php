@@ -50,7 +50,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	// Tests concerning the building of the tree structure
 	////////////////////////////////////////////////////////
 
-	public function test_ConstructWithEmptyArray_CreatesRootNodeWithoutChildren() {
+	/**
+	 * @test
+	 */
+	public function constructWithEmptyArray_CreatesRootNodeWithoutChildren() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array()
 		);
@@ -61,7 +64,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ConstructWithOneElementInArray_AddsOneChildToRootNode() {
+	/**
+	 * @test
+	 */
+	public function constructWithOneElementInArray_AddsOneChildToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array('testNode' => false)
 		);
@@ -73,7 +79,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ConstructWithTwoElementsInFirstArrayLevel_AddsTwoChildsToRootNode() {
+	/**
+	 * @test
+	 */
+	public function constructWithTwoElementsInFirstArrayLevel_AddsTwoChildsToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('testNode' => false, 'testNode2' => false)
@@ -85,7 +94,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ConstructWithTwoElementsInArrayOneFirstOneSecondLevel_AddsGrandChildToRootNode() {
+	/**
+	 * @test
+	 */
+	public function constructWithTwoElementsInArrayOneFirstOneSecondLevel_AddsGrandChildToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('child' => array('grandChild' => false))
@@ -98,7 +110,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ConstructForOneVisibleElement_StoresVisibilityStatus() {
+	/**
+	 * @test
+	 */
+	public function constructForOneVisibleElement_StoresVisibilityStatus() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('visibleNode' => true)
@@ -111,7 +126,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ConstructForOneInvisibleElement_StoresVisibilityStatus() {
+	/**
+	 * @test
+	 */
+	public function constructForOneInvisibleElement_StoresVisibilityStatus() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('hiddenNode' => false)
@@ -124,7 +142,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_RootNodeWithoutChild_IsInvisible() {
+	/**
+	 * @test
+	 */
+	public function rootNodeWithoutChild_IsInvisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array()
 		);
@@ -134,7 +155,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_RootNodeWithOneInvisibleChild_IsInvisible() {
+	/**
+	 * @test
+	 */
+	public function rootNodeWithOneInvisibleChild_IsInvisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('testNode' => false)
@@ -145,7 +169,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_RootNodeWithOneVisibleChild_IsVisible() {
+	/**
+	 * @test
+	 */
+	public function rootNodeWithOneVisibleChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('testNode' => true)
@@ -156,7 +183,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_RootNodeWithOneVisibleGrandChild_IsVisible() {
+	/**
+	 * @test
+	 */
+	public function rootNodeWithOneVisibleGrandChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('child' => array('grandChild' => true))
@@ -167,7 +197,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ChildOfRootNodeWithOneVisibleChild_IsVisible() {
+	/**
+	 * @test
+	 */
+	public function childOfRootNodeWithOneVisibleChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('child' => array('grandChild' => true))
@@ -185,7 +218,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	// Tests concerning makeNodesVisible
 	//////////////////////////////////////
 
-	public function test_makeNodesVisibleForEmptyArrayGiven_DoesNotMakeRootVisible() {
+	/**
+	 * @test
+	 */
+	public function makeNodesVisibleForEmptyArrayGiven_DoesNotMakeRootVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array()
 		);
@@ -196,7 +232,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_makeNodesVisibleForGivenNode_MakesThisNodeVisible() {
+	/**
+	 * @test
+	 */
+	public function makeNodesVisibleForGivenNode_MakesThisNodeVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('testNode' => false)
@@ -211,12 +250,44 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function makeNodesVisibleForInexistentNodeGiven_DoesNotCrash() {
+		$this->fixture = tx_oelib_ObjectFactory::make(
+			'tx_oelib_Visibility_Tree',
+			array('testNode' => false)
+		);
+		$this->fixture->makeNodesVisible(array('foo'));
+	}
+
+	/**
+	 * @test
+	 */
+	public function makeNodesVisibleForInexistentNodeGiven_DoesNotMakeExistingNodeVisible() {
+		$this->fixture = tx_oelib_ObjectFactory::make(
+			'tx_oelib_Visibility_Tree',
+			array('testNode' => false)
+		);
+		$this->fixture->makeNodesVisible(array('foo'));
+
+		$this->fixture->getRootNode()->getChildren();
+
+		$this->assertEquals(
+			array('testNode'),
+			$this->fixture->getKeysOfHiddenSubparts()
+		);
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning getKeysOfHiddenSubparts
 	/////////////////////////////////////////////
 
-	public function test_getKeysOfHiddenSubparts_ForTreeWithoutNodes_ReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getKeysOfHiddenSubparts_ForTreeWithoutNodes_ReturnsEmptyArray() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree', array()
 		);
@@ -227,7 +298,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getKeysOfHiddenSubparts_ForTreeWithOneHiddenNode_ReturnsArrayWithNodeName() {
+	/**
+	 * @test
+	 */
+	public function getKeysOfHiddenSubparts_ForTreeWithOneHiddenNode_ReturnsArrayWithNodeName() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('testNode' => false)
@@ -239,7 +313,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getKeysOfHiddenSubparts_ForTreeWithOneHiddenParentNodeAndOneHiddenChildNode_ReturnsArrayWithBothNodeNames() {
+	/**
+	 * @test
+	 */
+	public function getKeysOfHiddenSubparts_ForTreeWithOneHiddenParentNodeAndOneHiddenChildNode_ReturnsArrayWithBothNodeNames() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('child' => array('parent' => false))
@@ -251,7 +328,10 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getKeysOfHiddenSubparts_ForTreeWithVisibleParentNodeAndOneHiddenChildNode_ReturnsArrayWithChildNodeName() {
+	/**
+	 * @test
+	 */
+	public function getKeysOfHiddenSubparts_ForTreeWithVisibleParentNodeAndOneHiddenChildNode_ReturnsArrayWithChildNodeName() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
 			array('parent' => array('hidden' => false, 'visible' => true))

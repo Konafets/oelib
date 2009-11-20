@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3524] Fix: VisibilityTree::makeNodesVisible needs to check the existence of nodes
 - [#3518] Fix: oelib_db::count should also accept joined tables
 - [#3516] Feature: Extend oelib_db::selectSingle to accept orderBy and offset
 - [#3460] Fix: Locale configcheck crashes TYPO3 Winstaller

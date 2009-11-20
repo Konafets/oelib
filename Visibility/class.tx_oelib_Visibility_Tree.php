@@ -149,7 +149,9 @@ class tx_oelib_Visibility_Tree {
 	 */
 	public function makeNodesVisible(array $nodeKeys) {
 		foreach ($nodeKeys as $nodeKey) {
-			$this->nodes[$nodeKey]->markAsVisible();
+			if (isset($this->nodes[$nodeKey])) {
+				$this->nodes[$nodeKey]->markAsVisible();
+			}
 		}
 	}
 }
