@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	/**
@@ -52,6 +53,11 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	);
 
 	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array('username');
+
+	/**
 	 * Finds a back-end user by user name. Hidden user records will be retrieved
 	 * as well.
 	 *
@@ -65,11 +71,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 *                                    provided user name
 	 */
 	public function findByUserName($userName) {
-		if ($userName == '') {
-			throw new Exception('$userName must not be empty.');
-		}
-
-		return $this->findSingleByWhereClause(array('username' => $userName));
+		return $this->findOneByKey('username', $userName);
 	}
 
 	/**

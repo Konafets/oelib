@@ -58,6 +58,11 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	);
 
 	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array('title');
+
+	/**
 	 * Sets the map for this mapper.
 	 *
 	 * This function is intendend to be used for testing purposes only.
@@ -122,6 +127,24 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 */
 	public function findByWhereClause($whereClause = '', $sorting = '') {
 		return parent::findByWhereClause($whereClause, $sorting);
+	}
+
+	/**
+	 * Looks up a model in the cache by key.
+	 *
+	 * When this function reports "no match", the model could still exist in the
+	 * database, though.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
+	 *
+	 * @param string $key an existing key, must not be empty
+	 * @param string $value
+	 *        the value for the key of the model to find, must not be empty
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	public function findOneByKeyFromCache($key, $value) {
+		return parent::findOneByKeyFromCache($key, $value);
 	}
 }
 ?>

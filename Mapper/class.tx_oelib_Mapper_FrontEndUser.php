@@ -52,6 +52,11 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	);
 
 	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array('username');
+
+	/**
 	 * Gets the currently logged-in front-end user.
 	 *
 	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will

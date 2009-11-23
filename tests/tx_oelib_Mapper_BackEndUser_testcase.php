@@ -83,7 +83,7 @@ class tx_oelib_Mapper_BackEndUser_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////
 
 	public function testFindByUserNameForEmptyUserNameThrowsException() {
-		$this->setExpectedException(Exception, '$userName must not be empty.');
+		$this->setExpectedException(Exception, '$value must not be empty.');
 
 		$this->fixture->findByUserName('');
 	}

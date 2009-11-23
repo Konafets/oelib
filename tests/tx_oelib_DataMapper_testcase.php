@@ -38,7 +38,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 */
 	private $testingFramework;
 	/**
-	 * @var tx_oelib_DataMapper the data mapper to test
+	 * @var tx_oelib_tests_fixtures_TestingMapper the data mapper to test
 	 */
 	private $fixture;
 
@@ -2074,7 +2074,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_findByPageUid_ForNonZeroPageUid_DoesNotReturnEntryWithDifferentPageUId() {
-		$uid = $this->testingFramework->createRecord(
+		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 2)
 		);
 
@@ -2118,6 +2118,191 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$uid,
 			$this->fixture->findByPageUid('1,2')->first()->getUid()
 		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning additional keys
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyFromCacheForEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->findOneByKeyFromCache('', 'bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyFromCacheForInexistentKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '"foo" is not a valid key for this mapper.'
+		);
+
+		$this->fixture->findOneByKeyFromCache('foo', 'bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyFromCacheForEmptyValueThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$value must not be empty.'
+		);
+
+		$this->fixture->findOneByKeyFromCache('title', '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyFromCacheForModelNotInCacheThrowsException() {
+		$this->setExpectedException('tx_oelib_Exception_NotFound');
+
+		$this->fixture->findOneByKeyFromCache('title', 'bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByKeyFindsLoadedModel() {
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByKeyFromCache('title', 'Earl Grey')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByKeyFindsLastLoadedModelWithSameKey() {
+		$this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey')
+		);
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByKeyFromCache('title', 'Earl Grey')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByKeyFindsSavedModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$model = $this->fixture->find($uid);
+		$model->setTitle('Earl Grey');
+		$this->fixture->save($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByKeyFromCache('title', 'Earl Grey')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByKeyFindsLastSavedModelWithSameKey() {
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$model1 = $this->fixture->find($uid1);
+		$model1->setTitle('Earl Grey');
+		$this->fixture->save($model1);
+
+		$uid2 = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'Earl Grey')
+		);
+		$model2 = $this->fixture->find($uid2);
+		$model2->setTitle('Earl Grey');
+		$this->fixture->save($model2);
+
+		$this->assertSame(
+			$model2,
+			$this->fixture->findOneByKeyFromCache('title', 'Earl Grey')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyForEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty.'
+		);
+
+		$this->fixture->findOneByKey('', 'bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyForInexistentKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '"foo" is not a valid key for this mapper.'
+		);
+
+		$this->fixture->findOneByKey('foo', 'bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyForEmptyValueThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$value must not be empty.'
+		);
+
+		$this->fixture->findOneByKey('title', '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyCanFindModelFromCache() {
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByKey('title', 'Earl Grey')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyCanLoadModelFromDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'Earl Grey')
+		);
+
+		$this->assertEquals(
+			$uid,
+			$this->fixture->findOneByKey('title', 'Earl Grey')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByKeyForInexistentThrowsException() {
+		$this->setExpectedException('tx_oelib_Exception_NotFound');
+
+		$this->fixture->findOneByKey('title', 'Darjeeling');
 	}
 }
 ?>

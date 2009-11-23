@@ -70,9 +70,20 @@ abstract class tx_oelib_DataMapper {
 	protected $relations = array();
 
 	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array();
+
+	/**
+	 * @var array two-dimensional cache for the objects by key:
+	 *            [key name][key value] => model
+	 */
+	private $cacheByKey = array();
+
+	/**
 	 * @var boolean whether database access is denied for this mapper
 	 */
-	 private $denyDatabaseAccess = false;
+	private $denyDatabaseAccess = FALSE;
 
 	/**
 	 * The constructor.
@@ -95,12 +106,18 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		$this->map = tx_oelib_ObjectFactory::make('tx_oelib_IdentityMap');
+
+		foreach ($this->additionalKeys as $key) {
+			$this->cacheByKey[$key] = array();
+		}
+
 	}
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->cacheByKey = array();
 		if ($this->map) {
 			$this->map->__destruct();
 			unset($this->map);
@@ -261,11 +278,14 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Fills a model with data, including the relations.
 	 *
+	 * This function also updates the cache-by-key.
+	 *
 	 * @param tx_oelib_Model the model to fill, needs to have a UID
 	 * @param array the model data to process as it comes from the DB, will be
 	 *              modified
 	 */
 	private function fillModel(tx_oelib_Model $model, array &$data) {
+		$this->cacheModelByKeys($model, $data);
 		$this->createRelations($data, $model);
 		$model->setData($data);
 	}
@@ -650,6 +670,7 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		$data = $this->getPreparedModelData($model);
+		$this->cacheModelByKeys($model, $data);
 
 		if ($model->hasUid()) {
 			tx_oelib_db::update(
@@ -965,6 +986,83 @@ abstract class tx_oelib_DataMapper {
 			$this->tableName . '.pid IN (' . $pageUids . ')',
 			$sorting
 		);
+	}
+
+	/**
+	 * Looks up a model in the cache by key.
+	 *
+	 * When this function reports "no match", the model could still exist in the
+	 * database, though.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
+	 *
+	 * @param string $key an existing key, must not be empty
+	 * @param string $value
+	 *        the value for the key of the model to find, must not be empty
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	protected function findOneByKeyFromCache($key, $value) {
+		if ($key == '') {
+			throw new Exception('$key must not be empty.');
+		}
+		if (!isset($this->cacheByKey[$key])) {
+			throw new Exception(
+				'"' . $key . '" is not a valid key for this mapper.'
+			);
+		}
+		if ($value == '') {
+			throw new Exception('$value must not be empty.');
+		}
+
+		if (!isset($this->cacheByKey[$key][$value])) {
+			throw new tx_oelib_Exception_NotFound();
+		}
+
+		return $this->cacheByKey[$key][$value];
+	}
+
+	/**
+	 * Puts a model in the cache-by-keys (if the model has any non-empty
+	 * additional keys).
+	 *
+	 * @param tx_oelib_Model $model the model to cache
+	 * @param array $data the data of the model as it is in the DB, may be empty
+	 */
+	private function cacheModelByKeys(tx_oelib_Model $model, array $data) {
+		foreach ($this->additionalKeys as $key) {
+			if (isset($data[$key])) {
+				$value = $data[$key];
+				if ($value != '') {
+					$this->cacheByKey[$key][$value] = $model;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Looks up a model by key.
+	 *
+	 * This function will first check the cache-by-key and, if there is no match,
+	 * will try to find the model in the database.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no match (neither in the
+	 *                                     cache nor in the database)
+	 *
+	 * @param string $key an existing key, must not be empty
+	 * @param string $value
+	 *        the value for the key of the model to find, must not be empty
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	public function findOneByKey($key, $value) {
+		try {
+			$model = $this->findOneByKeyFromCache($key, $value);
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$model = $this->findSingleByWhereClause(array($key => $value));
+		}
+
+		return $model;
 	}
 }
 

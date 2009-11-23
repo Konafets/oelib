@@ -31,6 +31,7 @@
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Mapper_Currency extends tx_oelib_DataMapper {
 	/**
@@ -44,6 +45,11 @@ class tx_oelib_Mapper_Currency extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_Currency';
 
 	/**
+	 * @var array the column names of additional string keys
+	 */
+	protected $additionalKeys = array('cu_iso_3');
+
+	/**
 	 * Finds a language by its ISO 4217 alpha-3 code.
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no record with the
@@ -54,11 +60,7 @@ class tx_oelib_Mapper_Currency extends tx_oelib_DataMapper {
 	 * @return tx_oelib_Model_Currency the currency
 	 */
 	public function findByIsoAlpha3Code($isoAlpha3Code) {
-		if ($isoAlpha3Code == '') {
-			throw new Exception('The parameter $isoAlpha3Code must not be empty.');
-		}
-
-		return $this->findSingleByWhereClause(array('cu_iso_3' => $isoAlpha3Code));
+		return $this->findOneByKey('cu_iso_3', $isoAlpha3Code);
 	}
 }
 
