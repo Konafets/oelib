@@ -205,6 +205,32 @@ class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function readsDataFromTypoScriptSetupEvenForFrontEndWithoutLoadedTemplate() {
+		$pageUid = $this->testingFramework->createFrontEndPage();
+		$this->testingFramework->createTemplate(
+			$pageUid,
+			array('config' => 'plugin.tx_oelib.test = 42')
+		);
+
+		$this->testingFramework->createFakeFrontEnd($pageUid);
+		tx_oelib_PageFinder::getInstance()->forceSource(
+			tx_oelib_PageFinder::SOURCE_FRONT_END
+		);
+		$GLOBALS['TSFE']->tmpl->rootId = 0;
+		$GLOBALS['TSFE']->tmpl->rootLine = FALSE;
+		$GLOBALS['TSFE']->tmpl->setup = array();
+		$GLOBALS['TSFE']->tmpl->loaded = 0;
+
+		$this->assertEquals(
+			42,
+			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
+				->getAsInteger('test')
+		);
+	}
+
 	public function testGetAfterSetReturnsManuallySetConfigurationEvenIfThereIsAPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createTemplate(

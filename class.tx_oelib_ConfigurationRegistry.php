@@ -219,7 +219,7 @@ class tx_oelib_ConfigurationRegistry {
 	}
 
 	/**
-	 * Checks whether there is an initialized front end.
+	 * Checks whether there is an initialized front end with a loaded TS template.
 	 *
 	 * Note: This function can return true even in the BE if there is a front
 	 * end.
@@ -229,7 +229,8 @@ class tx_oelib_ConfigurationRegistry {
 	 */
 	private function existsFrontEnd() {
 		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE'])
-			&& is_object($GLOBALS['TSFE']->tmpl);
+			&& is_object($GLOBALS['TSFE']->tmpl)
+			&& $GLOBALS['TSFE']->tmpl->loaded;
 	}
 }
 

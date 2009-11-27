@@ -1,4 +1,5 @@
 0.6.4 - currently working on
+- [#3551] Fix: The configuration registry needs to make sure the configuration is loaded in the FE
 - [#3460] Fix: Locale configcheck crashes TYPO3 Winstaller
 - [#3508] Cleanup: Replace space + tab with tab
 - [#3471] Fix: Test failure in tx_oelib_configurationCheck_testcase
