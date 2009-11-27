@@ -618,6 +618,9 @@ abstract class tx_oelib_DataMapper {
 	 * Important: As this model's UID has nothing to do with the real UIDs in
 	 * the database, this model must not be saved.
 	 *
+	 * @param array $data
+	 *        the data as it would come from the database, may be empty
+	 *
 	 * @return tx_oelib_Model a new model loaded with $data
 	 */
 	public function getLoadedTestingModel(array $data) {
