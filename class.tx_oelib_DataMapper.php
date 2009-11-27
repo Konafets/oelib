@@ -1041,7 +1041,21 @@ abstract class tx_oelib_DataMapper {
 				}
 			}
 		}
+
+		$this->cacheModelByCombinedKeys($model, $data);
 	}
+
+	/**
+	 * Caches a model by additional combined keys.
+	 *
+	 * This function can be overwritten in subclasses for additional caching.
+	 *
+	 * @param tx_oelib_Model $model the model to cache
+	 * @param array $data the data of the model as it is in the DB, may be empty
+	 */
+	protected function cacheModelByCombinedKeys(
+		tx_oelib_Model $model, array $data
+	) {}
 
 	/**
 	 * Looks up a model by key.
