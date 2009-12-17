@@ -446,7 +446,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
-	 * Checks whether this user has last login date set.
+	 * Checks whether this user has a last login date set.
 	 *
 	 * @return boolean TRUE if this user has a non-zero last login date, FALSE
 	 *                 otherwise
