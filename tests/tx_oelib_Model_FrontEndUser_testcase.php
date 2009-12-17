@@ -1005,5 +1005,60 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->getAge()
 		);
 	}
+
+
+	////////////////////////////////////////////////
+	// Tests concerning the date of the last login
+	////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getLastLoginAsUnixTimestampReturnsZeroForNoDateSet() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getLastLoginAsUnixTimestamp()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLastLoginAsUnixTimestampReturnsDateFromLastLoginField() {
+		// 1980-04-01
+		$date = 323391600;
+		$this->fixture->setData(array('lastlogin' => $date));
+
+		$this->assertEquals(
+			$date,
+			$this->fixture->getLastLoginAsUnixTimestamp()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasLastLoginForNoLastLoginReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasLastLogin()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasLastLoginForNonZeroLastLoginReturnsTrue() {
+		// 1980-04-01
+		$date = 323391600;
+		$this->fixture->setData(array('lastlogin' => $date));
+
+		$this->assertTrue(
+			$this->fixture->hasLastLogin()
+		);
+	}
 }
 ?>

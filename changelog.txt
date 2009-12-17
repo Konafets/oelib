@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3606] Feature: Add a getter for the last login to the FE user model
 - [#3562] Fix: Warning in EM: XCLASS line for PriceViewHelper is wrong
 - [#3551] Fix: The configuration registry needs to make sure the configuration is loaded in the FE
 - [#3537] Feature: Feature: Add tx_oelib_DataMapper::cacheModelByCombinedKeys

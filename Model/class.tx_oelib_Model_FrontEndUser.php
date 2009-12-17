@@ -434,6 +434,26 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 
 		return $age;
 	}
+
+	/**
+	 * Gets this user's last login date and time as a UNIX timestamp.
+	 *
+	 * @return integer the user's last login date and time, will be zero if the
+	 *                 user has never logged in
+	 */
+	public function getLastLoginAsUnixTimestamp() {
+		return $this->getAsInteger('lastlogin');
+	}
+
+	/**
+	 * Checks whether this user has last login date set.
+	 *
+	 * @return boolean TRUE if this user has a non-zero last login date, FALSE
+	 *                 otherwise
+	 */
+	public function hasLastLogin() {
+		return $this->hasInteger('lastlogin');
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {
