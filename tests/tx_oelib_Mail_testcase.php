@@ -495,7 +495,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				'Return-Path' => 'foo@bar.com',
+				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
 			$this->fixture->getAdditionalHeaders()
@@ -508,7 +508,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				'Return-Path' => 'foo@bar.com',
+				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
 			$this->fixture->getAdditionalHeaders()
@@ -530,7 +530,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			array(
-				'Return-Path' => 'foo@bar.com',
+				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
 			$this->fixture->getAdditionalHeaders()

@@ -319,7 +319,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	}
 
 	/**
-	 * Sets the return path of the e-mail.
+	 * Sets the return path (and errors-to) of the e-mail.
 	 *
 	 * The return path is stored in a way that the MIME mail class can read it.
 	 * If a return path has already been set, it will be overridden by the new
@@ -333,7 +333,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			return;
 		}
 
-		$this->additionalHeaders['Return-Path'] = $returnPath;
+		$this->additionalHeaders['Return-Path'] = '<' . $returnPath . '>';
 		$this->additionalHeaders['Errors-To'] = $returnPath;
 	}
 

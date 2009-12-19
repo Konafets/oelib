@@ -860,7 +860,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$sentMail = $this->fixture->getLastEmail();
 
 		$this->assertContains(
-			'Return-Path: mail@foobar.com',
+			'Return-Path: <mail@foobar.com>',
 			$sentMail['headers']
 		);
 	}
