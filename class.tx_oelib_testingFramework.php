@@ -1312,6 +1312,9 @@ final class tx_oelib_testingFramework {
 
 		$this->suppressFrontEndCookies();
 
+		// Instead of passing the actual user data to createUserSession, we
+		// pass an empty array to improve performance (e.g. no session record
+		// will be written to the database).
 		$GLOBALS['TSFE']->fe_user->createUserSession(array());
 		$GLOBALS['TSFE']->fe_user->user = $dataToSet;
 		$GLOBALS['TSFE']->fe_user->fetchGroupData();
