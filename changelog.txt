@@ -1,4 +1,5 @@
 0.6.4 - currently working on
+- [#3657] Fix: ObjectFactory::make needs to pass an array to call_user_func_array
 - [#3641] Change: Update all copyrights to 2010
 - [#3551] Fix: The configuration registry needs to make sure the configuration is loaded in the FE
 - [#3460] Fix: Locale configcheck crashes TYPO3 Winstaller
