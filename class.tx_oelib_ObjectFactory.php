@@ -56,7 +56,7 @@ class tx_oelib_ObjectFactory {
 		if (TYPO3_branch == '4.3') {
 			$parameters = func_get_args();
 			$result = call_user_func_array(
-				't3lib_div::makeInstance', $parameters
+				array('t3lib_div', 'makeInstance'), $parameters
 			);
 		} else {
 			$constructorArguments = func_get_args();

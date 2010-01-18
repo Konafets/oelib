@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3657] Fix: ObjectFactory::make needs to pass an array to call_user_func_array
 - [#3641] Change: Update all copyrights to 2010
 - [#3322] Fix: Return-Path needs to have <> around the e-mail address
 - [#3606] Feature: Add a getter for the last login to the FE user model
