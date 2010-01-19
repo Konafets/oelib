@@ -191,6 +191,70 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function getSubpartFindsSubpartWithTextWithLinefeedsBeforeOpeningAndClosingSubpartEndComment() {
+		$subpartContent = 'Subpart content';
+		$templateCode = '<!-- ###MY_SUBPART### start '. LF . ' start -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### end ' . LF . ' end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithTextWithDashesBeforeOpeningAndClosingSubpartEndComment() {
+		$subpartContent = 'Subpart content';
+		$templateCode = '<!-- ###MY_SUBPART### start - hey hey -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### end - really the end -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithTextWithHtmlBeforeOpeningAndClosingSubpartEndComment() {
+		$subpartContent = 'Subpart content';
+		$templateCode = '<!-- ###MY_SUBPART### <em>start</em> -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### <em>end</em> -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartFindsSubpartWithHtmlCommentInIt() {
+		$subpartContent = 'Subpart <!-- this is hidden --> content';
+		$templateCode = '<!-- ###MY_SUBPART### -->' .
+			$subpartContent .
+			'<!-- ###MY_SUBPART### -->';
+		$this->fixture->processTemplate(
+			$templateCode
+		);
+		$this->assertEquals(
+			$subpartContent, $this->fixture->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function getSubpartWithTextBeforeClosingSubpartStartCommentReplacesNestedSubpart() {
 		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart' .
