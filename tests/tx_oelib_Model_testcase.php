@@ -331,6 +331,18 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getUidForSetStringUidViaSetDataReturnsTheSetIntegerUid() {
+		$this->fixture->setData(array('uid' => '42'));
+
+		$this->assertSame(
+			42,
+			$this->fixture->getUid()
+		);
+	}
+
 	public function testHasUidForNoUidReturnsFalse() {
 		$this->fixture->setData(array());
 

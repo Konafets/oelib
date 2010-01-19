@@ -378,7 +378,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *                 not have a UID yet
 	 */
 	public function getUid() {
-		return $this->uid;
+		return intval($this->uid);
 	}
 
 	/**
