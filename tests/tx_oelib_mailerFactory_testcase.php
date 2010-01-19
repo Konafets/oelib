@@ -32,8 +32,12 @@ require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
  * @subpackage tx_oelib
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
+	/**
+	 * @var tx_oelib_emailCollector
+	 */
 	private $fixture;
 
 	private static $email = array(
@@ -78,6 +82,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'Reply-To: any-sender@email-address.org';
 	}
 
+
+	/////////////////////////////////////////////
+	// Tests concerning the basic functionality
+	/////////////////////////////////////////////
 
 	public function testGetMailerInTestMode() {
 		$this->assertEquals(
@@ -296,7 +304,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
@@ -323,7 +331,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$sender->__destruct();
 		$recipient->__destruct();
 		$eMail->__destruct();
-		unset($sender, $recipient, $eMail);
 	}
 
 	/**
@@ -359,7 +366,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$sender->__destruct();
 		$recipient->__destruct();
 		$eMail->__destruct();
-		unset($sender, $recipient, $eMail);
 	}
 
 	/**
@@ -393,7 +399,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
@@ -422,7 +428,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$eMail->__destruct();
 		$otherRecipient->__destruct();
 		$otherEMail->__destruct();
-		unset($sender, $recipient, $eMail, $otherRecipient, $otherEMail);
 	}
 
 	/**
@@ -456,7 +461,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$buildParameter = array(
@@ -497,7 +502,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$eMail->__destruct();
 		$otherRecipient->__destruct();
 		$otherEMail->__destruct();
-		unset($sender, $recipient, $eMail, $otherRecipient, $otherEMail);
 	}
 
 	/**
@@ -534,7 +538,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 
 		$this->assertEquals(
@@ -553,7 +557,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$sender->__destruct();
 		$recipient->__destruct();
 		$eMail->__destruct();
-		unset($sender, $recipient, $eMail);
 	}
 
 	/**
@@ -664,74 +667,6 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	/**
-	 * @test
-	 */
-	public function sendWithHeaderWithUmlaut_EncodesItToUtf8() {
-		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] == '') {
-			$this->markTestSkipped(
-				'This test applies to installations with forceCharset only.'
-			);
-		}
-
-		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
-			'', 'any-sender@email-address.org'
-		);
-
-		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
-			'', self::$email['recipient']
-		);
-
-		$sender->setName('Föö');
-
-		$eMail = new tx_oelib_Mail();
-		$eMail->setSender($sender);
-		$eMail->addRecipient($recipient);
-		$eMail->setSubject(self::$email['subject']);
-		$eMail->setMessage(self::$email['message']);
-
-		$this->fixture->send($eMail);
-
-		$this->assertContains(
-			'utf-8',
-			$this->fixture->getLastHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function sendWithHeaderWithUmlaut_EncodesItToIso88591() {
-		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') {
-			$this->markTestSkipped(
-				'This test applies to installations without forceCharset only.'
-			);
-		}
-
-		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
-			'', 'any-sender@email-address.org'
-		);
-
-		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
-			'', self::$email['recipient']
-		);
-
-		$sender->setName('Föö');
-
-		$eMail = new tx_oelib_Mail();
-		$eMail->setSender($sender);
-		$eMail->addRecipient($recipient);
-		$eMail->setSubject(self::$email['subject']);
-		$eMail->setMessage(self::$email['message']);
-
-		$this->fixture->send($eMail);
-
-		$this->assertContains(
-			'ISO-8859-1',
-			$this->fixture->getLastHeaders()
-		);
-	}
-
 
 	/////////////////////////////////////////////////
 	// Tests concerning formatting the e-mail body.
@@ -832,6 +767,155 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
+	}
+
+
+	/////////////////////////////////
+	// Tests concerning the headers
+	/////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function fromWithoutUmlautsInTheirNameStaysUnencoded() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'John Doe', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('Hello world');
+		$eMail->setMessage('Summertime...');
+
+		$this->fixture->send($eMail);
+
+		$rawMail = $this->fixture->getLastEmail();
+		$this->assertContains(
+			'From: "John Doe" <any-sender@email-address.org>',
+			$rawMail['headers']
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function fromWithUmlautsInTheirNameGetsEncoded() {
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			'Jöhn Döe', 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('Hello world');
+		$eMail->setMessage('Summertime...');
+
+		$this->fixture->send($eMail);
+
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+		$encodedName = t3lib_div::encodeHeader(
+			'Jöhn Döe', 'quoted-printable', $characterSet
+		);
+
+		$rawMail = $this->fixture->getLastEmail();
+		$this->assertContains(
+			'From: "' . $encodedName . '" <any-sender@email-address.org>',
+			$rawMail['headers']
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function longFromWithoutUmlautsInTheirNameStaysUnchanged() {
+		$senderName = 'Pfefferminzia Lakritzia Kunigunde Canneloria ' .
+			'Coffeinia Hydrogenoxidia Pizzeria Ambrosia Antagonia Antipasti';
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			$senderName, 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('Hello world');
+		$eMail->setMessage('Summertime...');
+
+		$this->fixture->send($eMail);
+
+		$rawMail = $this->fixture->getLastEmail();
+		$this->assertContains(
+			'From: "' . $senderName . '" <any-sender@email-address.org>',
+			$rawMail['headers']
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function longFromWithUmlautsInTheirNameIsEncodedButStaysOtherwiseUnchanged() {
+		$senderName = 'Pfefferminzia Lakritzia Kunigunde Canneloria Bäria ' .
+			'Coffeinia Hydrogenoxidia Pizzeria Ambrosia Antagonia Antipasti';
+		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
+			$senderName, 'any-sender@email-address.org'
+		);
+
+		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
+			'', self::$email['recipient']
+		);
+
+		$eMail = new tx_oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject('Hello world');
+		$eMail->setMessage('Summertime...');
+
+		$this->fixture->send($eMail);
+
+		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+		$encodedName = t3lib_div::encodeHeader(
+			$senderName, 'quoted-printable', $characterSet
+		);
+		$this->assertNotContains(
+			LF,
+			$encodedName
+		);
+
+		$rawMail = $this->fixture->getLastEmail();
+		$this->assertContains(
+			'From: "' . $encodedName . '" <any-sender@email-address.org>',
+			$rawMail['headers']
+		);
+
+		$sender->__destruct();
+		$recipient->__destruct();
+		$eMail->__destruct();
 	}
 
 

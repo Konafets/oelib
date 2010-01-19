@@ -103,15 +103,12 @@ abstract class tx_oelib_abstractMailer {
 		}
 
 		$additionalParameters = '';
-		$characterSet = $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+		$characterSet = $this->getCharacterSet();
 
 		$mimeEMail = new Mail_mime(LF);
 		$mimeEMail->setHeaderCharset($characterSet);
 		$mimeEMail->setFrom(
-			$mimeEMail->encodeRecipients(
-				$this->formatMailRole($email->getSender())
-			)
+			$this->formatMailRole($email->getSender())
 		);
 		if ($email->hasAdditionalHeaders()) {
 			$additionalHeaders = $email->getAdditionalHeaders();
@@ -205,7 +202,7 @@ abstract class tx_oelib_abstractMailer {
 	}
 
 	/**
-	 * Formats a mail role for the e-mail sending process.
+	 * Formats and encodes an e-mail role for the e-mail sending process.
 	 *
 	 * @param tx_oelib_Interface_MailRole the mail role to format
 	 *
@@ -218,7 +215,11 @@ abstract class tx_oelib_abstractMailer {
 			return $mailRole->getEMailAddress();
 		}
 
-		return '"'. $mailRole->getName() . '"' .
+		$encodedName = t3lib_div::encodeHeader(
+			$mailRole->getName(), 'quoted-printable', $this->getCharacterSet()
+		);
+
+		return '"'. $encodedName . '"' .
 			' <' . $mailRole->getEMailAddress() . '>';
 	}
 
@@ -243,6 +244,16 @@ abstract class tx_oelib_abstractMailer {
 		if ($message == '') {
 			throw new Exception('$message must not be empty.');
 		}
+	}
+
+	/**
+	 * Retrieves the current character set used by TYPO3.
+	 *
+	 * @return string the current character set, e.g. utf-8
+	 */
+	private function getCharacterSet() {
+		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 	}
 }
 
