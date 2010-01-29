@@ -154,7 +154,10 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	// Tests concerning existsKey
 	///////////////////////////////
 
-	public function testExistsKeyForInexistentKeyReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsKeyForInexistentKeyReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
@@ -162,7 +165,10 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsKeyForExistingKeyWithNonEmptyDataReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsKeyForExistingKeyWithNonEmptyDataReturnsTrue() {
 		$this->fixture->setData(
 			array('foo' => 'bar')
 		);
@@ -172,9 +178,38 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsKeyForExistingKeyWithEmptyDataReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsKeyForExistingKeyWithEmptyStringDataReturnsTrue() {
 		$this->fixture->setData(
 			array('foo' => '')
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsKey('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsKeyForExistingKeyWithZeroDataReturnsTrue() {
+		$this->fixture->setData(
+			array('foo' => 0)
+		);
+
+		$this->assertTrue(
+			$this->fixture->existsKey('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function existsKeyForExistingKeyWithNullDataReturnsTrue() {
+		$this->fixture->setData(
+			array('foo' => null)
 		);
 
 		$this->assertTrue(
