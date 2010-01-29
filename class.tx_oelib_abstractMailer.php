@@ -22,7 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
+if (!class_exists('mail_mime')) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
+}
 
 /**
  * Abstract class 'tx_oelib_abstractMailer' for the 'oelib' extension.
