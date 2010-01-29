@@ -107,7 +107,7 @@ abstract class tx_oelib_abstractMailer {
 		$additionalParameters = '';
 		$characterSet = $this->getCharacterSet();
 
-		$mimeEMail = new Mail_mime(LF);
+		$mimeEMail = new Mail_mime(array('eol' => LF));
 		$mimeEMail->setHeaderCharset($characterSet);
 		$mimeEMail->setFrom(
 			$this->formatMailRole($email->getSender())

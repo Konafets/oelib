@@ -316,7 +316,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime();
+		$mimeEMail = new Mail_mime(array('eol' => LF));
 		$mimeEMail->setFrom($sender->getEMailAddress());
 		$mimeEMail->setTXTBody(self::$email['message']);
 
@@ -411,7 +411,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime();
+		$mimeEMail = new Mail_mime(array('eol' => LF));
 		$mimeEMail->setFrom($sender->getEMailAddress());
 		$mimeEMail->setTXTBody(self::$otherEmail['message']);
 
@@ -473,11 +473,11 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime();
+		$mimeEMail = new Mail_mime(array('eol' => LF));
 		$mimeEMail->setFrom($sender->getEMailAddress());
 		$mimeEMail->setTXTBody(self::$email['message']);
 
-		$otherMimeEMail = new Mail_mime();
+		$otherMimeEMail = new Mail_mime(array('eol' => LF));
 		$otherMimeEMail->setFrom($sender->getEMailAddress());
 		$otherMimeEMail->setTXTBody(self::$otherEmail['message']);
 
@@ -549,9 +549,9 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 				'subject' => self::$email['subject'],
 				'message' => $htmlMessage,
 				'headers' => 'MIME-Version: 1.0' . LF .
-					'From: any-sender@email-address.org' . LF .
+					'Content-Type: text/html;' . LF . ' charset=' . $characterSet . LF .
 					'Content-Transfer-Encoding: quoted-printable' . LF .
-					'Content-Type: text/html; charset="' . $characterSet . '"' . LF,
+					'From: any-sender@email-address.org' . LF,
 			),
 			$this->fixture->getLastEmail()
 		);
