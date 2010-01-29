@@ -773,6 +773,7 @@ final class tx_oelib_testingFramework {
 		tx_oelib_MapperRegistry::purgeInstance();
 		tx_oelib_PageFinder::purgeInstance();
 		tx_oelib_Session::purgeInstances();
+		tx_oelib_templatehelper::purgeCachedConfigurations();
 		tx_oelib_Timer::purgeInstance();
 		tx_oelib_TranslatorRegistry::purgeInstance();
 	}
@@ -1203,6 +1204,7 @@ final class tx_oelib_testingFramework {
 				$frontEnd->sys_page->getRootLine($pageUid), 0
 			);
 			$frontEnd->tmpl->generateConfig();
+			$frontEnd->tmpl->loaded = 1;
 			$frontEnd->settingLanguage();
 			$frontEnd->settingLocale();
 		}

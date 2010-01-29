@@ -84,6 +84,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	private $template = null;
 
 	/**
+	 * @var array TS Setup for plugin.tx_extensionkey, using the current page
+	 *            UID as key
+	 */
+	static private $cachedConfigurations = array();
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -111,8 +117,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *              to load the configuration from a BE page
 	 */
 	public function init(array $conf = null) {
-		static $cachedConfigs = array();
-
 		if (!$this->isInitialized) {
 			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
 				$GLOBALS['TSFE']->config['config'] = array();
@@ -125,20 +129,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			if ($conf !== null) {
 				$this->conf = $conf;
 			} else {
-				// We need to create our own template setup if we are in the BE
-				// and we aren't currently creating a DirectMail page.
-				if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
-					$pageId = $this->getCurrentBePageId();
-
-					if (isset($cachedConfigs[$pageId])) {
-						$this->conf =& $cachedConfigs[$pageId];
-					} else {
-						$this->conf =& $this->retrievePageConfig($pageId);
-						$cachedConfigs[$pageId] =& $this->conf;
-					}
+				$pageId = $this->getCurrentBePageId();
+				if (isset(self::$cachedConfigurations[$pageId])) {
+					$this->conf = self::$cachedConfigurations[$pageId];
 				} else {
-					// On the front end, we can use the provided template setup.
-					$this->conf =& $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_'.$this->extKey.'.'];
+					// We need to create our own template setup if we are in the
+					// BE and we aren't currently creating a DirectMail page.
+					if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
+						$this->conf = $this->retrievePageConfig($pageId);
+					} else {
+						// On the front end, we can use the provided template
+						// setup.
+						$this->conf = $GLOBALS['TSFE']->tmpl
+							->setup['plugin.']['tx_' . $this->extKey . '.'];
+					}
+
+					self::$cachedConfigurations[$pageId] = $this->conf;
 				}
 			}
 
@@ -210,7 +216,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return array configuration array of the requested page for the
 	 *               current extension key
 	 */
-	protected function &retrievePageConfig($pageId) {
+	protected function retrievePageConfig($pageId) {
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
@@ -227,12 +233,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$template->generateConfig();
 
 		if (isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])) {
-			$result =& $template->setup['plugin.']['tx_'.$this->extKey.'.'];
+			$result = $template->setup['plugin.']['tx_' . $this->extKey . '.'];
 		} else {
 			$result = array();
 		}
-
-		unset($rootline, $sys_page, $template);
 
 		return $result;
 	}
@@ -422,6 +426,36 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
+	 * Sets a cached configuration value that will be used when a new instance
+	 * is created.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @param string $key
+	 *        key of the configuration property to set, must not be empty
+	 * @param mixed $value
+	 *        value of the configuration property, may be empty or zero
+	 */
+	static public function setCachedConfigurationValue($key, $value) {
+		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+
+		if (!isset(self::$cachedConfigurations[$pageUid])) {
+			self::$cachedConfigurations[$pageUid] = array();
+		}
+
+		self::$cachedConfigurations[$pageUid][$key] = $value;
+	}
+
+	/**
+	 * Purges all cached configuration values.
+	 *
+	 * This function is intended to be used for testing purposes only.
+	 */
+	static public function purgeCachedConfigurations() {
+		self::$cachedConfigurations = array();
+	}
+
+	/**
 	 * Gets the configuration.
 	 *
 	 * @return array configuration array, might be empty
@@ -478,7 +512,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Returns the template object from the template registry for the file name
 	 * in $this->templateFileName.
 	 *
-	 * @return  the template object for the template file name
+	 * @return tx_oelib_Template the template object for the template file name
 	 *                           in $this->templateFileName
 	 */
 	private function getTemplate() {
@@ -1321,7 +1355,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Gets the ID of the currently selected back-end page.
 	 *
 	 * @return integer the current back-end page ID (or 0 if there is an
-	 * error)
+	 *                 error)
 	 */
 	public function getCurrentBePageId() {
 		return tx_oelib_PageFinder::getInstance()->getPageUid();

@@ -181,7 +181,7 @@ class tx_oelib_ConfigurationRegistry {
 				break;
 			}
 
-			$data =& $data[$namespacePart . '.'];
+			$data = $data[$namespacePart . '.'];
 		}
 
 		$configuration = tx_oelib_ObjectFactory::make('tx_oelib_Configuration');
@@ -196,7 +196,7 @@ class tx_oelib_ConfigurationRegistry {
 	 * @return array the TypoScriptSetup for the current page, will be empty if
 	 *               no page is selected or if the TS setup of the page is empty
 	 */
-	private function &getCompleteTypoScriptSetup() {
+	private function getCompleteTypoScriptSetup() {
 		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
 		if ($pageUid == 0) {
 			return array();
