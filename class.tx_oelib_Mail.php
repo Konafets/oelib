@@ -22,7 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'contrib/emogrifier/emogrifier.php');
+if (!class_exists('emogrifier')) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/emogrifier/emogrifier.php');
+}
 
 /**
  * Class 'tx_oelib_Mail' for the 'oelib' extension.

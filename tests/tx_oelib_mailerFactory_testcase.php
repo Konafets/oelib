@@ -22,7 +22,9 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
+if (!class_exists('mail_mime')) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
+}
 
 /**
  * Testcase for the mailer factory class and the e-mail collector class in the
