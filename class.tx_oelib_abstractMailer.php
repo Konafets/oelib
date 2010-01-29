@@ -118,7 +118,7 @@ abstract class tx_oelib_abstractMailer {
 			$mimeEMail->headers($additionalHeaders);
 
 			$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
-			$returnPath = $additionalHeaders['Return-Path'];
+			$returnPath = $email->getReturnPath();
 
 			if ($forceReturnPath && ($returnPath != '')) {
 				$additionalParameters = '-f ' . escapeshellarg($returnPath);

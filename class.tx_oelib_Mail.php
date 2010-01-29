@@ -68,6 +68,11 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	private $additionalHeaders = array();
 
 	/**
+	 * @var string the return path for the e-mails
+	 */
+	private $returnPath = '';
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -326,6 +331,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * The return path is stored in a way that the MIME mail class can read it.
 	 * If a return path has already been set, it will be overridden by the new
 	 * value.
+	 * If an empty string is given this function is a no-op.
 	 *
 	 * @param string $returnPath the e-mail address for the return path, may be
 	 *               empty
@@ -335,8 +341,19 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			return;
 		}
 
+		$this->returnPath = $returnPath;
 		$this->additionalHeaders['Return-Path'] = '<' . $returnPath . '>';
 		$this->additionalHeaders['Errors-To'] = $returnPath;
+	}
+
+	/**
+	 * Returns the return path set via setReturnPath
+	 *
+	 * @return string the return path, will be an empty string if nothing has
+	 *                been stored
+	 */
+	public function getReturnPath() {
+		return $this->returnPath;
 	}
 
 	/**

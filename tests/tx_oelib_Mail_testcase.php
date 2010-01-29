@@ -483,14 +483,20 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 	// Tests concerning the additional headers
 	////////////////////////////////////////////
 
-	public function test_getAdditionalHeaders_ForNoAdditionalHeaders_ReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getAdditionalHeadersForNoAdditionalHeadersReturnsEmptyArray() {
 		$this->assertEquals(
 			array(),
 			$this->fixture->getAdditionalHeaders()
 		);
 	}
 
-	public function test_setReturnPath_ForNoReturnPathSet_SetsGivenReturnPath() {
+	/**
+	 * @test
+	 */
+	public function setReturnPathForNoReturnPathSetSetsGivenReturnPath() {
 		$this->fixture->setReturnPath('foo@bar.com');
 
 		$this->assertEquals(
@@ -502,7 +508,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_setReturnPath_ForAlreadySetReturnPath_OverridesOldReturnPath() {
+	/**
+	 * @test
+	 */
+	public function setReturnPathForAlreadySetReturnPathOverridesOldReturnPath() {
 		$this->fixture->setReturnPath('old@mail.com');
 		$this->fixture->setReturnPath('foo@bar.com');
 
@@ -515,7 +524,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_setReturnPath_ForNoSetReturnPathAndEmptyStringGiven_doesNotSetAnyReturnPath() {
+	/**
+	 * @test
+	 */
+	public function setReturnPathForNoSetReturnPathAndEmptyStringGivenDoesNotSetAnyReturnPath() {
 		$this->fixture->setReturnPath('');
 
 		$this->assertEquals(
@@ -524,7 +536,10 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_setReturnPath_ForSetReturnPathAndEmptyStringGiven_doesNotUnsetReturnPath() {
+	/**
+	 * @test
+	 */
+	public function setReturnPathForSetReturnPathAndEmptyStringGivenDoesNotUnsetReturnPath() {
 		$this->fixture->setReturnPath('foo@bar.com');
 		$this->fixture->setReturnPath('');
 
@@ -537,13 +552,66 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_hasAdditionalHeaders_ForNoAdditionalHeadersSet_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function setReturnPathSetsMemberVariableReturnPath() {
+		$this->fixture->setReturnPath('foo@bar.com');
+
+		$this->assertEquals(
+			'foo@bar.com',
+			$this->fixture->getReturnPath()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getReturnPathInitiallyReturnsAnEmptyString() {
+		$this->assertEquals(
+			'',
+			$this->fixture->getReturnPath()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setReturnPathForAlreadySetReturnPathAndNoStringGivenDoesNotOverrideTheReturnPath() {
+		$this->fixture->setReturnPath('foo@bar.com');
+		$this->fixture->setReturnPath('');
+
+		$this->assertEquals(
+			'foo@bar.com',
+			$this->fixture->getReturnPath()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getReturnPathForStringSetInReturnPathReturnsThisString() {
+		$this->fixture->setReturnPath('foo@bar.com');
+
+		$this->assertEquals(
+			'foo@bar.com',
+			$this->fixture->getReturnPath()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasAdditionalHeadersForNoAdditionalHeadersSetReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->hasAdditionalHeaders()
 		);
 	}
 
-	public function test_hasAdditionalHeaders_ForAdditionalHeadersSet_ReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasAdditionalHeadersForAdditionalHeadersSetReturnsTrue() {
 		$this->fixture->setReturnPath('foo@bar.com');
 
 		$this->assertTrue(

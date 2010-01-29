@@ -1,4 +1,5 @@
 0.7.0 - currently working on
+- [#3677] Fix: Return-path in e-mails has additional <> around it when forceReturnPath is used
 - [#3670] Fix: PEAR classes can get included twice
 - [#3673] Fix: Model::existsKey returns false for null data
 - [#3556] Fix: Use PATH_tslib in require once for tslib_content
