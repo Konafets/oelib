@@ -35,9 +35,13 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_tem
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
-	/** @var tx_oelib_templatehelperchild */
+	/**
+	 * @var tx_oelib_templatehelperchild
+	 */
 	private $fixture;
-	/** @var tx_oelib_testingFramework */
+	/**
+	 * @var tx_oelib_testingFramework
+	 */
 	private $testingFramework;
 
 	public function setUp() {
@@ -124,6 +128,45 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////////
 	// Tests for setting and reading configuration values.
 	////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function setCachedConfigurationValueCreatesConfigurationForNewInstance() {
+		$this->testingFramework->discardFakeFrontEnd();
+
+		tx_oelib_templatehelper::setCachedConfigurationValue('foo', 'bar');
+
+		$fixture = new tx_oelib_templatehelper();
+		$fixture->init();
+
+		$this->assertEquals(
+			'bar',
+			$fixture->getConfValueString('foo')
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCachedConfigurationsDropsCachedConfiguration() {
+		$this->testingFramework->discardFakeFrontEnd();
+
+		tx_oelib_templatehelper::setCachedConfigurationValue('foo', 'bar');
+		tx_oelib_templatehelper::purgeCachedConfigurations();
+
+		$fixture = new tx_oelib_templatehelper();
+		$fixture->init();
+
+		$this->assertEquals(
+			'',
+			$fixture->getConfValueString('foo')
+		);
+
+		$fixture->__destruct();
+	}
 
 	public function testConfigurationInitiallyIsAnEmptyArray() {
 		$this->assertEquals(

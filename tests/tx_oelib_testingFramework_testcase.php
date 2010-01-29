@@ -3738,6 +3738,24 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndWithTemplateRecordMarksTemplateAsLoaded() {
+		$pageUid = $this->fixture->createFrontEndPage();
+		$this->fixture->createTemplate(
+			$pageUid,
+			array('config' => 'foo = 42')
+		);
+
+		$this->fixture->createFakeFrontEnd($pageUid);
+
+		$this->assertEquals(
+			1,
+			$GLOBALS['TSFE']->tmpl->loaded
+		);
+	}
+
 	public function testCreateFakeFrontEndCreatesConfiguration() {
 		$GLOBALS['TSFE'] = null;
 		$this->fixture->createFakeFrontEnd();
