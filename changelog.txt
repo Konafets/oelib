@@ -1,4 +1,5 @@
 0.6.4 - currently working on
+- [#3673] Fix: Model::existsKey returns false for null data
 - [#3556] Fix: Use PATH_tslib in require once for tslib_content
 - [#3550] Fix: getUid should return an integer, not a string
 - [#3659] Fix: getSubpart('foo') fails for certain characters within the subpart delimiters

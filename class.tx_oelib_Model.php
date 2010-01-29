@@ -293,7 +293,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *                 otherwise
 	 */
 	protected function existsKey($key) {
-		return isset($this->data[$key]);
+		return array_key_exists($key, $this->data);
 	}
 
 	/**
