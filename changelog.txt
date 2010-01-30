@@ -1,4 +1,4 @@
-0.6.4 - currently working on
+0.6.5 - released 2010-01-30
 - [#3679] Change: Update all PEAR and emogrifier classes to the latest versions
 - [#3650] Fix: Objects overwrite/delete each other's configuration arrays
 - [#3670] Fix: PEAR classes can get included twice
