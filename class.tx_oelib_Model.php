@@ -437,6 +437,20 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
+	 * Marks this model as hidden.
+	 */
+	public function markAsHidden() {
+		$this->setAsBoolean('hidden', TRUE);
+	}
+
+	/**
+	 * Marks this model as visible (= not hidden).
+	 */
+	public function markAsVisible() {
+		$this->setAsBoolean('hidden', FALSE);
+	}
+
+	/**
 	 * Sets the callback function for loading this model with data.
 	 *
 	 * @param array the callback function for loading this model with data

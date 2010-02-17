@@ -821,5 +821,36 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 			$this->fixture->getPageUid()
 		);
 	}
+
+
+	//////////////////////////////////////////////////////////
+	// Tests concerning the setting of the "hidden" property
+	//////////////////////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function markAsHiddenMarksVisibleModelAsHidden() {
+		$this->fixture->setData(array('hidden' => FALSE));
+
+		$this->fixture->markAsHidden();
+
+		$this->assertTrue(
+			$this->fixture->isHidden()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function markAsVisibleMarksHiddenModelAsNotHidden() {
+		$this->fixture->setData(array('hidden' => TRUE));
+
+		$this->fixture->markAsVisible();
+
+		$this->assertFalse(
+			$this->fixture->isHidden()
+		);
+	}
 }
 ?>
