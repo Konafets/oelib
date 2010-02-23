@@ -1,4 +1,4 @@
-0.7.0 - currently working on
+0.7.0 - released 2010-02-23
 - [#3701] Feature: Add Model::markAsVisible and ::markAsHidden
 - [#3679] Change: Update all PEAR and emogrifier classes to the latest versions
 - [#3650] Fix: Objects overwrite/delete each other's configuration arrays
