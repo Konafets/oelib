@@ -61,6 +61,13 @@ class tx_oelib_List implements Iterator {
 	private $parentModel = null;
 
 	/**
+	 * whether there is at least one item without a UID
+	 *
+	 * @var boolean
+	 */
+	private $hasItemWithoutUid = FALSE;
+
+	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 *
 	 * Note: The models in this list are not destructed by this function (this
@@ -99,6 +106,8 @@ class tx_oelib_List implements Iterator {
 		if ($model->hasUid()) {
 			$uid = $model->getUid();
 			$this->uids[$uid] = $uid;
+		} else {
+			$this->hasItemWithoutUid = TRUE;
 		}
 
 		$this->markAsDirty();
@@ -204,6 +213,7 @@ class tx_oelib_List implements Iterator {
 	 *                empty or no item has a UID
 	 */
 	public function getUids() {
+		$this->checkUidCache();
 		return implode(',', $this->uids);
 	}
 
@@ -216,7 +226,34 @@ class tx_oelib_List implements Iterator {
 	 *              otherwise
 	 */
 	public function hasUid($uid) {
+		$this->checkUidCache();
 		return isset($this->uids[$uid]);
+	}
+
+	/**
+	 * Checks whether the UID list cache needs to be rebuild and does so if
+	 * necessary.
+	 */
+	private function checkUidCache() {
+		if ($this->hasItemWithoutUid) {
+			$this->rebuildUidCache();
+		}
+	}
+
+	/**
+	 * Rebuilds the UID cache.
+	 */
+	private function rebuildUidCache() {
+		$this->hasItemWithoutUid = FALSE;
+
+		foreach ($this->items as $item) {
+			if ($item->hasUid()) {
+				$uid = $item->getUid();
+				$this->uids[$uid] = $uid;
+			} else {
+				$this->hasItemWithoutUid = TRUE;
+			}
+		}
 	}
 
 	/**
@@ -272,7 +309,10 @@ class tx_oelib_List implements Iterator {
 		}
 
 		if ($this->current()->hasUid()) {
-			unset($this->uids[$this->current()->getUid()]);
+			$uid = $this->current()->getUid();
+			if (isset($this->uids[$uid])) {
+				unset($this->uids[$uid]);
+			}
 		}
 		unset($this->items[$this->pointer]);
 

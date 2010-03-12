@@ -640,6 +640,22 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$model2->__destruct();
 	}
 
+	/**
+	 * @test
+	 */
+	public function getUidsForElementThatGotItsUidAfterAddingItReturnsItsUid() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+		$model->setUid(42);
+
+		$this->assertEquals(
+			'42',
+			$this->fixture->getUids()
+		);
+
+		$model->__destruct();
+	}
+
 
 	////////////////////////////
 	// Tests concerning hasUid
@@ -655,6 +671,21 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(42);
 		$this->fixture->add($model);
+
+		$this->assertTrue(
+			$this->fixture->hasUid(42)
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasUidForElementThatGotItsUidAfterAddingItReturnsTrue() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+		$model->setUid(42);
 
 		$this->assertTrue(
 			$this->fixture->hasUid(42)
