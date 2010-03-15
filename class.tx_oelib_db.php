@@ -181,10 +181,10 @@ class tx_oelib_db {
 			return '';
 		}
 
-		$dbResult = tx_oelib_db::select(
+		$dbResult = self::select(
 			'uid',
 			'pages',
-			'pid IN (' . $startPages . ')' . tx_oelib_db::enableFields('pages')
+			'pid IN (' . $startPages . ')' . self::enableFields('pages')
 		);
 
 		$subPages = array();
