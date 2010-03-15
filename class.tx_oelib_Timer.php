@@ -138,7 +138,7 @@ class tx_oelib_Timer {
 	 * @param string the name of the bucket to open, must not be empty
 	 */
 	public static function oB($bucketName = 'default') {
-		tx_oelib_Timer::getInstance()->openBucket($bucketName);
+		self::getInstance()->openBucket($bucketName);
 	}
 
 	/**
@@ -278,7 +278,7 @@ class tx_oelib_Timer {
 	 * @see returnToPreviousBucket
 	 */
 	public static function rB() {
-		tx_oelib_Timer::getInstance()->returnToPreviousBucket();
+		self::getInstance()->returnToPreviousBucket();
 	}
 
 	/**
