@@ -1060,5 +1060,108 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 			$this->fixture->hasLastLogin()
 		);
 	}
+
+
+	////////////////////////////////
+	// Tests regarding the country
+	////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getCountryWithoutCountryReturnsNull() {
+		$this->fixture->setData(array());
+
+		$this->assertNull(
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCountryWithInvalidCountryCodeReturnsNull() {
+		$this->fixture->setData(array('static_info_country' => 'xyz'));
+
+		$this->assertNull(
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getCountryWithCountryReturnsCountryAsModel() {
+		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+			->find(54);
+		$this->fixture->setData(
+			array('static_info_country' => $country->getIsoAlpha3Code())
+		);
+
+		$this->assertSame(
+			$country,
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCountrySetsCountry() {
+		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+			->find(54);
+		$this->fixture->setCountry($country);
+
+		$this->assertSame(
+			$country,
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countryCanBeSetToNull() {
+		$this->fixture->setCountry(null);
+
+		$this->assertNull(
+			$this->fixture->getCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCountryWithoutCountryReturnsFalse() {
+		$this->fixture->setData(array());
+
+		$this->assertFalse(
+			$this->fixture->hasCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCountryWithInvalidCountryReturnsFalse() {
+		$this->fixture->setData(array('static_info_country' => 'xyz'));
+
+		$this->assertFalse(
+			$this->fixture->hasCountry()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasCountryWithCountryReturnsTrue() {
+		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+			->find(54);
+		$this->fixture->setCountry($country);
+
+		$this->assertTrue(
+			$this->fixture->hasCountry()
+		);
+	}
 }
 ?>

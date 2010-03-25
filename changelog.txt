@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3772] Feature: Add country to the FE user model
 - [#2682] Feature: Implement dataMapper::delete
 - [#3728] Change: Drop functions that have been announced to be removed in oelib 0.8.0
 - [#3768] Fix: Relations to FE user groups with the UID 0 should be ignored

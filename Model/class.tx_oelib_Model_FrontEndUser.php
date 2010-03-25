@@ -454,6 +454,52 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	public function hasLastLogin() {
 		return $this->hasInteger('lastlogin');
 	}
+
+	/**
+	 * Returns the country of this user as tx_oelib_Model_Country.
+	 *
+	 * Note: This function uses the "country code" field, not the free-text
+	 * country field.
+	 *
+	 * @return tx_oelib_Model_Country the country of this user, will be null
+	 *                                if no valid country has been set
+	 */
+	public function getCountry() {
+		$countryCode = $this->getAsString('static_info_country');
+		if ($countryCode == '') {
+			return null;
+		}
+
+		try {
+			$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+				->findByIsoAlpha3Code($countryCode);
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$country = null;
+		}
+
+		return $country;
+	}
+
+	/**
+	 * Sets the country of this user.
+	 *
+	 * @param tx_oelib_Model_Country $country
+	 *        the country to set for this place, can be null for "no country"
+	 */
+	public function setCountry(tx_oelib_Model_Country $country = null) {
+		$countryCode = ($country !== null) ? $country->getIsoAlpha3Code() : '';
+
+		$this->setAsString('static_info_country', $countryCode);
+	}
+
+	/**
+	 * Returns whether this user has a country.
+	 *
+	 * @return boolean TRUE if this user has a country, FALSE otherwise
+	 */
+	public function hasCountry() {
+		return ($this->getCountry() instanceof tx_oelib_Model_Country);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUser.php']) {
