@@ -1387,7 +1387,7 @@ class tx_oelib_configcheck {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-			$offendingPids = tx_oelib_db::selectMultiple(
+			$offendingPids = tx_oelib_db::selectColumnForMultiple(
 				'uid',
 				'pages',
 				'uid IN (' .$pids . ') AND NOT (doktype' . $typeCondition . ')' .
