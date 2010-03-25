@@ -654,7 +654,10 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	// Tests concerning the m:n mapping with a comma-separated list of UIDs
 	/////////////////////////////////////////////////////////////////////////
 
-	public function testCommaSeparatedRelationsWithEmptyStringCreatesEmptyList() {
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationsWithEmptyStringCreatesEmptyList() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertTrue(
@@ -662,7 +665,10 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCommaSeparatedRelationsWithOneUidReturnsListWithRelatedModel() {
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationsWithOneUidReturnsListWithRelatedModel() {
 		$childUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('children' => $childUid)
@@ -674,7 +680,10 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCommaSeparatedRelationsWithTwoUidsReturnsListWithBothRelatedModels() {
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationsWithTwoUidsReturnsListWithBothRelatedModels() {
 		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
@@ -683,6 +692,21 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			$childUid1 . ',' . $childUid2,
+			$this->fixture->find($uid)->getChildren()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationsWithOneUidAndZeroIgnoresZero() {
+		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('children' => $childUid1 . ',0')
+		);
+
+		$this->assertEquals(
+			(string) $childUid1,
 			$this->fixture->find($uid)->getChildren()->getUids()
 		);
 	}

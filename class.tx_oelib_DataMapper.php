@@ -446,6 +446,12 @@ abstract class tx_oelib_DataMapper {
 			$uids = t3lib_div::intExplode(',', $uidList);
 
 			foreach ($uids as $uid) {
+				// Some relations might have a junk 0 in it. We ignore it to
+				// avoid crashing.
+				if ($uid == 0) {
+					continue;
+				}
+
 				$list->add(
 					$mapper->find($uid)
 				);
