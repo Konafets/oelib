@@ -154,7 +154,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			if ((isset($this->extKey) && ($this->extKey != ''))
 				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
-					getConfigurationValueBoolean('enableConfigCheck')
+					getAsBoolean('enableConfigCheck')
 			) {
 				$configurationCheckClassname
 					= 'tx_' . $this->extKey . '_configcheck';
@@ -1210,25 +1210,15 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Checks whether a front end user is logged in.
-	 *
-	 * @return boolean true if a user is logged in, false otherwise
-	 *
-	 * @deprecated 2009-02-06 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::isLoggedIn()
-	 */
-	public function isLoggedIn() {
-		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
-	}
-
-	/**
 	 * If a user is logged in, retrieves that user's data as stored in the
 	 * table "feusers" and stores it in $this->feuser.
 	 *
 	 * If no user is logged in, $this->feuser will be null.
 	 */
 	private function retrieveFeUser() {
-		$this->feuser = $this->isLoggedIn()
-			? $GLOBALS['TSFE']->fe_user->user : null;
+		$this->feuser
+			= tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+				? $GLOBALS['TSFE']->fe_user->user : null;
 	}
 
 	/**
@@ -1244,7 +1234,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->retrieveFeUser();
 		}
 
-		return ($this->isLoggedIn() ? intval($this->feuser['uid']) : 0);
+		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+			? intval($this->feuser['uid']) : 0);
 	}
 
 	/**

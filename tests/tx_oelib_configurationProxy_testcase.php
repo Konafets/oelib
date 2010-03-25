@@ -98,7 +98,7 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function fixtureExtendsPublicObject() {
+	public function extendsPublicObject() {
 		$this->assertTrue(
 			$this->fixture instanceof tx_oelib_PublicObject
 		);
@@ -108,163 +108,6 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			$this->testConfiguration,
 			$this->fixture->getCompleteConfiguration()
-		);
-	}
-
-	public function testGetConfigurationValueStringIfValueExists() {
-		$this->assertEquals(
-			'foo',
-			$this->fixture->getConfigurationValueString('testValueString')
-		);
-	}
-
-	public function testGetConfigurationValueStringReturnsEmptyStringEmptyStringGiven() {
-		$this->assertEquals(
-			'',
-			$this->fixture->getConfigurationValueString('testValueEmptyString')
-		);
-	}
-
-	public function testGetConfigurationValueStringReturnsEmptyStringIfValueNotExists() {
-		$this->assertEquals(
-			'',
-			$this->fixture->getConfigurationValueString('foo')
-		);
-	}
-
-	public function testGetConfigurationValueBooleanTrue() {
-		$this->assertEquals(
-			true,
-			$this->fixture->getConfigurationValueBoolean('testValueTrue')
-		);
-	}
-
-	public function testGetConfigurationValueBooleanFalse() {
-		$this->assertEquals(
-			false,
-			$this->fixture->getConfigurationValueBoolean('testValueFalse')
-		);
-	}
-
-	public function testGetConfigurationValueBooleanFalseIfValueWasNotSet() {
-		$this->assertEquals(
-			false,
-			$this->fixture->getConfigurationValueBoolean('foo')
-		);
-	}
-
-	public function testGetConfigurationValueIntegerIfPositiveIntegerGiven() {
-		$this->assertEquals(
-			2,
-			$this->fixture->getConfigurationValueInteger(
-				'testValuePositiveInteger'
-			)
-		);
-	}
-
-	public function testGetConfigurationValueIntegerIfNegativeIntegerGiven() {
-		$this->assertEquals(
-			-1,
-			$this->fixture->getConfigurationValueInteger(
-				'testValueNegativeInteger'
-			)
-		);
-	}
-
-	public function testGetConfigurationValueIntegerIfZeroGiven() {
-		$this->assertEquals(
-			0,
-			$this->fixture->getConfigurationValueInteger('testValueZeroInteger')
-		);
-	}
-
-	public function testGetConfigurationValueIntegerIfValueNotExists() {
-		$this->assertEquals(
-			0,
-			$this->fixture->getConfigurationValueInteger('foo')
-		);
-	}
-
-	public function testSetConfigurationValueStringChangesAnExistingValue() {
-		$this->fixture->setConfigurationValueString('testValueString', 'bar');
-
-		$this->assertEquals(
-			'bar',
-			$this->fixture->getConfigurationValueString('testValueString')
-		);
-	}
-
-	public function testSetConfigurationValueStringAddsNewValue() {
-		$this->fixture->setConfigurationValueString('testValue', 'foo');
-
-		$this->assertEquals(
-			'foo',
-			$this->fixture->getConfigurationValueString('testValue')
-		);
-	}
-
-	public function testSetConfigurationValueBooleanTrue() {
-		$this->fixture->setConfigurationValueBoolean('testValue', true);
-
-		$this->assertEquals(
-			true,
-			$this->fixture->getConfigurationValueBoolean('testValue')
-		);
-	}
-
-	public function testSetConfigurationValueBooleanFalse() {
-		$this->fixture->setConfigurationValueBoolean('testValue', false);
-
-		$this->assertEquals(
-			false,
-			$this->fixture->getConfigurationValueBoolean('testValue')
-		);
-	}
-
-	public function testSetConfigurationValueIntegerIfValuePositive() {
-		$this->fixture->setConfigurationValueInteger('testValue', 2);
-
-		$this->assertEquals(
-			2,
-			$this->fixture->getConfigurationValueInteger('testValue')
-		);
-	}
-
-	public function testSetConfigurationValueIntegerIfValueNegative() {
-		$this->fixture->setConfigurationValueInteger('testValue', -2);
-
-		$this->assertEquals(
-			-2,
-			$this->fixture->getConfigurationValueInteger('testValue')
-		);
-	}
-
-	public function testSetConfigurationValueIntegerIfZero() {
-		$this->fixture->setConfigurationValueInteger('testValue', 0);
-
-		$this->assertEquals(
-			0,
-			$this->fixture->getConfigurationValueInteger('testValue')
-		);
-	}
-
-	public function testRetrieveConfigurationSetsOriginalValuesAgainIfValueWasChanged() {
-		$this->fixture->setConfigurationValueString('testValueString', 'bar');
-		$this->fixture->retrieveConfiguration();
-
-		$this->assertEquals(
-			$this->testConfiguration,
-			$this->fixture->getCompleteConfiguration()
-		);
-	}
-
-	public function testRetrieveConfigurationSetsOriginalValuesAgainIfValueWasAdded() {
-		$this->fixture->setConfigurationValueString('testValue', 'foo');
-		$this->fixture->retrieveConfiguration();
-
-		$this->assertEquals(
-			'',
-			$this->fixture->getConfigurationValueString('testValue')
 		);
 	}
 
@@ -280,21 +123,21 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	public function testRetrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
 		$this->fixture->retrieveConfiguration();
-		$this->fixture->setConfigurationValueString('testValue', 'foo');
+		$this->fixture->setAsString('testValue', 'foo');
 
 		$this->assertEquals(
 			'foo',
-			$this->fixture->getConfigurationValueString('testValue')
+			$this->fixture->getAsString('testValue')
 		);
 	}
 
 	public function testInstanciateAnotherProxyAndSetValueNotAffectsThisFixture() {
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
-		$otherConfiguration->setConfigurationValueString('testValue', 'foo');
+		$otherConfiguration->setAsString('testValue', 'foo');
 
 		$this->assertEquals(
 			'foo',
-			$otherConfiguration->getConfigurationValueString('testValue')
+			$otherConfiguration->getAsString('testValue')
 		);
 
 		$this->assertEquals(

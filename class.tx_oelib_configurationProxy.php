@@ -162,20 +162,6 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	}
 
 	/**
-	 * Returns a configuration value.
-	 *
-	 * @param string key of the value to get, must not be empty
-	 *
-	 * @return mixed configuration value, will be an empty string if the
-	 *               value does not exist
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use get() instead
-	 */
-	private function getConfigurationValue($key) {
-		return $this->get($key);
-	}
-
-	/**
 	 * Sets a new configuration value.
 	 *
 	 * The configuration setters are intended to be used for testing purposes
@@ -188,96 +174,6 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 		$this->loadConfigurationLazily();
 
 		$this->configuration[$key] = $value;
-	}
-
-	/**
-	 * Sets a new configuration value.
-	 *
-	 * The configuration setters are intended to be used for testing purposes
-	 * only.
-	 *
-	 * @param string key of the value to set, must not be empty
-	 * @param mixed value to set
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use set() instead
-	 */
-	private function setConfigurationValue($key, $value) {
-		$this->set($key, $value);
-	}
-
-	/**
-	 * Returns a string configuration value.
-	 *
-	 * @param string key of the value to get, must not be empty
-	 *
-	 * @return string configuration value string, might be empty
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsString() instead
-	 */
-	public function getConfigurationValueString($key) {
-		return $this->getAsString($key);
-	}
-
-	/**
-	 * Sets a string configuration value.
-	 *
-	 * @param string key of the value to set, must not be empty
-	 * @param string value to set, may be empty
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsString() instead
-	 */
-	public function setConfigurationValueString($key, $value) {
-		$this->setAsString($key, $value);
-	}
-
-	/**
-	 * Returns a boolean configuration value.
-	 *
-	 * @param string key of the value to get, must not be empty
-	 *
-	 * @return boolean boolean configuration value
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsBoolean() instead
-	 */
-	public function getConfigurationValueBoolean($key) {
-		return $this->getAsBoolean($key);
-	}
-
-	/**
-	 * Sets a boolean configuration value.
-	 *
-	 * @param string key of the value to set, must not be empty
-	 * @param boolean value to set
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsBoolean() instead
-	 */
-	public function setConfigurationValueBoolean($key, $value) {
-		$this->setAsBoolean($key, $value);
-	}
-
-	/**
-	 * Returns an integer configuration value.
-	 *
-	 * @param string key of the value to get, must not be empty
-	 *
-	 * @return integer configuration value
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsInteger() instead
-	 */
-	public function getConfigurationValueInteger($key) {
-		return $this->getAsInteger($key);
-	}
-
-	/**
-	 * Sets an integer configuration value.
-	 *
-	 * @param string key of the value to set, must not be empty
-	 * @param integer value to set
-	 *
-	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsInteger() instead
-	 */
-	public function setConfigurationValueInteger($key, $value) {
-		$this->setAsInteger($key, $value);
 	}
 
 	/**
