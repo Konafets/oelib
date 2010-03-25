@@ -173,13 +173,6 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
-	 * Sets the "deleted" property for the current model.
-	 */
-	public function setToDeleted() {
-		parent::setToDeleted();
-	}
-
-	/**
 	 * Sets the deleted property via set().
 	 *
 	 * Note: This function is expected to fail.

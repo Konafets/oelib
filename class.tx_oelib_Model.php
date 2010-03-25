@@ -496,10 +496,12 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 
 	/**
 	 * Sets the "deleted" property for the current model.
+	 *
+	 * Note: This function is intended to be called only by a data mapper.
 	 */
-	protected function setToDeleted() {
+	public function setToDeleted() {
 		if ($this->isLoaded()) {
-			$this->data['deleted'] = true;
+			$this->data['deleted'] = TRUE;
 			$this->markAsDirty();
 		} else {
 			$this->markAsDead();

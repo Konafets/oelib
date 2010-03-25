@@ -2328,5 +2328,110 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->findOneByKey('title', 'Darjeeling');
 	}
+
+
+	////////////////////////////
+	// Tests concerning delete
+	////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function deleteForDeadModelDoesNotThrowException() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->markAsDead();
+
+		$this->fixture->delete($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForModelWithoutUidMarksModelAsDead() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		$this->fixture->delete($model);
+
+		$this->assertTrue(
+			$model->isDead()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForModelWithUidMarksModelAsDead() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array()
+		);
+		$model = $this->fixture->find($uid);
+
+		$this->fixture->delete($model);
+
+		$this->assertTrue(
+			$model->isDead()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForGhostFromGetNewGhostThrowsException() {
+		$this->setExpectedException(
+			'Exception',
+			'This model is a memory-only dummy that must not be deleted.'
+		);
+
+		$model = $this->fixture->getNewGhost();
+		$this->fixture->delete($model);
+	}
+
+
+	/**
+	 * @test
+	 */
+	public function deleteForReadOnlyModelThrowsException() {
+		$this->setExpectedException(
+			'Exception', 'This model is read-only and must not be deleted.'
+		);
+
+		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
+		$this->fixture->delete($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForModelWithUidWritesModelAsDeletedToDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array()
+		);
+		$model = $this->fixture->find($uid);
+
+		$this->fixture->delete($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_oelib_test', 'uid = ' . $uid . ' AND deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForModelWithUidStillKeepsModelAccessibleViaDataMapper() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array()
+		);
+		$model = $this->fixture->find($uid);
+
+		$this->fixture->delete($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->find($uid)
+		);
+	}
 }
 ?>

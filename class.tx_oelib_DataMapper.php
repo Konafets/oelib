@@ -871,6 +871,36 @@ abstract class tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Marks $model as deleted and saves it to the DB (if it has a UID).
+	 *
+	 * @param tx_oelib_Model $model
+	 *        the model to delete, must not be a memory-only dummy, must not be
+	 *        read-only
+	 */
+	public function delete(tx_oelib_Model $model) {
+		if ($this->isModelAMemoryOnlyDummy($model)) {
+			throw new Exception(
+				'This model is a memory-only dummy that must not be deleted.'
+			);
+		}
+		if ($model->isReadOnly()) {
+			throw new Exception(
+				'This model is read-only and must not be deleted.'
+			);
+		}
+		if ($model->isDead()) {
+			return;
+		}
+
+		if ($model->hasUid()) {
+			$this->load($model);
+			$model->setToDeleted();
+			$this->save($model);
+		}
+		$model->markAsDead();
+	}
+
+	/**
 	 * Retrieves all non-deleted, non-hidden models from the DB.
 	 *
 	 * If no sorting is provided, the records are sorted like in the BE.
