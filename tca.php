@@ -140,7 +140,7 @@ $TCA['tx_oelib_test'] = array(
 );
 
 $TCA['tx_oelib_testchild'] = array(
-	'ctrl' => $TCA['tx_oelib_test']['ctrl'],
+	'ctrl' => $TCA['tx_oelib_testchild']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'title',
 	),
