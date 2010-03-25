@@ -154,7 +154,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			if ((isset($this->extKey) && ($this->extKey != ''))
 				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
-					getConfigurationValueBoolean('enableConfigCheck')
+					getAsBoolean('enableConfigCheck')
 			) {
 				$configurationCheckClassname
 					= 'tx_' . $this->extKey . '_configcheck';
@@ -1227,8 +1227,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If no user is logged in, $this->feuser will be null.
 	 */
 	private function retrieveFeUser() {
-		$this->feuser = $this->isLoggedIn()
-			? $GLOBALS['TSFE']->fe_user->user : null;
+		$this->feuser
+			= tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+				? $GLOBALS['TSFE']->fe_user->user : null;
+
 	}
 
 	/**
@@ -1244,7 +1246,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->retrieveFeUser();
 		}
 
-		return ($this->isLoggedIn() ? intval($this->feuser['uid']) : 0);
+		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+			? intval($this->feuser['uid']) : 0);
 	}
 
 	/**

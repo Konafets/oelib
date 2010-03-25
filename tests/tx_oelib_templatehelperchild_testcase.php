@@ -48,7 +48,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 		tx_oelib_configurationProxy::getInstance('oelib')
-			->setConfigurationValueBoolean('enableConfigCheck', true);
+			->setAsBoolean('enableConfigCheck', TRUE);
 
 		$this->fixture = new tx_oelib_templatehelperchild(array());
 	}
@@ -74,7 +74,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 	public function testConfigurationCheckCreationForDisabledConfigurationCeck() {
 		tx_oelib_configurationProxy::getInstance('oelib')
-			->setConfigurationValueBoolean('enableConfigCheck', false);
+			->setAsBoolean('enableConfigCheck', FALSE);
 		$fixture = new tx_oelib_templatehelperchild();
 		$result = $fixture->getConfigurationCheck();
 
