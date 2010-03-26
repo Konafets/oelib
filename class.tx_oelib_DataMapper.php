@@ -695,8 +695,12 @@ abstract class tx_oelib_DataMapper {
 		if ($model->isDeleted()) {
 			$model->markAsDead();
 		} else {
-			$this->createManyToManyRelationIntermediateRecords($model);
 			$model->markAsClean();
+			// We save the 1:n relations after marking this model as clean
+			// in order to avoid infinite loops when the foreign model tries
+			// to save this parent.
+			$this->saveOneToManyRelationRecords($model);
+			$this->createManyToManyRelationIntermediateRecords($model);
 		}
 	}
 
@@ -848,6 +852,62 @@ abstract class tx_oelib_DataMapper {
 					);
 					$sorting++;
 				}
+			}
+		}
+	}
+
+	/**
+	 * Saves records that this model relates to as 1:n.
+	 *
+	 * @param tx_oelib_Model $model the model to save the related records for
+	 */
+	private function saveOneToManyRelationRecords(tx_oelib_Model $model) {
+		$data = $model->getData();
+
+		foreach ($this->relations as $key => $relation) {
+			if (!$this->isOneToManyRelationConfigured($key)) {
+				continue;
+			}
+			$relatedModels = $data[$key];
+			if (!($relatedModels instanceof tx_oelib_List)) {
+				continue;
+			}
+
+			$relationConfiguration =
+				$this->getRelationConfigurationFromTca($key);
+			if (!isset($relationConfiguration['foreign_field'])) {
+				throw new Exception(
+					'The relation ' . $this->tableName . ':' . $key .
+						' is missing the "foreign_field" setting.'
+				);
+			}
+
+			$relatedMapper = tx_oelib_MapperRegistry::get($relation);
+			$foreignField = $relationConfiguration['foreign_field'];
+
+			foreach ($relatedModels as $relatedModel) {
+				$getter = 'get' . ucfirst($foreignField);
+				if (!method_exists($relatedModel, $getter)) {
+					throw new Exception(
+						'The class ' . get_class($relatedModel) .
+							' is missing the function ' . $getter .
+							' which is needed for saving a 1:n relation.'
+					);
+				}
+				$setter = 'set' . ucfirst($foreignField);
+				if (!method_exists($relatedModel, $setter)) {
+					throw new Exception(
+						'The class ' . get_class($relatedModel) .
+							' is missing the function ' . $setter .
+							' which is needed for saving a 1:n relation.'
+					);
+				}
+				if ($relatedModel->$getter() !== $model) {
+					 // Only sets the model if this would change anything. This
+					 // avoids marking unchanged models as dirty.
+					$relatedModel->$setter($model);
+				}
+				$relatedMapper->save($relatedModel);
 			}
 		}
 	}

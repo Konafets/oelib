@@ -42,5 +42,13 @@ class tx_oelib_tests_fixtures_TestingChildMapper extends tx_oelib_DataMapper {
 	 * @var string the model class name for this mapper, must not be empty
 	 */
 	protected $modelClassName = 'tx_oelib_tests_fixtures_TestingChildModel';
+
+	/**
+	 * @var array the (possible) relations of the created models in the format
+	 *            DB column name => mapper name
+	 */
+	protected $relations = array(
+		'parent' => 'tx_oelib_tests_fixtures_TestingMapper',
+	);
 }
 ?>

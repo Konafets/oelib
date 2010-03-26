@@ -31,7 +31,53 @@
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model {
+	/**
+	 * Sets the "title" data item for this model.
+	 *
+	 * @param string the value to set, may be empty
+	 */
+	public function setTitle($value) {
+		$this->setAsString('title', $value);
+	}
+
+	/**
+	 * Gets the "title" data item.
+	 *
+	 * @return string the value of the "title" data item, may be empty
+	 */
+	public function getTitle() {
+		return $this->getAsString('title');
+	}
+
+	/**
+	 * Gets the "parent" data item.
+	 *
+	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
+	 *                                              will be null if this model
+	 *                                              has no parent
+	 */
+	public function getParent() {
+		return $this->getAsModel('parent');
+	}
+
+	/**
+	 * Sets the "friend" data item.
+	 *
+	 * @param tx_oelib_tests_fixtures_TestingModel $friend
+	 *        the "parent" data item to set
+	 */
+	public function setParent(tx_oelib_tests_fixtures_TestingModel $parent) {
+		$this->set('parent', $parent);
+	}
+
+	/**
+	 * Sets the dummy column to TRUE.
+	 */
+	public function markAsDummyModel() {
+		$this->set('is_dummy_record', TRUE);
+	}
 }
 ?>

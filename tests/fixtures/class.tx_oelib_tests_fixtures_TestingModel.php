@@ -173,6 +173,15 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Sets the "composition" data item.
+	 *
+	 * @param tx_oelib_List tx_oelib_List the "composition" data to set
+	 */
+	public function setComposition(tx_oelib_List $components) {
+		return $this->set('composition', $components);
+	}
+
+	/**
 	 * Sets the deleted property via set().
 	 *
 	 * Note: This function is expected to fail.

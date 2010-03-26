@@ -1549,18 +1549,81 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function saveForModelWithOneToManyRelationSavesNumberOfRelatedRecords() {
-		$uid = $this->testingFramework->createRecord('tx_oelib_test');
-		$this->fixture->find($uid)->setTitle('bar');
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$model->setTitle('bar');
 
-		$mapper = new tx_oelib_tests_fixtures_TestingChildMapper();
-		$this->fixture->find($uid)->getComposition()->add($mapper->getNewGhost());
-		$this->fixture->find($uid)->getComposition()->add($mapper->getNewGhost());
+		$composition = $model->getComposition();
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$composition->add($mapper->find(
+			$this->testingFramework->createRecord('tx_oelib_testchild')
+		));
+		$composition->add($mapper->find(
+			$this->testingFramework->createRecord('tx_oelib_testchild')
+		));
 
-		$this->fixture->save($this->fixture->find($uid));
+		$this->fixture->save($model);
 
 		$this->assertTrue(
 			$this->testingFramework->existsRecord(
 				'tx_oelib_test', 'title = "bar" AND composition = 2'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWithOneToManyRelationSavesDirtyRelatedRecord() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$model->setTitle('bar');
+
+		$composition = $model->getComposition();
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$component = $mapper->find(
+			$this->testingFramework->createRecord('tx_oelib_testchild')
+		);
+		$composition->add($component);
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_testchild',
+				'uid = ' . $component->getUid() .
+					' AND parent = ' . $model->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWith1NRelationSavesNewRelatedRecord() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$model->setTitle('bar');
+
+		$composition = $model->getComposition();
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$component = new tx_oelib_tests_fixtures_TestingChildModel();
+		$component->markAsDummyModel();
+		$composition->add($component);
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_testchild',
+				'uid = ' . $component->getUid() .
+					' AND parent = ' . $model->getUid()
 			)
 		);
 	}
@@ -2421,9 +2484,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function deleteForModelWithUidStillKeepsModelAccessibleViaDataMapper() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_oelib_test', array()
-		);
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$model = $this->fixture->find($uid);
 
 		$this->fixture->delete($model);

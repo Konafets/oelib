@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#2684] Feature: Implement saving of compositions (1:n relations)
 - [#3788] Feature: Add DataMapper::findAllByRelation
 - [#3782] Fix: Typo in tca.php
 - [#3772] Feature: Add country to the FE user model
