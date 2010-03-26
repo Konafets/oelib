@@ -2433,5 +2433,163 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$this->fixture->find($uid)
 		);
 	}
+
+
+	///////////////////////////////////////
+	// Tests concerning findAllByRelation
+	///////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationWithModelWithoutUidThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$model must have a UID.'
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+
+		tx_oelib_MapperRegistry
+			::get('tx_oelib_tests_fixtures_TestingChildMapper')
+			->findAllByRelation($model, 'parent');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationWithEmptyKeyThrowsException() {
+		$this->setExpectedException(
+			'Exception', '$key must not be empty'
+		);
+
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+
+		tx_oelib_MapperRegistry
+			::get('tx_oelib_tests_fixtures_TestingChildMapper')
+			->findAllByRelation($model, '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationForNoMatchesReturnsEmptyList() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$this->assertTrue(
+			$mapper->findAllByRelation($model, 'parent')->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationNotReturnsNotMatchingRecords() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$anotherModel = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $anotherModel->getUid())
+		);
+
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$this->assertTrue(
+			$mapper->findAllByRelation($model, 'parent')->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationCanReturnOneMatch() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$relatedModel = $mapper->find(
+			$this->testingFramework->createRecord(
+				'tx_oelib_testchild', array('parent' => $model->getUid())
+			)
+		);
+
+		$result = $mapper->findAllByRelation($model, 'parent');
+		$this->assertEquals(
+			1,
+			$result->count()
+		);
+		$this->assertSame(
+			$relatedModel,
+			$result->first()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationCanReturnTwoMatches() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $model->getUid())
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $model->getUid())
+		);
+
+		$result = tx_oelib_MapperRegistry
+			::get('tx_oelib_tests_fixtures_TestingChildMapper')
+			->findAllByRelation($model, 'parent');
+		$this->assertEquals(
+			2,
+			$result->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findAllByRelationIgnoresIgnoreList() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$relatedModel = $mapper->find(
+			$this->testingFramework->createRecord(
+				'tx_oelib_testchild', array('parent' => $model->getUid())
+			)
+		);
+		$ignoredRelatedModel = $mapper->find(
+			$this->testingFramework->createRecord(
+				'tx_oelib_testchild', array('parent' => $model->getUid())
+			)
+		);
+
+		$ignoreList = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$ignoreList->add($ignoredRelatedModel);
+
+		$result = tx_oelib_MapperRegistry
+			::get('tx_oelib_tests_fixtures_TestingChildMapper')
+			->findAllByRelation($model, 'parent', $ignoreList);
+		$this->assertEquals(
+			1,
+			$result->count()
+		);
+		$this->assertSame(
+			$relatedModel,
+			$result->first()
+		);
+	}
 }
 ?>
