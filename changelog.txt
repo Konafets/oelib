@@ -1,4 +1,5 @@
 0.7.1 - currently working on
+- [#3801] Fix: The FE user mapper must not use the user data from TSFE->fe_user->user
 - [#3782] Fix: Typo in tca.php
 - [#3065] Change: Use the new getters/setters when using the configuration proxy
 - [#3768] Fix: Relations to FE user groups with the UID 0 should be ignored

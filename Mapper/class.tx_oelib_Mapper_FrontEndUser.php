@@ -70,29 +70,6 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	}
 
 	/**
-	 * Reads a record from the database by UID (from this mapper's table). Also
-	 * hidden records will be retrieved.
-	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
-	 *                                     with the UID $uid
-	 *
-	 * @param integer the UID of the record to retrieve, must be > 0
-	 *
-	 * @return array the record from the database, will not be empty
-	 */
-	protected function retrieveRecordByUid($uid) {
-		if (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn() &&
-			($GLOBALS['TSFE']->fe_user->user['uid'] == $uid)
-		) {
-			$data = $GLOBALS['TSFE']->fe_user->user;
-		} else {
-			$data = parent::retrieveRecordByUid($uid);
-		}
-
-		return $data;
-	}
-
-	/**
 	 * Returns the users which are in the groups with the given UIDs.
 	 *
 	 * @param string the UIDs of the user groups from which to get the users,
