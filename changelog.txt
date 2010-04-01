@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3736] Fix: DB warnings in the EM
 - [#3801] Fix: The FE user mapper must not use the user data from TSFE->fe_user->user
 - [#2684] Feature: Implement saving of compositions (1:n relations)
 - [#3788] Feature: Add DataMapper::findAllByRelation
