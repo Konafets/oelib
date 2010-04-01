@@ -70,7 +70,7 @@ CREATE TABLE tx_oelib_test_article_mm (
 #
 CREATE TABLE be_users (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -79,16 +79,7 @@ CREATE TABLE be_users (
 #
 CREATE TABLE be_groups (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
-);
-
-
-#
-# Table structure for table 'cache_pages'
-#
-CREATE TABLE cache_pages (
-	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -97,7 +88,7 @@ CREATE TABLE cache_pages (
 #
 CREATE TABLE fe_groups (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -106,7 +97,7 @@ CREATE TABLE fe_groups (
 #
 CREATE TABLE fe_users (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -115,7 +106,7 @@ CREATE TABLE fe_users (
 #
 CREATE TABLE pages (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -124,7 +115,7 @@ CREATE TABLE pages (
 #
 CREATE TABLE sys_template (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
 
 
@@ -133,23 +124,5 @@ CREATE TABLE sys_template (
 #
 CREATE TABLE tt_content (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
-);
-
-
-#
-# Table structure for table 'user_oelibtest_test'
-#
-CREATE TABLE user_oelibtest_test (
-	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
-);
-
-
-#
-# Table structure for table 'user_oelibtest_test_article_mm'
-#
-CREATE TABLE user_oelibtest_test_article_mm (
-	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
-	KEY dummy (tx_oelib_is_dummy_record),
+	KEY dummy (tx_oelib_is_dummy_record)
 );
