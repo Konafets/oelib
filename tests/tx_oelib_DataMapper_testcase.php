@@ -2495,6 +2495,47 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function deleteForModelWithOneToManyRelationDeletesRelatedElements() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('composition' => 1)
+		);
+		$relatedUid = $this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid)
+		);
+
+		$this->fixture->delete($this->fixture->find($uid));
+
+		$this->assertTrue(
+			$this->testingFramework->existsExactlyOneRecord(
+				'tx_oelib_testchild',
+				'uid = ' . $relatedUid . ' AND deleted = 1'
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function deleteForDirtyModelWithOneToManyRelationToDirtyElementDoesNotCrash() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('composition' => 1)
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_testchild', array('parent' => $uid)
+		);
+
+		$model = $this->fixture->find($uid);
+		$relatedModel = $model->getComposition()->first();
+
+		$model->setTitle('foo');
+		$relatedModel->setTitle('bar');
+
+		$this->fixture->delete($model);
+	}
+
 
 	///////////////////////////////////////
 	// Tests concerning findAllByRelation

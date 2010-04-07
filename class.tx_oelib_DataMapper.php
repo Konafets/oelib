@@ -953,11 +953,38 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		if ($model->hasUid()) {
-			$this->load($model);
+			if (!$model->isLoaded()) {
+				$this->load($model);
+			}
 			$model->setToDeleted();
 			$this->save($model);
+			$this->deleteOneToManyRelations($model);
 		}
 		$model->markAsDead();
+	}
+
+	/**
+	 * Deletes all one-to-many related models of this model.
+	 *
+	 * @param tx_oelib_Model $model
+	 *        the model for which to delete the related models
+	 */
+	private function deleteOneToManyRelations(tx_oelib_Model $model) {
+		$data = $model->getData();
+
+		foreach ($this->relations as $key => $mapperName) {
+			if ($this->isOneToManyRelationConfigured($key)) {
+				$relatedModels = $data[$key];
+				if (!is_object($relatedModels)) {
+					continue;
+				}
+
+				$mapper = tx_oelib_MapperRegistry::get($mapperName);
+				foreach ($relatedModels as $relatedModel) {
+					$mapper->delete($relatedModel);
+				}
+			}
+		}
 	}
 
 	/**
