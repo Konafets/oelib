@@ -908,6 +908,13 @@ abstract class tx_oelib_DataMapper {
 					$relatedModel->$setter($model);
 				}
 				$relatedMapper->save($relatedModel);
+
+				$unconnectedModels = $relatedMapper->findAllByRelation(
+					$model, $foreignField, $relatedModels
+				);
+				foreach ($unconnectedModels as $unconnectedModel) {
+					$relatedMapper->delete($unconnectedModel);
+				}
 			}
 		}
 	}
