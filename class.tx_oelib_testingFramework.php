@@ -139,6 +139,20 @@ final class tx_oelib_testingFramework {
 	private $hasFakeFrontEnd = false;
 
 	/**
+	 * hook objects for this class
+	 *
+	 * @var array
+	 */
+	static private $hooks = array();
+
+	/**
+	 * whether the hooks in self::hooks have been retrieved
+	 *
+	 * @var boolean
+	 */
+	static private $hooksHaveBeenRetrieved = FALSE;
+
+	/**
 	 * The constructor for this class.
 	 *
 	 * This testing framework can be instantiated for one extension at a time.
@@ -764,18 +778,11 @@ final class tx_oelib_testingFramework {
 		$this->deleteAllDummyFoldersAndFiles();
 		$this->discardFakeFrontEnd();
 
-		tx_oelib_configurationProxy::purgeInstances();
-		tx_oelib_BackEndLoginManager::purgeInstance();
-		tx_oelib_ConfigurationRegistry::purgeInstance();
-		tx_oelib_FrontEndLoginManager::purgeInstance();
-		tx_oelib_headerProxyFactory::purgeInstance();
-		tx_oelib_mailerFactory::purgeInstance();
-		tx_oelib_MapperRegistry::purgeInstance();
-		tx_oelib_PageFinder::purgeInstance();
-		tx_oelib_Session::purgeInstances();
-		tx_oelib_templatehelper::purgeCachedConfigurations();
-		tx_oelib_Timer::purgeInstance();
-		tx_oelib_TranslatorRegistry::purgeInstance();
+		foreach ($this->getHooks() as $hook) {
+			if (method_exists($hook, 'cleanUp')) {
+				$hook->cleanUp($this);
+			}
+		}
 	}
 
 	/**
@@ -1896,6 +1903,35 @@ final class tx_oelib_testingFramework {
 				'This PHP installation does not provide the ZIPArchive class.'
 			);
 		}
+	}
+
+	/**
+	 * Gets all hooks for this class.
+	 *
+	 * @return array the hook objects, will be empty if no hooks have been set
+	 */
+	private function getHooks() {
+		if (!self::$hooksHaveBeenRetrieved) {
+			$hookClasses = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']
+				['oelib']['testingFrameworkCleanUp'];
+			if (is_array($hookClasses)) {
+				foreach ($hookClasses as $hookClass) {
+					self::$hooks[] = t3lib_div::getUserObj($hookClass);
+				}
+			}
+
+			self::$hooksHaveBeenRetrieved = TRUE;
+		}
+
+		return self::$hooks;
+	}
+
+	/**
+	 * Purges the cached hooks.
+	 */
+	public function purgeHooks() {
+		self::$hooks = array();
+		self::$hooksHaveBeenRetrieved = FALSE;
 	}
 }
 

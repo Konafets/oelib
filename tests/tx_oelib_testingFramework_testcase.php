@@ -64,8 +64,24 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	 */
 	private $foreignFolderToDelete = '';
 
+	/**
+	 * backed-up extension configuration of the TYPO3 configuration variables
+	 *
+	 * @var array
+	 */
+	private $extConfBackup = array();
+
+	/**
+	 * backed-up T3_VAR configuration
+	 *
+	 * @var array
+	 */
+	private $t3VarBackup = array();
 
 	public function setUp() {
+		$this->extConfBackup = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'];
+		$this->t3VarBackup = $GLOBALS['T3_VAR']['getUserObj'];
+
 		$this->fixture = new tx_oelib_testingFramework(
 			'tx_oelib', array('user_oelibtest')
 		);
@@ -74,10 +90,14 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		$this->fixture->setResetAutoIncrementThreshold(1);
 		$this->fixture->cleanUp();
+		$this->fixture->purgeHooks();
 		$this->deleteForeignFile();
 		$this->deleteForeignFolder();
 
 		unset($this->fixture);
+
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'] = $this->extConfBackup;
+		$GLOBALS['T3_VAR']['getUserObj'] = $this->t3VarBackup;
 	}
 
 
@@ -1055,7 +1075,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	// Tests regarding cleanUp()
 	// ---------------------------------------------------------------------
 
-	public function testCleanUpWithRegularCleanUp() {
+	/**
+	 * @test
+	 */
+	public function cleanUpWithRegularCleanUp() {
 		// Creates a dummy record (and marks that table as dirty).
 		$this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -1089,7 +1112,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->cleanUp(true);
 	}
 
-	public function testCleanUpWithDeepCleanup() {
+	/**
+	 * @test
+	 */
+	public function cleanUpWithDeepCleanup() {
 		// Creates a dummy record (and marks that table as dirty).
 		$this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -1114,7 +1140,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		}
 	}
 
-	public function testCleanUpDeletesCreatedDummyFile() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDeletesCreatedDummyFile() {
 		$fileName = $this->fixture->createDummyFile();
 
 		$this->fixture->cleanUp();
@@ -1122,7 +1151,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(file_exists($fileName));
 	}
 
-	public function testCleanUpDeletesCreatedDummyFolder() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDeletesCreatedDummyFolder() {
 		$folderName = $this->fixture->createDummyFolder('test_folder');
 
 		$this->fixture->cleanUp();
@@ -1130,7 +1162,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->assertFalse(file_exists($folderName));
 	}
 
-	public function testCleanUpDeletesCreatedNestedDummyFolders() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDeletesCreatedNestedDummyFolders() {
 		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$innerDummyFolder = $this->fixture->createDummyFolder(
 			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
@@ -1144,7 +1179,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDeletesCreatedDummyUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDeletesCreatedDummyUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$this->fixture->createDummyFile();
 
@@ -1153,6 +1191,23 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		$this->fixture->cleanUp();
 
 		$this->assertFalse(is_dir($this->fixture->getUploadFolderPath()));
+	}
+
+	/**
+	 * @test
+	 */
+	public function cleanUpExecutesCleanUpHook() {
+		$hookClassName = uniqid('cleanUpHook');
+		$cleanUpHookMock = $this->getMock(
+			$hookClassName, array('cleanUp')
+		);
+		$cleanUpHookMock->expects($this->atLeastOnce())->method('cleanUp');
+
+		$GLOBALS['T3_VAR']['getUserObj'][$hookClassName] = $cleanUpHookMock;
+		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['oelib']
+			['testingFrameworkCleanUp'][$hookClassName] = $hookClassName;
+
+		$this->fixture->cleanUp();
 	}
 
 
@@ -3410,7 +3465,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpCleansUpDirtyBackEndUserTable() {
+	/**
+	 * @test
+	 */
+	public function cleanUpCleansUpDirtyBackEndUserTable() {
 		$uid = $this->fixture->createBackEndUser();
 
 		$this->fixture->cleanUp();
@@ -3631,7 +3689,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCleanUpDiscardsFakeFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function cleanUpDiscardsFakeFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->cleanUp();
 

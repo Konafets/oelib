@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3280] Feature: Add hooks to ::cleanUp
 - [#3791] Feature: When saving an 1:n relation, delete all unconnected records
 - [#3790] Feature: Add cascading deletes for 1:n IRRE relations
 - [#3736] Fix: DB warnings in the EM
