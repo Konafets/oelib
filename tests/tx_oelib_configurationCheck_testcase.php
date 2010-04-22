@@ -22,7 +22,10 @@
 ***************************************************************/
 
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_dummyObjectToCheck.php');
+
+if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_dummyObjectToCheck.php');
+}
 
 /**
  * Testcase for the configuration check class in the 'oelib' extension.

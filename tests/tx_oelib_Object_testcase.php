@@ -22,7 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingObject.php');
+if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'tests/fixtures/class.tx_oelib_testingObject.php');
+}
 
 /**
  * Testcase for the tx_oelib_Object class in the 'oelib' extension.

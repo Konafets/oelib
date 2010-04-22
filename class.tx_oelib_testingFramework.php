@@ -27,16 +27,18 @@ if (!defined('PATH_tslib')) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 }
 
-require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
-require_once(PATH_tslib . 'class.tslib_fe.php');
-require_once(PATH_t3lib . 'class.t3lib_page.php');
-require_once(PATH_tslib . 'class.tslib_content.php');
-require_once(PATH_t3lib . 'class.t3lib_userauth.php');
-require_once(PATH_tslib . 'class.tslib_feuserauth.php');
-require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
-require_once(PATH_t3lib . 'class.t3lib_cs.php');
-require_once(PATH_t3lib . 'class.t3lib_stdgraphic.php');
-require_once(PATH_tslib . 'class.tslib_gifbuilder.php');
+if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+	require_once(PATH_t3lib . 'class.t3lib_timetrack.php');
+	require_once(PATH_tslib . 'class.tslib_fe.php');
+	require_once(PATH_t3lib . 'class.t3lib_page.php');
+	require_once(PATH_tslib . 'class.tslib_content.php');
+	require_once(PATH_t3lib . 'class.t3lib_userauth.php');
+	require_once(PATH_tslib . 'class.tslib_feuserauth.php');
+	require_once(PATH_t3lib . 'class.t3lib_tstemplate.php');
+	require_once(PATH_t3lib . 'class.t3lib_cs.php');
+	require_once(PATH_t3lib . 'class.t3lib_stdgraphic.php');
+	require_once(PATH_tslib . 'class.tslib_gifbuilder.php');
+}
 
 /**
  * Class 'tx_oelib_testingFramework' for the 'oelib' extension.

@@ -22,7 +22,9 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(PATH_t3lib . 'class.t3lib_page.php');
+if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+	require_once(PATH_t3lib . 'class.t3lib_page.php');
+}
 
 /**
  * Class 'tx_oelib_db' for the 'oelib' extension.

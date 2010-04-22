@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3819] Change: Rely on the Core autoloader for TYPO3 >= 4.3
 - [#3818] Change: Use the null timetracker for the fake FE if it is available
 - [#3773] Feature: Add an interface "Geo"
 - [#3280] Feature: Add hooks to ::cleanUp

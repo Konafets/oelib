@@ -26,7 +26,9 @@
 if (!defined('PATH_tslib')) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 }
-require_once(PATH_tslib . 'class.tslib_pibase.php');
+if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+	require_once(PATH_tslib . 'class.tslib_pibase.php');
+}
 
 /**
  * Class 'tx_oelib_salutationswitcher' for the 'oelib' extension.
