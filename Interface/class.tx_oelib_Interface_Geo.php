@@ -34,6 +34,25 @@
  */
 interface tx_oelib_Interface_Geo {
 	/**
+	 * Returns this object's address formatted for a geo lookup, for example
+	 * "Pariser Str. 50, 53117 Auerberg, Bonn, DE". Any part of this address
+	 * might be missing, though.
+	 *
+	 * @return string this object's address formatted for a geo lookup,
+	 *                will be empty if this object has no address
+	 */
+	public function getGeoAddress();
+
+	/**
+	 * Checks whether this object has a non-empty address suitable for a geo
+	 * lookup.
+	 *
+	 * @return boolean TRUE if this object has a non-empty address, FALSE
+	 *                 otherwise
+	 */
+	public function hasGeoAddress();
+
+	/**
 	 * Retrieves this object's coordinates.
 	 *
 	 * @return array this object's geo coordinates using the keys "latitude" and
