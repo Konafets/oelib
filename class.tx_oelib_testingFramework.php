@@ -1188,7 +1188,11 @@ final class tx_oelib_testingFramework {
 		$this->suppressFrontEndCookies();
 		$this->discardFakeFrontEnd();
 
-		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+		if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+			$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+		} else {
+			$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_timeTrack');
+		}
 
 		$frontEnd = tx_oelib_ObjectFactory::make(
 			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0

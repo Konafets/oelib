@@ -190,7 +190,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * Marks the test as skipped if the TYPO3 version is above 4.2
+	 * Marks the test as skipped if the TYPO3 version is above 4.2.
 	 */
 	private function markAsSkippedForTypo3Greater42() {
 		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
@@ -3547,12 +3547,35 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesTimeTrack() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesTimeTrackInstance() {
+		$this->markAsSkippedForTypo3Greater42();
+
 		$GLOBALS['TT'] = null;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
 			$GLOBALS['TT'] instanceof t3lib_timeTrack
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesNullTimeTrackInstance() {
+		if (t3lib_div::int_from_ver(TYPO3_version) < 4003000) {
+			$this->markTestSkipped(
+				'This test is only applicable for TYPO3 versions 4.3 and higher.'
+			);
+		}
+
+		$GLOBALS['TT'] = null;
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertTrue(
+			$GLOBALS['TT'] instanceof t3lib_timeTrackNull
 		);
 	}
 
