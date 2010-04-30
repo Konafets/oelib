@@ -50,7 +50,7 @@ interface tx_oelib_Interface_LoginManager {
 	/**
 	 * Checks whether a user is logged in.
 	 *
-	 * @return boolean true if a user is logged in, false otherwise
+	 * @return boolean TRUE if a user is logged in, FALSE otherwise
 	 */
 	public function isLoggedIn();
 

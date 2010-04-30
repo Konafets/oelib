@@ -71,7 +71,7 @@ class tx_oelib_Double3Validator {
 		$cleanValue = preg_replace('/[^0-9,\.-]/', '', $value);
 		$isNegative = (substr($cleanValue, 0, 1) == '-');
 		$veryCleanValue = strtr($cleanValue, array(',' => '.', '-' => ''));
-		if (strpos($veryCleanValue, '.') === false) {
+		if (strpos($veryCleanValue, '.') === FALSE) {
 			$veryCleanValue .= '.0';
 		}
 		$valueParts = explode('.', $veryCleanValue);

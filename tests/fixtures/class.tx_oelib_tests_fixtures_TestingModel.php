@@ -56,7 +56,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param string the key of the data item to check, must not be empty
 	 *
-	 * @return boolean true if a data item with the key $key exists, false
+	 * @return boolean TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
 	 */
 	public function existsKey($key) {
@@ -187,14 +187,14 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Note: This function is expected to fail.
 	 */
 	public function setDeletedPropertyUsingSet() {
-		$this->setAsBoolean('deleted', true);
+		$this->setAsBoolean('deleted', TRUE);
 	}
 
 	/**
-	 * Sets the dummy column to true.
+	 * Sets the dummy column to TRUE.
 	 */
 	public function markAsDummyModel() {
-		$this->set('is_dummy_record', true);
+		$this->set('is_dummy_record', TRUE);
 	}
 }
 ?>

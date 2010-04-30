@@ -184,7 +184,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
-		$this->fixture->setFakedReturnValue(true);
+		$this->fixture->setFakedReturnValue(TRUE);
 
 		$this->assertTrue(
 			$this->fixture->sendEmail('', '', '')
@@ -192,7 +192,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSendEmailReturnsFalseIfTheReturnValueIsSetToFalse() {
-		$this->fixture->setFakedReturnValue(false);
+		$this->fixture->setFakedReturnValue(FALSE);
 
 		$this->assertFalse(
 			$this->fixture->sendEmail('', '', '')
@@ -750,7 +750,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function emailBodyIsNotChangesWhenFormattingIsDisabled() {
-		$this->fixture->sendFormattedEmails(false);
+		$this->fixture->sendFormattedEmails(FALSE);
 		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
 		$this->assertEquals(

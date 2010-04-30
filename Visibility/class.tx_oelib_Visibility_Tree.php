@@ -48,14 +48,14 @@ class tx_oelib_Visibility_Tree {
 	 *
 	 * Example for a tree array:
 	 *  array(ParentNode => array(
-	 *   ChildNode1 => true,
+	 *   ChildNode1 => TRUE,
 	 *   ChildNode2 => array(
-	 *     GrandChildNode1 => true,
-	 *     GrandChildNode2 => false
+	 *     GrandChildNode1 => TRUE,
+	 *     GrandChildNode2 => FALSE
 	 *   ),
 	 *  ));
-	 * If an array element has the value true it will be marked as visible, if
-	 * it has the value false it will be invisible.
+	 * If an array element has the value TRUE it will be marked as visible, if
+	 * it has the value FALSE it will be invisible.
 	 * These elements represent leaves in the visibility tree.
 	 *
 	 *
@@ -104,7 +104,7 @@ class tx_oelib_Visibility_Tree {
 				$this->buildTreeFromArray(
 					$nodeContents, $childNode
 				);
-			} elseif ($nodeContents === true) {
+			} elseif ($nodeContents === TRUE) {
 				$childNode->markAsVisible();
 			}
 

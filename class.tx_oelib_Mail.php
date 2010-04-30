@@ -132,7 +132,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Returns whether the e-mail has a sender.
 	 *
-	 * @return boolean true if the e-mail has a sender, false otherwise
+	 * @return boolean TRUE if the e-mail has a sender, FALSE otherwise
 	 */
 	public function hasSender() {
 		return is_object($this->sender);
@@ -167,7 +167,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 			throw new Exception('$subject must not be empty.');
 		}
 
-		if ((strpos($subject, CR) !== false) || (strpos($subject, LF) !== false)) {
+		if ((strpos($subject, CR) !== FALSE) || (strpos($subject, LF) !== FALSE)) {
 			throw new Exception(
 				'$subject must not contain any line breaks or carriage returns.'
 			);
@@ -212,7 +212,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Returns whether the e-mail has a message.
 	 *
-	 * @return boolean true if the e-mail has a message, false otherwise
+	 * @return boolean TRUE if the e-mail has a message, FALSE otherwise
 	 */
 	public function hasMessage() {
 		return $this->hasString('message');
@@ -251,7 +251,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Returns whether the e-mail has an HTML message.
 	 *
-	 * @return string true if the e-mail has an HTML message, false otherwise
+	 * @return string TRUE if the e-mail has an HTML message, FALSE otherwise
 	 */
 	public function hasHTMLMessage() {
 		return $this->hasString('html_message');
@@ -298,7 +298,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Returns whether e-mail has a CSS file.
 	 *
-	 * @return boolean true if a CSS file has been set, false otherwise
+	 * @return boolean TRUE if a CSS file has been set, FALSE otherwise
 	 */
 	public function hasCssFile() {
 		return $this->hasString('cssFile');
@@ -319,7 +319,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 *
 	 * @param string the absolute path to the CSS file, must not be empty
 	 *
-	 * @return boolean true when the CSS file was read earlier, false otherwise
+	 * @return boolean TRUE when the CSS file was read earlier, FALSE otherwise
 	 */
 	private function cssFileIsCached($cssFile) {
 		return isset(self::$cssFileCache[$cssFile]);
@@ -369,7 +369,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Checks whether this e-mail has any additional headers.
 	 *
-	 * @return boolean true if this e-mail has any additional headers, false
+	 * @return boolean TRUE if this e-mail has any additional headers, FALSE
 	 *                 otherwise
 	 */
 	public function hasAdditionalHeaders() {

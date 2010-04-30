@@ -42,7 +42,7 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * @var boolean whether an e-mail should be formatted before it is sent
 	 */
-	protected $enableFormatting = true;
+	protected $enableFormatting = TRUE;
 
 	/**
 	 * Sends a plain-text e-mail.
@@ -60,7 +60,7 @@ abstract class tx_oelib_abstractMailer {
 	 *               such a header)
 	 * @param boolean if set, the header content will not be encoded
 	 *
-	 * @return boolean true if the e-mail was sent, false otherwise
+	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public abstract function sendEmail(
 		$emailAddress,
@@ -69,7 +69,7 @@ abstract class tx_oelib_abstractMailer {
 		$headers = '',
 		$encodingType = '',
 		$charset = '',
-		$doNotEncodeHeader = false
+		$doNotEncodeHeader = FALSE
 	);
 
 	/**
@@ -87,7 +87,7 @@ abstract class tx_oelib_abstractMailer {
 	 *        additional parameters to pass to the mail program as command line
 	 *        arguments
 	 *
-	 * @return boolean true if the e-mail was sent, false otherwise
+	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public abstract function mail(
 		$emailAddress, $subject, $message, $headers = '',
@@ -138,7 +138,7 @@ abstract class tx_oelib_abstractMailer {
 				$attachment->getContent(),
 				$attachment->getContentType(),
 				$attachment->getFileName(),
-				false,
+				FALSE,
 				'base64'
 			);
 		}
@@ -173,7 +173,7 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * Formatting will replace CRLF and CR by LF and strip multiple blank lines.
 	 *
-	 * @param boolean true to enable formatting, false to disable
+	 * @param boolean TRUE to enable formatting, FALSE to disable
 	 */
 	public function sendFormattedEmails($enableFormatting) {
 		$this->enableFormatting = $enableFormatting;

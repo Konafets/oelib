@@ -36,7 +36,7 @@ final class tx_oelib_tests_fixtures_ReadOnlyModel extends tx_oelib_Model {
 	/**
 	 * @var boolean whether this model is read-only
 	 */
-	protected $readOnly = true;
+	protected $readOnly = TRUE;
 
 	/**
 	 * Sets the "title" data item for this model.

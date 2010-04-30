@@ -69,7 +69,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	 */
 	public function constructWithOneElementInArray_AddsOneChildToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
-			'tx_oelib_Visibility_Tree', array('testNode' => false)
+			'tx_oelib_Visibility_Tree', array('testNode' => FALSE)
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
@@ -85,7 +85,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function constructWithTwoElementsInFirstArrayLevel_AddsTwoChildsToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false, 'testNode2' => false)
+			array('testNode' => FALSE, 'testNode2' => FALSE)
 		);
 
 		$this->assertEquals(
@@ -100,7 +100,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function constructWithTwoElementsInArrayOneFirstOneSecondLevel_AddsGrandChildToRootNode() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('child' => array('grandChild' => false))
+			array('child' => array('grandChild' => FALSE))
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
@@ -116,7 +116,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function constructForOneVisibleElement_StoresVisibilityStatus() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('visibleNode' => true)
+			array('visibleNode' => TRUE)
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
@@ -132,7 +132,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function constructForOneInvisibleElement_StoresVisibilityStatus() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('hiddenNode' => false)
+			array('hiddenNode' => FALSE)
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
@@ -161,7 +161,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function rootNodeWithOneInvisibleChild_IsInvisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false)
+			array('testNode' => FALSE)
 		);
 
 		$this->assertFalse(
@@ -175,7 +175,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function rootNodeWithOneVisibleChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => true)
+			array('testNode' => TRUE)
 		);
 
 		$this->assertTrue(
@@ -189,7 +189,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function rootNodeWithOneVisibleGrandChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('child' => array('grandChild' => true))
+			array('child' => array('grandChild' => TRUE))
 		);
 
 		$this->assertTrue(
@@ -203,7 +203,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function childOfRootNodeWithOneVisibleChild_IsVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('child' => array('grandChild' => true))
+			array('child' => array('grandChild' => TRUE))
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
@@ -238,7 +238,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function makeNodesVisibleForGivenNode_MakesThisNodeVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false)
+			array('testNode' => FALSE)
 		);
 		$this->fixture->makeNodesVisible(array('testNode'));
 
@@ -256,7 +256,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function makeNodesVisibleForInexistentNodeGiven_DoesNotCrash() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false)
+			array('testNode' => FALSE)
 		);
 		$this->fixture->makeNodesVisible(array('foo'));
 	}
@@ -267,7 +267,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function makeNodesVisibleForInexistentNodeGiven_DoesNotMakeExistingNodeVisible() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false)
+			array('testNode' => FALSE)
 		);
 		$this->fixture->makeNodesVisible(array('foo'));
 
@@ -304,7 +304,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function getKeysOfHiddenSubparts_ForTreeWithOneHiddenNode_ReturnsArrayWithNodeName() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('testNode' => false)
+			array('testNode' => FALSE)
 		);
 
 		$this->assertEquals(
@@ -319,7 +319,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function getKeysOfHiddenSubparts_ForTreeWithOneHiddenParentNodeAndOneHiddenChildNode_ReturnsArrayWithBothNodeNames() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('child' => array('parent' => false))
+			array('child' => array('parent' => FALSE))
 		);
 
 		$this->assertEquals(
@@ -334,7 +334,7 @@ class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
 	public function getKeysOfHiddenSubparts_ForTreeWithVisibleParentNodeAndOneHiddenChildNode_ReturnsArrayWithChildNodeName() {
 		$this->fixture = tx_oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Tree',
-			array('parent' => array('hidden' => false, 'visible' => true))
+			array('parent' => array('hidden' => FALSE, 'visible' => TRUE))
 		);
 
 		$this->assertEquals(

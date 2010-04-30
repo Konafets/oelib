@@ -53,7 +53,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	/**
 	 * @var boolean whether the configuration is already loaded
 	 */
-	private $isConfigurationLoaded = false;
+	private $isConfigurationLoaded = FALSE;
 
 	/**
 	 * Don't call this constructor; use getInstance instead.
@@ -125,7 +125,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 		$this->configuration = unserialize(
 			$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extensionKey]
 		);
-		$this->isConfigurationLoaded = true;
+		$this->isConfigurationLoaded = TRUE;
 	}
 
 	/**

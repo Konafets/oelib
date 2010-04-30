@@ -523,7 +523,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertTrue(
-			$this->fixture->existsModel($uid, true)
+			$this->fixture->existsModel($uid, TRUE)
 		);
 	}
 
@@ -545,7 +545,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->load($this->fixture->find($uid));
 
 		$this->assertTrue(
-			$this->fixture->existsModel($uid, true)
+			$this->fixture->existsModel($uid, TRUE)
 		);
 	}
 
@@ -556,7 +556,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->load($this->fixture->find($uid));
 
 		$this->assertTrue(
-			$this->fixture->existsModel($uid, true)
+			$this->fixture->existsModel($uid, TRUE)
 		);
 	}
 
@@ -567,7 +567,7 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		$this->fixture->load($this->fixture->find($uid));
 
 		$this->assertTrue(
-			$this->fixture->existsModel($uid, true)
+			$this->fixture->existsModel($uid, TRUE)
 		);
 	}
 

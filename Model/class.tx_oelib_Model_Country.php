@@ -36,7 +36,7 @@ class tx_oelib_Model_Country extends tx_oelib_Model {
 	/**
 	 * @var boolean whether this model is read-only
 	 */
-	protected $readOnly = true;
+	protected $readOnly = TRUE;
 
 	/**
 	 * Returns the country's local short name.

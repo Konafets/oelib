@@ -45,9 +45,9 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	private $emailData = array();
 
 	/**
-	 * @var boolean whether sendEmail() should always return true
+	 * @var boolean whether sendEmail() should always return TRUE
 	 */
-	private $fakeSuccess = true;
+	private $fakeSuccess = TRUE;
 
 	/**
 	 * Stores the contents which were meant to be sent as an e-mail.
@@ -72,7 +72,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 		$headers = '',
 		$encodingType = '',
 		$charset = '',
-		$doNotEncodeHeader = false
+		$doNotEncodeHeader = FALSE
 	) {
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
@@ -99,7 +99,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 *        additional parameters to pass to the mail program as command line
 	 *        arguments
 	 *
-	 * @return boolean true if the e-mail was sent, false otherwise
+	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public function mail(
 		$emailAddress, $subject, $message, $headers = '',
@@ -113,7 +113,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Sets the return value for sendEmail().
 	 *
-	 * @param boolean true if sendEmail() should return true, false otherwise
+	 * @param boolean TRUE if sendEmail() should return TRUE, FALSE otherwise
 	 */
 	public function setFakedReturnValue($isSuccessful) {
 		$this->fakeSuccess = $isSuccessful;

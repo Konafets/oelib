@@ -159,7 +159,7 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 		$this->assertNotEquals(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0, array()),
 			tx_oelib_db::enableFields(
-				OELIB_TESTTABLE, 0, array('endtime' => true)
+				OELIB_TESTTABLE, 0, array('endtime' => TRUE)
 			)
 		);
 	}
@@ -180,10 +180,10 @@ class tx_oelib_db_testcase extends tx_phpunit_testcase {
 
 		$this->assertNotEquals(
 			tx_oelib_db::enableFields(
-				OELIB_TESTTABLE, 0, array(), false
+				OELIB_TESTTABLE, 0, array(), FALSE
 			),
 			tx_oelib_db::enableFields(
-				OELIB_TESTTABLE, 0, array(), true
+				OELIB_TESTTABLE, 0, array(), TRUE
 			)
 		);
 	}

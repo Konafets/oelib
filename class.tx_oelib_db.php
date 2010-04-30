@@ -71,7 +71,7 @@ class tx_oelib_db {
 	 * Enables query logging in TYPO3's DB class.
 	 */
 	public static function enableQueryLogging() {
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
 	}
 
 	/**
@@ -104,7 +104,7 @@ class tx_oelib_db {
 	 */
 	public static function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),
-		$noVersionPreview = false
+		$noVersionPreview = FALSE
 	) {
 		if (!in_array($showHidden, array(-1, 0, 1))) {
 			throw new Exception(
@@ -455,8 +455,8 @@ class tx_oelib_db {
 	 * @return integer the number of matching records, will be >= 0
 	 */
 	public static function count($tableNames, $whereClause = '') {
-		$isOnlyOneTable = ((strpos($tableNames, ',') === false)
-			&& (stripos(trim($tableNames), ' JOIN ') === false));
+		$isOnlyOneTable = ((strpos($tableNames, ',') === FALSE)
+			&& (stripos(trim($tableNames), ' JOIN ') === FALSE));
 		if ($isOnlyOneTable && self::tableHasColumnUid($tableNames)) {
 			// Counting only the "uid" column is faster than counting *.
 			$columns = 'uid';
@@ -480,8 +480,8 @@ class tx_oelib_db {
 	 *        the WHERE part of the query, may be empty (all records will be
 	 *        counted in that case)
 	 *
-	 * @return boolean true if there is at least one matching record,
-	 *                 false otherwise
+	 * @return boolean TRUE if there is at least one matching record,
+	 *                 FALSE otherwise
 	 */
 	public static function existsRecord($table, $whereClause = '') {
 		return (self::count($table, $whereClause) > 0);
@@ -496,8 +496,8 @@ class tx_oelib_db {
 	 *        the WHERE part of the query, may be empty (all records will be
 	 *        counted in that case)
 	 *
-	 * @return boolean true if there is exactly one matching record,
-	 *                 false otherwise
+	 * @return boolean TRUE if there is exactly one matching record,
+	 *                 FALSE otherwise
 	 */
 	public static function existsExactlyOneRecord($table, $whereClause = '') {
 		return (self::count($table, $whereClause) == 1);
@@ -507,7 +507,7 @@ class tx_oelib_db {
 	 * Checks whether there is a record in the table given by the first
 	 * parameter $table that has the given UID.
 	 *
-	 * Important: This function also returns true if there is a deleted or
+	 * Important: This function also returns TRUE if there is a deleted or
 	 * hidden record with that particular UID.
 	 *
 	 * @param string $table the name of the table to query, must not be empty
@@ -516,7 +516,7 @@ class tx_oelib_db {
 	 *        additional WHERE clause to append, must either start with " AND"
 	 *        or be completely empty
 	 *
-	 * @return boolean true if there is a matching record, false otherwise
+	 * @return boolean TRUE if there is a matching record, FALSE otherwise
 	 */
 	public static function existsRecordWithUid(
 		$table, $uid, $additionalWhereClause = ''
@@ -567,7 +567,7 @@ class tx_oelib_db {
 	 *
 	 * @param string the name of the table to check for, must not be empty
 	 *
-	 * @return boolean true if the table $tableName exists, false otherwise
+	 * @return boolean TRUE if the table $tableName exists, FALSE otherwise
 	 */
 	public static function existsTable($tableName) {
 		if ($tableName == '') {
@@ -642,18 +642,18 @@ class tx_oelib_db {
 	/**
 	 * Checks whether a table has a column with a particular name.
 	 *
-	 * To get a boolean true as result, the table must contain a column with the
+	 * To get a boolean TRUE as result, the table must contain a column with the
 	 * given name.
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 * @param string the column name to check, must not be empty
 	 *
-	 * @return boolean true if the column with the provided name exists, false
+	 * @return boolean TRUE if the column with the provided name exists, FALSE
 	 *                 otherwise
 	 */
 	public static function tableHasColumn($table, $column) {
 		if ($column == '') {
-			return false;
+			return FALSE;
 		}
 
 		self::retrieveColumnsForTable($table);
@@ -666,7 +666,7 @@ class tx_oelib_db {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if a valid column was found, false otherwise
+	 * @return boolean TRUE if a valid column was found, FALSE otherwise
 	 */
 	public static function tableHasColumnUid($table) {
 		return self::tableHasColumn($table, 'uid');

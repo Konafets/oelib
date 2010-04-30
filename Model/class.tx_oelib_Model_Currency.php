@@ -36,7 +36,7 @@ class tx_oelib_Model_Currency extends tx_oelib_Model {
 	/**
 	 * @var boolean whether this model is read-only
 	 */
-	protected $readOnly = true;
+	protected $readOnly = TRUE;
 
 	/**
 	 * Returns the ISO 4217 alpha-3 code for this currency.
@@ -51,7 +51,7 @@ class tx_oelib_Model_Currency extends tx_oelib_Model {
 	/**
 	 * Returns whether this currency has a left symbol.
 	 *
-	 * @return boolean true if this currency has a left symbol, false otherwise
+	 * @return boolean TRUE if this currency has a left symbol, FALSE otherwise
 	 */
 	public function hasLeftSymbol() {
 		return $this->hasString('cu_symbol_left');
@@ -70,7 +70,7 @@ class tx_oelib_Model_Currency extends tx_oelib_Model {
 	/**
 	 * Returns whether this currency has a right symbol.
 	 *
-	 * @return boolean true if this currency has a right symbol, false otherwise
+	 * @return boolean TRUE if this currency has a right symbol, FALSE otherwise
 	 */
 	public function hasRightSymbol() {
 		return $this->hasString('cu_symbol_right');

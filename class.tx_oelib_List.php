@@ -116,7 +116,7 @@ class tx_oelib_List implements Iterator {
 	/**
 	 * Checks whether this list is empty.
 	 *
-	 * @return boolean true if this list is empty, false otherwise
+	 * @return boolean TRUE if this list is empty, FALSE otherwise
 	 */
 	public function isEmpty() {
 		return empty($this->items);
@@ -196,10 +196,10 @@ class tx_oelib_List implements Iterator {
 	/**
 	 * Checks whether the internal pointer points to an existing item.
 	 *
-	 * For an empty list, this function will always return false.
+	 * For an empty list, this function will always return FALSE.
 	 *
-	 * @return boolean true if the internal pointer points to a valid items,
-	 *                 false otherwise
+	 * @return boolean TRUE if the internal pointer points to a valid items,
+	 *                 FALSE otherwise
 	 */
 	public function valid() {
 		return ($this->pointer < $this->count());
@@ -222,7 +222,7 @@ class tx_oelib_List implements Iterator {
 	 *
 	 * @param integer UID to test, must be > 0
 	 *
-	 * @return true if a model with the UID $uid exists in this list, false
+	 * @return TRUE if a model with the UID $uid exists in this list, FALSE
 	 *              otherwise
 	 */
 	public function hasUid($uid) {

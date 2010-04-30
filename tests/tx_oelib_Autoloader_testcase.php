@@ -77,7 +77,7 @@ class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
 		tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_NotIncluded');
 
 		$this->assertTrue(
-			class_exists('tx_oelib_tests_fixtures_NotIncluded', false)
+			class_exists('tx_oelib_tests_fixtures_NotIncluded', FALSE)
 		);
 	}
 

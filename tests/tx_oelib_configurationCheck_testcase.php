@@ -96,7 +96,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 		$result = '';
 		foreach ($this->fixture->getInstalledLocales() as $key) {
-			if (stripos($key, 'utf') !== false) {
+			if (stripos($key, 'utf') !== FALSE) {
 				$result = $key;
 				break;
 			}
@@ -160,7 +160,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	//////////////////////////////////////
 
 	public function testCheckForNonEmptyStringWithNonEmptyString() {
-		$this->fixture->checkForNonEmptyString('nonEmptyString', false, '', '');
+		$this->fixture->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
 
 		$this->assertEquals(
 			'',
@@ -169,7 +169,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckForNonEmptyStringWithEmptyString() {
-		$this->fixture->checkForNonEmptyString('emptyString', false, '', '');
+		$this->fixture->checkForNonEmptyString('emptyString', FALSE, '', '');
 
 		$this->assertContains(
 			'emptyString',
@@ -179,7 +179,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 	public function testCheckIfSingleInTableNotEmptyForValueNotInTableComplains() {
 		$this->fixture->checkIfSingleInTableNotEmpty(
-			'inexistentColumn', false, '', '', 'tx_oelib_test'
+			'inexistentColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
 		$this->assertContains(
@@ -190,7 +190,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 
 	public function testCheckIfSingleInTableNotEmptyForValueNotInTableNotComplains() {
 		$this->fixture->checkIfSingleInTableNotEmpty(
-			'existingColumn', false, '', '', 'tx_oelib_test'
+			'existingColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
 		$this->assertEquals(
@@ -205,7 +205,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	///////////////////////////////////////////////
 
 	public function testCheckIsValidEmailOrEmptyWithAnEmptyString() {
-		$this->fixture->checkIsValidEmailOrEmpty('emptyString', false, '', false, '');
+		$this->fixture->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertEquals(
 			'',
@@ -214,7 +214,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckIsValidEmailOrEmptyWithAValidEmail() {
-		$this->fixture->checkIsValidEmailOrEmpty('validEmail', false, '', false, '');
+		$this->fixture->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertEquals(
 			'',
@@ -223,7 +223,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckIsValidEmailOrEmptyWithAnInvalidEmail() {
-		$this->fixture->checkIsValidEmailOrEmpty('nonEmptyString', false, '', false, '');
+		$this->fixture->checkIsValidEmailOrEmpty('nonEmptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
 			'nonEmptyString',
@@ -232,7 +232,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckIsValidEmailNotEmptyWithAnEmptyString() {
-		$this->fixture->checkIsValidEmailNotEmpty('emptyString', false, '', false, '');
+		$this->fixture->checkIsValidEmailNotEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
 			'emptyString',
@@ -241,7 +241,7 @@ class tx_oelib_configurationCheck_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testCheckIsValidEmailNotEmptyWithAValidEmail() {
-		$this->fixture->checkIsValidEmailNotEmpty('validEmail', false, '', false, '');
+		$this->fixture->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertEquals(
 			'',

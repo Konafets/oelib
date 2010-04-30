@@ -36,7 +36,7 @@ class tx_oelib_Timer {
 	/**
 	 * @var boolean whether the timer currently is running
 	 */
-	private $isRunning = false;
+	private $isRunning = FALSE;
 
 	/**
 	 * @var string the name of the current time bucket
@@ -122,7 +122,7 @@ class tx_oelib_Timer {
 			$this->currentBucketName = $bucketName;
 		}
 
-		$this->isRunning = true;
+		$this->isRunning = TRUE;
 	}
 
 	/**
@@ -146,7 +146,7 @@ class tx_oelib_Timer {
 	 */
 	public function stopTimer() {
 		$this->closeCurrentBucket();
-		$this->isRunning = false;
+		$this->isRunning = FALSE;
 	}
 
 	/**
@@ -238,7 +238,7 @@ class tx_oelib_Timer {
 	 * Note: This function does not stop the timer.
 	 */
 	private function closeCurrentBucket() {
-		$currentTime = microtime(true);
+		$currentTime = microtime(TRUE);
 
 		if ($this->isRunning) {
 			$usedTime = $currentTime - $this->lastTime;
@@ -261,7 +261,7 @@ class tx_oelib_Timer {
 
 		if ($previousBucketName !== null) {
 			$this->currentBucketName = $previousBucketName;
-			$this->isRunning = true;
+			$this->isRunning = TRUE;
 		} else {
 			$this->stopTimer();
 		}

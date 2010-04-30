@@ -36,7 +36,7 @@ class tx_oelib_Model_Language extends tx_oelib_Model {
 	/**
 	 * @var boolean whether this model is read-only
 	 */
-	protected $readOnly = true;
+	protected $readOnly = TRUE;
 
 	/**
 	 * Returns the language's local name.

@@ -53,7 +53,7 @@ class tx_oelib_Visibility_Node_testcase extends tx_phpunit_testcase {
 	//////////////////////////////
 
 	public function test_IsVisible_IfSetToVisibleConstruction_ReturnsVisibilityFromConstruction() {
-		$fixture = new tx_oelib_Visibility_Node(true);
+		$fixture = new tx_oelib_Visibility_Node(TRUE);
 
 		$this->assertTrue(
 			$fixture->isVisible()
@@ -63,7 +63,7 @@ class tx_oelib_Visibility_Node_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_IsVisible_IfSetToHiddenConstruction_ReturnsVisibilityFromConstruction() {
-		$fixture = new tx_oelib_Visibility_Node(false);
+		$fixture = new tx_oelib_Visibility_Node(FALSE);
 
 		$this->assertFalse(
 			$fixture->isVisible()
@@ -159,7 +159,7 @@ class tx_oelib_Visibility_Node_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_markAsVisible_ForVisibleNode_SetsVisibilityTrue() {
-		$visibleNode = new tx_oelib_Visibility_Node(true);
+		$visibleNode = new tx_oelib_Visibility_Node(TRUE);
 		$visibleNode->markAsVisible();
 
 		$this->assertTrue(

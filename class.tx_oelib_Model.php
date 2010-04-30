@@ -67,7 +67,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * @var boolean whether this model is read-only
 	 */
-	protected $readOnly = false;
+	protected $readOnly = FALSE;
 
 	/**
 	 * @var integer this model's UID, will be 0 if this model has been created
@@ -89,7 +89,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * @var boolean whether this model's initial data has changed
 	 */
-	private $isDirty = false;
+	private $isDirty = FALSE;
 
 	/**
 	 * @var array the callback function that fills this model with data
@@ -290,7 +290,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 *
 	 * @param string the key of the data item to check, must not be empty
 	 *
-	 * @return boolean true if a data item with the key $key exists, false
+	 * @return boolean TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
 	 */
 	protected function existsKey($key) {
@@ -385,7 +385,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Checks whether this model has a UID.
 	 *
-	 * @return boolean true if this model has a non-zero UID, false otherwise
+	 * @return boolean TRUE if this model has a non-zero UID, FALSE otherwise
 	 */
 	public function hasUid() {
 		return ($this->uid > 0);
@@ -394,7 +394,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Checks whether this is a virgin model (which has neither data nor UID).
 	 *
-	 * @return boolean true if this is a virgin model, false otherwise
+	 * @return boolean TRUE if this is a virgin model, FALSE otherwise
 	 */
 	public function isVirgin() {
 		return ($this->loadStatus == self::STATUS_VIRGIN);
@@ -404,7 +404,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Checks whether this model is a ghost (has a UID, but is not fully loaded
 	 * yet).
 	 *
-	 * @return boolean true if this model is a ghost, false otherwise
+	 * @return boolean TRUE if this model is a ghost, FALSE otherwise
 	 */
 	public function isGhost() {
 		return ($this->loadStatus == self::STATUS_GHOST);
@@ -413,7 +413,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Checks whether this model is fully loaded (has data).
 	 *
-	 * @return boolean true if this model is fully loaded, false otherwise
+	 * @return boolean TRUE if this model is fully loaded, FALSE otherwise
 	 */
 	public function isLoaded() {
 		return ($this->loadStatus == self::STATUS_LOADED);
@@ -423,7 +423,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Checks whether this model is dead (retrieving its data from the DB has
 	 * failed).
 	 *
-	 * @return boolean true if this model is dead, false otherwise
+	 * @return boolean TRUE if this model is dead, FALSE otherwise
 	 */
 	public function isDead() {
 		return ($this->loadStatus == self::STATUS_DEAD);
@@ -463,8 +463,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Checks whether this model has a callback function set for loading its
 	 * data.
 	 *
-	 * @return boolean true if this model has a loading callback function set,
-	 *                 false otherwise
+	 * @return boolean TRUE if this model has a loading callback function set,
+	 *                 FALSE otherwise
 	 */
 	private function hasLoadCallBack() {
 		return !empty($this->loadCallback);
@@ -474,21 +474,21 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	 * Marks this model's data as clean.
 	 */
 	public function markAsClean() {
-		$this->isDirty = false;
+		$this->isDirty = FALSE;
 	}
 
 	/**
 	 * Marks this model's data as dirty.
 	 */
 	public function markAsDirty() {
-		$this->isDirty = true;
+		$this->isDirty = TRUE;
 	}
 
 	/**
 	 * Checks whether this model has been marked as dirty which means that this
 	 * model's data has changed compared to the initial state.
 	 *
-	 * @return boolean true if this model has been marked as dirty
+	 * @return boolean TRUE if this model has been marked as dirty
 	 */
 	public function isDirty() {
 		return $this->isDirty;
@@ -511,7 +511,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Checks whether this model is set to deleted.
 	 *
-	 * @return boolean true if this model is set to deleted, false otherwise
+	 * @return boolean TRUE if this model is set to deleted, FALSE otherwise
 	 */
 	public function isDeleted() {
 		return $this->getAsBoolean('deleted');
@@ -520,7 +520,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	/**
 	 * Checks whether this model is read-only.
 	 *
-	 * @return boolean true if this model is read-only, false if it is writable
+	 * @return boolean TRUE if this model is read-only, FALSE if it is writable
 	 */
 	public function isReadOnly() {
 		return $this->readOnly;

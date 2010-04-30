@@ -2555,7 +2555,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->setOrDeleteMarker(
-				'marker', true, 'foo', '', 'WRAPPER'
+				'marker', TRUE, 'foo', '', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -2573,7 +2573,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			$this->fixture->setOrDeleteMarker(
-				'marker', false, 'foo', '', 'WRAPPER'
+				'marker', FALSE, 'foo', '', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -2591,7 +2591,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->setOrDeleteMarker(
-				'marker', true, 'foo', 'MY', 'WRAPPER'
+				'marker', TRUE, 'foo', 'MY', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -2609,7 +2609,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			$this->fixture->setOrDeleteMarker(
-				'marker', false, 'foo', 'MY', 'WRAPPER'
+				'marker', FALSE, 'foo', 'MY', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
