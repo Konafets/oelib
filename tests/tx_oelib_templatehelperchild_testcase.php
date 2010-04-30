@@ -297,7 +297,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getListViewConfValueBoolean('test')
 		);
 	}
@@ -308,7 +308,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getListViewConfValueBoolean('test')
 		);
 	}
@@ -319,7 +319,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getListViewConfValueBoolean('test')
 		);
 	}
@@ -330,7 +330,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getListViewConfValueBoolean('test')
 		);
 	}
@@ -341,7 +341,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getListViewConfValueBoolean('test')
 		);
 	}
@@ -360,7 +360,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 		$this->fixture->setConfigurationValue(
 			'templateFile', 'EXT:oelib/tests/fixtures/oelib.html'
 		);
-		$this->fixture->getTemplateCode(true);
+		$this->fixture->getTemplateCode(TRUE);
 
 		$this->assertEquals(
 			'Hello world!'.LF, $this->fixture->getSubpart()
@@ -3085,7 +3085,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->setOrDeleteMarker(
-				'marker', true, 'foo', '', 'WRAPPER'
+				'marker', TRUE, 'foo', '', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -3103,7 +3103,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			$this->fixture->setOrDeleteMarker(
-				'marker', false, 'foo', '', 'WRAPPER'
+				'marker', FALSE, 'foo', '', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -3121,7 +3121,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertTrue(
 			$this->fixture->setOrDeleteMarker(
-				'marker', true, 'foo', 'MY', 'WRAPPER'
+				'marker', TRUE, 'foo', 'MY', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(
@@ -3139,7 +3139,7 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			$this->fixture->setOrDeleteMarker(
-				'marker', false, 'foo', 'MY', 'WRAPPER'
+				'marker', FALSE, 'foo', 'MY', 'WRAPPER'
 			)
 		);
 		$this->assertEquals(

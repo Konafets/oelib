@@ -307,30 +307,30 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 			'Exception', '$key must not be empty.'
 		);
 
-		$this->fixture->setAsBoolean('', false);
+		$this->fixture->setAsBoolean('', FALSE);
 	}
 
 	public function testGetAsBooleanWithInexistentKeyReturnsFalse() {
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
 
 	public function testGetAsBooleanReturnsTrueSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', true);
+		$this->fixture->setAsBoolean('foo', TRUE);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
 
 	public function testGetAsBooleanReturnsFalseSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', false);
+		$this->fixture->setAsBoolean('foo', FALSE);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
@@ -339,7 +339,7 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsBoolean('foo', 'bar');
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
@@ -348,13 +348,13 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsBoolean('foo', '');
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
 
 	public function testGetAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', true);
+		$this->fixture->setAsBoolean('foo', TRUE);
 
 		$this->assertEquals(
 			1,
@@ -363,7 +363,7 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', false);
+		$this->fixture->setAsBoolean('foo', FALSE);
 
 		$this->assertEquals(
 			0,
@@ -375,7 +375,7 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsInteger('foo', 42);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
@@ -384,7 +384,7 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsInteger('foo', -42);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
@@ -393,7 +393,7 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsInteger('foo', 0);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}

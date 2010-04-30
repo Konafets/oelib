@@ -47,7 +47,7 @@ class tx_oelib_Autoloader {
 	 *
 	 * @param string the name of the class to load, may be empty
 	 *
-	 * @return boolean true if the class could be loaded, false otherwise
+	 * @return boolean TRUE if the class could be loaded, FALSE otherwise
 	 */
 	public static function load($className) {
 		// This is necessary so the XCLASS statements at the bottom of the
@@ -56,21 +56,21 @@ class tx_oelib_Autoloader {
 		global $TYPO3_CONF_VARS;
 
 		if ($className == '') {
-			return false;
+			return FALSE;
 		}
 
-		if (class_exists($className, false)
-			|| interface_exists($className, false)
+		if (class_exists($className, FALSE)
+			|| interface_exists($className, FALSE)
 		) {
-			return true;
+			return TRUE;
 		}
 
 		$path = self::createPath($className);
 		if (($path != '') && (is_readable($path))) {
 			include_once($path);
-			$result = true;
+			$result = TRUE;
 		} else {
-			$result = false;
+			$result = FALSE;
 		}
 
 		return $result;

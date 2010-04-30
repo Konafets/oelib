@@ -120,7 +120,7 @@ class tx_oelib_Template {
 		// If there are no HTML comments in  the template code, there cannot be
 		// any subparts. So there's no need to use an expensive regular
 		// expression to find any subparts in that case.
-		if (strpos($templateCode, '<!--') === false) {
+		if (strpos($templateCode, '<!--') === FALSE) {
 			return;
 		}
 
@@ -258,7 +258,7 @@ class tx_oelib_Template {
 	 * @param integer content with which the marker will be filled, may be empty
 	 * @param string prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false otherwise
+	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotEmpty
 	 */
@@ -281,7 +281,7 @@ class tx_oelib_Template {
 	 * @param string prefix to the marker name for setting (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false otherwise
+	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotZero
 	 */
@@ -297,16 +297,16 @@ class tx_oelib_Template {
 	 * Checks whether a subpart is visible.
 	 *
 	 * Note: If the subpart to check does not exist, this function will return
-	 * false.
+	 * FALSE.
 	 *
 	 * @param string name of the subpart to check (without the ###), must
 	 *               not be empty
 	 *
-	 * @return boolean true if the subpart is visible, false otherwise
+	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
 	 */
 	public function isSubpartVisible($subpartName) {
 		if ($subpartName == '') {
-			return false;
+			return FALSE;
 		}
 
 		return (isset($this->subparts[$subpartName])
@@ -330,7 +330,7 @@ class tx_oelib_Template {
 	 *               case-insensitive, will get uppercased)
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
-		$subpartNames = t3lib_div::trimExplode(',', $subparts, true);
+		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
 
 		$this->hideSubpartsArray($subpartNames, $prefix);
 	}
@@ -358,7 +358,7 @@ class tx_oelib_Template {
 				$prefix
 			);
 
-			$this->subpartsToHide[$fullSubpartName] = true;
+			$this->subpartsToHide[$fullSubpartName] = TRUE;
 		}
 	}
 
@@ -389,10 +389,10 @@ class tx_oelib_Template {
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
 	) {
-		$subpartNames = t3lib_div::trimExplode(',', $subparts, true);
+		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
 
 		$hiddenSubpartNames = t3lib_div::trimExplode(
-			',', $permanentlyHiddenSubparts, true
+			',', $permanentlyHiddenSubparts, TRUE
 		);
 
 		$this->unhideSubpartsArray($subpartNames, $hiddenSubpartNames, $prefix);
@@ -438,14 +438,14 @@ class tx_oelib_Template {
 
 	/**
 	 * Sets or hides a marker based on $condition.
-	 * If $condition is true, this function sets the marker's content, working
+	 * If $condition is TRUE, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
-	 * If $condition is false, this function removes the wrapping subpart,
+	 * If $condition is FALSE, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
 	 * @param string the marker's name without the ### signs,
 	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param boolean if this is true, the marker will be filled,
+	 * @param boolean if this is TRUE, the marker will be filled,
 	 *                otherwise the wrapped marker will be hidden
 	 * @param string content with which the marker will be filled, may be empty
 	 * @param string prefix to the marker name for setting (may be empty,
@@ -453,7 +453,7 @@ class tx_oelib_Template {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setMarkerContent
@@ -488,7 +488,7 @@ class tx_oelib_Template {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -525,7 +525,7 @@ class tx_oelib_Template {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -659,7 +659,7 @@ class tx_oelib_Template {
 	 *
 	 * @param string marker name to check (with the hashes), may be empty
 	 *
-	 * @return boolean true if the marker name is valid, false otherwise
+	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
 		return (boolean) preg_match(
@@ -678,7 +678,7 @@ class tx_oelib_Template {
 	 *
 	 * @param string marker name to check (without the hashes), may be empty
 	 *
-	 * @return boolean true if the marker name is valid, false otherwise
+	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithoutHashes($markerName) {
 		return $this->isMarkerNameValidWithHashes('###' . $markerName . '###');

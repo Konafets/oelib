@@ -64,7 +64,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	public function setLanguage($language) {
 		if ($this->getLanguage() != $language) {
 			// Make sure the language file are reloaded.
-			$this->LOCAL_LANG_loaded = false;
+			$this->LOCAL_LANG_loaded = FALSE;
 			$this->LLkey = $language;
 		}
 
@@ -92,7 +92,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	public function setFallbackLanguage($language) {
 		if ($this->getFallbackLanguage() != $language) {
 			// Make sure the language files are reloaded.
-			$this->LOCAL_LANG_loaded = false;
+			$this->LOCAL_LANG_loaded = FALSE;
 			$this->altLLkey = $language;
 		}
 

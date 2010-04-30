@@ -44,7 +44,7 @@ class tx_oelib_mailerFactory {
 	/**
 	 * @var boolean whether the test mode is set
 	 */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/**
 	 * @var tx_oelib_abstractMailer the mailer
@@ -114,7 +114,7 @@ class tx_oelib_mailerFactory {
 	 * Enables the test mode.
 	 */
 	public function enableTestMode() {
-		$this->isTestMode = true;
+		$this->isTestMode = TRUE;
 	}
 }
 

@@ -78,13 +78,13 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 *               value
 	 * @param string alternative string to return if no value is found for the
 	 *               key, neither for the local language nor the default.
-	 * @param boolean If true, the output label is passed through
+	 * @param boolean If TRUE, the output label is passed through
 	 *                htmlspecialchars().
 	 *
 	 * @return string the value from LOCAL_LANG
 	 */
 	public function translate($key, $alternativeString = '',
-		$useHtmlSpecialChars = false
+		$useHtmlSpecialChars = FALSE
 	) {
 		return parent::translate(
 			$key,

@@ -1086,7 +1086,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		// Runs a deep clean up to delete all dummy records.
-		$this->fixture->cleanUp(true);
+		$this->fixture->cleanUp(TRUE);
 	}
 
 	public function testCleanUpWithDeepCleanup() {
@@ -1100,7 +1100,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 
 		// Deletes all dummy records.
-		$this->fixture->cleanUp(true);
+		$this->fixture->cleanUp(TRUE);
 
 		// Checks whether ALL dummy records were deleted (independent of the
 		// list of dirty tables).

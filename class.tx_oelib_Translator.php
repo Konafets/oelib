@@ -84,7 +84,7 @@ class tx_oelib_Translator {
 	 *
 	 * @return string the localized label, might be empty
 	 */
-	public function translate($key, $useHtmlSpecialChars = false) {
+	public function translate($key, $useHtmlSpecialChars = FALSE) {
 		if ($key == '') {
 			throw new Exception('The parameter $key must not be empty.');
 		}

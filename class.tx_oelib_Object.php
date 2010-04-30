@@ -88,8 +88,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-empty,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-empty,
+	 *                 FALSE otherwise
 	 */
 	protected function hasString($key) {
 		return ($this->getAsString($key) != '');
@@ -126,8 +126,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-zero,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-zero,
+	 *                 FALSE otherwise
 	 */
 	protected function hasInteger($key) {
 		return ($this->getAsInteger($key) != 0);
@@ -154,7 +154,7 @@ abstract class tx_oelib_Object {
 	 * @return array the array value of the given key, may be empty
 	 */
 	protected function getAsTrimmedArray($key) {
-		return t3lib_div::trimExplode(',', $this->getAsString($key), true);
+		return t3lib_div::trimExplode(',', $this->getAsString($key), TRUE);
 	}
 
 	/**
@@ -237,8 +237,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-zero,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-zero,
+	 *                 FALSE otherwise
 	 */
 	protected function hasFloat($key) {
 		return ($this->getAsFloat($key) != 0.00);

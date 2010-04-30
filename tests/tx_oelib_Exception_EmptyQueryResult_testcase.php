@@ -49,8 +49,8 @@ class tx_oelib_Exception_EmptyQueryResult_testcase extends tx_phpunit_testcase {
 		$this->savedStoreLastBuildQuery
 			= $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
 
-		$GLOBALS['TYPO3_DB']->debugOutput = false;
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+		$GLOBALS['TYPO3_DB']->debugOutput = FALSE;
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
 	}
 
 	public function tearDown() {

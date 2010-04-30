@@ -40,7 +40,7 @@ class tx_oelib_headerProxyFactory {
 	private static $instance = null;
 
 	/** whether the test mode is set */
-	private $isTestMode = false;
+	private $isTestMode = FALSE;
 
 	/** the header proxy object */
 	private $headerProxy = null;
@@ -108,7 +108,7 @@ class tx_oelib_headerProxyFactory {
 	 * Enables the test mode.
 	 */
 	public function enableTestMode() {
-		$this->isTestMode = true;
+		$this->isTestMode = TRUE;
 	}
 }
 

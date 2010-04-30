@@ -170,8 +170,8 @@ class tx_oelib_PageFinder {
 	/**
 	 * Checks whether a front end (with a non-zero page UID) is present.
 	 *
-	 * @return boolean true if there is a front end with a non-zero page UID,
-	 *                 false otherwise
+	 * @return boolean TRUE if there is a front end with a non-zero page UID,
+	 *                 FALSE otherwise
 	 */
 	private function hasFrontEnd() {
 		return (is_object($GLOBALS['TSFE']) && ($GLOBALS['TSFE']->id > 0));
@@ -180,7 +180,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Checks whether a back-end page UID has been set.
 	 *
-	 * @return boolean true if a back-end page UID has been set, false otherwise
+	 * @return boolean TRUE if a back-end page UID has been set, FALSE otherwise
 	 */
 	private function hasBackEnd() {
 		return (intval(t3lib_div::_GP('id')) > 0);
@@ -189,7 +189,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Checks whether a manual page UID has been set.
 	 *
-	 * @return booelan true if a page UID has been set manually, false otherwise
+	 * @return booelan TRUE if a page UID has been set manually, FALSE otherwise
 	 */
 	private function hasManualPageUid() {
 		return ($this->storedPageUid > 0);

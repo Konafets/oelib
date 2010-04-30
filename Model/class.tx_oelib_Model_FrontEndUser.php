@@ -83,7 +83,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty name.
 	 *
-	 * @return boolean true if this user has a non-empty name, false otherwise
+	 * @return boolean TRUE if this user has a non-empty name, FALSE otherwise
 	 */
 	public function hasName() {
 		return ($this->hasString('name') || $this->hasFirstName()
@@ -102,7 +102,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty company set.
 	 *
-	 * @return boolean true if this user has a company set, false otherwise
+	 * @return boolean TRUE if this user has a company set, FALSE otherwise
 	 */
 	public function hasCompany() {
 		return $this->hasString('company');
@@ -120,7 +120,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty street set.
 	 *
-	 * @return boolean true if this user has a street set, false otherwise
+	 * @return boolean TRUE if this user has a street set, FALSE otherwise
 	 */
 	public function hasStreet() {
 		return $this->hasString('address');
@@ -138,7 +138,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty ZIP code set.
 	 *
-	 * @return boolean true if this user has a ZIP code set, false otherwise
+	 * @return boolean TRUE if this user has a ZIP code set, FALSE otherwise
 	 */
 	public function hasZip() {
 		return $this->hasString('zip');
@@ -156,7 +156,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty city set.
 	 *
-	 * @return boolean true if this user has a city set, false otherwise
+	 * @return boolean TRUE if this user has a city set, FALSE otherwise
 	 */
 	public function hasCity() {
 		return $this->hasString('city');
@@ -188,7 +188,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty phone number set.
 	 *
-	 * @return boolean true if this user has a phone number set, false otherwise
+	 * @return boolean TRUE if this user has a phone number set, FALSE otherwise
 	 */
 	public function hasPhoneNumber() {
 		return $this->hasString('telephone');
@@ -206,7 +206,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty e-mail address set.
 	 *
-	 * @return boolean true if this user has an e-mail address set, false
+	 * @return boolean TRUE if this user has an e-mail address set, FALSE
 	 *                 otherwise
 	 */
 	public function hasEMailAddress() {
@@ -225,7 +225,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a non-empty homepage set.
 	 *
-	 * @return boolean true if this user has a homepage set, false otherwise
+	 * @return boolean TRUE if this user has a homepage set, FALSE otherwise
 	 */
 	public function hasHomepage() {
 		return $this->hasString('www');
@@ -243,7 +243,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has an image set.
 	 *
-	 * @return boolean true if this user has an image set, false otherwise
+	 * @return boolean TRUE if this user has an image set, FALSE otherwise
 	 */
 	public function hasImage() {
 		return $this->hasString('image');
@@ -252,7 +252,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has agreed to receive HTML e-mails.
 	 *
-	 * @return boolean true if the user agreed to receive HTML e-mails, false
+	 * @return boolean TRUE if the user agreed to receive HTML e-mails, FALSE
 	 *                 otherwise
 	 */
 	public function wantsHtmlEMail() {
@@ -276,19 +276,19 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * @param string comma-separated list of user group UIDs, can also consist
 	 *               of only one UID but must not be empty
 	 *
-	 * @return boolean true if the user is member of at least one of the user
-	 *                 groups provided, false otherwise
+	 * @return boolean TRUE if the user is member of at least one of the user
+	 *                 groups provided, FALSE otherwise
 	 */
 	public function hasGroupMembership($uidList) {
 		if ($uidList == '') {
 			throw new Exception('$uidList must not be empty.');
 		}
 
-		$isMember = false;
+		$isMember = FALSE;
 
-		foreach (t3lib_div::trimExplode(',', $uidList, true) as $uid) {
+		foreach (t3lib_div::trimExplode(',', $uidList, TRUE) as $uid) {
 			if ($this->getUserGroups()->hasUid($uid)) {
-				$isMember = true;
+				$isMember = TRUE;
 				break;
 			}
 		}
@@ -317,7 +317,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a first name.
 	 *
-	 * @return boolean true if the user has a first name, false otherwise
+	 * @return boolean TRUE if the user has a first name, FALSE otherwise
 	 */
 	public function hasFirstName() {
 		return $this->hasString('first_name');
@@ -336,7 +336,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a last name.
 	 *
-	 * @return boolean true if the user has a last name, false otherwise
+	 * @return boolean TRUE if the user has a last name, FALSE otherwise
 	 */
 	public function hasLastName() {
 		return $this->hasString('last_name');
@@ -391,7 +391,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Checks whether this user has a date of birth set.
 	 *
-	 * @return boolean true if this user has a non-zero date of birth, false
+	 * @return boolean TRUE if this user has a non-zero date of birth, FALSE
 	 *                 otherwise
 	 */
 	public function hasDateOfBirth() {

@@ -59,7 +59,7 @@ abstract class tx_oelib_DataMapper {
 
 	/**
 	 * @var array UIDs of models that are memory-only models that must not be
-	 *            saved, using the UIDs as keys and true as value
+	 *            saved, using the UIDs as keys and TRUE as value
 	 */
 	protected $uidsOfMemoryOnlyDummyModels = array();
 
@@ -232,10 +232,10 @@ abstract class tx_oelib_DataMapper {
 	 * @param integer the UID of the record to retrieve, must be > 0
 	 * @param boolean whether hidden records should be allowed to be retrieved
 	 *
-	 * @return boolean true if a model with the UID $uid exists in the database,
-	 *                 false otherwise
+	 * @return boolean TRUE if a model with the UID $uid exists in the database,
+	 *                 FALSE otherwise
 	 */
-	public function existsModel($uid, $allowHidden = false) {
+	public function existsModel($uid, $allowHidden = FALSE) {
 		$model = $this->find($uid);
 
 		if ($model->isGhost()) {
@@ -340,7 +340,7 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param string key of the relation, must not be empty
 	 *
-	 * @return boolean true if the relation is an 1:n relation, false
+	 * @return boolean TRUE if the relation is an 1:n relation, FALSE
 	 *                 otherwise
 	 */
 	private function isOneToManyRelationConfigured($key) {
@@ -356,7 +356,7 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param string key of the relation, must not be empty
 	 *
-	 * @return boolean true if the relation is an n:1 relation, false
+	 * @return boolean TRUE if the relation is an n:1 relation, FALSE
 	 *                 otherwise
 	 */
 	private function isManyToOneRelationConfigured($key) {
@@ -373,8 +373,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param string key of the relation, must not be empty
 	 *
-	 * @return boolean true if the relation's configuration provides an m:n
-	 *                 table, false otherwise
+	 * @return boolean TRUE if the relation's configuration provides an m:n
+	 *                 table, FALSE otherwise
 	 */
 	private function isManyToManyRelationConfigured($key) {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
@@ -527,14 +527,14 @@ abstract class tx_oelib_DataMapper {
 			);
 		}
 
-		$whereClauses = array($this->getUniversalWhereClause(true));
+		$whereClauses = array($this->getUniversalWhereClause(TRUE));
 		foreach ($whereClauseParts as $key => $value) {
 			$columnDefinition = tx_oelib_db::getColumnDefinition(
 				$this->tableName, $key
 			);
 
 			$whereClauses[] = $key . ' = ' . (
-				(strpos($columnDefinition['Type'], 'int') !== false)
+				(strpos($columnDefinition['Type'], 'int') !== FALSE)
 					? $value
 					: $GLOBALS['TYPO3_DB']->fullQuoteStr(
 						$value, $this->tableName
@@ -644,13 +644,13 @@ abstract class tx_oelib_DataMapper {
 	 * used whenever possible.
 	 */
 	public function disableDatabaseAccess() {
-		$this->denyDatabaseAccess = true;
+		$this->denyDatabaseAccess = TRUE;
 	}
 
 	/**
 	 * Checks whether the database may be accessed.
 	 *
-	 * @return boolean true is database access is granted, false otherwise
+	 * @return boolean TRUE is database access is granted, FALSE otherwise
 	 */
 	public function hasDatabaseAccess() {
 		return !$this->denyDatabaseAccess;
@@ -894,7 +894,7 @@ abstract class tx_oelib_DataMapper {
 	 * @return string the WHERE clause that selects all visible records in the,
 	 *                DB, will not be empty
 	 */
-	protected function getUniversalWhereClause($allowHiddenRecords = false) {
+	protected function getUniversalWhereClause($allowHiddenRecords = FALSE) {
 		return '1 = 1' . tx_oelib_db::enableFields(
 			$this->tableName, ($allowHiddenRecords ? 1 : -1)
 		);
@@ -910,7 +910,7 @@ abstract class tx_oelib_DataMapper {
 			return;
 		}
 
-		$this->uidsOfMemoryOnlyDummyModels[$model->getUid()] = true;
+		$this->uidsOfMemoryOnlyDummyModels[$model->getUid()] = TRUE;
 	}
 
 	/**
@@ -918,7 +918,7 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to check
 	 *
-	 * @return boolean true if $model is a memory-only dummy, false otherwise
+	 * @return boolean TRUE if $model is a memory-only dummy, FALSE otherwise
 	 */
 	private function isModelAMemoryOnlyDummy(tx_oelib_Model $model) {
 			if (!$model->hasUid()) {

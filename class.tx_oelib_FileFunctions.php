@@ -39,7 +39,7 @@ class tx_oelib_FileFunctions {
 	 *               Removes trailing slash internally.
 	 * @param boolean whether to allow deletion of non-empty directories
 	 *
-	 * @return boolean true if @rmdir went well, false otherwise
+	 * @return boolean TRUE if @rmdir went well, FALSE otherwise
 	 *
 	 * @todo This function is copied from the TYPO3 4.2 core because it does not
 	 *       exist in TYPO3 4.1. Thus it is not unit-tested and can be removed
@@ -48,17 +48,17 @@ class tx_oelib_FileFunctions {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2049
 	 * @see t3lib_div::rmdir()
 	 */
-	public static function rmdir($path, $removeNonEmpty = false) {
-		$OK = false;
+	public static function rmdir($path, $removeNonEmpty = FALSE) {
+		$OK = FALSE;
 		// removes trailing slash
 		$path = preg_replace('|/$|', '', $path);
 
 		if (file_exists($path)) {
-			$OK = true;
+			$OK = TRUE;
 
 			if (is_dir($path)) {
-				if ($removeNonEmpty == true && $handle = @opendir($path)) {
-					while ($OK && false !== ($file = @readdir($handle))) {
+				if ($removeNonEmpty == TRUE && $handle = @opendir($path)) {
+					while ($OK && FALSE !== ($file = @readdir($handle))) {
 						if ($file == '.' || $file == '..') continue;
 						$OK = self::rmdir($path . '/' . $file, $removeNonEmpty);
 					}

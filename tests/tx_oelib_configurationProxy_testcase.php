@@ -134,21 +134,21 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 
 	public function testGetConfigurationValueBooleanTrue() {
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getConfigurationValueBoolean('testValueTrue')
 		);
 	}
 
 	public function testGetConfigurationValueBooleanFalse() {
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getConfigurationValueBoolean('testValueFalse')
 		);
 	}
 
 	public function testGetConfigurationValueBooleanFalseIfValueWasNotSet() {
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getConfigurationValueBoolean('foo')
 		);
 	}
@@ -204,19 +204,19 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueBooleanTrue() {
-		$this->fixture->setConfigurationValueBoolean('testValue', true);
+		$this->fixture->setConfigurationValueBoolean('testValue', TRUE);
 
 		$this->assertEquals(
-			true,
+			TRUE,
 			$this->fixture->getConfigurationValueBoolean('testValue')
 		);
 	}
 
 	public function testSetConfigurationValueBooleanFalse() {
-		$this->fixture->setConfigurationValueBoolean('testValue', false);
+		$this->fixture->setConfigurationValueBoolean('testValue', FALSE);
 
 		$this->assertEquals(
-			false,
+			FALSE,
 			$this->fixture->getConfigurationValueBoolean('testValue')
 		);
 	}

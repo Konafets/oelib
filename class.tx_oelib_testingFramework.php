@@ -136,7 +136,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * @var boolean whether a fake front end has been created
 	 */
-	private $hasFakeFrontEnd = false;
+	private $hasFakeFrontEnd = FALSE;
 
 	/**
 	 * The constructor for this class.
@@ -751,16 +751,16 @@ final class tx_oelib_testingFramework {
 	 * deleted from all tables that have been used within this instance of the
 	 * testing framework.
 	 *
-	 * If you set $performDeepCleanUp to true, it will go through ALL tables to
+	 * If you set $performDeepCleanUp to TRUE, it will go through ALL tables to
 	 * which the current instance of the testing framework has access. Please
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
 	 * @param boolean whether a deep clean up should be performed, may be empty
 	 */
-	public function cleanUp($performDeepCleanUp = false) {
-		$this->cleanUpTableSet(false, $performDeepCleanUp);
-		$this->cleanUpTableSet(true, $performDeepCleanUp);
+	public function cleanUp($performDeepCleanUp = FALSE) {
+		$this->cleanUpTableSet(FALSE, $performDeepCleanUp);
+		$this->cleanUpTableSet(TRUE, $performDeepCleanUp);
 		$this->deleteAllDummyFoldersAndFiles();
 		$this->discardFakeFrontEnd();
 
@@ -785,13 +785,13 @@ final class tx_oelib_testingFramework {
 	 * deleted from all tables that have been used within this instance of the
 	 * testing framework.
 	 *
-	 * If you set $performDeepCleanUp to true, it will go through ALL tables to
+	 * If you set $performDeepCleanUp to TRUE, it will go through ALL tables to
 	 * which the current instance of the testing framework has access. Please
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param boolean whether to clean up the system tables (true) or
-	 *                the non-system test tables (false)
+	 * @param boolean whether to clean up the system tables (TRUE) or
+	 *                the non-system test tables (FALSE)
 	 * @param boolean whether a deep clean up should be performed, may be empty
 	 */
 	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
@@ -831,7 +831,7 @@ final class tx_oelib_testingFramework {
 		// If the upload folder was created by the testing framework, it can be
 		// removed at once.
 		if (isset($this->dummyFolders['uploadFolder'])) {
-			tx_oelib_FileFunctions::rmdir($this->getUploadFolderPath(), true);
+			tx_oelib_FileFunctions::rmdir($this->getUploadFolderPath(), TRUE);
 			$this->dummyFolders = array();
 			$this->dummyFiles = array();
 		} else {
@@ -903,7 +903,7 @@ final class tx_oelib_testingFramework {
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
 		$zip = t3lib_div::makeInstance('ZipArchive');
 
-		if ($zip->open($uniqueFileName, ZipArchive::CREATE) !== true) {
+		if ($zip->open($uniqueFileName, ZipArchive::CREATE) !== TRUE) {
 			throw new Exception(
 				'The new ZIP archive "' . $fileName . '" could not be created.'
 			);
@@ -1188,7 +1188,7 @@ final class tx_oelib_testingFramework {
 		);
 
 		// simulates a normal FE without any logged-in FE or BE user
-		$frontEnd->beUserLogin = false;
+		$frontEnd->beUserLogin = FALSE;
 		$frontEnd->workspacePreview = '';
 		$frontEnd->initFEuser();
 		$frontEnd->determineId();
@@ -1213,7 +1213,7 @@ final class tx_oelib_testingFramework {
 
 		$GLOBALS['TSFE'] = $frontEnd;
 
-		$this->hasFakeFrontEnd = true;
+		$this->hasFakeFrontEnd = TRUE;
 		$this->logoutFrontEndUser();
 
 		return $GLOBALS['TSFE']->id;
@@ -1248,13 +1248,13 @@ final class tx_oelib_testingFramework {
 		$GLOBALS['TSFE'] = null;
 		$GLOBALS['TT'] = null;
 
-		$this->hasFakeFrontEnd = false;
+		$this->hasFakeFrontEnd = FALSE;
 	}
 
 	/**
 	 * Returns whether this testing framework instance has a fake front end.
 	 *
-	 * @return boolean true if this instance has a fake front end, false
+	 * @return boolean TRUE if this instance has a fake front end, FALSE
 	 *                 otherwise
 	 */
 	public function hasFakeFrontEnd() {
@@ -1351,7 +1351,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @throws Exception if no front end has been created
 	 *
-	 * @return boolean true if a FE user is logged in, false otherwise
+	 * @return boolean TRUE if a FE user is logged in, FALSE otherwise
 	 */
 	public function isLoggedIn() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1428,8 +1428,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if the name of the table is in the list of
-	 *                 allowed tables, false otherwise
+	 * @return boolean TRUE if the name of the table is in the list of
+	 *                 allowed tables, FALSE otherwise
 	 */
 	private function isOwnTableNameAllowed($table) {
 		return in_array($table, $this->ownAllowedTables);
@@ -1441,8 +1441,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if the name of the table is in the list of
-	 *                 additional allowed tables, false otherwise
+	 * @return boolean TRUE if the name of the table is in the list of
+	 *                 additional allowed tables, FALSE otherwise
 	 */
 	private function isAdditionalTableNameAllowed($table) {
 		return in_array($table, $this->additionalAllowedTables);
@@ -1454,8 +1454,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if the name of the table is in the list of
-	 *                 allowed system tables, false otherwise
+	 * @return boolean TRUE if the name of the table is in the list of
+	 *                 allowed system tables, FALSE otherwise
 	 */
 	private function isSystemTableNameAllowed($table) {
 		return in_array($table, $this->allowedSystemTables);
@@ -1467,8 +1467,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if the name of the table is in the list of
-	 *                 allowed tables or additional allowed tables, false
+	 * @return boolean TRUE if the name of the table is in the list of
+	 *                 allowed tables or additional allowed tables, FALSE
 	 *                 otherwise
 	 */
 	private function isNoneSystemTableNameAllowed($table) {
@@ -1482,9 +1482,9 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string the name of the table to check, must not be empty
 	 *
-	 * @return boolean true if the name of the table is in the list of
+	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed tables, additional allowed tables or allowed
-	 *                 system tables, false otherwise
+	 *                 system tables, FALSE otherwise
 	 */
 	private function isTableNameAllowed($table) {
 		return $this->isNoneSystemTableNameAllowed($table)
@@ -1551,8 +1551,8 @@ final class tx_oelib_testingFramework {
 	 * @param string the WHERE part of the query, may be empty (all
 	 *               records will be counted in that case)
 	 *
-	 * @return boolean true if there is at least one matching record,
-	 *                 false otherwise
+	 * @return boolean TRUE if there is at least one matching record,
+	 *                 FALSE otherwise
 	 */
 	public function existsRecord($table, $whereClause = '') {
 		return ($this->countRecords($table, $whereClause) > 0);
@@ -1565,7 +1565,7 @@ final class tx_oelib_testingFramework {
 	 * @param string the name of the table to query, must not be empty
 	 * @param integer the UID of the record to look up, must be > 0
 	 *
-	 * @return boolean true if there is a matching record, false otherwise
+	 * @return boolean TRUE if there is a matching record, FALSE otherwise
 	 */
 	public function existsRecordWithUid($table, $uid) {
 		if ($uid <= 0) {
@@ -1583,8 +1583,8 @@ final class tx_oelib_testingFramework {
 	 * @param string the WHERE part of the query, may be empty (all
 	 *               records will be counted in that case)
 	 *
-	 * @return boolean true if there is exactly one matching record,
-	 *                 false otherwise
+	 * @return boolean TRUE if there is exactly one matching record,
+	 *                 FALSE otherwise
 	 */
 	public function existsExactlyOneRecord($table, $whereClause = '') {
 		return ($this->countRecords($table, $whereClause) == 1);

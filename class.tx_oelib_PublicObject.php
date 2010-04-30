@@ -50,8 +50,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-empty,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-empty,
+	 *                 FALSE otherwise
 	 */
 	public function hasString($key) {
 		return parent::hasString($key);
@@ -84,8 +84,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-zero,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-zero,
+	 *                 FALSE otherwise
 	 */
 	public function hasInteger($key) {
 		return parent::hasInteger($key);
@@ -181,8 +181,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string the key of the element to check, must not be empty
 	 *
-	 * @return boolean true if the value for the given key is non-zero,
-	 *                 false otherwise
+	 * @return boolean TRUE if the value for the given key is non-zero,
+	 *                 FALSE otherwise
 	 */
 	public function hasFloat($key) {
 		return parent::hasFloat($key);

@@ -92,7 +92,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * @return string the requested local language key, might be empty
 	 */
 	public function translate(
-		$key, $useHtmlSpecialChars = false
+		$key, $useHtmlSpecialChars = FALSE
 	) {
 		if ($key == '') {
 			throw new Exception('$key must not be empty.');
@@ -147,7 +147,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * @return string the requested local language key, might be empty
 	 */
 	private function translateInFrontEnd($key) {
-		$hasFoundATranslation = false;
+		$hasFoundATranslation = FALSE;
 
 		$availableLanguages = $this->getAvailableLanguages();
 		$suffixesToTry = $this->getSuffixesToTry();
@@ -157,7 +157,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 				$completeKey = $key.$suffix;
 				if (isset($this->LOCAL_LANG[$language][$completeKey])) {
 					$result = parent::pi_getLL($completeKey);
-					$hasFoundATranslation = true;
+					$hasFoundATranslation = TRUE;
 					break 2;
 				}
 			}

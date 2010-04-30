@@ -50,12 +50,12 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * @var boolean whether database access should be denied for mappers
 	 */
-	private $denyDatabaseAccess = false;
+	private $denyDatabaseAccess = FALSE;
 
 	/**
 	 * @var boolean whether this MapperRegistry is used in testing mode
 	 */
-	private $testingMode = false;
+	private $testingMode = FALSE;
 
 	/**
 	 * @var tx_oelib_testingFramework the testingFramework to use in testing mode
@@ -168,7 +168,7 @@ class tx_oelib_MapperRegistry {
 							'$this->testingFramework->markTableAsDirty($this->tableName);' .
 							'$data[$this->testingFramework->getDummyColumnName($this->tableName)] = 1;' .
 							'}' .
-							'protected function getUniversalWhereClause($allowHiddenRecords = false) {' .
+							'protected function getUniversalWhereClause($allowHiddenRecords = FALSE) {' .
 							'$dummyColumnName = $this->testingFramework->getDummyColumnName($this->tableName);' .
 							'$additionalWhere = tx_oelib_db::tableHasColumn($this->tableName, $dummyColumnName) ' .
 							'? $dummyColumnName . \' = 1 AND \' : \'\';' .
@@ -196,7 +196,7 @@ class tx_oelib_MapperRegistry {
 	 * Disables database access for all mappers received with get().
 	 */
 	public static function denyDatabaseAccess() {
-		self::getInstance()->denyDatabaseAccess = true;
+		self::getInstance()->denyDatabaseAccess = TRUE;
 	}
 
 	/**
@@ -206,7 +206,7 @@ class tx_oelib_MapperRegistry {
 	 *                                                    to use in testing mode
 	 */
 	public function activateTestingMode(tx_oelib_testingFramework $testingFramework) {
-		$this->testingMode = true;
+		$this->testingMode = TRUE;
 		$this->testingFramework = $testingFramework;
 	}
 

@@ -669,14 +669,14 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	public function testHtmlSpecialCharsWithFalse() {
 		$this->assertEquals(
 			'a&o',
-			$this->fixture->translate('htmlspecialchars', false)
+			$this->fixture->translate('htmlspecialchars', FALSE)
 		);
 	}
 
 	public function testHtmlSpecialCharsWithTrue() {
 		$this->assertEquals(
 			'a&amp;o',
-			$this->fixture->translate('htmlspecialchars', true)
+			$this->fixture->translate('htmlspecialchars', TRUE)
 		);
 	}
 
@@ -690,14 +690,14 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	public function testPiGetLlHtmlSpecialCharsWithFalse() {
 		$this->assertEquals(
 			'a&o',
-			$this->fixture->pi_getLL('htmlspecialchars', '', false)
+			$this->fixture->pi_getLL('htmlspecialchars', '', FALSE)
 		);
 	}
 
 	public function testPiGetLlHtmlSpecialCharsWithTrue() {
 		$this->assertEquals(
 			'a&amp;o',
-			$this->fixture->pi_getLL('htmlspecialchars', '', true)
+			$this->fixture->pi_getLL('htmlspecialchars', '', TRUE)
 		);
 	}
 }

@@ -308,7 +308,7 @@ class tx_oelib_TranslatorRegistry {
 				$configuration->getAsString($key),
 				$sourceCharset,
 				$this->renderCharset,
-				true
+				TRUE
 			);
 		}
 

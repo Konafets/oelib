@@ -65,7 +65,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @var boolean whether init() already has been called (in order to
 	 *              avoid double calls)
 	 */
-	protected $isInitialized = false;
+	protected $isInitialized = FALSE;
 
 	/**
 	 * @var tx_oelib_configcheck the configuration check object that will
@@ -167,7 +167,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				$this->configurationCheck = null;
 			}
 
-			$this->isInitialized = true;
+			$this->isInitialized = TRUE;
 		}
 	}
 
@@ -195,7 +195,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Checks that this object is properly initialized.
 	 *
-	 * @return boolean true if this object is properly initialized, false
+	 * @return boolean TRUE if this object is properly initialized, FALSE
 	 *                 otherwise
 	 */
 	public function isInitialized() {
@@ -257,8 +257,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return string the value of the corresponding flexforms or TS setup
 	 *                entry (may be empty)
 	 */
-	private function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = false,
-		$ignoreFlexform = false
+	private function getConfValue($fieldName, $sheet = 'sDEF', $isFileName = FALSE,
+		$ignoreFlexform = FALSE
 	) {
 		$flexformsValue = '';
 		if (!$ignoreFlexform) {
@@ -324,7 +324,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                TS setup entry (may be empty)
 	 */
 	public function getConfValueString(
-		$fieldName, $sheet = 'sDEF', $isFileName = false, $ignoreFlexform = false
+		$fieldName, $sheet = 'sDEF', $isFileName = FALSE, $ignoreFlexform = FALSE
 	) {
 		return trim($this->getConfValue(
 			$fieldName,
@@ -338,7 +338,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Checks whether a string value from flexforms or TS setup is set.
 	 * The priority lies on flexforms; if nothing is found there, the value
 	 * from TS setup is checked. If there is no field with that name in TS
-	 * setup, false is returned.
+	 * setup, FALSE is returned.
 	 *
 	 * @param string field name to extract
 	 * @param string sheet pointer, eg. "sDEF"
@@ -349,12 +349,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                 corresponding flexforms or TS setup entry
 	 */
 	public function hasConfValueString(
-		$fieldName, $sheet = 'sDEF', $ignoreFlexform = false
+		$fieldName, $sheet = 'sDEF', $ignoreFlexform = FALSE
 	) {
 		return ($this->getConfValueString(
 			$fieldName,
 			$sheet,
-			false,
+			FALSE,
 			$ignoreFlexform) != ''
 		);
 	}
@@ -379,7 +379,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Checks whether an integer value from flexforms or TS setup is set and
 	 * non-zero. The priority lies on flexforms; if nothing is found there, the
 	 * value from TS setup is checked. If there is no field with that name in
-	 * TS setup, false is returned.
+	 * TS setup, FALSE is returned.
 	 *
 	 * @param string field name to extract
 	 * @param string sheet pointer, eg. "sDEF"
@@ -395,7 +395,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Gets a boolean value from flexforms or TS setup.
 	 * The priority lies on flexforms; if nothing is found there, the value
 	 * from TS setup is returned. If there is no field with that name in TS
-	 * setup, false is returned.
+	 * setup, FALSE is returned.
 	 *
 	 * @param string field name to extract
 	 * @param string sheet pointer, eg. "sDEF"
@@ -481,21 +481,21 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param boolean whether the settings in the Flexform should be ignored
 	 */
-	public function getTemplateCode($ignoreFlexform = false) {
+	public function getTemplateCode($ignoreFlexform = FALSE) {
 		// Trying to fetch the template code via $this->cObj in BE mode leads to
 		// a non-catchable error in the tslib_content class because the cObj
 		// configuration array is not initialized properly.
-		// As flexforms can be used in FE mode only, $ignoreFlexform is set true
+		// As flexforms can be used in FE mode only, $ignoreFlexform is set TRUE
 		// if we are in the BE mode. By this, $this->cObj->fileResource can be
 		// sheltered from being called.
 		if (TYPO3_MODE == 'BE') {
-			$ignoreFlexform = true;
+			$ignoreFlexform = TRUE;
 		}
 
 		$templateFileName = $this->getConfValueString(
 			'templateFile',
 			's_template_special',
-			true,
+			TRUE,
 			$ignoreFlexform
 		);
 
@@ -615,7 +615,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->setErrorMessage('The subpart <strong>' . $subpartName .
 				'</strong> is missing in the HTML template file <strong>' .
 				$this->getConfValueString(
-					'templateFile', 's_template_special', true
+					'templateFile', 's_template_special', TRUE
 				) .
 				'</strong>. If you are using a modified HTML template, please ' .
 				'fix it. If you are using the original HTML template file, ' .
@@ -634,7 +634,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param integer content with which the marker will be filled, may be empty
 	 * @param string prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false otherwise
+	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotEmpty
 	 */
@@ -655,7 +655,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string prefix to the marker name for setting (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false otherwise
+	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotZero
 	 */
@@ -669,12 +669,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Checks whether a subpart is visible.
 	 *
 	 * Note: If the subpart to check does not exist, this function will return
-	 * false.
+	 * FALSE.
 	 *
 	 * @param string name of the subpart to check (without the ###), must
 	 *               not be empty
 	 *
-	 * @return boolean true if the subpart is visible, false otherwise
+	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
 	 */
 	public function isSubpartVisible($subpartName) {
 		return $this->getTemplate()->isSubpartVisible($subpartName);
@@ -785,14 +785,14 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Sets or hides a marker based on $condition.
-	 * If $condition is true, this function sets the marker's content, working
+	 * If $condition is TRUE, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
-	 * If $condition is false, this function removes the wrapping subpart,
+	 * If $condition is FALSE, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
 	 * @param string the marker's name without the ### signs,
 	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param boolean if this is true, the marker will be filled,
+	 * @param boolean if this is TRUE, the marker will be filled,
 	 *                otherwise the wrapped marker will be hidden
 	 * @param string content with which the marker will be filled, may be empty
 	 * @param string prefix to the marker name for setting (may be empty,
@@ -800,7 +800,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setMarkerContent
@@ -831,7 +831,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -864,7 +864,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string prefix to the subpart name for hiding (may be empty,
 	 *               case-insensitive, will get uppercased)
 	 *
-	 * @return boolean true if the marker content has been set, false if
+	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -902,7 +902,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->setErrorMessage('The subpart <strong>' . $key .
 				'</strong> is missing in the HTML template file <strong>' .
 				$this->getConfValueString(
-					'templateFile', 's_template_special', true
+					'templateFile', 's_template_special', TRUE
 				) .
 				'</strong>. If you are using a modified HTML template, please ' .
 				'fix it. If you are using the original HTML template file, ' .
@@ -993,7 +993,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 				.$this->getConfValueString(
 					'jsFile',
 					's_template_special',
-					true
+					TRUE
 				).'"></script>';
 		}
 	}
@@ -1203,7 +1203,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *               must not be empty
 	 *
 	 * @return boolean the boolean value of that field within listView.,
-	 *                 false if no value was set
+	 *                 FALSE if no value was set
 	 */
 	public function getListViewConfValueBoolean($fieldName) {
 		return (boolean) $this->getListViewConfigurationValue($fieldName);
@@ -1212,7 +1212,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Checks whether a front end user is logged in.
 	 *
-	 * @return boolean true if a user is logged in, false otherwise
+	 * @return boolean TRUE if a user is logged in, FALSE otherwise
 	 *
 	 * @deprecated 2009-02-06 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::isLoggedIn()
 	 */
@@ -1304,8 +1304,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return string a formatted error message (if there are errors) or an
 	 *                empty string
 	 */
-	public function checkConfiguration($useRawMessage = false, $temporaryFlavor = '') {
-		static $hasDisplayedMessage = false;
+	public function checkConfiguration($useRawMessage = FALSE, $temporaryFlavor = '') {
+		static $hasDisplayedMessage = FALSE;
 		$result = '';
 
 		if ($this->configurationCheck) {
@@ -1326,7 +1326,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			// for objects of this class.
 			if (!empty($message) && !$hasDisplayedMessage) {
 				$result = $message;
-				$hasDisplayedMessage = true;
+				$hasDisplayedMessage = TRUE;
 			}
 		}
 
@@ -1389,8 +1389,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Checks whether the current page has a general record storage PID set.
 	 *
-	 * @return boolean true if the current page has a general record storage PID
-	 *                 set, false otherwise
+	 * @return boolean TRUE if the current page has a general record storage PID
+	 *                 set, FALSE otherwise
 	 */
 	public function hasStoragePid() {
 		return $this->getStoragePid() > 0;
