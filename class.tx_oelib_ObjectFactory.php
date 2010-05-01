@@ -53,22 +53,10 @@ class tx_oelib_ObjectFactory {
 			return t3lib_div::makeInstance($className);
 		}
 
-		if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
-			$parameters = func_get_args();
-			$result = call_user_func_array(
-				array('t3lib_div', 'makeInstance'), $parameters
-			);
-		} else {
-			$constructorArguments = func_get_args();
-			array_shift($constructorArguments);
-
-			$actualClassName = t3lib_div::makeInstanceClassName($className);
-			$reflectedClass = new ReflectionClass($actualClassName);
-
-			$result = $reflectedClass->newInstanceArgs($constructorArguments);
-		}
-
-		return $result;
+		$parameters = func_get_args();
+		return call_user_func_array(
+			array('t3lib_div', 'makeInstance'), $parameters
+		);
 	}
 }
 
