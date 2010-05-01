@@ -37,12 +37,6 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 *
 	 * Note: This function cannot handle multi-part e-mails.
 	 *
-	 * Note: This function always will return TRUE. After this extension
-	 * requires TYPO3 4.2, it can be changed to return the success status of the
-	 * e-mail (bug 1636).
-	 *
-	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1636
-	 *
 	 * @param string the recipient's e-mail address, will not be
 	 *               validated, must not be empty
 	 * @param string e-mail subject, must not be empty
@@ -54,7 +48,7 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 *               such a header)
 	 * @param boolean if set, the header content will not be encoded
 	 *
-	 * @return boolean always TRUE
+	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public function sendEmail(
 		$emailAddress,
@@ -65,7 +59,7 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 		$charset = '',
 		$doNotEncodeHeader = FALSE
 	) {
-		t3lib_div::plainMailEncoded(
+		return t3lib_div::plainMailEncoded(
 			$emailAddress,
 			$subject,
 			$this->formatEmailBody($message),
@@ -74,8 +68,6 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 			$charset,
 			$doNotEncodeHeader
 		);
-
-		return TRUE;
 	}
 
 	/**

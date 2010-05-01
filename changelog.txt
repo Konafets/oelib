@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#1636] Feature: realMailer::sendEmail should return the return value from t3lib_div::plainMailEncoded
 - [#3434] Cleanup: Replace false/true with FALSE/TRUE
 - [#3819] Change: Rely on the Core autoloader for TYPO3 >= 4.3
 - [#3818] Change: Use the null timetracker for the fake FE if it is available
