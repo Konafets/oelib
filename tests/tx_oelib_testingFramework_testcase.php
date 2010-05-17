@@ -3632,6 +3632,18 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndSetsDefaultGroupList() {
+		$this->fixture->createFakeFrontEnd();
+
+		$this->assertEquals(
+			'0,-1',
+			$GLOBALS['TSFE']->gr_list
+		);
+	}
+
 	public function testDiscardFakeFrontEndNullsOutGlobalFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->discardFakeFrontEnd();
