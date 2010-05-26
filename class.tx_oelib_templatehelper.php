@@ -506,8 +506,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return tx_oelib_Template the template object for the template file name
 	 *                           in $this->templateFileName
 	 */
-	private function getTemplate() {
-		if (!$this->template) {
+	protected function getTemplate() {
+		if ($this->template === null) {
 			$this->template = tx_oelib_TemplateRegistry::get(
 				$this->templateFileName
 			);
