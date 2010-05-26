@@ -23,16 +23,38 @@
 ***************************************************************/
 
 /**
- * Interface tx_oelib_Interface_Geo for the "oelib" extension.
+ * Class tx_oelib_tests_fixtures_DummyGeo for the "oelib" extension.
  *
- * This class represents an object that can have geo coordinates.
+ * This class represents an testing object that can have an address and geo
+ * coordinates.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-interface tx_oelib_Interface_Geo {
+class tx_oelib_tests_fixtures_TestingGeo implements tx_oelib_Interface_Geo {
+	/**
+	 * whether this object has a geo error
+	 *
+	 * @var boolean
+	 */
+	private $hasGeoError = FALSE;
+
+	/**
+	 * the address of this object
+	 *
+	 * @var string
+	 */
+	private $address = '';
+
+	/**
+	 * the geo coordinates of this object
+	 *
+	 * @var array
+	 */
+	private $coordinates = array();
+
 	/**
 	 * Returns this object's address formatted for a geo lookup, for example
 	 * "Pariser Str. 50, 53117 Auerberg, Bonn, DE". Any part of this address
@@ -41,7 +63,20 @@ interface tx_oelib_Interface_Geo {
 	 * @return string this object's address formatted for a geo lookup,
 	 *                will be empty if this object has no address
 	 */
-	public function getGeoAddress();
+	public function getGeoAddress() {
+		return $this->address;
+	}
+
+	/**
+	 * Sets this object's geo address.
+	 *
+	 * @param string $address
+	 *        the address to set, for example
+	 *        "Pariser Str. 50, 53117 Auerberg, Bonn, DE", may be empty
+	 */
+	public function setGeoAddress($address) {
+		$this->address = $address;
+	}
 
 	/**
 	 * Checks whether this object has a non-empty address suitable for a geo
@@ -50,7 +85,9 @@ interface tx_oelib_Interface_Geo {
 	 * @return boolean TRUE if this object has a non-empty address, FALSE
 	 *                 otherwise
 	 */
-	public function hasGeoAddress();
+	public function hasGeoAddress() {
+		return ($this->address !== '');
+	}
 
 	/**
 	 * Retrieves this object's coordinates.
@@ -58,7 +95,9 @@ interface tx_oelib_Interface_Geo {
 	 * @return array this object's geo coordinates using the keys "latitude" and
 	 *               "longitude", will be empty if this object has no coordinates
 	 */
-	public function getGeoCoordinates();
+	public function getGeoCoordinates() {
+		return $this->coordinates;
+	}
 
 	/**
 	 * Sets this object's coordinates.
@@ -67,7 +106,9 @@ interface tx_oelib_Interface_Geo {
 	 *        the coordinates, using the keys "latitude" and "longitude",
 	 *        the array values must not be empty
 	 */
-	public function setGeoCoordinates(array $coordinates);
+	public function setGeoCoordinates(array $coordinates) {
+		$this->coordinates = $coordinates;
+	}
 
 	/**
 	 * Checks whether this object has non-empty coordinates.
@@ -75,7 +116,9 @@ interface tx_oelib_Interface_Geo {
 	 * @return boolean TRUE if this object has both a non-empty longitude and
 	 *                 a non-empty latitude, FALSE otherwise
 	 */
-	public function hasGeoCoordinates();
+	public function hasGeoCoordinates() {
+		return !empty($this->coordinates);
+	}
 
 	/**
 	 * Purges this object's geo coordinates.
@@ -83,7 +126,9 @@ interface tx_oelib_Interface_Geo {
 	 * Note: Calling this function has no influence on this object's geo error
 	 * status.
 	 */
-	public function clearGeoCoordinates();
+	public function clearGeoCoordinates() {
+		$this->coordinates = array();
+	}
 
 	/**
 	 * Checks whether there has been a problem with this object's geo
@@ -94,16 +139,22 @@ interface tx_oelib_Interface_Geo {
 	 *
 	 * @return boolean TRUE if there has been an error, FALSE otherwise
 	 */
-	public function hasGeoError();
+	public function hasGeoError() {
+		return $this->hasGeoError;
+	}
 
 	/**
 	 * Marks this object as having an error with the geo coordinates.
 	 */
-	public function setGeoError();
+	public function setGeoError() {
+		$this->hasGeoError = TRUE;
+	}
 
 	/**
 	 * Marks this object as not having an error with the geo coordinates.
 	 */
-	public function clearGeoError();
+	public function clearGeoError() {
+		$this->hasGeoError = FALSE;
+	}
 }
 ?>

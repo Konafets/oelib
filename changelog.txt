@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3812] Feature: Provide a geocoding service
 - [#3871] Change: getTemplate should be protected
 - [#3860] Fix: grlist for FE user of fake FE should be 0,-1 when no user is logged in
 - [#2842] Change: Require TYPO3 4.3 for oelib and seminars

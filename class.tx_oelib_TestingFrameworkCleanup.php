@@ -43,6 +43,7 @@ class tx_oelib_TestingFrameworkCleanup {
 		tx_oelib_BackEndLoginManager::purgeInstance();
 		tx_oelib_ConfigurationRegistry::purgeInstance();
 		tx_oelib_FrontEndLoginManager::purgeInstance();
+		tx_oelib_Geocoding_Google::purgeInstance();
 		tx_oelib_headerProxyFactory::purgeInstance();
 		tx_oelib_mailerFactory::purgeInstance();
 		tx_oelib_MapperRegistry::purgeInstance();
