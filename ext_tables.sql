@@ -21,6 +21,7 @@ CREATE TABLE tx_oelib_test (
 	related_records int(11) unsigned DEFAULT '0' NOT NULL,
 	bidirectional int(11) unsigned DEFAULT '0' NOT NULL,
 	composition int(11) unsigned DEFAULT '0' NOT NULL,
+	composition2 int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
@@ -43,6 +44,7 @@ CREATE TABLE tx_oelib_testchild (
 	is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	title tinytext,
 	parent int(11) unsigned DEFAULT '0' NOT NULL,
+	tx_oelib_parent2 int(11) unsigned DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),

@@ -182,6 +182,25 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Gets the "composition2" data item.
+	 *
+	 * @return tx_oelib_List the "composition2" data item, will be empty (but
+	 *                       not null) if this model has no composition2
+	 */
+	public function getComposition2() {
+		return $this->getAsList('composition2');
+	}
+
+	/**
+	 * Sets the "composition2" data item.
+	 *
+	 * @param tx_oelib_List tx_oelib_List the "composition2" data to set
+	 */
+	public function setComposition2(tx_oelib_List $components) {
+		return $this->set('composition2', $components);
+	}
+
+	/**
 	 * Sets the deleted property via set().
 	 *
 	 * Note: This function is expected to fail.

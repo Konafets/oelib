@@ -884,9 +884,17 @@ abstract class tx_oelib_DataMapper {
 
 			$relatedMapper = tx_oelib_MapperRegistry::get($relation);
 			$foreignField = $relationConfiguration['foreign_field'];
+			if (strpos($foreignField, 'tx_') === 0) {
+				$foreignKey = ucfirst(
+					preg_replace('/tx_[a-z]+_/', '', $foreignField)
+				);
+			} else {
+				$foreignKey = ucfirst($foreignField);
+			}
+			$getter = 'get' . $foreignKey;
+			$setter = 'set' . $foreignKey;
 
 			foreach ($relatedModels as $relatedModel) {
-				$getter = 'get' . ucfirst($foreignField);
 				if (!method_exists($relatedModel, $getter)) {
 					throw new Exception(
 						'The class ' . get_class($relatedModel) .
@@ -894,7 +902,6 @@ abstract class tx_oelib_DataMapper {
 							' which is needed for saving a 1:n relation.'
 					);
 				}
-				$setter = 'set' . ucfirst($foreignField);
 				if (!method_exists($relatedModel, $setter)) {
 					throw new Exception(
 						'The class ' . get_class($relatedModel) .

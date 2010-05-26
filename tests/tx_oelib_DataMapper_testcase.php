@@ -1631,6 +1631,33 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function saveForModelWith1NRelationSavesNewRelatedRecordWithPrefixInForeignKey() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$model->setTitle('bar');
+
+		$composition = $model->getComposition2();
+		$mapper = tx_oelib_MapperRegistry::
+			get('tx_oelib_tests_fixtures_TestingChildMapper');
+		$component = new tx_oelib_tests_fixtures_TestingChildModel();
+		$component->markAsDummyModel();
+		$composition->add($component);
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_testchild',
+				'uid = ' . $component->getUid() .
+					' AND tx_oelib_parent2 = ' . $model->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function saveForModelWithOneToManyRelationDeletesUnconnectedRecord() {
 		$model = $this->fixture->find(
 			$this->testingFramework->createRecord('tx_oelib_test')

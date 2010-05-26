@@ -55,7 +55,7 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model {
 	/**
 	 * Gets the "parent" data item.
 	 *
-	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
+	 * @return tx_oelib_tests_fixtures_TestingModel the "parent" data item,
 	 *                                              will be null if this model
 	 *                                              has no parent
 	 */
@@ -64,13 +64,34 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model {
 	}
 
 	/**
-	 * Sets the "friend" data item.
+	 * Gets the "tx_oelib_parent2" data item.
+	 *
+	 * @return tx_oelib_tests_fixtures_TestingModel the "tx_oelib_parent2" data
+	 *                                              item, will be null if this
+	 *                                              model has no parent2
+	 */
+	public function getParent2() {
+		return $this->getAsModel('tx_oelib_parent2');
+	}
+
+	/**
+	 * Sets the "parent" data item.
 	 *
 	 * @param tx_oelib_tests_fixtures_TestingModel $friend
 	 *        the "parent" data item to set
 	 */
 	public function setParent(tx_oelib_tests_fixtures_TestingModel $parent) {
 		$this->set('parent', $parent);
+	}
+
+	/**
+	 * Sets the "tx_oelib_parent2" data item.
+	 *
+	 * @param tx_oelib_tests_fixtures_TestingModel $friend
+	 *        the "tx_oelib_parent2" data item to set
+	 */
+	public function setParent2(tx_oelib_tests_fixtures_TestingModel $parent) {
+		$this->set('tx_oelib_parent2', $parent);
 	}
 
 	/**

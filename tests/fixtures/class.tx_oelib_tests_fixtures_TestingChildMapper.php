@@ -49,6 +49,7 @@ class tx_oelib_tests_fixtures_TestingChildMapper extends tx_oelib_DataMapper {
 	 */
 	protected $relations = array(
 		'parent' => 'tx_oelib_tests_fixtures_TestingMapper',
+		'tx_oelib_parent2' => 'tx_oelib_tests_fixtures_TestingMapper',
 	);
 }
 ?>

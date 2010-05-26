@@ -116,6 +116,20 @@ $TCA['tx_oelib_test'] = array(
 				'maxitems' => 99
 			),
 		),
+		'composition2' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => 'Related records (1:n relation using a foreign field with prefix)',
+			'config' => array(
+				'type' => 'inline',
+				'foreign_table' => 'tx_oelib_testchild',
+				'foreign_field' => 'tx_oelib_parent2',
+				'foreign_sortby' => 'title',
+				'size' => 4,
+				'minitems' => 0,
+				'maxitems' => 99
+			),
+		),
 		'bidirectional' => array(
 			'l10n_mode' => 'exclude',
 			'exclude' => 1,
@@ -154,6 +168,14 @@ $TCA['tx_oelib_testchild'] = array(
 			),
 		),
 		'parent' => array(
+			'l10n_mode' => 'exclude',
+			'exclude' => 1,
+			'label' => '',
+			'config' => array(
+				'type' => 'passthrough',
+			),
+		),
+		'tx_oelib_parent2' => array(
 			'l10n_mode' => 'exclude',
 			'exclude' => 1,
 			'label' => '',
