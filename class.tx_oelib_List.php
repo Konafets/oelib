@@ -33,18 +33,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_List implements Iterator {
-	/**
-	 * @var array the listed models as a numeric array
-	 */
-	private $items = array();
-
-	/**
-	 * @var integer the key of the current item, will be >= 0, might point
-	 *              past the last item
-	 */
-	private $pointer = 0;
-
+class tx_oelib_List extends SplObjectStorage {
 	/**
 	 * @var the UIDs in the list using the UIDs as both the keys and values
 	 */
@@ -76,13 +65,13 @@ class tx_oelib_List implements Iterator {
 	public function __destruct() {
 		$this->rewind();
 
-		foreach ($this->items as $key => $model) {
+		foreach ($this as $model) {
 			// Models without UIDs are not registered at a mapper and thus will
 			// not be destructed by the mapper.
 			if (!$model->hasUid()) {
 				$model->__destruct();
 			}
-			unset($this->items[$key]);
+			$this->detach($model);
 		}
 
 		$this->uids = array();
@@ -90,24 +79,26 @@ class tx_oelib_List implements Iterator {
 	}
 
 	/**
-	 * Adds a model to this list (as last element).
+	 * Adds a model to this list (as last element) if it is not already in the
+	 * list.
 	 *
 	 * The model to add need not necessarily have a UID.
-	 *
-	 * Adding the same model twice is also support. This will result in the
-	 * model actually being twice in the list, not in replacing the first
-	 * instance.
 	 *
 	 * @param tx_oelib_Model the model to add, need not have a UID
 	 */
 	public function add(tx_oelib_Model $model) {
-		$this->items[] = $model;
+		$this->attach($model);
 
 		if ($model->hasUid()) {
 			$uid = $model->getUid();
 			$this->uids[$uid] = $uid;
 		} else {
 			$this->hasItemWithoutUid = TRUE;
+		}
+
+		// Initializes the Iterator.
+		if ($this->count() == 1) {
+			$this->rewind();
 		}
 
 		$this->markAsDirty();
@@ -119,90 +110,21 @@ class tx_oelib_List implements Iterator {
 	 * @return boolean TRUE if this list is empty, FALSE otherwise
 	 */
 	public function isEmpty() {
-		return empty($this->items);
-	}
-
-	/**
-	 * Counts the number of items in this list.
-	 *
-	 * Models without UID are also counted. Models that are in the list
-	 * multiple time also count multiple times.
-	 *
-	 * @return integer the total number of items in this list, may be zero
-	 */
-	public function count() {
-		if ($this->isEmpty()) {
-			return 0;
-		}
-
-		return count($this->items);
+		return ($this->count() == 0);
 	}
 
 	/**
 	 * Returns the first item.
 	 *
+	 * Note: This method rewinds the iterator.
+	 *
 	 * @return tx_oelib_Model the first item, will be null if this list is
 	 *                        empty
 	 */
 	public function first() {
-		if ($this->isEmpty()) {
-			return null;
-		}
+		$this->rewind();
 
-		return $this->items[0];
-	}
-
-	/**
-	 * Returns the current item.
-	 *
-	 * @return tx_oelib_Model the current item, will be null if this list is
-	 *                        empty or the pointer is after the last item
-	 */
-	public function current() {
-		if (!$this->valid()) {
-			return null;
-		}
-
-		return $this->items[$this->pointer];
-	}
-
-	/**
-	 * Returns the key of the current item. This key is only related to the
-	 * order of the items in this list, but not at all to their UIDs.
-	 *
-	 * @return integer the current item, will be >= 0, might point past the
-	 *         last item
-	 */
-	public function key() {
-		return $this->pointer;
-	}
-
-	/**
-	 * Advances the internal item pointer to the next items.
-	 *
-	 * This might lead to the pointer pointing past the last element.
-	 */
-	public function next() {
-		$this->pointer++;
-	}
-
-	/**
-	 * Resets the pointer to the start.
-	 */
-	public function rewind() {
-		$this->pointer = 0;
-	}
-
-	/**
-	 * Checks whether the internal pointer points to an existing item.
-	 *
-	 * For an empty list, this function will always return FALSE.
-	 *
-	 * @return boolean TRUE if the internal pointer points to a valid items,
-	 *                 FALSE otherwise
-	 */
-	public function valid() {
-		return ($this->pointer < $this->count());
+		return $this->current();
 	}
 
 	/**
@@ -246,7 +168,7 @@ class tx_oelib_List implements Iterator {
 	private function rebuildUidCache() {
 		$this->hasItemWithoutUid = FALSE;
 
-		foreach ($this->items as $item) {
+		foreach ($this as $item) {
 			if ($item->hasUid()) {
 				$uid = $item->getUid();
 				$this->uids[$uid] = $uid;
@@ -268,11 +190,21 @@ class tx_oelib_List implements Iterator {
 	 *                 in the list, not empty
 	 */
 	public function sort($callbackFunction) {
-		usort($this->items, $callbackFunction);
+		$items = iterator_to_array($this, false);
+		usort($items, $callbackFunction);
+
+		foreach ($items as $item) {
+			$this->detach($item);
+			$this->attach($item);
+		}
 	}
 
 	/**
 	 * Appends the contents of $list to this list.
+	 *
+	 * Note: Since tx_oelib_List extends SplObjectStorage this method is in most
+	 * cases an synonym to appendUnique() as SplObjectStorage makes sure that
+	 * no object is added more than once to it.
 	 *
 	 * @param tx_oelib_List list to append, may be empty
 	 */
@@ -287,6 +219,8 @@ class tx_oelib_List implements Iterator {
 	 * already exists in the list, the new item to append will be igored.
 	 *
 	 * @param tx_oelib_List list to append, may be empty
+	 *
+	 * @deprecated 2010-05-27 use append() instead
 	 */
 	public function appendUnique(tx_oelib_List $list) {
 		foreach ($list as $item) {
@@ -314,12 +248,8 @@ class tx_oelib_List implements Iterator {
 				unset($this->uids[$uid]);
 			}
 		}
-		unset($this->items[$this->pointer]);
 
-		// Creates new indices if the deleted item was not the last one.
-		if ($this->valid()) {
-			$this->items = array_merge($this->items);
-		}
+		$this->detach($this->current());
 
 		$this->markAsDirty();
 	}

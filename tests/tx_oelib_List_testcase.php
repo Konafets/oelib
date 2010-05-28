@@ -308,13 +308,16 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCountAfterAddingTheSameModelTwiceReturnsTwo() {
+	/**
+	 * @test
+	 */
+	public function countAfterAddingTheSameModelTwiceReturnsOne() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model);
 		$this->fixture->add($model);
 
 		$this->assertEquals(
-			2,
+			1,
 			$this->fixture->count()
 		);
 
@@ -790,7 +793,7 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function appendOneItemListToOneItemListWithTheSameItemMakesTwoItemList() {
+	public function appendOneItemListToOneItemListWithTheSameItemMakesOneItemList() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(42);
 		$this->fixture->add($model);
@@ -798,7 +801,7 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$this->fixture->append(clone $this->fixture);
 
 		$this->assertEquals(
-			2,
+			1,
 			$this->fixture->count()
 		);
 
@@ -1080,15 +1083,45 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function purgeCurrentForSecondOfTwoElementsMakesPointerInvalid() {
+	public function purgeCurrentForSecondOfTwoElementsInForeachLoopDoesNotChangeIteration() {
 		$this->addModelsToFixture(array('', ''));
 
-		$this->fixture->rewind();
-		$this->fixture->next();
-		$this->fixture->purgeCurrent();
+		$i = 0;
 
-		$this->assertFalse(
-			$this->fixture->valid()
+		foreach ($this->fixture as $model) {
+			if ($i == 1) {
+				$this->fixture->purgeCurrent();
+			}
+
+			$i++;
+		}
+
+		$this->assertEquals(
+			2,
+			$i
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function purgeCurrentForSecondOfTwoElementsInWhileLoopDoesNotChangeIteration() {
+		$this->addModelsToFixture(array('', ''));
+
+		$i = 0;
+
+		while ($this->fixture->valid()) {
+			if ($i == 1) {
+				$this->fixture->purgeCurrent();
+			}
+
+			$i++;
+			$this->fixture->next();
+		}
+
+		$this->assertEquals(
+			2,
+			$i
 		);
 	}
 

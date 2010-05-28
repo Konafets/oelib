@@ -133,7 +133,7 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 
 		do {
 			$groupsForNextStep = tx_oelib_ObjectFactory::make('tx_oelib_List');
-			$result->appendUnique($groupsToProcess);
+			$result->append($groupsToProcess);
 			foreach ($groupsToProcess as $group) {
 				$subgroups = $group->getSubgroups();
 				foreach ($subgroups as $subgroup)

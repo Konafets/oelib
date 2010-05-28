@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3870] Change: tx_oelib_List should use an SplObjectStorage
 - [#3854] Fix: 1:n IRRE relations need to drop extension prefixes in SQL column names
 - [#3812] Feature: Provide a geocoding service
 - [#3871] Change: getTemplate should be protected
