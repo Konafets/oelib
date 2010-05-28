@@ -1083,45 +1083,45 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function purgeCurrentForSecondOfTwoElementsInForeachLoopDoesNotChangeIteration() {
+	public function purgeCurrentForSecondOfTwoElementsInForeachLoopDoesNotChangeNumberOfIterations() {
 		$this->addModelsToFixture(array('', ''));
 
-		$i = 0;
+		$completedIterations = 0;
 
 		foreach ($this->fixture as $model) {
-			if ($i == 1) {
+			if ($completedIterations == 1) {
 				$this->fixture->purgeCurrent();
 			}
 
-			$i++;
+			$completedIterations++;
 		}
 
 		$this->assertEquals(
 			2,
-			$i
+			$completedIterations
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function purgeCurrentForSecondOfTwoElementsInWhileLoopDoesNotChangeIteration() {
+	public function purgeCurrentForSecondOfTwoElementsInWhileLoopDoesNotChangeNumberOfIterations() {
 		$this->addModelsToFixture(array('', ''));
 
-		$i = 0;
+		$completedIterations = 0;
 
 		while ($this->fixture->valid()) {
-			if ($i == 1) {
+			if ($completedIterations == 1) {
 				$this->fixture->purgeCurrent();
 			}
 
-			$i++;
+			$completedIterations++;
 			$this->fixture->next();
 		}
 
 		$this->assertEquals(
 			2,
-			$i
+			$completedIterations
 		);
 	}
 
