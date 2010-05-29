@@ -1,4 +1,4 @@
-0.7.2 - currently working on
+0.7.2 - released 2010-05-29
 - [#3871] Change: getTemplate should be protected
 - [#3860] Fix: grlist for FE user of fake FE should be 0,-1 when no user is logged in
 - [#3434] Cleanup: Replace false/true with FALSE/TRUE
