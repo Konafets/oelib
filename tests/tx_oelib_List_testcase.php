@@ -798,13 +798,17 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$model->setUid(42);
 		$this->fixture->add($model);
 
-		$this->fixture->append(clone $this->fixture);
+		$otherList = new tx_oelib_List();
+		$otherList->add($model);
+
+		$this->fixture->append($otherList);
 
 		$this->assertEquals(
 			1,
 			$this->fixture->count()
 		);
 
+		$otherList->__destruct();
 		$model->__destruct();
 	}
 
@@ -919,13 +923,17 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$model->setUid(42);
 		$this->fixture->add($model);
 
-		$this->fixture->appendUnique(clone $this->fixture);
+		$otherList = new tx_oelib_List();
+		$otherList->add($model);
+
+		$this->fixture->appendUnique($otherList);
 
 		$this->assertEquals(
 			1,
 			$this->fixture->count()
 		);
 
+		$otherList->__destruct();
 		$model->__destruct();
 	}
 
@@ -1151,7 +1159,26 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function cloneDoesNotCrash() {
+		if (floatval(PHP_VERSION) < 5.3) {
+			$this->markTestSkipped(
+				'Cloning SplObjectStorage instances would crash in PHP < 5.3.0.'
+			);
+		}
+
+		clone $this->fixture;
+	}
+
+	/**
+	 * @test
+	 */
 	public function purgeCurrentForClonedListNotRemovesItemFromOriginalList() {
+		if (floatval(PHP_VERSION) < 5.3) {
+			$this->markTestSkipped(
+				'Cloning SplObjectStorage instances would crash in PHP < 5.3.0.'
+			);
+		}
+
 		$this->addModelsToFixture();
 
 		$clonedList = clone($this->fixture);
@@ -1170,6 +1197,12 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function purgeCurrentForClonedListNotRemovesUidFromOriginalList() {
+		if (floatval(PHP_VERSION) < 5.3) {
+			$this->markTestSkipped(
+				'Cloning SplObjectStorage instances would crash in PHP < 5.3.0.'
+			);
+		}
+
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(1);
 		$this->fixture->add($model);
