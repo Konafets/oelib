@@ -63,7 +63,7 @@
  *
  * This package depends on PEAR to raise errors.
  */
-if (!class_exists('pear')) {
+if (!class_exists('pear', FALSE)) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/PEAR.php');
 }
 
@@ -74,7 +74,7 @@ if (!class_exists('pear')) {
  * create all the different parts a mail can
  * consist of.
  */
-if (!class_exists('mail_mimePart')) {
+if (!class_exists('mail_mimePart', FALSE)) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mimePart.php');
 }
 

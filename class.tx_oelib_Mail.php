@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (!class_exists('emogrifier')) {
+if (!class_exists('emogrifier', FALSE)) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/emogrifier/emogrifier.php');
 }
 

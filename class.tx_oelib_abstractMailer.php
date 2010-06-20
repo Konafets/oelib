@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (!class_exists('mail_mime')) {
+if (!class_exists('mail_mime', FALSE)) {
 	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
 }
 

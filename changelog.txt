@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3927] Fix: Message in system log: Unable to autoload class "pear"
 - [#3921] Fix: Crash in the List testcase in PHP 5.2 after the switch to SplObjectStorage
 - [#3870] Change: tx_oelib_List should use an SplObjectStorage
 - [#3854] Fix: 1:n IRRE relations need to drop extension prefixes in SQL column names
