@@ -140,7 +140,7 @@ class tx_oelib_MapperRegistry {
 		}
 
 		if (!isset($this->mappers[$className])) {
-			if (!tx_oelib_Autoloader::load($className)) {
+			if (!class_exists($className, TRUE)) {
 				throw new tx_oelib_Exception_NotFound(
 					'No mapper class "' . $className . '" could be found.'
 				);
