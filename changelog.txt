@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3957] Change: tx_oelib_MapperRegistry should use class_exists() with autoload = TRUE instead of calling our own autoloader
 - [#3927] Fix: Message in system log: Unable to autoload class "pear"
 - [#3921] Fix: Crash in the List testcase in PHP 5.2 after the switch to SplObjectStorage
 - [#3870] Change: tx_oelib_List should use an SplObjectStorage
