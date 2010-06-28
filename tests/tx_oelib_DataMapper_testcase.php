@@ -2174,6 +2174,60 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseWithoutLimitFindsAllRecords() {
+		$firstUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$secondUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			$firstUid . ',' . $secondUid,
+			$this->fixture->findByWhereClause('', '', '')->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseWithTwoRecordsAndLimitOneFindsOnlyFirstRecord() {
+		$firstUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			$firstUid,
+			$this->fixture->findByWhereClause('', '', '1')->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseWithThreeRecordsAndLimitBeginOneAndMaximumOneFindsOnlySecondRecord() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$secondUid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			$secondUid,
+			$this->fixture->findByWhereClause('', '', '1,1')->getUids()
+		);
+	}
+
 
 	///////////////////////////////////
 	// Tests concerning findByPageUId

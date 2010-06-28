@@ -1069,11 +1069,12 @@ abstract class tx_oelib_DataMapper {
 	 * @param string $sorting
 	 *        the sorting for the found records, must be a valid DB field
 	 *        optionally followed by "ASC" or "DESC", may be empty
+	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return tx_oelib_List all models found in DB for the given where clause,
 	 *                       will be an empty list if no models were found
 	 */
-	protected function findByWhereClause($whereClause = '', $sorting = '') {
+	protected function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
 		$tca = tx_oelib_db::getTcaForTable($this->tableName);
 		if ($sorting != '') {
 			$orderBy = $sorting;
@@ -1098,7 +1099,8 @@ abstract class tx_oelib_DataMapper {
 			$this->tableName,
 			$completeWhereClause . $this->getUniversalWhereClause(),
 			'',
-			$orderBy
+			$orderBy,
+			$limit
 		);
 
 		return $this->getListOfModels($rows);

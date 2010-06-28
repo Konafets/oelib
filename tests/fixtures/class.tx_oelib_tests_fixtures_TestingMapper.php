@@ -122,12 +122,13 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * @param string $sorting
 	 *        the sorting for the found records, must be a valid DB field
 	 *        optionally followed by "ASC" or "DESC", may be empty
+	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return tx_oelib_List all models found in DB for the given where clause,
 	 *                       will be an empty list if no models were found
 	 */
-	public function findByWhereClause($whereClause = '', $sorting = '') {
-		return parent::findByWhereClause($whereClause, $sorting);
+	public function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
+		return parent::findByWhereClause($whereClause, $sorting, $limit);
 	}
 
 	/**
