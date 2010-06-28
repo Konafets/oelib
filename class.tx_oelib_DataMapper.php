@@ -1260,6 +1260,45 @@ abstract class tx_oelib_DataMapper {
 			$relationKey . ' = ' . $model->getUid() . $ignoreClause
 		);
 	}
+
+	/**
+	 * Returns the number of records matching the given WHERE clause.
+	 *
+	 * @param string $whereClause
+	 *        WHERE clause for the number of records to retrieve, must be quoted
+	 *        and SQL safe, may be empty
+	 *
+	 * @return integer the number of records matching the given WHERE clause
+	 */
+	public function countByWhereClause($whereClause = '') {
+		$completeWhereClause = ($whereClause == '')
+			? ''
+			: $whereClause . ' AND ';
+
+		return tx_oelib_db::count(
+			$this->tableName,
+			$completeWhereClause . $this->getUniversalWhereClause()
+		);
+	}
+
+	/**
+	 * Returns the number of records located on the given pages.
+	 *
+	 * @param string $pageUids
+	 *        comma-separated UIDs of the pages on which the records should be
+	 *        found, may be empty
+	 *
+	 * @return integer the number of records located on the given pages
+	 */
+	public function countByPageUid($pageUids) {
+		if (($pageUids == '') || ($pageUids == '0')) {
+			return $this->countByWhereClause('');
+		}
+
+		return $this->countByWhereClause(
+			$this->tableName . '.pid IN (' . $pageUids . ')'
+		);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_DataMapper.php']) {

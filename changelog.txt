@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#3984] Feature: Add countByWhereClause() and countByPageUid() to the DataMapper
 - [#3983] Feature: Add LIMIT to findByPageUid()
 - [#3981] Feature: Add LIMIT to findByWhereClause()
 - [#3957] Change: tx_oelib_MapperRegistry should use class_exists() with autoload = TRUE instead of calling our own autoloader

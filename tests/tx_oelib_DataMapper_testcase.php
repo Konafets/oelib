@@ -2872,5 +2872,120 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 			$result->first()
 		);
 	}
+
+
+	//////////////////////////////////////////
+	// Tests concerning countByWhereClause()
+	//////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function countByWhereClauseWithoutWhereClauseCountsAllRecords() {
+		$this->testingFramework->createRecord('tx_oelib_test');
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countByWhereClause()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByWhereClauseWithoutMatchingRecordReturnsZero() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+		$this->assertEquals(
+			0,
+			$this->fixture->countByWhereClause('title = "bar"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByWhereClauseWithOneMatchingRecordsReturnsOne() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			1,
+			$this->fixture->countByWhereClause('title = "bar"')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByWhereClauseWithTwoMatchingRecordsReturnsTwo() {
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+		$this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'bar')
+		);
+
+		$this->assertEquals(
+			2,
+			$this->fixture->countByWhereClause('title = "bar"')
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests regarding countByPageUid()
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function countByPageUidWithEmptyStringCallsCountByWhereClauseWithEmptyString() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('countByWhereClause')
+		);
+		$fixture->expects($this->once())
+			->method('countByWhereClause')
+			->with('');
+
+		$fixture->countByPageUid('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByPageUidWithZeroCallsCountByWhereClauseWithEmptyString() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('countByWhereClause')
+		);
+		$fixture->expects($this->once())
+			->method('countByWhereClause')
+			->with('');
+
+		$fixture->countByPageUid('0');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countByPageUidWithPageUidCallsCountByWhereClauseWithWhereClauseContainingPageUid() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('countByWhereClause')
+		);
+		$fixture->expects($this->once())
+			->method('countByWhereClause')
+			->with('tx_oelib_test.pid IN (42)');
+
+		$fixture->countByPageUid('42');
+	}
 }
 ?>
