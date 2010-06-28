@@ -2322,6 +2322,70 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function findByPageUidWithoutPageUidAndWithoutLimitCallsFindByWhereClauseWithoutLimit() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('findByWhereClause')
+		);
+
+		$fixture->expects($this->once())
+			->method('findByWhereClause')
+			->with('', '', '');
+
+		$fixture->findByPageUid();
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByPageUidWithoutPageUidWithLimitCallsFindByWhereClauseWithLimit() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('findByWhereClause')
+		);
+
+		$fixture->expects($this->once())
+			->method('findByWhereClause')
+			->with('', '', '1,1');
+
+		$fixture->findByPageUid('', '', '1,1');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByPageUidWithPageUidWithoutLimitCallsFindByWhereClauseWithoutLimit() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('findByWhereClause')
+		);
+
+		$fixture->expects($this->once())
+			->method('findByWhereClause')
+			->with('tx_oelib_test.pid IN (42)', '', '');
+
+		$fixture->findByPageUid('42', '', '');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByPageUidWithPageUidAndLimitCallsFindByWhereClauseWithLimit() {
+		$fixture = $this->getMock(
+			'tx_oelib_tests_fixtures_TestingMapper',
+			array('findByWhereClause')
+		);
+
+		$fixture->expects($this->once())
+			->method('findByWhereClause')
+			->with('tx_oelib_test.pid IN (42)', '', '1,1');
+
+		$fixture->findByPageUid('42', '', '1,1');
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning additional keys

@@ -1115,18 +1115,20 @@ abstract class tx_oelib_DataMapper {
 	 * @param string $sorting
 	 *        the sorting for the found records, must be a valid DB field
 	 *        optionally followed by "ASC" or "DESC", may be empty
+	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return tx_oelib_List all records with the matching page UIDs, will be
 	 *                       empty if no records have been found
 	 */
-	public function findByPageUid($pageUids, $sorting = '') {
+	public function findByPageUid($pageUids, $sorting = '', $limit = '') {
 		if (($pageUids == '') || ($pageUids == '0')) {
-			return $this->findAll($sorting);
+			return $this->findByWhereClause('', $sorting, $limit);
 		}
 
 		return $this->findByWhereClause(
 			$this->tableName . '.pid IN (' . $pageUids . ')',
-			$sorting
+			$sorting,
+			$limit
 		);
 	}
 
