@@ -1,4 +1,5 @@
 0.7.3 - currently working on
+- [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
 - [#3957] Change: tx_oelib_MapperRegistry should use class_exists() with autoload = TRUE instead of calling our own autoloader
 - [#3927] Fix: Message in system log: Unable to autoload class "pear"
 

@@ -41,41 +41,12 @@ class tx_oelib_FileFunctions {
 	 *
 	 * @return boolean TRUE if @rmdir went well, FALSE otherwise
 	 *
-	 * @todo This function is copied from the TYPO3 4.2 core because it does not
-	 *       exist in TYPO3 4.1. Thus it is not unit-tested and can be removed
-	 *       when bug #2049 is fixed.
-	 *
-	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2049
 	 * @see t3lib_div::rmdir()
+	 *
+	 * @deprecated 2010-07-22 use t3lib_div::rmdir instead
 	 */
 	public static function rmdir($path, $removeNonEmpty = FALSE) {
-		$OK = FALSE;
-		// removes trailing slash
-		$path = preg_replace('|/$|', '', $path);
-
-		if (file_exists($path)) {
-			$OK = TRUE;
-
-			if (is_dir($path)) {
-				if ($removeNonEmpty == TRUE && $handle = @opendir($path)) {
-					while ($OK && FALSE !== ($file = @readdir($handle))) {
-						if ($file == '.' || $file == '..') continue;
-						$OK = self::rmdir($path . '/' . $file, $removeNonEmpty);
-					}
-					closedir($handle);
-				}
-				if ($OK) {
-					$OK = @rmdir($path);
-				}
-			} else {
-				// simply removes $path if it is a file
-				$OK = @unlink($path);
-			}
-
-			clearstatcache();
-		}
-
-		return $OK;
+		return t3lib_div::rmdir($path, $removeNonEmpty);
 	}
 }
 

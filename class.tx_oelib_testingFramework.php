@@ -831,7 +831,7 @@ final class tx_oelib_testingFramework {
 		// If the upload folder was created by the testing framework, it can be
 		// removed at once.
 		if (isset($this->dummyFolders['uploadFolder'])) {
-			tx_oelib_FileFunctions::rmdir($this->getUploadFolderPath(), TRUE);
+			t3lib_div::rmdir($this->getUploadFolderPath(), TRUE);
 			$this->dummyFolders = array();
 			$this->dummyFiles = array();
 		} else {
@@ -1033,7 +1033,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		if (!tx_oelib_FileFunctions::rmdir($absolutePathToFolder)) {
+		if (!t3lib_div::rmdir($absolutePathToFolder)) {
 			throw new Exception(
 				'The folder "' . $absolutePathToFolder . '" could not ' .
 					'be deleted.'
