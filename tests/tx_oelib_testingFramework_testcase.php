@@ -170,7 +170,7 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 			return;
 		}
 
-		tx_oelib_FileFunctions::rmdir($this->foreignFolderToDelete);
+		t3lib_div::rmdir($this->foreignFolderToDelete);
 		$this->foreignFolderToDelete = '';
 	}
 
