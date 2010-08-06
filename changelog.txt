@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4030] Feature: Add a function for calculating the distance between two geo objects
 - [#4053] Feature: Add Model::setPageUid
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
 - [#3984] Feature: Add countByWhereClause() and countByPageUid() to the DataMapper
