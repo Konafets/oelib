@@ -789,7 +789,10 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		$this->fixture->setCreationDate();
 	}
 
-	public function testsetCreationDateForLoadedModelWithoutUidSetsCrdate() {
+	/**
+	 * @test
+	 */
+	public function setCreationDateForLoadedModelWithoutUidSetsCrdate() {
 		$this->fixture->setData(array());
 		$this->fixture->setCreationDate();
 
