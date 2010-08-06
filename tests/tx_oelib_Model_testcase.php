@@ -807,7 +807,22 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	// Tests concerning getPageUid
 	////////////////////////////////
 
-	public function test_getPageUid_CanReturnTheSetPageUid() {
+	/**
+	 * @test
+	 */
+	public function getPageUidForNoPageUidSetReturnsZero() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			0,
+			$this->fixture->getPageUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPageUidReturnsPageUid() {
 		$this->fixture->setData(array('pid' => 42));
 
 		$this->assertEquals(
@@ -816,13 +831,32 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getPageUidForNoSetPageUid_ReturnsZero() {
-		$this->fixture->setData(array());
+	/**
+	 * @test
+	 */
+	public function setPageUidSetsPageUid() {
+		$this->fixture->setPageUid(84);
 
 		$this->assertEquals(
-			0,
+			84,
 			$this->fixture->getPageUid()
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPageUidWithZeroPageUidNotThrowsException() {
+		$this->fixture->setPageUid(0);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function setPageUidWithNegativePageUidThrowsException() {
+		$this->fixture->setPageUid(-1);
 	}
 
 

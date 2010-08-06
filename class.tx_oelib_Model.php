@@ -554,6 +554,20 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	public function getPageUid() {
 		return $this->getAsInteger('pid');
 	}
+
+	/**
+	 * Sets this model's page UID.
+	 *
+	 * @param integer $pageUid
+	 *        the page to set, must be >= 0
+	 */
+	public function setPageUid($pageUid) {
+		if ($pageUid < 0) {
+			throw new InvalidArgumentException('$pageUid must be >= 0.');
+		}
+
+		return $this->setAsInteger('pid', $pageUid);
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']) {
