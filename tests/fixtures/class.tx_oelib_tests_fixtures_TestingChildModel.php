@@ -33,7 +33,7 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model {
+class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implements tx_oelib_Interface_Sortable {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
@@ -99,6 +99,28 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model {
 	 */
 	public function markAsDummyModel() {
 		$this->set('is_dummy_record', TRUE);
+	}
+
+	/**
+	 * Returns the sorting value for this object.
+	 *
+	 * This is the sorting as used in the back end.
+	 *
+	 * @return integer the sorting value of this object, will be >= 0
+	 */
+	public function getSorting() {
+		return $this->getAsInteger('sorting');
+	}
+
+	/**
+	 * Sets the sorting value for this object.
+	 *
+	 * This is the sorting as used in the back end.
+	 *
+	 * @param integer $sorting the sorting value of this object, must be >= 0
+	 */
+	public function setSorting($sorting) {
+		return $this->setAsInteger('sorting', $sorting);
 	}
 }
 ?>

@@ -276,6 +276,35 @@ class tx_oelib_List extends SplObjectStorage {
 			$this->parentModel->markAsDirty();
 		}
 	}
+
+	/**
+	 * Sorts this list item in ascending order by their sorting.
+	 *
+	 * This function may only be used if all items in this list implement the
+	 * tx_oelib_Interface_Sortable interface.
+	 */
+	public function sortBySorting() {
+		$this->sort(array($this, 'compareSortings'));
+	}
+
+	/**
+	 * Internal callback function for sorting two sortable objects.
+	 *
+	 * This function is not intended to be used from the outside.
+	 *
+	 * @param tx_oelib_Interface_Sortable $object1 the first object
+	 * @param tx_oelib_Interface_Sortable $object2 the second object
+	 *
+	 * @return integer a negative number if $model1 should be before $model2,
+	 *                 a positive number if $model1 should be after $model2,
+	 *                 zero if both are equal for sorting
+	 */
+	public function compareSortings(
+		tx_oelib_Interface_Sortable $object1,
+		tx_oelib_Interface_Sortable $object2
+	) {
+		return $object1->getSorting() - $object2->getSorting();
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_List.php']) {

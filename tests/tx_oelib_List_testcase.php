@@ -1219,5 +1219,30 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 
 		$clonedList->__destruct();
 	}
+
+
+	///////////////////////////////////
+	// Tests concerning sortBySorting
+	///////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function sortBySortingMovesItemWithHigherSortingValueAfterItemWithLowerSortingValue() {
+		$model1 = new tx_oelib_tests_fixtures_TestingChildModel();
+		$model1->setSorting(2);
+		$this->fixture->add($model1);
+
+		$model2 = new tx_oelib_tests_fixtures_TestingChildModel();
+		$model2->setSorting(1);
+		$this->fixture->add($model2);
+
+		$this->fixture->sortBySorting();
+
+		$this->assertSame(
+			$model2,
+			$this->fixture->first()
+		);
+	}
 }
 ?>
