@@ -305,6 +305,35 @@ class tx_oelib_List extends SplObjectStorage {
 	) {
 		return $object1->getSorting() - $object2->getSorting();
 	}
+
+	/**
+	 * Returns the model at position $position.
+	 *
+	 * @param integer $position
+	 *        the zero-based position of the model to retrieve, must be >= 0
+	 *
+	 * @return tx_oelib_Model
+	 *         the model at position $position, will be null if there are not
+	 *         at least ($position + 1) models in this list
+	 */
+	public function at($position) {
+		if ($position < 0) {
+			throw new InvalidArgumentException('$position must be >= 0.');
+		}
+		if ($position >= $this->count()) {
+			return null;
+		}
+
+		$currentItemNumber = 0;
+		foreach ($this as $item) {
+			if ($position == $currentItemNumber) {
+				break;
+			}
+			$currentItemNumber++;
+		}
+
+		return $item;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_List.php']) {

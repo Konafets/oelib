@@ -1244,5 +1244,106 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 			$this->fixture->first()
 		);
 	}
+
+
+	////////////////////////
+	// Tests concerning at
+	////////////////////////
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function atForNegativePositionThrowsException() {
+		$this->fixture->at(-1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionZeroWithEmptyListReturnsNull() {
+		$this->assertNull(
+			$this->fixture->at(0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionOneWithEmptyListReturnsNull() {
+		$this->assertNull(
+			$this->fixture->at(1)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionZeroWithOneItemListReturnsItem() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->at(0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionOneWithOneItemListReturnsNull() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$this->assertNull(
+			$this->fixture->at(1)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionZeroWithTwoItemListReturnsFirstItem() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->assertSame(
+			$model1,
+			$this->fixture->at(0)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionOneWithTwoItemListReturnsSecondItem() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->assertSame(
+			$model2,
+			$this->fixture->at(1)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function atForPositionTwoWithTwoItemListReturnsNull() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->assertNull(
+			$this->fixture->at(2)
+		);
+	}
 }
 ?>

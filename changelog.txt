@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4056] Feature: Add List::at
 - [#4055] Feature: Add a Sortable interface
 - [#4030] Feature: Add a function for calculating the distance between two geo objects
 - [#4053] Feature: Add Model::setPageUid
