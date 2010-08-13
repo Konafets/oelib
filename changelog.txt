@@ -1,3 +1,5 @@
+0.7.4 - currently working on
+
 0.7.3 - released 2010-08-13
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
 - [#3957] Change: tx_oelib_MapperRegistry should use class_exists() with autoload = TRUE instead of calling our own autoloader
