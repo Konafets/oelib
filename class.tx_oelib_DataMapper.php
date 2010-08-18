@@ -396,6 +396,13 @@ abstract class tx_oelib_DataMapper {
 		$relationUids = array();
 
 		if ($data[$key] > 0) {
+			if ($this->isModelAMemoryOnlyDummy($model)) {
+				throw new Exception(
+					'This is a memory-only dummy which must not load any ' .
+						'one-to-many relations from the database.'
+				);
+			}
+
 			$relationConfiguration = $this->getRelationConfigurationFromTca($key);
 			$foreignTable = $relationConfiguration['foreign_table'];
 			$foreignField = $relationConfiguration['foreign_field'];
