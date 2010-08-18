@@ -1,4 +1,5 @@
 0.7.4 - currently working on
+- [#4080] Fix: Memory-only models must not try to load IRRE relations from database
 
 0.7.3 - released 2010-08-13
 - [#2049] Cleanup: Drop our copy of t3lib_div::rmdir
