@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4094] Fix: Use empty configurations in the unit tests
 - [#4080] Fix: Memory-only models must not try to load IRRE relations from database
 - [#4056] Feature: Add List::at
 - [#4055] Feature: Add a Sortable interface
