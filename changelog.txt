@@ -1,4 +1,5 @@
 0.7.4 - currently working on
+- [#4094] Fix: Use empty configurations in the unit tests
 - [#4080] Fix: Memory-only models must not try to load IRRE relations from database
 
 0.7.3 - released 2010-08-13

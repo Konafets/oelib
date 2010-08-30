@@ -33,6 +33,17 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
 	public function setUp() {
+		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
+		$configurationRegistry->set('config', new tx_oelib_Configuration());
+		$configurationRegistry->set(
+			'plugin.tx_oelib._LOCAL_LANG', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_oelib._LOCAL_LANG.default', new tx_oelib_Configuration()
+		);
+		$configurationRegistry->set(
+			'plugin.tx_oelib._LOCAL_LANG.de', new tx_oelib_Configuration()
+		);
 	}
 
 	public function tearDown() {
