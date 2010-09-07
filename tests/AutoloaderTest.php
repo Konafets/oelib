@@ -25,14 +25,14 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the  class in the '' extension.
+ * Testcase for the tx_oelib_Autoloader class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
+class tx_oelib_AutoloaderTest extends tx_phpunit_testcase {
 	public function testLoadWithEmptyStringDoesNotFail() {
 		tx_oelib_Autoloader::load('');
 	}
@@ -57,7 +57,7 @@ class tx_oelib_Autoloader_testcase extends tx_phpunit_testcase {
 
 	public function testLoadWithNameOfLoadedClassReturnsTrue() {
 		$this->assertTrue(
-			tx_oelib_Autoloader::load('tx_oelib_Autoloader_testcase')
+			tx_oelib_Autoloader::load('tx_oelib_AutoloaderTest')
 		);
 	}
 

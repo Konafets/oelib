@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_oelib_ConfigurationRegistry class in the 'oelib'
+ * Testcase for the tx_oelib_ConfigurationRegistry class in the "oelib"
  * extension.
  *
  * @package TYPO3
@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_ConfigurationRegistry_testcase extends tx_phpunit_testcase {
+class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
