@@ -25,27 +25,29 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_oelib_Mapper_FrontEndUserGroup class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Mapper_BackEndUserGroup class in the "oelib"
+ * extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_FrontEndUserGroup_testcase extends tx_phpunit_testcase {
+class tx_oelib_Mapper_BackEndUserGroupTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
-	 * @var tx_oelib_Mapper_FrontEndUserGroup the object to test
+	 * @var tx_oelib_Mapper_BackEndUserGroup the object to test
 	 */
 	private $fixture;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_Mapper_FrontEndUserGroup();
+		$this->fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
 	}
 
 	public function tearDown() {
@@ -60,18 +62,18 @@ class tx_oelib_Mapper_FrontEndUserGroup_testcase extends tx_phpunit_testcase {
 	// Tests concerning the basic functions
 	/////////////////////////////////////////
 
-	public function test_Find_WithUidOfExistingRecord_ReturnsFrontEndUserGroupInstance() {
-		$uid = $this->testingFramework->createFrontEndUserGroup();
+	public function test_Find_ReturnsBackEndUserGroupInstance() {
+		$uid = $this->fixture->getNewGhost()->getUid();
 
 		$this->assertTrue(
 			$this->fixture->find($uid)
-				instanceof tx_oelib_Model_FrontEndUserGroup
+				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}
 
 	public function test_load_ForExistingUserGroup_CanLoadUserGroupData() {
 		$userGroup = $this->fixture->find(
-			$this->testingFramework->createFrontEndUserGroup(
+			$this->testingFramework->createBackEndUserGroup(
 				array('title' => 'foo')
 			)
 		);
@@ -81,6 +83,26 @@ class tx_oelib_Mapper_FrontEndUserGroup_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'foo',
 			$userGroup->getTitle()
+		);
+	}
+
+
+	///////////////////////////////////
+	// Tests concerning the relations
+	///////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function subgroupRelationIsUserGroupList() {
+		$subgroup = $this->fixture->getNewGhost();
+		$group = $this->fixture->getLoadedTestingModel(
+			array('subgroup' => $subgroup->getUid())
+		);
+
+		$this->assertTrue(
+			$this->fixture->find($group->getUid())->getSubgroups()->first()
+				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}
 }

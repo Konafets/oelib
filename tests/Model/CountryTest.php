@@ -25,14 +25,14 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the 'country model' class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Model_Country class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Model_Country_testcase extends tx_phpunit_testcase {
+class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 	public function setUp() {
 	}
 

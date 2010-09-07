@@ -25,21 +25,21 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the 'language mapper' class in the 'oelib' extension.
+ * Testcase for the tx_oelib_Mapper_Country class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Mapper_Language_testcase extends tx_phpunit_testcase {
+class tx_oelib_Mapper_CountryTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_Mapper_Language
+	 * @var tx_oelib_Mapper_Country
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mapper_Language();
+		$this->fixture = new tx_oelib_Mapper_Country();
 	}
 
 	public function tearDown() {
@@ -55,9 +55,9 @@ class tx_oelib_Mapper_Language_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function findWithUidOfExistingRecordReturnsLanguageInstance() {
+	public function findWithUidOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
-			$this->fixture->find(43) instanceof tx_oelib_Model_Language
+			$this->fixture->find(54) instanceof tx_oelib_Model_Country
 		);
 	}
 
@@ -67,7 +67,7 @@ class tx_oelib_Mapper_Language_testcase extends tx_phpunit_testcase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		$this->assertEquals(
 			'DE',
-			$this->fixture->find(43)->getIsoAlpha2Code()
+			$this->fixture->find(54)->getIsoAlpha2Code()
 		);
 	}
 
@@ -79,10 +79,10 @@ class tx_oelib_Mapper_Language_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsLanguageInstance() {
+	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
 			$this->fixture->findByIsoAlpha2Code('DE')
-				instanceof tx_oelib_Model_Language
+				instanceof tx_oelib_Model_Country
 		);
 	}
 
@@ -93,6 +93,31 @@ class tx_oelib_Mapper_Language_testcase extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'DE',
 			$this->fixture->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
+		);
+	}
+
+
+	/////////////////////////////////////////
+	// Tests regarding findByIsoAlpha3Code.
+	/////////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsCountryInstance() {
+		$this->assertTrue(
+			$this->fixture->findByIsoAlpha3Code('DEU')
+				instanceof tx_oelib_Model_Country
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
+		$this->assertEquals(
+			'DE',
+			$this->fixture->findByIsoAlpha3Code('DEU')->getIsoAlpha2Code()
 		);
 	}
 }

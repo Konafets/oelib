@@ -32,14 +32,14 @@ if (!defined('OELIB_TESTTABLE_MM')) {
 }
 
 /**
- * Testcase for the tx_oelib_db class in the 'oelib' extension.
+ * Testcase for the tx_oelib_db class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_db_testcase extends tx_phpunit_testcase {
+class tx_oelib_dbTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_testingFramework
 	 */

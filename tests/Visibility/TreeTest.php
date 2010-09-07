@@ -25,14 +25,14 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the visibility tree class of the 'oelib' extension.
+ * Testcase for the tx_oelib_Visibility_Tree class of the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_oelib_Visibility_Tree_testcase extends tx_phpunit_testcase {
+class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_Visibility_Tree
 	 */

@@ -25,23 +25,22 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_oelib_Model_BackEndUserGroup class in the 'oelib'
+ * Testcase for the tx_oelib_Model_FrontEndUserGroup class in the "oelib"
  * extension.
  *
  * @package TYPO3
  * @subpackage oelib
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
- * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_BackEndUserGroup_testcase extends tx_phpunit_testcase {
+class tx_oelib_Model_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_Model_BackEndUserGroup
+	 * @var tx_oelib_Model_FrontEndUserGroup
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_BackEndUserGroup();
+		$this->fixture = new tx_oelib_Model_FrontEndUserGroup();
 	}
 
 	public function tearDown() {
@@ -73,21 +72,25 @@ class tx_oelib_Model_BackEndUserGroup_testcase extends tx_phpunit_testcase {
 	}
 
 
-	/////////////////////////////////////
-	// Tests concerning getSubgroups
-	/////////////////////////////////////
+	//////////////////////////////////////
+	// Tests concerning getDescription()
+	//////////////////////////////////////
 
-	/**
-	 * @test
-	 */
-	public function getSubgroupsReturnsListFromSubgroupField() {
-		$groups = new tx_oelib_List();
+	public function test_GetDescription_ForNonEmptyGroupDescription_ReturnsGroupDescription() {
+		$this->fixture->setData(array('description' => 'foo'));
 
-		$this->fixture->setData(array('subgroup' => $groups));
+		$this->assertEquals(
+			'foo',
+			$this->fixture->getDescription()
+		);
+	}
 
-		$this->assertSame(
-			$groups,
-			$this->fixture->getSubgroups()
+	public function test_GetDescription_ForEmptyGroupDescription_ReturnsEmptyString() {
+		$this->fixture->setData(array('description' => ''));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getDescription()
 		);
 	}
 }
