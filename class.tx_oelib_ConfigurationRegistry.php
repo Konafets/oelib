@@ -96,10 +96,11 @@ class tx_oelib_ConfigurationRegistry {
 	}
 
 	/**
-	 * Retrieves a dataMapper by class name.
+	 * Retrieves a Configuration by namespace.
 	 *
-	 * @param string the name of a configuration namespace, e.g. "plugin.tx_oelib",
-	 *               must not be empty
+	 * @param string $namespace
+	 *        the name of a configuration namespace, e.g., "plugin.tx_oelib",
+	 *        must not be empty
 	 *
 	 * @return tx_oelib_Configuration the configuration for the given namespace
 	 *
@@ -110,10 +111,11 @@ class tx_oelib_ConfigurationRegistry {
 	}
 
 	/**
-	 * Retrieves a dataMapper by class name.
+	 * Retrieves a Configuration by namespace.
 	 *
-	 * @param string the name of a configuration namespace, e.g. "plugin.tx_oelib",
-	 *               must not be empty
+	 * @param string $namespace
+	 *        the name of a configuration namespace, e.g., "plugin.tx_oelib",
+	 *        must not be empty
 	 *
 	 * @return tx_oelib_Configuration the configuration for the given namespace
 	 */
