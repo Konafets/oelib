@@ -33,7 +33,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_tests_fixtures_TestingGeo implements tx_oelib_Interface_Geo {
+class tx_oelib_tests_fixtures_TestingGeo extends tx_oelib_Model implements tx_oelib_Interface_Geo {
 	/**
 	 * whether this object has a geo error
 	 *

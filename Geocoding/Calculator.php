@@ -84,6 +84,42 @@ class tx_oelib_Geocoding_Calculator {
 			+ cos($latitude1) * cos($latitude2) * cos($longitude2 - $longitude1)
 		) * self::EARTH_RADIUS_IN_KILOMETERS;
 	}
+
+	/**
+	 * Filters a list of geo objects by distance around another geo object.
+	 *
+	 * The returned list will only contain objects that are within $distance of
+	 * $center, including objects that are located at a distance of exactly
+	 * $distance.
+	 *
+	 * @param tx_oelib_List $unfilteredObjects
+	 *        the list to filter, may be empty
+	 * @param tx_oelib_Interface_Geo $center
+	 *        the center to which $distance related
+	 * @param float $distance
+	 *        the distance in kilometers within which the returned objects must
+	 *        be located
+	 *
+	 * @return tx_oelib_List<tx_oelib_Interface_Geo>
+	 *         a copy of $unfilteredObjects with only those objects that are
+	 *         located within $distance kilometers of $center
+	 */
+	public function filterByDistance(
+		tx_oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center,
+		$distance
+	) {
+		$objectsWithinDistance = tx_oelib_ObjectFactory::make('tx_oelib_List');
+
+		foreach ($unfilteredObjects as $object) {
+			if ($this->calculateDistanceInKilometers($center, $object)
+				<= $distance
+			) {
+				$objectsWithinDistance->add($object);
+			}
+		}
+
+		return $objectsWithinDistance;
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Calculator.php']) {

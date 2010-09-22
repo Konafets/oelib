@@ -176,5 +176,93 @@ class tx_oelib_Geocoding_CalculatorTest extends tx_phpunit_testcase {
 			$this->fixture->calculateDistanceInKilometers($cologne, $bonn)
 		);
 	}
+
+
+	//////////////////////////////////////
+	// Tests concerning filterByDistance
+	//////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function filterByDistanceKeepsElementWithinDistance() {
+		$bonn = new tx_oelib_tests_fixtures_TestingGeo();
+		$bonn->setGeoCoordinates(
+			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
+		);
+		$cologne = new tx_oelib_tests_fixtures_TestingGeo();
+		$cologne->setGeoCoordinates(
+			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
+		);
+
+		$list = new tx_oelib_List();
+		$list->add($bonn);
+
+		$filteredList = $this->fixture->filterByDistance(
+			$list, $cologne, 27.0
+		);
+
+		$this->assertEquals(
+			1,
+			$filteredList->count()
+		);
+		$this->assertSame(
+			$bonn,
+			$filteredList->first()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function filterByDistanceDropsElementOutOfDistance() {
+		$bonn = new tx_oelib_tests_fixtures_TestingGeo();
+		$bonn->setGeoCoordinates(
+			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
+		);
+		$cologne = new tx_oelib_tests_fixtures_TestingGeo();
+		$cologne->setGeoCoordinates(
+			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
+		);
+
+		$list = new tx_oelib_List();
+		$list->add($bonn);
+
+		$filteredList = $this->fixture->filterByDistance(
+			$list, $cologne, 25.0
+		);
+
+		$this->assertTrue(
+			$filteredList->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function filterByDistanceCanReturnTwoElements() {
+		$bonn = new tx_oelib_tests_fixtures_TestingGeo();
+		$bonn->setGeoCoordinates(
+			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
+		);
+		$cologne = new tx_oelib_tests_fixtures_TestingGeo();
+		$cologne->setGeoCoordinates(
+			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
+		);
+
+		$list = new tx_oelib_List();
+		$list->add($bonn);
+		$list->add($cologne);
+
+		$filteredList = $this->fixture->filterByDistance(
+			$list, $cologne, 27.0
+		);
+
+		$this->assertEquals(
+			2,
+			$filteredList->count()
+		);
+	}
+
 }
 ?>
