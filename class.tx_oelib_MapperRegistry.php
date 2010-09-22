@@ -148,7 +148,7 @@ class tx_oelib_MapperRegistry {
 
 			if ($this->testingMode) {
 				$testingClassName = $className . 'Testing';
-				if (!class_exists($testingClassName)) {
+				if (!class_exists($testingClassName, FALSE)) {
 					eval(
 						'class ' . $testingClassName . ' extends ' . $className .
 							' {' .
