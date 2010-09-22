@@ -202,6 +202,8 @@ class tx_oelib_List extends SplObjectStorage {
 			$this->detach($item);
 			$this->attach($item);
 		}
+
+		$this->markAsDirty();
 	}
 
 	/**
@@ -271,7 +273,7 @@ class tx_oelib_List extends SplObjectStorage {
 	/**
 	 * Marks the parent model as dirty.
 	 */
-	private function markAsDirty() {
+	protected function markAsDirty() {
 		if ($this->parentModel instanceof tx_oelib_Model) {
 			$this->parentModel->markAsDirty();
 		}
