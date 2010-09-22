@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4128] Change: Improve the exception text about missing subparts
 - [#4121] Feature: Add a function Geocoding_Calculator::filterByDistance
 - [#4047] Cleanup: Rename all test classes from *_testcase to *Test
 - [#4094] Fix: Use empty configurations in the unit tests

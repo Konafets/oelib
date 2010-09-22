@@ -603,7 +603,9 @@ class tx_oelib_Template {
 
 			if (!isset($this->subparts[$key])) {
 				throw new tx_oelib_Exception_NotFound(
-					'The parameter $key must be an existing subpart name.'
+					'$key contained the subpart name "' . $key . '", but only ' .
+						'the following subparts are available: (' .
+						implode(', ', array_keys($this->subparts)) . ')'
 				);
 			}
 
