@@ -729,6 +729,16 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function sortMakesListDirty() {
+		$fixture = $this->getMock('tx_oelib_List', array('markAsDirty'));
+		$fixture->expects($this->once())->method('markAsDirty');
+
+		$fixture->sort(array($this, 'sortByTitleAscending'));
+	}
+
 
 	////////////////////////////
 	// Tests concerning append

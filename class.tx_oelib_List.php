@@ -238,6 +238,8 @@ class tx_oelib_List implements Iterator {
 		if ($this->hasItemWithoutUid) {
 			$this->rebuildUidCache();
 		}
+
+		$this->markAsDirty();
 	}
 
 	/**
@@ -336,7 +338,7 @@ class tx_oelib_List implements Iterator {
 	/**
 	 * Marks the parent model as dirty.
 	 */
-	private function markAsDirty() {
+	protected function markAsDirty() {
 		if ($this->parentModel instanceof tx_oelib_Model) {
 			$this->parentModel->markAsDirty();
 		}
