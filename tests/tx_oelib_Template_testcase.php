@@ -71,13 +71,40 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSubpartWithNotExistingSubpartNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNotExistingSubpartNameThrowsException() {
 		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound', 'The parameter $key must be an existing subpart name.'
+			'tx_oelib_Exception_NotFound',
+			'$key contained the subpart name "FOOBAR", but only the following ' .
+				'subparts are available: ()'
 		);
 
 		$this->assertEquals(
 			'', $this->fixture->getSubpart('FOOBAR')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNotExistingSubpartNameThrowsExceptionWithSubpartNames() {
+		$this->setExpectedException(
+			'tx_oelib_Exception_NotFound',
+			'$key contained the subpart name "COFFEE", but only the following ' .
+				'subparts are available: (FOO, BAR)'
+		);
+
+		$this->fixture->processTemplate(
+			'<!-- ###FOO### -->' .
+				'<!-- ###FOO### -->' .
+				'<!-- ###BAR### -->' .
+				'<!-- ###BAR### -->'
+		);
+
+		$this->assertEquals(
+			'', $this->fixture->getSubpart('COFFEE')
 		);
 	}
 
@@ -3020,29 +3047,40 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('1_MY_SUBPART');
 	}
 
-	public function testGetSubpartWithLowercaseNameWithUsingLowercaseThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLowercaseNameWithUsingLowercaseThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The parameter $key must be an existing subpart name.'
+			'tx_oelib_Exception_NotFound',
+			'$key contained the subpart name "my_subpart", but only the following ' .
+				'subparts are available: ()'
+
 		);
 
 		$this->fixture->processTemplate(
-			'<!-- ###my_subpart### -->'
-				.'Some text.'
-				.'<!-- ###my_subpart### -->'
+			'<!-- ###my_subpart### -->' .
+				'Some text.' .
+				'<!-- ###my_subpart### -->'
 		);
 
 		$this->fixture->getSubpart('my_subpart');
 	}
 
-	public function testGetSubpartWithLowercaseNameWithUsingUppercaseThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLowercaseNameWithUsingUppercaseThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The parameter $key must be an existing subpart name.'
+			'tx_oelib_Exception_NotFound',
+			'$key contained the subpart name "MY_SUBPART", but only the following ' .
+				'subparts are available: ()'
 		);
 
 		$this->fixture->processTemplate(
-			'<!-- ###my_subpart### -->'
-				.'Some text.'
-				.'<!-- ###my_subpart### -->'
+			'<!-- ###my_subpart### -->' .
+				'Some text.' .
+				'<!-- ###my_subpart### -->'
 		);
 
 		$this->fixture->getSubpart('MY_SUBPART');

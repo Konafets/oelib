@@ -1,4 +1,5 @@
 0.7.4 - currently working on
+- [#4128] Change: Improve the exception text about missing subparts
 - [#4094] Fix: Use empty configurations in the unit tests
 - [#4080] Fix: Memory-only models must not try to load IRRE relations from database
 
