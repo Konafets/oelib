@@ -1,4 +1,5 @@
 0.7.4 - currently working on
+- [#3248] Fix: A model without UID should automatically be dirty after setData
 - [#4111] Fix: tx_oelib_List::sort needs to make the list dirty
 - [#4095] Fix: Wrong documentation comment for tx_oelib_ConfigurationRegistry::get
 - [#4125] Fix: Check all class_exists for the correct use of the autoload flag

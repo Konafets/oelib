@@ -169,7 +169,11 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 		}
 
 		$this->markAsLoaded();
-		$this->markAsClean();
+		if ($this->hasUid()) {
+			$this->markAsClean();
+		} else {
+			$this->markAsDirty();
+		}
 	}
 
 	/**
