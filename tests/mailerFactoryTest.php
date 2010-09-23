@@ -27,8 +27,8 @@ if (!class_exists('mail_mime', FALSE)) {
 }
 
 /**
- * Testcase for the mailer factory class and the e-mail collector class in the
- * 'oelib' extension.
+ * Testcase for the tx_oelib_mailerFactory class and the tx_oelib_emailCollector
+ * class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -36,7 +36,7 @@ if (!class_exists('mail_mime', FALSE)) {
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
+class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_emailCollector
 	 */

@@ -25,8 +25,8 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the header proxy factory class and the header collector class
- * in the 'oelib' extension.
+ * Testcase for the tx_oelib_headerProxyFactory class and the
+ * tx_oelib_headerCollector class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_headerProxyFactory_testcase extends tx_phpunit_testcase {
+class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 	/** instance of the object to test */
 	private $fixture;
 
