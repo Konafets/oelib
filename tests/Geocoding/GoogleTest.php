@@ -233,6 +233,36 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
+	public function lookUpSetsCoordinatesFromSendRequest() {
+		$geo = new tx_oelib_tests_fixtures_TestingGeo();
+		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
+
+		$fixture = $this->getMock(
+			'tx_oelib_Geocoding_Google',
+			array('sendRequest', 'throttle'),
+			array(),
+			'',
+			FALSE
+		);
+		$fixture->expects($this->any())->method('sendRequest')
+			->will($this->returnValue('200,8,50.7335500,7.1014300'));
+
+		$fixture->lookUp($geo);
+
+		$this->assertEquals(
+			array(
+				'latitude' => 50.7335500,
+				'longitude' => 7.1014300,
+			),
+			$geo->getGeoCoordinates()
+		);
+
+		$fixture->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
 	public function lookUpThrottlesRequestsByAtLeast1Dot73Seconds() {
 		$geo1 = new tx_oelib_tests_fixtures_TestingGeo();
 		$geo1->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');

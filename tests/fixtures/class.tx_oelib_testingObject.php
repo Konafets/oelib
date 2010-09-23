@@ -46,6 +46,15 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	}
 
 	/**
+	 * Sets the data of this object.
+	 *
+	 * @param array $data the data to set, may be empty
+	 */
+	public function setData(array $data) {
+		$this->data = $data;
+	}
+
+	/**
 	 * Gets the value of the data item for the key $key.
 	 *
 	 * @param string the key of the data item to get, must not be empty

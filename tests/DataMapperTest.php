@@ -382,6 +382,66 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->__destruct();
 	}
 
+	/**
+	 * @test
+	 */
+	public function loadCanReadFloatDataFromFloatColumn() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('float_data' => 12.5)
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertEquals(
+			12.5,
+			$model->getFloatFromFloatData()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function loadCanReadFloatDataFromDecimalColumn() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('decimal_data' => 12.5)
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertEquals(
+			12.5,
+			$model->getFloatFromDecimalData()
+		);
+
+		$model->__destruct();
+	}
+
+	/**
+	 * @test
+	 */
+	public function loadCanReadFloatDataFromStringColumn() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('string_data' => 12.5)
+		);
+
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setUid($uid);
+		$this->fixture->load($model);
+
+		$this->assertEquals(
+			12.5,
+			$model->getFloatFromStringData()
+		);
+
+		$model->__destruct();
+	}
+
 
 	//////////////////////////////////////
 	// Tests concerning the model states
@@ -1956,6 +2016,54 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			array('title' => 'foo')
 		);
 		$this->fixture->save($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveCanSaveFloatDataToFloatColumn() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData(array('float_data' => 9.5));
+		$this->fixture->save($model);
+
+		$this->assertEquals(
+			array('float_data' => 9.5),
+			tx_oelib_db::selectSingle(
+				'float_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveCanSaveFloatDataToDecimalColumn() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData(array('decimal_data' => 9.5));
+		$this->fixture->save($model);
+
+		$this->assertEquals(
+			array('decimal_data' => 9.5),
+			tx_oelib_db::selectSingle(
+				'decimal_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveCanSaveFloatDataToStringColumn() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$model->setData(array('string_data' => 9.5));
+		$this->fixture->save($model);
+
+		$this->assertEquals(
+			array('string_data' => '9.5'),
+			tx_oelib_db::selectSingle(
+				'string_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
+			)
+		);
 	}
 
 

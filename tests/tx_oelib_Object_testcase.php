@@ -414,39 +414,66 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 			'Exception', '$key must not be empty.'
 		);
 
-		$this->fixture->setAsFloat('', 42.00);
+		$this->fixture->setAsFloat('', 42.5);
 	}
 
 	public function testGetAsFloatWithInexistentKeyReturnsZero() {
 		$this->assertEquals(
-			0.00,
+			0.0,
 			$this->fixture->getAsFloat('foo')
 		);
 	}
 
-	public function testGetAsFloatReturnsPositiveFloatSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', 42.00);
+	/**
+	 * @test
+	 */
+	public function getAsFloatCanReturnPositiveFloatFromFloat() {
+		$this->fixture->setData(array('foo' => 42.5));
 
 		$this->assertEquals(
-			42.00,
+			42.5,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsFloatReturnsPositiveFloatSetViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', 42.5);
+
+		$this->assertEquals(
+			42.5,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAsFloatReturnsPositiveFloatSetAsStringViaSetAsFloat() {
+		$this->fixture->setAsFloat('foo', '42.5');
+
+		$this->assertEquals(
+			42.5,
 			$this->fixture->getAsFloat('foo')
 		);
 	}
 
 	public function testGetAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', -42.00);
+		$this->fixture->setAsFloat('foo', -42.5);
 
 		$this->assertEquals(
-			-42.00,
+			-42.5,
 			$this->fixture->getAsFloat('foo')
 		);
 	}
 
 	public function testGetAsFloatReturnsZeroSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', 0.00);
+		$this->fixture->setAsFloat('foo', 0.5);
 
 		$this->assertEquals(
-			0.00,
+			0.5,
 			$this->fixture->getAsFloat('foo')
 		);
 	}
@@ -455,10 +482,23 @@ class tx_oelib_Object_testcase extends tx_phpunit_testcase {
 		$this->fixture->setAsFloat('foo', 'bar');
 
 		$this->assertEquals(
-			0.00,
+			0.0,
 			$this->fixture->getAsFloat('foo')
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getAsFloatCanReturnPositiveFloatFromString() {
+		$this->fixture->setData(array('foo' => '42.5'));
+
+		$this->assertEquals(
+			42.5,
+			$this->fixture->getAsFloat('foo')
+		);
+	}
+
 
 
 	/////////////////////////////////////////////////
