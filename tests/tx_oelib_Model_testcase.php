@@ -546,10 +546,47 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyAfterSetDataReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSetDataWithUidAndOtherDataReturnsFalse() {
+		$this->fixture->setData(array('uid' => 42, 'title' => 'foo'));
+
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSetDataOnlyWithUidReturnsFalse() {
+		$this->fixture->setData(array('uid' => 42, 'title' => 'foo'));
+
+		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSetDataForAModelAlreadyHavingAUidReturnsFalse() {
+		$this->fixture->setUid(42);
 		$this->fixture->setData(array('title' => 'foo'));
 
 		$this->assertFalse(
+			$this->fixture->isDirty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSetDataWithoutUidReturnsTrue() {
+		$this->fixture->setData(array('title' => 'foo'));
+
+		$this->assertTrue(
 			$this->fixture->isDirty()
 		);
 	}
