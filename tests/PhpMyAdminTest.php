@@ -23,14 +23,14 @@
 ***************************************************************/
 
 /**
- * Testcase for the checking of the installation of phpMyAdmin
+ * Testcase for the checking of the installation of phpMyAdmin.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_oelib_phpmyadmin_testcase extends tx_phpunit_testcase {
+class tx_oelib_PhpMyAdminTest extends tx_phpunit_testcase {
 	public function setUp() {}
 
 	public function tearDown() {}

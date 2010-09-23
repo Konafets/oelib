@@ -32,7 +32,7 @@ if (!defined('OELIB_TESTTABLE_MM')) {
 }
 
 /**
- * Testcase for the testing framework in the 'oelib' extension.
+ * Testcase for the tx_oelib_testingFramework class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -42,7 +42,7 @@ if (!defined('OELIB_TESTTABLE_MM')) {
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
+class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	/** @var tx_oelib_testingFramework */
 	private $fixture;
 

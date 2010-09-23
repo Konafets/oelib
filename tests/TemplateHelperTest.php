@@ -25,7 +25,7 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the template helper class in the 'oelib' extension.
+ * Testcase for the tx_oelib_templatehelper class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -33,7 +33,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
+class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	/**
 	 * @var tx_oelib_templatehelperchild
 	 */

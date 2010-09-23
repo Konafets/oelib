@@ -25,13 +25,13 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
 
 /**
- * Testcase for the tx_oelib_TranslatorRegistry class in the 'oelib' extension.
+ * Testcase for the tx_oelib_TranslatorRegistry class in the "oelib" extension.
  *
  * @package TYPO3
  * @subpackage oelib
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_TranslatorRegistry_testcase extends tx_phpunit_testcase {
+class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	public function setUp() {
 		$configurationRegistry = tx_oelib_ConfigurationRegistry::getInstance();
 		$configurationRegistry->set('config', new tx_oelib_Configuration());
