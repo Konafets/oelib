@@ -21,6 +21,9 @@ CREATE TABLE tx_oelib_test (
 	related_records int(11) unsigned DEFAULT '0' NOT NULL,
 	bidirectional int(11) unsigned DEFAULT '0' NOT NULL,
 	composition int(11) unsigned DEFAULT '0' NOT NULL,
+	float_data float(9,6) DEFAULT '0.000000' NOT NULL,
+	decimal_data decimal(10,3) DEFAULT '0.000' NOT NULL,
+	string_data tinytext,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),

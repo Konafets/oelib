@@ -194,5 +194,32 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	public function markAsDummyModel() {
 		$this->set('is_dummy_record', TRUE);
 	}
+
+	/**
+	 * Gets the data from the "float_data" column.
+	 *
+	 * @return float the data from the "float_data" column
+	 */
+	public function getFloatFromFloatData() {
+		return $this->getAsFloat('float_data');
+	}
+
+	/**
+	 * Gets the data from the "decimal_data" column.
+	 *
+	 * @return float the data from the "decimal_data" column
+	 */
+	public function getFloatFromDecimalData() {
+		return $this->getAsFloat('decimal_data');
+	}
+
+	/**
+	 * Gets the data from the "string_data" column.
+	 *
+	 * @return float the data from the "string_data" column
+	 */
+	public function getFloatFromStringData() {
+		return $this->getAsFloat('string_data');
+	}
 }
 ?>

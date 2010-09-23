@@ -1365,7 +1365,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * Sets the PHP locale (as set in config.locale_all).
+	 * Sets the PHP LC_ALL locale (as set in config.locale_all).
+	 *
+	 * Note: Using this function affects string/float conversion. It is highly
+	 * recommend to not use this function anymore.
+	 *
+	 * @deprecated 2010-09-23
 	 */
 	protected function setLocaleConvention() {
 		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
