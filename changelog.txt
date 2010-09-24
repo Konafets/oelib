@@ -1,4 +1,4 @@
-0.7.4 - currently working on
+0.7.4 - released 2010-09-24
 - [#4129] Fix: Decimals of geo coordinates are cut off in the DB
 - [#3248] Fix: A model without UID should automatically be dirty after setData
 - [#4111] Fix: tx_oelib_List::sort needs to make the list dirty
