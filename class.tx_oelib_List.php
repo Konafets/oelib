@@ -271,6 +271,8 @@ class tx_oelib_List implements Iterator {
 	 */
 	public function sort($callbackFunction) {
 		usort($this->items, $callbackFunction);
+
+		$this->markAsDirty();
 	}
 
 	/**
