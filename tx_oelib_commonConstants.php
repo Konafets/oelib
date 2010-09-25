@@ -22,6 +22,12 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
+/**
+ * These constants will be removed in oelib 0.9.0.
+ *
+ * @deprecated 2010-09-25
+ */
+
 // the UTF-8 representation of an en dash
 define('UTF8_EN_DASH', chr(0xE2).chr(0x80).chr(0x93));
 // a tabulator
