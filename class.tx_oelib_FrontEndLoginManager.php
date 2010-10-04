@@ -40,6 +40,13 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	private static $instance = null;
 
 	/**
+	 * the simulated logged-in user
+	 *
+	 * @var tx_oelib_Model_FrontEndUser
+	 */
+	private $loggedInUser = NULL;
+
+	/**
 	 * The constructor. Use getInstance() instead.
 	 */
 	private function __construct() {
@@ -83,8 +90,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *                 in, FALSE otherwise
 	 */
 	public function isLoggedIn() {
-		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
+		$isSimulatedLoggedIn = ($this->loggedInUser !== NULL);
+		$isReallyLoggedIn = isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
 			is_array($GLOBALS['TSFE']->fe_user->user);
+
+		return ($isSimulatedLoggedIn || $isReallyLoggedIn);
 	}
 
 	/**
@@ -104,11 +114,30 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 			throw new Exception('$mapperName must not be empty.');
 		}
 		if (!$this->isLoggedIn()) {
-			return null;
+			return NULL;
 		}
 
-		return tx_oelib_MapperRegistry::get($mapperName)
-			->find($GLOBALS['TSFE']->fe_user->user['uid']);
+		if ($this->loggedInUser !== NULL) {
+			$user = $this->loggedInUser;
+		} else {
+			$user = tx_oelib_MapperRegistry::get($mapperName)
+				->find($GLOBALS['TSFE']->fe_user->user['uid']);
+		}
+
+		return $user;
+	}
+
+	/**
+	 * Simulates a login of the user $user.
+	 *
+	 * This function is intended to be used for unit test only. Don't use it
+	 * in the production code.
+	 *
+	 * @param tx_oelib_Model_FrontEndUser $user
+	 *        the user to log in, set to NULL for no logged-in user
+	 */
+	public function logInUser(tx_oelib_Model_FrontEndUser $user = NULL) {
+		$this->loggedInUser = $user;
 	}
 }
 
