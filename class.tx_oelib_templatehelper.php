@@ -1201,18 +1201,6 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	}
 
 	/**
-	 * If a user is logged in, retrieves that user's data as stored in the
-	 * table "feusers" and stores it in $this->feuser.
-	 *
-	 * If no user is logged in, $this->feuser will be null.
-	 */
-	private function retrieveFeUser() {
-		$this->feuser
-			= tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
-				? $GLOBALS['TSFE']->fe_user->user : null;
-	}
-
-	/**
 	 * Returns the UID of the currently logged-in FE user
 	 * or 0 if no FE user is logged in.
 	 *
@@ -1220,13 +1208,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                 logged in
 	 */
 	public function getFeUserUid() {
-		// If we don't have the FE user's UID (yet), try to retrieve it.
-		if (!$this->feuser) {
-			$this->retrieveFeUser();
+		$loginManager = tx_oelib_FrontEndLoginManager::getInstance();
+		if (!$loginManager->isLoggedIn()) {
+			return 0;
 		}
 
-		return (tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
-			? intval($this->feuser['uid']) : 0);
+		return $loginManager->getLoggedInUser()->getUid();
 	}
 
 	/**

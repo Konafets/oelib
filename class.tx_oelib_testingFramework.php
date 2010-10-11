@@ -1340,6 +1340,8 @@ final class tx_oelib_testingFramework {
 
 		$GLOBALS['TSFE']->fe_user->logoff();
 		$GLOBALS['TSFE']->loginUser = 0;
+
+		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
 
 	/**
@@ -1356,7 +1358,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		return is_array($GLOBALS['TSFE']->fe_user->user);
+		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
 	}
 
 

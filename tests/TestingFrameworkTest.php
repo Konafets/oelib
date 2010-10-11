@@ -3784,6 +3784,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserSwitchesLoginManagerToLoggedIn() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUserId = $this->fixture->createFrontEndUser();
+		$this->fixture->loginFrontEndUser($feUserId);
+
+		$this->assertTrue(
+			tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+		);
+	}
+
 	public function testLoginFrontEndUserSetsLoginUserToOne() {
 		$this->fixture->createFakeFrontEnd();
 
@@ -3852,6 +3866,21 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->assertFalse(
 			$this->fixture->isLoggedIn()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserAfterLoginSwitchesLoginManagerToNotLoggedIn() {
+		$this->fixture->createFakeFrontEnd();
+
+		$feUserId = $this->fixture->createFrontEndUser();
+		$this->fixture->loginFrontEndUser($feUserId);
+		$this->fixture->logoutFrontEndUser();
+
+		$this->assertFalse(
+			tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 		);
 	}
 
