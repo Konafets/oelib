@@ -1163,5 +1163,56 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->fixture->hasCountry()
 		);
 	}
+
+
+	///////////////////////////////////
+	// Tests concerning the job title
+	///////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function hasJobTitleForEmptyJobTitleReturnsFalse() {
+		$this->fixture->setData(array('title' => ''));
+
+		$this->assertFalse(
+			$this->fixture->hasJobTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function hasJobTitleForNonEmptyJobTitleReturnsTrue() {
+		$this->fixture->setData(array('title' => 'facility manager'));
+
+		$this->assertTrue(
+			$this->fixture->hasJobTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getJobTitleForEmptyJobTitleReturnsEmptyString() {
+		$this->fixture->setData(array('title' => ''));
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getJobTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getJobTitleForNonEmptyJobTitleReturnsJobTitle() {
+		$this->fixture->setData(array('title' => 'facility manager'));
+
+		$this->assertEquals(
+			'facility manager',
+			$this->fixture->getJobTitle()
+		);
+	}
 }
 ?>

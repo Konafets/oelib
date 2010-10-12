@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4160] Feature: Add Model_FrontEndUser::getJobTitle and ::hasJobTitle
 - [#2628] Feature: Add a function frontEndLoginManager::loginUser
 - [#4132] Feature: Add a class with time constants
 - [#4129] Fix: Decimals of geo coordinates are cut off in the DB

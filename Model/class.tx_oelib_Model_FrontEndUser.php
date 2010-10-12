@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_FrontEndUser' for the 'oelib' extension.
+ * Class tx_oelib_Model_FrontEndUser for the "oelib" extension.
  *
  * This class represents a front-end user.
  *
@@ -499,6 +499,24 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 */
 	public function hasCountry() {
 		return ($this->getCountry() instanceof tx_oelib_Model_Country);
+	}
+
+	/**
+	 * Gets this user's job title.
+	 *
+	 * @return string this user's job title, may be empty
+	 */
+	public function getJobTitle() {
+		return $this->getAsString('title');
+	}
+
+	/**
+	 * Checks whether this user has a non-empty job title set.
+	 *
+	 * @return boolean TRUE if this user has an job title set, FALSE otherwise
+	 */
+	public function hasJobTitle() {
+		return $this->hasString('title');
 	}
 }
 
