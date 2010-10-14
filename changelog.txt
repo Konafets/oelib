@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4167] Feature: Add Mapper_FrontEndUser::findByUserName
 - [#4161] Feature: Add some getters and setters to the FE user model
 - [#4160] Feature: Add Model_FrontEndUser::getJobTitle and ::hasJobTitle
 - [#2628] Feature: Add a function frontEndLoginManager::loginUser

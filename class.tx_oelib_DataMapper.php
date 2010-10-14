@@ -1155,7 +1155,7 @@ abstract class tx_oelib_DataMapper {
 	 */
 	protected function findOneByKeyFromCache($key, $value) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.');
 		}
 		if (!isset($this->cacheByKey[$key])) {
 			throw new Exception(

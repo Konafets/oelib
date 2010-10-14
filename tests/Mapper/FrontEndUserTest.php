@@ -280,5 +280,95 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->fixture->getGroupMembers($userGroups)->count()
 		);
 	}
+
+
+	////////////////////////////////////
+	// Tests concerning findByUserName
+	////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameForEmptyUserNameThrowsException() {
+		$this->setExpectedException('Exception', '$value must not be empty.');
+
+		$this->fixture->findByUserName('');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithNameOfExistingUserReturnsFrontEndUserInstance() {
+		$this->testingFramework->createFrontEndUser(
+			'', array('username' => 'foo')
+		);
+
+		$this->assertTrue(
+			$this->fixture->findByUserName('foo')
+				instanceof tx_oelib_Model_FrontEndUser
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createFrontEndUser(
+				'', array('username' => 'foo')
+			),
+			$this->fixture->findByUserName('foo')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createFrontEndUser(
+				'', array('username' => 'foo')
+			),
+			$this->fixture->findByUserName('FOO')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createFrontEndUser(
+				'', array('username' => 'FOO')
+			),
+			$this->fixture->findByUserName('FOO')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+		$this->assertEquals(
+			$this->testingFramework->createFrontEndUser(
+				'', array('username' => 'FOO')
+			),
+			$this->fixture->findByUserName('foo')->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findByUserNameWithNameOfNonExistentUserThrowsException() {
+		$this->testingFramework->createFrontEndUser(
+			'',
+			array('username' => 'foo', 'deleted' => 1)
+		);
+
+		$this->fixture->findByUserName('foo');
+	}
 }
 ?>

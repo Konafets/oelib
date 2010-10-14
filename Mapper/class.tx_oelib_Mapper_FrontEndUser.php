@@ -57,6 +57,23 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	protected $additionalKeys = array('username');
 
 	/**
+	 * Finds a front-end user by user name. Hidden user records will be
+	 * retrieved as well.
+	 *
+	 * @throws tx_oelib_Exception_NotFound
+	 *         if there is no front-end user with the provided user name in the
+	 *         database
+	 *
+	 * @param string $userName user name, case-insensitive, must not be empty
+	 *
+	 * @return tx_oelib_Model_FrontEndUser
+	 *         model of the front-end user with the provided user name
+	 */
+	public function findByUserName($userName) {
+		return $this->findOneByKey('username', $userName);
+	}
+
+	/**
 	 * Returns the users which are in the groups with the given UIDs.
 	 *
 	 * @param string the UIDs of the user groups from which to get the users,

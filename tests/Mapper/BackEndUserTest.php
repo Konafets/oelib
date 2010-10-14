@@ -83,7 +83,7 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	////////////////////////////////////
 
 	public function testFindByUserNameForEmptyUserNameThrowsException() {
-		$this->setExpectedException(Exception, '$value must not be empty.');
+		$this->setExpectedException('Exception', '$value must not be empty.');
 
 		$this->fixture->findByUserName('');
 	}
@@ -125,16 +125,17 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindByUserNameWithNameOfNonExistentUserThrowsException() {
-		$this->setExpectedException('tx_oelib_Exception_NotFound');
-
+	/**
+	 * @test
+	 *
+ 	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findByUserNameWithNameOfNonExistentUserThrowsException() {
 		$this->testingFramework->createBackEndUser(
 			array('username' => 'foo', 'deleted' => 1)
 		);
 
-		$this->assertNull(
-			$this->fixture->findByUserName('foo')
-		);
+		$this->fixture->findByUserName('foo');
 	}
 
 

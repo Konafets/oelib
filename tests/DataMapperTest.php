@@ -2504,7 +2504,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyFromCacheForEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException', '$key must not be empty.'
 		);
 
 		$this->fixture->findOneByKeyFromCache('', 'bar');
