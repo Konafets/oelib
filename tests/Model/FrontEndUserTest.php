@@ -151,9 +151,9 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	}
 
 
-	//////////////////////////////////////
-	// Tests concerning getting the name
-	//////////////////////////////////////
+	//////////////////////////////
+	// Tests concerning the name
+	//////////////////////////////
 
 	public function testHasNameForEmptyNameLastNameAndFirstNameReturnsFalse() {
 		$this->fixture->setData(array(
@@ -298,6 +298,18 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'johndoe',
+			$this->fixture->getName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setNameSetsFullName() {
+		$this->fixture->setName('Alfred E. Neumann');
+
+		$this->assertEquals(
+			'Alfred E. Neumann',
 			$this->fixture->getName()
 		);
 	}

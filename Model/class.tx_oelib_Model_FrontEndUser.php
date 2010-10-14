@@ -130,6 +130,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
+	 * Sets the full name.
+	 *
+	 * @param string $name the name to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setname($name) {
+		$this->setAsString('name', $name);
+	}
+
+	/**
 	 * Gets this user's company.
 	 *
 	 * @return string this user's company, may be empty
