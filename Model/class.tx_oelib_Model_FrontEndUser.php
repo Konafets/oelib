@@ -51,12 +51,51 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	const GENDER_UNKNOWN = 2;
 
 	/**
-	 * Gets this user's user name.
+	 * Gets this user's user name (login name).
 	 *
 	 * @return string this user's user name, will not be empty for valid users
 	 */
 	public function getUserName() {
 		return $this->getAsString('username');
+	}
+
+	/**
+	 * Sets this user's user name (login name).
+	 *
+	 * @param string $userName the user name to set, must not be empty
+	 *
+	 * @return void
+	 */
+	public function setUserName($userName) {
+		if ($userName == '') {
+			throw new InvalidArgumentException('$userName must not be empty.');
+		}
+
+		$this->setAsString('username', $userName);
+	}
+
+	/**
+	 * Gets the password.
+	 *
+	 * @return string the password, might be empty
+	 */
+	public function getPassword() {
+		return $this->getAsString('password');
+	}
+
+	/**
+	 * Sets the password.
+	 *
+	 * @param string $password the password to set, must not be empty
+	 *
+	 * @return void
+	 */
+	public function setPassword($password) {
+		if ($password == '') {
+			throw new InvalidArgumentException('$password must not be empty.');
+		}
+
+		$this->setAsString('password', $password);
 	}
 
 	/**
@@ -214,6 +253,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
+	 * Sets the e-mail address.
+	 *
+	 * @param string $eMailAddress the e-mail address to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setEMailAddress($eMailAddress) {
+		$this->setAsString('email', $eMailAddress);
+	}
+
+	/**
 	 * Gets this user's homepage URL (not linked yet).
 	 *
 	 * @return string this user's homepage URL, may be empty
@@ -267,6 +317,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 */
 	public function getUserGroups() {
 		return $this->getAsList('usergroup');
+	}
+
+	/**
+	 * Sets this user's direct user groups.
+	 *
+	 * @param tx_oelib_List $userGroups the user groups to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setuserGroups(tx_oelib_List $userGroups) {
+		$this->set('usergroup', $userGroups);
 	}
 
 	/**
@@ -334,6 +395,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
+	 * Sets the first name.
+	 *
+	 * @param string $firstName the first name to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setFirstName($firstName) {
+		$this->setAsString('first_name', $firstName);
+	}
+
+	/**
 	 * Checks whether this user has a last name.
 	 *
 	 * @return boolean TRUE if the user has a last name, FALSE otherwise
@@ -350,6 +422,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 */
 	public function getLastName() {
 		return $this->getAsString('last_name');
+	}
+
+	/**
+	 * Sets the last name.
+	 *
+	 * @param string $lastName the last name to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setLastName($lastName) {
+		$this->setAsString('last_name', $lastName);
 	}
 
 	/**
@@ -517,6 +600,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 */
 	public function hasJobTitle() {
 		return $this->hasString('title');
+	}
+
+	/**
+	 * Sets this user's job title.
+	 *
+	 * @param string $jobTitle the job title to set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setJobTitle($jobTitle) {
+		$this->setAsString('title', $jobTitle);
 	}
 }
 

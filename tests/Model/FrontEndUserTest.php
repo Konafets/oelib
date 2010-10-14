@@ -57,9 +57,9 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	}
 
 
-	///////////////////////////////////////////
-	// Tests concerning getting the user name
-	///////////////////////////////////////////
+	///////////////////////////////////
+	// Tests concerning the user name
+	///////////////////////////////////
 
 	public function testGetUserNameForEmptyUserNameReturnsEmptyString() {
 		$this->fixture->setData(array('username' => ''));
@@ -77,6 +77,77 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'johndoe',
 			$this->fixture->getUserName()
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUserNameSetsUserName() {
+		$this->fixture->setUserName('foo_bar');
+
+		$this->assertEquals(
+			'foo_bar',
+			$this->fixture->getUserName()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function setUserNameWithEmptyUserNameThrowsException() {
+		$this->fixture->setUserName('');
+	}
+
+
+	//////////////////////////////////
+	// Tests concerning the password
+	//////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getPasswordInitiallyReturnsEmptyString() {
+		$this->fixture->setData(array());
+
+		$this->assertEquals(
+			'',
+			$this->fixture->getPassword()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getPasswordReturnsPassword() {
+		$this->fixture->setData(array('password' => 'kasfdjklsdajk'));
+
+		$this->assertEquals(
+			'kasfdjklsdajk',
+			$this->fixture->getPassword()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setPasswordSetsPassword() {
+		$this->fixture->setPassword('kljvasgd24vsga354');
+
+		$this->assertEquals(
+			'kljvasgd24vsga354',
+			$this->fixture->getPassword()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function setPasswordWithEmptyPasswordThrowsException() {
+		$this->fixture->setPassword('');
 	}
 
 
@@ -486,9 +557,9 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	}
 
 
-	////////////////////////////////////////////////
-	// Tests concerning getting the e-mail address
-	////////////////////////////////////////////////
+	////////////////////////////////////////
+	// Tests concerning the e-mail address
+	////////////////////////////////////////
 
 	public function testHasEMailAddressForEmptyEMailReturnsFalse() {
 		$this->fixture->setData(array('email' => ''));
@@ -520,6 +591,18 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'john@doe.com',
+			$this->fixture->getEMailAddress()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setEMailAddressSetsEMailAddress() {
+		$this->fixture->setEMailAddress('john@example.com');
+
+		$this->assertEquals(
+			'john@example.com',
 			$this->fixture->getEMailAddress()
 		);
 	}
@@ -790,6 +873,18 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setFirstNameSetsFirstName() {
+		$this->fixture->setFirstName('John');
+
+		$this->assertEquals(
+			'John',
+			$this->fixture->getFirstName()
+		);
+	}
+
 	public function test_getFirstOrFullName_ForUserWithFirstName_ReturnsFirstName() {
 		$this->fixture->setData(
 			array('first_name' => 'foo', 'name' => 'foo bar')
@@ -845,6 +940,18 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$this->assertEquals(
 			'bar',
+			$this->fixture->getLastName()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setLastNameSetsLastName() {
+		$this->fixture->setLastName('Jacuzzi');
+
+		$this->assertEquals(
+			'Jacuzzi',
 			$this->fixture->getLastName()
 		);
 	}
@@ -1212,6 +1319,51 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->assertEquals(
 			'facility manager',
 			$this->fixture->getJobTitle()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setJobTitleSetsJobTitle() {
+		$this->fixture->setJobTitle('foo bar');
+
+		$this->assertEquals(
+			'foo bar',
+			$this->fixture->getJobTitle()
+		);
+	}
+
+
+	/////////////////////////////////////
+	// Tests concerning the user groups
+	/////////////////////////////////////
+
+	/**
+	 * @test
+	 */
+	public function getUserGroupsForReturnsUserGroups() {
+		$userGroups = new tx_oelib_List();
+
+		$this->fixture->setData(array('usergroup' => $userGroups));
+
+		$this->assertSame(
+			$userGroups,
+			$this->fixture->getUserGroups()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUserGroupsSetsUserGroups() {
+		$userGroups = new tx_oelib_List();
+
+		$this->fixture->setUserGroups($userGroups);
+
+		$this->assertSame(
+			$userGroups,
+			$this->fixture->getUserGroups()
 		);
 	}
 }
