@@ -829,7 +829,7 @@ abstract class tx_oelib_DataMapper {
 	) {
 		$data = $model->getData();
 
-		foreach ($this->relations as $key => $relation) {
+		foreach (array_keys($this->relations) as $key) {
 			if (
 				$this->isManyToManyRelationConfigured($key)
 				&& ($data[$key] instanceof tx_oelib_List)

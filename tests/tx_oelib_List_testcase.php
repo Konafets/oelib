@@ -550,7 +550,7 @@ class tx_oelib_List_testcase extends tx_phpunit_testcase {
 		$this->fixture->next();
 		$this->fixture->rewind();
 
-		foreach ($this->fixture as $key => $value);
+		foreach ($this->fixture as $value);
 	}
 
 
