@@ -226,8 +226,8 @@ class tx_oelib_Timer {
 	public function destroyAllBuckets() {
 		$this->stopTimer();
 
-		foreach ($this->buckets as $bucketKey => $bucket) {
-			unset($this->buckets[$bucketKey]);
+		foreach (array_keys($this->buckets) as $key) {
+			unset($this->buckets[$key]);
 		}
 	}
 

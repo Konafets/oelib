@@ -1670,12 +1670,9 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 		$model->setTitle('bar');
 
-		$composition = $model->getComposition();
-		$mapper = tx_oelib_MapperRegistry::
-			get('tx_oelib_tests_fixtures_TestingChildMapper');
 		$component = new tx_oelib_tests_fixtures_TestingChildModel();
 		$component->markAsDummyModel();
-		$composition->add($component);
+		$model->getComposition()->add($component);
 
 		$this->fixture->save($model);
 
@@ -1697,12 +1694,9 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 		$model->setTitle('bar');
 
-		$composition = $model->getComposition2();
-		$mapper = tx_oelib_MapperRegistry::
-			get('tx_oelib_tests_fixtures_TestingChildMapper');
 		$component = new tx_oelib_tests_fixtures_TestingChildModel();
 		$component->markAsDummyModel();
-		$composition->add($component);
+		$model->getComposition2()->add($component);
 
 		$this->fixture->save($model);
 

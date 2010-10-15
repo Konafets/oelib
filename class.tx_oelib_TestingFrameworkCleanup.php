@@ -35,10 +35,8 @@
 class tx_oelib_TestingFrameworkCleanup {
 	/**
 	 * Cleans up oelib after running a test.
-	 *
-	 * @param $testingFramework the current testing framework instance
 	 */
-	public function cleanUp(tx_oelib_testingFramework $testingFramework) {
+	public function cleanUp() {
 		tx_oelib_configurationProxy::purgeInstances();
 		tx_oelib_BackEndLoginManager::purgeInstance();
 		tx_oelib_ConfigurationRegistry::purgeInstance();
