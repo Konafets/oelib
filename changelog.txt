@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4154] Feature: Add List::inRange
 - [#4169] Fix: Drop unused code and some unused variables
 - [#4168] Feature: Add Model_FrontEndUser::setName
 - [#4167] Feature: Add Mapper_FrontEndUser::findByUserName

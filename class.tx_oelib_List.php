@@ -309,32 +309,56 @@ class tx_oelib_List extends SplObjectStorage {
 	}
 
 	/**
+	 * Returns $length elements from this list starting at position $start.
+	 *
+	 * If $start after this list's end, this function will return an empty list.
+	 *
+	 * If this list's end lies within the requested range, all elements up to
+	 * the list's end will be returned.
+	 *
+	 * @param integer $start the zero-based start position, must be >= 0
+	 * @param integer $length the number of elements to return, must be >= 0
+	 *
+	 * @return tx_oelib_List<tx_oelib_Model>
+	 *         the selected elements starting at $start
+	 */
+	public function inRange($start, $length) {
+		if ($start < 0) {
+			throw new InvalidArgumentException('$start must be >= 0.');
+		}
+		if ($length < 0) {
+			throw new InvalidArgumentException('$length must be >= 0.');
+		}
+
+		$result = tx_oelib_ObjectFactory::make('tx_oelib_List');
+
+		$lastPosition = $start + $length - 1;
+		$currentIndex = 0;
+		foreach ($this as $item) {
+			if ($currentIndex > $lastPosition) {
+				 break;
+			}
+			if ($currentIndex >= $start) {
+				 $result->add($item);
+			}
+			$currentIndex++;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Returns the model at position $position.
 	 *
 	 * @param integer $position
 	 *        the zero-based position of the model to retrieve, must be >= 0
 	 *
 	 * @return tx_oelib_Model
-	 *         the model at position $position, will be null if there are not
+	 *         the model at position $position, will be NULL if there are not
 	 *         at least ($position + 1) models in this list
 	 */
 	public function at($position) {
-		if ($position < 0) {
-			throw new InvalidArgumentException('$position must be >= 0.');
-		}
-		if ($position >= $this->count()) {
-			return null;
-		}
-
-		$currentItemNumber = 0;
-		foreach ($this as $item) {
-			if ($position == $currentItemNumber) {
-				break;
-			}
-			$currentItemNumber++;
-		}
-
-		return $item;
+		return $this->inRange($position, 1)->first();
 	}
 }
 

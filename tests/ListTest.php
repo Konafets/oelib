@@ -1304,8 +1304,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function atForPositionOneWithOneItemListReturnsNull() {
-		$model = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
 
 		$this->assertNull(
 			$this->fixture->at(1)
@@ -1318,8 +1317,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function atForPositionZeroWithTwoItemListReturnsFirstItem() {
 		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model1);
-		$model2 = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
 
 		$this->assertSame(
 			$model1,
@@ -1331,8 +1329,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function atForPositionOneWithTwoItemListReturnsSecondItem() {
-		$model1 = new tx_oelib_tests_fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
 		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model2);
 
@@ -1346,13 +1343,130 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function atForPositionTwoWithTwoItemListReturnsNull() {
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+
+		$this->assertNull(
+			$this->fixture->at(2)
+		);
+	}
+
+
+	/////////////////////////////
+	// Tests concerning inRange
+	/////////////////////////////
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function inRangeWithNegativeStartThrowsException() {
+		$this->fixture->inRange(-1, 1);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function inRangeWithNegativeLengthThrowsException() {
+		$this->fixture->inRange(1, -1);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeWithZeroLengthReturnsEmptyList() {
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+
+		$this->assertTrue(
+			$this->fixture->inRange(1, 0)->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeCanReturnOneElementFromStartOfList() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+
+		$result = $this->fixture->inRange(0, 1);
+		$this->assertEquals(
+			1,
+			$result->count()
+		);
+		$this->assertSame(
+			$model,
+			$result->first()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeCanReturnOneElementAfterStartOfList() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+		$this->fixture->add($model);
+
+		$result = $this->fixture->inRange(1, 1);
+		$this->assertEquals(
+			1,
+			$result->count()
+		);
+		$this->assertSame(
+			$model,
+			$result->first()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeCanReturnTwoElementsFromStartOfList() {
 		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model1);
 		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model2);
 
-		$this->assertNull(
-			$this->fixture->at(2)
+		$this->assertEquals(
+			2,
+			$this->fixture->inRange(0, 2)->count()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeWithStartAfterListEndReturnsEmptyList() {
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+
+		$this->assertTrue(
+			$this->fixture->inRange(1, 1)->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function inRangeWithRangeCrossingListEndReturnsElementUpToListEnd() {
+		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$result = $this->fixture->inRange(1, 2);
+
+		$this->assertEquals(
+			1,
+			$result->count()
+		);
+		$this->assertSame(
+			$model,
+			$result->first()
 		);
 	}
 }
