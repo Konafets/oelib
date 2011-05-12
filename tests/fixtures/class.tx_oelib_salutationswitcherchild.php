@@ -47,7 +47,7 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	public function __construct(array $configuration) {
 		// Calls the base classe's constructor manually as this isn't done
 		// automatically.
-		parent::tslib_pibase();
+		parent::__construct();
 
 		$this->conf = $configuration;
 

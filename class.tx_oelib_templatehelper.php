@@ -124,7 +124,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 			// Calls the base class's constructor manually as this isn't done
 			// automatically.
-			parent::tslib_pibase();
+			parent::__construct();
 
 			if ($conf !== null) {
 				$this->conf = $conf;
