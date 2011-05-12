@@ -1,4 +1,4 @@
-0.7.5 - currently working on
+0.7.6 - released 2011-05-12
 - [#4195] Fix: Fix crash in TYPO3 4.6 by calling parent::__construct instead of the old PHP4 style constructors
 - [#4169] Fix: Drop unused code and some unused variables
 
