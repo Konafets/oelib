@@ -337,7 +337,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 *
 	 * @return void
 	 */
-	public function setuserGroups(tx_oelib_List $userGroups) {
+	public function setUserGroups(tx_oelib_List $userGroups) {
 		$this->set('usergroup', $userGroups);
 	}
 
