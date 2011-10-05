@@ -34,20 +34,12 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	/**
-	 * a valid Google Maps API key for localhost
-	 *
-	 * @var string
-	 */
-	const GOOGLE_MAPS_API_KEY = 'ABQIAAAAbDm1mvIP78sIsBcIbMgOPRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTwV0FqSWhHhsXRyGQ_btfZ1hNR7g';
-
-	/**
 	 * @var tx_oelib_Geocoding_Google
 	 */
 	private $fixture;
 
 	public function setUp() {
-		$this->fixture = tx_oelib_Geocoding_Google
-			::getInstance(self::GOOGLE_MAPS_API_KEY);
+		$this->fixture = tx_oelib_Geocoding_Google::getInstance();
 	}
 
 	public function tearDown() {
@@ -64,9 +56,9 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getInstanceCreatesGoogleMapsLookupInstance() {
-		$this->assertTrue(
-			tx_oelib_Geocoding_Google::getInstance(self::GOOGLE_MAPS_API_KEY)
-				instanceof tx_oelib_Geocoding_Google
+		$this->assertInstanceOf(
+			'tx_oelib_Geocoding_Google',
+			tx_oelib_Geocoding_Google::getInstance()
 		);
 	}
 
@@ -81,20 +73,8 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 
 		$this->assertSame(
 			$instance,
-			tx_oelib_Geocoding_Google::getInstance(self::GOOGLE_MAPS_API_KEY)
+			tx_oelib_Geocoding_Google::getInstance()
 		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function constructorWithEmptyApiKeyThrowsException() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$apiKey must not be empty.'
-		);
-
-		tx_oelib_Geocoding_Google::getInstance('');
 	}
 
 
@@ -132,8 +112,6 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 		$fixture->expects($this->never())->method('sendRequest');
 
 		$fixture->lookUp($geo);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -178,8 +156,6 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 		$fixture->expects($this->never())->method('sendRequest');
 
 		$fixture->lookUp($geo);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -200,8 +176,6 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 		$fixture->expects($this->never())->method('sendRequest');
 
 		$fixture->lookUp($geo);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -226,14 +200,27 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			$geo->hasGeoError()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
 	 * @test
 	 */
 	public function lookUpSetsCoordinatesFromSendRequest() {
+		$jsonResult = '{ "results" : [ { "address_components" : [ { "long_name" : "1", "short_name" : "1", ' .
+			'"types" : [ "street_number" ] }, { "long_name" : "Am Hof", "short_name" : "Am Hof", ' .
+			'"types" : [ "route" ] }, { "long_name" : "Bonn", "short_name" : "Bonn", ' .
+			'"types" : [ "sublocality", "political" ] }, { "long_name" : "Bonn", "short_name" : "Bonn", ' .
+			'"types" : [ "locality", "political" ] }, { "long_name" : "Bonn", "short_name" : "BN", ' .
+			'"types" : [ "administrative_area_level_2", "political" ] }, { "long_name" : "Nordrhein-Westfalen", ' .
+			'"short_name" : "Nordrhein-Westfalen", "types" : [ "administrative_area_level_1", "political" ] }, ' .
+			'{ "long_name" : "Germany", "short_name" : "DE", "types" : [ "country", "political" ] }, ' .
+			'{ "long_name" : "53113", "short_name" : "53113", "types" : [ "postal_code" ] } ], ' .
+			'"formatted_address" : "Am Hof 1, 53113 Bonn, Germany", "geometry" : { "location" : ' .
+			'{ "lat" : 50.733550, "lng" : 7.101430 }, "location_type" : "ROOFTOP", ' .
+			'"viewport" : { "northeast" : { "lat" : 50.73489898029150, "lng" : 7.102778980291502 }, ' .
+			'"southwest" : { "lat" : 50.73220101970850, "lng" : 7.100081019708497 } } }, ' .
+			'"types" : [ "street_address" ] } ], "status" : "OK"}';
+
 		$geo = new tx_oelib_tests_fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
@@ -244,8 +231,7 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')
-			->will($this->returnValue('200,8,50.7335500,7.1014300'));
+		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
 
 		$fixture->lookUp($geo);
 
@@ -256,8 +242,6 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 			),
 			$geo->getGeoCoordinates()
 		);
-
-		$fixture->__destruct();
 	}
 
 	/**
@@ -289,8 +273,6 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 			1.73,
 			$timePassed
 		);
-
-		$fixture->__destruct();
 	}
 }
 ?>

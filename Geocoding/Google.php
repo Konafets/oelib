@@ -34,88 +34,18 @@
  */
 class tx_oelib_Geocoding_Google {
 	/**
-	 * HTTP status code for: okay, address was parsed
+	 * status code for: okay, address was parsed
 	 *
-	 * @var integer
+	 * @var string
 	 */
-	const G_GEO_SUCCESS = 200;
-	/**
-	 * HTTP status code for: request could not be parsed
-	 *
-	 * @var integer
-	 */
-	const G_GEO_BAD_REQUEST = 400;
-	/**
-	 * HTTP status code for: access forbidden (too many requests)
-	 *
-	 * @var integer
-	 */
-	const G_GEO_FORBIDDEN = 403;
-	/**
-	 * HTTP status code for: general server error
-	 *
-	 * @var integer
-	 */
-	const G_GEO_SERVER_ERROR = 500;
-	/**
-	 * HTTP status code for: address parameter missing or empty
-	 *
-	 * @var integer
-	 */
-	const G_GEO_MISSING_QUERY = 601;
-	/**
-	 * HTTP status code for: address parameter missing or empty
-	 *
-	 * @var integer
-	 */
-	const G_GEO_MISSING_ADDRESS = 601;
-	/**
-	 * HTTP status code for: address could not be found in the database
-	 * (either because it is incorrect or very new)
-	 *
-	 * @var integer
-	 */
-	const G_GEO_UNKNOWN_ADDRESS = 602;
-	/**
-	 * HTTP status code for: address cannot be returned due to legal or
-	 * contractual reasons
-	 *
-	 * @var integer
-	 */
-	const G_GEO_UNAVAILABLE_ADDRESS = 603;
-	/**
-	 * HTTP status code for: no route between the two points
-	 *
-	 * @var integer
-	 */
-	const G_GEO_UNKNOWN_DIRECTIONS = 604;
-	/**
-	 * HTTP status code for: API key invalid or does not match the domain
-	 *
-	 * @var integer
-	 */
-	const G_GEO_BAD_KEY = 610;
-	/**
-	 * HTTP status code for: query limit exceeded (either too many queries in a
-	 * short amount of time or in the 24-hour limit)
-	 *
-	 * @var integer
-	 */
-	const G_GEO_TOO_MANY_QUERIES = 620;
+	const STATUS_OK = 'OK';
 
 	/**
 	 * the base URL of the Google Maps geo coding service
 	 *
 	 * @var string
 	 */
-	const BASE_URL = 'http://maps.google.com/maps/geo?sensor=false&output=csv&key=';
-
-	/**
-	 * the Google Maps API key
-	 *
-	 * @var string
-	 */
-	private $apiKey = '';
+	const BASE_URL = 'http://maps.google.com/maps/api/geocode/json?sensor=false';
 
 	/**
 	 * the Singleton instance
@@ -143,12 +73,8 @@ class tx_oelib_Geocoding_Google {
 	/**
 	 * The constructor. Do not call this constructor directly. Use getInstance()
 	 * instead.
-	 *
-	 * @param string $apiKey
-	 *        the Google Maps API key to use, must not be empty
 	 */
-	protected function __construct($apiKey) {
-		$this->apiKey = $apiKey;
+	protected function __construct() {
 	}
 
 	/**
@@ -164,18 +90,11 @@ class tx_oelib_Geocoding_Google {
 	 * Note: There will always be only one instance, even if this function is
 	 * called with different parameters.
 	 *
-	 * @param string $apiKey
-	 *        the Google Maps API key to use, must not be empty
-	 *
 	 * @return tx_oelib_Geocoding_Google the Singleton GoogleMaps look-up
 	 */
-	public static function getInstance($apiKey) {
-		if ($apiKey == '') {
-			throw new InvalidArgumentException('$apiKey must not be empty.');
-		}
-
+	public static function getInstance() {
 		if (!is_object(self::$instance)) {
-			self::$instance = new tx_oelib_Geocoding_Google($apiKey);
+			self::$instance = new tx_oelib_Geocoding_Google();
 		}
 
 		return self::$instance;
@@ -220,35 +139,25 @@ class tx_oelib_Geocoding_Google {
 			return;
 		}
 
-		$delay = 0;
 		$address = $geoObject->getGeoAddress();
 
-		do {
-			if ($delay > 0) {
-				usleep($delay);
-			}
-			$this->throttle();
-			$rawResult = $this->sendRequest($address);
-			if ($rawResult === FALSE) {
-				throw new Exception(
-					'There was an error connecting to the Google Maps server.'
-				);
-			}
+		$this->throttle();
+		$rawResult = $this->sendRequest($address);
+		if ($rawResult === FALSE) {
+			throw new Exception(
+				'There was an error connecting to the Google Maps server.'
+			);
+		}
 
-			$delay += 100000;
+		$resultParts = json_decode($rawResult, TRUE);
+		$status = $resultParts['status'];
 
-			$resultParts = t3lib_div::trimExplode(',', $rawResult, TRUE);
-			$status = $resultParts[0];
-		} while (
-			($status == self::G_GEO_TOO_MANY_QUERIES)
-				|| ($status == self::G_GEO_FORBIDDEN)
-		);
-
-		if ($status == self::G_GEO_SUCCESS) {
+		if ($status === self::STATUS_OK) {
+			$coordinates = $resultParts['results'][0]['geometry']['location'];
 			$geoObject->setGeoCoordinates(
 				array(
-					'latitude' => floatval($resultParts[2]),
-					'longitude' => floatval($resultParts[3]),
+					'latitude' => floatval($coordinates['lat']),
+					'longitude' => floatval($coordinates['lng']),
 				)
 			);
 		} else {
@@ -265,18 +174,9 @@ class tx_oelib_Geocoding_Google {
 	 *               or FALSE if an error has occurred
 	 */
 	protected function sendRequest($address) {
-		$baseUrlWithKey = self::BASE_URL . $this->getApiKey() . '&q=';
+		$baseUrlWithAddress = self::BASE_URL . '&address=';
 
-		return t3lib_div::getURL($baseUrlWithKey . urlencode($address));
-	}
-
-	/**
-	 * Gets the Google Maps API key from the configuration.
-	 *
-	 * @return string the Google Maps API key, will be empty if no key has been set
-	 */
-	protected function getApiKey() {
-		return $this->apiKey;
+		return t3lib_div::getURL($baseUrlWithAddress . urlencode($address));
 	}
 
 	/**
