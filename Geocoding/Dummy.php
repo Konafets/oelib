@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2010 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2009-2011 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -95,7 +95,7 @@ class tx_oelib_Geocoding_Dummy extends tx_oelib_Geocoding_Google {
 	}
 }
 
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/class.tx_oelib_Geocoding_Dummy.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/class.tx_oelib_Geocoding_Dummy.php']);
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Dummy.php']) {
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Dummy.php']);
 }
 ?>
