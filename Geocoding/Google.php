@@ -32,7 +32,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Geocoding_Google {
+class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	/**
 	 * status code for: okay, address was parsed
 	 *
@@ -50,7 +50,7 @@ class tx_oelib_Geocoding_Google {
 	/**
 	 * the Singleton instance
 	 *
-	 * @var tx_oelib_Geocoding_Google
+	 * @var tx_oelib_Interface_GeocodingLookup
 	 */
 	private static $instance = null;
 
@@ -90,7 +90,7 @@ class tx_oelib_Geocoding_Google {
 	 * Note: There will always be only one instance, even if this function is
 	 * called with different parameters.
 	 *
-	 * @return tx_oelib_Geocoding_Google the Singleton GoogleMaps look-up
+	 * @return tx_oelib_Interface_GeocodingLookup the Singleton GoogleMaps look-up
 	 */
 	public static function getInstance() {
 		if (!is_object(self::$instance)) {
@@ -105,10 +105,10 @@ class tx_oelib_Geocoding_Google {
 	 *
 	 * Note: This function is to be used for testing only.
 	 *
-	 * @param tx_oelib_Geocoding_Google $geoFinder
-	 *         the instance which getInstance() should return
+	 * @param tx_oelib_Interface_GeocodingLookup $instance
+	 *        the instance which getInstance() should return
 	 */
-	public static function setInstance(tx_oelib_Geocoding_Google $instance) {
+	public static function setInstance(tx_oelib_Interface_GeocodingLookup $instance) {
 		self::$instance = $instance;
 	}
 
@@ -129,6 +129,8 @@ class tx_oelib_Geocoding_Google {
 	 *
 	 * @param tx_oelib_Interface_Geo $geoObject
 	 *        the object for which the geo coordinates will be looked up and set
+	 *
+	 * @return void
 	 */
 	public function lookUp(tx_oelib_Interface_Geo $geoObject) {
 		if ($geoObject->hasGeoError() || $geoObject->hasGeoCoordinates()) {
