@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2010 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2009-2011 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -1467,6 +1467,49 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->assertSame(
 			$model,
 			$result->first()
+		);
+	}
+
+
+	/*
+	/* Tests concerning toArray
+	 */
+
+	/**
+	 * @test
+	 */
+	public function toArrayForNoElementsReturnsEmptyArray() {
+		$this->assertSame(
+			array(),
+			$this->fixture->toArray()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function toArrayWithOneElementReturnsArrayWithElement() {
+		$model = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model);
+
+		$this->assertSame(
+			array($model),
+			$this->fixture->toArray()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function toArrayWithTwoElementsReturnsArrayWithBothElementsInAddingOrder() {
+		$model1 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model1);
+		$model2 = new tx_oelib_tests_fixtures_TestingModel();
+		$this->fixture->add($model2);
+
+		$this->assertSame(
+			array($model1, $model2),
+			$this->fixture->toArray()
 		);
 	}
 }

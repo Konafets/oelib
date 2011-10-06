@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2010 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2009-2011 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -359,6 +359,21 @@ class tx_oelib_List extends SplObjectStorage {
 	 */
 	public function at($position) {
 		return $this->inRange($position, 1)->first();
+	}
+
+	/**
+	 * Returns the elements of this list in an array.
+	 *
+	 * @return array<tx_oelib_Model>
+	 *         the elements of this list, might be empty
+	 */
+	public function toArray() {
+		$elements = array();
+		foreach ($this as $model) {
+			$elements[] = $model;
+		}
+
+		return $elements;
 	}
 }
 

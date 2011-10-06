@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4245] Feature: Add List::toArray
 - [#4238] Feature: Add an interface for Geocoding
 - [#4239] Feature: Update the Google geocoding to V3
 - [#4237] Cleanup: Use the new class names for the Geocoding classes
