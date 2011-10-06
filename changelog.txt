@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4242] Feature: Add an interface for Map points
 - [#4244] Fix: Change the geocoding throttling to allow only 2500 requests per day
 - [#4245] Feature: Add List::toArray
 - [#4238] Feature: Add an interface for Geocoding
