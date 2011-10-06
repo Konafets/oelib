@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2010 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2011 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -182,6 +182,8 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function lookUpForAFullGermanAddressWithServerErrorSetsGeoProblem() {
+		$jsonResult = '{ "status" : "ZERO_RESULTS"}';
+
 		$geo = new tx_oelib_tests_fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
@@ -192,14 +194,34 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')
-			->will($this->returnValue('500'));
+		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
 
 		$fixture->lookUp($geo);
 
 		$this->assertTrue(
 			$geo->hasGeoError()
 		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException Exception
+	 */
+	public function lookUpForAFullGermanAddressWithNetworkErrorThrowsException() {
+		$geo = new tx_oelib_tests_fixtures_TestingGeo();
+		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
+
+		$fixture = $this->getMock(
+			'tx_oelib_Geocoding_Google',
+			array('sendRequest', 'throttle'),
+			array(),
+			'',
+			FALSE
+		);
+		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue(FALSE));
+
+		$fixture->lookUp($geo);
 	}
 
 	/**
@@ -247,7 +269,24 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function lookUpThrottlesRequestsByAtLeast1Dot73Seconds() {
+	public function lookUpThrottlesRequestsByAtLeast35Seconds() {
+		$this->markTestSkipped('This test usually is not executed because it takes more than 30 seconds to execute.');
+
+		$jsonResult = '{ "results" : [ { "address_components" : [ { "long_name" : "1", "short_name" : "1", ' .
+			'"types" : [ "street_number" ] }, { "long_name" : "Am Hof", "short_name" : "Am Hof", ' .
+			'"types" : [ "route" ] }, { "long_name" : "Bonn", "short_name" : "Bonn", ' .
+			'"types" : [ "sublocality", "political" ] }, { "long_name" : "Bonn", "short_name" : "Bonn", ' .
+			'"types" : [ "locality", "political" ] }, { "long_name" : "Bonn", "short_name" : "BN", ' .
+			'"types" : [ "administrative_area_level_2", "political" ] }, { "long_name" : "Nordrhein-Westfalen", ' .
+			'"short_name" : "Nordrhein-Westfalen", "types" : [ "administrative_area_level_1", "political" ] }, ' .
+			'{ "long_name" : "Germany", "short_name" : "DE", "types" : [ "country", "political" ] }, ' .
+			'{ "long_name" : "53113", "short_name" : "53113", "types" : [ "postal_code" ] } ], ' .
+			'"formatted_address" : "Am Hof 1, 53113 Bonn, Germany", "geometry" : { "location" : ' .
+			'{ "lat" : 50.733550, "lng" : 7.101430 }, "location_type" : "ROOFTOP", ' .
+			'"viewport" : { "northeast" : { "lat" : 50.73489898029150, "lng" : 7.102778980291502 }, ' .
+			'"southwest" : { "lat" : 50.73220101970850, "lng" : 7.100081019708497 } } }, ' .
+			'"types" : [ "street_address" ] } ], "status" : "OK"}';
+
 		$geo1 = new tx_oelib_tests_fixtures_TestingGeo();
 		$geo1->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 		$geo2 = new tx_oelib_tests_fixtures_TestingGeo();
@@ -261,7 +300,7 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 			FALSE
 		);
 		$fixture->expects($this->any())->method('sendRequest')
-			->will($this->returnValue('200,8,50.7335500,7.1014300'));
+			->will($this->returnValue($jsonResult));
 
 		$startTime = microtime(TRUE);
 		$fixture->lookUp($geo1);
@@ -270,7 +309,7 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 
 		$timePassed = $endTime - $startTime;
 		$this->assertGreaterThan(
-			1.73,
+			35.0,
 			$timePassed
 		);
 	}

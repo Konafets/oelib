@@ -60,7 +60,7 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	 *
 	 * @var float
 	 */
-	const GEOCODING_THROTTLING = 1.75;
+	const GEOCODING_THROTTLING = 35.0;
 
 	/**
 	 * the timestamp of the last geocoding request (will be 0.00 before the
@@ -187,12 +187,9 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	 */
 	protected function throttle() {
 		if (self::$lastGeocodingTimestamp > 0.00) {
-			$secondsSinceLastRequest
-				= microtime(TRUE) - self::$lastGeocodingTimestamp;
+			$secondsSinceLastRequest = microtime(TRUE) - self::$lastGeocodingTimestamp;
 			if ($secondsSinceLastRequest < self::GEOCODING_THROTTLING) {
-				usleep(1000000 *
-					(self::GEOCODING_THROTTLING - $secondsSinceLastRequest)
-				);
+				usleep(1000000 * (self::GEOCODING_THROTTLING - $secondsSinceLastRequest));
 			}
 		}
 
