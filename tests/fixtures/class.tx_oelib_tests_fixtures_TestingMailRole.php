@@ -46,7 +46,7 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 */
 	public function __construct($name, $eMail) {
 		$this->setName($name);
-		$this->setEMailAddress($eMail);
+		$this->setEmailAddress($eMail);
 	}
 
 	/**
@@ -105,7 +105,7 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 *
 	 * @return string the e-mail address of the e-mail role, might be empty
 	 */
-	public function getEMailAddress() {
+	public function getEmailAddress() {
 		return $this->getAsString('email');
 	}
 
@@ -114,7 +114,7 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 *
 	 * @param string the e-mail address of the e-mail role, may be empty
 	 */
-	public function setEMailAddress($eMail) {
+	public function setEmailAddress($eMail) {
 		$this->setAsString('email', $eMail);
 	}
 }

@@ -60,7 +60,7 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	/**
 	 * Gets the user's e-mail address
 	 */
-	public function getEMailAddress() {
+	public function getEmailAddress() {
 		return $this->getAsString('email');
 	}
 

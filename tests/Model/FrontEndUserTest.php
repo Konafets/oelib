@@ -573,49 +573,49 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the e-mail address
 	////////////////////////////////////////
 
-	public function testHasEMailAddressForEmptyEMailReturnsFalse() {
+	public function testHasEmailAddressForEmptyEMailReturnsFalse() {
 		$this->fixture->setData(array('email' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasEMailAddress()
+			$this->fixture->hasEmailAddress()
 		);
 	}
 
-	public function testHasEMailAddressForNonEmptyEMailReturnsTrue() {
+	public function testHasEmailAddressForNonEmptyEMailReturnsTrue() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
 		$this->assertTrue(
-			$this->fixture->hasEMailAddress()
+			$this->fixture->hasEmailAddress()
 		);
 	}
 
-	public function testGetEMailAddressForEmptyEMailReturnsEmptyString() {
+	public function testGetEmailAddressForEmptyEMailReturnsEmptyString() {
 		$this->fixture->setData(array('email' => ''));
 
 		$this->assertEquals(
 			'',
-			$this->fixture->getEMailAddress()
+			$this->fixture->getEmailAddress()
 		);
 	}
 
-	public function testGetEMailAddressForNonEmptyEMailReturnsEMail() {
+	public function testGetEmailAddressForNonEmptyEMailReturnsEMail() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
 		$this->assertEquals(
 			'john@doe.com',
-			$this->fixture->getEMailAddress()
+			$this->fixture->getEmailAddress()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setEMailAddressSetsEMailAddress() {
-		$this->fixture->setEMailAddress('john@example.com');
+	public function setEmailAddressSetsEmailAddress() {
+		$this->fixture->setEmailAddress('john@example.com');
 
 		$this->assertEquals(
 			'john@example.com',
-			$this->fixture->getEMailAddress()
+			$this->fixture->getEmailAddress()
 		);
 	}
 

@@ -249,7 +249,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 *
 	 * @return string this user's e-mail address, may be empty
 	 */
-	public function getEMailAddress() {
+	public function getEmailAddress() {
 		return $this->getAsString('email');
 	}
 
@@ -259,7 +259,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * @return boolean TRUE if this user has an e-mail address set, FALSE
 	 *                 otherwise
 	 */
-	public function hasEMailAddress() {
+	public function hasEmailAddress() {
 		return $this->hasString('email');
 	}
 
@@ -270,7 +270,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 *
 	 * @return void
 	 */
-	public function setEMailAddress($eMailAddress) {
+	public function setEmailAddress($eMailAddress) {
 		$this->setAsString('email', $eMailAddress);
 	}
 
