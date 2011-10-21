@@ -45,6 +45,6 @@ interface tx_oelib_Interface_MailRole {
 	 *
 	 * @return string the e-mail address of the e-mail role, might be empty
 	 */
-	public function getEMailAddress();
+	public function getEmailAddress();
 }
 ?>

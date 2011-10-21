@@ -158,7 +158,7 @@ abstract class tx_oelib_abstractMailer {
 
 		foreach ($email->getRecipients() as $recipient) {
 			$this->mail(
-				$recipient->getEMailAddress(),
+				$recipient->getEmailAddress(),
 				$subject,
 				$body,
 				$headers,
@@ -214,7 +214,7 @@ abstract class tx_oelib_abstractMailer {
 	 */
 	protected function formatMailRole(tx_oelib_Interface_MailRole $mailRole) {
 		if ($mailRole->getName() == '') {
-			return $mailRole->getEMailAddress();
+			return $mailRole->getEmailAddress();
 		}
 
 		$encodedName = t3lib_div::encodeHeader(
@@ -222,7 +222,7 @@ abstract class tx_oelib_abstractMailer {
 		);
 
 		return '"'. $encodedName . '"' .
-			' <' . $mailRole->getEMailAddress() . '>';
+			' <' . $mailRole->getEmailAddress() . '>';
 	}
 
 	/**

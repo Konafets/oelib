@@ -317,7 +317,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 
 		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setFrom($sender->getEmailAddress());
 		$mimeEMail->setTXTBody(self::$email['message']);
 
 		$this->assertEquals(
@@ -412,7 +412,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 
 		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setFrom($sender->getEmailAddress());
 		$mimeEMail->setTXTBody(self::$otherEmail['message']);
 
 		$this->assertEquals(
@@ -474,11 +474,11 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		);
 
 		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEMailAddress());
+		$mimeEMail->setFrom($sender->getEmailAddress());
 		$mimeEMail->setTXTBody(self::$email['message']);
 
 		$otherMimeEMail = new Mail_mime(array('eol' => LF));
-		$otherMimeEMail->setFrom($sender->getEMailAddress());
+		$otherMimeEMail->setFrom($sender->getEmailAddress());
 		$otherMimeEMail->setTXTBody(self::$otherEmail['message']);
 
 		$this->assertEquals(
