@@ -51,19 +51,19 @@ interface tx_oelib_Interface_MapPoint {
 	public function hasGeoCoordinates();
 
 	/**
-	 * Gets the text for the tooltip of this object.
+	 * Gets the title for the tooltip of this object.
 	 *
-	 * @return string the tooltip text (plain text), might eb empty
+	 * @return string the tooltip title (plain text), might be empty
 	 */
-	public function getTooltipText();
+	public function getTooltipTitle();
 
 	/**
-	 * Checks whether this object has a non-empty tooltip text.
+	 * Checks whether this object has a non-empty tooltip title.
 	 *
 	 * @return boolean
-	 *         TRUE if this object has a non-empty tooltip text, FALSE otherwise
+	 *         TRUE if this object has a non-empty tooltip title, FALSE otherwise
 	 */
-	public function hasTooltipText();
+	public function hasTooltipTitle();
 
 	/**
 	 * Gets the info window content of this object.
