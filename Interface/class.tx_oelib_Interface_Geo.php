@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2010 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2010-2011 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -55,17 +55,20 @@ interface tx_oelib_Interface_Geo {
 	/**
 	 * Retrieves this object's coordinates.
 	 *
-	 * @return array this object's geo coordinates using the keys "latitude" and
-	 *               "longitude", will be empty if this object has no coordinates
+	 * @return array<float>
+	 *         this object's geo coordinates using the keys "latitude" and
+	 *         "longitude", will be empty if this object has no coordinates
 	 */
 	public function getGeoCoordinates();
 
 	/**
 	 * Sets this object's coordinates.
 	 *
-	 * @param array $coordinates
+	 * @param array<float> $coordinates
 	 *        the coordinates, using the keys "latitude" and "longitude",
 	 *        the array values must not be empty
+	 *
+	 * @return void
 	 */
 	public function setGeoCoordinates(array $coordinates);
 
