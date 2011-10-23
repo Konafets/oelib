@@ -53,6 +53,7 @@ return array(
 	'tx_oelib_geocoding_dummy' => $extensionPath . 'Geocoding/Dummy.php',
 	'tx_oelib_geocoding_google' => $extensionPath . 'Geocoding/Google.php',
 	'tx_oelib_interface_geocodinglookup' => $extensionPath . 'Interface/GeocodingLookup.php',
+	'tx_oelib_interface_identity' => $extensionPath . 'Interface/Identity.php',
 	'tx_oelib_interface_mappoint' => $extensionPath . 'Interface/MapPoint.php',
 	'tx_oelib_interface_sortable' => $extensionPath . 'Interface/Sortable.php',
 	'tx_oelib_interface_address' => $extensionPath . 'Interface/class.tx_oelib_Interface_Address.php',

@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2010 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2011 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,7 +37,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-abstract class tx_oelib_Model extends tx_oelib_Object {
+abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interface_Identity {
 	/**
 	 * @var integer a status indicating that this model has neither data nor UID
 	 *              yet
@@ -377,7 +377,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object {
 	}
 
 	/**
-	 * Gets this model's UIDs.
+	 * Gets this model's UID.
 	 *
 	 * @return integer this model's UID, will be zero if this model does
 	 *                 not have a UID yet
