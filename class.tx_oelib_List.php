@@ -230,6 +230,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * @deprecated 2010-05-27 use append() instead
 	 */
 	public function appendUnique(tx_oelib_List $list) {
+		t3lib_div::logDeprecatedFunction();
+
 		foreach ($list as $item) {
 			if (!$this->hasUid($item->getUid())) {
 				$this->add($item);

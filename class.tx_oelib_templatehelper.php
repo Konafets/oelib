@@ -1339,6 +1339,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @deprecated 2010-09-23
 	 */
 	protected function setLocaleConvention() {
+		t3lib_div::logDeprecatedFunction();
+
 		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
 	}
 
