@@ -37,8 +37,4 @@
  */
 class ux_tx_oelib_tests_fixtures_Empty {
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/xclass/class.ux_tx_oelib_tests_fixtures_Empty.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/xclass/class.ux_tx_oelib_tests_fixtures_Empty.php']);
-}
 ?>

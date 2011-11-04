@@ -573,8 +573,4 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 		return $this->setAsInteger('pid', $pageUid);
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Model.php']);
-}
 ?>

@@ -226,8 +226,4 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 		return $this->suffixesToTry;
 	}
 }
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_salutationswitcher.php']) {
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_salutationswitcher.php']);
-}
 ?>

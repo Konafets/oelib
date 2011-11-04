@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4262] Cleanup: Drop the XCLASS code from abstract classes
 - [#4254] Bugfix: Document that geo coordinates must be floats
 - [#4247] Feature: Add an Identity interface
 - [#4243] Feature: Add a Google Map ViewHelper
