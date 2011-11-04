@@ -244,7 +244,7 @@ class tx_oelib_MapperRegistry {
 		}
 		if (isset($this->mappers[$className])) {
 			throw new Exception(
-				'There already exists a mapper of the same type. ' .
+				'There already is a ' . $className . ' mapper registered. ' .
 				'Overwriting existing wrappers is not allowed.'
 			);
 		}

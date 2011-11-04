@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4257] Feature: Include the mapper class name in the exception when a mapper is added twice to the mapper registry
 - [#4279] Cleanup: Make true, false and null uppercase
 - [#4263] Cleanup: Convert the XCLASS code to use $GLOBALS
 - [#4177] Cleanup: Update the copyright to 2011

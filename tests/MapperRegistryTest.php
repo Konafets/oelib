@@ -217,7 +217,7 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 	public function setThrowsExceptionIfTheMapperTypeAlreadyIsRegistered() {
 		$this->setExpectedException(
 			'Exception',
-			'There already exists a mapper of the same type. ' .
+			'There already is a tx_oelib_tests_fixtures_TestingMapper mapper registered. ' .
 				'Overwriting existing wrappers is not allowed.'
 		);
 
