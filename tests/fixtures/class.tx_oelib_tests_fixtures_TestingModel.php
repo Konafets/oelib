@@ -71,7 +71,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return tx_oelib_Model the data item for the given key, will be null if
+	 * @return tx_oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
 	 */
 	public function getAsModel($key) {
@@ -105,7 +105,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "friend" data item.
 	 *
 	 * @return tx_oelib_tests_fixtures_TestingModel the "friend" data item,
-	 *                                              will be null if this model
+	 *                                              will be NULL if this model
 	 *                                              has no friend
 	 */
 	public function getFriend() {
@@ -125,7 +125,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "owner" data item.
 	 *
-	 * @return tx_oelib_Model_FrontEndUser the "owner" data item, will be null
+	 * @return tx_oelib_Model_FrontEndUser the "owner" data item, will be NULL
 	 *                                     if this model has no owner
 	 */
 	public function getOwner() {
@@ -136,7 +136,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "children" data item.
 	 *
 	 * @return tx_oelib_List the "children" data item, will be empty (but not
-	 *                       null) if this model has no children
+	 *                       NULL) if this model has no children
 	 */
 	public function getChildren() {
 		return $this->getAsList('children');
@@ -146,7 +146,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "related_records" data item.
 	 *
 	 * @return tx_oelib_List the "related_records" data item, will be empty (but
-	 *                       not null) if this model has no related records
+	 *                       not NULL) if this model has no related records
 	 */
 	public function getRelatedRecords() {
 		return $this->getAsList('related_records');
@@ -156,7 +156,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "bidirectional" data item.
 	 *
 	 * @return tx_oelib_List the "bidirectional" data item, will be empty (but
-	 *                       not null) if this model has no related records
+	 *                       not NULL) if this model has no related records
 	 */
 	public function getBidirectional() {
 		return $this->getAsList('bidirectional');
@@ -166,7 +166,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "composition" data item.
 	 *
 	 * @return tx_oelib_List the "composition" data item, will be empty (but not
-	 *                       null) if this model has no composition
+	 *                       NULL) if this model has no composition
 	 */
 	public function getComposition() {
 		return $this->getAsList('composition');
@@ -185,7 +185,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Gets the "composition2" data item.
 	 *
 	 * @return tx_oelib_List the "composition2" data item, will be empty (but
-	 *                       not null) if this model has no composition2
+	 *                       not NULL) if this model has no composition2
 	 */
 	public function getComposition2() {
 		return $this->getAsList('composition2');

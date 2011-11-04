@@ -37,7 +37,7 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * @var tx_oelib_ConfigurationRegistry the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var array already created configurations (by namespace)
@@ -92,7 +92,7 @@ class tx_oelib_ConfigurationRegistry {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

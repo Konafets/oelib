@@ -39,7 +39,7 @@ class tx_oelib_mailerFactory {
 	/**
 	 * @var tx_oelib_mailerFactory the singleton factory
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var boolean whether the test mode is set
@@ -49,7 +49,7 @@ class tx_oelib_mailerFactory {
 	/**
 	 * @var tx_oelib_abstractMailer the mailer
 	 */
-	private $mailer = null;
+	private $mailer = NULL;
 
 	/**
 	 * Don't call this constructor; use getInstance() instead.
@@ -107,7 +107,7 @@ class tx_oelib_mailerFactory {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

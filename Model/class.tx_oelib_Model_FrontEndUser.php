@@ -555,20 +555,20 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * Note: This function uses the "country code" field, not the free-text
 	 * country field.
 	 *
-	 * @return tx_oelib_Model_Country the country of this user, will be null
+	 * @return tx_oelib_Model_Country the country of this user, will be NULL
 	 *                                if no valid country has been set
 	 */
 	public function getCountry() {
 		$countryCode = $this->getAsString('static_info_country');
 		if ($countryCode == '') {
-			return null;
+			return NULL;
 		}
 
 		try {
 			$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
 				->findByIsoAlpha3Code($countryCode);
 		} catch (tx_oelib_Exception_NotFound $exception) {
-			$country = null;
+			$country = NULL;
 		}
 
 		return $country;
@@ -578,10 +578,10 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * Sets the country of this user.
 	 *
 	 * @param tx_oelib_Model_Country $country
-	 *        the country to set for this place, can be null for "no country"
+	 *        the country to set for this place, can be NULL for "no country"
 	 */
-	public function setCountry(tx_oelib_Model_Country $country = null) {
-		$countryCode = ($country !== null) ? $country->getIsoAlpha3Code() : '';
+	public function setCountry(tx_oelib_Model_Country $country = NULL) {
+		$countryCode = ($country !== NULL) ? $country->getIsoAlpha3Code() : '';
 
 		$this->setAsString('static_info_country', $countryCode);
 	}

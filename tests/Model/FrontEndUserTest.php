@@ -1241,7 +1241,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function countryCanBeSetToNull() {
-		$this->fixture->setCountry(null);
+		$this->fixture->setCountry(NULL);
 
 		$this->assertNull(
 			$this->fixture->getCountry()

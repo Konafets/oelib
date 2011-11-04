@@ -120,7 +120,7 @@ final class tx_oelib_testingFramework {
 	 * @var t3lib_basicFileFunctions an instance of t3lib_basicFileFunctions
 	 *                               for retrieving a unique file name
 	 */
-	private static $fileNameProcessor = null;
+	private static $fileNameProcessor = NULL;
 
 	/**
 	 * @var boolean whether a fake front end has been created
@@ -1218,7 +1218,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Discards the fake front end.
 	 *
-	 * This function nulls out $GLOBALS['TSFE'] and $GLOBALS['TT']. In addition,
+	 * This function NULLs out $GLOBALS['TSFE'] and $GLOBALS['TT']. In addition,
 	 * any logged-in front-end user will be logged out.
 	 *
 	 * The page record for the current front end will _not_ be deleted by this
@@ -1241,8 +1241,8 @@ final class tx_oelib_testingFramework {
 			$GLOBALS['TSFE']->csConvObj, $GLOBALS['TSFE']->pagesection_lockObj,
 			$GLOBALS['TSFE']->pages_lockObj
 		);
-		$GLOBALS['TSFE'] = null;
-		$GLOBALS['TT'] = null;
+		$GLOBALS['TSFE'] = NULL;
+		$GLOBALS['TT'] = NULL;
 
 		$this->hasFakeFrontEnd = FALSE;
 	}

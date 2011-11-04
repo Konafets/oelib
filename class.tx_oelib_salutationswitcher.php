@@ -45,16 +45,16 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 
 	/**
 	 * A list of language keys for which the localizations have been loaded
-	 * (or null if the list has not been compiled yet).
+	 * (or NULL if the list has not been compiled yet).
 	 */
-	private $availableLanguages = null;
+	private $availableLanguages = NULL;
 
 	/**
 	 * An ordered list of language label suffixes that should be tried to get
-	 * localizations in the preferred order of formality (or null if the list
+	 * localizations in the preferred order of formality (or NULL if the list
 	 * has not been compiled yet).
 	 */
-	private $suffixesToTry = null;
+	private $suffixesToTry = NULL;
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
@@ -176,7 +176,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * @return array a list of language keys (may be empty)
 	 */
 	private function getAvailableLanguages() {
-		if ($this->availableLanguages === null) {
+		if ($this->availableLanguages === NULL) {
 			$this->availableLanguages = array();
 
 			if (!empty($this->LLkey)) {
@@ -212,7 +212,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * @return array ordered list of suffixes from "", "_formal" and "_informal", will not be empty
 	 */
 	private function getSuffixesToTry() {
-		if ($this->suffixesToTry === null) {
+		if ($this->suffixesToTry === NULL) {
 			$this->suffixesToTry = array();
 
 			if (isset($this->conf['salutation'])

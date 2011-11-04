@@ -3508,7 +3508,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateFakeFrontEndCreatesGlobalFrontEnd() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3524,7 +3524,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndReturnsCurrentFrontEndPageUid() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$result = $this->fixture->createFakeFrontEnd();
 
 		$this->assertEquals(
@@ -3537,7 +3537,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function createFakeFrontEndCreatesNullTimeTrackInstance() {
-		$GLOBALS['TT'] = null;
+		$GLOBALS['TT'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3546,7 +3546,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndCreatesSysPage() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3555,7 +3555,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndCreatesFrontEndUser() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3564,7 +3564,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndCreatesContentObject() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3573,7 +3573,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndCreatesTemplate() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3615,7 +3615,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateFakeFrontEndCreatesConfiguration() {
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(

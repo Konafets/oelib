@@ -209,7 +209,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	 */
 	public function existsKeyForExistingKeyWithNullDataReturnsTrue() {
 		$this->fixture->setData(
-			array('foo' => null)
+			array('foo' => NULL)
 		);
 
 		$this->assertTrue(
@@ -250,7 +250,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsModelReturnsNullSetViaSetData() {
 		$this->fixture->setData(
-			array('foo' => null)
+			array('foo' => NULL)
 		);
 
 		$this->assertNull(

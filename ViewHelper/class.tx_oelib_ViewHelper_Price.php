@@ -47,7 +47,7 @@ class tx_oelib_ViewHelper_Price {
 	/**
 	 * @var tx_oelib_Model_Currency the currency of the price to render
 	 */
-	protected $currency = null;
+	protected $currency = NULL;
 
 	/**
 	 * Sets the value of the price to render.
@@ -71,7 +71,7 @@ class tx_oelib_ViewHelper_Price {
 			$this->currency = tx_oelib_MapperRegistry::
 				get('tx_oelib_Mapper_Currency')->findByIsoAlpha3Code($isoAlpha3Code);
 		} catch (Exception $exception) {
-			$this->currency = null;
+			$this->currency = NULL;
 		}
 	}
 

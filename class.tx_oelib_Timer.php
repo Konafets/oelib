@@ -67,7 +67,7 @@ class tx_oelib_Timer {
 	/**
 	 * @var tx_oelib_Timer the singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * The constructor. Use getInstance() instead.
@@ -104,7 +104,7 @@ class tx_oelib_Timer {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**
@@ -259,7 +259,7 @@ class tx_oelib_Timer {
 		$this->closeCurrentBucket();
 		$previousBucketName = array_pop($this->previousBucketNames);
 
-		if ($previousBucketName !== null) {
+		if ($previousBucketName !== NULL) {
 			$this->currentBucketName = $previousBucketName;
 			$this->isRunning = TRUE;
 		} else {

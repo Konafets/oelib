@@ -41,7 +41,7 @@ class tx_oelib_Visibility_Node {
 	/**
 	 * @var tx_oelib_Visibility_Node the parent node of this node
 	 */
-	private $parentNode = null;
+	private $parentNode = NULL;
 
 	/**
 	 * @var boolean whether this node is visible

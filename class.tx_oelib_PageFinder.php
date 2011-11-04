@@ -43,7 +43,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * @var tx_oelib_PageFinder the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var integer the manually set page UID
@@ -89,7 +89,7 @@ class tx_oelib_PageFinder {
 			self::$instance->__destruct();
 		}
 
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

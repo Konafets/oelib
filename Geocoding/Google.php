@@ -52,7 +52,7 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	 *
 	 * @var tx_oelib_Interface_GeocodingLookup
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * the amount of time (in seconds) that need to pass between subsequent
@@ -120,7 +120,7 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 			self::$instance->__destruct();
 		}
 
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

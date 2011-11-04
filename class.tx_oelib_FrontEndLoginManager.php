@@ -37,7 +37,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * @var tx_oelib_FrontEndLoginManager the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * the simulated logged-in user
@@ -79,7 +79,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**
@@ -104,7 +104,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *               user model, must not be empty
 	 *
 	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
-	 *                                     be null if no user is logged in or
+	 *                                     be NULL if no user is logged in or
 	 *                                     if there is no front end
 	 */
 	public function getLoggedInUser(

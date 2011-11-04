@@ -62,7 +62,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @var tx_oelib_configcheck the configuration check object that will
 	 *                           check this object
 	 */
-	protected $configurationCheck = null;
+	protected $configurationCheck = NULL;
 
 	/**
 	 * @var string the file name of the template set via TypoScript or FlexForms
@@ -72,7 +72,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * @var tx_oelib_Template this object's (only) template
 	 */
-	private $template = null;
+	private $template = NULL;
 
 	/**
 	 * @var array TS Setup for plugin.tx_extensionkey, using the current page
@@ -104,10 +104,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
-	 * @param array TypoScript configuration for the plugin, set to null
+	 * @param array TypoScript configuration for the plugin, set to NULL
 	 *              to load the configuration from a BE page
 	 */
-	public function init(array $conf = null) {
+	public function init(array $conf = NULL) {
 		if (!$this->isInitialized) {
 			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
 				$GLOBALS['TSFE']->config['config'] = array();
@@ -117,7 +117,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			// automatically.
 			parent::__construct();
 
-			if ($conf !== null) {
+			if ($conf !== NULL) {
 				$this->conf = $conf;
 			} else {
 				$pageId = $this->getCurrentBePageId();
@@ -155,7 +155,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 					);
 				}
 			} else {
-				$this->configurationCheck = null;
+				$this->configurationCheck = NULL;
 			}
 
 			$this->isInitialized = TRUE;
@@ -507,7 +507,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                           in $this->templateFileName
 	 */
 	protected function getTemplate() {
-		if ($this->template === null) {
+		if ($this->template === NULL) {
 			$this->template = tx_oelib_TemplateRegistry::get(
 				$this->templateFileName
 			);
@@ -1247,7 +1247,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	/**
 	 * Sets the error text of $this->configurationCheck.
 	 *
-	 * If this->configurationCheck is null, this function is a no-op.
+	 * If this->configurationCheck is NULL, this function is a no-op.
 	 *
 	 * @param string error text to set (may be empty)
 	 */

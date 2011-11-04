@@ -56,7 +56,7 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	 * Gets the "parent" data item.
 	 *
 	 * @return tx_oelib_tests_fixtures_TestingModel the "parent" data item,
-	 *                                              will be null if this model
+	 *                                              will be NULL if this model
 	 *                                              has no parent
 	 */
 	public function getParent() {
@@ -67,7 +67,7 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	 * Gets the "tx_oelib_parent2" data item.
 	 *
 	 * @return tx_oelib_tests_fixtures_TestingModel the "tx_oelib_parent2" data
-	 *                                              item, will be null if this
+	 *                                              item, will be NULL if this
 	 *                                              model has no parent2
 	 */
 	public function getParent2() {

@@ -37,12 +37,12 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * @var tx_oelib_BackEndLoginManager the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var tx_oelib_Model_BackEndUser a fake logged-in back-end user
 	 */
-	private $loggedInUser = null;
+	private $loggedInUser = NULL;
 
 	/**
 	 * The constructor. Use getInstance() instead.
@@ -54,7 +54,7 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		$this->loggedInUser = null;
+		$this->loggedInUser = NULL;
 	}
 
 	/**
@@ -78,7 +78,7 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *               user model, must not be empty
 	 *
 	 * @return tx_oelib_Model_BackEndUser the logged-in back-end user, will
-	 *                                    be null if no user is logged in
+	 *                                    be NULL if no user is logged in
 	 */
 	public function getLoggedInUser(
 		$mapperName = 'tx_oelib_Mapper_BackEndUser'
@@ -110,7 +110,7 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 			throw new Exception('$mapperName must not be empty.');
 		}
 		if (!$this->isLoggedIn()) {
-			return null;
+			return NULL;
 		}
 		if ($this->loggedInUser) {
 			return $this->loggedInUser;

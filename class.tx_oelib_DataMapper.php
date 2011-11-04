@@ -55,7 +55,7 @@ abstract class tx_oelib_DataMapper {
 	 * @var tx_oelib_IdentityMap a map that holds the models that already
 	 *                           have been retrieved
 	 */
-	protected $map = null;
+	protected $map = NULL;
 
 	/**
 	 * @var array UIDs of models that are memory-only models that must not be
@@ -430,7 +430,7 @@ abstract class tx_oelib_DataMapper {
 
 		$data[$key] = ($uid > 0)
 			? tx_oelib_MapperRegistry::get($this->relations[$key])->find($uid)
-			: null;
+			: NULL;
 	}
 
 	/**
@@ -1245,7 +1245,7 @@ abstract class tx_oelib_DataMapper {
 	 *                       matches
 	 */
 	public function findAllByRelation(
-		tx_oelib_Model $model, $relationKey, tx_oelib_List $ignoreList = null
+		tx_oelib_Model $model, $relationKey, tx_oelib_List $ignoreList = NULL
 	) {
 		if (!$model->hasUid()) {
 			throw new Exception('$model must have a UID.');
@@ -1255,7 +1255,7 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		$ignoreClause = '';
-		if (($ignoreList !== null) && !$ignoreList->isEmpty()) {
+		if (($ignoreList !== NULL) && !$ignoreList->isEmpty()) {
 			$ignoreUids = $ignoreList->getUids();
 			// deals with the case of $ignoreList having only models without UIDs
 			if ($ignoreUids != '') {

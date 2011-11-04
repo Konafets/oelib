@@ -3789,7 +3789,7 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function ensureContentObjectForMissingContentObjectWithFrontEndUsesContentObjectFromFrontEnd() {
-		$this->fixture->cObj = null;
+		$this->fixture->cObj = NULL;
 
 		$this->fixture->ensureContentObject();
 

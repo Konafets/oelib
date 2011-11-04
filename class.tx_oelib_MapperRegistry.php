@@ -40,7 +40,7 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * @var tx_oelib_MapperRegistry the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var array already created mappers (by class name)
@@ -60,7 +60,7 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * @var tx_oelib_testingFramework the testingFramework to use in testing mode
 	 */
-	private $testingFramework = null;
+	private $testingFramework = NULL;
 
 	/**
 	 * The constructor. Use getInstance() instead.
@@ -100,7 +100,7 @@ class tx_oelib_MapperRegistry {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

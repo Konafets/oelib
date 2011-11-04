@@ -47,12 +47,12 @@ class tx_oelib_List extends SplObjectStorage {
 	/**
 	 * The model this List belongs to.
 	 *
-	 * This is used for modeling relations and will remain null in any other
+	 * This is used for modeling relations and will remain NULL in any other
 	 * context.
 	 *
 	 * @var tx_oelib_Model
 	 */
-	private $parentModel = null;
+	private $parentModel = NULL;
 
 	/**
 	 * whether there is at least one item without a UID
@@ -123,7 +123,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 *
 	 * Note: This method rewinds the iterator.
 	 *
-	 * @return tx_oelib_Model the first item, will be null if this list is
+	 * @return tx_oelib_Model the first item, will be NULL if this list is
 	 *                        empty
 	 */
 	public function first() {
@@ -195,7 +195,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 *                 in the list, not empty
 	 */
 	public function sort($callbackFunction) {
-		$items = iterator_to_array($this, false);
+		$items = iterator_to_array($this, FALSE);
 		usort($items, $callbackFunction);
 
 		foreach ($items as $item) {

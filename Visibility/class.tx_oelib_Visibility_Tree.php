@@ -41,7 +41,7 @@ class tx_oelib_Visibility_Tree {
 	/**
 	 * @var tx_oelib_Visibility_Node the root node of the tree
 	 */
-	private $rootNode = null;
+	private $rootNode = NULL;
 
 	/**
 	 * Initializes the tree structure.

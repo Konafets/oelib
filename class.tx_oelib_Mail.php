@@ -40,7 +40,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * @var tx_oelib_Interface_MailRole the sender of the e-mail
 	 */
-	private $sender = null;
+	private $sender = NULL;
 
 	/**
 	 * @var array the recipients of the e-mail
@@ -123,7 +123,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Returns the sender of the e-mail.
 	 *
 	 * @return tx_oelib_Interface_MailRole the sender of the e-mail, will be
-	 *                                     null if the sender has not been set
+	 *                                     NULL if the sender has not been set
 	 */
 	public function getSender() {
 		return $this->sender;

@@ -37,7 +37,7 @@ class tx_oelib_db {
 	 * @var t3lib_pageSelect page object which we will use to call
 	 *                       enableFields on
 	 */
-	private static $pageForEnableFields = null;
+	private static $pageForEnableFields = NULL;
 
 	/**
 	 * @var array cached results for the enableFields function

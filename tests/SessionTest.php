@@ -59,7 +59,7 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 			'This class must not be instantiated when there is no front end.'
 		);
 
-		$GLOBALS['TSFE'] = null;
+		$GLOBALS['TSFE'] = NULL;
 
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER);
 	}

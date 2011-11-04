@@ -52,7 +52,7 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	}
 
 	/**
-	 * Returns the current configuration check object (or null if there is no
+	 * Returns the current configuration check object (or NULL if there is no
 	 * such object).
 	 *
 	 * @return object the current configuration check object

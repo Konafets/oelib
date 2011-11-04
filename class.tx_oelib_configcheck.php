@@ -52,7 +52,7 @@ class tx_oelib_configcheck {
      * @var tx_oelib_templatehelper the object whose configuration should
      *                              be checked
      */
-	protected $objectToCheck = null;
+	protected $objectToCheck = NULL;
 	/** @var string the (cached) class name of $this->objectToCheck */
 	private $className = '';
 

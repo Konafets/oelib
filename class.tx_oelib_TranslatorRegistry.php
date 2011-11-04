@@ -34,7 +34,7 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * @var tx_oelib_TranslatorRegistry the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var array holds the extension name => Translator entries
@@ -60,7 +60,7 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * @var t3lib_cs helper for charset conversion
 	 */
-	private $charsetConversion = null;
+	private $charsetConversion = NULL;
 
 	/**
 	 * @var string the path to the locallang.xml file, relative to an
@@ -153,7 +153,7 @@ class tx_oelib_TranslatorRegistry {
 	 * @return tx_oelib_TranslatorRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
-		if (self::$instance === null) {
+		if (self::$instance === NULL) {
 			self::$instance = new tx_oelib_TranslatorRegistry();
 		}
 
@@ -168,7 +168,7 @@ class tx_oelib_TranslatorRegistry {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

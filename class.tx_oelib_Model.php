@@ -309,15 +309,15 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string the key of the element to retrieve, must not be empty
 	 *
-	 * @return tx_oelib_Model the data item for the given key, will be null if
+	 * @return tx_oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
 	 */
 	protected function getAsModel($key) {
 		$this->checkForNonEmptyKey($key);
 
 		$result = $this->get($key);
-		if (!$this->existsKey($key) || ($result === null)) {
-			return null;
+		if (!$this->existsKey($key) || ($result === NULL)) {
+			return NULL;
 		}
 
 		if (!$result instanceof tx_oelib_Model) {

@@ -37,13 +37,13 @@
  */
 class tx_oelib_headerProxyFactory {
 	/** the singleton factory */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/** whether the test mode is set */
 	private $isTestMode = FALSE;
 
 	/** the header proxy object */
-	private $headerProxy = null;
+	private $headerProxy = NULL;
 
 	/**
 	 * Don't call this constructor; use getInstance() instead.
@@ -101,7 +101,7 @@ class tx_oelib_headerProxyFactory {
 		if (self::$instance) {
 			self::$instance->__destruct();
 		}
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**

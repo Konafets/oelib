@@ -36,7 +36,7 @@ class tx_oelib_TemplateRegistry {
 	/**
 	 * @var tx_oelib_TemplateRegistry the Singleton instance
 	 */
-	private static $instance = null;
+	private static $instance = NULL;
 
 	/**
 	 * @var array already created templates (by file name)
@@ -74,7 +74,7 @@ class tx_oelib_TemplateRegistry {
 	 * instance.
 	 */
 	public static function purgeInstance() {
-		self::$instance = null;
+		self::$instance = NULL;
 	}
 
 	/**
