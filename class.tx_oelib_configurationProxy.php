@@ -172,6 +172,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use get() instead
 	 */
 	private function getConfigurationValue($key) {
+		t3lib_div::logDeprecatedFunction();
+
 		return $this->get($key);
 	}
 
@@ -202,6 +204,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use set() instead
 	 */
 	private function setConfigurationValue($key, $value) {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->set($key, $value);
 	}
 
@@ -215,6 +219,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsString() instead
 	 */
 	public function getConfigurationValueString($key) {
+		t3lib_div::logDeprecatedFunction();
+
 		return $this->getAsString($key);
 	}
 
@@ -227,6 +233,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsString() instead
 	 */
 	public function setConfigurationValueString($key, $value) {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->setAsString($key, $value);
 	}
 
@@ -240,6 +248,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsBoolean() instead
 	 */
 	public function getConfigurationValueBoolean($key) {
+		t3lib_div::logDeprecatedFunction();
+
 		return $this->getAsBoolean($key);
 	}
 
@@ -252,6 +262,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsBoolean() instead
 	 */
 	public function setConfigurationValueBoolean($key, $value) {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->setAsBoolean($key, $value);
 	}
 
@@ -265,6 +277,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use getAsInteger() instead
 	 */
 	public function getConfigurationValueInteger($key) {
+		t3lib_div::logDeprecatedFunction();
+
 		return $this->getAsInteger($key);
 	}
 
@@ -277,6 +291,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * @deprecated 2009-06-12 Will be removed in oelib 0.8.0. Use setAsInteger() instead
 	 */
 	public function setConfigurationValueInteger($key, $value) {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->setAsInteger($key, $value);
 	}
 
