@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2010 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2011 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -244,7 +244,7 @@ class tx_oelib_MapperRegistry {
 		}
 		if (isset($this->mappers[$className])) {
 			throw new Exception(
-				'There already exists a mapper of the same type. ' .
+				'There already is a ' . $className . ' mapper registered. ' .
 				'Overwriting existing wrappers is not allowed.'
 			);
 		}
