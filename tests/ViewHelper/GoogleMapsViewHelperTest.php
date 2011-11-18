@@ -303,6 +303,88 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
+	public function renderForElementWithCoordinatesWithoutIdentityNotCreatesUidProperty() {
+		$this->fixture->render(array($this->mapPointWithCoordinates));
+
+		$this->assertNotContains(
+			'uid:',
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForElementWithCoordinatesWithIdentityWithoutUidNotCreatesUidProperty() {
+		$mapPoint = new tx_oelib_tests_fixtures_TestingMapPoint();
+		$mapPoint->setUid(0);
+		$this->fixture->render(array($mapPoint));
+
+		$this->assertNotContains(
+			'uid:',
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForElementWithCoordinatesWithIdentityWithUidCreatesUidPropertyWithUid() {
+		$uid = 42;
+		$mapPoint = new tx_oelib_tests_fixtures_TestingMapPoint();
+		$mapPoint->setUid($uid);
+		$this->fixture->render(array($mapPoint));
+
+		$this->assertContains(
+			'uid: ' . $uid,
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForElementWithCoordinatesWithoutIdentityNotCreatesEntryInMapMarkersByUid() {
+		$this->fixture->render(array($this->mapPointWithCoordinates));
+
+		$this->assertNotContains(
+			'mapMarkersByUid.' . $this->fixture->getMapId() . '[',
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForElementWithCoordinatesWithIdentityWithoutUidNotCreatesEntryInMapMarkersByUid() {
+		$mapPoint = new tx_oelib_tests_fixtures_TestingMapPoint();
+		$mapPoint->setUid(0);
+		$this->fixture->render(array($mapPoint));
+
+		$this->assertNotContains(
+			'mapMarkersByUid.' . $this->fixture->getMapId() . '[',
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderForElementWithCoordinatesWithIdentityWithUidCreatesEntryInMapMarkersByUid() {
+		$uid = 42;
+		$mapPoint = new tx_oelib_tests_fixtures_TestingMapPoint();
+		$mapPoint->setUid($uid);
+		$this->fixture->render(array($mapPoint));
+
+		$this->assertContains(
+			'mapMarkersByUid.' . $this->fixture->getMapId() . '[' . $uid . '] = marker_',
+			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function renderForOneElementWithCoordinatesUsesMapPointCoordinatesAsCenter() {
 		$this->fixture->render(array($this->mapPointWithCoordinates));
 

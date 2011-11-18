@@ -149,6 +149,7 @@ return array(
 	'tx_oelib_tests_fixtures_testinggeo' => $extensionPath . 'tests/fixtures/class.tx_oelib_tests_fixtures_TestingGeo.php',
 	'tx_oelib_tests_fixtures_testingmailrole' => $extensionPath . 'tests/fixtures/class.tx_oelib_tests_fixtures_TestingMailRole.php',
 	'tx_oelib_tests_fixtures_testingmapper' => $extensionPath . 'tests/fixtures/class.tx_oelib_tests_fixtures_TestingMapper.php',
+	'tx_oelib_tests_fixtures_testingmappoint' => $extensionPath . 'tests/fixtures/TestingMapPoint.php',
 	'tx_oelib_tests_fixtures_testingmodel' => $extensionPath . 'tests/fixtures/class.tx_oelib_tests_fixtures_TestingModel.php',
 	'tx_oelib_tests_fixtures_pi1_notincluded1' => $extensionPath . 'tests/fixtures/pi1/class.tx_oelib_tests_fixtures_pi1_NotIncluded1.php',
 );

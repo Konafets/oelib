@@ -25,6 +25,17 @@
 /**
  * This ViewHelper creates a Google Map with markers/points on it.
  *
+ * In the generated JavaScript, the markers will also be accessible via the map
+ * ID and the marker's UID (if the markers implement tx_oelib_Interface_Identity)
+ * like this:
+ *
+ * mapMarkersByUid.tx_oelib_map_1[42]
+ *
+ * "tx_oelib_map_1" is the map ID which can be retrieved with the function
+ * getMapId.
+ *
+ * 42 is the UID of the corresponding map point.
+ *
  * @package TYPO3
  * @subpackage tx_oelib
  *
@@ -44,7 +55,7 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 *
 	 * @var string
 	 */
-	const MAP_HTML_ID_PREFIX = 'tx-oelib-map';
+	const MAP_HTML_ID_PREFIX = 'tx_oelib_map';
 
 	/**
 	 * the URL of the Google Maps library
@@ -150,7 +161,8 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 		// point. In that case, any point will do (e.g., the first point).
 		$centerCoordinates = $mapPoints[0]->getGeoCoordinates();
 
-		return 'function ' . $initializeFunctionName . '() {' . LF .
+		return 'var mapMarkersByUid = mapMarkersByUid || {};' . LF .
+			'function ' . $initializeFunctionName . '() {' . LF .
 			'var center = new google.maps.LatLng(' . $centerCoordinates['latitude'] . ', ' .
 			$centerCoordinates['longitude'] . ');' . LF .
 			'var mapOptions = {' . LF .
@@ -159,9 +171,10 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 			'  zoom: ' . self::DEFAULT_ZOOM_LEVEL . ', ' . LF .
 			'  center: center' . LF .
 			'};' . LF .
+			'mapMarkersByUid.' . $mapId . ' = {};' . LF .
 			'var map = new google.maps.Map(document.getElementById("' . $mapId . '"), mapOptions);' . LF .
 			'var bounds = new google.maps.LatLngBounds();' . LF .
-			$this->createMapMarkers($mapPoints) .
+			$this->createMapMarkers($mapPoints, $mapId) .
 			'}';
 	}
 
@@ -197,12 +210,14 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 *
 	 * @param array<tx_oelib_Interface_MapPoint> $mapPoints
 	 *        the points to render, all must have geo coordinates, may be empty
+	 * @param string $mapId
+	 *        HTML ID of the map, must not be empty
 	 *
 	 * @return string
 	 *         the JavaScript code to create all markers, will be empty if
 	 *         $mapPoints is empty
 	 */
-	protected function createMapMarkers(array $mapPoints) {
+	protected function createMapMarkers(array $mapPoints, $mapId) {
 		$javaScript = '';
 
 		foreach ($mapPoints as $index => $mapPoint) {
@@ -225,11 +240,19 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 			}
 
 			$markerVariableName = 'marker_' . $index;
+			if (($mapPoint instanceof tx_oelib_Interface_Identity) && $mapPoint->hasUid()) {
+				$markerParts[] = 'uid: ' . $mapPoint->getUid();
+				$mapMarkersByUidEntry = 'mapMarkersByUid.' . $mapId .
+					'[' . $mapPoint->getUid() . '] = ' . $markerVariableName . ';' . LF;
+			} else {
+				$mapMarkersByUidEntry = '';
+			}
+
 			$javaScript .= 'var ' . $markerVariableName . ' = new google.maps.Marker({' . LF .
 				'  ' . implode(',' . LF . '  ', $markerParts) . LF .
 				'});' . LF .
-				$this->createInfoWindowJavaScript($mapPoint, $markerVariableName, $index);
-
+				$this->createInfoWindowJavaScript($mapPoint, $markerVariableName, $index) .
+				$mapMarkersByUidEntry;
 		}
 
 		if (count($mapPoints) > 1) {
@@ -284,7 +307,7 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 * @return string the map ID, will not be empty
 	 */
 	public function getMapId() {
-		return self::MAP_HTML_ID_PREFIX . '-' . $this->mapNumber;
+		return self::MAP_HTML_ID_PREFIX . '_' . $this->mapNumber;
 	}
 }
 

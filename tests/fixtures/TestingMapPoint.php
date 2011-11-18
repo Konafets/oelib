@@ -23,15 +23,52 @@
 ***************************************************************/
 
 /**
- * This interface represents an object that can be positioned on a map, e.g.,
- * on a Google Map.
+ * This is just a dummy class that implements the MapPoint interface and the
+ * Identity interface.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-interface tx_oelib_Interface_MapPoint {
+class tx_oelib_tests_fixtures_TestingMapPoint implements tx_oelib_Interface_MapPoint, tx_oelib_Interface_Identity {
+	/**
+	 * @var integer
+	 */
+	private $uid = 0;
+
+	/**
+	 * Gets this object's UID.
+	 *
+	 * @return integer
+	 *         this object's UID, will be zero if this object does not have a UID yet
+	 */
+	public function getUid() {
+		return $this->uid;
+	}
+
+	/**
+	 * Checks whether this object has a UID.
+	 *
+	 * @return boolean TRUE if this object has a non-zero UID, FALSE otherwise
+	 */
+	public function hasUid() {
+		return ($this->getUid() !== 0);
+	}
+
+	/**
+	 * Sets this object's UID.
+	 *
+	 * This function may only be called on objects that do not have a UID yet.
+	 *
+	 * @param integer $uid the UID to set, must be > 0
+	 *
+	 * @return void
+	 */
+	public function setUid($uid) {
+		$this->uid = $uid;
+	}
+
 	/**
 	 * Returns this object's coordinates.
 	 *
@@ -39,7 +76,9 @@ interface tx_oelib_Interface_MapPoint {
 	 *         this object's geo coordinates using the keys "latitude" and
 	 *         "longitude", will be empty if this object has no coordinates
 	 */
-	public function getGeoCoordinates();
+	public function getGeoCoordinates() {
+		return array('latitude' => 11.2, 'longitude' => 4.9);
+	}
 
 	/**
 	 * Checks whether this object has non-empty coordinates.
@@ -48,14 +87,18 @@ interface tx_oelib_Interface_MapPoint {
 	 *         TRUE if this object has both a non-empty longitude and a
 	 *         non-empty latitude, FALSE otherwise
 	 */
-	public function hasGeoCoordinates();
+	public function hasGeoCoordinates() {
+		return TRUE;
+	}
 
 	/**
 	 * Gets the title for the tooltip of this object.
 	 *
 	 * @return string the tooltip title (plain text), might be empty
 	 */
-	public function getTooltipTitle();
+	public function getTooltipTitle() {
+		return '';
+	}
 
 	/**
 	 * Checks whether this object has a non-empty tooltip title.
@@ -63,14 +106,18 @@ interface tx_oelib_Interface_MapPoint {
 	 * @return boolean
 	 *         TRUE if this object has a non-empty tooltip title, FALSE otherwise
 	 */
-	public function hasTooltipTitle();
+	public function hasTooltipTitle() {
+		return FALSE;
+	}
 
 	/**
 	 * Gets the info window content of this object.
 	 *
 	 * @return string the info window content (HTML), might be empty
 	 */
-	public function getInfoWindowContent();
+	public function getInfoWindowContent() {
+		return '';
+	}
 
 	/**
 	 * Checks whether this object has a non-empty info window content.
@@ -78,6 +125,8 @@ interface tx_oelib_Interface_MapPoint {
 	 * @return boolean
 	 *         TRUE if this object has a non-empty info window content, FALSE otherwise
 	 */
-	public function hasInfoWindowContent();
+	public function hasInfoWindowContent() {
+		return FALSE;
+	}
 }
 ?>
