@@ -68,7 +68,8 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * This function is intendend to be used for testing purposes only.
 	 *
-	 * @param tx_oelib_IdentityMap the map to set
+	 * @param tx_oelib_IdentityMap $map
+	 *        the map to set
 	 */
 	public function setMap(tx_oelib_IdentityMap $map) {
 		$this->map = $map;
@@ -81,10 +82,10 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     which matches the WHERE clause
 	 *
-	 * @param array WHERE clause parts for the record to retrieve, each element
-	 *              must consist of a column name as key and a value to search
-	 *              for as value (will automatically get quoted), must not be
-	 *              empty
+	 * @param array $whereClauseParts
+	 *        WHERE clause parts for the record to retrieve, each element must
+	 *        consist of a column name as key and a value to search for as value
+	 *        (will automatically get quoted), must not be empty
 	 *
 	 * @return tx_oelib_Model the model
 	 */
@@ -95,7 +96,8 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	/**
 	 * Sets the model class name.
 	 *
-	 * @param string model class name, must not be empty
+	 * @param string $className
+	 *        model class name, must not be empty
 	 */
 	public function setModelClassName($className) {
 		$this->modelClassName = $className;
@@ -105,8 +107,10 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * Processes a model's data and creates any relations that are hidden within
 	 * it using foreign key mapping.
 	 *
-	 * @param array the model data to process, might be modified
-	 * @param tx_oelib_Model $model the model to create the relations for
+	 * @param array &$data
+	 *        the model data to process, might be modified
+	 * @param tx_oelib_Model $model
+	 *        the model to create the relations for
 	 */
 	public function createRelations(array &$data, tx_oelib_Model $model) {
 		parent::createRelations($data, $model);

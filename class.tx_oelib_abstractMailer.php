@@ -49,16 +49,21 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * Note: This function cannot handle multi-part e-mails.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
-	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "quoted-printable" or "8bit"
-	 * @param string charset to use for encoding headers (only if
-	 *               $encodingType is set to a valid value which produces
-	 *               such a header)
-	 * @param boolean if set, the header content will not be encoded
+	 * @param string $emailAddress
+	 *        the recipient's e-mail address, will not be validated, must not be empty
+	 * @param string $subject
+	 *        e-mail subject, must not be empty
+	 * @param string $message
+	 *        message to send, must not be empty
+	 * @param string $headers
+	 *        headers, separated by linefeed, may be empty
+	 * @param string $encodingType
+	 *        encoding type: "quoted-printable" or "8bit"
+	 * @param string $charset
+	 *        charset to use for encoding headers (only if $encodingType is set
+	 *        to a valid value which produces such a header)
+	 * @param boolean $doNotEncodeHeader
+	 *        if set, the header content will not be encoded
 	 *
 	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */
@@ -80,9 +85,12 @@ abstract class tx_oelib_abstractMailer {
 	 * @param string $emailAddress
 	 *        the recipient's e-mail address, will not be validated, must not be
 	 *        empty
-	 * @param string $subject e-mail subject, must not be empty
-	 * @param string $message message to send, must not be empty
-	 * @param string $headers headers, separated by linefeed, may be empty
+	 * @param string $subject
+	 *        e-mail subject, must not be empty
+	 * @param string $message
+	 *        message to send, must not be empty
+	 * @param string $headers
+	 *        headers, separated by linefeed, may be empty
 	 * @param string $additionalParameters
 	 *        additional parameters to pass to the mail program as command line
 	 *        arguments
@@ -173,7 +181,8 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * Formatting will replace CRLF and CR by LF and strip multiple blank lines.
 	 *
-	 * @param boolean TRUE to enable formatting, FALSE to disable
+	 * @param boolean $enableFormatting
+	 *        TRUE to enable formatting, FALSE to disable
 	 */
 	public function sendFormattedEmails($enableFormatting) {
 		$this->enableFormatting = $enableFormatting;
@@ -206,7 +215,8 @@ abstract class tx_oelib_abstractMailer {
 	/**
 	 * Formats and encodes an e-mail role for the e-mail sending process.
 	 *
-	 * @param tx_oelib_Interface_MailRole the mail role to format
+	 * @param tx_oelib_Interface_MailRole $mailRole
+	 *        the mail role to format
 	 *
 	 * @return string the mail role formatted as string, e.g.
 	 *                '"John Doe" <john@doe.com>' or just 'john@doe.com' if the
@@ -229,10 +239,12 @@ abstract class tx_oelib_abstractMailer {
 	 * Checks that none of the parameters is empty and throws an exception if
 	 * one of them is empty.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
+	 * @param string $emailAddress
+	 *        the recipient's e-mail address, will not be validated, must not be empty
+	 * @param string $subject
+	 *        e-mail subject, must not be empty
+	 * @param string $message
+	 *        message to send, must not be empty
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
 		if ($emailAddress == '') {

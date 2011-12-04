@@ -65,7 +65,8 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 *                                     provided user name in the be_user
 	 *                                     table
 	 *
-	 * @param string user name, case-insensitive, must not be empty
+	 * @param string $userName
+	 *        user name, case-insensitive, must not be empty
 	 *
 	 * @return tx_oelib_Model_BackEndUser model of the back-end user with the
 	 *                                    provided user name
@@ -105,7 +106,8 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
 	 *
-	 * @param integer the UID of the record to retrieve, must be > 0
+	 * @param integer $uid
+	 *        the UID of the record to retrieve, must be > 0
 	 *
 	 * @return array the record from the database, will not be empty
 	 */

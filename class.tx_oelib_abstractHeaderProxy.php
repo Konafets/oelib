@@ -37,8 +37,8 @@ abstract class tx_oelib_abstractHeaderProxy {
 	/**
 	 * This function usually should add a HTTP header.
 	 *
-	 * @param string HTTP header to send, e.g. 'Status: 404 Not Found',
-	 *               must not be empty
+	 * @param string $header
+	 *        HTTP header to send, e.g. 'Status: 404 Not Found', must not be empty
 	 */
 	public abstract function addHeader($header);
 }

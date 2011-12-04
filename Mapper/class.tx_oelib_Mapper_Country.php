@@ -55,7 +55,8 @@ class tx_oelib_Mapper_Country extends tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record with the
 	 *                                     provided ISO 3166-1 alpha-2 code
 	 *
-	 * @param string the ISO 3166-1 alpha-2 code to find, must not be empty
+	 * @param string $isoAlpha2Code
+	 *        the ISO 3166-1 alpha-2 code to find, must not be empty
 	 *
 	 * @return tx_oelib_Model_Country the country
 	 */
@@ -69,7 +70,8 @@ class tx_oelib_Mapper_Country extends tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record with the
 	 *                                     provided ISO 3166-1 alpha-3 code
 	 *
-	 * @param string the ISO 3166-1 alpha-3 code to find, must not be empty
+	 * @param string $isoAlpha3Code
+	 *        the ISO 3166-1 alpha-3 code to find, must not be empty
 	 *
 	 * @return tx_oelib_Model_Country the country
 	 */

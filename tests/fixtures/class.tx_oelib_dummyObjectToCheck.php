@@ -34,7 +34,8 @@ final class tx_oelib_dummyObjectToCheck extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param array configuration for the dummy object, may be empty
+	 * @param array $configuration
+	 *        configuration for the dummy object, may be empty
 	 */
 	public function __construct(array $configuration) {
 		$this->init($configuration);

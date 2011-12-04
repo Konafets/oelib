@@ -45,7 +45,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	/**
 	 * The constructor.
 	 *
-	 * @param array TS setup configuration array, may be empty
+	 * @param array $configuration
+	 *        TS setup configuration, may be empty
 	 */
 	public function __construct(array $configuration = array()) {
 		parent::init($configuration);
@@ -64,7 +65,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	/**
 	 * Sets the salutation mode.
 	 *
-	 * @param string the salutation mode to use ("formal" or "informal")
+	 * @param string $salutation
+	 *        the salutation mode to use ("formal" or "informal")
 	 */
 	public function setSalutationMode($salutation) {
 		$this->setConfigurationValue('salutation', $salutation);
@@ -74,18 +76,17 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * Returns the localized label of the LOCAL_LANG key $key, simulating an FE
 	 * environment.
 	 *
-	 * @param string the key from the LOCAL_LANG array for which to return the
-	 *               value
-	 * @param string alternative string to return if no value is found for the
-	 *               key, neither for the local language nor the default.
-	 * @param boolean If TRUE, the output label is passed through
-	 *                htmlspecialchars().
+	 * @param string $key
+	 *        the key from the LOCAL_LANG array for which to return the value
+	 * @param string $alternativeString
+	 *        alternative string to return if no value is found for the key,
+	 *        neither for the local language nor the default.
+	 * @param boolean $useHtmlSpecialChars
+	 *        If TRUE, the output label is passed through htmlspecialchars().
 	 *
 	 * @return string the value from LOCAL_LANG
 	 */
-	public function translate($key, $alternativeString = '',
-		$useHtmlSpecialChars = FALSE
-	) {
+	public function translate($key, $alternativeString = '', $useHtmlSpecialChars = FALSE) {
 		return parent::translate(
 			$key,
 			$alternativeString,
@@ -101,8 +102,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * For example, if the extension key is "foo", the TS setup for plugin.
 	 * tx_foo will be retrieved.
 	 *
-	 * @param integer page ID of the page for which the configuration should be
-	 *                retrieved, must be > 0
+	 * @param integer $pageId
+	 *        page ID of the page for which the configuration should be retrieved, must be > 0
 	 *
 	 * @return array configuration array of the requested page for the current
 	 *               extension key
@@ -118,7 +119,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param array keys for $this->piVars that will be intvaled as well
+	 * @param array $additionalPiVars
+	 *        keys for $this->piVars that will be intvaled as well
 	 */
 	public function securePiVars(array $additionalPiVars = array()) {
 		parent::securePiVars($additionalPiVars);
@@ -131,8 +133,9 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param array keys for $this->piVars that will be ensured to exist
-	 *              intvaled in $this->piVars as well
+	 * @param array $additionalPiVars
+	 *        keys for $this->piVars that will be ensured to exist intvaled in
+	 *        $this->piVars as well
 	 */
 	public function ensureIntegerPiVars(array $additionalPiVars = array()) {
 		parent::ensureIntegerPiVars($additionalPiVars);

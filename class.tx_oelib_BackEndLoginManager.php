@@ -97,15 +97,13 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Gets the currently logged-in back-end user.
 	 *
-	 * @param string the name of the mapper to use for getting the back-end
-	 *               user model, must not be empty
+	 * @param string $mapperName
+	 *        the name of the mapper to use for getting the back-end user model, must not be empty
 	 *
 	 * @return tx_oelib_Model_BackEndUser the logged-in back-end user, will
 	 *                                    be NULL if no user is logged in
 	 */
-	public function getLoggedInUser(
-		$mapperName = 'tx_oelib_Mapper_BackEndUser'
-	) {
+	public function getLoggedInUser($mapperName = 'tx_oelib_Mapper_BackEndUser') {
 		if ($mapperName == '') {
 			throw new Exception('$mapperName must not be empty.');
 		}

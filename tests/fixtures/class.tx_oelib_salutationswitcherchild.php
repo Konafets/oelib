@@ -42,10 +42,11 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * The constructor.
 	 *
-	 * @param array TS setup configuration array, may be empty
+	 * @param array $configuration
+	 *        TS setup configuration, may be empty
 	 */
 	public function __construct(array $configuration) {
-		// Calls the base classe's constructor manually as this isn't done
+		// Calls the base class' constructor manually as this isn't done
 		// automatically.
 		parent::__construct();
 
@@ -58,8 +59,9 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the current language for this plugin and loads the language files.
 	 *
-	 * @param string two-letter lowercase language like "en" or "de" or
-	 *               "default" (which is an alias for "en")
+	 * @param string $language
+	 *        two-letter lowercase language like "en" or "de" or "default"
+	 *        (which is an alias for "en")
 	 */
 	public function setLanguage($language) {
 		if ($this->getLanguage() != $language) {
@@ -86,8 +88,9 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the current fallback language for this plugin and loads the language files.
 	 *
-	 * @param string two-letter lowercase fallback language like "en" or "de"
-	 *               or "default" (which is an alias for "en")
+	 * @param string $language
+	 *        two-letter lowercase fallback language like "en" or "de" or
+	 *        "default" (which is an alias for "en")
 	 */
 	public function setFallbackLanguage($language) {
 		if ($this->getFallbackLanguage() != $language) {
@@ -114,7 +117,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	/**
 	 * Sets the salutation mode.
 	 *
-	 * @param string the salutation mode to use ("formal" or "informal")
+	 * @param string $salutation
+	 *        the salutation mode to use ("formal" or "informal")
 	 */
 	public function setSalutationMode($salutation) {
 		$this->conf['salutation'] = $salutation;

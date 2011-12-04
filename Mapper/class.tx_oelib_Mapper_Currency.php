@@ -55,7 +55,8 @@ class tx_oelib_Mapper_Currency extends tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record with the
 	 *                                     provided ISO 4217 alpha-3 code
 	 *
-	 * @param string the ISO 4217 alpha-3 code to find, must not be empty
+	 * @param string $isoAlpha3Code
+	 *        the ISO 4217 alpha-3 code to find, must not be empty
 	 *
 	 * @return tx_oelib_Model_Currency the currency
 	 */

@@ -36,7 +36,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
-	 * @param string the value to set, may be empty
+	 * @param string $value
+	 *        the value to set, may be empty
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);
@@ -54,7 +55,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Checks whether a data item with a certain key exists.
 	 *
-	 * @param string the key of the data item to check, must not be empty
+	 * @param string key
+	 *        the key of the data item to check, must not be empty
 	 *
 	 * @return boolean TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
@@ -69,7 +71,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * @throws Exception if there is a data item stored for the key $key that
 	 *                   is not a model instance
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key
+	 *        the key of the element to retrieve, must not be empty
 	 *
 	 * @return tx_oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
@@ -81,7 +84,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the value stored in under the key $key, converted to a boolean.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key
+	 *        the key of the element to retrieve, must not be empty
 	 *
 	 * @return boolean the boolean value of the given key
 	 */
@@ -92,7 +96,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the value stored in under the key $key, converted to an integer.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key
+	 *        the key of the element to retrieve, must not be empty
 	 *
 	 * @return integer the integer value of the given key, may be positive,
 	 *                 negative or zero
@@ -115,8 +120,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "friend" data item.
 	 *
-	 * @param tx_oelib_tests_fixtures_TestingModel $friend the "friend" data
-	 *                                                     item to set
+	 * @param tx_oelib_tests_fixtures_TestingModel $friend
+	 *        the "friend" data item to set
 	 */
 	public function setFriend(tx_oelib_tests_fixtures_TestingModel $friend) {
 		$this->set('friend', $friend);
@@ -175,7 +180,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition" data item.
 	 *
-	 * @param tx_oelib_List tx_oelib_List the "composition" data to set
+	 * @param tx_oelib_List tx_oelib_List $components
+	 *        the "composition" data to set
 	 */
 	public function setComposition(tx_oelib_List $components) {
 		return $this->set('composition', $components);
@@ -194,7 +200,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition2" data item.
 	 *
-	 * @param tx_oelib_List tx_oelib_List the "composition2" data to set
+	 * @param tx_oelib_List tx_oelib_List $components
+	 *        the "composition2" data to set
 	 */
 	public function setComposition2(tx_oelib_List $components) {
 		return $this->set('composition2', $components);

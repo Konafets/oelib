@@ -64,7 +64,8 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *         if there is no front-end user with the provided user name in the
 	 *         database
 	 *
-	 * @param string $userName user name, case-insensitive, must not be empty
+	 * @param string $userName
+	 *        user name, case-insensitive, must not be empty
 	 *
 	 * @return tx_oelib_Model_FrontEndUser
 	 *         model of the front-end user with the provided user name
@@ -76,9 +77,9 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	/**
 	 * Returns the users which are in the groups with the given UIDs.
 	 *
-	 * @param string the UIDs of the user groups from which to get the users,
-	 *               must be a comma-separated list of group UIDs, must not be
-	 *               empty
+	 * @param string $groupUids
+	 *        the UIDs of the user groups from which to get the users, must be a
+	 *        comma-separated list of group UIDs, must not be empty
 	 *
 	 * @return tx_oelib_List the found user models, will be empty if
 	 *                       no users were found for the given groups

@@ -86,9 +86,9 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	/**
 	 * Sets this user's default language.
 	 *
-	 * @param string this user's language key, must be a two-letter "lg_typo3"
-	 *               key of the "static_languages" table or "default" for the
-	 *               default language
+	 * @param string $language
+	 *        this user's language key, must be a two-letter "lg_typo3" key of
+	 *        the "static_languages" table or "default" for the default language
 	 */
 	public function setDefaultLanguage($language) {
 		if ($language == '') {

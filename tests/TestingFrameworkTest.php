@@ -107,8 +107,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	 * the first parameter $uidLocal and the foreign UID given by the second
 	 * parameter $uidForeign.
 	 *
-	 * @param integer the UID of the local record, must be > 0
-	 * @param integer the UID of the foreign record, must be > 0
+	 * @param integer $uidLocal
+	 *        the UID of the local record, must be > 0
+	 * @param integer $uidForeign
+	 *        the UID of the foreign record, must be > 0
 	 *
 	 * @return integer the sorting value of the relation
 	 */

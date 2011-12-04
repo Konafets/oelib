@@ -63,8 +63,9 @@ class tx_oelib_ConfigurationRegistry {
 	 * Destructs a configuration for a given namespace and drops the reference to
 	 * it.
 	 *
-	 * @param string the namespace of the configuration to drop, must not be empty,
-	 *               must have been set in this registry
+	 * @param string $namespace
+	 *       the namespace of the configuration to drop, must not be empty, must
+	 *       have been set in this registry
 	 */
 	private function dropConfiguration($namespace) {
 		$this->configurations[$namespace]->__destruct();
@@ -133,9 +134,10 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * Sets a configuration for a certain namespace.
 	 *
-	 * @param string the namespace of the configuration to set, must not be
-	 *               empty
-	 * @param tx_oelib_Configuration the configuration to set
+	 * @param string $namespace
+	 *        the namespace of the configuration to set, must not be empty
+	 * @param tx_oelib_Configuration $configuration
+	 *        the configuration to set
 	 */
 	public function set($namespace, tx_oelib_Configuration $configuration) {
 		$this->checkForNonEmptyNamespace($namespace);
@@ -152,7 +154,8 @@ class tx_oelib_ConfigurationRegistry {
 	 *
 	 * @throws Exception if $namespace is empty
 	 *
-	 * @param string namespace name to check
+	 * @param string $namespace
+	 *        namespace name to check
 	 */
 	private function checkForNonEmptyNamespace($namespace) {
 		if ($namespace == '') {
@@ -164,8 +167,8 @@ class tx_oelib_ConfigurationRegistry {
 	 * Retrieves the configuration from TS Setup of the current page for a given
 	 * namespace.
 	 *
-	 * @param string the namespace of the configuration to retrieve, must
-	 *               not be empty
+	 * @param string $namespace
+	 *        the namespace of the configuration to retrieve, must not be empty
 	 *
 	 * @return array the TypoScript configuration for that namespace, might be
 	 *               empty

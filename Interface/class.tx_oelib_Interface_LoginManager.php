@@ -57,8 +57,8 @@ interface tx_oelib_Interface_LoginManager {
 	/**
 	 * Gets the currently logged-in user.
 	 *
-	 * @param string the name of the mapper to use for getting the user model,
-	 *               must not be empty
+	 * @param string $mapperName
+	 *        the name of the mapper to use for getting the user model, must not be empty
 	 *
 	 * @return tx_oelib_Model the logged-in user, will be NULL if no user is
 	 *                        logged in

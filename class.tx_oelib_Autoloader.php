@@ -45,7 +45,8 @@ class tx_oelib_Autoloader {
 	/**
 	 * Tries to load a class by class name.
 	 *
-	 * @param string the name of the class to load, may be empty
+	 * @param string $className
+	 *        the name of the class to load, may be empty
 	 *
 	 * @return boolean TRUE if the class could be loaded, FALSE otherwise
 	 */
@@ -79,8 +80,8 @@ class tx_oelib_Autoloader {
 	/**
 	 * Creates a path from a class name.
 	 *
-	 * @param string class name in the format tx_myext_Dir1_Dir2_MyClass,
-	 *               must not be empty
+	 * @param string $className
+	 *        class name in the format tx_myext_Dir1_Dir2_MyClass, must not be empty
 	 *
 	 * @return string the path to that class, will be empty if the path could
 	 *                not be created

@@ -57,7 +57,8 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	/**
 	 * Gets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
+	 * @param string $key
+	 *        the key of the data item to get, must not be empty
 	 *
 	 * @return mixed the data for the key $key, will be an empty string
 	 *               if the key has not been set yet
@@ -73,8 +74,10 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
-	 * @param mixed the data for the key $key
+	 * @param string $key
+	 *        the key of the data item to get, must not be empty
+	 * @param mixed $value
+	 *        the data for the key $key
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
@@ -85,7 +88,8 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	 *
 	 * @throws Exception if $key is empty
 	 *
-	 * @param string a key to check
+	 * @param string $key
+	 *        a key to check
 	 */
 	public function checkForNonEmptyKey($key) {
 		parent::checkForNonEmptyKey($key);

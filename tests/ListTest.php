@@ -80,7 +80,8 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	 * Adds models with the given titles to the fixture, one for each title
 	 * given in $titles.
 	 *
-	 * @param array the titles for the models, must not be empty
+	 * @param array<string> $titles
+	 *        the titles for the models, must not be empty
 	 */
 	private function addModelsToFixture(array $titles = array('')) {
 		foreach ($titles as $title) {

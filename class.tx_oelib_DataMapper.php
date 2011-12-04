@@ -135,7 +135,8 @@ abstract class tx_oelib_DataMapper {
 	 * Note: This function does not check that a record with the UID $uid
 	 * actually exists in the database.
 	 *
-	 * @param integer the UID of the record to retrieve, must be > 0
+	 * @param integer $uid
+	 *        the UID of the record to retrieve, must be > 0
 	 *
 	 * @return tx_oelib_Model the model with the UID $uid
 	 */
@@ -155,8 +156,9 @@ abstract class tx_oelib_DataMapper {
 	 * irrespective of the other provided data, otherwise the model will be
 	 * loaded with the provided data.
 	 *
-	 * @param array data for the model to return, must at least contain an
-	 *              element with the key "uid"
+	 * @param array $data
+	 *        data for the model to return, must at least contain an element
+	 *        with the key "uid"
 	 *
 	 * @return tx_oelib_Model model for the provided UID, filled with the data
 	 *                        provided in case it did not have any data in
@@ -180,14 +182,15 @@ abstract class tx_oelib_DataMapper {
 	 * Returns a list of models for the provided two-dimensional array with
 	 * model data.
 	 *
-	 * @param array two-dimensional array, each inner array must at least
-	 *              contain the element "uid", may be empty
+	 * @param array<array> $dataOfModels
+	 *        two-dimensional array, each inner array must at least contain the
+	 *        element "uid", may be empty
 	 *
-	 * @return tx_oelib_List A list of models with the UIDs provided. The models
-	 *                       will be filled with the data provided in case they
-	 *                       did not have any data before, otherwise the already
-	 *                       loaded data will be used. If $dataOfModels was
-	 *                       empty, an empty list will be returned.
+	 * @return tx_oelib_List<tx_oelib_Model>
+	 *         Models with the UIDs provided. The models will be filled with the
+	 *         data provided in case they did not have any data before,
+	 *         otherwise the already loaded data will be used. If $dataOfModels
+	 *         was empty, an empty list will be returned.
 	 *
 	 * @see getModel()
 	 */
@@ -208,10 +211,10 @@ abstract class tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     which matches the WHERE clause
 	 *
-	 * @param array WHERE clause parts for the record to retrieve, each element
-	 *              must consist of a column name as key and a value to search
-	 *              for as value (will automatically get quoted), must not be
-	 *              empty
+	 * @param array $whereClauseParts
+	 *        WHERE clause parts for the record to retrieve, each element must
+	 *        consist of a column name as key and a value to search for as value
+	 *        (will automatically get quoted), must not be empty
 	 *
 	 * @return tx_oelib_Model the model
 	 */
@@ -229,8 +232,10 @@ abstract class tx_oelib_DataMapper {
 	 * Checks whether a model with a certain UID actually exists in the database
 	 * and could be loaded.
 	 *
-	 * @param integer the UID of the record to retrieve, must be > 0
-	 * @param boolean whether hidden records should be allowed to be retrieved
+	 * @param integer $uid
+	 *        the UID of the record to retrieve, must be > 0
+	 * @param boolean $allowHidden
+	 *        whether hidden records should be allowed to be retrieved
 	 *
 	 * @return boolean TRUE if a model with the UID $uid exists in the database,
 	 *                 FALSE otherwise
@@ -252,7 +257,8 @@ abstract class tx_oelib_DataMapper {
 	 * If a model's data cannot be retrieved from the DB, the model will be set
 	 * to the "dead" state.
 	 *
-	 * @param tx_oelib_Model the model to fill, must have a UID
+	 * @param tx_oelib_Model $model
+	 *        the model to fill, must already have a UID
 	 */
 	public function load(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
@@ -280,9 +286,10 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * This function also updates the cache-by-key.
 	 *
-	 * @param tx_oelib_Model the model to fill, needs to have a UID
-	 * @param array the model data to process as it comes from the DB, will be
-	 *              modified
+	 * @param tx_oelib_Model $model
+	 *        the model to fill, needs to have a UID
+	 * @param array &$data
+	 *        the model data to process as it comes from the DB, will be modified
 	 */
 	private function fillModel(tx_oelib_Model $model, array &$data) {
 		$this->cacheModelByKeys($model, $data);
@@ -294,8 +301,10 @@ abstract class tx_oelib_DataMapper {
 	 * Processes a model's data and creates any relations that are hidden within
 	 * it using foreign key mapping.
 	 *
-	 * @param array the model data to process, might be modified
-	 * @param tx_oelib_Model $model the model to create the relations for
+	 * @param array &$data
+	 *        the model data to process, might be modified
+	 * @param tx_oelib_Model $model
+	 *        the model to create the relations for
 	 */
 	protected function createRelations(array &$data, tx_oelib_Model $model) {
 		foreach (array_keys($this->relations) as $key) {
@@ -316,7 +325,8 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Retrieves the configuration of a relation from the TCA.
 	 *
-	 * @param string the key of the relation to retrieve, must not be empty
+	 * @param string $key
+	 *        the key of the relation to retrieve, must not be empty
 	 *
 	 * @return array configuration for that relation, will not be empty if the
 	 *               TCA is valid
@@ -338,10 +348,11 @@ abstract class tx_oelib_DataMapper {
 	 * Checks whether the relation is configured in the TCA to be an 1:n
 	 * relation.
 	 *
-	 * @param string key of the relation, must not be empty
+	 * @param string $key
+	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean TRUE if the relation is an 1:n relation, FALSE
-	 *                 otherwise
+	 * @return boolean
+	 *         TRUE if the relation is an 1:n relation, FALSE otherwise
 	 */
 	private function isOneToManyRelationConfigured($key) {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
@@ -354,10 +365,11 @@ abstract class tx_oelib_DataMapper {
 	 * Checks whether the relation is configured in the TCA to be an n:1
 	 * relation.
 	 *
-	 * @param string key of the relation, must not be empty
+	 * @param string $key
+	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean TRUE if the relation is an n:1 relation, FALSE
-	 *                 otherwise
+	 * @return boolean
+	 *         TRUE if the relation is an n:1 relation, FALSE otherwise
 	 */
 	private function isManyToOneRelationConfigured($key) {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
@@ -371,10 +383,12 @@ abstract class tx_oelib_DataMapper {
 	 * Checks whether there is a table for an m:n relation configured in the
 	 * TCA.
 	 *
-	 * @param string key of the relation, must not be empty
+	 * @param string $key
+	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean TRUE if the relation's configuration provides an m:n
-	 *                 table, FALSE otherwise
+	 * @return boolean
+	 *         TRUE if the relation's configuration provides an m:n table,
+	 *         FALSE otherwise
 	 */
 	private function isManyToManyRelationConfigured($key) {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
@@ -385,14 +399,15 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Creates an 1:n relation using foreign field mapping.
 	 *
-	 * @param array the model data to process, will be modified
-	 * @param string the key of the data item for which the relation should
-	 *               be created, must not be empty
-	 * @param tx_oelib_Model $model the model to create the relation for
+	 * @param array &$data
+	 *        the model data to process, will be modified
+	 * @param string $key
+	 *        the key of the data item for which the relation should be created,
+	 *        must not be empty
+	 * @param tx_oelib_Model $model
+	 *        the model to create the relation for
 	 */
-	private function createOneToManyRelation(
-		array &$data, $key, tx_oelib_Model $model
-	) {
+	private function createOneToManyRelation(array &$data, $key, tx_oelib_Model $model) {
 		$relationUids = array();
 
 		if ($data[$key] > 0) {

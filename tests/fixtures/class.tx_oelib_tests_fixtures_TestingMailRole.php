@@ -41,8 +41,10 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	/**
 	 * The constructor. Sets the name and the e-mail address of the e-mail role.
 	 *
-	 * @param string the name of the e-mail role, may be empty
-	 * @param string the e-mail address of the e-mail role, may be empty
+	 * @param string $name
+	 *        the name of the e-mail role, may be empty
+	 * @param string $eMail
+	 *        the e-mail address of the e-mail role, may be empty
 	 */
 	public function __construct($name, $eMail) {
 		$this->setName($name);
@@ -59,8 +61,10 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to set, must not be empty
-	 * @param mixed the data for the key $key
+	 * @param string $key
+	 *        the key of the data item to set, must not be empty
+	 * @param mixed $value
+	 *        the data for the key $key
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
@@ -69,7 +73,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	/**
 	 * Gets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
+	 * @param string $key
+	 *        the key of the data item to get, must not be empty
 	 *
 	 * @return mixed the data for the key $key, will be an empty string
 	 *               if the key has not been set yet
@@ -94,7 +99,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	/**
 	 * Sets the real name of the e-mail role.
 	 *
-	 * @param string the real name of the e-mail role, may be empty
+	 * @param string $name
+	 *        the real name of the e-mail role, may be empty
 	 */
 	public function setName($name) {
 		$this->setAsString('name', $name);
@@ -112,7 +118,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	/**
 	 * Sets the e-mail address of the e-mail role.
 	 *
-	 * @param string the e-mail address of the e-mail role, may be empty
+	 * @param string $eMail
+	 *        the e-mail address of the e-mail role, may be empty
 	 */
 	public function setEmailAddress($eMail) {
 		$this->setAsString('email', $eMail);

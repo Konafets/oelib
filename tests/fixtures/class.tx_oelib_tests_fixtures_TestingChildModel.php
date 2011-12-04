@@ -37,7 +37,8 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	/**
 	 * Sets the "title" data item for this model.
 	 *
-	 * @param string the value to set, may be empty
+	 * @param string $value
+	 *        the value to set, may be empty
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);

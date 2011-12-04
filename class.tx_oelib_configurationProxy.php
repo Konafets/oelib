@@ -58,9 +58,10 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	/**
 	 * Don't call this constructor; use getInstance instead.
 	 *
-	 * @param string extension key without the 'tx' prefix, used to
-	 *               retrieve the EM configuration and as identifier for
-	 *               an extension's instance of this class, must not be empty
+	 * @param string $extensionKey
+	 *        extension key without the 'tx' prefix, used to retrieve the EM
+	 *        configuration and as identifier for an extension's instance of
+	 *        this class, must not be empty
 	 */
 	private function __construct($extensionKey) {
 		$this->extensionKey = $extensionKey;
@@ -76,9 +77,10 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * Retrieves the singleton configuration proxy instance for the extension
 	 * named $extensionKey. This function usually should be called statically.
 	 *
-	 * @param string extension key without the 'tx' prefix, used to
-	 *               retrieve the EM configuration and as identifier for
-	 *               an extension's instance of this class, must not be empty
+	 * @param string $extensionKey
+	 *        extension key without the 'tx' prefix, used to retrieve the EM
+	 *        configuration and as identifier for an extension's instance of
+	 *        this class, must not be empty
 	 *
 	 * @return tx_oelib_configurationProxy the singleton configuration
 	 *                                     proxy object
@@ -131,7 +133,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	/**
 	 * Checks whether a certain key exists in an extension's configuration.
 	 *
-	 * @param string key to check, must not be empty
+	 * @param string $key
+	 *        key to check, must not be empty
 	 *
 	 * @return boolean whether $key occurs in the configuration array of
 	 *                 the extension named $this->extensionKey
@@ -145,7 +148,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	/**
 	 * Returns a string configuration value.
 	 *
-	 * @param string key of the value to get, must not be empty
+	 * @param string $key
+	 *        key of the value to get, must not be empty
 	 *
 	 * @return string configuration value string, might be empty
 	 */
@@ -167,8 +171,10 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 * The configuration setters are intended to be used for testing purposes
 	 * only.
 	 *
-	 * @param string key of the value to set, must not be empty
-	 * @param mixed value to set
+	 * @param string $key
+	 *        key of the value to set, must not be empty
+	 * @param mixed $value
+	 *        the value to set
 	 */
 	protected function set($key, $value) {
 		$this->loadConfigurationLazily();

@@ -62,7 +62,8 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Sets this user's user name (login name).
 	 *
-	 * @param string $userName the user name to set, must not be empty
+	 * @param string $userName
+	 *        the user name to set, must not be empty
 	 *
 	 * @return void
 	 */
@@ -345,8 +346,9 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * Checks whether this user is a member of at least one of the user groups
 	 * provided as comma-separated UID list.
 	 *
-	 * @param string comma-separated list of user group UIDs, can also consist
-	 *               of only one UID but must not be empty
+	 * @param string $uidList
+	 *        comma-separated list of user group UIDs, can also consist of only
+	 *        one UID, but must not be empty
 	 *
 	 * @return boolean TRUE if the user is member of at least one of the user
 	 *                 groups provided, FALSE otherwise
