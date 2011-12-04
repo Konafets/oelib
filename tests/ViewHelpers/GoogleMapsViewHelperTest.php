@@ -23,16 +23,16 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_ViewHelper_GoogleMapsViewHelper class.
+ * Testcase for the tx_oelib_ViewHelpers_GoogleMapsViewHelper class.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
+class tx_oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_ViewHelper_GoogleMapsViewHelper
+	 * @var tx_oelib_ViewHelpers_GoogleMapsViewHelper
 	 */
 	private $fixture = NULL;
 
@@ -48,7 +48,7 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 		$this->mapPointWithCoordinates->expects($this->any())->method('getGeoCoordinates')
 			->will($this->returnValue(array('latitude' => 1.2, 'longitude' => 3.4)));
 
-		$this->fixture = new tx_oelib_ViewHelper_GoogleMapsViewHelper();
+		$this->fixture = new tx_oelib_ViewHelpers_GoogleMapsViewHelper();
 	}
 
 	public function tearDown() {
@@ -59,9 +59,9 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function twoMapsAfterRenderingHaveDifferentMapIds() {
-		$map1 = new tx_oelib_ViewHelper_GoogleMapsViewHelper();
+		$map1 = new tx_oelib_ViewHelpers_GoogleMapsViewHelper();
 		$map1->render(array($this->mapPointWithCoordinates));
-		$map2 = new tx_oelib_ViewHelper_GoogleMapsViewHelper();
+		$map2 = new tx_oelib_ViewHelpers_GoogleMapsViewHelper();
 		$map2->render(array($this->mapPointWithCoordinates));
 
 		$this->assertNotSame(
@@ -113,7 +113,7 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 	 */
 	public function renderReturnsDivWithIdWithGeneralMapId() {
 		$this->assertContains(
-			'<div id="' . tx_oelib_ViewHelper_GoogleMapsViewHelper::MAP_HTML_ID_PREFIX,
+			'<div id="' . tx_oelib_ViewHelpers_GoogleMapsViewHelper::MAP_HTML_ID_PREFIX,
 			$this->fixture->render(array($this->mapPointWithCoordinates))
 		);
 	}
@@ -228,7 +228,7 @@ class tx_oelib_ViewHelper_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase {
 
 		$this->assertContains(
 			'<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>',
-			$GLOBALS['TSFE']->additionalHeaderData[tx_oelib_ViewHelper_GoogleMapsViewHelper::LIBRARY_JAVASCRIPT_HEADER_KEY]
+			$GLOBALS['TSFE']->additionalHeaderData[tx_oelib_ViewHelpers_GoogleMapsViewHelper::LIBRARY_JAVASCRIPT_HEADER_KEY]
 		);
 	}
 

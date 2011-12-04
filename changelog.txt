@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4288] Cleanup: Move the Google Maps ViewHelper to a fluid-conform location
 - [#4248] Feature: Add the UID to the Google Maps markers and provide a way to find a marker by UID
 - [#4249] Feature: Log deprecated function calls
 - [#4257] Feature: Include the mapper class name in the exception when a mapper is added twice to the mapper registry
