@@ -129,7 +129,6 @@ return array(
 	'tx_oelib_model_frontendusergrouptest' => $extensionPath . 'tests/Model/FrontEndUserGroupTest.php',
 	'tx_oelib_model_frontendusertest' => $extensionPath . 'tests/Model/FrontEndUserTest.php',
 	'tx_oelib_model_languagetest' => $extensionPath . 'tests/Model/LanguageTest.php',
-	'tx_oelib_viewhelper_googlemapsviewhelpertest' => $extensionPath . 'tests/ViewHelper/GoogleMapsViewHelperTest.php',
 	'tx_oelib_viewhelper_pricetest' => $extensionPath . 'tests/ViewHelper/PriceTest.php',
 	'tx_oelib_visibility_nodetest' => $extensionPath . 'tests/Visibility/NodeTest.php',
 	'tx_oelib_visibility_treetest' => $extensionPath . 'tests/Visibility/TreeTest.php',
