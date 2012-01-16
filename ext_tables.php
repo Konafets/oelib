@@ -3,6 +3,8 @@ if (!defined ('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
+t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'One is Enough Library');
+
 $TCA['tx_oelib_test'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:oelib/locallang_db.xml:tx_oelib_test',

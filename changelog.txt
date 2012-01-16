@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4299] Feature: Add an extbase model and repository for static countries
 - [#4288] Cleanup: Move the Google Maps ViewHelper to a fluid-conform location
 - [#4248] Feature: Add the UID to the Google Maps markers and provide a way to find a marker by UID
 - [#4249] Feature: Log deprecated function calls

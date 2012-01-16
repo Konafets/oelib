@@ -1,0 +1,13 @@
+config.tx_extbase.persistence.classes {
+	Tx_Oelib_Domain_Model_Country.mapping {
+		tableName = static_countries
+		columns {
+			cn_short_local.mapOnProperty = localShortName
+			cn_official_name_local.mapOnProperty = localOfficialName
+			cn_short_en.mapOnProperty = englishShortName
+			cn_official_name_en.mapOnProperty = englishOfficialName
+			cn_iso_2.mapOnProperty = isoAlphaTwoCode
+			cn_iso_3.mapOnProperty = isoAlphaThreeCode
+		}
+	}
+}
