@@ -66,7 +66,12 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 * @deprecated 2009-03-02 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::getLoggedInUser
 	 */
 	public function getLoggedInUser() {
-		t3lib_div::logDeprecatedFunction();
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
 
 		return tx_oelib_FrontEndLoginManager::getInstance()->getLoggedInUser();
 	}

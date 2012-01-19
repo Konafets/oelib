@@ -46,7 +46,12 @@ class tx_oelib_FileFunctions {
 	 * @deprecated 2010-07-22 use t3lib_div::rmdir instead
 	 */
 	public static function rmdir($path, $removeNonEmpty = FALSE) {
-		t3lib_div::logDeprecatedFunction();
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
 
 		return t3lib_div::rmdir($path, $removeNonEmpty);
 	}

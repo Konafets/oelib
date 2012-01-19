@@ -1217,7 +1217,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @deprecated 2009-02-06 Will be removed in oelib 0.8.0. Use tx_oelib_FrontEndLoginManager::isLoggedIn()
 	 */
 	public function isLoggedIn() {
-		t3lib_div::logDeprecatedFunction();
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
 
 		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
 	}
@@ -1375,7 +1380,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @deprecated 2010-09-23
 	 */
 	protected function setLocaleConvention() {
-		t3lib_div::logDeprecatedFunction();
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
 
 		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
 	}

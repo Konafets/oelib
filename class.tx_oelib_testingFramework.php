@@ -1837,7 +1837,12 @@ final class tx_oelib_testingFramework {
 	 * @deprecated 2009-02-12 use tx_oelib_db::getTcaForTable instead
 	 */
 	public function getTcaForTable($tableName) {
-		t3lib_div::logDeprecatedFunction();
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
 
 		return tx_oelib_db::getTcaForTable($tableName);
 	}
