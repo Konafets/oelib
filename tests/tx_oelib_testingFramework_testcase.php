@@ -173,7 +173,10 @@ class tx_oelib_testingFramework_testcase extends tx_phpunit_testcase {
 	 * Marks the test as skipped if the TYPO3 version is above 4.2
 	 */
 	private function markAsSkippedForTypo3Greater42() {
-		if (t3lib_div::int_from_ver(TYPO3_version) > 4002999) {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version > 4002999) {
 			$this->markTestSkipped(
 				'This test is only applicable for TYPO3 versions up to 4.2.'
 			);

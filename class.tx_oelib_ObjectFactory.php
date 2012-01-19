@@ -53,7 +53,10 @@ class tx_oelib_ObjectFactory {
 			return t3lib_div::makeInstance($className);
 		}
 
-		if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+        $version = class_exists('t3lib_utility_VersionNumber')
+        	? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+        	: t3lib_div::int_from_ver(TYPO3_version);
+        if ($version >= 4003000) {
 			$parameters = func_get_args();
 			$result = call_user_func_array(
 				array('t3lib_div', 'makeInstance'), $parameters
