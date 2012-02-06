@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4326] Cleanup: Remove the Zend Studio metadata from all projects
 - [#4290] Feature: Add an ImageSourceViewHelper
 - [#4289] Feature: Add an UppercaseViewHelper
 - [#4299] Feature: Add an extbase model and repository for static countries
