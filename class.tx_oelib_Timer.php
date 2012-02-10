@@ -192,28 +192,25 @@ class tx_oelib_Timer {
 	public function getStatistics() {
 		$rawStatistics = $this->getStatisticsAsRawData();
 
-		$result .= '<table summary="statistics">'.LF;
-		$result .= '  <thead>'.LF;
-		$result .= '    <tr>'.LF;
-		$result .= '      <th scope="col">Total time</th>'
-			.'<th scope="col">'.$this->allTime
-			.'&nbsp;s</th><th>100&nbsp;%</th>'.LF;
-		$result .= '    </tr>'.LF;
-		$result .= '  </thead>'.LF;
-		$result .= '  <tbody>'.LF;
+		$result = '<table summary="statistics">' . LF;
+		$result .= '  <thead>' . LF;
+		$result .= '    <tr>' . LF;
+		$result .= '      <th scope="col">Total time</th>' .
+			'<th scope="col">' . $this->allTime . '&nbsp;s</th><th>100&nbsp;%</th>' . LF;
+		$result .= '    </tr>' . LF;
+		$result .= '  </thead>' . LF;
+		$result .= '  <tbody>' . LF;
 
 		foreach ($rawStatistics as $bucketData) {
-			$result .= '    <tr>'.LF;
-			$result .= '      <td>'.htmlspecialchars($bucketData['bucketName'])
-				.'</td>';
-			$result .= '      <td>'.$bucketData['absoluteTime'].'&nbsp;s'.'</td>';
-			$result .= '      <td>'.$bucketData['relativeTime'].'&nbsp;%'
-				.'</td>'.LF;
-			$result .= '    </tr>'.LF;
+			$result .= '    <tr>' . LF;
+			$result .= '      <td>' . htmlspecialchars($bucketData['bucketName']) . '</td>';
+			$result .= '      <td>' . $bucketData['absoluteTime'] . '&nbsp;s</td>';
+			$result .= '      <td>' . $bucketData['relativeTime'] . '&nbsp;%</td>' . LF;
+			$result .= '    </tr>' . LF;
 		}
 
-		$result .= '  </tbody>'.LF;
-		$result .= '</table>'.LF;
+		$result .= '  </tbody>' . LF;
+		$result .= '</table>' . LF;
 
 		return $result;
 	}

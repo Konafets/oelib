@@ -1319,6 +1319,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			if (!empty($temporaryFlavor)) {
 				$oldFlavor = $this->getFlavor();
 				$this->setFlavor($temporaryFlavor);
+			} else {
+				$oldFlavor = '';
 			}
 
 			$message = ($useRawMessage) ?

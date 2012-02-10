@@ -148,6 +148,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 */
 	private function translateInFrontEnd($key) {
 		$hasFoundATranslation = FALSE;
+		$result = '';
 
 		$availableLanguages = $this->getAvailableLanguages();
 		$suffixesToTry = $this->getSuffixesToTry();
@@ -163,7 +164,6 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 			}
 		}
 
-		// If still nothing has been found, just return the key.
 		if (!$hasFoundATranslation) {
 			$result = $key;
 		}
