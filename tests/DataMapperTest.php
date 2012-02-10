@@ -42,7 +42,14 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	private $fixture;
 
+	/**
+	 * @var boolean
+	 */
+	private $deprecationLogEnabledBackup = FALSE;
+
 	public function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
 		tx_oelib_MapperRegistry::getInstance()->activateTestingMode(
@@ -59,6 +66,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 		tx_oelib_MapperRegistry::purgeInstance();
 		unset($this->fixture, $this->testingFramework);
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 
@@ -1842,7 +1851,9 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function appendListUniqueMarksParentModelAsDirty() {
+	public function appendUniqueMarksParentModelAsDirty() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$parent = $this->fixture->find($parentUid);
