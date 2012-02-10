@@ -951,6 +951,8 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Returns the record data for an intermediate m:n-relation record.
 	 *
+	 * Note: The $mnTable parameter is used for testing mappers in the mapper registry and must not be removed.
+	 *
 	 * @param string $mnTable the name of the intermediate m:n-relation table
 	 * @param integer $uidLocal the UID of the local record
 	 * @param integer $uidForeign the UID of the foreign record
@@ -1097,6 +1099,8 @@ abstract class tx_oelib_DataMapper {
 	 *                       will be an empty list if no models were found
 	 */
 	protected function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
+		$orderBy = '';
+
 		$tca = tx_oelib_db::getTcaForTable($this->tableName);
 		if ($sorting != '') {
 			$orderBy = $sorting;
@@ -1108,8 +1112,6 @@ abstract class tx_oelib_DataMapper {
 			)) {
 				$orderBy = $matches[1];
 			}
-		} else {
-			$orderBy = '';
 		}
 
 		$completeWhereClause = ($whereClause == '')

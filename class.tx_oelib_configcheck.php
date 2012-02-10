@@ -356,6 +356,8 @@ class tx_oelib_configcheck {
 				.'the TS setup variable and set <strong>'.$this->getTSSetupPath()
 				.'cssFile</strong> in your TS constants instead.';
 			$this->setErrorMessage($message);
+		} else {
+			$message = '';
 		}
 
 		$typoScriptSetupPage =& $GLOBALS['TSFE']->tmpl->setup['page.'];
