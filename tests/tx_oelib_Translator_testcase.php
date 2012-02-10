@@ -30,15 +30,9 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  * @package TYPO3
  * @subpackage oelib
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Translator_testcase extends tx_phpunit_testcase {
-	public function setUp() {
-	}
-
-	public function tearDown() {
-	}
-
-
 	/////////////////////////////////
 	// Tests regarding translate().
 	/////////////////////////////////
@@ -61,10 +55,20 @@ class tx_oelib_Translator_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateWithLanguageEnglishReturnsEnglishLabel() {
-		$localizedLabels = array(
-			'default' => array('label_test' => 'English'),
-			'de' => array('label_test' => 'Deutsch'),
-		);
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4006000) {
+			$localizedLabels = array(
+				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+			);
+		} else {
+			$localizedLabels = array(
+				'default' => array('label_test' => 'English'),
+				'de' => array('label_test' => 'Deutsch'),
+			);
+		}
 		$fixture = new tx_oelib_Translator('default', '', $localizedLabels);
 
 		$this->assertEquals(
@@ -79,10 +83,20 @@ class tx_oelib_Translator_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateWithLanguageGermanReturnsGermanLabel() {
-		$localizedLabels = array(
-			'default' => array('label_test' => 'English'),
-			'de' => array('label_test' => 'Deutsch'),
-		);
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4006000) {
+			$localizedLabels = array(
+				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+			);
+		} else {
+			$localizedLabels = array(
+				'default' => array('label_test' => 'English'),
+				'de' => array('label_test' => 'Deutsch'),
+			);
+		}
 		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
 
 		$this->assertEquals(
@@ -97,7 +111,18 @@ class tx_oelib_Translator_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInGermanWithEmptyAlternativeLanguageWithLanguageGermanReturnsEnglishLabel() {
-		$localizedLabels = array('default' => array('label_test' => 'English'));
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4006000) {
+			$localizedLabels = array(
+				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+			);
+		} else {
+			$localizedLabels = array(
+				'default' => array('label_test' => 'English'),
+			);
+		}
 		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
 
 		$this->assertEquals(
@@ -112,7 +137,18 @@ class tx_oelib_Translator_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInEnglishAndAlternativeLanguageGermanReturnsGermanLabel() {
-		$localizedLabels = array('de' => array('label_test' => 'Deutsch'));
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4006000) {
+			$localizedLabels = array(
+				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+			);
+		} else {
+			$localizedLabels = array(
+				'de' => array('label_test' => 'Deutsch'),
+			);
+		}
 		$fixture = new tx_oelib_Translator('default', 'de', $localizedLabels);
 
 		$this->assertEquals(
