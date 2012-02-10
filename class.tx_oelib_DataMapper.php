@@ -436,9 +436,10 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Creates an n:1 relation using foreign key mapping.
 	 *
-	 * @param array the model data to process, will be modified
-	 * @param string the key of the data item for which the relation should
-	 *               be created, must not be empty
+	 * @param array &$data
+	 *        the model data to process, will be modified
+	 * @param string $key
+	 *        the key of the data item for which the relation should be created, must not be empty
 	 */
 	private function createManyToOneRelation(array &$data, $key) {
 		$uid = isset($data[$key]) ? intval($data[$key]) : 0;
@@ -451,9 +452,10 @@ abstract class tx_oelib_DataMapper {
 	/**
 	 * Creates an n:1 relation using a comma-separated list of UIDs.
 	 *
-	 * @param array the model data to process, will be modified
-	 * @param string the key of the data item for which the relation should
-	 *               be created, must not be empty
+	 * @param array &$data
+	 *        the model data to process, will be modified
+	 * @param string $key
+	 *        the key of the data item for which the relation should be created, must not be empty
 	 * @param tx_oelib_Model $model the model to create the relation for
 	 */
 	private function createCommaSeparatedRelation(
@@ -489,9 +491,10 @@ abstract class tx_oelib_DataMapper {
 	 * Note: This doesn't work for the reverse direction of bidirectional
 	 * relations yet.
 	 *
-	 * @param array the model data to process, will be modified
-	 * @param string the key of the data item for which the relation should
-	 *               be created, must not be empty
+	 * @param array &$data
+	 *        the model data to process, will be modified
+	 * @param string $key
+	 *        the key of the data item for which the relation should be created, must not be empty
 	 * @param tx_oelib_Model $model the model to create the relation for
 	 */
 	private function createMToNRelation(
@@ -534,10 +537,9 @@ abstract class tx_oelib_DataMapper {
 	 *                                     which matches the WHERE clause
 	 * @throws tx_oelib_Exception_NotFound if database access is disabled
 	 *
-	 * @param array WHERE clause parts for the record to retrieve, each element
-	 *              must consist of a column name as key and a value to search
-	 *              for as value (will automatically get quoted), must not be
-	 *              empty
+	 * @param array $whereClauseParts
+	 *        WHERE clause parts for the record to retrieve, each element must consist of a column name as key and a value to
+	 *        search for as value (will automatically get quoted), must not be empty
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
@@ -586,7 +588,7 @@ abstract class tx_oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
 	 *
-	 * @param integer the UID of the record to retrieve, must be > 0
+	 * @param integer $uid the UID of the record to retrieve, must be > 0
 	 *
 	 * @return array the record from the database, will not be empty
 	 */
@@ -596,6 +598,8 @@ abstract class tx_oelib_DataMapper {
 
 	/**
 	 * Creates a new ghost model with the UID $uid and registers it.
+	 *
+	 * @param integer $uid the UID of the to-create ghost
 	 *
 	 * @return tx_oelib_Model a ghost model with the UID $uid
 	 */
@@ -683,7 +687,7 @@ abstract class tx_oelib_DataMapper {
 	 * denied, if the model is clean, if the model has status dead, virgin or
 	 * ghost, if the model is read-only or if there is no data to set.
 	 *
-	 * @param tx_oelib_Model model to write to the database
+	 * @param tx_oelib_Model $model the model to write to the database
 	 */
 	public function save(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
@@ -731,7 +735,7 @@ abstract class tx_oelib_DataMapper {
 	 * database-applicable format. Sets the timestamp and sets the "crdate" for
 	 * new models.
 	 *
-	 * @param tx_oelib_Model model to write to the database
+	 * @param tx_oelib_Model $model the model to write to the database
 	 *
 	 * @return array the model's data prepared for the database, will not be
 	 *               empty

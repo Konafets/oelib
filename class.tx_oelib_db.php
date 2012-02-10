@@ -81,20 +81,19 @@ class tx_oelib_db {
 	 * Is using the $TCA arrays "ctrl" part where the key "enablefields"
 	 * determines for each table which of these features applies to that table.
 	 *
-	 * @param string table name found in the $TCA array
-	 * @param integer If $showHidden is set (0/1), any hidden-fields in
-	 *                records are ignored. NOTICE: If you call this function,
-	 *                consider what to do with the show_hidden parameter.
-	 *                Maybe it should be set? See tslib_cObj->enableFields
-	 *                where it's implemented correctly.
-	 * @param array Array you can pass where keys can be "disabled",
-	 *              "starttime", "endtime", "fe_group" (keys from
-	 *              "enablefields" in TCA) and if set they will make sure
-	 *              that part of the clause is not added. Thus disables
-	 *              the specific part of the clause. For previewing etc.
-	 * @param boolean If set, enableFields will be applied regardless of
-	 *                any versioning preview settings which might otherwise
-	 *                disable enableFields.
+	 * @param string $table
+	 *        table name found in the $TCA array
+	 * @param integer $showHidden
+	 *        If $showHidden is set (0/1), any hidden-fields in records are ignored.
+	 *        NOTICE: If you call this function, consider what to do with the show_hidden parameter.
+	 *        Maybe it should be set? See tslib_cObj->enableFields where it's implemented correctly.
+	 * @param array $ignoreArray
+	 *        Array you can pass where keys can be "disabled", "starttime", "endtime", "fe_group" (keys from "enablefields" in
+	 *        TCA) and if set they will make sure that part of the clause is not added. Thus disables the specific part of the
+	 *        clause. For previewing etc.
+	 * @param boolean $noVersionPreview
+	 *        If set, enableFields will be applied regardless of any versioning preview settings which might otherwise disable
+	 *        enableFields.
 	 *
 	 * @return string the WHERE clause starting like " AND ...=... AND ...=..."
 	 */
@@ -158,9 +157,10 @@ class tx_oelib_db {
 	 *
 	 * Note: The returned page list is _not_ sorted.
 	 *
-	 * @param string comma-separated list of page UIDs to start from,
-	 *               must only contain numbers and commas, may be empty
-	 * @param integer maximum depth of recursion, must be >= 0
+	 * @param string $startPages
+	 *        comma-separated list of page UIDs to start from, must only contain numbers and commas, may be empty
+	 * @param integer $recursionDepth
+	 *        maximum depth of recursion, must be >= 0
 	 *
 	 * @return string comma-separated list of subpage UIDs including the
 	 *                UIDs provided in $startPages, will be empty if
@@ -212,9 +212,10 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string the name of the table from which to delete, must not be
-	 *               empty
-	 * @param string the WHERE clause to select the records, may be empty
+	 * @param string $tableName
+	 *        the name of the table from which to delete, must not be empty
+	 * @param string $whereClause
+	 *        the WHERE clause to select the records, may be empty
 	 *
 	 * @return integer the number of affected rows, might be 0
 	 */
@@ -239,9 +240,12 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string the name of the table to change, must not be empty
-	 * @param string the WHERE clause to select the records, may be empty
-	 * @param array key/value pairs of the fields to change, may be empty
+	 * @param string $tableName
+	 *        the name of the table to change, must not be empty
+	 * @param string $whereClause
+	 *        the WHERE clause to select the records, may be empty
+	 * @param array $fields
+	 *        key/value pairs of the fields to change, may be empty
 	 *
 	 * @return integer the number of affected rows, might be 0
 	 */
@@ -266,9 +270,10 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string the name of the table in which the record should be
-	 *               created, must not be empty
-	 * @param array key/value pairs of the record to insert, must not be empty
+	 * @param string $tableName
+	 *        the name of the table in which the record should be created, must not be empty
+	 * @param array $recordData
+	 *        key/value pairs of the record to insert, must not be empty
 	 *
 	 * @return integer the UID of the created record, will be 0 if the table
 	 *                 has no UID column
@@ -297,13 +302,12 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string list of fields to select, may be "*", must not be empty
-	 * @param string comma-separated list of tables from which to select, must
-	 *               not be empty
-	 * @param string WHERE clause, may be empty
-	 * @param string GROUP BY field(s), may be empty
-	 * @param string ORDER BY field(s), may be empty
-	 * @param string LIMIT value ([begin,]max), may be empty
+	 * @param string $fields list of fields to select, may be "*", must not be empty
+	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
+	 * @param string $whereClause WHERE clause, may be empty
+	 * @param string $groupBy GROUP BY field(s), may be empty
+	 * @param string $orderBy ORDER BY field(s), may be empty
+	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return resource MySQL result pointer
 	 */
@@ -340,7 +344,7 @@ class tx_oelib_db {
 	 *                                             record
 	 *
 	 * @param string $fields list of fields to select, may be "*", must not be empty
-	 * @param string $tablenames
+	 * @param string $tableNames
 	 *        comma-separated list of tables from which to select, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
 	 * @param string $groupBy GROUP BY field(s), may be empty
@@ -374,13 +378,12 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string list of fields to select, may be "*", must not be empty
-	 * @param string comma-separated list of tables from which to select, must
-	 *               not be empty
-	 * @param string WHERE clause, may be empty
-	 * @param string GROUP BY field(s), may be empty
-	 * @param string ORDER BY field(s), may be empty
-	 * @param string LIMIT value ([begin,]max), may be empty
+	 * @param string $fieldNames list of fields to select, may be "*", must not be empty
+	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
+	 * @param string $whereClause WHERE clause, may be empty
+	 * @param string $groupBy GROUP BY field(s), may be empty
+	 * @param string $orderBy ORDER BY field(s), may be empty
+	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return array the query result rows, will be empty if there are no
 	 *               matching records
@@ -410,13 +413,12 @@ class tx_oelib_db {
 	 *
 	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
-	 * @param string name of the field to select, must not be empty
-	 * @param string comma-separated list of tables from which to select, must
-	 *               not be empty
-	 * @param string WHERE clause, may be empty
-	 * @param string GROUP BY field(s), may be empty
-	 * @param string ORDER BY field(s), may be empty
-	 * @param string LIMIT value ([begin,]max), may be empty
+	 * @param string $fieldName name of the field to select, must not be empty
+	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
+	 * @param string $whereClause WHERE clause, may be empty
+	 * @param string $groupBy GROUP BY field(s), may be empty
+	 * @param string $orderBy ORDER BY field(s), may be empty
+	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
 	 * @return array one column from the the query result rows, will be empty if
 	 *               there are no matching records
@@ -561,7 +563,7 @@ class tx_oelib_db {
 	/**
 	 * Checks whether a database table exists.
 	 *
-	 * @param string the name of the table to check for, must not be empty
+	 * @param string $tableName the name of the table to check for, must not be empty
 	 *
 	 * @return boolean TRUE if the table $tableName exists, FALSE otherwise
 	 */
@@ -583,12 +585,12 @@ class tx_oelib_db {
 	/**
 	 * Gets the column data for a table.
 	 *
-	 * @param string the name of the table for which the column names should be
-	 *               retrieved, must not be empty
+	 * @param string $table
+	 *        the name of the table for which the column names should be retrieved, must not be empty
 	 *
-	 * @return array the column data for the table $table with the column names
-	 *               as keys and the SHOW COLUMNS field information (in an
-	 *               array) as values
+	 * @return array
+	 *         the column data for the table $table with the column names as keys and the SHOW COLUMNS field information (in an
+	 *         array) as values
 	 */
 	public static function getColumnsInTable($table) {
 		self::retrieveColumnsForTable($table);
@@ -599,10 +601,10 @@ class tx_oelib_db {
 	/**
 	 * Gets the column definition for a field in $table.
 	 *
-	 * @param string the name of the table for which the column names should be
-	 *               retrieved, must not be empty
-	 * @param string the name of the field of which to retrieve the definition,
-	 *               must not be empty
+	 * @param string $table
+	 *        the name of the table for which the column names should be retrieved, must not be empty
+	 * @param string $column
+	 *        the name of the field of which to retrieve the definition, must not be empty
 	 *
 	 * @return array the field definition for the field in $table, will not be
 	 *               empty
@@ -619,8 +621,8 @@ class tx_oelib_db {
 	 * If the column data for that table already is cached, this function does
 	 * nothing.
 	 *
-	 * @param string the name of the table for which the column names should be
-	 *               retrieved, must not be empty
+	 * @param string $table
+	 *        the name of the table for which the column names should be retrieved, must not be empty
 	 */
 	private static function retrieveColumnsForTable($table) {
 		if (!isset(self::$tableColumnCache[$table])) {
@@ -641,8 +643,8 @@ class tx_oelib_db {
 	 * To get a boolean TRUE as result, the table must contain a column with the
 	 * given name.
 	 *
-	 * @param string the name of the table to check, must not be empty
-	 * @param string the column name to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
+	 * @param string $column the column name to check, must not be empty
 	 *
 	 * @return boolean TRUE if the column with the provided name exists, FALSE
 	 *                 otherwise
@@ -660,7 +662,7 @@ class tx_oelib_db {
 	/**
 	 * Checks whether a table has a column "uid".
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if a valid column was found, FALSE otherwise
 	 */
@@ -676,7 +678,7 @@ class tx_oelib_db {
 	/**
 	 * Returns the TCA for a certain table.
 	 *
-	 * @param string the table name to look up, must not be empty
+	 * @param string $tableName the table name to look up, must not be empty
 	 *
 	 * @return array associative array with the TCA description for this table
 	 */

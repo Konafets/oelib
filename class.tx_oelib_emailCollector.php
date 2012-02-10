@@ -52,16 +52,14 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Stores the contents which were meant to be sent as an e-mail.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
-	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "quoted-printable" or "8bit"
-	 * @param string charset to use for encoding headers (only if
-	 *               $encodingType is set to a valid value which produces
-	 *               such a header)
-	 * @param boolean if set, the header content will not be encoded
+	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
+	 * @param string $subject e-mail subject, must not be empty
+	 * @param string $message message to send, must not be empty
+	 * @param string $headers headers, separated by linefeed, may be empty
+	 * @param string $encodingType encoding type: "quoted-printable" or "8bit"
+	 * @param string $charset
+	 *        charset to use for encoding headers (only if $encodingType is set to a valid value which produces such a header)
+	 * @param boolean $doNotEncodeHeader if set, the header content will not be encoded
 	 *
 	 * @return boolean depending on whether success should be faked or not
 	 */
@@ -113,7 +111,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Sets the return value for sendEmail().
 	 *
-	 * @param boolean TRUE if sendEmail() should return TRUE, FALSE otherwise
+	 * @param boolean $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
 	 */
 	public function setFakedReturnValue($isSuccessful) {
 		$this->fakeSuccess = $isSuccessful;
@@ -192,8 +190,7 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	/**
 	 * Returns an element from the array with the last e-mail.
 	 *
-	 * @param string key of the element to return, must be 'recipient',
-	 *               'subject', 'message' or 'headers'
+	 * @param string $key key of the element to return, must be "recipient", "subject", "message" or "headers"
 	 *
 	 * @return string value of the element, will be an empty string if
 	 *                there was none

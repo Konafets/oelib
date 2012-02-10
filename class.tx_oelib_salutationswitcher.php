@@ -83,10 +83,8 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * If it doesn't exist, this functions tries to use the string with the key
 	 * 'greeting'.
 	 *
-	 * @param string the local language key for which to
-	 *               return the value, must not be empty
-	 * @param boolean whether the output should be passed through
-	 *                htmlspecialchars()
+	 * @param string $key the local language key for which to return the value, must not be empty
+	 * @param boolean $useHtmlSpecialChars whether the output should be passed through htmlspecialchars()
 	 *
 	 * @return string the requested local language key, might be empty
 	 */
@@ -116,8 +114,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * Retrieves the localized string for the local language key $key, using the
 	 * BE localization methods.
 	 *
-	 * @param string the local language key for which to
-	 *               return the value, must not be empty
+	 * @param string $key the local language key for which to return the value, must not be empty
 	 *
 	 * @return string the requested local language key, might be empty
 	 */
@@ -140,8 +137,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 	 * If it doesn't exist, this functions tries to use the string with the key
 	 * 'greeting'.
 	 *
-	 * @param string the local language key for which to
-	 *               return the value, must not be empty
+	 * @param string $key the local language key for which to return the value, must not be empty
 	 *
 	 * @return string the requested local language key, might be empty
 	 */

@@ -124,7 +124,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Manually sets a page UID which always will be returned by getPageUid.
 	 *
-	 * @param integer the page UID to store manually, must be > 0
+	 * @param integer $uidToStore the page UID to store manually, must be > 0
 	 */
 	public function setPageUid($uidToStore) {
 		if ($uidToStore <= 0) {
@@ -139,7 +139,7 @@ class tx_oelib_PageFinder {
 	 * Forces the getPageUid function to get the page UID from a specific
 	 * source, ignoring an empty value or the original precedence.
 	 *
-	 * @param integer SOURCE_BACK_END or SOURCE_FRONT_END
+	 * @param integer $modeToForce SOURCE_BACK_END or SOURCE_FRONT_END
 	 */
 	public function forceSource($modeToForce) {
 		$this->manualPageUidSource = $modeToForce;
@@ -189,7 +189,7 @@ class tx_oelib_PageFinder {
 	/**
 	 * Checks whether a manual page UID has been set.
 	 *
-	 * @return booelan TRUE if a page UID has been set manually, FALSE otherwise
+	 * @return boolean TRUE if a page UID has been set manually, FALSE otherwise
 	 */
 	private function hasManualPageUid() {
 		return ($this->storedPageUid > 0);

@@ -41,7 +41,7 @@ class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Stores a HTTP header which was meant to be sent.
 	 *
-	 * @param string HTTP header to send, must not be empty
+	 * @param string $header HTTP header to send, must not be empty
 	 */
 	public function addHeader($header) {
 		$this->headers[] = $header;

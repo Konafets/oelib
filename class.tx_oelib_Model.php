@@ -151,7 +151,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * 2. when a new model is created in some unit tests
 	 * 3. before a new model should be saved to the database
 	 *
-	 * @param array the data for this model, may be empty
+	 * @param array $data the data for this model, may be empty
 	 */
 	public function setData(array $data) {
 		if ($this->isLoaded()) {
@@ -212,7 +212,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * If this function is called on an empty model, the model state is changed
 	 * to ghost.
 	 *
-	 * @param integer the UID to set, must be > 0
+	 * @param integer $uid the UID to set, must be > 0
 	 */
 	public function setUid($uid) {
 		if ($this->hasUid()) {
@@ -230,8 +230,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
-	 * @param mixed the data for the key $key
+	 * @param string $key the key of the data item to get, must not be empty
+	 * @param mixed $value the data for the key $key
 	 */
 	protected function set($key, $value) {
 		if ($key == 'deleted') {
@@ -262,7 +262,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @throws tx_oelib_Exception_NotFound if this model is dead
 	 *
-	 * @param string the key of the data item to get, must not be empty
+	 * @param string $key the key of the data item to get, must not be empty
 	 *
 	 * @return mixed the data for the key $key, will be an empty string
 	 *               if the key has not been set yet
@@ -292,7 +292,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether a data item with a certain key exists.
 	 *
-	 * @param string the key of the data item to check, must not be empty
+	 * @param string $key the key of the data item to check, must not be empty
 	 *
 	 * @return boolean TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
@@ -307,7 +307,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * @throws Exception if there is a data item stored for the key $key that
 	 *                   is not a model instance
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return tx_oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
@@ -336,7 +336,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *                   is not a list instance or if that item has not been
 	 *                   set yet
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return tx_oelib_List the data item for the given key
 	 */
@@ -457,7 +457,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	/**
 	 * Sets the callback function for loading this model with data.
 	 *
-	 * @param array the callback function for loading this model with data
+	 * @param array $callback the callback function for loading this model with data
 	 */
 	public function setLoadCallback(array $callback) {
 		$this->loadCallback = $callback;

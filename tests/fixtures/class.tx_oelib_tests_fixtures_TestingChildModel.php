@@ -78,7 +78,7 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	/**
 	 * Sets the "parent" data item.
 	 *
-	 * @param tx_oelib_tests_fixtures_TestingModel $friend
+	 * @param tx_oelib_tests_fixtures_TestingModel $parent
 	 *        the "parent" data item to set
 	 */
 	public function setParent(tx_oelib_tests_fixtures_TestingModel $parent) {
@@ -88,7 +88,7 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	/**
 	 * Sets the "tx_oelib_parent2" data item.
 	 *
-	 * @param tx_oelib_tests_fixtures_TestingModel $friend
+	 * @param tx_oelib_tests_fixtures_TestingModel $parent
 	 *        the "tx_oelib_parent2" data item to set
 	 */
 	public function setParent2(tx_oelib_tests_fixtures_TestingModel $parent) {

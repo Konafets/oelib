@@ -35,7 +35,7 @@ class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
 	/**
 	 * Adds a header.
 	 *
-	 * @param string HTTP header to send, must not be empty
+	 * @param string $header HTTP header to send, must not be empty
 	 */
 	public function addHeader($header) {
 		header($header);

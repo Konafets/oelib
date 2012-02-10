@@ -100,8 +100,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Gets the currently logged-in front-end user.
 	 *
-	 * @param string the name of the mapper to use for getting the front-end
-	 *               user model, must not be empty
+	 * @param string $mapperName the name of the mapper to use for getting the front-end user model, must not be empty
 	 *
 	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
 	 *                                     be NULL if no user is logged in or

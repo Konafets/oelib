@@ -185,7 +185,7 @@ class tx_oelib_configcheck {
 	 * If $this->errorText is non-empty or $message is empty,
 	 * this function is a no-op.
 	 *
-	 * @param string error text to set (may be empty)
+	 * @param string $message error text to set (may be empty)
 	 */
 	public function setErrorMessage($message) {
 		if (!empty($message) && empty($this->errorText)) {
@@ -265,7 +265,7 @@ class tx_oelib_configcheck {
 	 *
 	 * This wrapping method can be overwritten for other wrappings.
 	 *
-	 * @access string text to be wrapped (may be empty)
+	 * @param string $message text to be wrapped (may be empty)
 	 *
 	 * @return string $message wrapped in <p></p>
 	 */
@@ -1805,8 +1805,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks that an e-mail address is valid and non-empty.
 	 *
-	 * @param string TS setup field name to mention in the warning, must
-	 *               not be empty
+	 * @param string $fieldName
+	 *        TS setup field name to mention in the warning, must not be empty
 	 * @param boolean $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)

@@ -57,14 +57,11 @@ class tx_oelib_Translator {
 	/**
 	 * The constructor.
 	 *
-	 * @param string the key of the language to load the translations for, may
-	 *               be empty
-	 * @param string the key of the alternative language to load the translations
-	 *               for, may be empty
-	 * @param array
-	 *        the localized labels in a nested associative array (may be empty) in the following format:
-	 *        TYPO3 < 4.6: 'languageKey' => array('labelkey' => 'label')
-	 *        TYPO3 >= 4.6: 'languageKey' => array('labelkey' => array(0 => array('source' => 'label', 'target' => 'label')
+	 * @param string $languageKey the key of the language to load the translations for, may be empty
+	 * @param string $alternativeLanguageKey the key of the alternative language to load the translations for, may be empty
+	 * @param array $localizedLabels the localized labels in a nested associative array:
+	 *        'languageKey' => array('labelkey' => 'label'),
+	 *        may be empty
 	 */
 	public function __construct($languageKey, $alternativeLanguageKey, array $localizedLabels) {
 		$this->languageKey = $languageKey;
@@ -82,10 +79,10 @@ class tx_oelib_Translator {
 	/**
 	 * Returns the localized label for the key $key.
 	 *
-	 * @param string the key of the label to get the localization for, must not
-	 *               be empty
-	 * @param boolean whether the localized label should be processes with
-	 *                htmlspecialchars prior to returning it
+	 * @param string $key
+	 *        the key of the label to get the localization for, must not be empty
+	 * @param boolean $useHtmlSpecialChars
+	 *        whether the localized label should be processes with htmlspecialchars prior to returning it
 	 *
 	 * @return string the localized label, might be empty
 	 */

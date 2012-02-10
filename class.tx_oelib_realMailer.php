@@ -37,16 +37,14 @@ class tx_oelib_realMailer extends tx_oelib_abstractMailer {
 	 *
 	 * Note: This function cannot handle multi-part e-mails.
 	 *
-	 * @param string the recipient's e-mail address, will not be
-	 *               validated, must not be empty
-	 * @param string e-mail subject, must not be empty
-	 * @param string message to send, must not be empty
-	 * @param string headers, separated by linefeed, may be empty
-	 * @param string encoding type: "quoted-printable" or "8bit"
-	 * @param string charset to use for encoding headers (only if
-	 *               $encodingType is set to a valid value which produces
-	 *               such a header)
-	 * @param boolean if set, the header content will not be encoded
+	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
+	 * @param string $subject e-mail subject, must not be empty
+	 * @param string $message message to send, must not be empty
+	 * @param string $headers headers, separated by linefeed, may be empty
+	 * @param string $encodingType encoding type: "quoted-printable" or "8bit"
+	 * @param string $charset
+	 *        charset to use for encoding headers (only if $encodingType is set to a valid value which produces such a header)
+	 * @param boolean $doNotEncodeHeader if set, the header content will not be encoded
 	 *
 	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
 	 */

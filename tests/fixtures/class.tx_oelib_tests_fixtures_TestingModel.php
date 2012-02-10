@@ -55,7 +55,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Checks whether a data item with a certain key exists.
 	 *
-	 * @param string key
+	 * @param string $key
 	 *        the key of the data item to check, must not be empty
 	 *
 	 * @return boolean TRUE if a data item with the key $key exists, FALSE
@@ -180,7 +180,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition" data item.
 	 *
-	 * @param tx_oelib_List tx_oelib_List $components
+	 * @param tx_oelib_List $components
 	 *        the "composition" data to set
 	 */
 	public function setComposition(tx_oelib_List $components) {
@@ -200,7 +200,7 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition2" data item.
 	 *
-	 * @param tx_oelib_List tx_oelib_List $components
+	 * @param tx_oelib_List $components
 	 *        the "composition2" data to set
 	 */
 	public function setComposition2(tx_oelib_List $components) {

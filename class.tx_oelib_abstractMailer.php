@@ -195,7 +195,7 @@ abstract class tx_oelib_abstractMailer {
 	 * with linefeeds and strips surplus blank lines, so there are no more than
 	 * two line breaks behind one another.
 	 *
-	 * @param $rawEmailBody string raw e-mail body, must not be empty
+	 * @param string $rawEmailBody string raw e-mail body, must not be empty
 	 *
 	 * @return string e-mail body, formatted if formatting is enabled,
 	 *                will not be empty

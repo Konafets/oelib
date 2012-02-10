@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4264] Cleanup: Add the parameter name to all @param
 - [#4295] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
 - [#4284] Fix: Fix the translate function for TYPO3 4.6 branch and master
 - [#4344] Fix: Non-static methods of the TranslatorRegistry are called statically in the unit tests

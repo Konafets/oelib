@@ -108,7 +108,7 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no such mapper
 	 *
-	 * @param string the name of an existing mapper class
+	 * @param string $className the name of an existing mapper class, must not be empty
 	 *
 	 * @return tx_oelib_DataMapper the mapper with the class $className
 	 *
@@ -123,7 +123,7 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no such mapper class
 	 *
-	 * @param string the name of an existing mapper class
+	 * @param string $className the name of an existing mapper class, must not be empty
 	 *
 	 * @return tx_oelib_DataMapper the mapper with the class $className
 	 */

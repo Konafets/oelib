@@ -37,7 +37,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a string.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return string the string value of the given key, may be empty
 	 */
@@ -48,7 +48,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Checks whether a non-empty string is stored under the key $key.
 	 *
-	 * @param string the key of the element to check, must not be empty
+	 * @param string $key the key of the element to check, must not be empty
 	 *
 	 * @return boolean TRUE if the value for the given key is non-empty,
 	 *                 FALSE otherwise
@@ -60,8 +60,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Sets a value for the key $key (and converts it to a string).
 	 *
-	 * @param string the key of the element to set, must not be empty
-	 * @param mixed the value to set, may be empty
+	 * @param string $key the key of the element to set, must not be empty
+	 * @param mixed $value the value to set, may be empty
 	 */
 	public function setAsString($key, $value) {
 		parent::setAsString($key, $value);
@@ -70,7 +70,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to an integer.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return integer the integer value of the given key, may be positive,
 	 *                 negative or zero
@@ -82,7 +82,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Checks whether a non-zero integer is stored under the key $key.
 	 *
-	 * @param string the key of the element to check, must not be empty
+	 * @param string $key the key of the element to check, must not be empty
 	 *
 	 * @return boolean TRUE if the value for the given key is non-zero,
 	 *                 FALSE otherwise
@@ -94,8 +94,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Sets a value for the key $key (and converts it to an integer).
 	 *
-	 * @param string the key of the element to set, must not be empty
-	 * @param mixed the value to set, may be empty
+	 * @param string $key the key of the element to set, must not be empty
+	 * @param mixed $value the value to set, may be empty
 	 */
 	public function setAsInteger($key, $value) {
 		parent::setAsInteger($key, $value);
@@ -105,7 +105,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 * Gets the value stored in under the key $key, converted to an array of
 	 * trimmed strings.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return array the array value of the given key, may be empty
 	 */
@@ -117,7 +117,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 * Gets the value stored under the key $key, converted to an array of
 	 * integers.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return array the array value of the given key, may be empty
 	 */
@@ -133,8 +133,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 * getAsIntegerArray to split that element at the comma. This is a known
 	 * limitation.
 	 *
-	 * @param string the key of the element to set, must not be empty
-	 * @param array the value to set, may be empty
+	 * @param string $key the key of the element to set, must not be empty
+	 * @param array $value the value to set, may be empty
 	 *
 	 * @see getAsTrimmedArray
 	 * @see getAsIntegerArray
@@ -146,7 +146,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a boolean.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return boolean the boolean value of the given key
 	 */
@@ -157,8 +157,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Sets a value for the key $key (and converts it to a boolean).
 	 *
-	 * @param string the key of the element to set, must not be empty
-	 * @param mixed the value to set, may be empty
+	 * @param string $key the key of the element to set, must not be empty
+	 * @param mixed $value the value to set, may be empty
 	 */
 	public function setAsBoolean($key, $value) {
 		parent::setAsBoolean($key, $value);
@@ -167,7 +167,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a float.
 	 *
-	 * @param string the key of the element to retrieve, must not be empty
+	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
 	 * @return float the float value of the given key, may be positive,
 	 *               negative or zero
@@ -179,7 +179,7 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Checks whether a non-zero float is stored under the key $key.
 	 *
-	 * @param string the key of the element to check, must not be empty
+	 * @param string $key the key of the element to check, must not be empty
 	 *
 	 * @return boolean TRUE if the value for the given key is non-zero,
 	 *                 FALSE otherwise
@@ -191,8 +191,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	/**
 	 * Sets a value for the key $key (and converts it to a float).
 	 *
-	 * @param string the key of the element to set, must not be empty
-	 * @param mixed the value to set, may be empty
+	 * @param string $key the key of the element to set, must not be empty
+	 * @param mixed $value the value to set, may be empty
 	 */
 	public function setAsFloat($key, $value) {
 		parent::setAsFloat($key, $value);

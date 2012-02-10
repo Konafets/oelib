@@ -46,29 +46,33 @@ class tx_oelib_Template {
 	private $templateCode = '';
 
 	/**
-	 * @var array associative array of all HTML template subparts, using
-	 *            the uppercase marker names without ### as keys, for example
-	 *            "MY_MARKER"
+	 * associative array of all HTML template subparts, using the uppercase marker names without ### as keys,
+	 * for example "MY_MARKER"
+	 *
+	 * @var array<string>
 	 */
 	private $subparts = array();
 
 	/**
-	 * @var array all uppercased marker names in the current template without
-	 *            the hashes, for example ("FOO", "BAR")
+	 * all uppercased marker names in the current template without the hashes, for example ("FOO", "BAR")
+	 *
+	 * @var array<string>
 	 */
 	private $markerNames = array();
 
 	/**
-	 * @var array associative array of *populated* markers and their
-	 *            contents (with the keys being the marker names including
-	 *            the wrapping hash signs ###).
+	 * associative array of *populated* markers and their contents
+	 * (with the keys being the marker names including the wrapping hash signs ###).
+	 *
+	 * @var array<string>
 	 */
 	private $markers = array();
 
 	/**
-	 * @var array Subpart names that shouldn't be displayed. Set a subpart key
-	 *            like "FIELD_DATE" (the value does not matter) to remove that
-	 *            subpart.
+	 * Subpart names that shouldn't be displayed. Set a subpart key like "FIELD_DATE"
+	 * (the value does not matter) to remove that subpart.
+	 *
+	 * @var array<string>
 	 */
 	private $subpartsToHide = array();
 
@@ -82,8 +86,7 @@ class tx_oelib_Template {
 	 * Gets the HTML template in the file specified in the parameter $filename,
 	 * stores it and retrieves all subparts, writing them to $this->subparts.
 	 *
-	 * @param string the file name of the HTML template to process, must be an
-	 *               existing file, must not be empty
+	 * @param string $fileName the file name of the HTML template to process, must be an existing file, must not be empty
 	 */
 	public function processTemplateFromFile($fileName) {
 		$this->processTemplate(
@@ -102,7 +105,7 @@ class tx_oelib_Template {
 	 * Example: The subpart ###MY_SUBPART### will be stored with the array key
 	 * 'MY_SUBPART'.
 	 *
-	 * @param string the content of the HTML template
+	 * @param string $templateCode the content of the HTML template
 	 */
 	public function processTemplate($templateCode) {
 		$this->templateCode = $templateCode;
@@ -114,7 +117,7 @@ class tx_oelib_Template {
 	 * Recursively extracts all subparts from $templateCode and writes them to
 	 * $this->subparts.
 	 *
-	 * @param string the template code to process, may be empty
+	 * @param string $templateCode the template code to process, may be empty
 	 */
 	private function extractSubparts($templateCode) {
 		// If there are no HTML comments in  the template code, there cannot be
@@ -162,9 +165,9 @@ class tx_oelib_Template {
 	 *
 	 * If there are no matches, an empty array is returned.
 	 *
-	 * @param string case-insensitive prefix for the marker names to look for
+	 * @param string $prefix case-insensitive prefix for the marker names to look for
 	 *
-	 * @return array array of matching marker names, might be empty
+	 * @return array<string> matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
 		$upperCasePrefix = strtoupper($prefix) . '_';
@@ -188,11 +191,9 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the marker name is "one", the marker
 	 * "###ONE###" will be written.
 	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param string the marker's content, may be empty
-	 * @param string prefix to the marker name (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param string $content the marker's content, may be empty
+	 * @param string $prefix prefix to the marker name (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function setMarker($markerName, $content, $prefix = '') {
 		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
@@ -205,8 +206,7 @@ class tx_oelib_Template {
 	/**
 	 * Gets a marker's content.
 	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
+	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 *
 	 * @return string the marker's content or an empty string if the
 	 *                marker has not been set before
@@ -229,11 +229,10 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the subpart name is "one", the subpart
 	 * "###ONE###" will be written.
 	 *
-	 * @param string the subpart's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param string the subpart's content, may be empty
-	 * @param string prefix to the subpart name (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $subpartName
+	 *        the subpart's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param string $content the subpart's content, may be empty
+	 * @param string $prefix prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function setSubpart($subpartName, $content, $prefix = '') {
 		$subpartName = $this->createMarkerNameWithoutHashes(
@@ -254,9 +253,9 @@ class tx_oelib_Template {
 	 * If intval($content) is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
-	 * @param string the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param integer content with which the marker will be filled, may be empty
-	 * @param string prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param mixed $content content with which the marker will be filled, may be empty
+	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
@@ -275,11 +274,9 @@ class tx_oelib_Template {
 	 * If $content is non-empty, this function sets the marker's content,
 	 * working exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
-	 * @param string the marker's name without the ### signs, case-insensitive,
-	 *               will get uppercased, must not be empty
-	 * @param string content with which the marker will be filled, may be empty
-	 * @param string prefix to the marker name for setting (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param string $content content with which the marker will be filled, may be empty
+	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
 	 *
@@ -299,8 +296,7 @@ class tx_oelib_Template {
 	 * Note: If the subpart to check does not exist, this function will return
 	 * FALSE.
 	 *
-	 * @param string name of the subpart to check (without the ###), must
-	 *               not be empty
+	 * @param string $subpartName name of the subpart to check (without the ###), must not be empty
 	 *
 	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
 	 */
@@ -324,10 +320,8 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param string comma-separated list of at least 1 subpart name to
-	 *               hide (case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $subparts comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
+	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
 		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
@@ -346,10 +340,8 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param array array of subpart names to hide
-	 *              (may be empty, case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param array<string> $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
+	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function hideSubpartsArray(array $subparts, $prefix = '') {
 		foreach ($subparts as $currentSubpartName) {
@@ -378,13 +370,12 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the list is "one,two", the subparts
 	 * "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param string comma-separated list of at least 1 subpart name to
-	 *               unhide (case-insensitive, will get uppercased),
-	 *               must not be empty
-	 * @param string comma-separated list of subpart names that
-	 *               shouldn't get unhidden
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $subparts
+	 *        comma-separated list of at least 1 subpart name to unhide (case-insensitive, will get uppercased), must not be empty
+	 * @param string $permanentlyHiddenSubparts
+	 *        comma-separated list of subpart names that shouldn't get unhidden
+	 * @param string $prefix
+	 *        prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
@@ -415,11 +406,9 @@ class tx_oelib_Template {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param array array of subpart names to unhide
-	 *              (may be empty, case-insensitive, will get uppercased)
-	 * @param array array of subpart names that shouldn't get unhidden
-	 * @param string prefix to the subpart names (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param array<string> $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
+	 * @param array<string> $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
+	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 */
 	public function unhideSubpartsArray(
 		array $subparts, array $permanentlyHiddenSubparts = array(), $prefix = ''
@@ -443,15 +432,16 @@ class tx_oelib_Template {
 	 * If $condition is FALSE, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param boolean if this is TRUE, the marker will be filled,
-	 *                otherwise the wrapped marker will be hidden
-	 * @param string content with which the marker will be filled, may be empty
-	 * @param string prefix to the marker name for setting (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart name for hiding (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $markerName
+	 *        the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param boolean $condition
+	 *        if this is TRUE, the marker will be filled, otherwise the wrapped marker will be hidden
+	 * @param string $content
+	 *        content with which the marker will be filled, may be empty
+	 * @param string $markerPrefix
+	 *        prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string $wrapperPrefix
+	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
@@ -480,13 +470,14 @@ class tx_oelib_Template {
 	 * If intval($condition) is zero, this function removes the wrapping
 	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be* empty
-	 * @param integer content with which the marker will be filled, may be empty
-	 * @param string prefix to the marker name for setting (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart name for hiding (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $markerName
+	 *        the marker's name without the ### signs, case-insensitive, will get uppercased, must not be* empty
+	 * @param mixed $content
+	 *        content with which the marker will be filled, may be empty
+	 * @param string $markerPrefix
+	 *        prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string $wrapperPrefix
+	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
@@ -517,13 +508,10 @@ class tx_oelib_Template {
 	 * If $condition is empty, this function removes the wrapping subpart,
 	 * working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
-	 * @param string the marker's name without the ### signs,
-	 *               case-insensitive, will get uppercased, must not be empty
-	 * @param string content with which the marker will be filled, may be empty
-	 * @param string prefix to the marker name for setting (may be empty,
-	 *               case-insensitive, will get uppercased)
-	 * @param string prefix to the subpart name for hiding (may be empty,
-	 *               case-insensitive, will get uppercased)
+	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
+	 * @param string $content content with which the marker will be filled, may be empty
+	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
+	 * @param string $wrapperPrefix prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return boolean TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
@@ -554,10 +542,14 @@ class tx_oelib_Template {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "###ONE###".
+	 *
+	 * @param string $markerName the name of the marker, must not be empty
+	 * @param string $prefix an optional prefix, may be empty
+	 *
+	 * @return string the created marker name (including the hashes), will not be empty
 	 */
 	private function createMarkerName($markerName, $prefix = '') {
-		return '###' .
-			$this->createMarkerNameWithoutHashes($markerName, $prefix) . '###';
+		return '###' . $this->createMarkerNameWithoutHashes($markerName, $prefix) . '###';
 	}
 
 	/**
@@ -569,6 +561,11 @@ class tx_oelib_Template {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "ONE".
+	 *
+	 * @param string $markerName the name of the marker, must not be empty
+	 * @param string $prefix an optional prefix, may be empty
+	 *
+	 * @return string the created marker name (without the hashes), will not be empty
 	 */
 	private function createMarkerNameWithoutHashes($markerName, $prefix = '') {
 		// If a prefix is provided, uppercases it and separates it with an
@@ -588,9 +585,9 @@ class tx_oelib_Template {
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param string key of an existing subpart, for example 'LIST_ITEM'
-	 *               (without the ###), or an empty string to use the
-	 *               complete HTML template
+	 * @param string $key
+	 *        key of an existing subpart, for example 'LIST_ITEM' (without the ###),
+	 *        or an empty string to use the complete HTML template
 	 *
 	 * @return string the subpart content or an empty string if the
 	 *                subpart is hidden or the subpart name is missing
@@ -637,10 +634,9 @@ class tx_oelib_Template {
 	/**
 	 * Retrieves a subpart.
 	 *
-	 * @param array numeric array with matches from
-	 *              preg_replace_callback; the element #1 needs to
-	 *              contain the name of the subpart to retrieve (in
-	 *              uppercase without the surrounding ###)
+	 * @param array<string> $matches
+	 *        numeric array with matches from preg_replace_callback; the element #1 needs to contain the name of the subpart
+	 *        to retrieve (in uppercase without the surrounding ###)
 	 *
 	 * @return string the contents of the corresponding subpart or an
 	 *                empty string in case the subpart does not exist
@@ -659,7 +655,7 @@ class tx_oelib_Template {
 	 * not end with an underscore. In addition, it must be prefixed and suffixed
 	 * with ###.
 	 *
-	 * @param string marker name to check (with the hashes), may be empty
+	 * @param string $markerName marker name to check (with the hashes), may be empty
 	 *
 	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
 	 */
@@ -678,7 +674,7 @@ class tx_oelib_Template {
 	 * start with a lowercase or uppercase letter ranging from A to Z. It must
 	 * not end with an underscore.
 	 *
-	 * @param string marker name to check (without the hashes), may be empty
+	 * @param string $markerName marker name to check (without the hashes), may be empty
 	 *
 	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
 	 */

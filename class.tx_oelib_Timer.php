@@ -113,7 +113,7 @@ class tx_oelib_Timer {
 	 * If the timer is already running, the previous bucket will be closed
 	 * first.
 	 *
-	 * @param string the name of the bucket to open, must not be empty
+	 * @param string $bucketName the name of the bucket to open, must not be empty
 	 */
 	public function openBucket($bucketName = 'default') {
 		if ($bucketName != $this->currentBucketName) {
@@ -135,7 +135,7 @@ class tx_oelib_Timer {
 	 *
 	 * @see openBucket
 	 *
-	 * @param string the name of the bucket to open, must not be empty
+	 * @param string $bucketName the name of the bucket to open, must not be empty
 	 */
 	public static function oB($bucketName = 'default') {
 		self::getInstance()->openBucket($bucketName);

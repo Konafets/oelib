@@ -35,9 +35,8 @@ class tx_oelib_FileFunctions {
 	 * Wrapper function for rmdir, allowing recursive deletion of folders and
 	 * files.
 	 *
-	 * @param string Absolute path to folder, see PHP rmdir() function.
-	 *               Removes trailing slash internally.
-	 * @param boolean whether to allow deletion of non-empty directories
+	 * @param string $path Absolute path to folder, see PHP rmdir() function. Removes trailing slash internally.
+	 * @param boolean $removeNonEmpty whether to allow deletion of non-empty directories
 	 *
 	 * @return boolean TRUE if @rmdir went well, FALSE otherwise
 	 *

@@ -59,8 +59,7 @@ class tx_oelib_Visibility_Tree {
 	 * These elements represent leaves in the visibility tree.
 	 *
 	 *
-	 * @param array $structure the tree structure in a nested array, may be
-	 *              empty
+	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
 		$this->rootNode = tx_oelib_ObjectFactory::make(
@@ -146,7 +145,7 @@ class tx_oelib_Visibility_Tree {
 	/**
 	 * Makes nodes in the tree visible.
 	 *
-	 * @param array $visibleNodes
+	 * @param array $nodeKeys
 	 *        the keys of the visible nodes, may be empty
 	 */
 	public function makeNodesVisible(array $nodeKeys) {

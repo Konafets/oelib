@@ -149,7 +149,7 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * Returns the charset for a given language code.
 	 *
-	 * @param string the language code to get the charset for, must not be empty
+	 * @param string $languageCode the language code to get the charset for, must not be empty
 	 *
 	 * @return string the charset for the given language code, will not be empty
 	 */
@@ -194,8 +194,8 @@ class tx_oelib_TranslatorRegistry {
 	 *
 	 * This is a wrapper for self::getInstance()->getByExtensionName().
 	 *
-	 * @param string the extension name to get the Translator for, must not be
-	 *               empty, the corresponding extension must be loaded
+	 * @param string $extensionName
+	 *        the extension name to get the Translator for, must not be empty, the corresponding extension must be loaded
 	 *
 	 * @return tx_oelib_Translator the Translator for the specified extension
 	 *
@@ -208,8 +208,8 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * Gets a Translator by its extension name.
 	 *
-	 * @param string the extension name to get the Translator for, must not be
-	 *               empty, the corresponding extension must be loaded
+	 * @param string $extensionName
+	 *        the extension name to get the Translator for, must not be empty, the corresponding extension must be loaded
 	 *
 	 * @return tx_oelib_Translator the Translator for the specified extension
 	 *                             name
@@ -262,9 +262,9 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * Returns the localized labels from an extension's language file.
 	 *
-	 * @param string the extension name to get the localized labels from file
-	 *               for, must not be empty, the corresponding extension must be
-	 *               loaded
+	 * @param string $extensionName
+	 *        the extension name to get the localized labels from file for,
+	 *        must not be empty, the corresponding extension must be loaded
 	 *
 	 * @return array the localized labels from an extension's language file,
 	 *               will be empty if there are none
@@ -301,9 +301,9 @@ class tx_oelib_TranslatorRegistry {
 	 *
 	 * Returns only the labels set for the language stored in $this->languageKey
 	 *
-	 * @param string the extension name to get the localized labels from
-	 *               TypoScript setup for, must not be empty, the corresponding
-	 *               extension must be loaded
+	 * @param string $extensionName
+	 *        the extension name to get the localized labels from TypoScript setup for,
+	 *        must not be empty, the corresponding extension must be loaded
 	 *
 	 * @return array the localized labels from the extension's TypoScript setup,
 	 *               will be empty if there are none

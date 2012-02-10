@@ -154,11 +154,11 @@ final class tx_oelib_testingFramework {
 	 * If you need dummy records on tables of multiple extensions, you'll have to
 	 * instantiate the testing frame work multiple times (once per extension).
 	 *
-	 * @param string the table name prefix of the extension for which
-	 *               this instance of the testing framework should be used
-	 * @param array the additional table name prefixes of the extensions
-	 *              for which this instance of the testing framework
-	 *              should be used, may be empty
+	 * @param string $tablePrefix
+	 *        the table name prefix of the extension for which this instance of the testing framework should be used
+	 * @param array<string> $additionalTablePrefixes
+	 *        the additional table name prefixes of the extensions for which this instance of the testing framework should be
+	 *        used, may be empty
 	 */
 	public function __construct(
 		$tablePrefix, array $additionalTablePrefixes = array()
@@ -181,11 +181,10 @@ final class tx_oelib_testingFramework {
 	 * Should there be any problem creating the record (wrong table name or a
 	 * problem with the database), 0 instead of a valid UID will be returned.
 	 *
-	 * @param string the name of the table on which the record should
-	 *               be created, must not be empty
-	 * @param array associative array that contains the data to save in
-	 *              the new record, may be empty, but must not contain
-	 *              the key "uid"
+	 * @param string $table
+	 *        the name of the table on which the record should be created, must not be empty
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new record, may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new record, will be > 0
 	 */
@@ -215,11 +214,10 @@ final class tx_oelib_testingFramework {
 	 * Should there be any problem creating the record (wrong table name or a
 	 * problem with the database), 0 instead of a valid UID will be returned.
 	 *
-	 * @param string the name of the table on which the record should
-	 *               be created, must not be empty
-	 * @param array associative array that contains the data to save in
-	 *              the new record, may be empty, but must not contain
-	 *              the key "uid"
+	 * @param string $table
+	 *        the name of the table on which the record should be created, must not be empty
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new record, may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new record, will be > 0
 	 */
@@ -242,10 +240,11 @@ final class tx_oelib_testingFramework {
 	 * Creates a front-end page on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param integer UID of the page on which the page should be created
-	 * @param array associative array that contains the data to save in
-	 *              the new page, may be empty, but must not contain
-	 *              the keys "uid", "pid" or "doktype"
+	 * @param integer $parentId
+	 *        UID of the page on which the page should be created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new page,
+	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
 	 * @return integer the UID of the new page, will be > 0
 	 */
@@ -259,11 +258,11 @@ final class tx_oelib_testingFramework {
 	 * Creates a system folder on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param integer UID of the page on which the system folder should be
-	 *                created
-	 * @param array associative array that contains the data to save in
-	 *              the new page, may be empty, but must not contain
-	 *              the keys "uid", "pid" or "doktype"
+	 * @param integer $parentId
+	 *        UID of the page on which the system folder should be created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new page,
+	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
 	 * @return integer the UID of the new system folder, will be > 0
 	 */
@@ -280,11 +279,13 @@ final class tx_oelib_testingFramework {
 	 * The record will be created on the page with the UID given by the second
 	 * parameter $parentId.
 	 *
-	 * @param integer document type of the record to create, must be > 0
-	 * @param integer UID of the page on which the record should be created
-	 * @param array associative array that contains the data to save in
-	 *              the record, may be empty, but must not contain the
-	 *              keys "uid", "pid" or "doktype"
+	 * @param integer $documentType
+	 *        document type of the record to create, must be > 0
+	 * @param integer $parentId
+	 *        UID of the page on which the record should be created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the record,
+	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
 	 * @return integer the UID of the new record, will be > 0
 	 */
@@ -324,11 +325,11 @@ final class tx_oelib_testingFramework {
 	 * element's type can be overwritten by setting the key 'CType' in the
 	 * parameter $recordData.
 	 *
-	 * @param integer UID of the page on which the content element should
-	 *                be created
-	 * @param array associative array that contains the data to save in
-	 *              the content element, may be empty, but must not
-	 *              contain the keys "uid" or "pid"
+	 * @param integer $pageId
+	 *        UID of the page on which the content element should be created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the content element,
+	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
 	 * @return integer the UID of the new content element, will be > 0
 	 */
@@ -361,11 +362,11 @@ final class tx_oelib_testingFramework {
 	 * Creates a template on the page with the UID given by the first parameter
 	 * $pageId.
 	 *
-	 * @param integer UID of the page on which the template should be
-	 *                created, must be > 0
-	 * @param array associative array that contains the data to save in
-	 *              the new template, may be empty, but must not contain
-	 *              the keys "uid" or "pid"
+	 * @param integer $pageId
+	 *        UID of the page on which the template should be created, must be > 0
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new template,
+	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
 	 * @return integer the UID of the new template, will be > 0
 	 */
@@ -399,9 +400,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a FE user group.
 	 *
-	 * @param array associative array that contains the data to save
-	 *              in the new user group record, may be empty, but must
-	 *              not contain the key "uid"
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new user group record,
+	 *        may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new user group, will be > 0
 	 */
@@ -420,13 +421,12 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a FE user record.
 	 *
-	 * @param string comma-separated list of UIDs of the user groups to
-	 *               which the new user belongs, each must be > 0, may
-	 *               contain spaces, if empty a new FE user group will be
-	 *               created
-	 * @param array associative array that contains the data to save
-	 *              in the new user record, may be empty, but must not
-	 *              contain the keys "uid" or "usergroup"
+	 * @param string $frontEndUserGroups
+	 *        comma-separated list of UIDs of the user groups to which the new user belongs, each must be > 0,
+	 *        may contain spaces, if empty a new FE user group will be created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new user record,
+	 *        may be empty, but must not contain the keys "uid" or "usergroup"
 	 *
 	 * @return integer the UID of the new FE user, will be > 0
 	 */
@@ -467,13 +467,12 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates and logs in an FE user.
 	 *
-	 * @param string comma-separated list of UIDs of the user groups to
-	 *               which the new user belongs, each must be > 0, may
-	 *               contain spaces; if empty a new front-end user group
-	 *               is created
-	 * @param array associative array that contains the data to save
-	 *              in the new user record, may be empty, but must not
-	 *              contain the keys "uid" or "usergroup"
+	 * @param string $frontEndUserGroups
+	 *        comma-separated list of UIDs of the user groups to which the new user belongs, each must be > 0,
+	 *        may contain spaces; if empty a new front-end user group is created
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new user record,
+	 *        may be empty, but must not contain the keys "uid" or "usergroup"
 	 *
 	 * @return integer the UID of the new FE user, will be > 0
 	 */
@@ -492,9 +491,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Creates a BE user record.
 	 *
-	 * @param array associative array that contains the data to save
-	 *              in the new user record, may be empty, but must not
-	 *              contain the key "uid"
+	 * @param array $recordData
+	 *        associative array that contains the data to save in the new user record,
+	 *        may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new BE user, will be > 0
 	 */
@@ -540,11 +539,11 @@ final class tx_oelib_testingFramework {
 	 * must not contain a new UID for the record. If you need to change the UID,
 	 * you have to create a new record!
 	 *
-	 * @param string the name of the table, must not be empty
-	 * @param integer the UID of the record to change, must not be empty
-	 * @param array associative array containing key => value pairs for
-	 *              those fields of the record that need to be changed,
-	 *              must not be empty
+	 * @param string $table the name of the table, must not be empty
+	 * @param integer $uid the UID of the record to change, must not be empty
+	 * @param array $recordData
+	 *        associative array containing key => value pairs for those fields of the record that need to be changed,
+	 *        must not be empty
 	 */
 	public function changeRecord($table, $uid, $recordData) {
 		$dummyColumnName = $this->getDummyColumnName($table);
@@ -595,9 +594,8 @@ final class tx_oelib_testingFramework {
 	 * this method. Should there for any reason exist a real record with that
 	 * UID, it won't be deleted.
 	 *
-	 * @param string name of the table from which the record should be
-	 *               deleted, must not be empty
-	 * @param integer UID of the record to delete, must be > 0
+	 * @param string $table name of the table from which the record should be deleted, must not be empty
+	 * @param integer $uid UID of the record to delete, must be > 0
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -617,13 +615,12 @@ final class tx_oelib_testingFramework {
 	 * Creates a relation between two records on different tables (so called
 	 * m:n relation).
 	 *
-	 * @param string name of the m:n table to which the record should be
-	 *               added, must not be empty
-	 * @param integer UID of the local table, must be > 0
-	 * @param integer UID of the foreign table, must be > 0
-	 * @param integer sorting value of the relation, the default value is
-	 *                0, which enables automatic sorting, a value >= 0
-	 *                overwrites the automatic sorting
+	 * @param string $table name of the m:n table to which the record should be added, must not be empty
+	 * @param integer $uidLocal UID of the local table, must be > 0
+	 * @param integer $uidForeign UID of the foreign table, must be > 0
+	 * @param integer $sorting
+	 *        sorting value of the relation, the default value is 0, which enables automatic sorting,
+	 *        a value >= 0 overwrites the automatic sorting
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -663,12 +660,10 @@ final class tx_oelib_testingFramework {
 	 * Creates a relation between two records based on the rules defined in TCA
 	 * regarding the relation.
 	 *
-	 * @param string name of the table from which a relation should be created,
-	 *               must not be empty
-	 * @param integer UID of the record in the local table, must be > 0
-	 * @param integer UID of the record in the foreign table, must be > 0
-	 * @param string name of the column in which the relation counter should be
-	 *               updated, must not be empty
+	 * @param string $tableName name of the table from which a relation should be created, must not be empty
+	 * @param integer $uidLocal UID of the record in the local table, must be > 0
+	 * @param integer $uidForeign UID of the record in the foreign table, must be > 0
+	 * @param string $columnName name of the column in which the relation counter should be updated, must not be empty
 	 */
 	public function createRelationAndUpdateCounter(
 		$tableName, $uidLocal, $uidForeign, $columnName
@@ -729,10 +724,9 @@ final class tx_oelib_testingFramework {
 	 * for any reason exist a real record with that combination of local and
 	 * foreign UID, it won't be deleted!
 	 *
-	 * @param string name of the table from which the record should be
-	 *               deleted, must not be empty
-	 * @param integer UID on the local table, must be > 0
-	 * @param integer UID on the foreign table, must be > 0
+	 * @param string $table name of the table from which the record should be deleted, must not be empty
+	 * @param integer $uidLocal UID on the local table, must be > 0
+	 * @param integer $uidForeign UID on the foreign table, must be > 0
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -759,7 +753,7 @@ final class tx_oelib_testingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param boolean whether a deep clean up should be performed, may be empty
+	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
 	 */
 	public function cleanUp($performDeepCleanUp = FALSE) {
 		$this->cleanUpTableSet(FALSE, $performDeepCleanUp);
@@ -786,9 +780,8 @@ final class tx_oelib_testingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param boolean whether to clean up the system tables (TRUE) or
-	 *                the non-system test tables (FALSE)
-	 * @param boolean whether a deep clean up should be performed, may be empty
+	 * @param boolean $useSystemTables whether to clean up the system tables (TRUE) or the non-system test tables (FALSE)
+	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
 	 */
 	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
 		if ($useSystemTables) {
@@ -849,9 +842,10 @@ final class tx_oelib_testingFramework {
 	 * Creates an empty dummy file with a unique file name in the calling
 	 * extension's upload directory.
 	 *
-	 * @param string path of the dummy file to create, relative to the
-	 *               calling extension's upload directory, must not be empty
-	 * @param string content for the file to create, may be empty
+	 * @param string $fileName
+	 *        path of the dummy file to create, relative to the calling extension's upload directory, must not be empty
+	 * @param string $content
+	 *        content for the file to create, may be empty
 	 *
 	 * @return string the absolute path of the created dummy file, will
 	 *                not be empty
@@ -877,18 +871,16 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @throws Exception if the PHP installation does not provide ZIPArchive
 	 *
-	 * @param string path of the dummy ZIP archive to create, relative to the
-	 *               calling extension's upload directory, must not be empty
-	 * @param array Absolute paths of the files to add to the ZIP archive. Note
-	 *              that the archives directory structure will be relative to
-	 *              the upload folder path, so only files within this folder or
-	 *              in sub-folders of this folder can be added.
-	 *              The provided array may be empty, but as ZIP archives cannot
-	 *              be empty, a content-less dummy text file will be added to
-	 *              the archive then.
+	 * @param string $fileName
+	 *        path of the dummy ZIP archive to create, relative to the calling extension's upload directory, must not be empty
+	 * @param array $filesToAddToArchive
+	 *        Absolute paths of the files to add to the ZIP archive.
+	 *        Note that the archives directory structure will be relative to the upload folder path, so only files within this
+	 *        folder or in sub-folders of this folder can be added.
+	 *        The provided array may be empty, but as ZIP archives cannot be empty, a content-less dummy text file will be added
+	 *        to the archive then.
 	 *
-	 * @return string the absolute path of the created dummy ZIP archive, will
-	 *                not be empty
+	 * @return string the absolute path of the created dummy ZIP archive, will not be empty
 	 */
 	public function createDummyZipArchive(
 		$fileName = 'test.zip', array $filesToAddToArchive = array()
@@ -930,8 +922,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Adds a file name to $this->dummyFiles.
 	 *
-	 * @param string file name to add, must be the unique name of a dummy file,
-	 *               must not be empty
+	 * @param string $uniqueFileName file name to add, must be the unique name of a dummy file, must not be empty
 	 */
 	private function addToDummyFileList($uniqueFileName) {
 		$relativeFileName = $this->getPathRelativeToUploadDirectory(
@@ -944,8 +935,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
-	 * @param string the path to the file to delete relative to
-	 *               $this->uploadFolderPath, must not be empty
+	 * @param string $fileName the path to the file to delete relative to $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFile($fileName) {
 		$absolutePathToFile = $this->uploadFolderPath . $fileName;
@@ -974,8 +964,7 @@ final class tx_oelib_testingFramework {
 	 * Creates a dummy folder with a unique folder name in the calling
 	 * extension's upload directory.
 	 *
-	 * @param string name of the dummy folder to create relative to
-	 *               $this->uploadFolderPath, must not be empty
+	 * @param string $folderName name of the dummy folder to create relative to $this->uploadFolderPath, must not be empty
 	 *
 	 * @return string the absolute path of the created dummy folder, will
 	 *                not be empty
@@ -1008,8 +997,7 @@ final class tx_oelib_testingFramework {
 	 * Deletes the dummy folder specified in the first parameter $folderName.
 	 * The folder must be empty (no files or subfolders).
 	 *
-	 * @param string the path to the folder to delete relative to
-	 *               $this->uploadFolderPath, must not be empty
+	 * @param string $folderName the path to the folder to delete relative to $this->uploadFolderPath, must not be empty
 	 */
 	public function deleteDummyFolder($folderName) {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
@@ -1065,11 +1053,10 @@ final class tx_oelib_testingFramework {
 	 *                   folder as these files could not be deleted if the
 	 *                   upload folder path has changed
 	 *
-	 * @param string absolute path to the folder where to work on during the
-	 *               tests, can be either an existing folder which will be
-	 *               cleaned up after the tests or a path of a folder to be
-	 *               created as soon as it is needed and deleted during
-	 *               cleanUp, must end with a trailing slash
+	 * @param string $absolutePath
+	 *        absolute path to the folder where to work on during the tests,can be either an existing folder which will be
+	 *        cleaned up after the tests or a path of a folder to be created as soon as it is needed and deleted during cleanUp,
+	 *        must end with a trailing slash
 	 */
 	public function setUploadFolderPath($absolutePath) {
 		if (!empty($this->dummyFiles) || !empty($this->dummyFolders)) {
@@ -1099,11 +1086,10 @@ final class tx_oelib_testingFramework {
 	 * @throws exception if the first parameter $absolutePath is not within
 	 *                   the calling extension's upload directory
 	 *
-	 * @param string the absolute path to process, must be within the
-	 *               calling extension's upload directory, must not be empty
+	 * @param string $absolutePath
+	 *        the absolute path to process, must be within the calling extension's upload directory, must not be empty
 	 *
-	 * @return string the path relative to the calling extension's upload
-	 *                directory
+	 * @return string the path relative to the calling extension's upload directory
 	 */
 	public function getPathRelativeToUploadDirectory($absolutePath) {
 		if (!preg_match(
@@ -1125,8 +1111,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns a unique absolut path of a file or folder.
 	 *
-	 * @param string the path of a file or folder relative to the calling
-	 *               extension's upload directory, must not be empty
+	 * @param string $path the path of a file or folder relative to the calling extension's upload directory, must not be empty
 	 *
 	 * @return string the unique absolut path of a file or folder
 	 */
@@ -1165,7 +1150,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @throws Exception if $pageUid is < 0
 	 *
-	 * @param integer UID of a page record to use, must be >= 0
+	 * @param integer $pageUid UID of a page record to use, must be >= 0
 	 *
 	 * @return integer the UID of the used front-end page, will be > 0
 	 */
@@ -1282,8 +1267,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @throws Exception if no front end has been created
 	 *
-	 * @param integer UID of the FE user, must not necessarily exist in the
-	 *                database, must be > 0
+	 * @param integer $userId UID of the FE user, must not necessarily exist in the database, must be > 0
 	 */
 	public function loginFrontEndUser($userId) {
 		if (intval($userId) == 0) {
@@ -1424,7 +1408,7 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables for
 	 * this instance of the testing framework.
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed tables, FALSE otherwise
@@ -1437,7 +1421,7 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of additional allowed
 	 * tables for this instance of the testing framework.
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 additional allowed tables, FALSE otherwise
@@ -1450,7 +1434,7 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed
 	 * system tables for this instance of the testing framework.
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed system tables, FALSE otherwise
@@ -1463,7 +1447,7 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables or
 	 * additional allowed tables for this instance of the testing framework.
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed tables or additional allowed tables, FALSE
@@ -1478,7 +1462,7 @@ final class tx_oelib_testingFramework {
 	 * Checks whether the given table name is in the list of allowed tables,
 	 * additional allowed tables or allowed system tables.
 	 *
-	 * @param string the name of the table to check, must not be empty
+	 * @param string $table the name of the table to check, must not be empty
 	 *
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed tables, additional allowed tables or allowed
@@ -1499,7 +1483,7 @@ final class tx_oelib_testingFramework {
 	 * prefix e.g. "tx_seminars_is_dummy_record" if $this->tablePrefix =
 	 * "tx_seminars".
 	 *
-	 * @param string the table name to look up, must not be empty
+	 * @param string $table the table name to look up, must not be empty
 	 *
 	 * @return string the name of the column that marks a record as dummy record
 	 */
@@ -1519,9 +1503,8 @@ final class tx_oelib_testingFramework {
 	 * Counts the dummy records in the table given by the first parameter $table
 	 * that match a given WHERE clause.
 	 *
-	 * @param string the name of the table to query, must not be empty
-	 * @param string the WHERE part of the query, may be empty (all
-	 * records will be counted in that case)
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
 	 * @return integer the number of records that have been found, will be >= 0
 	 */
@@ -1545,9 +1528,8 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there are any dummy records in the table given by the
 	 * first parameter $table that match a given WHERE clause.
 	 *
-	 * @param string the name of the table to query, must not be empty
-	 * @param string the WHERE part of the query, may be empty (all
-	 *               records will be counted in that case)
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
 	 * @return boolean TRUE if there is at least one matching record,
 	 *                 FALSE otherwise
@@ -1560,8 +1542,8 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there is a dummy record in the table given by the first
 	 * parameter $table that has the given UID.
 	 *
-	 * @param string the name of the table to query, must not be empty
-	 * @param integer the UID of the record to look up, must be > 0
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param integer $uid the UID of the record to look up, must be > 0
 	 *
 	 * @return boolean TRUE if there is a matching record, FALSE otherwise
 	 */
@@ -1577,9 +1559,8 @@ final class tx_oelib_testingFramework {
 	 * Checks whether there is exactly one dummy record in the table given by
 	 * the first parameter $table that matches a given WHERE clause.
 	 *
-	 * @param string the name of the table to query, must not be empty
-	 * @param string the WHERE part of the query, may be empty (all
-	 *               records will be counted in that case)
+	 * @param string $table the name of the table to query, must not be empty
+	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
 	 * @return boolean TRUE if there is exactly one matching record,
 	 *                 FALSE otherwise
@@ -1592,8 +1573,7 @@ final class tx_oelib_testingFramework {
 	 * Eagerly resets the auto increment value for a given table to the highest
 	 * existing UID + 1.
 	 *
-	 * @param string the name of the table on which we're going to reset
-	 *               the auto increment entry, must not be empty
+	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
 	 * @see resetAutoIncrementLazily
 	 */
@@ -1635,8 +1615,7 @@ final class tx_oelib_testingFramework {
 	 * The threshhold is 100 by default and can be set using
 	 * setResetAutoIncrementThreshold.
 	 *
-	 * @param string the name of the table on which we're going to reset
-	 *               the auto increment entry, must not be empty
+	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
 	 * @see resetAutoIncrement
 	 */
@@ -1667,7 +1646,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Sets the threshold for resetAutoIncrementLazily.
 	 *
-	 * @param integer threshold, must be > 0
+	 * @param integer $threshold threshold, must be > 0
 	 *
 	 * @see resetAutoIncrementLazily
 	 */
@@ -1686,7 +1665,7 @@ final class tx_oelib_testingFramework {
 	 * has been checked to be non-empty, valid and pointing to an existing
 	 * database table that has the "uid" column.
 	 *
-	 * @param string the name of an existing table that has the "uid" column
+	 * @param string $table the name of an existing table that has the "uid" column
 	 *
 	 * @return integer the highest UID from this table, will be >= 0
 	 */
@@ -1704,8 +1683,7 @@ final class tx_oelib_testingFramework {
 	 * This function is only valid for tables that actually have an auto
 	 * increment value.
 	 *
-	 * @param string the name of the table for which the auto increment
-	 *               value should be retrieved, must not be empty
+	 * @param string $table the name of the table for which the auto increment value should be retrieved, must not be empty
 	 *
 	 * @return integer the current auto_increment value of table $table,
 	 *                 will be > 0
@@ -1757,9 +1735,8 @@ final class tx_oelib_testingFramework {
 	 * represents a list of tables that were used for testing and contain dummy
 	 * records and thus are called "dirty" until the next clean up).
 	 *
-	 * @param string the table name or a comma-separated list of table
-	 *               names to put on the list of dirty tables, must not
-	 *               be empty
+	 * @param string $tableNames
+	 *        the table name or a comma-separated list of table names to put on the list of dirty tables, must not be empty
 	 */
 	public function markTableAsDirty($tableNames) {
 		foreach (t3lib_div::trimExplode(',', $tableNames) as $currentTable) {
@@ -1810,8 +1787,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1423
 	 *
-	 * @param string the relation table, must not be empty
-	 * @param integer UID of the local table, must be > 0
+	 * @param string $table the relation table, must not be empty
+	 * @param integer $uidLocal UID of the local table, must be > 0
 	 *
 	 * @return integer the next sorting value to use (> 0)
 	 */
@@ -1828,7 +1805,7 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Returns the TCA for a certain table.
 	 *
-	 * @param string the table name to look up, must not be empty
+	 * @param string $tableName the table name to look up, must not be empty
 	 *
 	 * @return array associative array with the TCA description for this table
 	 *
@@ -1846,9 +1823,9 @@ final class tx_oelib_testingFramework {
 	 *
 	 * The field to update must be of type integer.
 	 *
-	 * @param string name of the table, must not be empty
-	 * @param integer the UID of the record to modify, must be > 0
-	 * @param string the field name of the field to modify, must not be empty
+	 * @param string $tableName name of the table, must not be empty
+	 * @param integer $uid the UID of the record to modify, must be > 0
+	 * @param string $fieldName the field name of the field to modify, must not be empty
 	 */
 	public function increaseRelationCounter($tableName, $uid, $fieldName) {
 		if (!$this->isTableNameAllowed($tableName)) {

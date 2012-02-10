@@ -40,7 +40,7 @@
  */
 class tx_oelib_List extends SplObjectStorage {
 	/**
-	 * @var the UIDs in the list using the UIDs as both the keys and values
+	 * @var array<integer> the UIDs in the list using the UIDs as both the keys and values
 	 */
 	private $uids = array();
 
@@ -89,7 +89,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 *
 	 * The model to add need not necessarily have a UID.
 	 *
-	 * @param tx_oelib_Model the model to add, need not have a UID
+	 * @param tx_oelib_Model $model the model to add, need not have a UID
 	 */
 	public function add(tx_oelib_Model $model) {
 		$this->attach($model);
@@ -147,10 +147,9 @@ class tx_oelib_List extends SplObjectStorage {
 	/**
 	 * Checks whether a model with a certain UID exists in this list
 	 *
-	 * @param integer UID to test, must be > 0
+	 * @param integer $uid UID to test, must be > 0
 	 *
-	 * @return TRUE if a model with the UID $uid exists in this list, FALSE
-	 *              otherwise
+	 * @return boolean TRUE if a model with the UID $uid exists in this list, FALSE otherwise
 	 */
 	public function hasUid($uid) {
 		$this->checkUidCache();
@@ -191,8 +190,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 * second one, 1 means that the second parameter is sorted before the first
 	 * one and 0 means the parameters stay in order.
 	 *
-	 * @param function a callback function to use with the models stored
-	 *                 in the list, not empty
+	 * @param function $callbackFunction a callback function to use with the models stored in the list, must not be empty
 	 */
 	public function sort($callbackFunction) {
 		$items = iterator_to_array($this, FALSE);
@@ -213,7 +211,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 * cases an synonym to appendUnique() as SplObjectStorage makes sure that
 	 * no object is added more than once to it.
 	 *
-	 * @param tx_oelib_List list to append, may be empty
+	 * @param tx_oelib_List $list the list to append, may be empty
 	 */
 	public function append(tx_oelib_List $list) {
 		foreach ($list as $item) {
@@ -225,7 +223,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 * Appends the contents of $list to this list. If an item with specific UID
 	 * already exists in the list, the new item to append will be igored.
 	 *
-	 * @param tx_oelib_List list to append, may be empty
+	 * @param tx_oelib_List $list the list to append, may be empty
 	 *
 	 * @deprecated 2010-05-27 use append() instead
 	 */

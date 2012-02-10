@@ -69,8 +69,7 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 *
 	 * @throws Exception if there is no front end
 	 *
-	 * @param integer the type of the session to use; either ::TYPE_USER or
-	 *                ::TYPE_TEMPORARY
+	 * @param integer $type the type of the session to use; either TYPE_USER or TYPE_TEMPORARY
 	 */
 	protected function __construct($type) {
 		if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
@@ -93,9 +92,9 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @param integer the type of the session to use; either TYPE_USER
-	 *                (persistent) or TYPE_TEMPORARY (only for the lifetime
-	 *                of the session cookie)
+	 * @param integer $type
+	 *        the type of the session to use; either TYPE_USER (persistent)
+	 *        or TYPE_TEMPORARY (only for the lifetime of the session cookie)
 	 *
 	 * @return tx_oelib_Session the current Singleton instance for the given
 	 *                          type
@@ -113,8 +112,8 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * Sets the instance for the given type.
 	 *
-	 * @param integer the type to set, must be either TYPE_USER or TYPE_TEMPORARY
-	 * @param tx_oelib_Session the instance to set
+	 * @param integer $type the type to set, must be either TYPE_USER or TYPE_TEMPORARY
+	 * @param tx_oelib_Session $instance the instance to set
 	 */
 	public function setInstance($type, tx_oelib_Session $instance) {
 		self::checkType($type);
@@ -127,7 +126,7 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 *
 	 * @throws Exception if $type is neither ::TYPE_USER nor ::TYPE_TEMPORARY
 	 *
-	 * @param integer the type ID to check
+	 * @param integer $type the type ID to check
 	 */
 	protected static function checkType($type) {
 		if (($type != self::TYPE_USER) && ($type != self::TYPE_TEMPORARY)) {
@@ -153,7 +152,7 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * Gets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
+	 * @param string $key the key of the data item to get, must not be empty
 	 *
 	 * @return mixed the data for the key $key, will be an empty string
 	 *               if the key has not been set yet
@@ -168,8 +167,8 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * Sets the value of the data item for the key $key.
 	 *
-	 * @param string the key of the data item to get, must not be empty
-	 * @param mixed the data for the key $key
+	 * @param string $key the key of the data item to get, must not be empty
+	 * @param mixed $value the data for the key $key
 	 */
 	protected function set($key, $value) {
 		$GLOBALS['TSFE']->fe_user->setKey(
