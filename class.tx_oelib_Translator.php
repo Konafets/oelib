@@ -31,24 +31,27 @@
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Stefano Kowalke <blueduck@gmx.net>
  */
 class tx_oelib_Translator {
 	/**
 	 * @var string the key of the language to load the translations for
 	 */
-	private $languageKey;
+	private $languageKey = '';
 
 	/**
 	 * @var string the key of the alternative language to load the translations
 	 *             for
 	 */
-	private $alternativeLanguageKey;
+	private $alternativeLanguageKey = '';
 
 	/**
-	 * @var array holds the localized labels in a nested associative array:
-	 *            'languageKey' => array('labelkey' => 'label')
+	 * @var array
+	 *      the localized labels in a nested associative array:
+	 *      TYPO3 < 4.6: 'languageKey' => array('labelkey' => 'label')
+	 *      TYPO3 >= 4.6: 'languageKey' => array('labelkey' => array(0 => array('source' => 'label', 'target' => 'label')
 	 */
-	private $localizedLabels;
+	private $localizedLabels = array();
 
 	/**
 	 * The constructor.
@@ -57,9 +60,10 @@ class tx_oelib_Translator {
 	 *               be empty
 	 * @param string the key of the alternative language to load the translations
 	 *               for, may be empty
-	 * @param array the localized labels in a nested associative array:
-	 *				'languageKey' => array('labelkey' => 'label'),
-	 *              may be empty
+	 * @param array
+	 *        the localized labels in a nested associative array (may be empty) in the following format:
+	 *        TYPO3 < 4.6: 'languageKey' => array('labelkey' => 'label')
+	 *        TYPO3 >= 4.6: 'languageKey' => array('labelkey' => array(0 => array('source' => 'label', 'target' => 'label')
 	 */
 	public function __construct($languageKey, $alternativeLanguageKey, array $localizedLabels) {
 		$this->languageKey = $languageKey;
@@ -85,16 +89,35 @@ class tx_oelib_Translator {
 	 * @return string the localized label, might be empty
 	 */
 	public function translate($key, $useHtmlSpecialChars = FALSE) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new Exception('The parameter $key must not be empty.');
 		}
 
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4006000) {
+			$translation = $this->translateForNewTypo3($key);
+		} else {
+			$translation = $this->translateForOldTypo3($key);
+		}
+
+		return ($useHtmlSpecialChars ? htmlspecialchars($translation) : $translation);
+	}
+
+	/**
+	 * Returns the localized label for the key $key.
+	 *
+	 * This function must only be called for TYPO3 < 4.6.
+	 *
+	 * @param string $key the key of the label to get the localization for, must not be empty
+	 *
+	 * @return string the localized label, might be empty
+	 */
+	protected function translateForOldTypo3($key) {
 		if (isset($this->localizedLabels[$this->languageKey][$key])) {
 			$translation = $this->localizedLabels[$this->languageKey][$key];
-		} elseif (
-			($this->alternativeLanguageKey != '')
-			&& isset($this->localizedLabels[$this->alternativeLanguageKey][$key])
-		) {
+		} elseif (($this->alternativeLanguageKey !== '') && isset($this->localizedLabels[$this->alternativeLanguageKey][$key])) {
 			$translation = $this->localizedLabels[$this->alternativeLanguageKey][$key];
 		} elseif (isset($this->localizedLabels['default'][$key])) {
 			$translation = $this->localizedLabels['default'][$key];
@@ -102,9 +125,33 @@ class tx_oelib_Translator {
 			$translation = $key;
 		}
 
-		return ($useHtmlSpecialChars)
-			? htmlspecialchars($translation)
-			: $translation;
+		return $translation;
+	}
+
+	/**
+	 * Returns the localized label for the key $key.
+	 *
+	 * This function must only be called for TYPO3 >= 4.6.
+	 *
+	 * @param string $key the key of the label to get the localization for, must not be empty
+	 *
+	 * @return string the localized label, might be empty
+	 */
+	protected function translateForNewTypo3($key) {
+		if (isset($this->localizedLabels[$this->languageKey][$key][0]['target'])) {
+			$translation = $this->localizedLabels[$this->languageKey][$key][0]['target'];
+		} elseif (
+			($this->alternativeLanguageKey !== '')
+				&& isset($this->localizedLabels[$this->alternativeLanguageKey][$key][0]['target'])
+		) {
+			$translation = $this->localizedLabels[$this->alternativeLanguageKey][$key][0]['target'];
+		} elseif (isset($this->localizedLabels['default'][$key][0]['target'])) {
+			$translation = $this->localizedLabels['default'][$key][0]['target'];
+		} else {
+			$translation = $key;
+		}
+
+		return $translation;
 	}
 
 	/**

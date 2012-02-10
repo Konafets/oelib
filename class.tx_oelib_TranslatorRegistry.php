@@ -29,6 +29,8 @@
  * @subpackage tx_oelib
  *
  * @author Niels Pardon <mail@niels-pardon.de>
+ * @author Benjamin Schulte <benj@minschulte.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_TranslatorRegistry {
 	/**
@@ -104,17 +106,33 @@ class tx_oelib_TranslatorRegistry {
 	 * Initializes the TranslatorRegistry for the front end.
 	 */
 	private function initializeFrontEnd() {
-		$configuration = tx_oelib_ConfigurationRegistry::get('config');
-		if ($configuration->hasString('language')) {
-			$this->languageKey = $configuration->getAsString('language');
-			if ($configuration->hasString('language_alt')) {
-				$this->alternativeLanguageKey = $configuration->
-					getAsString('language_alt');
-			}
-		}
+		$this->setLanguageKeyFromConfiguration(tx_oelib_ConfigurationRegistry::get('config'));
+		$this->setLanguageKeyFromConfiguration(tx_oelib_ConfigurationRegistry::get('page.config'));
 
 		$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
 		$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
+	}
+
+	/**
+	 * Reads the language key from a configuration and sets it as current language.
+	 * Also sets the alternate language if one is configured.
+	 *
+	 * The language key is read from the "language" key and the alternate language is read
+	 * from the language_alt key.
+	 *
+	 * @param tx_oelib_Configuration $configuration the configuration to read
+	 *
+	 * @return void
+	 */
+	private function setLanguageKeyFromConfiguration(tx_oelib_Configuration $configuration) {
+		if (!$configuration->hasString('language')) {
+			return;
+		}
+
+		$this->languageKey = $configuration->getAsString('language');
+		if ($configuration->hasString('language_alt')) {
+			$this->alternativeLanguageKey = $configuration->getAsString('language_alt');
+		}
 	}
 
 	/**
@@ -214,18 +232,19 @@ class tx_oelib_TranslatorRegistry {
 			// in the front end.
 
 			if (isset($GLOBALS['TSFE'])
-				&& isset($localizedLabels[$this->languageKey])
-				&& is_array($localizedLabels[$this->languageKey])
+				&& isset($localizedLabels[$this->languageKey]) && is_array($localizedLabels[$this->languageKey])
 			) {
-				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript(
-					$extensionName
-				);
+				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
 
-				if (!empty($labelsFromTyposcript)) {
-					$localizedLabels[$this->languageKey] = array_merge(
-						$localizedLabels[$this->languageKey],
-						$labelsFromTyposcript
-					);
+				$version = class_exists('t3lib_utility_VersionNumber')
+					? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+					: t3lib_div::int_from_ver(TYPO3_version);
+				foreach ($labelsFromTyposcript as $labelKey => $labelFromTyposcript) {
+					if ($version >= 4006000) {
+						$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;
+					} else {
+						$localizedLabels[$this->languageKey][$labelKey] = $labelFromTyposcript;
+					}
 				}
 			}
 
@@ -255,15 +274,14 @@ class tx_oelib_TranslatorRegistry {
 			throw new Exception('The parameter $extensionName must not be empty.');
 		}
 
-		$languageFile = t3lib_extmgm::extPath($extensionName) .
-			self::LANGUAGE_FILE_PATH;
+		$languageFile = t3lib_extmgm::extPath($extensionName) . self::LANGUAGE_FILE_PATH;
 		$localizedLabels = t3lib_div::readLLfile(
 			$languageFile,
 			$this->languageKey,
 			$this->renderCharset
 		);
 
-		if ($this->alternativeLanguageKey != '') {
+		if ($this->alternativeLanguageKey !== '') {
 			$alternativeLocalizedLabels = t3lib_div::readLLfile(
 				$languageFile,
 				$this->alternativeLanguageKey,
@@ -297,8 +315,7 @@ class tx_oelib_TranslatorRegistry {
 
 		$result = array();
 		$sourceCharset = $this->getCharsetOfLanguage($this->languageKey);
-		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG.' .
-			$this->languageKey;
+		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG.' . $this->languageKey;
 
 		$configuration = tx_oelib_ConfigurationRegistry::get($namespace);
 		foreach ($configuration->getArrayKeys() as $key) {
