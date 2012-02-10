@@ -32,6 +32,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Stefano Kowalke <blueduck@gmx.net>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_Translator {
 	/**
