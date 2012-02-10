@@ -41,6 +41,11 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	private $fixture;
 
 	/**
+	 * @var boolean
+	 */
+	private $deprecationLogEnabledBackup = FALSE;
+
+	/**
 	 * @var array
 	 */
 	private $testConfiguration = array(
@@ -54,8 +59,9 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	);
 
 	public function setUp() {
-		$this->fixture
-			= tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
+		$this->fixture = tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
@@ -65,6 +71,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	public function tearDown() {
 		tx_oelib_configurationProxy::purgeInstances();
 		unset($this->fixture);
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 
@@ -112,6 +120,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueStringIfValueExists() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			'foo',
 			$this->fixture->getConfigurationValueString('testValueString')
@@ -119,6 +129,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueStringReturnsEmptyStringEmptyStringGiven() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			'',
 			$this->fixture->getConfigurationValueString('testValueEmptyString')
@@ -126,6 +138,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueStringReturnsEmptyStringIfValueNotExists() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			'',
 			$this->fixture->getConfigurationValueString('foo')
@@ -133,6 +147,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueBooleanTrue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			TRUE,
 			$this->fixture->getConfigurationValueBoolean('testValueTrue')
@@ -140,6 +156,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueBooleanFalse() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			FALSE,
 			$this->fixture->getConfigurationValueBoolean('testValueFalse')
@@ -147,6 +165,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueBooleanFalseIfValueWasNotSet() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			FALSE,
 			$this->fixture->getConfigurationValueBoolean('foo')
@@ -154,6 +174,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueIntegerIfPositiveIntegerGiven() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			2,
 			$this->fixture->getConfigurationValueInteger(
@@ -163,6 +185,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueIntegerIfNegativeIntegerGiven() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			-1,
 			$this->fixture->getConfigurationValueInteger(
@@ -172,6 +196,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueIntegerIfZeroGiven() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			0,
 			$this->fixture->getConfigurationValueInteger('testValueZeroInteger')
@@ -179,6 +205,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetConfigurationValueIntegerIfValueNotExists() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertEquals(
 			0,
 			$this->fixture->getConfigurationValueInteger('foo')
@@ -186,6 +214,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueStringChangesAnExistingValue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueString('testValueString', 'bar');
 
 		$this->assertEquals(
@@ -195,6 +225,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueStringAddsNewValue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueString('testValue', 'foo');
 
 		$this->assertEquals(
@@ -204,6 +236,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueBooleanTrue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueBoolean('testValue', TRUE);
 
 		$this->assertEquals(
@@ -213,6 +247,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueBooleanFalse() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueBoolean('testValue', FALSE);
 
 		$this->assertEquals(
@@ -222,6 +258,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueIntegerIfValuePositive() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueInteger('testValue', 2);
 
 		$this->assertEquals(
@@ -231,6 +269,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueIntegerIfValueNegative() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueInteger('testValue', -2);
 
 		$this->assertEquals(
@@ -240,6 +280,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueIntegerIfZero() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueInteger('testValue', 0);
 
 		$this->assertEquals(
@@ -249,6 +291,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveConfigurationSetsOriginalValuesAgainIfValueWasChanged() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueString('testValueString', 'bar');
 		$this->fixture->retrieveConfiguration();
 
@@ -259,6 +303,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveConfigurationSetsOriginalValuesAgainIfValueWasAdded() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->fixture->setConfigurationValueString('testValue', 'foo');
 		$this->fixture->retrieveConfiguration();
 
@@ -269,6 +315,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveConfigurationIfThereIsNone() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
 		$this->fixture->retrieveConfiguration();
 
@@ -278,6 +326,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testRetrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
 		$this->fixture->retrieveConfiguration();
 		$this->fixture->setConfigurationValueString('testValue', 'foo');
@@ -289,6 +339,8 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testInstanciateAnotherProxyAndSetValueNotAffectsThisFixture() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
 		$otherConfiguration->setConfigurationValueString('testValue', 'foo');
 
