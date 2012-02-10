@@ -360,21 +360,28 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning the languageKey
 	/////////////////////////////////////
 
-	public function test_getLanguageKeyForSetKey_ReturnsSetKey() {
-		tx_oelib_TranslatorRegistry::setLanguageKey('de');
+	/**
+	 * @test
+	 */
+	public function getLanguageKeyForSetKeyReturnsSetKey() {
+		tx_oelib_TranslatorRegistry::getInstance()->setLanguageKey('de');
+
 		$this->assertEquals(
 			'de',
-			tx_oelib_TranslatorRegistry::getLanguageKey('de')
+			tx_oelib_TranslatorRegistry::getInstance()->getLanguageKey('de')
 		);
 	}
 
-	public function test_setLanguageKeyForEmptyStringGiven_ThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setLanguageKeyForEmptyStringGivenThrowsException() {
 		$this->setExpectedException(
 			'Exception',
 			'The given language key must not be empty.'
 		);
 
-		tx_oelib_TranslatorRegistry::setLanguageKey('');
+		tx_oelib_TranslatorRegistry::getInstance()->setLanguageKey('');
 	}
 }
 ?>
