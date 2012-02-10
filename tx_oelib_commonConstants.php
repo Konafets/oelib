@@ -29,7 +29,7 @@
  */
 
 // the UTF-8 representation of an en dash
-define('UTF8_EN_DASH', chr(0xE2).chr(0x80).chr(0x93));
+define('UTF8_EN_DASH', chr(0xE2) . chr(0x80) . chr(0x93));
 // one day in seconds
 define('ONE_DAY', 86400);
 // one week in seconds
