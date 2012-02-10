@@ -30,14 +30,6 @@
 
 // the UTF-8 representation of an en dash
 define('UTF8_EN_DASH', chr(0xE2).chr(0x80).chr(0x93));
-// a tabulator
-define('TAB', chr(9));
-// a linefeed
-define('LF', chr(10));
-// a carriage return
-define('CR', chr(13));
-// a CR-LF combination (the default Unix line ending)
-define('CRLF', CR.LF);
 // one day in seconds
 define('ONE_DAY', 86400);
 // one week in seconds
