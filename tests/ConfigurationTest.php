@@ -34,7 +34,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
  */
 class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	/**
-	 * @var tx_oelib_tests_fixtures_TestingConfiguration the model to test
+	 * @var tx_oelib_Configuration the model to test
 	 */
 	private $fixture;
 

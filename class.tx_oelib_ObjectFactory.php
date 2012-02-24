@@ -42,7 +42,7 @@ class tx_oelib_ObjectFactory {
 	 *
 	 * @param string $className the name of the existing class to create
 	 *
-	 * @return object an instance of $className
+	 * @return mixed an instance of $className
 	 */
 	public static function make($className) {
 		// Makes sure that the parent class is included so it can load any

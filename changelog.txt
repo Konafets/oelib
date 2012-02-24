@@ -4,7 +4,7 @@
 - [#4295] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
 - [#4284] Fix: Fix the translate function for TYPO3 4.6 branch and master
 - [#4344] Fix: Non-static methods of the TranslatorRegistry are called statically in the unit tests
-- [#4350] Fix: Fix undefined and unused variables
+- [#4350] Fix: Fix undefined and unused variables and undefined classes
 - [#3987] Change: Require TYPO3 4.4
 - [#4377] Fix: Autoload entries for Country Model and Repository are missing the Classes/ prefix
 - [#4326] Cleanup: Remove the Zend Studio metadata from all projects

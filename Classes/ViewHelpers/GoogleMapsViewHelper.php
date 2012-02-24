@@ -269,7 +269,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 *        the map point for which to create the info window
 	 * @param string $markerVariableName
 	 *        valid name of the marker JavaScript variable, must not be empty
-	 * @param index $index
+	 * @param integer $index
 	 *        the zero-based index of the map marker, must be >= 0
 	 *
 	 * @return string

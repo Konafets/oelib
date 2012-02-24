@@ -696,7 +696,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSettingDeletedByUsingSetThrowsAnException() {
 		$this->setExpectedException(
-			Exception,
+			'Exception',
 			'$key must not be "deleted". Please use setToDeleted() instead.'
 		);
 

@@ -190,7 +190,7 @@ class tx_oelib_List extends SplObjectStorage {
 	 * second one, 1 means that the second parameter is sorted before the first
 	 * one and 0 means the parameters stay in order.
 	 *
-	 * @param function $callbackFunction a callback function to use with the models stored in the list, must not be empty
+	 * @param mixed $callbackFunction a callback function to use with the models stored in the list, must not be empty
 	 */
 	public function sort($callbackFunction) {
 		$items = iterator_to_array($this, FALSE);

@@ -78,8 +78,8 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 	/**
 	 * Sets the coordinates lookUp() is supposed to return.
 	 *
-	 * @param double $latitude latitude coordinate
-	 * @param double $longitude longitude coordinate
+	 * @param float $latitude latitude coordinate
+	 * @param float $longitude longitude coordinate
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		$this->coordinates = array(

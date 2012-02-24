@@ -56,7 +56,7 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * Returns the current configuration check object (or NULL if there is no
 	 * such object).
 	 *
-	 * @return object the current configuration check object
+	 * @return tx_oelib_configcheck the current configuration check object
 	 */
 	public function getConfigurationCheck() {
 		return $this->configurationCheck;
