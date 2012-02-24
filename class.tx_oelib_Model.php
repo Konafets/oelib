@@ -435,6 +435,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Checks whether this model is hidden.
+	 *
+	 * @return boolean TRUE if this model is hidden, FALSE otherwise
 	 */
 	public function isHidden() {
 		return $this->getAsBoolean('hidden');
@@ -564,13 +566,15 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param integer $pageUid
 	 *        the page to set, must be >= 0
+	 *
+	 * @return void
 	 */
 	public function setPageUid($pageUid) {
 		if ($pageUid < 0) {
 			throw new InvalidArgumentException('$pageUid must be >= 0.');
 		}
 
-		return $this->setAsInteger('pid', $pageUid);
+		$this->setAsInteger('pid', $pageUid);
 	}
 }
 ?>

@@ -182,9 +182,11 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param tx_oelib_List $components
 	 *        the "composition" data to set
+	 *
+	 * @return void
 	 */
 	public function setComposition(tx_oelib_List $components) {
-		return $this->set('composition', $components);
+		$this->set('composition', $components);
 	}
 
 	/**
@@ -202,9 +204,11 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param tx_oelib_List $components
 	 *        the "composition2" data to set
+	 *
+	 * @return void
 	 */
 	public function setComposition2(tx_oelib_List $components) {
-		return $this->set('composition2', $components);
+		$this->set('composition2', $components);
 	}
 
 	/**
