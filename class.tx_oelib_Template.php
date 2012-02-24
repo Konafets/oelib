@@ -554,10 +554,14 @@ class tx_oelib_Template {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "###ONE###".
+	 *
+	 * @param string $markerName the name of the marker, must not be empty
+	 * @param string $prefix an optional prefix, may be empty
+	 *
+	 * @return string the created marker name (including the hashes), will not be empty
 	 */
 	private function createMarkerName($markerName, $prefix = '') {
-		return '###' .
-			$this->createMarkerNameWithoutHashes($markerName, $prefix) . '###';
+		return '###' . $this->createMarkerNameWithoutHashes($markerName, $prefix) . '###';
 	}
 
 	/**
@@ -569,6 +573,11 @@ class tx_oelib_Template {
 	 *
 	 * If the prefix is empty and the marker name is "one", the result will be
 	 * "ONE".
+	 *
+	 * @param string $markerName the name of the marker, must not be empty
+	 * @param string $prefix an optional prefix, may be empty
+	 *
+	 * @return string the created marker name (without the hashes), will not be empty
 	 */
 	private function createMarkerNameWithoutHashes($markerName, $prefix = '') {
 		// If a prefix is provided, uppercases it and separates it with an

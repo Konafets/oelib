@@ -404,8 +404,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * Note: This function only works correctly for users that were born after
 	 * 1970-01-01 and that were not born in the future.
 	 *
-	 * @integer this user's age in years, will be 0 if this user has no birth
-	 *          date set
+	 * @return integer this user's age in years, will be 0 if this user has no birth date set
 	 */
 	public function getAge() {
 		if (!$this->hasDateOfBirth()) {

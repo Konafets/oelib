@@ -930,8 +930,8 @@ abstract class tx_oelib_DataMapper {
 	 * @return boolean TRUE if $model is a memory-only dummy, FALSE otherwise
 	 */
 	private function isModelAMemoryOnlyDummy(tx_oelib_Model $model) {
-			if (!$model->hasUid()) {
-			return;
+		if (!$model->hasUid()) {
+			return FALSE;
 		}
 
 		return isset($this->uidsOfMemoryOnlyDummyModels[$model->getUid()]);
