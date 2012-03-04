@@ -1,3 +1,5 @@
+0.7.8 - currently working on
+
 0.7.7 - released 2012-03-04
 - [#4347] Fix: Fix missing/incorrect @return and return values
 - [#4295] Fix: Fix all deprecation log warnings and version-specific unit test failures when running the unit tests on the current Core master
