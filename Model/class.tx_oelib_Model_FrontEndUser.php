@@ -48,7 +48,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * @var integer represents an unknown gender for this user
 	 */
-	const GENDER_UNKNOWN = 2;
+	const GENDER_UNKNOWN = 99;
 
 	/**
 	 * Gets this user's user name.
