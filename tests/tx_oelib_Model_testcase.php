@@ -493,8 +493,8 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	public function testGetOnDeadModelThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'This tx_oelib_tests_fixtures_TestingModel with the UID 0 is ' .
-				'dead and cannot have any data.'
+			'The tx_oelib_tests_fixtures_TestingModel with the UID 0' .
+				' either has been deleted (or has never existed), but still is accessed.'
 		);
 
 		$this->fixture->markAsDead();
@@ -509,8 +509,8 @@ class tx_oelib_Model_testcase extends tx_phpunit_testcase {
 	public function testIsHiddenOnDeadModelThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'This tx_oelib_tests_fixtures_TestingModel with the UID 0 is ' .
-				'dead and cannot have any data.'
+			'The tx_oelib_tests_fixtures_TestingModel with the UID 0' .
+				' either has been deleted (or has never existed), but still is accessed.'
 		);
 
 		$this->fixture->markAsDead();

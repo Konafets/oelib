@@ -482,8 +482,8 @@ class tx_oelib_DataMapper_testcase extends tx_phpunit_testcase {
 
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'This tx_oelib_tests_fixtures_TestingModel with the UID ' . $uid .
-				' is dead and cannot have any data.'
+			'The tx_oelib_tests_fixtures_TestingModel with the UID ' . $uid .
+				' either has been deleted (or has never existed), but still is accessed.'
 		);
 
 		$this->fixture->find($uid)->isHidden();
