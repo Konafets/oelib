@@ -137,7 +137,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 *
 	 * @return void
 	 */
-	public function setname($name) {
+	public function setName($name) {
 		$this->setAsString('name', $name);
 	}
 
