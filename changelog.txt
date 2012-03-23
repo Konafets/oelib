@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4398] Fix: Make the exception about dead models more helpful
 - [#4357] Fix: tx_oelib_Model_FrontEndUser::getGender should use "99" for "undefined"
 - [#4347] Fix: Fix missing/incorrect @return and return values
 - [#4264] Cleanup: Add the parameter name to all @param
