@@ -146,9 +146,7 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 		$this->throttle();
 		$rawResult = $this->sendRequest($address);
 		if ($rawResult === FALSE) {
-			throw new Exception(
-				'There was an error connecting to the Google Maps server.'
-			);
+			throw new RuntimeException('There was an error connecting to the Google geocoding server.', 1331488446);
 		}
 
 		$resultParts = json_decode($rawResult, TRUE);

@@ -88,7 +88,7 @@ class tx_oelib_Translator {
 	 */
 	public function translate($key, $useHtmlSpecialChars = FALSE) {
 		if ($key === '') {
-			throw new Exception('The parameter $key must not be empty.');
+			throw new InvalidArgumentException('The parameter $key must not be empty.', 1331489544);
 		}
 
 		$version = class_exists('t3lib_utility_VersionNumber')

@@ -251,16 +251,15 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testMarkTableAsDirtyFailsOnInexistentTable() {
 		$this->setExpectedException(
-			'Exception',
-			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for ' .
-				'markTableAsDirty.'
+			'InvalidArgumentException',
+			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
 	}
 
 	public function testMarkTableAsDirtyFailsOnNotAllowedSystemTable() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The table name "sys_domain" is not allowed for markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('sys_domain');
@@ -268,16 +267,16 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testMarkTableAsDirtyFailsOnForeignTable() {
 		$this->setExpectedException(
-			'Exception',
-			'The table name "tx_seminars_seminars" is not allowed for ' .
-				'markTableAsDirty.'
+			'InvalidArgumentException',
+			'The table name "tx_seminars_seminars" is not allowed for markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('tx_seminars_seminars');
 	}
 
 	public function testMarkTableAsDirtyFailsWithEmptyTableName() {
 		$this->setExpectedException(
-			'Exception', 'The table name "" is not allowed for markTableAsDirty.'
+			'InvalidArgumentException',
+			'The table name "" is not allowed for markTableAsDirty.'
 		);
 		$this->fixture->markTableAsDirty('');
 	}
@@ -332,21 +331,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateRecordOnInvalidTable() {
 		$this->setExpectedException(
-			'Exception', 'The table name "tx_oelib_DOESNOTEXIST" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "tx_oelib_DOESNOTEXIST" is not allowed.'
 		);
 		$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array());
 	}
 
 	public function testCreateRecordWithEmptyTableName() {
 		$this->setExpectedException(
-			'Exception', 'The table name "" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "" is not allowed.'
 		);
 		$this->fixture->createRecord('', array());
 	}
 
 	public function testCreateRecordWithUidFails() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('uid' => 99999)
@@ -396,9 +398,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsOnForeignTable() {
 		$this->setExpectedException(
-			'Exception',
-			'The table "tx_seminars_seminars" is not on the lists with allowed '
-				.'tables.'
+			'InvalidArgumentException',
+			'The table "tx_seminars_seminars" is not on the lists with allowed tables.'
 		);
 		$this->fixture->changeRecord(
 			'tx_seminars_seminars',
@@ -409,9 +410,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsOnInexistentTable() {
 		$this->setExpectedException(
-			'Exception',
-			'The table "tx_oelib_DOESNOTEXIST" is not on the lists with allowed '
-				.'tables.'
+			'InvalidArgumentException',
+			'The table "tx_oelib_DOESNOTEXIST" is not on the lists with allowed tables.'
 		);
 		$this->fixture->changeRecord(
 			'tx_oelib_DOESNOTEXIST',
@@ -456,7 +456,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsOnOtherSystemTable() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The table "sys_domain" is not on the lists with allowed tables.'
 		);
 		$this->fixture->changeRecord(
@@ -483,14 +483,16 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsWithUidZero() {
 		$this->setExpectedException(
-			'Exception', 'The parameter $uid must not be zero.'
+			'InvalidArgumentException',
+			'The parameter $uid must not be zero.'
 		);
 		$this->fixture->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
 	}
 
 	public function testChangeRecordFailsWithEmptyData() {
 		$this->setExpectedException(
-			'Exception', 'The array with the new record data must not be empty.'
+			'InvalidArgumentException',
+			'The array with the new record data must not be empty.'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
@@ -501,9 +503,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsWithUidFieldInRecordData() {
 		$this->setExpectedException(
-			'Exception',
-			'The parameter $recordData must not contain changes to the UID of a '
-				.'record.'
+			'InvalidArgumentException',
+			'The parameter $recordData must not contain changes to the UID of a record.'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
@@ -514,10 +515,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testChangeRecordFailsWithDummyRecordFieldInRecordData() {
 		$this->setExpectedException(
-			'Exception',
-			'The parameter $recordData must not contain changes to the field '
-				.'"is_dummy_record". It is impossible to convert a dummy record '
-				.'into a regular record.'
+			'InvalidArgumentException',
+			'The parameter $recordData must not contain changes to the field ' .
+				'"is_dummy_record". It is impossible to convert a dummy record into a regular record.'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 
@@ -529,9 +529,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testChangeRecordFailsOnInexistentRecord() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 		$this->setExpectedException(
-			'Exception',
-			'There is no record with UID '.($uid + 1).' on table "'
-				.OELIB_TESTTABLE.'".'
+			'BadMethodCallException',
+			'There is no record with UID ' . ($uid + 1) . ' on table "' . OELIB_TESTTABLE . '".'
 		);
 
 		$this->fixture->changeRecord(
@@ -583,7 +582,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = 99999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->deleteRecord($table, $uid);
 	}
@@ -593,7 +593,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = 99999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->deleteRecord($table, $uid);
 	}
@@ -603,7 +604,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = 99999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->deleteRecord($table, $uid);
 	}
@@ -679,21 +681,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uidForeign = 199999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->createRelation($table, $uidLocal, $uidForeign);
 	}
 
 	public function testCreateRelationWithEmptyTableName() {
 		$this->setExpectedException(
-			'Exception', 'The table name "" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "" is not allowed.'
 		);
 		$this->fixture->createRelation('', 99999, 199999);
 	}
 
 	public function testCreateRelationWithZeroFirstUid() {
 		$this->setExpectedException(
-			'Exception', '$uidLocal must be an integer > 0, but actually is "0"'
+			'InvalidArgumentException',
+			'$uidLocal must be an integer > 0, but actually is "0"'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
@@ -701,7 +706,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateRelationWithZeroSecondUid() {
 		$this->setExpectedException(
-			'Exception', '$uidForeign must be an integer > 0, but actually is "0"'
+			'InvalidArgumentException',
+			'$uidForeign must be an integer > 0, but actually is "0"'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
@@ -709,7 +715,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateRelationWithNegativeFirstUid() {
 		$this->setExpectedException(
-			'Exception', '$uidLocal must be an integer > 0, but actually is "-1"'
+			'InvalidArgumentException',
+			'$uidLocal must be an integer > 0, but actually is "-1"'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
@@ -717,7 +724,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateRelationWithNegativeSecondUid() {
 		$this->setExpectedException(
-			'Exception', '$uidForeign must be an integer > 0, but actually is "-1"'
+			'InvalidArgumentException',
+			'$uidForeign must be an integer > 0, but actually is "-1"'
 		);
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, -1);
@@ -985,7 +993,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uidForeign = 199999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
@@ -996,7 +1005,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uidForeign = 199999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
@@ -1007,7 +1017,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uidForeign = 199999;
 
 		$this->setExpectedException(
-			'Exception', 'The table name "'.$table.'" is not allowed.'
+			'InvalidArgumentException',
+			'The table name "' . $table . '" is not allowed.'
 		);
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
@@ -1310,45 +1321,40 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testGetAutoIncrementWithOtherSystemTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->getAutoIncrement('sys_domains');
 	}
 
 	public function testGetAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->getAutoIncrement('');
 	}
 
 	public function testGetAutoIncrementWithForeignTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->getAutoIncrement('tx_seminars_seminars');
 	}
 
 	public function testGetAutoIncrementWithInexistentTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->getAutoIncrement('tx_oelib_DOESNOTEXIST');
 	}
 
 	public function testGetAutoIncrementWithTableWithoutUidFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->getAutoIncrement('OELIB_TESTTABLE_MM');
 	}
@@ -1368,9 +1374,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCountRecordsWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->countRecords('');
@@ -1378,9 +1383,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCountRecordsWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$table = 'foo_bar';
@@ -1409,9 +1413,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCountRecordsWithOtherTableThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->countRecords('sys_domain');
@@ -1502,9 +1505,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->existsRecord('');
@@ -1512,9 +1514,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$table = 'foo_bar';
@@ -1579,7 +1580,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithUidWithZeroUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, 0);
@@ -1587,7 +1589,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithUidWithNegativeUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, -1);
@@ -1595,9 +1598,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithUidWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->existsRecordWithUid('', 1);
@@ -1605,9 +1607,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsRecordWithUidWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$table = 'foo_bar';
@@ -1669,9 +1670,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsExactlyOneRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->existsExactlyOneRecord('');
@@ -1679,9 +1679,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testExistsExactlyOneRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either ' .
-				'empty or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$table = 'foo_bar';
@@ -1790,9 +1789,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementWithOtherSystemTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrement('sys_domains');
@@ -1800,9 +1798,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrement('');
@@ -1810,9 +1807,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementWithForeignTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrement('tx_seminars_seminars');
@@ -1820,9 +1816,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementWithInexistentTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrement('tx_oelib_DOESNOTEXIST');
@@ -1856,9 +1851,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementLazilyWithOtherSystemTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrementLazily('sys_domains');
@@ -1866,9 +1860,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementLazilyWithEmptyTableNameFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrementLazily('');
@@ -1876,9 +1869,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementLazilyWithForeignTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrementLazily('tx_seminars_seminars');
@@ -1886,9 +1878,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testResetAutoIncrementLazilyWithInexistentTableFails() {
 		$this->setExpectedException(
-			'Exception',
-			'The given table name is invalid. This means it is either empty ' .
-				'or not in the list of allowed tables.'
+			'InvalidArgumentException',
+			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 
 		$this->fixture->resetAutoIncrementLazily('tx_oelib_DOESNOTEXIST');
@@ -1947,7 +1938,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testSetResetAutoIncrementThresholdForZeroFails() {
 		$this->setExpectedException(
-			'Exception', '$threshold must be > 0.'
+			'InvalidArgumentException',
+			'$threshold must be > 0.'
 		);
 
 		$this->fixture->setResetAutoIncrementThreshold(0);
@@ -1955,7 +1947,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testSetResetAutoIncrementThresholdForMinus1Fails() {
 		$this->setExpectedException(
-			'Exception', '$threshold must be > 0.'
+			'InvalidArgumentException',
+			'$threshold must be > 0.'
 		);
 
 		$this->fixture->setResetAutoIncrementThreshold(-1);
@@ -2111,42 +2104,48 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndPageMustHaveNoZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('pid' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('pid' => 99999));
 	}
 
 	public function testFrontEndPageMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('uid' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('uid' => 99999));
 	}
 
 	public function testFrontEndPageMustHaveNoZeroDoktype() {
 		$this->setExpectedException(
-			'Exception', 'The column "doktype" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "doktype" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('doktype' => 0));
 	}
 
 	public function testFrontEndPageMustHaveNoNonZeroDoktype() {
 		$this->setExpectedException(
-			'Exception', 'The column "doktype" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "doktype" must not be set in $recordData.'
 		);
 		$this->fixture->createFrontEndPage(0, array('doktype' => 99999));
 	}
@@ -2301,42 +2300,48 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testSystemFolderMustHaveNoZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('pid' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('pid' => 99999));
 	}
 
 	public function testSystemFolderMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('uid' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('uid' => 99999));
 	}
 
 	public function testSystemFolderMustHaveNoZeroDoktype() {
 		$this->setExpectedException(
-			'Exception', 'The column "doktype" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "doktype" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('doktype' => 0));
 	}
 
 	public function testSystemFolderMustHaveNoNonZeroDoktype() {
 		$this->setExpectedException(
-			'Exception', 'The column "doktype" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "doktype" must not be set in $recordData.'
 		);
 		$this->fixture->createSystemFolder(0, array('doktype' => 99999));
 	}
@@ -2504,28 +2509,32 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testContentElementMustHaveNoZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createContentElement(0, array('pid' => 0));
 	}
 
 	public function testContentElementMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createContentElement(0, array('pid' => 99999));
 	}
 
 	public function testContentElementMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createContentElement(0, array('uid' => 0));
 	}
 
 	public function testContentElementMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createContentElement(0, array('uid' => 99999));
 	}
@@ -2553,12 +2562,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testTemplateCannotBeCreatedOnRootPage() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$pageId must be > 0.'
+		);
+
 		$this->fixture->createTemplate(0);
 	}
 
 	public function testTemplateCannotBeCreatedWithNegativePageNumber() {
-		$this->setExpectedException('Exception', '$pageId must be > 0.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$pageId must be > 0.'
+		);
+
 		$this->fixture->createTemplate(-1);
 	}
 
@@ -2705,28 +2722,32 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testTemplateMustNotHaveAZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createTemplate(42, array('pid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroPid() {
 		$this->setExpectedException(
-			'Exception', 'The column "pid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "pid" must not be set in $recordData.'
 		);
 		$this->fixture->createTemplate(42, array('pid' => 99999));
 	}
 
 	public function testTemplateMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createTemplate(42, array('uid' => 0));
 	}
 
 	public function testTemplateMustNotHaveANonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 		$this->fixture->createTemplate(42, array('uid' => 99999));
 	}
@@ -2931,9 +2952,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 
 		$this->setExpectedException(
-			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
-				'trying to delete does not exist and has never been created by ' .
-				'this instance of the testing framework.'
+			'InvalidArgumentException',
+			'The file "' . $uniqueFileName . '" which you are ' .
+				'trying to delete does not exist and has never been created by this instance of the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFile(basename($uniqueFileName));
@@ -2945,9 +2966,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->foreignFileToDelete = $uniqueFileName;
 
 		$this->setExpectedException(
-			'Exception', 'The file "' . $uniqueFileName . '" which you are ' .
-				'trying to delete was not created by this instance of ' .
-				'the testing framework.'
+			'InvalidArgumentException',
+			'The file "' . $uniqueFileName . '" which you are ' .
+				'trying to delete was not created by this instance of the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFile(basename($uniqueFileName));
@@ -3006,8 +3027,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uniqueFolderName = $this->fixture->getUniqueFileOrFolderPath('test_folder');
 
 		$this->setExpectedException(
-			'Exception', 'The folder "' . $uniqueFolderName . '" which you are ' .
-				'trying to delete does not exist.'
+			'InvalidArgumentException',
+			'The folder "' . $uniqueFolderName . '" which you are trying to delete does not exist.'
 		);
 
 		$this->fixture->deleteDummyFolder(
@@ -3021,9 +3042,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->foreignFolderToDelete = $uniqueFolderName;
 
 		$this->setExpectedException(
-			'Exception', 'The folder "' . $uniqueFolderName . '" which you are ' .
-				'trying to delete was not created by this instance of ' .
-				'the testing framework.'
+			'InvalidArgumentException',
+			'The folder "' . $uniqueFolderName . '" which you are ' .
+				'trying to delete was not created by this instance of the testing framework.'
 		);
 
 		$this->fixture->deleteDummyFolder(basename($uniqueFolderName));
@@ -3052,7 +3073,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 
 		$this->setExpectedException(
-			'Exception',
+			'RuntimeException',
 			'The folder "' . $dummyFolder . '" could not be deleted.'
 		);
 
@@ -3092,9 +3113,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testSetUploadFolderPathAfterCreatingADummyFileThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The upload folder path must not be changed if there are ' .
-				'already dummy files or folders.'
+			'BadMethodCallException',
+			'The upload folder path must not be changed if there are already dummy files or folders.'
 		);
 
 		$this->fixture->createDummyFile();
@@ -3108,9 +3128,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testGetPathRelativeToUploadDirectoryWithPathOutsideUploadDirectoryThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The first parameter $absolutePath is not within the calling ' .
-				'extension\'s upload directory.'
+			'InvalidArgumentException',
+			'The first parameter $absolutePath is not within the calling extension\'s upload directory.'
 		);
 
 		$this->fixture->getPathRelativeToUploadDirectory(PATH_site);
@@ -3123,7 +3142,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testGetUniqueFileOrFolderPathWithEmptyPathThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The first parameter $path must not be emtpy.'
+			'InvalidArgumentException',
+			'The first parameter $path must not be empty.'
 		);
 
 		$this->fixture->getUniqueFileOrFolderPath('');
@@ -3217,7 +3237,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserGroupMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUserGroup(array('uid' => 0));
@@ -3225,7 +3246,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserGroupMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUserGroup(array('uid' => 99999));
@@ -3341,7 +3363,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUser('', array('uid' => 0));
@@ -3349,7 +3372,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUser('', array('uid' => 99999));
@@ -3357,7 +3381,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
 		$this->setExpectedException(
-			'Exception', 'The column "usergroup" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "usergroup" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUser('', array('usergroup' => 0));
@@ -3365,7 +3390,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
 		$this->setExpectedException(
-			'Exception', 'The column "usergroup" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "usergroup" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUser('', array('usergroup' => 99999));
@@ -3373,7 +3399,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
 		$this->setExpectedException(
-			'Exception', 'The column "usergroup" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "usergroup" must not be set in $recordData.'
 		);
 
 		$this->fixture->createFrontEndUser(
@@ -3391,9 +3418,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
 		$this->setExpectedException(
-			'Exception',
-			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
-				.'Each UID must be > 0.'
+			'InvalidArgumentException',
+			'$frontEndUserGroups must contain a comma-separated list of UIDs. Each UID must be > 0.'
 		);
 
 		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
@@ -3407,9 +3433,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
 		$this->setExpectedException(
-			'Exception',
-			'$frontEndUserGroups must contain a comma-separated list of UIDs. '
-				.'Each UID must be > 0.'
+			'InvalidArgumentException',
+			'$frontEndUserGroups must contain a comma-separated list of UIDs. Each UID must be > 0.'
 		);
 
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup();
@@ -3490,7 +3515,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateBackEndUserWithZeroUidProvidedInRecordDataThrowsExeption() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createBackEndUser(array('uid' => 0));
@@ -3498,7 +3524,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateBackEndUserWithNonZeroUidProvidedInRecordDataThrowsExeption() {
 		$this->setExpectedException(
-			'Exception', 'The column "uid" must not be set in $recordData.'
+			'InvalidArgumentException',
+			'The column "uid" must not be set in $recordData.'
 		);
 
 		$this->fixture->createBackEndUser(array('uid' => 999999));
@@ -3725,7 +3752,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testCreateFakeFrontThrowsExceptionForNegativePageUid() {
 		$this->setExpectedException(
-			'Exception', '$pageUid must be >= 0.'
+			'InvalidArgumentException',
+			'$pageUid must be >= 0.'
 		);
 
 		$this->fixture->createFakeFrontEnd(-1);
@@ -3768,7 +3796,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testIsLoggedThrowsExceptionWithoutFrontEnd() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Please create a front end before calling isLoggedIn.'
 		);
 
@@ -3827,7 +3855,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testLoginFrontEndUserWithZeroUidThrowsException() {
-		$this->setExpectedException('Exception', 'The user ID must be > 0.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'The user ID must be > 0.'
+		);
 
 		$this->fixture->createFakeFrontEnd();
 
@@ -3836,7 +3867,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testLoginFrontEndUserWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Please create a front end before calling loginFrontEndUser.'
 		);
 
@@ -3940,7 +3971,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testLoginFrontEndUserNotInDatabaseWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Please create a front end before calling loginFrontEndUser.'
 		);
 
@@ -3968,7 +3999,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testLogoutFrontEndUserWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Please create a front end before calling logoutFrontEndUser.'
 		);
 
@@ -4100,8 +4131,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$invalidUid = $uid + 1;
 
 		$this->setExpectedException(
-			'Exception', 'The table ' . OELIB_TESTTABLE . ' does not contain a' .
-			' record with UID ' . $invalidUid . '.'
+			'BadMethodCallException',
+			'The table ' . OELIB_TESTTABLE . ' does not contain a record with UID ' . $invalidUid . '.'
 		);
 		$this->fixture->increaseRelationCounter(
 			OELIB_TESTTABLE,
@@ -4114,8 +4145,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		$this->setExpectedException(
-			'Exception', 'The table name "tx_oelib_inexistent" is invalid. This ' .
-			'means it is either empty or not in the list of allowed tables'
+			'InvalidArgumentException',
+			'The table name "tx_oelib_inexistent" is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
 		$this->fixture->increaseRelationCounter(
 			'tx_oelib_inexistent',
@@ -4126,7 +4157,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testIncreaseRelationCounterThrowsExceptionOnInexistentFieldName() {
 		$this->setExpectedException(
-			'Exception', 'The table ' . OELIB_TESTTABLE . ' has no column inexistent_column.'
+			'InvalidArgumentException',
+			'The table ' . OELIB_TESTTABLE . ' has no column inexistent_column.'
 		);
 
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);

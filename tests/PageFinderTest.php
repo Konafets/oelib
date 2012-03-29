@@ -150,9 +150,8 @@ class tx_oelib_PageFinderTest extends tx_phpunit_testcase {
 
 	public function test_setPageUid_WithZeroGiven_ThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given page UID was "0". Only integer values greater ' .
-				'than zero are allowed.'
+			'InvalidArgumentException',
+			'The given page UID was "0". Only integer values greater than zero are allowed.'
 		);
 
 		$this->fixture->setPageUid(0);
@@ -160,9 +159,8 @@ class tx_oelib_PageFinderTest extends tx_phpunit_testcase {
 
 	public function test_setPageUid_WithNegativeNumberGiven_ThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The given page UID was "-21". Only integer values greater ' .
-				'than zero are allowed.'
+			'InvalidArgumentException',
+			'The given page UID was "-21". Only integer values greater than zero are allowed.'
 		);
 
 		$this->fixture->setPageUid(-21);

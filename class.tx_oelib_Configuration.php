@@ -80,7 +80,7 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 	 */
 	public function set($key, $value) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1331318809);
 		}
 
 		$this->data[$key] = $value;

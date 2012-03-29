@@ -54,7 +54,8 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 
 	public function testGetWithZeroUidThrowsException(){
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		$this->fixture->get(0);
@@ -62,7 +63,8 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 
 	public function testGetWithNegativeUidThrowsException(){
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		$this->fixture->get(-1);
@@ -70,7 +72,8 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 
 	public function testAddWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'Add() requires a model that has a UID.'
+			'InvalidArgumentException',
+			'Add() requires a model that has a UID.'
 		);
 
 		$model = new tx_oelib_tests_fixtures_TestingModel();

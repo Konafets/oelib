@@ -77,7 +77,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testInstantiationOfSubclassWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_TableLessTestingMapper::tableName must not be empty.'
 		);
 
@@ -86,7 +86,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testInstantiationOfSubclassWithEmptyColumnListThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_ColumnLessTestingMapper::columns must not be empty.'
 		);
 
@@ -95,7 +95,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testInstantiationOfSubclassWithEmptyModelNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_ModelLessTestingMapper::modelClassName must not be empty.'
 		);
 
@@ -109,7 +109,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testFindWithZeroUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$uid must be > 0.'
 		);
 
@@ -118,7 +118,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testFindWithNegativeUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$uid must be > 0.'
 		);
 
@@ -175,7 +175,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testGetModelWithArrayWithoutUidElementProvidedThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$data must contain an element "uid".'
 		);
 
@@ -334,7 +334,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testLoadWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'load must only be called with models that already have a UID.'
 		);
 
@@ -1022,7 +1022,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function loadingAGhostCreatedWithGetNewGhostThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'This ghost was created via getNewGhost and must not be loaded.'
 		);
 
@@ -1104,7 +1104,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 
 	public function testFindSingleByWhereClauseWithEmptyWhereClausePartsThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The parameter $whereClauseParts must not be empty.'
 		);
 
@@ -1985,7 +1985,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function saveForGhostFromGetNewGhostThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'This model is a memory-only dummy that must not be saved.'
 		);
 
@@ -1998,7 +1998,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function saveForLoadedTestingModelWithUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'This model is a memory-only dummy that must not be saved.'
 		);
 
@@ -2013,7 +2013,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function saveForLoadedTestingModelWithoutUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'This model is a memory-only dummy that must not be saved.'
 		);
 
@@ -2509,7 +2509,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyFromCacheForEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'InvalidArgumentException', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->findOneByKeyFromCache('', 'bar');
@@ -2520,7 +2521,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyFromCacheForInexistentKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '"foo" is not a valid key for this mapper.'
+			'InvalidArgumentException',
+			'"foo" is not a valid key for this mapper.'
 		);
 
 		$this->fixture->findOneByKeyFromCache('foo', 'bar');
@@ -2531,7 +2533,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyFromCacheForEmptyValueThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$value must not be empty.'
+			'InvalidArgumentException',
+			'$value must not be empty.'
 		);
 
 		$this->fixture->findOneByKeyFromCache('title', '');
@@ -2619,7 +2622,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyForEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->findOneByKey('', 'bar');
@@ -2630,7 +2634,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyForInexistentKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '"foo" is not a valid key for this mapper.'
+			'InvalidArgumentException',
+			'"foo" is not a valid key for this mapper.'
 		);
 
 		$this->fixture->findOneByKey('foo', 'bar');
@@ -2641,7 +2646,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findOneByKeyForEmptyValueThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$value must not be empty.'
+			'InvalidArgumentException',
+			'$value must not be empty.'
 		);
 
 		$this->fixture->findOneByKey('title', '');
@@ -2733,7 +2739,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function deleteForGhostFromGetNewGhostThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'This model is a memory-only dummy that must not be deleted.'
 		);
 
@@ -2747,7 +2753,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function deleteForReadOnlyModelThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'This model is read-only and must not be deleted.'
+			'InvalidArgumentException',
+			'This model is read-only and must not be deleted.'
 		);
 
 		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
@@ -2838,7 +2845,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findAllByRelationWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$model must have a UID.'
+			'InvalidArgumentException',
+			'$model must have a UID.'
 		);
 
 		$model = new tx_oelib_tests_fixtures_TestingModel();
@@ -2853,7 +2861,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	 */
 	public function findAllByRelationWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty'
+			'InvalidArgumentException',
+			'$key must not be empty'
 		);
 
 		$model = $this->fixture->find(

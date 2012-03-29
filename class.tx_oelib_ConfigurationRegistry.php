@@ -152,14 +152,14 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * Checks that $namespace is non-empty.
 	 *
-	 * @throws Exception if $namespace is empty
+	 * @throws InvalidArgumentException if $namespace is empty
 	 *
 	 * @param string $namespace
 	 *        namespace name to check
 	 */
 	private function checkForNonEmptyNamespace($namespace) {
 		if ($namespace == '') {
-			throw new Exception('$namespace must not be empty.');
+			throw new InvalidArgumentException('$namespace must not be empty.', 1331318549);
 		}
 	}
 

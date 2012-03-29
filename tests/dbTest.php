@@ -119,12 +119,20 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	//////////////////////////////////
 
 	public function testEnableFieldsThrowsExceptionForTooSmallShowHidden() {
-		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is -2');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$showHidden may only be -1, 0 or 1, but actually is -2'
+		);
+
 		tx_oelib_db::enableFields(OELIB_TESTTABLE, -2);
 	}
 
 	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
-		$this->setExpectedException('Exception', '$showHidden may only be -1, 0 or 1, but actually is 2');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$showHidden may only be -1, 0 or 1, but actually is 2'
+		);
+
 		tx_oelib_db::enableFields(OELIB_TESTTABLE, 2);
 	}
 
@@ -216,7 +224,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateRecursivePageListThrowsWithNegativeRecursion() {
-		$this->setExpectedException('Exception', '$recursionDepth must be >= 0.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$recursionDepth must be >= 0.'
+		);
 
 		tx_oelib_db::createRecursivePageList('', -1);
 	}
@@ -327,7 +338,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testGetColumnsInTableForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::getColumnsInTable('');
@@ -338,7 +350,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function getColumnsInTableForInexistentTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::getColumnsInTable('tx_oelib_doesnotexist');
@@ -367,7 +380,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testGetColumnDefinitionForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::getColumnDefinition('', 'uid');
@@ -388,7 +402,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testTableHasColumnUidForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::tableHasColumnUid('');
@@ -436,7 +451,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testTableHasColumnThrowsExceptionOnEmptyTableName() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::tableHasColumn(
@@ -459,7 +475,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testDeleteForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::delete(
@@ -521,7 +538,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testUpdateForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::update(
@@ -584,7 +602,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testInsertForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::insert(
@@ -594,7 +613,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testInsertForEmptyRecordDataThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$recordData must not be empty.'
+			'InvalidArgumentException',
+			'$recordData must not be empty.'
 		);
 
 		tx_oelib_db::insert(
@@ -649,7 +669,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table names must not be empty.'
+			'InvalidArgumentException',
+			'The table names must not be empty.'
 		);
 
 		tx_oelib_db::select('*', '');
@@ -660,7 +681,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectForEmptyFieldListThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$fields must not be empty.'
+			'InvalidArgumentException',
+			'$fields must not be empty.'
 		);
 
 		tx_oelib_db::select('', OELIB_TESTTABLE);
@@ -680,7 +702,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectSingleForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table names must not be empty.'
+			'InvalidArgumentException',
+			'The table names must not be empty.'
 		);
 
 		tx_oelib_db::selectSingle('*', '');
@@ -691,7 +714,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectSingleForEmptyFieldListThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$fields must not be empty.'
+			'InvalidArgumentException',
+			'$fields must not be empty.'
 		);
 
 		tx_oelib_db::selectSingle('', OELIB_TESTTABLE);
@@ -762,7 +786,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectMultipleForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table names must not be empty.'
+			'InvalidArgumentException',
+			'The table names must not be empty.'
 		);
 
 		tx_oelib_db::selectMultiple('*', '');
@@ -773,7 +798,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function selectMultipleForEmptyFieldListThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$fields must not be empty.'
+			'InvalidArgumentException',
+			'$fields must not be empty.'
 		);
 
 		tx_oelib_db::selectMultiple('', OELIB_TESTTABLE);
@@ -900,7 +926,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testExistsTableWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::existsTable('');
@@ -938,7 +965,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function getTcaForTableWithEmptyTableNameThrowsExceptionTca() {
 		$this->setExpectedException(
-			'Exception', 'The table name must not be empty.'
+			'InvalidArgumentException',
+			'The table name must not be empty.'
 		);
 
 		tx_oelib_db::getTcaForTable('');
@@ -949,7 +977,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function getTcaForTableWithInexistentTableNameThrowsExceptionTca() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::getTcaForTable('tx_oelib_doesnotexist');
@@ -957,7 +986,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 
 	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
 		$this->setExpectedException(
-			'Exception', 'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
+			'BadMethodCallException',
+			'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
 		);
 
 		tx_oelib_db::getTcaForTable(OELIB_TESTTABLE_MM);
@@ -1054,7 +1084,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function countWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::count('tx_oelib_doesnotexist', 'uid = 42');
@@ -1072,7 +1103,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function countDoesNotAllowJoinWithoutTables() {
 		$this->setExpectedException(
-			'Exception', 'The table "JOIN" does not exist.'
+			'BadMethodCallException',
+			'The table "JOIN" does not exist.'
 		);
 
 		tx_oelib_db::count('JOIN');
@@ -1083,7 +1115,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function countDoesNotAllowJoinWithOnlyOneTableOnTheLeft() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_test JOIN " does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_test JOIN " does not exist.'
 		);
 
 		tx_oelib_db::count('tx_oelib_test JOIN ');
@@ -1094,7 +1127,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function countDoesNotAllowJoinWithOnlyOneTableOnTheRight() {
 		$this->setExpectedException(
-			'Exception', 'The table "JOIN tx_oelib_test" does not exist.'
+			'BadMethodCallException',
+			'The table "JOIN tx_oelib_test" does not exist.'
 		);
 
 		tx_oelib_db::count('JOIN tx_oelib_test');
@@ -1124,7 +1158,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The table name must not be empty.'
 		);
 
@@ -1136,7 +1170,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::existsRecord('tx_oelib_doesnotexist');
@@ -1204,7 +1239,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsExactlyOneRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The table name must not be empty.'
 		);
 
@@ -1216,7 +1251,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsExactlyOneRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::existsExactlyOneRecord('tx_oelib_doesnotexist');
@@ -1270,7 +1306,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithUidWithZeroUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, 0);
@@ -1281,7 +1318,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithUidWithNegativeUidThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$uid must be > 0.'
+			'InvalidArgumentException',
+			'$uid must be > 0.'
 		);
 
 		tx_oelib_db::existsRecordWithUid(OELIB_TESTTABLE, -1);
@@ -1292,7 +1330,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithUidWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The table name must not be empty.'
 		);
 
@@ -1304,7 +1342,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 */
 	public function existsRecordWithUidWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The table "tx_oelib_doesnotexist" does not exist.'
+			'BadMethodCallException',
+			'The table "tx_oelib_doesnotexist" does not exist.'
 		);
 
 		tx_oelib_db::existsRecordWithUid('tx_oelib_doesnotexist', 42);

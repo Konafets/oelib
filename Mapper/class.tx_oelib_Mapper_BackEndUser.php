@@ -86,10 +86,10 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 */
 	public function findByCliKey() {
 		if (!defined('TYPO3_cliKey')) {
-			throw new Exception(
-				'Please make sure the constant "TYPO3_cliKey" is defined before ' .
-				'using this function. Usually this is done automatically when ' .
-				'executing "/typo3/cli_dispatch.phpsh".'
+			throw new BadMethodCallException(
+				'Please make sure the constant "TYPO3_cliKey" is defined before using this function. Usually this is done ' .
+					'automatically when executing "/typo3/cli_dispatch.phpsh".',
+				1331488485
 			);
 		}
 

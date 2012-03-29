@@ -87,7 +87,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 */
 	public static function getInstance($extensionKey) {
 		if ($extensionKey == '') {
-			throw new Exception('The extension key was not set.');
+			throw new InvalidArgumentException('The extension key was not set.', 1331318826);
 		}
 
 		if (!is_object(self::$instances[$extensionKey])) {

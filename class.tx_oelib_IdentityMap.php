@@ -65,7 +65,7 @@ class tx_oelib_IdentityMap {
 	 */
 	public function add(tx_oelib_Model $model) {
 		if (!$model->hasUid()) {
-			throw new Exception('Add() requires a model that has a UID.');
+			throw new InvalidArgumentException('Add() requires a model that has a UID.', 1331488748);
 		}
 
 		$this->items[$model->getUid()] = $model;
@@ -84,9 +84,7 @@ class tx_oelib_IdentityMap {
 	 */
 	public function get($uid) {
 		if ($uid <= 0) {
-			throw new Exception(
-				'$uid must be > 0.'
-			);
+			throw new InvalidArgumentException('$uid must be > 0.', 1331488761);
 		}
 
 		if (!isset($this->items[$uid])) {

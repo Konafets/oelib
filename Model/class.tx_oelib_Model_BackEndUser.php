@@ -94,7 +94,7 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	 */
 	public function setDefaultLanguage($language) {
 		if ($language == '') {
-			throw new Exception('$language must not be empty.');
+			throw new InvalidArgumentException('$language must not be empty.', 1331488621);
 		}
 
 		$this->setAsString(

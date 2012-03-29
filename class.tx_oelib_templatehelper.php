@@ -404,7 +404,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	public function setConfigurationValue($key, $value) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty');
+			throw new InvalidArgumentException('$key must not be empty', 1331489491);
 		}
 
 		$this->ensureConfigurationArray();
@@ -1071,7 +1071,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * In the FE, the src attribute is correctly filled with the URI of the
 	 * resized image.
 	 *
-	 * @throws Exception if $path is empty
+	 * @throws InvalidArgumentException if $path is empty
 	 *
 	 * @param string $path path to of the original image, must be relative to the TYPO3 root or start with EXT:, must not be empty
 	 * @param string $altText alt text, may be empty
@@ -1088,10 +1088,10 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		$titleText = '', $id = ''
 	) {
 		if ($path == '') {
-			throw new Exception('$path must not be empty.');
+			throw new InvalidArgumentException('$path must not be empty.', 1331489502);
 		}
 		if ($maxArea != 0) {
-			throw new Exception('$maxArea is not used anymore and must be zero.');
+			throw new InvalidArgumentException('$maxArea is not used anymore and must be zero.', 1331489515);
 		}
 
 		$imageConfiguration = array();
@@ -1127,7 +1127,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 */
 	private function getListViewConfigurationValue($fieldName) {
 		if (empty($fieldName)) {
-			throw new Exception('$fieldName must not be empty.');
+			throw new InvalidArgumentException('$fieldName must not be empty.', 1331489528);
 		}
 
 		if (!isset($this->conf['listView.'])

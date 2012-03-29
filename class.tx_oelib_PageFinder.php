@@ -128,8 +128,9 @@ class tx_oelib_PageFinder {
 	 */
 	public function setPageUid($uidToStore) {
 		if ($uidToStore <= 0) {
-			throw new Exception('The given page UID was "' . $uidToStore . '". ' .
-				'Only integer values greater than zero are allowed.'
+			throw new InvalidArgumentException(
+				'The given page UID was "' . $uidToStore . '". Only integer values greater than zero are allowed.',
+				1331489010
 			);
 		}
 		$this->storedPageUid = $uidToStore;

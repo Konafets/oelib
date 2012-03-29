@@ -52,7 +52,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testCheckForNonEmptyKeyWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->checkForNonEmptyKey('');
@@ -69,7 +70,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsStringWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsString('');
@@ -77,7 +79,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testSetAsStringWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->setAsString('', 'bar');
@@ -124,7 +127,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsIntegerWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsInteger('');
@@ -132,7 +136,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testSetAsIntegerWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->setAsInteger('', 42);
@@ -197,7 +202,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsTrimmedArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsTrimmedArray('');
@@ -205,7 +211,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsIntegerArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsIntegerArray('');
@@ -213,7 +220,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testSetAsArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->setAsArray('', array('bar'));
@@ -294,7 +302,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsBooleanWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsBoolean('');
@@ -302,7 +311,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testSetAsBooleanWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->setAsBoolean('', FALSE);
@@ -403,7 +413,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testGetAsFloatWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsFloat('');
@@ -411,7 +422,8 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 
 	public function testSetAsFloatWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->setAsFloat('', 42.5);

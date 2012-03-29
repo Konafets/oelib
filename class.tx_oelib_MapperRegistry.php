@@ -129,13 +129,12 @@ class tx_oelib_MapperRegistry {
 	 */
 	private function getByClassName($className) {
 		if ($className == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$className must not be empty.', 1331488868);
 		}
 		if (!preg_match('/^tx_[a-z0-9]+_[a-zA-Z_]+/', $className)) {
-			throw new Exception(
-				'$className must be in the format ' .
-					'tx_extensionname[_Folder]_ClassName, but was "' .
-					$className . '".'
+			throw new InvalidArgumentException(
+				'$className must be in the format tx_extensionname[_Folder]_ClassName, but was "' . $className . '".',
+				1331488887
 			);
 		}
 
@@ -238,14 +237,14 @@ class tx_oelib_MapperRegistry {
 	 */
 	private function setByClassName($className, tx_oelib_DataMapper $mapper) {
 		if (!($mapper instanceof $className)) {
-			throw new Exception(
-				'The provided mapper is not an instance of '. $className . '.'
+			throw new InvalidArgumentException(
+				'The provided mapper is not an instance of '. $className . '.', 1331488915
 			);
 		}
 		if (isset($this->mappers[$className])) {
-			throw new Exception(
-				'There already is a ' . $className . ' mapper registered. ' .
-				'Overwriting existing wrappers is not allowed.'
+			throw new BadMethodCallException(
+				'There already is a ' . $className . ' mapper registered. Overwriting existing wrappers is not allowed.',
+				1331488928
 			);
 		}
 

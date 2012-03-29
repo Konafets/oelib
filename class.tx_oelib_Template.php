@@ -240,9 +240,7 @@ class tx_oelib_Template {
 		);
 
 		if (!$this->isMarkerNameValidWithoutHashes($subpartName)) {
-			throw new Exception(
-				'The value of the parameter $subpartName is not valid.'
-			);
+			throw new InvalidArgumentException('The value of the parameter $subpartName is not valid.', 1331489182);
 		}
 
 		$this->subparts[$subpartName] = $content;
@@ -595,7 +593,7 @@ class tx_oelib_Template {
 	public function getSubpart($key = '') {
 		if ($key != '') {
 			if (!$this->isMarkerNameValidWithoutHashes($key)) {
-				throw new Exception('The value of the parameter $key is not valid.');
+				throw new InvalidArgumentException('The value of the parameter $key is not valid.', 1331489215);
 			}
 
 			if (!isset($this->subparts[$key])) {

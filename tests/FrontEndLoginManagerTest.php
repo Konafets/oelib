@@ -118,7 +118,8 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 
 	public function testGetLoggedInUserWithEmptyMapperNameThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$mapperName must not be empty.'
+			'InvalidArgumentException',
+			'$mapperName must not be empty.'
 		);
 
 		$this->fixture->getLoggedInUser('');

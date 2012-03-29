@@ -90,7 +90,7 @@ class tx_oelib_Visibility_Node {
 	 */
 	public function setParent(tx_oelib_Visibility_Node $parentNode) {
 		if ($this->parentNode instanceof tx_oelib_Visibility_Node) {
-			throw new Exception('This node already has a parent node.');
+			throw new InvalidArgumentException('This node already has a parent node.', 1331488668);
 		}
 
 		$this->parentNode = $parentNode;

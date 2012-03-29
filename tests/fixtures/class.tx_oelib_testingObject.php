@@ -86,7 +86,7 @@ final class tx_oelib_testingObject extends tx_oelib_PublicObject {
 	/**
 	 * Checks that $key is not empty.
 	 *
-	 * @throws Exception if $key is empty
+	 * @throws InvalidArgumentException if $key is empty
 	 *
 	 * @param string $key
 	 *        a key to check

@@ -164,13 +164,11 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	public function setSubject($subject) {
 		if ($subject == '') {
-			throw new Exception('$subject must not be empty.');
+			throw new InvalidArgumentException('$subject must not be empty.', 1331488802);
 		}
 
 		if ((strpos($subject, CR) !== FALSE) || (strpos($subject, LF) !== FALSE)) {
-			throw new Exception(
-				'$subject must not contain any line breaks or carriage returns.'
-			);
+			throw new InvalidArgumentException('$subject must not contain any line breaks or carriage returns.', 1331488817);
 		}
 
 		$this->setAsString('subject', $subject);
@@ -193,7 +191,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	public function setMessage($message) {
 		if ($message == '') {
-			throw new Exception('$message must not be empty.');
+			throw new InvalidArgumentException('$message must not be empty.', 1331488834);
 		}
 
 		$this->setAsString('message', $message);
@@ -225,7 +223,7 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 */
 	public function setHTMLMessage($message) {
 		if ($message == '') {
-			throw new Exception('$message must not be empty.');
+			throw new InvalidArgumentException('$message must not be empty.', 1331488845);
 		}
 
 		if ($this->hasCssFile()) {

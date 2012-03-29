@@ -85,7 +85,8 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 
 	public function testGetForEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$namespace must not be empty.'
+			'InvalidArgumentException',
+			'$namespace must not be empty.'
 		);
 
 		tx_oelib_ConfigurationRegistry::get('');
@@ -115,7 +116,8 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 
 	public function testSetWithEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$namespace must not be empty.'
+			'InvalidArgumentException',
+			'$namespace must not be empty.'
 		);
 
 		tx_oelib_ConfigurationRegistry::getInstance()->set(

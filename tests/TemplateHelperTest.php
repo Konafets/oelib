@@ -175,7 +175,11 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	}
 
 	public function testSetConfigurationValueFailsWithAnEmptyKey() {
-		$this->setExpectedException('Exception', '$key must not be empty');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$key must not be empty'
+		);
+
 		$this->fixture->setConfigurationValue('', 'test');
 	}
 
@@ -346,7 +350,11 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	}
 
 	public function testGetListViewConfigurationValueThrowsAnExeptionIfNoFieldNameWasProvided() {
-		$this->setExpectedException('Exception', '$fieldName must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$fieldName must not be empty.'
+		);
+
 		$this->fixture->getListViewConfValueBoolean('');
 	}
 
@@ -3604,7 +3612,8 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 
 	public function testCreateRestrictedImageThrowsExceptionForEmptyPath() {
 		$this->setExpectedException(
-			'Exception', '$path must not be empty.'
+			'InvalidArgumentException',
+			'$path must not be empty.'
 		);
 
 		$this->fixture->createRestrictedImage('');
@@ -3612,7 +3621,8 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 
 	public function testCreateRestrictedImageThrowsExceptionForNonZeroMaxArea() {
 		$this->setExpectedException(
-			'Exception', '$maxArea is not used anymore and must be zero.'
+			'InvalidArgumentException',
+			'$maxArea is not used anymore and must be zero.'
 		);
 
 		$this->fixture->createRestrictedImage(

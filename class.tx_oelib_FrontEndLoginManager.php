@@ -110,7 +110,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		$mapperName = 'tx_oelib_Mapper_FrontEndUser'
 	) {
 		if ($mapperName == '') {
-			throw new Exception('$mapperName must not be empty.');
+			throw new InvalidArgumentException('$mapperName must not be empty.', 1331488730);
 		}
 		if (!$this->isLoggedIn()) {
 			return NULL;

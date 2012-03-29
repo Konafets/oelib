@@ -155,9 +155,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	public function setData(array $data) {
 		if ($this->isLoaded()) {
-			throw new Exception(
-				'setData must only be called once per model instance.'
-			);
+			throw new BadMethodCallException('setData must only be called once per model instance.', 1331489244);
 		}
 
 		$this->data = $data;
@@ -216,9 +214,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	public function setUid($uid) {
 		if ($this->hasUid()) {
-			throw new Exception(
-				'The UID of a model cannot be set a second time.'
-			);
+			throw new BadMethodCallException('The UID of a model cannot be set a second time.', 1331489260);
 		}
 		if ($this->isVirgin()) {
 			$this->loadStatus = self::STATUS_GHOST;
@@ -235,14 +231,10 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	protected function set($key, $value) {
 		if ($key == 'deleted') {
-			throw new Exception(
-				'$key must not be "deleted". Please use setToDeleted() instead.'
-			);
+			throw new InvalidArgumentException('$key must not be "deleted". Please use setToDeleted() instead.', 1331489276);
 		}
 		if ($this->isReadOnly()) {
-			throw new Exception(
-				'set() must not be called on a read-only model.'
-			);
+			throw new BadMethodCallException('set() must not be called on a read-only model.', 1331489292);
 		}
 
 		if ($this->isGhost()) {
@@ -269,9 +261,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	protected function get($key) {
 		if ($key == 'uid') {
-			throw new Exception(
-				'The UID column needs to be accessed using the getUid function.'
-			);
+			throw new InvalidArgumentException('The UID column needs to be accessed using the getUid function.', 1331489310);
 		}
 
 		$this->load();
@@ -305,8 +295,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	/**
 	 * Gets the value stored in under the key $key as a model.
 	 *
-	 * @throws Exception if there is a data item stored for the key $key that
-	 *                   is not a model instance
+	 * @throws UnexpectedValueException
+	 *         if there is a data item stored for the key $key that is not a model instance
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
@@ -322,9 +312,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 		}
 
 		if (!$result instanceof tx_oelib_Model) {
-			throw new Exception(
-				'The data item for the key "' . $key . '" is no model instance.'
-			);
+			throw new UnexpectedValueException('The data item for the key "' . $key . '" is no model instance.', 1331489359);
 		}
 
 		return $result;
@@ -333,9 +321,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	/**
 	 * Gets the value stored in under the key $key as a list of models.
 	 *
-	 * @throws Exception if there is a data item stored for the key $key that
-	 *                   is not a list instance or if that item has not been
-	 *                   set yet
+	 * @throws UnexpectedValueException
+	 *         if there is a data item stored for the key $key that is not a list instance or if that item has not been set yet
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
@@ -346,9 +333,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 		$result = $this->get($key);
 		if (!$result instanceof tx_oelib_List) {
-			throw new Exception(
-				'The data item for the key "' . $key . '" is no list instance.'
-			);
+			throw new UnexpectedValueException('The data item for the key "' . $key . '" is no list instance.', 1331489379);
 		}
 
 		return $result;
@@ -359,16 +344,13 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	private function load() {
 		if ($this->isVirgin()) {
-			throw new Exception(
-				'Please call setData() directly after instantiation first.'
-			);
+			throw new BadMethodCallException('Please call setData() directly after instantiation first.', 1331489395);
 		}
 
 		if ($this->isGhost()) {
 			if (!$this->hasLoadCallBack()) {
-				throw new Exception(
-					'Ghosts need a load callback function before their data ' .
-						'can be accessed.'
+				throw new BadMethodCallException(
+					'Ghosts need a load callback function before their data can be accessed.', 1331489414
 				);
 			}
 
@@ -545,9 +527,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 */
 	public function setCreationDate() {
 		if ($this->hasUid()) {
-			throw new Exception(
-				'Only new objects (without UID) may receive "crdate".'
-			);
+			throw new BadMethodCallException('Only new objects (without UID) may receive "crdate".', 1331489449);
 		}
 
 		$this->setAsInteger('crdate', $GLOBALS['SIM_EXEC_TIME']);

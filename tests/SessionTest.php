@@ -55,7 +55,7 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 
 	public function testGetInstanceThrowsExceptionWithoutFrontEnd() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'This class must not be instantiated when there is no front end.'
 		);
 
@@ -66,7 +66,7 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 
 	public function testGetInstanceWithInvalidTypeThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
 		);
 
@@ -124,7 +124,7 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 
 	public function testSetInstanceWithInvalidTypeThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
 		);
 

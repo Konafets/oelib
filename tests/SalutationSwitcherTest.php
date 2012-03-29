@@ -142,13 +142,21 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	//////////////////////////////////////
 
 	public function testEmptyKeyDefault() {
-		$this->setExpectedException('Exception', '$key must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$key must not be empty.'
+		);
+
 		$this->fixture->setLanguage('default');
 		$this->fixture->translate('');
 	}
 
 	public function testEmptyKeyDe() {
-		$this->setExpectedException('Exception', '$key must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$key must not be empty.'
+		);
+
 		$this->fixture->setLanguage('de');
 		$this->fixture->translate('');
 	}

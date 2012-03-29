@@ -90,19 +90,13 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function __construct() {
 		if ($this->tableName == '') {
-			throw new Exception(
-				get_class($this) . '::tableName must not be empty.'
-			);
+			throw new InvalidArgumentException(get_class($this) . '::tableName must not be empty.', 1331319361);
 		}
 		if ($this->columns == '') {
-			throw new Exception(
-				get_class($this) . '::columns must not be empty.'
-			);
+			throw new InvalidArgumentException(get_class($this) . '::columns must not be empty.', 1331319374);
 		}
 		if ($this->modelClassName == '') {
-			throw new Exception(
-				get_class($this) . '::modelClassName must not be empty.'
-			);
+			throw new InvalidArgumentException(get_class($this) . '::modelClassName must not be empty.', 1331319378);
 		}
 
 		$this->map = tx_oelib_ObjectFactory::make('tx_oelib_IdentityMap');
@@ -110,7 +104,6 @@ abstract class tx_oelib_DataMapper {
 		foreach ($this->additionalKeys as $key) {
 			$this->cacheByKey[$key] = array();
 		}
-
 	}
 
 	/**
@@ -166,7 +159,7 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function getModel(array $data) {
 		if (!isset($data['uid'])) {
-			throw new Exception('$data must contain an element "uid".');
+			throw new InvalidArgumentException('$data must contain an element "uid".', 1331319491);
 		}
 
 		$model = $this->find($data['uid']);
@@ -220,9 +213,7 @@ abstract class tx_oelib_DataMapper {
 	 */
 	protected function findSingleByWhereClause(array $whereClauseParts) {
 		if (empty($whereClauseParts)) {
-			throw new Exception(
-				'The parameter $whereClauseParts must not be empty.'
-			);
+			throw new InvalidArgumentException('The parameter $whereClauseParts must not be empty.', 1331319506);
 		}
 
 		return $this->getModel($this->retrieveRecord($whereClauseParts));
@@ -262,14 +253,10 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function load(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
-			throw new Exception(
-				'This ghost was created via getNewGhost and must not be loaded.'
-			);
+			throw new InvalidArgumentException('This ghost was created via getNewGhost and must not be loaded.', 1331319529);
 		}
 		if (!$model->hasUid()) {
-			throw new Exception(
-				'load must only be called with models that already have a UID.'
-			);
+			throw new InvalidArgumentException('load must only be called with models that already have a UID.', 1331319554);
 		}
 
 		try {
@@ -335,9 +322,8 @@ abstract class tx_oelib_DataMapper {
 		$tca = tx_oelib_db::getTcaForTable($this->tableName);
 
 		if (!isset($tca['columns'][$key])) {
-			throw new Exception(
-				'In the table ' . $this->tableName . ', the column ' .
-					$key . ' does not have a TCA entry.'
+			throw new BadMethodCallException(
+				'In the table ' . $this->tableName . ', the column ' . $key . ' does not have a TCA entry.', 1331319627
 			);
 		}
 
@@ -412,9 +398,8 @@ abstract class tx_oelib_DataMapper {
 
 		if ($data[$key] > 0) {
 			if ($this->isModelAMemoryOnlyDummy($model)) {
-				throw new Exception(
-					'This is a memory-only dummy which must not load any ' .
-						'one-to-many relations from the database.'
+				throw new InvalidArgumentException(
+					'This is a memory-only dummy which must not load any one-to-many relations from the database.', 1331319658
 				);
 			}
 
@@ -691,9 +676,7 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function save(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
-			throw new Exception(
-				'This model is a memory-only dummy that must not be saved.'
-			);
+			throw new InvalidArgumentException('This model is a memory-only dummy that must not be saved.', 1331319682);
 		}
 
 		if (!$this->hasDatabaseAccess()
@@ -902,9 +885,8 @@ abstract class tx_oelib_DataMapper {
 			$relationConfiguration =
 				$this->getRelationConfigurationFromTca($key);
 			if (!isset($relationConfiguration['foreign_field'])) {
-				throw new Exception(
-					'The relation ' . $this->tableName . ':' . $key .
-						' is missing the "foreign_field" setting.'
+				throw new BadMethodCallException(
+					'The relation ' . $this->tableName . ':' . $key . ' is missing the "foreign_field" setting.', 1331319719
 				);
 			}
 
@@ -922,17 +904,17 @@ abstract class tx_oelib_DataMapper {
 
 			foreach ($relatedModels as $relatedModel) {
 				if (!method_exists($relatedModel, $getter)) {
-					throw new Exception(
-						'The class ' . get_class($relatedModel) .
-							' is missing the function ' . $getter .
-							' which is needed for saving a 1:n relation.'
+					throw new BadMethodCallException(
+						'The class ' . get_class($relatedModel) . ' is missing the function ' . $getter .
+							' which is needed for saving a 1:n relation.',
+						1331319751
 					);
 				}
 				if (!method_exists($relatedModel, $setter)) {
-					throw new Exception(
-						'The class ' . get_class($relatedModel) .
-							' is missing the function ' . $setter .
-							' which is needed for saving a 1:n relation.'
+					throw new BadMethodCallException(
+						'The class ' . get_class($relatedModel) . ' is missing the function ' . $setter .
+							' which is needed for saving a 1:n relation.',
+						1331319803
 					);
 				}
 				if ($relatedModel->$getter() !== $model) {
@@ -981,14 +963,10 @@ abstract class tx_oelib_DataMapper {
 	 */
 	public function delete(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
-			throw new Exception(
-				'This model is a memory-only dummy that must not be deleted.'
-			);
+			throw new InvalidArgumentException('This model is a memory-only dummy that must not be deleted.', 1331319817);
 		}
 		if ($model->isReadOnly()) {
-			throw new Exception(
-				'This model is read-only and must not be deleted.'
-			);
+			throw new InvalidArgumentException('This model is read-only and must not be deleted.', 1331319836);
 		}
 		if ($model->isDead()) {
 			return;
@@ -1179,12 +1157,10 @@ abstract class tx_oelib_DataMapper {
 			throw new InvalidArgumentException('$key must not be empty.');
 		}
 		if (!isset($this->cacheByKey[$key])) {
-			throw new Exception(
-				'"' . $key . '" is not a valid key for this mapper.'
-			);
+			throw new InvalidArgumentException('"' . $key . '" is not a valid key for this mapper.', 1331319882);
 		}
 		if ($value == '') {
-			throw new Exception('$value must not be empty.');
+			throw new InvalidArgumentException('$value must not be empty.', 1331319892);
 		}
 
 		if (!isset($this->cacheByKey[$key][$value])) {
@@ -1269,10 +1245,10 @@ abstract class tx_oelib_DataMapper {
 		tx_oelib_Model $model, $relationKey, tx_oelib_List $ignoreList = NULL
 	) {
 		if (!$model->hasUid()) {
-			throw new Exception('$model must have a UID.');
+			throw new InvalidArgumentException('$model must have a UID.', 1331319915);
 		}
 		if ($relationKey == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1331319921);
 		}
 
 		$ignoreClause = '';

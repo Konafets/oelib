@@ -85,7 +85,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetWithNoDataThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Please call setData() directly after instantiation first.'
 		);
 
@@ -118,7 +118,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSetDataCalledTwoTimesThrowsAnException() {
 		$this->setExpectedException(
-			'Exception', 'setData must only be called once per model instance.'
+			'BadMethodCallException',
+			'setData must only be called once per model instance.'
 		);
 
 		$this->fixture->setData(
@@ -224,7 +225,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsModelWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsModel('');
@@ -240,7 +242,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsModelWithKeyForStringDataThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The data item for the key "foo" is no model instance.'
+			'UnexpectedValueException',
+			'The data item for the key "foo" is no model instance.'
 		);
 
 		$this->fixture->setData(array('foo' => 'bar'));
@@ -293,7 +296,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsListWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 		$this->fixture->getAsList('');
@@ -301,7 +305,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsListWithInexistentKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The data item for the key "foo" is no list instance.'
+			'UnexpectedValueException',
+			'The data item for the key "foo" is no list instance.'
 		);
 
 		$this->fixture->setData(array());
@@ -313,7 +318,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetAsListWithKeyForStringDataThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The data item for the key "foo" is no list instance.'
+			'UnexpectedValueException',
+			'The data item for the key "foo" is no list instance.'
 		);
 
 		$this->fixture->setData(array('foo' => 'bar'));
@@ -397,7 +403,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSetUidTwoTimesThrowsAnException() {
 		$this->setExpectedException(
-			'Exception', 'The UID of a model cannot be set a second time.'
+			'BadMethodCallException',
+			'The UID of a model cannot be set a second time.'
 		);
 		$this->fixture->setUid(42);
 		$this->fixture->setUid(42);
@@ -405,7 +412,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSetUidForAModelWithAUidSetViaSetDataThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The UID of a model cannot be set a second time.'
+			'BadMethodCallException',
+			'The UID of a model cannot be set a second time.'
 		);
 
 		$this->fixture->setData(array('uid' => 1));
@@ -470,9 +478,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testGetOnAModelWithoutLoadCallbackThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'Ghosts need a load callback function before their data can be ' .
-				'accessed.'
+			'BadMethodCallException',
+			'Ghosts need a load callback function before their data can be accessed.'
 		);
 
 		$this->fixture->setUid(1);
@@ -481,9 +488,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSetOnAModelInStatusGhostWithoutLoadCallbackThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'Ghosts need a load callback function before their data can be ' .
-				'accessed.'
+			'BadMethodCallException',
+			'Ghosts need a load callback function before their data can be accessed.'
 		);
 
 		$this->fixture->setUid(1);
@@ -696,7 +702,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testSettingDeletedByUsingSetThrowsAnException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$key must not be "deleted". Please use setToDeleted() instead.'
 		);
 
@@ -763,7 +769,8 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	 */
 	public function setOnReadOnlyModelThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'set() must not be called on a read-only model.'
+			'BadMethodCallException',
+			'set() must not be called on a read-only model.'
 		);
 
 		$model = new tx_oelib_tests_fixtures_ReadOnlyModel();
@@ -818,7 +825,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 	public function testsetCreationDateForLoadedModelWithUidThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'Only new objects (without UID) may receive "crdate".'
 		);
 

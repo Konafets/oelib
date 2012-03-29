@@ -86,7 +86,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 */
 	public function getGroupMembers($groupUids) {
 		if ($groupUids == '') {
-			throw new Exception('$groupUids must not be an empty string.');
+			throw new InvalidArgumentException('$groupUids must not be an empty string.', 1331488505);
 		}
 
 		return $this->getListOfModels(

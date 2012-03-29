@@ -97,7 +97,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	 */
 	public function getWithEmptyExtensionNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The parameter $extensionName must not be empty.'
 		);
 
@@ -109,9 +109,8 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	 */
 	public function getWithNotLoadedExtensionNameThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'The extension with the name "user_oelib_test_does_not_exist" ' .
-				'is not loaded.'
+			'BadMethodCallException',
+			'The extension with the name "user_oelib_test_does_not_exist" is not loaded.'
 		);
 
 		tx_oelib_TranslatorRegistry::get('user_oelib_test_does_not_exist');
@@ -429,7 +428,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	 */
 	public function setLanguageKeyForEmptyStringGivenThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The given language key must not be empty.'
 		);
 

@@ -190,12 +190,10 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createRecord($table, array $recordData = array()) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception('The table name "' . $table . '" is not allowed.');
+			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331489666);
 		}
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489678);
 		}
 
 		return $this->createRecordWithoutTableNameChecks(
@@ -293,19 +291,13 @@ final class tx_oelib_testingFramework {
 		$documentType, $parentId, array $recordData
 	) {
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489697);
 		}
 		if (isset($recordData['pid'])) {
-			throw new Exception(
-				'The column "pid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "pid" must not be set in $recordData.', 1331489703);
 		}
 		if (isset($recordData['doktype'])) {
-			throw new Exception(
-				'The column "doktype" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "doktype" must not be set in $recordData.', 1331489708);
 		}
 
 		$completeRecordData = $recordData;
@@ -337,14 +329,10 @@ final class tx_oelib_testingFramework {
 		$pageId = 0, array $recordData = array()
 	) {
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489735);
 		}
 		if (isset($recordData['pid'])) {
-			throw new Exception(
-				'The column "pid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "pid" must not be set in $recordData.', 1331489741);
 		}
 
 		$completeRecordData = $recordData;
@@ -374,19 +362,13 @@ final class tx_oelib_testingFramework {
 		$pageId, array $recordData = array()
 	) {
 		if ($pageId <= 0) {
-			throw new Exception(
-				'$pageId must be > 0.'
-			);
+			throw new InvalidArgumentException('$pageId must be > 0.', 1331489774);
 		}
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489769);
 		}
 		if (isset($recordData['pid'])) {
-			throw new Exception(
-				'The column "pid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "pid" must not be set in $recordData.', 1331489764);
 		}
 
 		$completeRecordData = $recordData;
@@ -408,9 +390,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createFrontEndUserGroup(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489807);
 		}
 
 		return $this->createRecordWithoutTableNameChecks(
@@ -440,20 +420,15 @@ final class tx_oelib_testingFramework {
 		}
 		if (!preg_match('/^(?:[1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
 		) {
-			throw new Exception(
-				'$frontEndUserGroups must contain a comma-separated list of UIDs. '
-					.'Each UID must be > 0.'
+			throw new InvalidArgumentException(
+				'$frontEndUserGroups must contain a comma-separated list of UIDs. Each UID must be > 0.', 1331489824
 			);
 		}
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489842);
 		}
 		if (isset($recordData['usergroup'])) {
-			throw new Exception(
-				'The column "usergroup" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "usergroup" must not be set in $recordData.', 1331489846);
 		}
 
 		$completeRecordData = $recordData;
@@ -499,9 +474,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createBackEndUser(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489905);
 		}
 
 		return $this->createRecordWithoutTableNameChecks(
@@ -520,9 +493,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createBackEndUserGroup(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The column "uid" must not be set in $recordData.'
-			);
+			throw new InvalidArgumentException('The column "uid" must not be set in $recordData.', 1331489919);
 		}
 
 		return $this->createRecordWithoutTableNameChecks(
@@ -549,35 +520,28 @@ final class tx_oelib_testingFramework {
 		$dummyColumnName = $this->getDummyColumnName($table);
 
 		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The table "' . $table . '" is not on the lists with allowed tables.'
-			);
+			throw new InvalidArgumentException('The table "' . $table . '" is not on the lists with allowed tables.', 1331489997);
 		}
 		if ($uid == 0) {
-			throw new Exception('The parameter $uid must not be zero.');
+			throw new InvalidArgumentException('The parameter $uid must not be zero.', 1331490003);
 		}
 		if (empty($recordData)) {
-			throw new Exception(
-				'The array with the new record data must not be empty.'
-			);
+			throw new InvalidArgumentException('The array with the new record data must not be empty.', 1331490008);
 		}
 		if (isset($recordData['uid'])) {
-			throw new Exception(
-				'The parameter $recordData must not contain changes to the UID' .
-				' of a record.'
+			throw new InvalidArgumentException(
+				'The parameter $recordData must not contain changes to the UID of a record.', 1331490017
 			);
 		}
 		if (isset($recordData[$dummyColumnName])) {
-			throw new Exception(
-				'The parameter $recordData must not contain changes to the ' .
-					'field "' . $dummyColumnName . '". It is impossible to ' .
-					'convert a dummy record into a regular record.'
+			throw new InvalidArgumentException(
+				'The parameter $recordData must not contain changes to the field "' . $dummyColumnName .
+					'". It is impossible to convert a dummy record into a regular record.',
+				1331490024
 			);
 		}
 		if (!$this->countRecords($table, 'uid='.$uid)) {
-			throw new Exception(
-				'There is no record with UID ' . $uid . ' on table "' . $table . '".'
-			);
+			throw new BadMethodCallException('There is no record with UID ' . $uid . ' on table "' . $table . '".', 1331490033);
 		}
 
 		tx_oelib_db::update(
@@ -599,9 +563,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception(
-				'The table name "' . $table . '" is not allowed.'
-			);
+			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331490341);
 		}
 
 		tx_oelib_db::delete(
@@ -624,20 +586,18 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception('The table name "' . $table . '" is not allowed.');
+			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331490358);
 		}
 
 		// Checks that the two given UIDs are valid.
 		if (intval($uidLocal) <= 0) {
-			throw new Exception(
-				'$uidLocal must be an integer > 0, but actually is "' .
-					$uidLocal . '"'
+			throw new InvalidArgumentException(
+				'$uidLocal must be an integer > 0, but actually is "' . $uidLocal . '"', 1331490370
 			);
 		}
 		if  (intval($uidForeign) <= 0) {
-			throw new Exception(
-				'$uidForeign must be an integer > 0, but actually is "' .
-					$uidForeign . '"'
+			throw new InvalidArgumentException(
+				'$uidForeign must be an integer > 0, but actually is "' . $uidForeign . '"', 1331490378
 			);
 		}
 
@@ -669,20 +629,14 @@ final class tx_oelib_testingFramework {
 		$tableName, $uidLocal, $uidForeign, $columnName
 	) {
 		if (!$this->isTableNameAllowed($tableName)) {
-			throw new Exception(
-				'The table name "' . $tableName . '" is not allowed.'
-			);
+			throw new InvalidArgumentException('The table name "' . $tableName . '" is not allowed.', 1331490419);
 		}
 
 		if ($uidLocal <= 0) {
-			throw new Exception(
-				'$uidLocal must be > 0, but actually is "' . $uidLocal . '"'
-			);
+			throw new InvalidArgumentException('$uidLocal must be > 0, but actually is "' . $uidLocal . '"', 1331490425);
 		}
 		if ($uidForeign <= 0) {
-			throw new Exception(
-				'$uidForeign must be  > 0, but actually is "' . $uidForeign . '"'
-			);
+			throw new InvalidArgumentException('$uidForeign must be  > 0, but actually is "' . $uidForeign . '"', 1331490429);
 		}
 
 		$tca = tx_oelib_db::getTcaForTable($tableName);
@@ -691,9 +645,10 @@ final class tx_oelib_testingFramework {
 		if (!isset($relationConfiguration['config']['MM'])
 			|| ($relationConfiguration['config']['MM'] == '')
 		) {
-			throw new Exception(
+			throw new BadMethodCallException(
 				'The column ' . $columnName . ' in the table ' . $tableName .
-				' is not configured to contain m:n relations using a m:n table.'
+					' is not configured to contain m:n relations using a m:n table.',
+				1331490434
 			);
 		}
 
@@ -730,9 +685,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
-			throw new Exception(
-				'The table name "' . $table . '" is not allowed.'
-			);
+			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331490465);
 		}
 
 		tx_oelib_db::delete(
@@ -855,9 +808,7 @@ final class tx_oelib_testingFramework {
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
 
 		if (!t3lib_div::writeFile($uniqueFileName, $content)) {
-			throw new Exception(
-				'The file ' . $uniqueFileName . ' could not be created.'
-			);
+			throw new RuntimeException('The file ' . $uniqueFileName . ' could not be created.', 1331490486);
 		}
 
 		$this->addToDummyFileList($uniqueFileName);
@@ -869,7 +820,7 @@ final class tx_oelib_testingFramework {
 	 * Creates a dummy ZIP archive with a unique file name in the calling
 	 * extension's upload directory.
 	 *
-	 * @throws Exception if the PHP installation does not provide ZIPArchive
+	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
 	 *
 	 * @param string $fileName
 	 *        path of the dummy ZIP archive to create, relative to the calling extension's upload directory, must not be empty
@@ -892,9 +843,7 @@ final class tx_oelib_testingFramework {
 		$zip = t3lib_div::makeInstance('ZipArchive');
 
 		if ($zip->open($uniqueFileName, ZipArchive::CREATE) !== TRUE) {
-			throw new Exception(
-				'The new ZIP archive "' . $fileName . '" could not be created.'
-			);
+			throw new RuntimeException('The new ZIP archive "' . $fileName . '" could not be created.', 1331490501);
 		}
 
 		$contents = !empty($filesToAddToArchive)
@@ -903,9 +852,8 @@ final class tx_oelib_testingFramework {
 
 		foreach ($contents as $pathToFile) {
 			if (!file_exists($pathToFile)) {
-				throw new Exception(
-					'The provided path "' . $pathToFile . '" does not point ' .
-						'to an exisiting file.'
+				throw new UnexpectedValueException(
+					'The provided path "' . $pathToFile . '" does not point to an exisiting file.', 1331490528
 				);
 			}
 			$zip->addFile(
@@ -942,19 +890,16 @@ final class tx_oelib_testingFramework {
 		$fileExists = file_exists($absolutePathToFile);
 
 		if (!isset($this->dummyFiles[$fileName])) {
-			throw new Exception(
-				'The file "' . $absolutePathToFile . '" which you ' .
-					'are trying to delete ' . (!$fileExists
-						? 'does not exist and has never been '
-						: 'was not '
-					) . 'created by this instance of the testing framework.'
+			throw new InvalidArgumentException(
+				'The file "' . $absolutePathToFile . '" which you are trying to delete ' .
+					(!$fileExists ? 'does not exist and has never been ' : 'was not ') .
+					'created by this instance of the testing framework.',
+				1331490556
 			);
 		}
 
 		if ($fileExists && !@unlink($absolutePathToFile)) {
-			throw new Exception(
-				'The file "' . $absolutePathToFile . '" could not be deleted.'
-			);
+			throw new RuntimeException('The file "' . $absolutePathToFile . '" could not be deleted.', 1331490596);
 		}
 
 		unset($this->dummyFiles[$fileName]);
@@ -974,9 +919,7 @@ final class tx_oelib_testingFramework {
 		$uniqueFolderName = $this->getUniqueFileOrFolderPath($folderName);
 
 		if (!t3lib_div::mkdir($uniqueFolderName)) {
-			throw new Exception(
-				'The folder ' . $uniqueFolderName . ' could not be created.'
-			);
+			throw new RuntimeException('The folder ' . $uniqueFolderName . ' could not be created.', 1331490619);
 		}
 
 		$relativeUniqueFolderName = $this->getPathRelativeToUploadDirectory(
@@ -1003,25 +946,21 @@ final class tx_oelib_testingFramework {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
 
 		if (!is_dir($absolutePathToFolder)) {
-			throw new Exception(
-				'The folder "' . $absolutePathToFolder . '" which you ' .
-					'are trying to delete does not exist.'
+			throw new InvalidArgumentException(
+				'The folder "' . $absolutePathToFolder . '" which you are trying to delete does not exist.', 1331490646
 			);
 		}
 
 		if (!isset($this->dummyFolders[$folderName])) {
-			throw new Exception(
-				'The folder "' . $absolutePathToFolder . '" which you ' .
-					'are trying to delete was not created by this instance of ' .
-					'the testing framework.'
+			throw new InvalidArgumentException(
+				'The folder "' . $absolutePathToFolder .
+					'" which you are trying to delete was not created by this instance of the testing framework.',
+				1331490670
 			);
 		}
 
 		if (!t3lib_div::rmdir($absolutePathToFolder)) {
-			throw new Exception(
-				'The folder "' . $absolutePathToFolder . '" could not ' .
-					'be deleted.'
-			);
+			throw new RuntimeException('The folder "' . $absolutePathToFolder . '" could not be deleted.', 1331490702);
 		}
 
 		unset($this->dummyFolders[$folderName]);
@@ -1039,9 +978,8 @@ final class tx_oelib_testingFramework {
 			// registers the upload folder as dummy folder
 			$this->dummyFolders['uploadFolder'] = '';
 		} else {
-			throw new Exception(
-				'The upload folder ' . $this->getUploadFolderPath() .
-					' could not be created.'
+			throw new RuntimeException(
+				'The upload folder ' . $this->getUploadFolderPath() . ' could not be created.', 1331490723
 			);
 		}
 	}
@@ -1049,9 +987,9 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Sets the upload folder path.
 	 *
-	 * @throws Exception if there are dummy files within the current upload
-	 *                   folder as these files could not be deleted if the
-	 *                   upload folder path has changed
+	 * @throws BadMethodCallException
+	 *         if there are dummy files within the current upload folder as these files could not be deleted if the
+	 *         upload folder path has changed
 	 *
 	 * @param string $absolutePath
 	 *        absolute path to the folder where to work on during the tests,can be either an existing folder which will be
@@ -1060,9 +998,8 @@ final class tx_oelib_testingFramework {
 	 */
 	public function setUploadFolderPath($absolutePath) {
 		if (!empty($this->dummyFiles) || !empty($this->dummyFolders)) {
-			throw new Exception(
-				'The upload folder path must not be changed if there are ' .
-					'already dummy files or folders.'
+			throw new BadMethodCallException(
+				'The upload folder path must not be changed if there are already dummy files or folders.', 1331490745
 			);
 		}
 
@@ -1096,9 +1033,8 @@ final class tx_oelib_testingFramework {
 				'/^' . str_replace('/', '\/', $this->getUploadFolderPath()) . '.*$/',
 				$absolutePath
 		)) {
-			throw new Exception(
-				'The first parameter $absolutePath is not within the calling ' .
-					'extension\'s upload directory.'
+			throw new InvalidArgumentException(
+				'The first parameter $absolutePath is not within the calling extension\'s upload directory.', 1331490760
 			);
 		}
 
@@ -1117,7 +1053,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function getUniqueFileOrFolderPath($path) {
 		if (empty($path)) {
-			throw new Exception('The first parameter $path must not be emtpy.');
+			throw new InvalidArgumentException('The first parameter $path must not be empty.', 1331490775);
 		}
 
 		if (!self::$fileNameProcessor) {
@@ -1148,7 +1084,7 @@ final class tx_oelib_testingFramework {
 	 * Note: This function does not set TYPO3_MODE to "FE" (because the value of
 	 * a constant cannot be changed after it has once been set).
 	 *
-	 * @throws Exception if $pageUid is < 0
+	 * @throws InvalidArgumentException if $pageUid is < 0
 	 *
 	 * @param integer $pageUid UID of a page record to use, must be >= 0
 	 *
@@ -1156,7 +1092,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
 		if ($pageUid < 0) {
-			throw new Exception('$pageUid must be >= 0.');
+			throw new InvalidArgumentException('$pageUid must be >= 0.', 1331490786);
 		}
 
 		$this->suppressFrontEndCookies();
@@ -1265,18 +1201,16 @@ final class tx_oelib_testingFramework {
 	 * Note: To set the logged-in users group data properly, the front-end user
 	 *       and his groups must actually exist in the database.
 	 *
-	 * @throws Exception if no front end has been created
+	 * @throws BadMethodCallException if no front end has been created
 	 *
 	 * @param integer $userId UID of the FE user, must not necessarily exist in the database, must be > 0
 	 */
 	public function loginFrontEndUser($userId) {
-		if (intval($userId) == 0) {
-			throw new Exception('The user ID must be > 0.');
+		if (intval($userId) <= 0) {
+			throw new InvalidArgumentException('The user ID must be > 0.', 1331490798);
 		}
 		if (!$this->hasFakeFrontEnd()) {
-			throw new Exception(
-				'Please create a front end before calling loginFrontEndUser.'
-			);
+			throw new BadMethodCallException('Please create a front end before calling loginFrontEndUser.', 1331490812);
 		}
 
 		if ($this->isLoggedIn()) {
@@ -1308,13 +1242,11 @@ final class tx_oelib_testingFramework {
 	 *
 	 * If no front-end user is logged in, this function does nothing.
 	 *
-	 * @throws Exception if no front end has been created
+	 * @throws BadMethodCallException if no front end has been created
 	 */
 	public function logoutFrontEndUser() {
 		if (!$this->hasFakeFrontEnd()) {
-			throw new Exception(
-				'Please create a front end before calling logoutFrontEndUser.'
-			);
+			throw new BadMethodCallException('Please create a front end before calling logoutFrontEndUser.', 1331490825);
 		}
 		if (!$this->isLoggedIn()) {
 			return;
@@ -1331,15 +1263,13 @@ final class tx_oelib_testingFramework {
 	/**
 	 * Checks whether a FE user is logged in.
 	 *
-	 * @throws Exception if no front end has been created
+	 * @throws BadMethodCallException if no front end has been created
 	 *
 	 * @return boolean TRUE if a FE user is logged in, FALSE otherwise
 	 */
 	public function isLoggedIn() {
 		if (!$this->hasFakeFrontEnd()) {
-			throw new Exception(
-				'Please create a front end before calling isLoggedIn.'
-			);
+			throw new BadMethodCallException('Please create a front end before calling isLoggedIn.', 1331490846);
 		}
 
 		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
@@ -1510,9 +1440,9 @@ final class tx_oelib_testingFramework {
 	 */
 	public function countRecords($table, $whereClause = '') {
 		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			throw new InvalidArgumentException(
+				'The given table name is invalid. This means it is either empty or not in the list of allowed tables.',
+				1331490862
 			);
 		}
 
@@ -1549,7 +1479,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function existsRecordWithUid($table, $uid) {
 		if ($uid <= 0) {
-			throw new Exception('$uid must be > 0.');
+			throw new InvalidArgumentException('$uid must be > 0.', 1331490872);
 		}
 
 		return ($this->countRecords($table, 'uid = ' . $uid) > 0);
@@ -1579,9 +1509,9 @@ final class tx_oelib_testingFramework {
 	 */
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			throw new InvalidArgumentException(
+				'The given table name is invalid. This means it is either empty or not in the list of allowed tables.',
+				1331490882
 			);
 		}
 
@@ -1621,9 +1551,9 @@ final class tx_oelib_testingFramework {
 	 */
 	public function resetAutoIncrementLazily($table) {
 		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			throw new InvalidArgumentException(
+				'The given table name is invalid. This means it is either empty or not in the list of allowed tables.',
+				1331490899
 			);
 		}
 
@@ -1652,7 +1582,7 @@ final class tx_oelib_testingFramework {
 	 */
 	public function setResetAutoIncrementThreshold($threshold) {
 		if ($threshold <= 0) {
-			throw new Exception('$threshold must be > 0.');
+			throw new InvalidArgumentException('$threshold must be > 0.', 1331490913);
 		}
 
 		$this->resetAutoIncrementThreshold = $threshold;
@@ -1690,9 +1620,9 @@ final class tx_oelib_testingFramework {
 	 */
 	public function getAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
-			throw new Exception(
-				'The given table name is invalid. This means it is either ' .
-					'empty or not in the list of allowed tables.'
+			throw new InvalidArgumentException(
+				'The given table name is invalid. This means it is either empty or not in the list of allowed tables.',
+				1331490926
 			);
 		}
 
@@ -1745,9 +1675,8 @@ final class tx_oelib_testingFramework {
 			} elseif ($this->isSystemTableNameAllowed($currentTable)) {
 				$this->dirtySystemTables[$currentTable] = $currentTable;
 			} else {
-				throw new Exception(
-					'The table name "' . $currentTable . '" is not allowed for' .
-						' markTableAsDirty.'
+				throw new InvalidArgumentException(
+					'The table name "' . $currentTable . '" is not allowed for markTableAsDirty.', 1331490947
 				);
 			}
 		}
@@ -1829,15 +1758,14 @@ final class tx_oelib_testingFramework {
 	 */
 	public function increaseRelationCounter($tableName, $uid, $fieldName) {
 		if (!$this->isTableNameAllowed($tableName)) {
-			throw new Exception(
-				'The table name "' . $tableName . '" is invalid. This means ' .
-					'it is either empty or not in the list of allowed tables.'
+			throw new InvalidArgumentException(
+				'The table name "' . $tableName .
+					'" is invalid. This means it is either empty or not in the list of allowed tables.',
+				1331490960
 			);
 		}
 		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
-			throw new Exception(
-				'The table ' . $tableName . ' has no column ' . $fieldName . '.'
-			);
+			throw new InvalidArgumentException('The table ' . $tableName . ' has no column ' . $fieldName . '.', 1331490986);
 		}
 
 		tx_oelib_db::enableQueryLogging();
@@ -1850,9 +1778,8 @@ final class tx_oelib_testingFramework {
 		}
 
 		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() == 0) {
-			throw new Exception(
-				'The table ' . $tableName .
-					' does not contain a record with UID ' . $uid . '.'
+			throw new BadMethodCallException(
+				'The table ' . $tableName . ' does not contain a record with UID ' . $uid . '.', 1331491003
 			);
 		}
 
@@ -1865,13 +1792,11 @@ final class tx_oelib_testingFramework {
 	 * Note: This function can be used to mark tests as skipped if this class is
 	 *       not available but required for a test to pass succesfully.
 	 *
-	 * @throws Exception if the PHP installation does not provide ZIPArchive
+	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
 	 */
 	public function checkForZipArchive() {
 		if (!in_array('zip', get_loaded_extensions())) {
-			throw new Exception(
-				'This PHP installation does not provide the ZIPArchive class.'
-			);
+			throw new RuntimeException('This PHP installation does not provide the ZIPArchive class.', 1331491040);
 		}
 	}
 

@@ -206,7 +206,7 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 *
-	 * @expectedException Exception
+	 * @expectedException RuntimeException
 	 */
 	public function lookUpForAFullGermanAddressWithNetworkErrorThrowsException() {
 		$geo = new tx_oelib_tests_fixtures_TestingGeo();

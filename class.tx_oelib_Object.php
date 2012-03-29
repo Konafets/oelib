@@ -60,13 +60,13 @@ abstract class tx_oelib_Object {
 	/**
 	 * Checks that $key is not empty.
 	 *
-	 * @throws Exception if $key is empty
+	 * @throws InvalidArgumentException if $key is empty
 	 *
 	 * @param string $key the key to check
 	 */
 	protected function checkForNonEmptyKey($key) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1331488963);
 		}
 	}
 
