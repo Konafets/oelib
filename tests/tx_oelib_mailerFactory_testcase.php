@@ -84,6 +84,23 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 			'Reply-To: any-sender@email-address.org';
 	}
 
+	/**
+	 * Gets the current character set in TYPO3, e.g., "utf-8".
+	 *
+	 * @return string the current character set, will not be empty
+	 */
+	private function getCharacterSet() {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4007000) {
+			return 'utf-8';
+		}
+
+		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+	}
+
 
 	/////////////////////////////////////////////
 	// Tests concerning the basic functionality
@@ -306,9 +323,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
-
+		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
 			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
@@ -401,9 +416,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
-
+		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
 			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
@@ -463,9 +476,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 		$this->fixture->send($otherEMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
-
+		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
 			'text_encoding' => 'quoted-printable',
 			'head_charset' => $characterSet,
@@ -543,9 +554,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
-
+		$characterSet = $this->getCharacterSet();
 		$this->assertEquals(
 			array(
 				'recipient' => self::$email['recipient'],
@@ -653,10 +662,14 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	}
 
 	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithIso88591CharsetInformation() {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4007000) {
+			$this->markTestSkipped('This test is only applicable in TYPO3 < 4.7.');
+		}
 		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') {
-			$this->markTestSkipped(
-				'This test applies to installations without forceCharset only.'
-			);
+			$this->markTestSkipped('This test applies to installations without forceCharset only.');
 		}
 
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
@@ -839,8 +852,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+		$characterSet = $this->getCharacterSet();
 		$encodedName = t3lib_div::encodeHeader(
 			'Jöhn Döe', 'quoted-printable', $characterSet
 		);
@@ -911,8 +923,7 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$characterSet = ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+		$characterSet = $this->getCharacterSet();
 		$encodedName = t3lib_div::encodeHeader(
 			$senderName, 'quoted-printable', $characterSet
 		);
