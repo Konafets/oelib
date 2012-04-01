@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4369] Fix: Test failure with master in tx_seminars_cli_MailNotifierTest
 - [#3815] Fix: Throw more meaningful Exceptions
 - [#4385] Fix: Model_FrontEndUser::setName has a lowercase "n"
 - [#4398] Fix: Make the exception about dead models more helpful

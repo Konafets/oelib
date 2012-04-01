@@ -266,6 +266,13 @@ abstract class tx_oelib_abstractMailer {
 	 * @return string the current character set, e.g. utf-8
 	 */
 	private function getCharacterSet() {
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4007000) {
+			return 'utf-8';
+		}
+
 		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
 	}
