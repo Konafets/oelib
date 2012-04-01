@@ -167,7 +167,8 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 	public function testSetSubjectWithEmptySubjectThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$subject must not be empty.'
+			'InvalidArgumentException',
+			'$subject must not be empty.'
 		);
 
 		$this->fixture->setSubject('');
@@ -175,7 +176,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 	public function testSetSubjectWithSubjectContainingCarriageReturnThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
@@ -184,7 +185,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 	public function testSetSubjectWithSubjectContainingLinefeedThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
@@ -193,7 +194,7 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 	public function testSetSubjectWithSubjectContainingCarriageReturnLinefeedThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
@@ -223,7 +224,8 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 
 	public function testSetMessageWithEmptyMessageThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$message must not be empty.'
+			'InvalidArgumentException',
+			'$message must not be empty.'
 		);
 
 		$this->fixture->setMessage('');
@@ -281,7 +283,8 @@ class tx_oelib_Mail_testcase extends tx_phpunit_testcase {
 	 */
 	public function setHTMLMessageWithEmptyMessageThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$message must not be empty.'
+			'InvalidArgumentException',
+			'$message must not be empty.'
 		);
 
 		$this->fixture->setHTMLMessage('');

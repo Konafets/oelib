@@ -200,9 +200,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 */
 	private function getElementFromLastEmail($key) {
 		if (!in_array($key, array('recipient', 'subject', 'message', 'headers'))) {
-			throw new Exception(
-				'The key "'.$key.'" is invalid. '
-					.'It must be "recipient", "subject", "message" or "headers".'
+			throw new InvalidArgumentException(
+				'The key "' . $key . '" is invalid. It must be "recipient", "subject", "message" or "headers".', 1331488710
 			);
 		}
 		if (empty($this->emailData)) {

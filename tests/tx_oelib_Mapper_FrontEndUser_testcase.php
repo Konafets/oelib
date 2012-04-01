@@ -106,7 +106,8 @@ class tx_oelib_Mapper_FrontEndUser_testcase extends tx_phpunit_testcase {
 
 	public function test_GetGroupMembers_ForEmptyString_ThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$groupUids must not be an empty string.'
+			'InvalidArgumentException',
+			'$groupUids must not be an empty string.'
 		);
 
 		$this->fixture->getGroupMembers('');

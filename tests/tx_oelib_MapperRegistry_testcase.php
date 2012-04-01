@@ -76,7 +76,8 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$className must not be empty.'
 		);
 
 		tx_oelib_MapperRegistry::get('');
@@ -84,9 +85,8 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 
 	public function testGetForMalformedKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception',
-			'$className must be in the format ' .
-				'tx_extensionname[_Folder]_ClassName, but was "foo".'
+			'InvalidArgumentException',
+			'$className must be in the format tx_extensionname[_Folder]_ClassName, but was "foo".'
 		);
 
 		tx_oelib_MapperRegistry::get('foo');
@@ -201,7 +201,7 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 	 */
 	public function setThrowsExceptionForMismatchingWrapperClass() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'The provided mapper is not an instance of tx_oelib_Mapper_Foo.'
 		);
 
@@ -216,7 +216,7 @@ class tx_oelib_MapperRegistry_testcase extends tx_phpunit_testcase {
 	 */
 	public function setThrowsExceptionIfTheMapperTypeAlreadyIsRegistered() {
 		$this->setExpectedException(
-			'Exception',
+			'BadMethodCallException',
 			'There already is a tx_oelib_tests_fixtures_TestingMapper mapper registered. ' .
 				'Overwriting existing wrappers is not allowed.'
 		);

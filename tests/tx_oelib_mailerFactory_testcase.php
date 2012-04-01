@@ -510,7 +510,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function sendWithoutSenderThrowsException() {
-		$this->setExpectedException('Exception', '$email must have a sender set.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$email must have a sender set.'
+		);
 
 		$eMail = new tx_oelib_Mail();
 
@@ -565,7 +568,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function mailWithEmptySenderThrowsException() {
-		$this->setExpectedException('Exception', '$emailAddress must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$emailAddress must not be empty.'
+		);
 
 		$this->fixture->mail('', 'subject', 'message');
 	}
@@ -574,7 +580,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function mailWithEmptySubjectThrowsException() {
-		$this->setExpectedException('Exception', '$subject must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$subject must not be empty.'
+		);
 
 		$this->fixture->mail('john@doe.com', '', 'message');
 	}
@@ -583,7 +592,10 @@ class tx_oelib_mailerFactory_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function mailWithEmptyMessageThrowsException() {
-		$this->setExpectedException('Exception', '$message must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$message must not be empty.'
+		);
 
 		$this->fixture->mail('john@doe.com', 'subject', '');
 	}

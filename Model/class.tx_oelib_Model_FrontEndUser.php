@@ -281,7 +281,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 */
 	public function hasGroupMembership($uidList) {
 		if ($uidList == '') {
-			throw new Exception('$uidList must not be empty.');
+			throw new InvalidArgumentException('$uidList must not be empty.', 1331488635);
 		}
 
 		$isMember = FALSE;

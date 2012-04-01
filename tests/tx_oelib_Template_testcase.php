@@ -77,8 +77,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	public function getSubpartWithNotExistingSubpartNameThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'$key contained the subpart name "FOOBAR", but only the following ' .
-				'subparts are available: ()'
+			'$key contained the subpart name "FOOBAR", but only the following subparts are available: ()'
 		);
 
 		$this->assertEquals(
@@ -92,8 +91,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	public function getSubpartWithNotExistingSubpartNameThrowsExceptionWithSubpartNames() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'$key contained the subpart name "COFFEE", but only the following ' .
-				'subparts are available: (FOO, BAR)'
+			'$key contained the subpart name "COFFEE", but only the following subparts are available: (FOO, BAR)'
 		);
 
 		$this->fixture->processTemplate(
@@ -1965,7 +1963,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testSetNewSubpartWithNameWithSpaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $subpartName is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $subpartName is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -1976,7 +1975,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testSetNewSubpartWithNameWithUtf8UmlautThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $subpartName is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $subpartName is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -1987,7 +1987,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testSetNewSubpartWithNameWithUnderscoreSuffixThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $subpartName is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $subpartName is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -1998,7 +1999,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testSetNewSubpartWithNameStartingWithUnderscoreThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $subpartName is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $subpartName is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -2009,7 +2011,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testSetNewSubpartWithNameStartingWithNumberThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $subpartName is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $subpartName is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -2979,7 +2982,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNameWithSpaceThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $key is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $key is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -2993,7 +2997,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNameWithUtf8UmlautThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $key is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $key is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -3007,7 +3012,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNameWithUnderscoreSuffixThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $key is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $key is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -3021,7 +3027,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNameStartingWithUnderscoreThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $key is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $key is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -3035,7 +3042,8 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 
 	public function testGetSubpartWithNameStartingWithNumberThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'The value of the parameter $key is not valid.'
+			'InvalidArgumentException',
+			'The value of the parameter $key is not valid.'
 		);
 
 		$this->fixture->processTemplate(
@@ -3053,8 +3061,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	public function getSubpartWithLowercaseNameWithUsingLowercaseThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'$key contained the subpart name "my_subpart", but only the following ' .
-				'subparts are available: ()'
+			'$key contained the subpart name "my_subpart", but only the following subparts are available: ()'
 
 		);
 
@@ -3073,8 +3080,7 @@ class tx_oelib_Template_testcase extends tx_phpunit_testcase {
 	public function getSubpartWithLowercaseNameWithUsingUppercaseThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
-			'$key contained the subpart name "MY_SUBPART", but only the following ' .
-				'subparts are available: ()'
+			'$key contained the subpart name "MY_SUBPART", but only the following subparts are available: ()'
 		);
 
 		$this->fixture->processTemplate(

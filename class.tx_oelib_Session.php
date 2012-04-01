@@ -67,17 +67,14 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * The constructor. Use getInstance() instead.
 	 *
-	 * @throws Exception if there is no front end
+	 * @throws BadMethodCallException if there is no front end
 	 *
 	 * @param integer the type of the session to use; either ::TYPE_USER or
 	 *                ::TYPE_TEMPORARY
 	 */
 	protected function __construct($type) {
 		if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
-			throw new Exception(
-				'This class must not be instantiated when there is no front ' .
-				'end.'
-			);
+			throw new BadMethodCallException('This class must not be instantiated when there is no front end.', 1331489053);
 		}
 
 		self::checkType($type);
@@ -125,15 +122,13 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	/**
 	 * Checks that a type ID is valid.
 	 *
-	 * @throws Exception if $type is neither ::TYPE_USER nor ::TYPE_TEMPORARY
+	 * @throws InvalidArgumentException if $type is neither ::TYPE_USER nor ::TYPE_TEMPORARY
 	 *
 	 * @param integer the type ID to check
 	 */
 	protected static function checkType($type) {
 		if (($type != self::TYPE_USER) && ($type != self::TYPE_TEMPORARY)) {
-			throw new Exception(
-				'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
-			);
+			throw new InvalidArgumentException('Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.', 1331489067);
 		}
 	}
 

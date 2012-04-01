@@ -83,7 +83,10 @@ class tx_oelib_configurationProxy_testcase extends tx_phpunit_testcase {
 	}
 
 	public function testGetInstanceThrowsExeptionIfNoExtensionKeyGiven() {
-		$this->setExpectedException('Exception', 'The extension key was not set.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'The extension key was not set.'
+		);
 		tx_oelib_configurationProxy::getInstance('');
 	}
 

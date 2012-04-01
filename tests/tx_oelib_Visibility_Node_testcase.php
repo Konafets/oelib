@@ -137,7 +137,8 @@ class tx_oelib_Visibility_Node_testcase extends tx_phpunit_testcase {
 
 	public function test_setParent_ForNodeWithAlreadySetParentAndGivenParent_ThrowsException() {
 		$this->setExpectedException(
-			'Exception', 'This node already has a parent node.'
+			'InvalidArgumentException',
+			'This node already has a parent node.'
 		);
 		$childNode = new tx_oelib_Visibility_Node();
 		$childNode->setParent($this->fixture);

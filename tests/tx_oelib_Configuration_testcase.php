@@ -54,7 +54,8 @@ class tx_oelib_Configuration_testcase extends tx_phpunit_testcase {
 
 	public function testSetWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$key must not be empty.'
+			'InvalidArgumentException',
+			'$key must not be empty.'
 		);
 
 

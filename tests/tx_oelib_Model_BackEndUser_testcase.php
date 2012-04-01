@@ -156,7 +156,8 @@ class tx_oelib_Model_BackEndUser_testcase extends tx_phpunit_testcase {
 
 	public function testSetDefaultLanguageWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
-			'Exception', '$language must not be empty.'
+			'InvalidArgumentException',
+			'$language must not be empty.'
 		);
 
 		$this->fixture->setDefaultLanguage('');

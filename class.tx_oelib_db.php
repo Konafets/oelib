@@ -105,9 +105,7 @@ class tx_oelib_db {
 		$noVersionPreview = FALSE
 	) {
 		if (!in_array($showHidden, array(-1, 0, 1))) {
-			throw new Exception(
-				'$showHidden may only be -1, 0 or 1, but actually is ' .
-					$showHidden
+			throw new InvalidArgumentException('$showHidden may only be -1, 0 or 1, but actually is ' . $showHidden, 1331319963
 			);
 		}
 
@@ -172,7 +170,7 @@ class tx_oelib_db {
 		$startPages, $recursionDepth = 0
 	) {
 		if ($recursionDepth < 0) {
-			throw new Exception('$recursionDepth must be >= 0.');
+			throw new InvalidArgumentException('$recursionDepth must be >= 0.', 1331319974);
 		}
 		if ($recursionDepth == 0) {
 			return $startPages;
@@ -222,7 +220,7 @@ class tx_oelib_db {
 	 */
 	public static function delete($tableName, $whereClause) {
 		if ($tableName == '') {
-			throw new Exception('The table name must not be empty.');
+			throw new InvalidArgumentException('The table name must not be empty.', 1331488193);
 		}
 
 		self::enableQueryLogging();
@@ -249,7 +247,7 @@ class tx_oelib_db {
 	 */
 	public static function update($tableName, $whereClause, array $fields) {
 		if ($tableName == '') {
-			throw new Exception('The table name must not be empty.');
+			throw new InvalidArgumentException('The table name must not be empty.', 1331488204);
 		}
 
 		self::enableQueryLogging();
@@ -277,10 +275,10 @@ class tx_oelib_db {
 	 */
 	public static function insert($tableName, array $recordData) {
 		if ($tableName == '') {
-			throw new Exception('The table name must not be empty.');
+			throw new InvalidArgumentException('The table name must not be empty.', 1331488220);
 		}
 		if (empty($recordData)) {
-			throw new Exception('$recordData must not be empty.');
+			throw new InvalidArgumentException('$recordData must not be empty.', 1331488230);
 		}
 
 		self::enableQueryLogging();
@@ -314,10 +312,10 @@ class tx_oelib_db {
 		$limit = ''
 	) {
 		if ($tableNames == '') {
-			throw new Exception('The table names must not be empty.');
+			throw new InvalidArgumentException('The table names must not be empty.', 1331488261);
 		}
 		if ($fields == '') {
-			throw new Exception('$fields must not be empty.');
+			throw new InvalidArgumentException('$fields must not be empty.', 1331488270);
 		}
 
 		self::enableQueryLogging();
@@ -520,7 +518,7 @@ class tx_oelib_db {
 		$table, $uid, $additionalWhereClause = ''
 	) {
 		if ($uid <= 0) {
-			throw new Exception('$uid must be > 0.');
+			throw new InvalidArgumentException('$uid must be > 0.', 1331488284);
 		}
 
 		return (
@@ -569,7 +567,7 @@ class tx_oelib_db {
 	 */
 	public static function existsTable($tableName) {
 		if ($tableName == '') {
-			throw new Exception('The table name must not be empty.');
+			throw new InvalidArgumentException('The table name must not be empty.', 1331488301);
 		}
 
 		self::retrieveTableNames();
@@ -627,9 +625,7 @@ class tx_oelib_db {
 	private static function retrieveColumnsForTable($table) {
 		if (!isset(self::$tableColumnCache[$table])) {
 			if (!self::existsTable($table)) {
-				throw new Exception(
-					'The table "' . $table . '" does not exist.'
-				);
+				throw new BadMethodCallException('The table "' . $table . '" does not exist.', 1331488327);
 			}
 
 			self::$tableColumnCache[$table] =
@@ -688,16 +684,12 @@ class tx_oelib_db {
 		}
 
 		if (!self::existsTable($tableName)) {
-			throw new Exception(
-				'The table "' . $tableName . '" does not exist.'
-			);
+			throw new BadMethodCallException('The table "' . $tableName . '" does not exist.', 1331488344);
 		}
 
 		t3lib_div::loadTCA($tableName);
 		if (!isset($GLOBALS['TCA'][$tableName])) {
-			throw new Exception(
-				'The table "' . $tableName . '" has no TCA.'
-			);
+			throw new BadMethodCallException('The table "' . $tableName . '" has no TCA.', 1331488350);
 		}
 		self::$tcaCache[$tableName] = $GLOBALS['TCA'][$tableName];
 

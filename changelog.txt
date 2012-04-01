@@ -1,4 +1,5 @@
 0.7.8 - currently working on
+- [#3815] Fix: Throw more meaningful Exceptions
 - [#4398] Fix: Make the exception about dead models more helpful
 - [#3257] Fix: tx_oelib_Model_FrontEndUser::getGender should use "99" for "undefined"
 

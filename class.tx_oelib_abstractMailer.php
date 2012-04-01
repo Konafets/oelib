@@ -101,7 +101,7 @@ abstract class tx_oelib_abstractMailer {
 	 */
 	public function send(tx_oelib_Mail $email) {
 		if (!$email->hasSender()) {
-			throw new Exception('$email must have a sender set.');
+			throw new InvalidArgumentException('$email must have a sender set.', 1331318718);
 		}
 
 		$additionalParameters = '';
@@ -236,15 +236,15 @@ abstract class tx_oelib_abstractMailer {
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
 		if ($emailAddress == '') {
-			throw new Exception('$emailAddress must not be empty.');
+			throw new InvalidArgumentException('$emailAddress must not be empty.', 1331318731);
 		}
 
 		if ($subject == '') {
-			throw new Exception('$subject must not be empty.');
+			throw new InvalidArgumentException('$subject must not be empty.', 1331318747);
 		}
 
 		if ($message == '') {
-			throw new Exception('$message must not be empty.');
+			throw new InvalidArgumentException('$message must not be empty.', 1331318756);
 		}
 	}
 

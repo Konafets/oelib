@@ -78,7 +78,10 @@ class tx_oelib_Attachment_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function setFileNameWithEmptyFileNameThrowsException() {
-		$this->setExpectedException('Exception', '$fileName must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$fileName must not be empty.'
+		);
 
 		$this->fixture->setFileName('');
 	}
@@ -114,7 +117,10 @@ class tx_oelib_Attachment_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function setContentTypeWithEmptyContentTypeThrowsException() {
-		$this->setExpectedException('Exception', '$contentType must not be empty.');
+		$this->setExpectedException(
+			'InvalidArgumentException',
+			'$contentType must not be empty.'
+		);
 
 		$this->fixture->setContentType('');
 	}

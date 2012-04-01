@@ -95,7 +95,7 @@ abstract class tx_oelib_salutationswitcher extends tslib_pibase {
 		$key, $useHtmlSpecialChars = FALSE
 	) {
 		if ($key == '') {
-			throw new Exception('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1331489025);
 		}
 
 		if (is_object($GLOBALS['TSFE']) && is_array($this->LOCAL_LANG)) {

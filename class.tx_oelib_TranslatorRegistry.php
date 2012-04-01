@@ -84,9 +84,7 @@ class tx_oelib_TranslatorRegistry {
 		} elseif (isset($GLOBALS['LANG'])) {
 			$this->initializeBackEnd();
 		} else {
-			throw new Exception(
-				'There was neither a front end nor a back end detected.'
-			);
+			throw new BadMethodCallException('There was neither a front end nor a back end detected.', 1331489564);
 		}
 	}
 
@@ -216,14 +214,11 @@ class tx_oelib_TranslatorRegistry {
 	 */
 	private function getByExtensionName($extensionName) {
 		if ($extensionName == '') {
-			throw new Exception('The parameter $extensionName must not be empty.');
+			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489578);
 		}
 
 		if (!t3lib_extmgm::isLoaded($extensionName)) {
-			throw new Exception(
-				'The extension with the name "' . $extensionName .
-				'" is not loaded.'
-			);
+			throw new BadMethodCallException('The extension with the name "' . $extensionName . '" is not loaded.', 1331489598);
 		}
 
 		if (!isset($this->translators[$extensionName])) {
@@ -271,7 +266,7 @@ class tx_oelib_TranslatorRegistry {
 	 */
 	private function getLocalizedLabelsFromFile($extensionName) {
 		if ($extensionName == '') {
-			throw new Exception('The parameter $extensionName must not be empty.');
+			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489618);
 		}
 
 		$languageFile = t3lib_extmgm::extPath($extensionName) . self::LANGUAGE_FILE_PATH;
@@ -310,7 +305,7 @@ class tx_oelib_TranslatorRegistry {
 	 */
 	private function getLocalizedLabelsFromTypoScript($extensionName) {
 		if ($extensionName == '') {
-			throw new Exception('The parameter $extensionName must not be empty.');
+			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489630);
 		}
 
 		$result = array();
@@ -340,7 +335,7 @@ class tx_oelib_TranslatorRegistry {
 	 */
 	public function setLanguageKey($languageKey) {
 		if ($languageKey == '') {
-			throw new Exception('The given language key must not be empty.');
+			throw new InvalidArgumentException('The given language key must not be empty.', 1331489643);
 		}
 
 		$this->languageKey = $languageKey;

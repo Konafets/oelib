@@ -638,7 +638,7 @@ class tx_oelib_Model_FrontEndUser_testcase extends tx_phpunit_testcase {
 
 	public function testHasGroupMembershipWithEmptyUidListThrowsException() {
 		$this->setExpectedException(
-			'Exception',
+			'InvalidArgumentException',
 			'$uidList must not be empty.'
 		);
 
