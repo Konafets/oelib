@@ -181,10 +181,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLabelAndEmptyDefaultLanguageKeyReturnsLabelKey() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
@@ -201,10 +198,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLabelAndEmptyDefaultLanguageKeyStillUsesDefaultAsLanguageKey() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 
@@ -308,10 +302,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
@@ -328,10 +319,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 
@@ -357,10 +345,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
@@ -377,10 +362,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 
@@ -397,10 +379,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsFrenchTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
@@ -417,10 +396,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 

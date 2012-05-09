@@ -91,10 +91,7 @@ class tx_oelib_Translator {
 			throw new InvalidArgumentException('The parameter $key must not be empty.', 1331489544);
 		}
 
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$translation = $this->translateForNewTypo3($key);
 		} else {
 			$translation = $this->translateForOldTypo3($key);

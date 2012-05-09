@@ -231,9 +231,7 @@ class tx_oelib_TranslatorRegistry {
 			) {
 				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
 
-				$version = class_exists('t3lib_utility_VersionNumber')
-					? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-					: t3lib_div::int_from_ver(TYPO3_version);
+				$version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
 				foreach ($labelsFromTyposcript as $labelKey => $labelFromTyposcript) {
 					if ($version >= 4006000) {
 						$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;

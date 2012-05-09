@@ -56,10 +56,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateWithLanguageEnglishReturnsEnglishLabel() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
@@ -84,10 +81,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateWithLanguageGermanReturnsGermanLabel() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
@@ -112,10 +106,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInGermanWithEmptyAlternativeLanguageWithLanguageGermanReturnsEnglishLabel() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 			);
@@ -138,10 +129,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInEnglishAndAlternativeLanguageGermanReturnsGermanLabel() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
 			);

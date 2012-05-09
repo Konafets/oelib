@@ -90,10 +90,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	 * @return string the current character set, will not be empty
 	 */
 	private function getCharacterSet() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4007000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			return 'utf-8';
 		}
 
@@ -662,10 +659,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	}
 
 	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithIso88591CharsetInformation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4007000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			$this->markTestSkipped('This test is only applicable in TYPO3 < 4.7.');
 		}
 		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') {
