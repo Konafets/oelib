@@ -121,7 +121,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
 		);
 
-		return $row['sorting'];
+		return intval($row['sorting']);
 	}
 
 	/**
@@ -750,8 +750,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
 		);
 		$nextSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
-		$this->assertEquals(
-			($previousSorting + 1),
+		$this->assertSame(
+			$previousSorting + 1,
 			$nextSorting
 		);
 	}
@@ -765,7 +765,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign, $sorting
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$sorting,
 			$this->getSortingOfRelation($uidLocal, $uidForeign)
 		);
@@ -1290,7 +1290,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
@@ -1301,7 +1301,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		// $uid will equals be the previous auto increment value, so $uid + 1
 		// should be equal to the current auto inrement value.
-		$this->assertEquals(
+		$this->assertSame(
 			$uid + 1,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
@@ -1752,7 +1752,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$latestUid,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
@@ -1892,7 +1892,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			$oldAutoIncrement,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
@@ -1906,7 +1906,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$oldAutoIncrement,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
@@ -1922,7 +1922,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$oldAutoIncrement,
 			$this->fixture->getAutoIncrement(OELIB_TESTTABLE)
 		);
