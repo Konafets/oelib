@@ -1,4 +1,5 @@
 0.7.8 - currently working on
+- [#4441] Fix: The translator registry must not use forceCharset for TYPO3 >= 4.7
 - [#4434] Fix: Framework::getAutoIncrement and FrameworkTest::getSortingOfRelation need to return integers
 - [#4435] Fix: Database::createRecursivePageList needs to return a string even for integer $startPages and zero $recursionDepth
 - [#4369] Fix: Test failure with master in tx_seminars_cli_MailNotifierTest
