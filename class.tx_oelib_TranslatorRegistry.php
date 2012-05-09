@@ -152,6 +152,10 @@ class tx_oelib_TranslatorRegistry {
 	 * @return string the charset for the given language code, will not be empty
 	 */
 	private function getCharsetOfLanguage($languageCode) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
+			return 'utf-8';
+		}
+
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
 			return $this->charsetConversion->parse_charset(
 				$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']
