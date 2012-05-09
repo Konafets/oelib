@@ -1661,7 +1661,7 @@ final class tx_oelib_testingFramework {
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-		return $row['Auto_increment'];
+		return intval($row['Auto_increment']);
 	}
 
 	/**
