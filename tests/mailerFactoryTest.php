@@ -95,7 +95,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		}
 
 		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'utf-8';
 	}
 
 
@@ -658,7 +658,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithIso88591CharsetInformation() {
+	/**
+	 * @test
+	 */
+	public function sendForSubjectWithNonAsciiCharacters_EncodesItWithUtfEightCharsetInformation() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			$this->markTestSkipped('This test is only applicable in TYPO3 < 4.7.');
 		}
@@ -683,7 +686,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 
 		$this->assertContains(
-			'ISO-8859-1',
+			'UTF-8',
 			$this->fixture->getLastSubject()
 		);
 	}

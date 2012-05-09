@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4442] Change: Make UTF-8 the default charset
 - [#4434] Fix: Framework::getAutoIncrement and FrameworkTest::getSortingOfRelation need to return integers
 - [#4435] Fix: Database::createRecursivePageList needs to return a string even for integer $startPages and zero $recursionDepth
 - [#4140] Change: Require TYPO3 4.5

@@ -73,7 +73,7 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * @var string the default render charset (both front end and back end)
 	 */
-	const DEFAULT_CHARSET = 'iso-8859-1';
+	const DEFAULT_CHARSET = 'utf-8';
 
 	/**
 	 * The constructor.

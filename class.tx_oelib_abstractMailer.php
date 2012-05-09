@@ -271,7 +271,7 @@ abstract class tx_oelib_abstractMailer {
 		}
 
 		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'ISO-8859-1';
+			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'utf-8';
 	}
 }
 ?>
