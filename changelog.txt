@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4435] Fix: Database::createRecursivePageList needs to return a string even for integer $startPages and zero $recursionDepth
 - [#4140] Change: Require TYPO3 4.5
 - [#4369] Fix: Test failure with master in tx_seminars_cli_MailNotifierTest
 - [#3815] Fix: Throw more meaningful Exceptions

@@ -171,7 +171,7 @@ class tx_oelib_db {
 			throw new InvalidArgumentException('$recursionDepth must be >= 0.', 1331319974);
 		}
 		if ($recursionDepth == 0) {
-			return $startPages;
+			return (string) $startPages;
 		}
 		if ($startPages == '') {
 			return '';

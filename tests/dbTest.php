@@ -203,21 +203,21 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	/////////////////////////////////////////////
 
 	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('')
 		);
 	}
 
 	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('', 0)
 		);
 	}
 
 	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('', 1)
 		);
@@ -236,7 +236,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createSystemFolder($uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $uid,
 			tx_oelib_db::createRecursivePageList((string) $uid, 0)
 		);
@@ -247,7 +247,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$this->testingFramework->createSystemFolder($uid1);
 		$uid2 = $this->testingFramework->createSystemFolder();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode($uid1 . ',' . $uid2),
 			$this->sortExplode(
 				tx_oelib_db::createRecursivePageList($uid1.','.$uid2, 0)
@@ -260,7 +260,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 		$this->testingFramework->createSystemFolder($subFolderUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode($uid.','.$subFolderUid),
 			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
 		);
@@ -270,7 +270,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createSystemFolder();
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $uid,
 			tx_oelib_db::createRecursivePageList($uid, 0)
 		);
@@ -281,7 +281,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid);
 		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode($uid.','.$subFolderUid1.','.$subFolderUid2),
 			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
 		);
@@ -293,7 +293,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid1);
 		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode(
 				$uid1.','.$uid2.','.$subFolderUid1.','.$subFolderUid2
 			),
@@ -307,11 +307,11 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $uid,
 			tx_oelib_db::createRecursivePageList($uid, 0)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode($uid.','.$subFolderUid),
 			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
 		);
@@ -321,11 +321,11 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->sortExplode($uid.','.$subFolderUid),
 			$this->sortExplode(tx_oelib_db::createRecursivePageList($uid, 1))
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $uid,
 			tx_oelib_db::createRecursivePageList($uid, 0)
 		);
