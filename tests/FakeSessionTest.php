@@ -62,7 +62,7 @@ class tx_oelib_FakeSessionTest extends tx_phpunit_testcase {
 	////////////////////////////////////////
 
 	public function testGetAsStringWithInexistentKeyReturnsEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getAsString('foo')
 		);
@@ -71,7 +71,7 @@ class tx_oelib_FakeSessionTest extends tx_phpunit_testcase {
 	public function testGetAsStringReturnsNonEmptyStringSetViaSetAsString() {
 		$this->fixture->setAsString('foo', 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getAsString('foo')
 		);
@@ -80,7 +80,7 @@ class tx_oelib_FakeSessionTest extends tx_phpunit_testcase {
 	public function testGetAsStringReturnsEmptyStringSetViaSetAsString() {
 		$this->fixture->setAsString('foo', '');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getAsString('foo')
 		);

@@ -56,7 +56,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getFileNameInitiallyReturnsAnEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getFileName()
 		);
@@ -68,7 +68,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	public function getFileNameWithFileNameSetReturnsFileName() {
 		$this->fixture->setFileName('test.txt');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'test.txt',
 			$this->fixture->getFileName()
 		);
@@ -95,7 +95,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getContentTypeInitiallyReturnsAnEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getContentType()
 		);
@@ -107,7 +107,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	public function getContentTypeWithContentTypeSetReturnsContentType() {
 		$this->fixture->setContentType('text/plain');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'text/plain',
 			$this->fixture->getContentType()
 		);
@@ -134,7 +134,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getContentInitiallyReturnsAnEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getContent()
 		);
@@ -146,7 +146,7 @@ class tx_oelib_AttachmentTest extends tx_phpunit_testcase {
 	public function getContentWithContentSetReturnsContent() {
 		$this->fixture->setContent('test content');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'test content',
 			$this->fixture->getContent()
 		);

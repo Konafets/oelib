@@ -142,7 +142,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	public function testFindWithUidReturnsModelWithThatUid() {
 		$uid = 42;
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->find($uid)->getUid()
 		);
@@ -153,7 +153,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->find($uid)->getTitle()
 		);
@@ -215,7 +215,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	public function testGetModelForMappedUidOfGhostReturnsLoadedModelWithTheProvidedData() {
 		$mappedModel = $this->fixture->getNewGhost();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'new title',
 			$this->fixture->getModel(
 				array('uid' => $mappedModel->getUid(), 'title' => 'new title')
@@ -246,7 +246,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->setData(array('title' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getModel(array('uid' => $mappedModel->getUid()))->getTitle()
 		);
@@ -256,7 +256,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->setData(array('title' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getModel(
 				array('uid' => $mappedModel->getUid(), 'title' => 'new title')
@@ -299,14 +299,14 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	}
 
 	public function testGetListOfModelsForOneRecordsProvidedReturnsListWithOneElement() {
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getListOfModels(array(array('uid' => 1)))->count()
 		);
 	}
 
 	public function testGetListOfModelsForTwoRecordsProvidedReturnsListWithTwoElements() {
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->getListOfModels(array(array('uid' => 1), array('uid' => 2)))->count()
 		);
@@ -320,7 +320,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	}
 
 	public function testGetListOfModelsReturnsListOfModelWithProvidedTitel() {
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getListOfModels(array(array('uid' => 1, 'title' => 'foo')))
 				->current()->getTitle()
@@ -351,7 +351,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setUid($uid);
 		$this->fixture->load($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$model->getTitle()
 		);
@@ -403,7 +403,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setUid($uid);
 		$this->fixture->load($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			12.5,
 			$model->getFloatFromFloatData()
 		);
@@ -423,7 +423,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setUid($uid);
 		$this->fixture->load($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			12.5,
 			$model->getFloatFromDecimalData()
 		);
@@ -443,7 +443,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setUid($uid);
 		$this->fixture->load($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			12.5,
 			$model->getFloatFromStringData()
 		);
@@ -659,7 +659,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('friend' => $friendUid)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$friendUid,
 			$this->fixture->find($uid)->getFriend()->getUid()
 		);
@@ -712,7 +712,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('friend' => $friendUid)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$friendUid,
 			$this->fixture->find($uid)->getFriend()->getUid()
 		);
@@ -743,7 +743,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('children' => $childUid)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $childUid,
 			$this->fixture->find($uid)->getChildren()->getUids()
 		);
@@ -759,7 +759,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('children' => $childUid1 . ',' . $childUid2)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$childUid1 . ',' . $childUid2,
 			$this->fixture->find($uid)->getChildren()->getUids()
 		);
@@ -774,7 +774,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('children' => $childUid1 . ',0')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $childUid1,
 			$this->fixture->find($uid)->getChildren()->getUids()
 		);
@@ -800,7 +800,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $uid, $relatedUid, 'related_records'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $relatedUid,
 			$this->fixture->find($uid)->getRelatedRecords()->getUids()
 		);
@@ -817,7 +817,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $uid, $relatedUid2, 'related_records'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$relatedUid1 . ',' . $relatedUid2,
 			$this->fixture->find($uid)->getRelatedRecords()->getUids()
 		);
@@ -834,7 +834,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $uid, $relatedUid1, 'related_records'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$relatedUid2 . ',' . $relatedUid1,
 			$this->fixture->find($uid)->getRelatedRecords()->getUids()
 		);
@@ -866,7 +866,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $relatedUid, $uid, 'bidirectional'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $uid,
 			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
 		);
@@ -886,7 +886,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $relatedUid, $uid2, 'bidirectional'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid1 . ',' . $uid2,
 			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
 		);
@@ -906,7 +906,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', $relatedUid, $uid2, 'bidirectional'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid2 . ',' . $uid1,
 			$this->fixture->find($relatedUid)->getBidirectional()->getUids()
 		);
@@ -939,7 +939,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_testchild', array('parent' => $uid)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			(string) $relatedUid,
 			$this->fixture->find($uid)->getComposition()->getUids()
 		);
@@ -959,7 +959,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation B')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$relatedUid1 . ',' . $relatedUid2,
 			$this->fixture->find($uid)->getComposition()->getUids()
 		);
@@ -979,7 +979,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_testchild', array('parent' => $uid, 'title' => 'relation A')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$relatedUid2 . ',' . $relatedUid1,
 			$this->fixture->find($uid)->getComposition()->getUids()
 		);
@@ -1077,7 +1077,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$model->getTitle()
 		);
@@ -1091,7 +1091,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			array('friend' => $relatedModel->getUid())
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$relatedModel->getUid(),
 			$model->getFriend()->getUid()
 		);
@@ -1126,7 +1126,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->findSingleByWhereClause(
 				array('title' => 'foo', 'is_dummy_record' => '1')
@@ -1140,7 +1140,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->find($uid)->setTitle('bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->findSingleByWhereClause(
 				array('title' => 'foo', 'is_dummy_record' => '1')
@@ -1309,7 +1309,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setTitle('bar');
 		$this->fixture->save($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$model->getUid()
 		);
@@ -2031,8 +2031,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setData(array('float_data' => 9.5));
 		$this->fixture->save($model);
 
-		$this->assertEquals(
-			array('float_data' => 9.5),
+		$this->assertSame(
+			array('float_data' => '9.500000'),
 			tx_oelib_db::selectSingle(
 				'float_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
 			)
@@ -2047,8 +2047,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setData(array('decimal_data' => 9.5));
 		$this->fixture->save($model);
 
-		$this->assertEquals(
-			array('decimal_data' => 9.5),
+		$this->assertSame(
+			array('decimal_data' => '9.500'),
 			tx_oelib_db::selectSingle(
 				'decimal_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
 			)
@@ -2063,7 +2063,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->setData(array('string_data' => 9.5));
 		$this->fixture->save($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('string_data' => '9.5'),
 			tx_oelib_db::selectSingle(
 				'string_data', 'tx_oelib_test', 'uid = ' . $model->getUid()
@@ -2091,7 +2091,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	public function findAllForOneRecordInDatabaseReturnsOneRecord() {
 		$this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->findAll()->count()
 		);
@@ -2104,7 +2104,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->findAll()->count()
 		);
@@ -2161,7 +2161,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			min($uid1, $uid2),
 			$this->fixture->findAll()->first()->getUid()
 		);
@@ -2175,7 +2175,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'record b')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findAll('title')->first()->getUid()
 		);
@@ -2189,7 +2189,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'record a')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findAll('title DESC')->first()->getUid()
 		);
@@ -2199,7 +2199,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->findAll('title ASC')->count()
 		);
@@ -2214,7 +2214,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->findByWhereClause()->count()
 		);
@@ -2225,7 +2225,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$foundRecordUid,
 			$this->fixture->findByWhereClause('title like "foo"')->first()->getUid()
 		);
@@ -2239,7 +2239,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			$notMatchingUid,
 			$this->fixture->findByWhereClause('title like "foo"')->first()->getUid()
 		);
@@ -2249,7 +2249,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			min($uid1, $uid2),
 			$this->fixture->findByWhereClause()->first()->getUid()
 		);
@@ -2263,7 +2263,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$firstEntryUid,
 			$this->fixture->findByWhereClause('','title ASC')->first()->getUid()
 		);
@@ -2280,7 +2280,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar', 'sorting' => 1)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$firstMatchingUid,
 			$this->fixture->findByWhereClause('title like "foo"','sorting ASC')
 				->first()->getUid()
@@ -2298,7 +2298,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$firstUid . ',' . $secondUid,
 			$this->fixture->findByWhereClause('', '', '')->getUids()
 		);
@@ -2315,8 +2315,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertEquals(
-			$firstUid,
+		$this->assertSame(
+			(string) $firstUid,
 			$this->fixture->findByWhereClause('', '', '1')->getUids()
 		);
 	}
@@ -2335,8 +2335,8 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
-		$this->assertEquals(
-			$secondUid,
+		$this->assertSame(
+			(string) $secondUid,
 			$this->fixture->findByWhereClause('', '', '1,1')->getUids()
 		);
 	}
@@ -2349,7 +2349,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	public function test_findByPageUid_ForPageUidZero_ReturnsEntryWithZeroPageUid() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid(0)->first()->getUid()
 		);
@@ -2360,7 +2360,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 42)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid(0)->first()->getUid()
 		);
@@ -2371,7 +2371,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 42)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid('')->first()->getUid()
 		);
@@ -2382,7 +2382,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 1)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid(1)->first()->getUid()
 		);
@@ -2407,7 +2407,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 2, 'sorting' => 1)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$firstMatchingRecord,
 			$this->fixture->findByPageUid(2, 'sorting ASC')->first()->getUid()
 		);
@@ -2418,7 +2418,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 1)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid('1,2')->first()->getUid()
 		);
@@ -2429,7 +2429,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('pid' => 2)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findByPageUid('1,2')->first()->getUid()
 		);
@@ -2675,7 +2675,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'Earl Grey')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->findOneByKey('title', 'Earl Grey')->getUid()
 		);
@@ -2926,7 +2926,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 
 		$result = $mapper->findAllByRelation($model, 'parent');
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$result->count()
 		);
@@ -2953,7 +2953,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$result = tx_oelib_MapperRegistry
 			::get('tx_oelib_tests_fixtures_TestingChildMapper')
 			->findAllByRelation($model, 'parent');
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$result->count()
 		);
@@ -2985,7 +2985,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$result = tx_oelib_MapperRegistry
 			::get('tx_oelib_tests_fixtures_TestingChildMapper')
 			->findAllByRelation($model, 'parent', $ignoreList);
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$result->count()
 		);
@@ -3006,7 +3006,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	public function countByWhereClauseWithoutWhereClauseCountsAllRecords() {
 		$this->testingFramework->createRecord('tx_oelib_test');
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countByWhereClause()
 		);
@@ -3020,7 +3020,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countByWhereClause('title = "bar"')
 		);
@@ -3037,7 +3037,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countByWhereClause('title = "bar"')
 		);
@@ -3054,7 +3054,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			'tx_oelib_test', array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->countByWhereClause('title = "bar"')
 		);

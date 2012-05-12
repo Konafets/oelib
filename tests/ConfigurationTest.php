@@ -69,7 +69,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	public function testGetAfterSetReturnsTheSetValue() {
 		$this->fixture->set('foo', 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getAsString('foo')
 		);
@@ -80,7 +80,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('foo' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getAsString('foo')
 		);
@@ -106,7 +106,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	public function getArrayKeysWithEmptyKeyReturnsKeysOfDataArray() {
 		$this->fixture->setData(array('first' => 'test', 'second' => 'test'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('first', 'second'),
 			$this->fixture->getArrayKeys()
 		);
@@ -116,7 +116,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getArrayKeysForInexistentKeyReturnEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getArrayKeys('key')
 		);
@@ -128,7 +128,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	public function getArrayKeysForKeyOfStringDataItemReturnsEmptyArray() {
 		$this->fixture->setData(array('key' => 'blub'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getArrayKeys('key')
 		);
@@ -140,7 +140,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	public function getArrayKeysForKeyOfDataItemWithOneArrayElementReturnsKeyOfArrayElement() {
 		$this->fixture->setData(array('key' => array('test' => 'child')));
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('test'),
 			$this->fixture->getArrayKeys('key')
 		);
@@ -154,7 +154,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('key' => array('first' => 'child', 'second' => 'child'))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('first', 'second'),
 			$this->fixture->getArrayKeys('key')
 		);
@@ -168,7 +168,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('1' => array('1.1' => array('1.1.1' => 'child')))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('1.1' => array('1.1.1' => 'child')),
 			$this->fixture->getAsMultidimensionalArray('1')
 		);
@@ -180,7 +180,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	public function getAsMultidimensionalArrayForInexistentKeyReturnsEmptyArray() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAsMultidimensionalArray('1')
 		);
@@ -194,7 +194,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('1' => 'child')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAsMultidimensionalArray('1')
 		);
@@ -208,7 +208,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('1' => 42)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAsMultidimensionalArray('1')
 		);
@@ -222,7 +222,7 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 			array('1' => 42.42)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAsMultidimensionalArray('1')
 		);

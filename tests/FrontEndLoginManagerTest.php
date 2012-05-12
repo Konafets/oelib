@@ -166,7 +166,7 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		$this->testingFramework->createFakeFrontEnd();
 		$uid = $this->testingFramework->createAndLoginFrontEndUser();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->getLoggedInUser()->getUid()
 		);
@@ -208,7 +208,7 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 			'fe_users', $feUserUid, array('name' => 'James Doe')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$this->fixture->getLoggedInUser()->getName()
 		);

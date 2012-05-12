@@ -194,13 +194,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testMarkTableAsDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getListOfDirtyTables()
 		);
 
 		$this->fixture->createRecord(OELIB_TESTTABLE, array());
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				OELIB_TESTTABLE => OELIB_TESTTABLE
 			),
@@ -215,7 +215,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->markTableAsDirty(OELIB_TESTTABLE);
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
@@ -228,7 +228,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->markTableAsDirty('pages');
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords('pages', 'uid=' . $uid)
 		);
@@ -243,7 +243,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->markTableAsDirty('user_oelibtest_test');
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords('user_oelibtest_test', 'uid=' . $uid)
 		);
@@ -283,7 +283,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testMarkTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
 		$this->fixture->markTableAsDirty(OELIB_TESTTABLE.','.OELIB_TESTTABLE_MM);
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				OELIB_TESTTABLE => OELIB_TESTTABLE,
 				OELIB_TESTTABLE_MM => OELIB_TESTTABLE_MM
@@ -298,7 +298,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateRecordOnValidTableWithNoData() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$this->fixture->createRecord(OELIB_TESTTABLE, array())
 		);
@@ -312,7 +312,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 				'title' => $title
 			)
 		);
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -323,7 +323,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$title,
 			$row['title']
 		);
@@ -390,7 +390,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$row['title']
 		);
@@ -429,7 +429,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('pages', 'uid='.$pid.' AND title="bar"')
 		);
@@ -448,7 +448,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			array('titleText' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('tt_content', 'uid=' . $uid.' AND titleText="bar"')
 		);
@@ -549,7 +549,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Checks whether the record really was removed from the database.
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
@@ -567,7 +567,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = 99999;
 
 		// Checks that the record is inexistent before testing on it.
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
 		);
@@ -635,7 +635,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 
 		// Checks whether the record still had existed.
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$counter
 		);
@@ -655,7 +655,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 
 		// Checks whether the record really exists.
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
@@ -793,9 +793,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $firstRecordUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
-			$row['related_records']
+			intval($row['related_records'])
 		);
 	}
 
@@ -819,9 +819,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $firstRecordUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
-			$row['related_records']
+			intval($row['related_records'])
 		);
 	}
 
@@ -840,7 +840,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE_MM,
 			'uid_local=' . $firstRecordUid
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$count
 		);
@@ -867,9 +867,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $firstRecordUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
-			$row['bidirectional']
+			intval($row['bidirectional'])
 		);
 	}
 
@@ -893,9 +893,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $secondRecordUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
-			$row['related_records']
+			intval($row['related_records'])
 		);
 	}
 
@@ -918,7 +918,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid_local=' . $secondRecordUid . ' AND uid_foreign=' .
 				$firstRecordUid
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$count
 		);
@@ -942,7 +942,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 
 		// Checks whether the record really was removed from the database.
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
@@ -972,7 +972,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uidForeign = $uid + 2;
 
 		// Checks that the record is inexistent before testing on it.
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				OELIB_TESTTABLE_MM,
@@ -1063,7 +1063,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 
 		// Checks whether the relation had been created further up.
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$numberOfCreatedRelations
 		);
@@ -1095,14 +1095,14 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->cleanUp();
 
 		// Checks whether the first dummy record is deleted.
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE),
 			'Some test records were not deleted from table "tx_oelib_test"'
 		);
 
 		// Checks whether the second dummy record still exists.
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(OELIB_TESTTABLE_MM)
 		);
@@ -1131,7 +1131,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		// list of dirty tables).
 		$allowedTables = $this->fixture->getListOfDirtyTables();
 		foreach ($allowedTables as $currentTable) {
-			$this->assertEquals(
+			$this->assertSame(
 				0,
 				$this->fixture->countRecords($currentTable),
 				'Some test records were not deleted from table "'.$currentTable.'"'
@@ -1421,7 +1421,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCountRecordsReturnsZeroForNoMatches() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
@@ -1432,7 +1432,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
@@ -1443,7 +1443,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(OELIB_TESTTABLE)
 		);
@@ -1457,7 +1457,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
@@ -1484,7 +1484,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		// of the testing framework.
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$testResult
 		);
@@ -1962,12 +1962,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testFrontEndPageCanBeCreated() {
 		$uid = $this->fixture->createFrontEndPage();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'pages', 'uid=' . $uid
@@ -1978,7 +1978,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testCreateFrontEndPageSetsCorrectDocumentType() {
 		$uid = $this->fixture->createFrontEndPage();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -1989,16 +1989,16 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
-			$row['doktype']
+			intval($row['doktype'])
 		);
 	}
 
 	public function testFrontEndPageWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createFrontEndPage();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2009,9 +2009,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
@@ -2019,7 +2019,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$parent = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createFrontEndPage($parent);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2030,24 +2030,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$parent,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
 	public function testFrontEndPageCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 		$uid = $this->fixture->createFrontEndPage();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -2055,13 +2055,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndPageWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndPage();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'pages', 'uid=' . $uid
@@ -2078,7 +2078,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['title']
 		);
@@ -2096,7 +2096,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test title',
 			$row['title']
 		);
@@ -2158,12 +2158,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testSystemFolderCanBeCreated() {
 		$uid = $this->fixture->createSystemFolder();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'pages', 'uid=' . $uid
@@ -2174,7 +2174,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testCreateSystemFolderSetsCorrectDocumentType() {
 		$uid = $this->fixture->createSystemFolder();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2185,16 +2185,16 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			254,
-			$row['doktype']
+			intval($row['doktype'])
 		);
 	}
 
 	public function testSystemFolderWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createSystemFolder();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2205,9 +2205,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
@@ -2215,7 +2215,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$parent = $this->fixture->createSystemFolder();
 		$uid = $this->fixture->createSystemFolder($parent);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2226,24 +2226,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$parent,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
 	public function testSystemFolderCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 		$uid = $this->fixture->createSystemFolder();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -2251,13 +2251,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testSystemFolderWillBeCleanedUp() {
 		$uid = $this->fixture->createSystemFolder();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'pages', 'uid=' . $uid
@@ -2274,7 +2274,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['title']
 		);
@@ -2292,7 +2292,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test title',
 			$row['title']
 		);
@@ -2354,12 +2354,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testContentElementCanBeCreated() {
 		$uid = $this->fixture->createContentElement();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'tt_content', 'uid=' . $uid
@@ -2370,7 +2370,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testContentElementWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createContentElement();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2381,9 +2381,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
@@ -2391,7 +2391,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$parent = $this->fixture->createSystemFolder();
 		$uid = $this->fixture->createContentElement($parent);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -2402,24 +2402,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$parent,
-			$row['pid']
+			intval($row['pid'])
 		);
 	}
 
 	public function testContentElementCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 		$uid = $this->fixture->createContentElement();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -2427,13 +2427,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testContentElementWillBeCleanedUp() {
 		$uid = $this->fixture->createContentElement();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'tt_content', 'uid=' . $uid
@@ -2450,7 +2450,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['header']
 		);
@@ -2468,7 +2468,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test header',
 			$row['header']
 		);
@@ -2483,7 +2483,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'text',
 			$row['CType']
 		);
@@ -2501,7 +2501,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'list',
 			$row['CType']
 		);
@@ -2548,12 +2548,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'sys_template', 'uid=' . $uid
@@ -2580,19 +2580,19 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testTemplateCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -2601,13 +2601,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testTemplateWillBeCleanedUp() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'sys_template', 'uid=' . $uid
@@ -2624,9 +2624,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
-			'',
-			$row['config']
+		$this->assertFalse(
+			isset($row['config'])
 		);
 	}
 
@@ -2642,7 +2641,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'plugin.tx_oelib.test = 1',
 			$row['config']
 		);
@@ -2660,7 +2659,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			isset($configuration['test'])
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'42',
 			$configuration['test']
 		);
@@ -2675,9 +2674,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
-			'',
-			$row['constants']
+		$this->assertFalse(
+			isset($row['constants'])
 		);
 	}
 
@@ -2693,7 +2691,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'plugin.tx_oelib.test = 1',
 			$row['constants']
 		);
@@ -2714,7 +2712,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			isset($configuration['test'])
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'42',
 			$configuration['test']
 		);
@@ -2776,7 +2774,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testCreateDummyFileCreatesFileWithTheProvidedContent() {
 		$dummyFile = $this->fixture->createDummyFile('test.txt', 'Hello world!');
 
-		$this->assertEquals('Hello world!', file_get_contents($dummyFile));
+		$this->assertSame('Hello world!', file_get_contents($dummyFile));
 	}
 
 	public function testCreateDummyFileForNonExistentUploadFolderSetCreatesUploadFolder() {
@@ -2864,7 +2862,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$zip->extractTo($this->fixture->getUploadFolderPath());
 		$zip->close();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo bar',
 			file_get_contents($this->fixture->getUploadFolderPath() . 'bar.txt')
 		);
@@ -3105,7 +3103,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testGetUploadFolderPathAfterSetReturnsSetUploadFolderPath() {
 		$this->fixture->setUploadFolderPath('/foo/bar/');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'/foo/bar/',
 			$this->fixture->getUploadFolderPath()
 		);
@@ -3157,12 +3155,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testFrontEndUserGroupCanBeCreated() {
 		$uid = $this->fixture->createFrontEndUserGroup();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'fe_groups', 'uid=' . $uid
@@ -3171,17 +3169,17 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserGroupTableCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 		$uid = $this->fixture->createFrontEndUserGroup();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -3189,13 +3187,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserGroupTableWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndUserGroup();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'fe_groups', 'uid=' . $uid
@@ -3212,7 +3210,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['title']
 		);
@@ -3229,7 +3227,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test title',
 			$row['title']
 		);
@@ -3261,12 +3259,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testFrontEndUserCanBeCreated() {
 		$uid = $this->fixture->createFrontEndUser();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'fe_users', 'uid=' . $uid
@@ -3275,12 +3273,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testFrontEndUserTableCanBeDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
 		$uid = $this->fixture->createFrontEndUser();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
@@ -3293,13 +3291,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	public function testFrontEndUserTableWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndUser();
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords(
 				'fe_users', 'uid=' . $uid
@@ -3316,7 +3314,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['username']
 		);
@@ -3334,7 +3332,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test name',
 			$row['username']
 		);
@@ -3348,12 +3346,12 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', '.$feUserGroupUidThree
 		);
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'fe_users', 'uid=' . $uid
@@ -3450,14 +3448,14 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// ---------------------------------------------------------------------
 
 	public function testCreateBackEndUserReturnsUidGreaterZero() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			0,
 			$this->fixture->createBackEndUser()
 		);
 	}
 
 	public function testCreateBackEndUserCreatesBackEndUserRecordInTheDatabase() {
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
 				'be_users', 'uid=' . $this->fixture->createBackEndUser()
@@ -3466,7 +3464,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 	public function testCreateBackEndUserMarksBackEndUserTableAsDirty() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
 		);
@@ -3485,7 +3483,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$uid = $this->fixture->createBackEndUser();
 
 		$this->fixture->cleanUp();
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->countRecords('be_users', 'uid=' . $uid)
 		);
@@ -3496,7 +3494,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$row['username']
 		);
@@ -3507,7 +3505,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test name',
 			$row['username']
 		);
@@ -3556,7 +3554,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$GLOBALS['TSFE'] = NULL;
 		$result = $this->fixture->createFakeFrontEnd();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$GLOBALS['TSFE']->id,
 			$result
 		);
@@ -3614,13 +3612,13 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$pageUid = $this->fixture->createFrontEndPage();
 		$this->fixture->createTemplate(
 			$pageUid,
-			array('config' => 'foo = 42')
+			array('config' => 'foo = bar')
 		);
 
 		$this->fixture->createFakeFrontEnd($pageUid);
 
-		$this->assertEquals(
-			42,
+		$this->assertSame(
+			'bar',
 			$GLOBALS['TSFE']->tmpl->setup['foo']
 		);
 	}
@@ -3637,7 +3635,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->createFakeFrontEnd($pageUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$GLOBALS['TSFE']->tmpl->loaded
 		);
@@ -3655,7 +3653,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testLoginUserIsZeroAfterCreateFakeFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$GLOBALS['TSFE']->loginUser
 		);
@@ -3667,7 +3665,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function createFakeFrontEndSetsDefaultGroupList() {
 		$this->fixture->createFakeFrontEnd();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'0,-1',
 			$GLOBALS['TSFE']->gr_list
 		);
@@ -3734,7 +3732,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	public function testCreateFakeFrontEndReturnsProvidedPageUid() {
 		$pageUid = $this->fixture->createFrontEndPage();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$pageUid,
 			$this->fixture->createFakeFrontEnd($pageUid)
 		);
@@ -3744,7 +3742,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$pageUid = $this->fixture->createFrontEndPage();
 		$this->fixture->createFakeFrontEnd($pageUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$pageUid,
 			$GLOBALS['TSFE']->id
 		);
@@ -3834,7 +3832,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$feUserId = $this->fixture->createFrontEndUser();
 		$this->fixture->loginFrontEndUser($feUserId);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$GLOBALS['TSFE']->loginUser
 		);
@@ -3848,7 +3846,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->loginFrontEndUser($feUserId);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$GLOBALS['TSFE']->fe_user->user['name']
 		);
@@ -3884,7 +3882,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$feUserId = $this->fixture->createFrontEndUser($feUserGroupUid);
 		$this->fixture->loginFrontEndUser($feUserId);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($feUserGroupUid => 'foo'),
 			$GLOBALS['TSFE']->fe_user->groupData['title']
 		);
@@ -3922,7 +3920,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 		$this->fixture->logoutFrontEndUser();
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$GLOBALS['TSFE']->loginUser
 		);
@@ -3949,7 +3947,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$feUser->setData(array());
 		$this->fixture->loginFrontEndUser($feUser->getUid());
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$GLOBALS['TSFE']->loginUser
 		);
@@ -3963,7 +3961,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$feUser->setData(array('name' => 'John Doe'));
 		$this->fixture->loginFrontEndUser($feUser->getUid());
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$GLOBALS['TSFE']->fe_user->user['name']
 		);
@@ -3991,7 +3989,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			->find($this->fixture->createFrontEndUser($feUserGroupUid));
 		$this->fixture->loginFrontEndUser($feUser->getUid());
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($feUserGroupUid => 'foo'),
 			$GLOBALS['TSFE']->fe_user->groupData['title']
 		);
@@ -4017,7 +4015,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->createAndLogInFrontEndUser();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('fe_users')
 		);
@@ -4029,7 +4027,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'', array('name' => 'John Doe')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('fe_users', 'name = "John Doe"')
 		);
@@ -4049,7 +4047,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('fe_users')
 		);
@@ -4068,9 +4066,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $frontEndUserUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$frontEndUserGroupUid,
-			$dbResultRow['usergroup']
+			intval($dbResultRow['usergroup'])
 		);
 	}
 
@@ -4081,7 +4079,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			$frontEndUserGroupUid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->countRecords('fe_groups')
 		);
@@ -4120,9 +4118,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 			'uid = ' . $uid
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
-			$row['related_records']
+			intval($row['related_records'])
 		);
 	}
 
@@ -4173,7 +4171,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getDummyColumnNameForExtensionTableReturnsDummyColumnName() {
-		$this->assertEquals(
+		$this->assertSame(
 			'is_dummy_record',
 			$this->fixture->getDummyColumnName('tx_oelib_test')
 		);
@@ -4183,7 +4181,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getDummyColumnNameForSystemTableReturnsOelibPrefixedColumnName() {
-		$this->assertEquals(
+		$this->assertSame(
 			'tx_oelib_is_dummy_record',
 			$this->fixture->getDummyColumnName('fe_users')
 		);
@@ -4196,7 +4194,7 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$testingFramework = new tx_oelib_testingFramework(
 			'user_oelibtest', array('user_oelibtest2')
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'user_oelibtest_is_dummy_record',
 			$testingFramework->getDummyColumnName('user_oelibtest2_test')
 		);

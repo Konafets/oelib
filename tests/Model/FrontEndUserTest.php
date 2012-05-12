@@ -64,7 +64,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetUserNameForEmptyUserNameReturnsEmptyString() {
 		$this->fixture->setData(array('username' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getUserName()
 		);
@@ -73,7 +73,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetUserNameForNonEmptyUserNameReturnsUserName() {
 		$this->fixture->setData(array('username' => 'johndoe'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'johndoe',
 			$this->fixture->getUserName()
 		);
@@ -85,7 +85,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setUserNameSetsUserName() {
 		$this->fixture->setUserName('foo_bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo_bar',
 			$this->fixture->getUserName()
 		);
@@ -111,7 +111,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getPasswordInitiallyReturnsEmptyString() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getPassword()
 		);
@@ -123,7 +123,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getPasswordReturnsPassword() {
 		$this->fixture->setData(array('password' => 'kasfdjklsdajk'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'kasfdjklsdajk',
 			$this->fixture->getPassword()
 		);
@@ -135,7 +135,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setPasswordSetsPassword() {
 		$this->fixture->setPassword('kljvasgd24vsga354');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'kljvasgd24vsga354',
 			$this->fixture->getPassword()
 		);
@@ -218,7 +218,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'name' => 'John Doe',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$this->fixture->getName()
 		);
@@ -231,7 +231,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'last_name' => 'Pan',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$this->fixture->getName()
 		);
@@ -244,7 +244,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'last_name' => 'Pan',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Peter Pan',
 			$this->fixture->getName()
 		);
@@ -257,7 +257,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'username' => 'johndoe',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Peter Pan',
 			$this->fixture->getName()
 		);
@@ -270,7 +270,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'username' => 'johndoe',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Pan',
 			$this->fixture->getName()
 		);
@@ -283,7 +283,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'username' => 'johndoe',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Peter',
 			$this->fixture->getName()
 		);
@@ -296,7 +296,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'username' => 'johndoe',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'johndoe',
 			$this->fixture->getName()
 		);
@@ -308,7 +308,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setNameSetsFullName() {
 		$this->fixture->setName('Alfred E. Neumann');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Alfred E. Neumann',
 			$this->fixture->getName()
 		);
@@ -338,7 +338,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetCompanyForEmptyCompanyReturnsEmptyString() {
 		$this->fixture->setData(array('company' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getCompany()
 		);
@@ -347,7 +347,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetCompanyForNonEmptyCompanyReturnsCompany() {
 		$this->fixture->setData(array('company' => 'Test Inc.'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test Inc.',
 			$this->fixture->getCompany()
 		);
@@ -377,7 +377,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetStreetForEmptyAddressReturnsEmptyString() {
 		$this->fixture->setData(array('address' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getStreet()
 		);
@@ -386,7 +386,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetStreetForNonEmptyAddressReturnsAddress() {
 		$this->fixture->setData(array('address' => 'Foo street 1'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Foo street 1',
 			$this->fixture->getStreet()
 		);
@@ -397,7 +397,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'address' => 'Foo street 1' . LF . 'Floor 3'
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Foo street 1' . LF . 'Floor 3',
 			$this->fixture->getStreet()
 		);
@@ -427,7 +427,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetZipForEmptyZipReturnsEmptyString() {
 		$this->fixture->setData(array('zip' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getZip()
 		);
@@ -436,7 +436,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetZipForNonEmptyZipReturnsZip() {
 		$this->fixture->setData(array('zip' => '12345'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'12345',
 			$this->fixture->getZip()
 		);
@@ -466,7 +466,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetCityForEmptyCityReturnsEmptyString() {
 		$this->fixture->setData(array('city' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getCity()
 		);
@@ -475,7 +475,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetCityForNonEmptyCityReturnsCity() {
 		$this->fixture->setData(array('city' => 'Test city'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test city',
 			$this->fixture->getCity()
 		);
@@ -487,7 +487,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'city' => 'Test city',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'12345 Test city',
 			$this->fixture->getZipAndCity()
 		);
@@ -499,7 +499,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'city' => 'Test city',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Test city',
 			$this->fixture->getZipAndCity()
 		);
@@ -511,7 +511,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'city' => '',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getZipAndCity()
 		);
@@ -523,7 +523,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			'city' => '',
 		));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getZipAndCity()
 		);
@@ -553,7 +553,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetPhoneNumberForEmptyPhoneReturnsEmptyString() {
 		$this->fixture->setData(array('telephone' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getPhoneNumber()
 		);
@@ -562,7 +562,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetPhoneNumberForNonEmptyPhoneReturnsPhone() {
 		$this->fixture->setData(array('telephone' => '1234 5678'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'1234 5678',
 			$this->fixture->getPhoneNumber()
 		);
@@ -592,7 +592,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetEmailAddressForEmptyEMailReturnsEmptyString() {
 		$this->fixture->setData(array('email' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getEmailAddress()
 		);
@@ -601,7 +601,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetEmailAddressForNonEmptyEMailReturnsEMail() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'john@doe.com',
 			$this->fixture->getEmailAddress()
 		);
@@ -613,7 +613,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setEmailAddressSetsEmailAddress() {
 		$this->fixture->setEmailAddress('john@example.com');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'john@example.com',
 			$this->fixture->getEmailAddress()
 		);
@@ -643,7 +643,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetHomepageForEmptyWwwReturnsEmptyString() {
 		$this->fixture->setData(array('www' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getHomepage()
 		);
@@ -652,7 +652,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetHomepageForNonEmptyWwwReturnsWww() {
 		$this->fixture->setData(array('www' => 'http://www.doe.com'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'http://www.doe.com',
 			$this->fixture->getHomepage()
 		);
@@ -682,7 +682,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetImageForEmptyImageReturnsEmptyString() {
 		$this->fixture->setData(array('image' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getImage()
 		);
@@ -691,7 +691,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testGetImageForNonEmptyImageReturnsImage() {
 		$this->fixture->setData(array('image' => 'thats-me.jpg'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'thats-me.jpg',
 			$this->fixture->getImage()
 		);
@@ -810,7 +810,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			);
 		}
 
-		$this->assertEquals(
+		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_UNKNOWN,
 			$this->fixture->getGender()
 		);
@@ -825,7 +825,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		}
 		$this->fixture->setData(array('gender' => 0));
 
-		$this->assertEquals(
+		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_MALE,
 			$this->fixture->getGender()
 		);
@@ -840,7 +840,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		}
 		$this->fixture->setData(array('gender' => 1));
 
-		$this->assertEquals(
+		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_FEMALE,
 			$this->fixture->getGender()
 		);
@@ -870,7 +870,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getFirstName_ForNoFirstNameSet_ReturnsEmptyString() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getFirstName()
 		);
@@ -879,7 +879,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getFirstName_ForFirstNameSet_ReturnsFirstName() {
 		$this->fixture->setData(array('first_name' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getFirstName()
 		);
@@ -891,7 +891,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setFirstNameSetsFirstName() {
 		$this->fixture->setFirstName('John');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John',
 			$this->fixture->getFirstName()
 		);
@@ -902,7 +902,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('first_name' => 'foo', 'name' => 'foo bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getFirstOrFullName()
 		);
@@ -911,7 +911,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getFirstOrFullName_ForUserWithoutFirstName_ReturnsName() {
 		$this->fixture->setData(array('name' => 'foo bar'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo bar',
 			$this->fixture->getFirstOrFullName()
 		);
@@ -941,7 +941,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getLastName_ForNoLastNameSet_ReturnsEmptyString() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getLastName()
 		);
@@ -950,7 +950,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getLastName_ForLastNameSet_ReturnsLastName() {
 		$this->fixture->setData(array('last_name' => 'bar'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getLastName()
 		);
@@ -962,7 +962,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setLastNameSetsLastName() {
 		$this->fixture->setLastName('Jacuzzi');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Jacuzzi',
 			$this->fixture->getLastName()
 		);
@@ -973,7 +973,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('last_name' => 'bar', 'name' => 'foo bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getLastOrFullName()
 		);
@@ -982,7 +982,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function test_getLastOrFullName_ForUserWithoutLastName_ReturnsName() {
 		$this->fixture->setData(array('name' => 'foo bar'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo bar',
 			$this->fixture->getLastOrFullName()
 		);
@@ -999,7 +999,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getDateOfBirthReturnsZeroForNoDateSet() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getDateOfBirth()
 		);
@@ -1013,7 +1013,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		$date = 323391600;
 		$this->fixture->setData(array('date_of_birth' => $date));
 
-		$this->assertEquals(
+		$this->assertSame(
 			$date,
 			$this->fixture->getDateOfBirth()
 		);
@@ -1054,7 +1054,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getAgeForNoDateOfBirthReturnsZero() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getAge()
 		);
@@ -1071,7 +1071,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('date_of_birth' => $now - 60 * 60)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getAge()
 		);
@@ -1087,7 +1087,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('date_of_birth' => mktime(18, 0, 0, 1, 15, 2000))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			10,
 			$this->fixture->getAge()
 		);
@@ -1103,7 +1103,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('date_of_birth' => mktime(18, 0, 0, 11, 15, 2000))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			9,
 			$this->fixture->getAge()
 		);
@@ -1119,7 +1119,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 			array('date_of_birth' => mktime(18, 0, 0, 9, 21, 2000))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			9,
 			$this->fixture->getAge()
 		);
@@ -1136,7 +1136,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getLastLoginAsUnixTimestampReturnsZeroForNoDateSet() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getLastLoginAsUnixTimestamp()
 		);
@@ -1150,7 +1150,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		$date = 323391600;
 		$this->fixture->setData(array('lastlogin' => $date));
 
-		$this->assertEquals(
+		$this->assertSame(
 			$date,
 			$this->fixture->getLastLoginAsUnixTimestamp()
 		);
@@ -1316,7 +1316,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getJobTitleForEmptyJobTitleReturnsEmptyString() {
 		$this->fixture->setData(array('title' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getJobTitle()
 		);
@@ -1328,7 +1328,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function getJobTitleForNonEmptyJobTitleReturnsJobTitle() {
 		$this->fixture->setData(array('title' => 'facility manager'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'facility manager',
 			$this->fixture->getJobTitle()
 		);
@@ -1340,7 +1340,7 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	public function setJobTitleSetsJobTitle() {
 		$this->fixture->setJobTitle('foo bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo bar',
 			$this->fixture->getJobTitle()
 		);

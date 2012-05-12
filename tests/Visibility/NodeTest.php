@@ -78,7 +78,7 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 	//////////////////////////////
 
 	public function test_getChildren_WithoutChildrenSet_ReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getChildren()
 		);
@@ -88,7 +88,7 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		$childNode = new tx_oelib_Visibility_Node();
 		$this->fixture->addChild($childNode);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($childNode),
 			$this->fixture->getChildren()
 		);
@@ -98,7 +98,7 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		$this->fixture->addChild(new tx_oelib_Visibility_Node());
 		$this->fixture->addChild(new tx_oelib_Visibility_Node());
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			count($this->fixture->getChildren())
 		);

@@ -56,7 +56,7 @@ class tx_oelib_Model_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetTitle_ForNonEmptyGroupTitle_ReturnsGroupTitle() {
 		$this->fixture->setData(array('title' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getTitle()
 		);
@@ -65,7 +65,7 @@ class tx_oelib_Model_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetTitle_ForEmptyGroupTitle_ReturnsEmptyString() {
 		$this->fixture->setData(array('title' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getTitle()
 		);
@@ -79,7 +79,7 @@ class tx_oelib_Model_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetDescription_ForNonEmptyGroupDescription_ReturnsGroupDescription() {
 		$this->fixture->setData(array('description' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getDescription()
 		);
@@ -88,7 +88,7 @@ class tx_oelib_Model_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetDescription_ForEmptyGroupDescription_ReturnsEmptyString() {
 		$this->fixture->setData(array('description' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getDescription()
 		);

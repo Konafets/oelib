@@ -56,7 +56,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetUserNameForEmptyUserNameReturnsEmptyString() {
 		$this->fixture->setData(array('username' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getUserName()
 		);
@@ -65,7 +65,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetUserNameForNonEmptyUserNameReturnsUserName() {
 		$this->fixture->setData(array('username' => 'johndoe'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'johndoe',
 			$this->fixture->getUserName()
 		);
@@ -79,7 +79,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetNameForNonEmptyNameReturnsName() {
 		$this->fixture->setData(array('realName' => 'John Doe'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$this->fixture->getName()
 		);
@@ -88,7 +88,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetNameForEmptyNameReturnsEmptyString() {
 		$this->fixture->setData(array('realName' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getName()
 		);
@@ -102,7 +102,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetLanguageForNonEmptyLanguageReturnsLanguageKey() {
 		$this->fixture->setData(array('lang' => 'de'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			$this->fixture->getLanguage()
 		);
@@ -111,7 +111,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetLanguageForEmptyLanguageKeyReturnsDefault() {
 		$this->fixture->setData(array('lang' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'default',
 			$this->fixture->getLanguage()
 		);
@@ -120,7 +120,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetLanguageForLanguageSetInUserConfigurationReturnsThisLanguage() {
 		$this->fixture->setData(array('uc' => serialize(array('lang' => 'de'))));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			$this->fixture->getLanguage()
 		);
@@ -130,7 +130,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		$this->fixture->setData(array('uc' => serialize(array('lang' => 'fr'))));
 		$this->fixture->setDefaultLanguage('de');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'fr',
 			$this->fixture->getLanguage()
 		);
@@ -139,7 +139,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testSetDefaultLanguageSetsLanguage() {
 		$this->fixture->setDefaultLanguage('de');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			$this->fixture->getLanguage()
 		);
@@ -148,7 +148,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testSetDefaultLanguageWithDefaultSetsLanguage() {
 		$this->fixture->setDefaultLanguage('default');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'default',
 			$this->fixture->getLanguage()
 		);
@@ -196,7 +196,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetEmailAddressForEmptyEMailReturnsEmptyString() {
 		$this->fixture->setData(array('email' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getEmailAddress()
 		);
@@ -205,7 +205,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	public function testGetEmailAddressForNonEmptyEMailReturnsEMail() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'john@doe.com',
 			$this->fixture->getEmailAddress()
 		);
@@ -353,7 +353,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		$groups->add($group);
 		$this->fixture->setData(array('usergroup' => $groups));
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getAllGroups()->count()
 		);
@@ -380,7 +380,7 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		$groups->add($group1);
 		$this->fixture->setData(array('usergroup' => $groups));
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->getAllGroups()->count()
 		);

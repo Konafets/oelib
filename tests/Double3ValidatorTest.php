@@ -59,7 +59,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForIntegerReturnsFloatWithThreeDecimals() {
-		$this->assertEquals(
+		$this->assertSame(
 			'42.000',
 			$this->fixture->evaluateFieldValue('42')
 		);
@@ -69,7 +69,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithCommaReturnsFloatWithPoint() {
-		$this->assertEquals(
+		$this->assertSame(
 			'42.123',
 			$this->fixture->evaluateFieldValue('42,123')
 		);
@@ -79,7 +79,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithOneDecimalDigitReturnsFloatWithThreeDecimalDigits() {
-		$this->assertEquals(
+		$this->assertSame(
 			'42.100',
 			$this->fixture->evaluateFieldValue('42.1')
 		);
@@ -89,7 +89,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithTwoDecimalDigitsReturnsFloatWithThreeDecimalDigits() {
-		$this->assertEquals(
+		$this->assertSame(
 			'42.120',
 			$this->fixture->evaluateFieldValue('42.12')
 		);
@@ -99,7 +99,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithThreeDecimalsReturnsFloatWithThreeDecimals() {
-		$this->assertEquals(
+		$this->assertSame(
 			'42.123',
 			$this->fixture->evaluateFieldValue('42.123')
 		);
@@ -109,7 +109,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueWithNegativeValueReturnsNegativeValue() {
-		$this->assertEquals(
+		$this->assertSame(
 			'-42.123',
 			$this->fixture->evaluateFieldValue('-42.123')
 		);
@@ -119,7 +119,7 @@ class tx_oelib_Double3ValidatorTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function evaluateFieldValueForStringReturnsZeroWithThreeDecimalDigits() {
-		$this->assertEquals(
+		$this->assertSame(
 			'0.000',
 			$this->fixture->evaluateFieldValue('foo bar')
 		);

@@ -58,7 +58,7 @@ class tx_oelib_Model_LanguageTest extends tx_phpunit_testcase {
 	public function getLocalNameReturnsLocalNameOfGerman() {
 		$this->fixture->setData(array('lg_name_local' => 'Deutsch'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Deutsch',
 			$this->fixture->getLocalName()
 		);
@@ -67,7 +67,7 @@ class tx_oelib_Model_LanguageTest extends tx_phpunit_testcase {
 	public function getLocalNameReturnsLocalNameOfEnglish() {
 		$this->fixture->setData(array('lg_name_local' => 'English'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'English',
 			$this->fixture->getLocalName()
 		);
@@ -84,7 +84,7 @@ class tx_oelib_Model_LanguageTest extends tx_phpunit_testcase {
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfGerman() {
 		$this->fixture->setData(array('lg_iso_2' => 'DE'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'DE',
 			$this->fixture->getIsoAlpha2Code()
 		);
@@ -96,7 +96,7 @@ class tx_oelib_Model_LanguageTest extends tx_phpunit_testcase {
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfEnglish() {
 		$this->fixture->setData(array('lg_iso_2' => 'EN'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'EN',
 			$this->fixture->getIsoAlpha2Code()
 		);

@@ -64,55 +64,55 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	////////////////////////////////////
 
 	public function testInitialLanguage() {
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $this->fixture->getLanguage()
 		);
 	}
 
 	public function testSetLanguageDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $this->fixture->getLanguage()
 		);
 	}
 
 	public function testSetLanguageDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'de', $this->fixture->getLanguage()
 		);
 	}
 
 	public function testSetLanguageDefaultEmpty() {
 		$this->fixture->setLanguage('');
-		$this->assertEquals(
+		$this->assertSame(
 			'', $this->fixture->getLanguage()
 		);
 	}
 
 	public function testInitialFallbackLanguage() {
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $this->fixture->getFallbackLanguage()
 		);
 	}
 
 	public function testSetFallbackLanguageDefault() {
 		$this->fixture->setFallbackLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $this->fixture->getFallbackLanguage()
 		);
 	}
 
 	public function testSetFallbackLanguageDe() {
 		$this->fixture->setFallbackLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'de', $this->fixture->getFallbackLanguage()
 		);
 	}
 
 	public function testSetFallbackLanguageEmpty() {
 		$this->fixture->setFallbackLanguage('');
-		$this->assertEquals(
+		$this->assertSame(
 			'', $this->fixture->getFallbackLanguage()
 		);
 	}
@@ -124,14 +124,14 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testSetSalutationFormal() {
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal', $this->fixture->getSalutationMode()
 		);
 	}
 
 	public function testSetSalutationInformal() {
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal', $this->fixture->getSalutationMode()
 		);
 	}
@@ -164,7 +164,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testNoLanguageAtAllWithKnownKey() {
 		$this->fixture->setLanguage('');
 		$this->fixture->setFallbackLanguage('');
-		$this->assertEquals(
+		$this->assertSame(
 			'in_both', $this->fixture->translate('in_both')
 		);
 	}
@@ -172,7 +172,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testNoLanguageAtAllWithUnknownKey() {
 		$this->fixture->setLanguage('');
 		$this->fixture->setFallbackLanguage('');
-		$this->assertEquals(
+		$this->assertSame(
 			'missing_key', $this->fixture->translate('missing_key')
 		);
 	}
@@ -217,82 +217,82 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	///////////////////////////////////////////////////////////
 
 	public function testTranslateWithoutLanguageOnlyInDefault() {
-		$this->assertEquals(
+		$this->assertSame(
 			'only in default', $this->fixture->translate('only_in_default')
 		);
 	}
 
 	public function testTranslateWithoutLanguageInBoth() {
-		$this->assertEquals(
+		$this->assertSame(
 			'in both languages', $this->fixture->translate('in_both')
 		);
 	}
 
 	public function testMissingKeyDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'missing_key', $this->fixture->translate('missing_key')
 		);
 	}
 
 	public function testMissingKeyDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'missing_key', $this->fixture->translate('missing_key')
 		);
 	}
 
 	public function testOnlyInDefaultUsingDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'only in default', $this->fixture->translate('only_in_default')
 		);
 	}
 
 	public function testOnlyInDefaultUsingNothing() {
-		$this->assertEquals(
+		$this->assertSame(
 			'only in default', $this->fixture->translate('only_in_default')
 		);
 	}
 
 	public function testOnlyInDefaultUsingDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'only in default', $this->fixture->translate('only_in_default')
 		);
 	}
 
 	public function testInBothUsingDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'in both languages', $this->fixture->translate('in_both')
 		);
 	}
 
 	public function testInBothUsingDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'in beiden Sprachen', $this->fixture->translate('in_both')
 		);
 	}
 
 	public function testEmptyStringDefault() {
 		$this->fixture->setLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'', $this->fixture->translate('empty_string_in_default')
 		);
 	}
 
 	public function testEmptyStringDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'', $this->fixture->translate('empty_string_in_default')
 		);
 	}
 
 	public function testFallbackToDefault() {
 		$this->fixture->setLanguage('xy');
-		$this->assertEquals(
+		$this->assertSame(
 			'default_not_fallback default',
 			$this->fixture->translate('default_not_fallback')
 		);
@@ -335,7 +335,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFallbackToDefaultFromEmptyLanguage() {
 		$this->fixture->setLanguage('');
 		$this->fixture->setFallbackLanguage('default');
-		$this->assertEquals(
+		$this->assertSame(
 			'default_not_fallback default',
 			$this->fixture->translate('default_not_fallback')
 		);
@@ -411,7 +411,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFallbackToDefaultFromDe() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'only in french',
 			$this->fixture->translate('only_in_french')
 		);
@@ -424,7 +424,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalOnly() {
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'only formal',
 			$this->fixture->translate('formal_string_only')
 		);
@@ -432,7 +432,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalOnly() {
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'only informal',
 			$this->fixture->translate('informal_string_only')
 		);
@@ -440,7 +440,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalWithNormal() {
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -448,14 +448,14 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalWithNormalTryingInformal() {
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
 	}
 
 	public function testFormalWithNormalTryingNothing() {
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -463,7 +463,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalWithNormalTryingInvalid() {
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -471,7 +471,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalWithNormal() {
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, informal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -479,14 +479,14 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalWithNormalTryingFormal() {
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, normal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
 	}
 
 	public function testInformalWithNormalTryingNothing() {
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, normal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -494,7 +494,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalWithNormalTryingInvalid() {
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, normal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -502,7 +502,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testBothWithoutNormalTryingFormal() {
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, formal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -510,14 +510,14 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testBothWithoutNormalTryingInformal() {
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, informal',
 			$this->fixture->translate('both_without_normal')
 		);
 	}
 
 	public function testBothWithoutNormalTryingNothing() {
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, formal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -525,7 +525,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testBothWithoutNormalTryingInvalid() {
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, formal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -541,7 +541,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalOnlyNoGermanLabel() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'only formal',
 			$this->fixture->translate('formal_string_only')
 		);
@@ -550,7 +550,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalOnlyNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'only informal',
 			$this->fixture->translate('informal_string_only')
 		);
@@ -559,7 +559,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalWithNormalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -568,7 +568,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalWithNormalTryingInformalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -576,7 +576,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalWithNormalTryingNothingNoGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'formal with normal, formal',
 			$this->fixture->translate('formal_string_with_normal')
 		);
@@ -585,7 +585,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalWithNormalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, informal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -594,7 +594,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalWithNormalTryingFormalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, normal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -602,7 +602,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalWithNormalTryingNothingNoGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'informal with normal, normal',
 			$this->fixture->translate('informal_string_with_normal')
 		);
@@ -611,7 +611,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testBothWithoutNormalTryingFormalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, formal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -620,7 +620,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testBothWithoutNormalTryingInformalNoGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, informal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -628,7 +628,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testBothWithoutNormalTryingNothingNoGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'both without normal, formal',
 			$this->fixture->translate('both_without_normal')
 		);
@@ -643,7 +643,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalOnlyWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de only formal',
 			$this->fixture->translate('de_formal_string_only')
 		);
@@ -652,7 +652,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalOnlyWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de only informal',
 			$this->fixture->translate('de_informal_string_only')
 		);
@@ -661,7 +661,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalWithNormalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de formal with normal, formal',
 			$this->fixture->translate('de_formal_string_with_normal')
 		);
@@ -670,7 +670,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalWithNormalTryingInformalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de formal with normal, formal',
 			$this->fixture->translate('de_formal_string_with_normal')
 		);
@@ -678,7 +678,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testFormalWithNormalTryingNothingWithGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'de formal with normal, formal',
 			$this->fixture->translate('de_formal_string_with_normal')
 		);
@@ -687,7 +687,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testFormalWithNormalTryingInvalidWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'de formal with normal, formal',
 			$this->fixture->translate('de_formal_string_with_normal')
 		);
@@ -696,7 +696,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalWithNormalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de informal with normal, informal',
 			$this->fixture->translate('de_informal_string_with_normal')
 		);
@@ -705,7 +705,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalWithNormalTryingFormalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de informal with normal, normal',
 			$this->fixture->translate('de_informal_string_with_normal')
 		);
@@ -713,7 +713,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testInformalWithNormalTryingNothingWithGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'de informal with normal, normal',
 			$this->fixture->translate('de_informal_string_with_normal')
 		);
@@ -722,7 +722,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testInformalWithNormalTryingInvalidWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'de informal with normal, normal',
 			$this->fixture->translate('de_informal_string_with_normal')
 		);
@@ -731,7 +731,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testBothWithoutNormalTryingFormalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('formal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de both without normal, formal',
 			$this->fixture->translate('de_both_without_normal')
 		);
@@ -740,7 +740,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testBothWithoutNormalTryingInformalWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('informal');
-		$this->assertEquals(
+		$this->assertSame(
 			'de both without normal, informal',
 			$this->fixture->translate('de_both_without_normal')
 		);
@@ -748,7 +748,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 
 	public function testBothWithoutNormalTryingNothingWithGermanLabels() {
 		$this->fixture->setLanguage('de');
-		$this->assertEquals(
+		$this->assertSame(
 			'de both without normal, formal',
 			$this->fixture->translate('de_both_without_normal')
 		);
@@ -757,7 +757,7 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	public function testBothWithoutNormalTryingInvalidWithGermanLabels() {
 		$this->fixture->setLanguage('de');
 		$this->fixture->setSalutationMode('foobar');
-		$this->assertEquals(
+		$this->assertSame(
 			'de both without normal, formal',
 			$this->fixture->translate('de_both_without_normal')
 		);
@@ -769,42 +769,42 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	/////////////////////////////////////////////
 
 	public function testHtmlSpecialCharsWithNoOption() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&o',
 			$this->fixture->translate('htmlspecialchars')
 		);
 	}
 
 	public function testHtmlSpecialCharsWithFalse() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&o',
 			$this->fixture->translate('htmlspecialchars', FALSE)
 		);
 	}
 
 	public function testHtmlSpecialCharsWithTrue() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&amp;o',
 			$this->fixture->translate('htmlspecialchars', TRUE)
 		);
 	}
 
 	public function testPiGetLlHtmlSpecialCharsWithNoOption() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&o',
 			$this->fixture->pi_getLL('htmlspecialchars')
 		);
 	}
 
 	public function testPiGetLlHtmlSpecialCharsWithFalse() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&o',
 			$this->fixture->pi_getLL('htmlspecialchars', '', FALSE)
 		);
 	}
 
 	public function testPiGetLlHtmlSpecialCharsWithTrue() {
-		$this->assertEquals(
+		$this->assertSame(
 			'a&amp;o',
 			$this->fixture->pi_getLL('htmlspecialchars', '', TRUE)
 		);

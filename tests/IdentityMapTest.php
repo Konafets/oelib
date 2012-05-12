@@ -102,11 +102,11 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		$model2->setUid(4);
 		$this->fixture->add($model2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->get(1)->getUid()
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			4,
 			$this->fixture->get(4)->getUid()
 		);
@@ -142,7 +142,7 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 	///////////////////////////////
 
 	public function testGetNewUidForEmptyMapReturnsOne() {
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getNewUid()
 		);

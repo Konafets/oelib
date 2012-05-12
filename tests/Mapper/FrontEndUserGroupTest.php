@@ -79,7 +79,7 @@ class tx_oelib_Mapper_FrontEndUserGroupTest extends tx_phpunit_testcase {
 
 		$this->fixture->load($userGroup);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$userGroup->getTitle()
 		);

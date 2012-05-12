@@ -51,7 +51,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function renderWithoutSettingValueOrCurrencyFirstRendersZeroWithTwoDigits() {
-		$this->assertEquals(
+		$this->assertSame(
 			'0.00',
 			$this->fixture->render()
 		);
@@ -63,7 +63,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 	public function renderWithValueWithoutSettingCurrencyUsesDecimalPointAndTwoRoundedDecimalDigits() {
 		$this->fixture->setValue(12345.678);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'12345.68',
 			$this->fixture->render()
 		);
@@ -76,7 +76,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(12345.678);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('FOO');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'12345.68',
 			$this->fixture->render()
 		);
@@ -89,7 +89,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'€ 123,45',
 			$this->fixture->render()
 		);
@@ -102,7 +102,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('CZK');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'123,45 Kč',
 			$this->fixture->render()
 		);
@@ -115,7 +115,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('SDD');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'sD 123',
 			$this->fixture->render()
 		);
@@ -128,7 +128,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('MGA');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'123,5',
 			$this->fixture->render()
 		);
@@ -141,7 +141,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'€ 123,45',
 			$this->fixture->render()
 		);
@@ -154,7 +154,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.456);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('KWD');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'KD 123,456',
 			$this->fixture->render()
 		);
@@ -167,7 +167,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'€ 123,45',
 			$this->fixture->render()
 		);
@@ -180,7 +180,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(123.45);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('USD');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'$ 123.45',
 			$this->fixture->render()
 		);
@@ -193,7 +193,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(1234.56);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'€ 1.234,56',
 			$this->fixture->render()
 		);
@@ -206,7 +206,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture->setValue(1234.56);
 		$this->fixture->setCurrencyFromIsoAlpha3Code('USD');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'$ 1,234.56',
 			$this->fixture->render()
 		);

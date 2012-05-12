@@ -60,7 +60,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			is_array($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			0, count($statistics)
 		);
 		$this->assertNotContains(
@@ -82,10 +82,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
@@ -102,10 +102,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'default', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
@@ -122,7 +122,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
 		$this->assertEquals(
@@ -139,7 +139,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->fixture->getStatistics();
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
 		$this->assertEquals(
@@ -153,10 +153,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 	public function testStatisticsForOneBucketWithoutDelay() {
 		$this->fixture->openBucket('test');
 		$statistics = $this->fixture->getStatisticsAsRawData();
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'test', $statistics[0]['bucketName']
 		);
 	}
@@ -177,7 +177,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		$statistics = $this->fixture->getStatistics();
 		// Sleeps 10000 microseconds (= 1/100 second).
 		usleep(10000);
-		$this->assertEquals(
+		$this->assertSame(
 			$statistics, $this->fixture->getStatistics()
 		);
 	}
@@ -188,10 +188,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		// Sleeps 10000 microseconds (= 1/100 second).
 		usleep(10000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
-		$this->assertEquals(
+		$this->assertSame(
 			2, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'test_2', $statistics[0]['bucketName']
 		);
 		$this->assertTrue(
@@ -206,10 +206,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->fixture->getStatisticsAsRawData();
-		$this->assertEquals(
+		$this->assertSame(
 			2, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'test_1', $statistics[0]['bucketName']
 		);
 		$this->assertTrue(
@@ -220,7 +220,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 	public function testHtmlSpecialCharsForBucketName() {
 		$this->fixture->openBucket('foo&bar');
 		$statistics = $this->fixture->getStatisticsAsRawData();
-		$this->assertEquals(
+		$this->assertSame(
 			'foo&bar', $statistics[0]['bucketName']
 		);
 		$this->assertContains(
@@ -235,7 +235,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			is_array($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			0, count($statistics)
 		);
 		$this->assertNotContains(
@@ -250,7 +250,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 		$this->assertTrue(
 			is_array($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			0, count($statistics)
 		);
 	}
@@ -263,7 +263,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
 		$this->assertEquals(
@@ -282,10 +282,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'bucket_2', $statistics[1]['bucketName']
 		);
 		$this->assertEquals(
@@ -307,10 +307,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'bucket_2', $statistics[1]['bucketName']
 		);
 		$this->assertEquals(
@@ -334,10 +334,10 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			3, count($statistics)
 		);
-		$this->assertEquals(
+		$this->assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
 		$this->assertEquals(
@@ -357,7 +357,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			2, count($statistics)
 		);
 		$this->assertEquals(
@@ -382,7 +382,7 @@ class tx_oelib_TimerTest extends tx_phpunit_testcase {
 
 		$statistics = $this->fixture->getStatisticsAsRawData();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1, count($statistics)
 		);
 		$this->assertEquals(

@@ -65,7 +65,7 @@ class tx_oelib_Mapper_CountryTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
-		$this->assertEquals(
+		$this->assertSame(
 			'DE',
 			$this->fixture->find(54)->getIsoAlpha2Code()
 		);
@@ -90,7 +90,7 @@ class tx_oelib_Mapper_CountryTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertEquals(
+		$this->assertSame(
 			'DE',
 			$this->fixture->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
 		);
@@ -115,7 +115,7 @@ class tx_oelib_Mapper_CountryTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertEquals(
+		$this->assertSame(
 			'DE',
 			$this->fixture->findByIsoAlpha3Code('DEU')->getIsoAlpha2Code()
 		);

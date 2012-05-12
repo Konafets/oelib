@@ -73,7 +73,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'EUR',
 			$fixture->getIsoAlpha3Code()
 		);
@@ -86,7 +86,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'USD',
 			$fixture->getIsoAlpha3Code()
 		);
@@ -128,7 +128,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'€',
 			$fixture->getLeftSymbol()
 		);
@@ -141,7 +141,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$fixture->getLeftSymbol()
 		);
@@ -183,7 +183,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Kč',
 			$fixture->getRightSymbol()
 		);
@@ -196,7 +196,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$fixture->getRightSymbol()
 		);
@@ -214,7 +214,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'.',
 			$fixture->getThousandsSeparator()
 		);
@@ -227,7 +227,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
-		$this->assertEquals(
+		$this->assertSame(
 			',',
 			$fixture->getThousandsSeparator()
 		);
@@ -245,7 +245,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			',',
 			$fixture->getDecimalSeparator()
 		);
@@ -258,7 +258,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'.',
 			$fixture->getDecimalSeparator()
 		);
@@ -276,7 +276,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(130);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$fixture->getDecimalDigits()
 		);
@@ -289,7 +289,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(173);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$fixture->getDecimalDigits()
 		);
@@ -302,7 +302,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$fixture->getDecimalDigits()
 		);
@@ -315,7 +315,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(81);
 
-		$this->assertEquals(
+		$this->assertSame(
 			3,
 			$fixture->getDecimalDigits()
 		);

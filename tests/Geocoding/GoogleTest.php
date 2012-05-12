@@ -257,7 +257,7 @@ class tx_oelib_Geocoding_GoogleTest extends tx_phpunit_testcase {
 
 		$fixture->lookUp($geo);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'latitude' => 50.7335500,
 				'longitude' => 7.1014300,

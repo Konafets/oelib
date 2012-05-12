@@ -117,7 +117,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('beta');
 
-		$this->assertEquals(
+		$this->assertSame(
 			-1,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
@@ -132,7 +132,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('alpha');
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
@@ -147,7 +147,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('alpha');
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
@@ -167,7 +167,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('beta');
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
@@ -182,7 +182,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('alpha');
 
-		$this->assertEquals(
+		$this->assertSame(
 			-1,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
@@ -197,7 +197,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
 		$secondModel->setTitle('alpha');
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
@@ -214,7 +214,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function test_AddModelsToFixture_ForOneGivenTitle_AddsOneModelToFixture() {
 		$this->addModelsToFixture(array('foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -223,7 +223,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function test_AddModelsToFixture_ForOneGivenTitle_AddsModelWithTitleGiven() {
 		$this->addModelsToFixture(array('foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->first()->getTitle()
 		);
@@ -232,7 +232,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function test_AddModelsToFixture_ForTwoGivenTitles_AddsTwoModelsToFixture() {
 		$this->addModelsToFixture(array('foo', 'bar'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -241,7 +241,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function test_AddModelsToFixture_ForTwoGivenTitles_AddsFirstTitleToFirstModelFixture() {
 		$this->addModelsToFixture(array('bar', 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->first()->getTitle()
 		);
@@ -250,7 +250,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function test_AddModelsToFixture_ForThreeGivenTitles_AddsThreeModelsToFixture() {
 		$this->addModelsToFixture(array('foo', 'bar','fooBar'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			3,
 			$this->fixture->count()
 		);
@@ -281,7 +281,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	///////////////////////////
 
 	public function testCountForEmptyListReturnsZero() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->count()
 		);
@@ -290,7 +290,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function testCountWithOneModelWithoutUidReturnsOne() {
 		$this->addModelsToFixture();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -301,7 +301,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$model->setUid(1);
 		$this->fixture->add($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -312,7 +312,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function testCountWithTwoDifferentModelsReturnsTwo() {
 		$this->addModelsToFixture(array('',''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -326,7 +326,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->add($model);
 		$this->fixture->add($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -378,7 +378,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	//////////////////////////////////
 
 	public function testKeyInitiallyReturnsZero() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->key()
 		);
@@ -388,7 +388,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->addModelsToFixture();
 		$this->fixture->next();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->key()
 		);
@@ -430,7 +430,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->next();
 		$this->fixture->rewind();
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->key()
 		);
@@ -572,7 +572,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	/////////////////////////////
 
 	public function testGetUidsForEmptyListReturnsEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getUids()
 		);
@@ -581,7 +581,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	public function testGetUidsForOneItemsWithoutUidReturnsEmptyString() {
 		$this->addModelsToFixture();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getUids()
 		);
@@ -592,7 +592,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$model->setUid(1);
 		$this->fixture->add($model);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'1',
 			$this->fixture->getUids()
 		);
@@ -608,7 +608,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$model2->setUid(42);
 		$this->fixture->add($model2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'1,42',
 			$this->fixture->getUids()
 		);
@@ -625,7 +625,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$model2->setUid(1);
 		$this->fixture->add($model2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'42,1',
 			$this->fixture->getUids()
 		);
@@ -644,7 +644,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$this->fixture->add($model1);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'1,2',
 			$this->fixture->getUids()
 		);
@@ -661,7 +661,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->add($model);
 		$model->setUid(42);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'42',
 			$this->fixture->getUids()
 		);
@@ -716,7 +716,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->addModelsToFixture(array('Beta', 'Alpha'));
 		$this->fixture->sort(array($this, 'sortByTitleAscending'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Alpha',
 			$this->fixture->first()->getTitle()
 		);
@@ -726,7 +726,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->addModelsToFixture(array('Zeta', 'Beta', 'Alpha'));
 		$this->fixture->sort(array($this, 'sortByTitleAscending'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Alpha',
 			$this->fixture->first()->getTitle()
 		);
@@ -736,7 +736,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->addModelsToFixture(array('Alpha', 'Beta'));
 		$this->fixture->sort(array($this, 'sortByTitleDescending'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Beta',
 			$this->fixture->first()->getTitle()
 		);
@@ -783,7 +783,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$this->fixture->append($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -802,7 +802,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$otherList = new tx_oelib_List();
 		$this->fixture->append($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -823,7 +823,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$this->fixture->append($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -912,7 +912,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$this->fixture->appendUnique($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -933,7 +933,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$otherList = new tx_oelib_List();
 		$this->fixture->appendUnique($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->count()
 		);
@@ -956,7 +956,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$this->fixture->appendUnique($otherList);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -1078,7 +1078,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->rewind();
 		$this->fixture->purgeCurrent();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -1094,7 +1094,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->next();
 		$this->fixture->purgeCurrent();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -1136,7 +1136,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 			$completedIterations++;
 		}
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$completedIterations
 		);
@@ -1159,7 +1159,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 			$this->fixture->next();
 		}
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$completedIterations
 		);
@@ -1177,7 +1177,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->rewind();
 		$this->fixture->purgeCurrent();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getUids()
 		);
@@ -1217,7 +1217,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$clonedList->rewind();
 		$clonedList->purgeCurrent();
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->count()
 		);
@@ -1244,7 +1244,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$clonedList->rewind();
 		$clonedList->purgeCurrent();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'1',
 			$this->fixture->getUids()
 		);
@@ -1417,7 +1417,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->add(new tx_oelib_tests_fixtures_TestingModel());
 
 		$result = $this->fixture->inRange(0, 1);
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$result->count()
 		);
@@ -1436,7 +1436,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$this->fixture->add($model);
 
 		$result = $this->fixture->inRange(1, 1);
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$result->count()
 		);
@@ -1455,7 +1455,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->add($model2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->inRange(0, 2)->count()
 		);
@@ -1482,7 +1482,7 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 
 		$result = $this->fixture->inRange(1, 2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$result->count()
 		);

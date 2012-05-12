@@ -104,7 +104,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/////////////////////////////////////////////
 
 	public function testGetMailerInTestMode() {
-		$this->assertEquals(
+		$this->assertSame(
 			'tx_oelib_emailCollector',
 			get_class($this->fixture)
 		);
@@ -114,7 +114,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		// initially, the test mode is disabled
 		tx_oelib_mailerFactory::purgeInstance();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'tx_oelib_realMailer',
 			get_class(tx_oelib_mailerFactory::getInstance()->getMailer())
 		);
@@ -144,7 +144,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$email['headers']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email,
 			$this->fixture->getLastEmail()
 		);
@@ -162,14 +162,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$otherEmail['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$otherEmail,
 			$this->fixture->getLastEmail()
 		);
 	}
 
 	public function testStoreNoEmailAndTryToGetTheLastEmail() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getLastEmail()
 		);
@@ -188,7 +188,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$otherEmail['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				self::$email,
 				self::$otherEmail
@@ -220,14 +220,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$email['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email['recipient'],
 			$this->fixture->getLastRecipient()
 		);
 	}
 
 	public function testGetLastRecipientReturnsAnEmptyStringIfThereWasNoEmail() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getLastRecipient()
 		);
@@ -240,14 +240,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$email['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email['subject'],
 			$this->fixture->getLastSubject()
 		);
 	}
 
 	public function testGetLastSubjectReturnsAnEmptyStringIfThereWasNoEmail() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getLastSubject()
 		);
@@ -260,14 +260,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$email['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email['message'],
 			$this->fixture->getLastBody()
 		);
 	}
 
 	public function testGetLastBodyReturnsAnEmptyStringIfThereWasNoEmail() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getLastBody()
 		);
@@ -280,7 +280,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$otherEmail['message']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getLastHeaders()
 		);
@@ -294,7 +294,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			self::$email['headers']
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email['headers'],
 			$this->fixture->getLastHeaders()
 		);
@@ -332,7 +332,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$mimeEMail->setFrom($sender->getEmailAddress());
 		$mimeEMail->setTXTBody(self::$email['message']);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
@@ -425,7 +425,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$mimeEMail->setFrom($sender->getEmailAddress());
 		$mimeEMail->setTXTBody(self::$otherEmail['message']);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'recipient' => self::$otherEmail['recipient'],
 				'subject' => self::$otherEmail['subject'],
@@ -489,7 +489,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$otherMimeEMail->setFrom($sender->getEmailAddress());
 		$otherMimeEMail->setTXTBody(self::$otherEmail['message']);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				array(
 					'recipient' => self::$email['recipient'],
@@ -552,7 +552,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$this->fixture->send($eMail);
 
 		$characterSet = $this->getCharacterSet();
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
@@ -623,7 +623,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 
 		$this->fixture->send($eMail);
 
-		$this->assertEquals(
+		$this->assertSame(
 			self::$email['subject'],
 			$this->fixture->getLastSubject()
 		);
@@ -702,7 +702,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function oneLineFeedIsKeptIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . LF . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -714,7 +714,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function oneCarriageReturnIsReplacedByLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . CR . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -726,7 +726,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function twoLineFeedsAreKeptIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . LF . LF . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -738,7 +738,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function twoCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . CR . CR . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -750,7 +750,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function severalLineFeedsAreReplacedByTwoLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -762,7 +762,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function severalCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . LF . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -775,7 +775,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$this->fixture->sendFormattedEmails(FALSE);
 		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . CR . CR . CR . CR . CR . 'bar',
 			$this->fixture->getLastBody()
 		);
@@ -787,7 +787,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	public function oneCrLfPairIsReplacedByLfIfFormatingIsEnabled() {
 		$this->fixture->sendEmail('', '', 'foo' . CRLF . 'bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo' . LF . 'bar',
 			$this->fixture->getLastBody()
 		);

@@ -160,7 +160,7 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 
 		tx_oelib_PageFinder::getInstance()->setPageUid($pageUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -179,7 +179,7 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 			tx_oelib_PageFinder::SOURCE_BACK_END
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -200,7 +200,7 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 			tx_oelib_PageFinder::SOURCE_FRONT_END
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -226,7 +226,7 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		$GLOBALS['TSFE']->tmpl->setup = array();
 		$GLOBALS['TSFE']->tmpl->loaded = 0;
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')

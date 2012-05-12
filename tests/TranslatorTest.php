@@ -44,7 +44,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 	public function translateForInexistentLabelReturnsLabelKey() {
 		$fixture = new tx_oelib_Translator('default', '', array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			'label_test',
 			$fixture->translate('label_test')
 		);
@@ -69,7 +69,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 		}
 		$fixture = new tx_oelib_Translator('default', '', $localizedLabels);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'English',
 			$fixture->translate('label_test')
 		);
@@ -94,7 +94,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 		}
 		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Deutsch',
 			$fixture->translate('label_test')
 		);
@@ -117,7 +117,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 		}
 		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'English',
 			$fixture->translate('label_test')
 		);
@@ -140,7 +140,7 @@ class tx_oelib_TranslatorTest extends tx_phpunit_testcase {
 		}
 		$fixture = new tx_oelib_Translator('default', 'de', $localizedLabels);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Deutsch',
 			$fixture->translate('label_test')
 		);

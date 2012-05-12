@@ -80,7 +80,7 @@ class tx_oelib_Mapper_CurrencyTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertEquals(
+		$this->assertSame(
 			49,
 			$this->fixture->findByIsoAlpha3Code('EUR')->getUid()
 		);

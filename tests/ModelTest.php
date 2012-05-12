@@ -99,7 +99,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function testGetAfterSetReturnsTheSetValue() {
 		$this->fixture->setTitle('bar');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getTitle()
 		);
@@ -110,7 +110,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 			array('title' => 'bar')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'bar',
 			$this->fixture->getTitle()
 		);
@@ -349,7 +349,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function testGetUidForNoUidReturnsZero() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getUid()
 		);
@@ -358,7 +358,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function testGetUidForSetUidReturnsTheSetUid() {
 		$this->fixture->setUid(42);
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			$this->fixture->getUid()
 		);
@@ -367,7 +367,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function testGetUidForSetUidViaSetDataReturnsTheSetUid() {
 		$this->fixture->setData(array('uid' => 42));
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			$this->fixture->getUid()
 		);
@@ -783,7 +783,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	/////////////////////////////
 
 	public function testGetDataForNoDataSetReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getData()
 		);
@@ -793,7 +793,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$data = array('foo' => 'bar');
 		$this->fixture->setData($data);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$data,
 			$this->fixture->getData()
 		);
@@ -802,7 +802,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function testGetDataReturnsArrayWithoutKeyUid() {
 		$this->fixture->setData(array('uid' => 1));
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getData()
 		);
@@ -817,7 +817,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setData(array());
 		$this->fixture->setTimestamp();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$GLOBALS['SIM_EXEC_TIME'],
 			$this->fixture->getAsInteger('tstamp')
 		);
@@ -840,7 +840,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setData(array());
 		$this->fixture->setCreationDate();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$GLOBALS['SIM_EXEC_TIME'],
 			$this->fixture->getAsInteger('crdate')
 		);
@@ -857,7 +857,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function getPageUidForNoPageUidSetReturnsZero() {
 		$this->fixture->setData(array());
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			$this->fixture->getPageUid()
 		);
@@ -869,7 +869,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function getPageUidReturnsPageUid() {
 		$this->fixture->setData(array('pid' => 42));
 
-		$this->assertEquals(
+		$this->assertSame(
 			42,
 			$this->fixture->getPageUid()
 		);
@@ -881,7 +881,7 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	public function setPageUidSetsPageUid() {
 		$this->fixture->setPageUid(84);
 
-		$this->assertEquals(
+		$this->assertSame(
 			84,
 			$this->fixture->getPageUid()
 		);

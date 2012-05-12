@@ -52,7 +52,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(54);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Deutschland',
 			$fixture->getLocalShortName()
 		);
@@ -62,7 +62,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(74);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'United Kingdom',
 			$fixture->getLocalShortName()
 		);
@@ -80,7 +80,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(54);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'DE',
 			$fixture->getIsoAlpha2Code()
 		);
@@ -93,7 +93,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(74);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'GB',
 			$fixture->getIsoAlpha2Code()
 		);
@@ -111,7 +111,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(54);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'DEU',
 			$fixture->getIsoAlpha3Code()
 		);
@@ -124,7 +124,7 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(74);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'GBR',
 			$fixture->getIsoAlpha3Code()
 		);

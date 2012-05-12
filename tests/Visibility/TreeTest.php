@@ -58,7 +58,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			'tx_oelib_Visibility_Tree', array()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getRootNode()->getChildren()
 		);
@@ -88,7 +88,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			array('testNode' => FALSE, 'testNode2' => FALSE)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			count($this->fixture->getRootNode()->getChildren())
 		);
@@ -104,7 +104,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 		);
 
 		$children = $this->fixture->getRootNode()->getChildren();
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			count($children[0]->getChildren())
 		);
@@ -244,7 +244,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 
 		$this->fixture->getRootNode()->getChildren();
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);
@@ -273,7 +273,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 
 		$this->fixture->getRootNode()->getChildren();
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('testNode'),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);
@@ -292,7 +292,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			'tx_oelib_Visibility_Tree', array()
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);
@@ -307,7 +307,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			array('testNode' => FALSE)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('testNode'),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);
@@ -322,7 +322,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			array('child' => array('parent' => FALSE))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('parent', 'child'),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);
@@ -337,7 +337,7 @@ class tx_oelib_Visibility_TreeTest extends tx_phpunit_testcase {
 			array('parent' => array('hidden' => FALSE, 'visible' => TRUE))
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('hidden'),
 			$this->fixture->getKeysOfHiddenSubparts()
 		);

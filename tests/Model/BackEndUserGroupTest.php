@@ -57,7 +57,7 @@ class tx_oelib_Model_BackEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetTitle_ForNonEmptyGroupTitle_ReturnsGroupTitle() {
 		$this->fixture->setData(array('title' => 'foo'));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getTitle()
 		);
@@ -66,7 +66,7 @@ class tx_oelib_Model_BackEndUserGroupTest extends tx_phpunit_testcase {
 	public function test_GetTitle_ForEmptyGroupTitle_ReturnsEmptyString() {
 		$this->fixture->setData(array('title' => ''));
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getTitle()
 		);

@@ -86,28 +86,28 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	////////////////////////////////////
 
 	public function testSortExplodeWithEmptyStringReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->sortExplode('')
 		);
 	}
 
 	public function testSortExplodeWithOneNumberReturnsArrayWithNumber() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(42),
 			$this->sortExplode('42')
 		);
 	}
 
 	public function testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(1, 2),
 			$this->sortExplode('1,2')
 		);
 	}
 
 	public function testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(1, 2),
 			$this->sortExplode('2,1')
 		);
@@ -137,35 +137,35 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	}
 
 	public function testEnableFieldsIsDifferentForDifferentTables() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE),
 			tx_oelib_db::enableFields('pages')
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1)
 		);
 	}
 
 	public function testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
-		$this->assertEquals(
+		$this->assertSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
 	public function testEnableFieldsCanBeDifferentForDifferentIgnores() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0, array()),
 			tx_oelib_db::enableFields(
 				OELIB_TESTTABLE, 0, array('endtime' => TRUE)
@@ -187,7 +187,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 		tx_oelib_db::enableVersioningPreviewForCachedPage();
 
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::enableFields(
 				OELIB_TESTTABLE, 0, array(), FALSE
 			),
@@ -422,7 +422,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	}
 
 	public function testTableHasColumnUidCanReturnDifferentResultsForDifferentTables() {
-		$this->assertNotEquals(
+		$this->assertNotSame(
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE),
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE_MM)
 		);
@@ -499,7 +499,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	}
 
 	public function testDeleteForNoDeletedRecordReturnsZero() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			tx_oelib_db::delete(
 				OELIB_TESTTABLE, 'uid = 0'
@@ -510,7 +510,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	public function testDeleteForOneDeletedRecordReturnsOne() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			tx_oelib_db::delete(
 				OELIB_TESTTABLE, 'uid = ' . $uid
@@ -522,7 +522,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			tx_oelib_db::delete(
 				OELIB_TESTTABLE,
@@ -562,7 +562,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	}
 
 	public function testUpdateForNoChangedRecordReturnsZero() {
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			tx_oelib_db::update(
 				OELIB_TESTTABLE, 'uid = 0', array('title' => 'foo')
@@ -573,7 +573,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	public function testUpdateForOneChangedRecordReturnsOne() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			tx_oelib_db::update(
 				OELIB_TESTTABLE, 'uid = ' . $uid, array('title' => 'foo')
@@ -585,7 +585,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			tx_oelib_db::update(
 				OELIB_TESTTABLE,
@@ -651,7 +651,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	public function testInsertForTableWithoutUidReturnsZero() {
 		$this->testingFramework->markTableAsDirty(OELIB_TESTTABLE_MM);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0,
 			tx_oelib_db::insert(
 				OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
@@ -729,8 +729,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE
 		);
 
-		$this->assertEquals(
-			array('uid' => $uid),
+		$this->assertSame(
+			array('uid' => (string) $uid),
 			tx_oelib_db::selectSingle('uid', OELIB_TESTTABLE, 'uid = ' . $uid)
 		);
 	}
@@ -757,8 +757,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'Title B')
 		);
 
-		$this->assertEquals(
-			array('uid' => $uid),
+		$this->assertSame(
+			array('uid' => (string) $uid),
 			tx_oelib_db::selectSingle('uid', OELIB_TESTTABLE, '', '', 'title DESC')
 		);
 	}
@@ -774,8 +774,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'Title B')
 		);
 
-		$this->assertEquals(
-			array('uid' => $uid),
+		$this->assertSame(
+			array('uid' => (string) $uid),
 			tx_oelib_db::selectSingle('uid', OELIB_TESTTABLE, '', '', 'title', 1)
 		);
 	}
@@ -809,7 +809,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function selectMultipleForNoResultsReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			tx_oelib_db::selectMultiple(
 				'uid', OELIB_TESTTABLE, 'title = "nothing"'
@@ -825,8 +825,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE
 		);
 
-		$this->assertEquals(
-			array(array('uid' => $uid)),
+		$this->assertSame(
+			array(array('uid' => (string) $uid)),
 			tx_oelib_db::selectMultiple('uid', OELIB_TESTTABLE, 'uid = ' . $uid)
 		);
 	}
@@ -842,7 +842,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				array('title' => 'foo'),
 				array('title' => 'foo'),
@@ -857,7 +857,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function selectColumnForMultipleForNoMatchesReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			tx_oelib_db::selectColumnForMultiple(
 				'title', OELIB_TESTTABLE, 'title = "nothing"'
@@ -873,7 +873,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array('foo'),
 			tx_oelib_db::selectColumnForMultiple(
 				'title', OELIB_TESTTABLE, 'uid = ' . $uid
@@ -896,7 +896,7 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 			'title', OELIB_TESTTABLE, 'uid = ' . $uid1 . ' OR uid = ' . $uid2
 		);
 		sort($result);
-		$this->assertEquals(
+		$this->assertSame(
 			array('bar', 'foo'),
 			$result
 		);

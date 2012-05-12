@@ -108,7 +108,7 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 	}
 
 	public function testGetCompleteConfigurationReturnsAllTestConfigurationData() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testConfiguration,
 			$this->fixture->getCompleteConfiguration()
 		);
@@ -128,7 +128,7 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		$this->fixture->retrieveConfiguration();
 		$this->fixture->setAsString('testValue', 'foo');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getAsString('testValue')
 		);
@@ -138,12 +138,12 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
 		$otherConfiguration->setAsString('testValue', 'foo');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$otherConfiguration->getAsString('testValue')
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testConfiguration,
 			$this->fixture->getCompleteConfiguration()
 		);

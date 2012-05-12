@@ -131,7 +131,7 @@ class tx_oelib_Geocoding_CalculatorTest extends tx_phpunit_testcase {
 			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			0.0,
 			$this->fixture->calculateDistanceInKilometers($bonn, $bonn)
 		);
@@ -171,7 +171,7 @@ class tx_oelib_Geocoding_CalculatorTest extends tx_phpunit_testcase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$this->fixture->calculateDistanceInKilometers($bonn, $cologne),
 			$this->fixture->calculateDistanceInKilometers($cologne, $bonn)
 		);
@@ -202,7 +202,7 @@ class tx_oelib_Geocoding_CalculatorTest extends tx_phpunit_testcase {
 			$list, $cologne, 27.0
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$filteredList->count()
 		);
@@ -258,7 +258,7 @@ class tx_oelib_Geocoding_CalculatorTest extends tx_phpunit_testcase {
 			$list, $cologne, 27.0
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$filteredList->count()
 		);

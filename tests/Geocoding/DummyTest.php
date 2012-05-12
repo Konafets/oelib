@@ -78,7 +78,7 @@ class tx_oelib_Geocoding_DummyTest extends tx_phpunit_testcase {
 
 		$this->fixture->lookUp($geo);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$coordinates,
 			$geo->getGeoCoordinates()
 		);
@@ -139,7 +139,7 @@ class tx_oelib_Geocoding_DummyTest extends tx_phpunit_testcase {
 
 		$this->fixture->lookUp($geo);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$coordinates,
 			$geo->getGeoCoordinates()
 		);

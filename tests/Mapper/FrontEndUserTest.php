@@ -71,7 +71,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->find($uid)->getUid()
 		);
@@ -93,7 +93,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 
 		$uid = $this->testingFramework->createFrontEndUser($groupUids);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$groupUids,
 			$this->fixture->find($uid)->getUserGroups()->getUids()
 		);
@@ -141,7 +141,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -177,7 +177,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -189,7 +189,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 			$feUserGroupUid;
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -202,7 +202,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -223,7 +223,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -249,7 +249,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->testingFramework->createFrontEndUser($firstGroupUid);
 		$this->testingFramework->createFrontEndUser($secondGroupUid);
 
-		$this->assertEquals(
+		$this->assertSame(
 			2,
 			$this->fixture->getGroupMembers(
 				$firstGroupUid . ',' . $secondGroupUid
@@ -262,7 +262,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertEquals(
+		$this->assertSame(
 			1,
 			$this->fixture->getGroupMembers($userGroups)->count()
 		);
@@ -276,7 +276,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->testingFramework->createFrontEndUser($secondGroupUid);
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertEquals(
+		$this->assertSame(
 			3,
 			$this->fixture->getGroupMembers($userGroups)->count()
 		);
@@ -317,7 +317,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
@@ -329,7 +329,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
@@ -341,7 +341,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),
@@ -353,7 +353,7 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function findByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),

@@ -62,7 +62,7 @@ class tx_oelib_ObjectFactoryTest extends tx_phpunit_testcase {
 			$object instanceof tx_oelib_Translator
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			$object->getLanguageKey()
 		);
@@ -76,7 +76,7 @@ class tx_oelib_ObjectFactoryTest extends tx_phpunit_testcase {
 	public function makeInstantiatesSubclassIfXclassIsAvailable() {
 		$object = tx_oelib_ObjectFactory::make('tx_oelib_tests_fixtures_Empty');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'ux_tx_oelib_tests_fixtures_Empty',
 			get_class($object)
 		);

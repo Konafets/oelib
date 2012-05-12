@@ -149,7 +149,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 		$backEndUser->setDefaultLanguage('default');
 		tx_oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'default',
 			tx_oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -163,7 +163,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 		$backEndUser->setDefaultLanguage('de');
 		tx_oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			tx_oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -173,7 +173,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function initializeBackEndDoesNotSetAlternativeLanguage() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			tx_oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -351,7 +351,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getByExtensionNameLoadsLabelsFromFile() {
-		$this->assertEquals(
+		$this->assertSame(
 			'I am from file.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -371,7 +371,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 			get('plugin.tx_oelib._LOCAL_LANG.default')->
 				set('label_test', 'I am from TypoScript.');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'I am from TypoScript.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -385,7 +385,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->setData(array('default.' => array()));
 		tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG.default')->set('label_test', 'I am from TypoScript.');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'I am from file.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -399,7 +399,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->setData(array('default.' => array()));
 		tx_oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG.default')->set('label_test_2', 'I am from TypoScript.');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'I am from file.',
 			tx_oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -417,7 +417,7 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 	public function getLanguageKeyForSetKeyReturnsSetKey() {
 		tx_oelib_TranslatorRegistry::getInstance()->setLanguageKey('de');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'de',
 			tx_oelib_TranslatorRegistry::getInstance()->getLanguageKey('de')
 		);

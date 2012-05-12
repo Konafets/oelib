@@ -71,7 +71,7 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
 		$uid = $this->testingFramework->createBackEndUser();
 
-		$this->assertEquals(
+		$this->assertSame(
 			$uid,
 			$this->fixture->find($uid)->getUid()
 		);
@@ -101,28 +101,28 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	}
 
 	public function testFindByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
 			$this->fixture->findByUserName('foo')->getUid()
 		);
 	}
 
 	public function testFindByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
 			$this->fixture->findByUserName('FOO')->getUid()
 		);
 	}
 
 	public function testFindByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
 			$this->fixture->findByUserName('FOO')->getUid()
 		);
 	}
 
 	public function testFindByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertEquals(
+		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
 			$this->fixture->findByUserName('foo')->getUid()
 		);

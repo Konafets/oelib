@@ -134,8 +134,8 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 	}
 
 	public function testGetLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
-		$this->assertEquals(
-			$GLOBALS['BE_USER']->user['uid'],
+		$this->assertSame(
+			intval($GLOBALS['BE_USER']->user['uid']),
 			$this->fixture->getLoggedInUser()->getUid()
 		);
 	}
@@ -154,7 +154,7 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 		$backedUpName = $GLOBALS['BE_USER']->user['realName'];
 		$GLOBALS['BE_USER']->user['realName'] = 'John Doe';
 
-		$this->assertEquals(
+		$this->assertSame(
 			'John Doe',
 			$this->fixture->getLoggedInUser()->getName()
 		);

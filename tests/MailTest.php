@@ -105,7 +105,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	////////////////////////////////////////////////////////
 
 	public function testGetRecipientsInitiallyReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getRecipients()
 		);
@@ -117,7 +117,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 		$this->fixture->addRecipient($recipient);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($recipient),
 			$this->fixture->getRecipients()
 		);
@@ -135,7 +135,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->addRecipient($recipient1);
 		$this->fixture->addRecipient($recipient2);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($recipient1, $recipient2),
 			$this->fixture->getRecipients()
 		);
@@ -150,7 +150,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	/////////////////////////////////////////////////////
 
 	public function testGetSubjectInitiallyReturnsEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getSubject()
 		);
@@ -159,7 +159,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function testGetSubjectWithNonEmptySubjectReturnsSubject() {
 		$this->fixture->setSubject('test subject');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'test subject',
 			$this->fixture->getSubject()
 		);
@@ -207,7 +207,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	/////////////////////////////////////////////////////
 
 	public function testGetMessageInitiallyReturnsEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getMessage()
 		);
@@ -216,7 +216,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function testGetMessageWithNonEmptyMessageReturnsMessage() {
 		$this->fixture->setMessage('test message');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'test message',
 			$this->fixture->getMessage()
 		);
@@ -260,7 +260,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getHTMLMessageInitiallyReturnsEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getHTMLMessage()
 		);
@@ -272,7 +272,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function getHTMLMessageWithNonEmptyMessageReturnsMessage() {
 		$this->fixture->setHTMLMessage('test message');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'test message',
 			$this->fixture->getHTMLMessage()
 		);
@@ -318,7 +318,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getAttachmentsInitiallyReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAttachments()
 		);
@@ -334,7 +334,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$attachment->setContent('Test');
 		$this->fixture->addAttachment($attachment);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($attachment),
 			$this->fixture->getAttachments()
 		);
@@ -356,7 +356,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$otherAttachment->setContent('Second Test');
 		$this->fixture->addAttachment($otherAttachment);
 
-		$this->assertEquals(
+		$this->assertSame(
 			array($attachment, $otherAttachment),
 			$this->fixture->getAttachments()
 		);
@@ -452,7 +452,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 			'</html>';
 		$this->fixture->setHTMLMessage($htmlMessage);
 
-		$this->assertEquals(
+		$this->assertSame(
 			$htmlMessage,
 			$this->fixture->getHTMLMessage()
 		);
@@ -469,7 +469,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 			'</html>'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"' .
 				' "http://www.w3.org/TR/REC-html40/loose.dtd">' . LF .
 			'<html>' . LF .
@@ -490,7 +490,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getAdditionalHeadersForNoAdditionalHeadersReturnsEmptyArray() {
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAdditionalHeaders()
 		);
@@ -502,7 +502,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function setReturnPathForNoReturnPathSetSetsGivenReturnPath() {
 		$this->fixture->setReturnPath('foo@bar.com');
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
@@ -518,7 +518,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('old@mail.com');
 		$this->fixture->setReturnPath('foo@bar.com');
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
@@ -533,7 +533,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function setReturnPathForNoSetReturnPathAndEmptyStringGivenDoesNotSetAnyReturnPath() {
 		$this->fixture->setReturnPath('');
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(),
 			$this->fixture->getAdditionalHeaders()
 		);
@@ -546,7 +546,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('foo@bar.com');
 		$this->fixture->setReturnPath('');
 
-		$this->assertEquals(
+		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
@@ -561,7 +561,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function setReturnPathSetsMemberVariableReturnPath() {
 		$this->fixture->setReturnPath('foo@bar.com');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo@bar.com',
 			$this->fixture->getReturnPath()
 		);
@@ -571,7 +571,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function getReturnPathInitiallyReturnsAnEmptyString() {
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getReturnPath()
 		);
@@ -584,7 +584,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setReturnPath('foo@bar.com');
 		$this->fixture->setReturnPath('');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo@bar.com',
 			$this->fixture->getReturnPath()
 		);
@@ -596,7 +596,7 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	public function getReturnPathForStringSetInReturnPathReturnsThisString() {
 		$this->fixture->setReturnPath('foo@bar.com');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo@bar.com',
 			$this->fixture->getReturnPath()
 		);

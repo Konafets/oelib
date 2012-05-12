@@ -110,7 +110,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testSetConfigurationForLocaleToANonEmptyValue() {
 		$this->setConfigurationForLocale('foo');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$GLOBALS['TSFE']->config['config']['locale_all']
 		);
@@ -119,7 +119,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testSetConfigurationForLocaleToAnEmptyString() {
 		$this->setConfigurationForLocale('');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$GLOBALS['TSFE']->config['config']['locale_all']
 		);
@@ -145,7 +145,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testSetAndGetFlavor() {
 		$this->fixture->setFlavor('foo');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'foo',
 			$this->fixture->getFlavor()
 		);
@@ -159,7 +159,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testCheckForNonEmptyStringWithNonEmptyString() {
 		$this->fixture->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -190,7 +190,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 			'existingColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -204,7 +204,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testCheckIsValidEmailOrEmptyWithAnEmptyString() {
 		$this->fixture->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -213,7 +213,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testCheckIsValidEmailOrEmptyWithAValidEmail() {
 		$this->fixture->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -240,7 +240,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	public function testCheckIsValidEmailNotEmptyWithAValidEmail() {
 		$this->fixture->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -274,7 +274,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkLocale();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -291,7 +291,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkLocale();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);
@@ -308,7 +308,7 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 
 		$this->fixture->checkLocale();
 
-		$this->assertEquals(
+		$this->assertSame(
 			'',
 			$this->fixture->getRawMessage()
 		);

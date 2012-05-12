@@ -105,7 +105,7 @@ class tx_oelib_TemplateRegistryTest extends tx_phpunit_testcase {
 			'EXT:oelib/tests/fixtures/oelib.html'
 		);
 
-		$this->assertEquals(
+		$this->assertSame(
 			'Hello world!' . LF,
 			$template->getSubpart()
 		);
