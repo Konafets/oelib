@@ -59,15 +59,6 @@ class tx_oelib_Exception_DatabaseTest extends tx_phpunit_testcase {
 			= $this->savedStoreLastBuildQuery;
 	}
 
-	public function testMessageContainsErrorMessage() {
-		$fixture = new tx_oelib_Exception_Database();
-
-		$this->assertContains(
-			DATABASE_QUERY_ERROR,
-			$fixture->getMessage()
-		);
-	}
-
 	public function testMessageForInvalidQueryContainsErrorMessageFromDatabase() {
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('asdf', 'tx_oelib_test', '');
 		$fixture = new tx_oelib_Exception_Database();
