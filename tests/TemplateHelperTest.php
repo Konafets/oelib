@@ -3630,8 +3630,11 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRestrictedImageReturnsAltTextForInexistentFile() {
-		$this->assertEquals(
+	/**
+	 * @test
+	 */
+	public function createRestrictedImageForInexistentFileReturnsAltText() {
+		$this->assertContains(
 			'foo',
 			$this->fixture->createRestrictedImage(
 				'typo3conf/ext/oelib/tests/fixtures/nothing.png',
