@@ -35,11 +35,6 @@
  */
 abstract class tx_oelib_Object {
 	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	abstract public function __destruct();
-
-	/**
 	 * Gets the value of the data item for the key $key.
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
