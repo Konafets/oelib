@@ -22,11 +22,6 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-// In the back end, PATH_tslib isn't defined yet.
-if (!defined('PATH_tslib')) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-}
-
 /**
  * Class 'tx_oelib_salutationswitcher' for the 'oelib' extension.
  *
