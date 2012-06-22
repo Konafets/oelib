@@ -3611,21 +3611,19 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	// Tests concerning the image functions.
 	//////////////////////////////////////////
 
-	public function testCreateRestrictedImageThrowsExceptionForEmptyPath() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$path must not be empty.'
-		);
-
+	/**
+	 * @test
+	 * @expectedException InvalidArgumentException
+	 */
+	public function createRestrictedImageForEmptyPathThrowsException() {
 		$this->fixture->createRestrictedImage('');
 	}
 
-	public function testCreateRestrictedImageThrowsExceptionForNonZeroMaxArea() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$maxArea is not used anymore and must be zero.'
-		);
-
+	/**
+	 * @test
+	 * @expectedException InvalidArgumentException
+	 */
+	public function createRestrictedImageForNonZeroMaxAreaThrowsException() {
 		$this->fixture->createRestrictedImage(
 			'typo3conf/ext/oelib/tests/fixtures/test.png', '', 0, 0, 1
 		);
@@ -3634,93 +3632,98 @@ class tx_oelib_templatehelperchild_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function createRestrictedImageForInexistentFileReturnsAltText() {
+	public function createRestrictedImageForInexistentFileReturnsHtmlspecialchardAltText() {
 		$this->assertContains(
-			'foo',
+			'foo &amp; bar',
 			$this->fixture->createRestrictedImage(
 				'typo3conf/ext/oelib/tests/fixtures/nothing.png',
-				'foo'
+				'foo & bar'
 			)
 		);
 	}
 
-	public function testCreateRestrictedImageReturnsImgTagForRelativePathToExistingFile() {
-		$this->assertContains(
-			'<img ',
-			$this->fixture->createRestrictedImage(
-				'typo3conf/ext/oelib/tests/fixtures/test.png'
-			)
+	/**
+	 * @test
+	 */
+	public function createRestrictedImageForSuccessReturnsGeneratedImageTag() {
+		$imageTag = '<img src="typo3temp/foo.jpg" alt="foo" title="bar" id="id-42"/>';
+
+		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('tslib_cObj');
+		$content->expects($this->once())->method('IMAGE')
+			->with(
+			array('file' => 'foo.jpg', 'file.' => array(), 'altText' => 'foo', 'titleText' => 'bar', 'params' =>'id="id-42"')
+		)
+			->will($this->returnValue($imageTag));
+		$this->fixture->cObj = $content;
+
+		$this->assertSame(
+			$imageTag,
+			$this->fixture->createRestrictedImage('foo.jpg', 'foo', 0, 0, 0, 'bar', 'id-42')
 		);
 	}
 
-	public function testCreateRestrictedImageContainsEmptyAltTextByDefault() {
-		$this->assertContains(
-			' alt=""',
-			$this->fixture->createRestrictedImage(
-				'EXT:oelib/tests/fixtures/test.png'
-			)
+	/**
+	 * @test
+	 */
+	public function createRestrictedImageForGeneratedImageTagWithEmptySrcReturnsHtmlSpecialcharedAltText() {
+		$altText = 'foo & bar';
+
+		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('tslib_cObj');
+		$content->expects($this->once())->method('IMAGE')
+			->with(array('file' => 'foo.jpg', 'file.' => array(), 'altText' => $altText, 'titleText' => ''))
+			->will($this->returnValue('<img src=""/>'));
+		$this->fixture->cObj = $content;
+
+		$this->assertSame(
+			'foo &amp; bar',
+			$this->fixture->createRestrictedImage('foo.jpg', $altText)
 		);
 	}
 
-	public function testCreateRestrictedImageContainsProvidedNonEmptyAltText() {
-		$this->assertContains(
-			' alt="foo"',
-			$this->fixture->createRestrictedImage(
-				'EXT:oelib/tests/fixtures/test.png',
-				'foo'
-			)
+	/**
+	 * @test
+	 */
+	public function createRestrictedImageForGeneratedNullImageTagReturnsHtmlSpecialcharedAltText() {
+		$altText = 'foo & bar';
+
+		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('tslib_cObj');
+		$content->expects($this->once())->method('IMAGE')
+			->with(array('file' => 'foo.jpg', 'file.' => array(),  'altText' => $altText, 'titleText' => ''))
+			->will($this->returnValue(NULL));
+		$this->fixture->cObj = $content;
+
+		$this->assertSame(
+			'foo &amp; bar',
+			$this->fixture->createRestrictedImage('foo.jpg', $altText)
 		);
 	}
 
-	public function testCreateRestrictedImageContainsProvidedNonEmptyTitleText() {
-		$this->assertContains(
-			' title="foo"',
-			$this->fixture->createRestrictedImage(
-				'EXT:oelib/tests/fixtures/test.png',
-				'', 0, 0, 0, 'foo'
-			)
+	/**
+	 * @test
+	 */
+	public function createRestrictedImageForExceptionReturnsHtmlSpecialcharedAltText() {
+		if (!class_exists('t3lib_file_exception_FileDoesNotExistException', TRUE)) {
+			$this->markTestSkipped('This tests needs the FileDoesNotExistException class introduced in TYPO3 6.0.');
+		}
+
+		$altText = 'foo & bar';
+
+		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('tslib_cObj');
+		$content->expects($this->once())->method('IMAGE')
+			->with(array('file' => 'foo.jpg', 'file.' => array(), 'altText' => $altText, 'titleText' => ''))
+			->will($this->throwException(new t3lib_file_exception_FileDoesNotExistException()));
+		$this->fixture->cObj = $content;
+
+		$this->assertSame(
+			'foo &amp; bar',
+			$this->fixture->createRestrictedImage('foo.jpg', $altText)
 		);
 	}
 
-	public function testCreateRestrictedImageContainsProvidedNonEmptyAltAndTitleTexts() {
-		$result = $this->fixture->createRestrictedImage(
-			'EXT:oelib/tests/fixtures/test.png',
-			'alt foo', 0, 0, 0, 'title bar'
-		);
-
-		$this->assertContains(
-			' alt="alt foo"',
-			$result
-		);
-		$this->assertContains(
-			' title="title bar"',
-			$result
-		);
-	}
-
-	public function testCreateRestrictedImageContainsProvidedNonEmptyId() {
-		$result = $this->fixture->createRestrictedImage(
-			'EXT:oelib/tests/fixtures/test.png',
-			'', 0, 0, 0, '', 'test-id'
-		);
-
-		$this->assertContains(
-			' id="test-id"',
-			$result
-		);
-	}
-
-	public function testCreateRestrictedImageContainsNoIdTagForEmptyProvidedId() {
-		$result = $this->fixture->createRestrictedImage(
-			'EXT:oelib/tests/fixtures/test.png',
-			'', 0, 0, 0, '', ''
-		);
-
-		$this->assertNotContains(
-			' id=',
-			$result
-		);
-	}
 
 	///////////////////////////////////////////////////
 	// Tests for securePiVars and ensureIntegerPiVars
