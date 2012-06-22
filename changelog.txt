@@ -1,4 +1,4 @@
-0.7.8 - currently working on
+0.7.8 - released 2012-06-22
 - [#4454] Fix: Test failures concerning the images in the current Core master
 - [#4448] Fix: createRestrictedImage fails with latest Core master
 - [#4449] Fix: tx_oelib_Object::__destruct must not be abstract
