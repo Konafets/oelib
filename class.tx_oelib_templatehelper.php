@@ -1082,20 +1082,21 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return string IMG tag (or alt text), will not be empty
 	 */
 	public function createRestrictedImage(
-		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0,
-		$titleText = '', $id = ''
+		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '', $id = ''
 	) {
-		if ($path == '') {
+		if ($path === '') {
 			throw new InvalidArgumentException('$path must not be empty.', 1331489502);
 		}
-		if ($maxArea != 0) {
+		if ($maxArea !== 0) {
 			throw new InvalidArgumentException('$maxArea is not used anymore and must be zero.', 1331489515);
 		}
 
-		$imageConfiguration = array();
-		$imageConfiguration['file'] = $path;
-		$imageConfiguration['altText'] = $altText;
-		$imageConfiguration['titleText'] = $titleText;
+		$imageConfiguration = array(
+			'file' => $path,
+			'file.' => array(),
+			'altText' => $altText,
+			'titleText' => $titleText,
+		);
 
 		if ($maxWidth > 0) {
 			$imageConfiguration['file.']['maxW'] = $maxWidth;
@@ -1103,14 +1104,22 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 		if ($maxHeight > 0) {
 			$imageConfiguration['file.']['maxH'] = $maxHeight;
 		}
-		if ($id != '') {
+		if ($id !== '') {
 			$imageConfiguration['params'] = 'id="' . $id . '"';
 		}
 
-		$result = $this->cObj->IMAGE($imageConfiguration);
+		if (class_exists('t3lib_file_exception_FileDoesNotExistException', TRUE)) {
+			try {
+				$result = $this->cObj->IMAGE($imageConfiguration);
+			} catch (t3lib_file_exception_FileDoesNotExistException $exception) {
+				$result = NULL;
+			}
+		} else {
+			$result = $this->cObj->IMAGE($imageConfiguration);
+		}
 
-		if ($result == '') {
-			$result = $altText;
+		if (($result === NULL) || (is_string($result) && (strpos($result, 'src=""') !== FALSE))) {
+			$result = htmlspecialchars($altText);
 		}
 
 		return $result;
