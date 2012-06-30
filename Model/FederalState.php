@@ -23,24 +23,48 @@
 ***************************************************************/
 
 /**
- * Repository for country models.
+ * This model represents a federal state, e.g., Nordrhein-Westfalen (in Germany).
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Domain_Repository_CountryRepository extends Tx_Oelib_Domain_Repository_AbstractReadOnlyRepository {
+class tx_oelib_Model_FederalState extends tx_oelib_Model {
 	/**
-	 * Initializes the repository.
-	 *
-	 * @return void
+	 * @var boolean
 	 */
-	public function initializeObject() {
-		/** @var $querySettings Tx_Extbase_Persistence_Typo3QuerySettings */
-		$querySettings = $this->objectManager->create('Tx_Extbase_Persistence_Typo3QuerySettings');
-		$querySettings->setRespectStoragePage(FALSE);
-		$this->setDefaultQuerySettings($querySettings);
+	protected $readOnly = TRUE;
+
+	/**
+	 * Returns the local name, e.g., "Nordrhein-Westfalen".
+	 *
+	 * @return string the local name, will not be empty
+	 */
+	public function getLocalName() {
+		return $this->getAsString('zn_name_local');
 	}
+
+	/**
+	 * Returns the English name, e.g., "North Rhine-Westphalia".
+	 *
+	 * @return string the English name, will not be empty
+	 */
+	public function getEnglishName() {
+		return $this->getAsString('zn_name_en');
+	}
+
+	/**
+	 * Returns the ISO 3166-1 alpha-2 code, e.g., "NW".
+	 *
+	 * @return string the ISO 3166-1 alpha-2 code, will not be empty
+	 */
+	public function getIsoAlpha2Code() {
+		return $this->getAsString('zn_code');
+	}
+}
+
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/FederalState.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/FederalState.php']);
 }
 ?>

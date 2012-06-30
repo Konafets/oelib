@@ -10,4 +10,13 @@ config.tx_extbase.persistence.classes {
 			cn_iso_3.mapOnProperty = isoAlphaThreeCode
 		}
 	}
+
+	Tx_Oelib_Domain_Model_FederalState.mapping {
+		tableName = static_country_zones
+		columns {
+			zn_name_local.mapOnProperty = localName
+			zn_name_en.mapOnProperty = englishName
+			zn_code.mapOnProperty = isoAlphaTwoCode
+		}
+	}
 }

@@ -23,14 +23,14 @@
 ***************************************************************/
 
 /**
- * Repository for country models.
+ * Repository for federal state models.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Domain_Repository_CountryRepository extends Tx_Oelib_Domain_Repository_AbstractReadOnlyRepository {
+class Tx_Oelib_Domain_Repository_FederalStateRepository extends Tx_Oelib_Domain_Repository_AbstractReadOnlyRepository {
 	/**
 	 * Initializes the repository.
 	 *
