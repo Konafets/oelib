@@ -28,7 +28,7 @@
  * @package TYPO3
  * @subpackage tx_oelib
  *
- * @author Niels Pardon Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
 	/**
