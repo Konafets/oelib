@@ -81,7 +81,7 @@ class tx_oelib_mailerFactory {
 	 * Retrieves the singleton mailer instance. Depending on the mode, this
 	 * instance is either an e-mail collector or a real mailer.
 	 *
-	 * @return tx_oelib_abstractMailer the singleton mailer object
+	 * @return tx_oelib_abstractMailer|tx_oelib_realMailer|tx_oelib_emailCollector the singleton mailer object
 	 */
 	public function getMailer() {
 		if ($this->isTestMode) {
