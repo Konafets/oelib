@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4499] Cleanup: Document that LoginManager::LoginUser also may accept NULL
 - [#4485] Fix: Add TYPO3 (and extbase) maximum version to ext_emconf.php
 - [#4444] Feature: Add a FederalState model and mapper
 - [#4454] Fix: Test failures concerning the images in the current Core master

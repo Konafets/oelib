@@ -129,11 +129,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Simulates a login of the user $user.
 	 *
-	 * This function is intended to be used for unit test only. Don't use it
-	 * in the production code.
+	 * This function is intended to be used for unit test only. Don't use it in the production code.
 	 *
-	 * @param tx_oelib_Model_FrontEndUser $user
-	 *        the user to log in, set to NULL for no logged-in user
+	 * @param tx_oelib_Model_FrontEndUser|NULL $user the user to log in, set to NULL for no logged-in user
+	 *
+	 * @return void
 	 */
 	public function logInUser(tx_oelib_Model_FrontEndUser $user = NULL) {
 		$this->loggedInUser = $user;
