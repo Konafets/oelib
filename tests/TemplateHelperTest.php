@@ -43,7 +43,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
-		$this->testingFramework->createFakeFrontEnd();
+		$pageUid = $this->testingFramework->createFrontEndPage(
+			0, array('storage_pid' => 0)
+		);
+		$this->testingFramework->createFakeFrontEnd($pageUid);
 		tx_oelib_configurationProxy::getInstance('oelib')
 			->setAsBoolean('enableConfigCheck', TRUE);
 
