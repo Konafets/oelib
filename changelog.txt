@@ -1,4 +1,5 @@
 0.7.9 - currently working on
+- [#4591] Fix: Session::setInstance must be static
 - [#4501] Cleanup: Document the different return types of the mailer factory
 - [#4502] Cleanup: Document the different return types of the header proxy factory
 - [#4485] Fix: Add TYPO3 maximum version to ext_emconf.php
