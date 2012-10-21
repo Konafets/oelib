@@ -111,8 +111,10 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 *
 	 * @param integer $type the type to set, must be either TYPE_USER or TYPE_TEMPORARY
 	 * @param tx_oelib_Session $instance the instance to set
+	 *
+	 * @return void
 	 */
-	public function setInstance($type, tx_oelib_Session $instance) {
+	public static function setInstance($type, tx_oelib_Session $instance) {
 		self::checkType($type);
 
 		self::$instances[$type] = $instance;
