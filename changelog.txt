@@ -1,4 +1,5 @@
 0.7.9 - currently working on
+- [#3996] Fix: Two tests of the templatehelperchild testcase fail
 - [#4591] Fix: Session::setInstance must be static
 - [#4501] Cleanup: Document the different return types of the mailer factory
 - [#4502] Cleanup: Document the different return types of the header proxy factory
