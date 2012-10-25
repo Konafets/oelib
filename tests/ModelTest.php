@@ -523,6 +523,85 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 
 
 	//////////////////////
+	// Tests for isEmpty
+	//////////////////////
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForLoadedEmptyObjectReturnsTrue() {
+		$this->fixture->setData(array());
+
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForLoadedNotEmptyObjectReturnsFalse() {
+		$this->fixture->setData(
+			array('foo' => 'bar')
+		);
+
+		$this->assertFalse(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForGhostLoadsModel() {
+		$this->fixture->setData(array());
+		$this->fixture->setUid(1);
+		$this->fixture->setLoadCallback(array($this, 'load'));
+		$this->fixture->isEmpty();
+
+		$this->assertTrue(
+			$this->fixture->isLoaded()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForGhostWithLoadedDataReturnsFalse() {
+		$this->fixture->setData(
+			array('foo' => 'bar')
+		);
+		$this->fixture->setUid(1);
+		$this->fixture->setLoadCallback(array($this, 'load'));
+
+		$this->assertFalse(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForGhostWithoutLoadedDataReturnsTrue() {
+		$this->fixture->setUid(1);
+		$this->fixture->setLoadCallback(array($this, 'load'));
+
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function isEmptyForVirginStateReturnsTrue() {
+		$this->assertTrue(
+			$this->fixture->isEmpty()
+		);
+	}
+
+
+	//////////////////////
 	// Tests for isDirty
 	//////////////////////
 

@@ -557,5 +557,18 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 		$this->setAsInteger('pid', $pageUid);
 	}
+
+	/**
+	 * Checks whether this model is empty.
+	 *
+	 * @return boolean TRUE if this model is empty, FALSE if it is writable
+	 */
+	public function isEmpty() {
+		if ($this->isGhost()) {
+			$this->load();
+			$this->markAsLoaded();
+		}
+		return empty($this->data);
+	}
 }
 ?>
