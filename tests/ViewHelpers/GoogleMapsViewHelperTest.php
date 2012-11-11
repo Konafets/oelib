@@ -295,7 +295,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->fixture->render(array($this->mapPointWithCoordinates));
 
 		$this->assertContains(
-			'new google.maps.LatLng(1.2, 3.4)',
+			'new google.maps.LatLng(1.200000, 3.400000)',
 			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
 		);
 	}
@@ -389,7 +389,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->fixture->render(array($this->mapPointWithCoordinates));
 
 		$this->assertContains(
-			'var center = new google.maps.LatLng(1.2, 3.4);',
+			'var center = new google.maps.LatLng(1.200000, 3.400000);',
 			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
 		);
 	}
@@ -410,7 +410,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->fixture->render(array($mapPoint1, $mapPoint2));
 
 		$this->assertContains(
-			'var center = new google.maps.LatLng(1.2, 3.4);',
+			'var center = new google.maps.LatLng(1.200000, 3.400000);',
 			$GLOBALS['TSFE']->additionalJavaScript[$this->fixture->getMapId()]
 		);
 	}

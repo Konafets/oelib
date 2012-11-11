@@ -163,8 +163,8 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 
 		return 'var mapMarkersByUid = mapMarkersByUid || {};' . LF .
 			'function ' . $initializeFunctionName . '() {' . LF .
-			'var center = new google.maps.LatLng(' . $centerCoordinates['latitude'] . ', ' .
-			$centerCoordinates['longitude'] . ');' . LF .
+			'var center = new google.maps.LatLng(' . number_format($centerCoordinates['latitude'], 6, '.', '') . ', ' .
+			number_format($centerCoordinates['longitude'], 6, '.', '') . ');' . LF .
 			'var mapOptions = {' . LF .
 			'  mapTypeId: google.maps.MapTypeId.ROADMAP,' . LF .
 			'  scrollwheel: false, ' . LF .
@@ -224,7 +224,8 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 			$coordinates = $mapPoint->getGeoCoordinates();
 			$positionVariableName = 'markerPosition_' . $index;
 			$javaScript .= 'var ' . $positionVariableName . ' = new google.maps.LatLng(' .
-				$coordinates['latitude']  . ', ' . $coordinates['longitude'] . ');' . LF .
+				number_format($coordinates['latitude'], 6, '.', '')  . ', ' .
+				number_format($coordinates['longitude'], 6, '.', '') . ');' . LF .
 				'bounds.extend(' . $positionVariableName . ');';
 
 			$markerParts = array(
