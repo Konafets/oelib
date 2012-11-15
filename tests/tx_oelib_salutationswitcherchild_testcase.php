@@ -309,38 +309,11 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('xy');
 		$this->fixture->setFallbackLanguage('de');
 
 		$this->assertSame(
 			'default_not_fallback de',
-			$this->fixture->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('xy');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback default',
 			$this->fixture->translate('default_not_fallback')
 		);
 	}
@@ -358,13 +331,6 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('');
 		$this->fixture->setFallbackLanguage('de');
 
@@ -377,59 +343,12 @@ class tx_oelib_salutationswitcherchild_testcase extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback default',
-			$this->fixture->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsFrenchTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('de');
 		$this->fixture->setFallbackLanguage('fr');
 
 		$this->assertSame(
 			'only in french fr',
-			$this->fixture->translate('only_in_french')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsDefaultTranslation() {
-		$version = class_exists('t3lib_utility_VersionNumber')
-			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
-			: t3lib_div::int_from_ver(TYPO3_version);
-		if ($version < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'only in french',
 			$this->fixture->translate('only_in_french')
 		);
 	}
