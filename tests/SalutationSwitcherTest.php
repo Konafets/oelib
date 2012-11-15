@@ -300,32 +300,11 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('xy');
 		$this->fixture->setFallbackLanguage('de');
 
 		$this->assertSame(
 			'default_not_fallback de',
-			$this->fixture->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('xy');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback default',
 			$this->fixture->translate('default_not_fallback')
 		);
 	}
@@ -343,10 +322,6 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	 * @test
 	 */
 	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('');
 		$this->fixture->setFallbackLanguage('de');
 
@@ -359,50 +334,12 @@ class tx_oelib_SalutationSwitcherTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsDefaultTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback default',
-			$this->fixture->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsFrenchTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
 		$this->fixture->setLanguage('de');
 		$this->fixture->setFallbackLanguage('fr');
 
 		$this->assertSame(
 			'only in french fr',
-			$this->fixture->translate('only_in_french')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsDefaultTranslation() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'only in french',
 			$this->fixture->translate('only_in_french')
 		);
 	}
