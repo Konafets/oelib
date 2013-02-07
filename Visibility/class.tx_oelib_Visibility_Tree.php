@@ -58,7 +58,6 @@ class tx_oelib_Visibility_Tree {
 	 * it has the value FALSE it will be invisible.
 	 * These elements represent leaves in the visibility tree.
 	 *
-	 *
 	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
@@ -90,6 +89,8 @@ class tx_oelib_Visibility_Tree {
 	 *        the tree structure as array, may be empty
 	 * @param tx_oelib_Visibility_Node $parentNode
 	 *        the parent node for the current key
+	 *
+	 * @return void
 	 */
 	private function buildTreeFromArray(
 		array $treeStructure, tx_oelib_Visibility_Node $parentNode
@@ -147,6 +148,8 @@ class tx_oelib_Visibility_Tree {
 	 *
 	 * @param array $nodeKeys
 	 *        the keys of the visible nodes, may be empty
+	 *
+	 * @return void
 	 */
 	public function makeNodesVisible(array $nodeKeys) {
 		foreach ($nodeKeys as $nodeKey) {

@@ -510,6 +510,8 @@ final class tx_oelib_testingFramework {
 	 * @param array $recordData
 	 *        associative array containing key => value pairs for those fields of the record that need to be changed,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	public function changeRecord($table, $uid, $recordData) {
 		$dummyColumnName = $this->getDummyColumnName($table);
@@ -555,6 +557,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string $table name of the table from which the record should be deleted, must not be empty
 	 * @param integer $uid UID of the record to delete, must be > 0
+	 *
+	 * @return void
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -578,6 +582,8 @@ final class tx_oelib_testingFramework {
 	 * @param integer $sorting
 	 *        sorting value of the relation, the default value is 0, which enables automatic sorting,
 	 *        a value >= 0 overwrites the automatic sorting
+	 *
+	 * @return void
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -619,6 +625,8 @@ final class tx_oelib_testingFramework {
 	 * @param integer $uidLocal UID of the record in the local table, must be > 0
 	 * @param integer $uidForeign UID of the record in the foreign table, must be > 0
 	 * @param string $columnName name of the column in which the relation counter should be updated, must not be empty
+	 *
+	 * @return void
 	 */
 	public function createRelationAndUpdateCounter(
 		$tableName, $uidLocal, $uidForeign, $columnName
@@ -677,6 +685,8 @@ final class tx_oelib_testingFramework {
 	 * @param string $table name of the table from which the record should be deleted, must not be empty
 	 * @param integer $uidLocal UID on the local table, must be > 0
 	 * @param integer $uidForeign UID on the foreign table, must be > 0
+	 *
+	 * @return void
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -702,6 +712,8 @@ final class tx_oelib_testingFramework {
 	 * issue.
 	 *
 	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
+	 *
+	 * @return void
 	 */
 	public function cleanUp($performDeepCleanUp = FALSE) {
 		$this->cleanUpTableSet(FALSE, $performDeepCleanUp);
@@ -730,6 +742,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param boolean $useSystemTables whether to clean up the system tables (TRUE) or the non-system test tables (FALSE)
 	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
+	 *
+	 * @return void
 	 */
 	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
 		if ($useSystemTables) {
@@ -763,6 +777,8 @@ final class tx_oelib_testingFramework {
 
 	/**
 	 * Deletes all dummy files and folders.
+	 *
+	 * @return void
 	 */
 	private function deleteAllDummyFoldersAndFiles() {
 		// If the upload folder was created by the testing framework, it can be
@@ -866,6 +882,8 @@ final class tx_oelib_testingFramework {
 	 * Adds a file name to $this->dummyFiles.
 	 *
 	 * @param string $uniqueFileName file name to add, must be the unique name of a dummy file, must not be empty
+	 *
+	 * @return void
 	 */
 	private function addToDummyFileList($uniqueFileName) {
 		$relativeFileName = $this->getPathRelativeToUploadDirectory(
@@ -879,6 +897,8 @@ final class tx_oelib_testingFramework {
 	 * Deletes the dummy file specified by the first parameter $fileName.
 	 *
 	 * @param string $fileName the path to the file to delete relative to $this->uploadFolderPath, must not be empty
+	 *
+	 * @return void
 	 */
 	public function deleteDummyFile($fileName) {
 		$absolutePathToFile = $this->uploadFolderPath . $fileName;
@@ -936,6 +956,8 @@ final class tx_oelib_testingFramework {
 	 * The folder must be empty (no files or subfolders).
 	 *
 	 * @param string $folderName the path to the folder to delete relative to $this->uploadFolderPath, must not be empty
+	 *
+	 * @return void
 	 */
 	public function deleteDummyFolder($folderName) {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
@@ -963,6 +985,8 @@ final class tx_oelib_testingFramework {
 
 	/**
 	 * Creates the upload folder if it does not exist yet.
+	 *
+	 * @return void
 	 */
 	private function createDummyUploadFolder() {
 		if (is_dir($this->getUploadFolderPath())) {
@@ -990,6 +1014,8 @@ final class tx_oelib_testingFramework {
 	 *        absolute path to the folder where to work on during the tests,can be either an existing folder which will be
 	 *        cleaned up after the tests or a path of a folder to be created as soon as it is needed and deleted during cleanUp,
 	 *        must end with a trailing slash
+	 *
+	 * @return void
 	 */
 	public function setUploadFolderPath($absolutePath) {
 		if (!empty($this->dummyFiles) || !empty($this->dummyFolders)) {
@@ -1141,6 +1167,8 @@ final class tx_oelib_testingFramework {
 	 * function, though.
 	 *
 	 * If no fake front end has been created, this function does nothing.
+	 *
+	 * @return void
 	 */
 	public function discardFakeFrontEnd() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1175,6 +1203,8 @@ final class tx_oelib_testingFramework {
 
 	/**
 	 * Makes sure that no FE login cookies will be sent.
+	 *
+	 * @return void
 	 */
 	private function suppressFrontEndCookies() {
 		$_POST['FE_SESSION_KEY'] = '';
@@ -1199,6 +1229,8 @@ final class tx_oelib_testingFramework {
 	 * @throws BadMethodCallException if no front end has been created
 	 *
 	 * @param integer $userId UID of the FE user, must not necessarily exist in the database, must be > 0
+	 *
+	 * @return void
 	 */
 	public function loginFrontEndUser($userId) {
 		if (intval($userId) <= 0) {
@@ -1238,6 +1270,8 @@ final class tx_oelib_testingFramework {
 	 * If no front-end user is logged in, this function does nothing.
 	 *
 	 * @throws BadMethodCallException if no front end has been created
+	 *
+	 * @return void
 	 */
 	public function logoutFrontEndUser() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1285,6 +1319,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * The array with the allowed table names is written directly to
 	 * $this->ownAllowedTables.
+	 *
+	 * @return void
 	 */
 	private function createListOfOwnAllowedTables() {
 		$this->ownAllowedTables = array();
@@ -1311,6 +1347,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * The array with the allowed table names is written directly to
 	 * $this->additionalAllowedTables.
+	 *
+	 * @return void
 	 */
 	private function createListOfAdditionalAllowedTables() {
 		$allTables = implode(',', tx_oelib_db::getAllTableNames());
@@ -1501,6 +1539,8 @@ final class tx_oelib_testingFramework {
 	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
 	 * @see resetAutoIncrementLazily
+	 *
+	 * @return void
 	 */
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1543,6 +1583,8 @@ final class tx_oelib_testingFramework {
 	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
 	 * @see resetAutoIncrement
+	 *
+	 * @return void
 	 */
 	public function resetAutoIncrementLazily($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1574,6 +1616,8 @@ final class tx_oelib_testingFramework {
 	 * @param integer $threshold threshold, must be > 0
 	 *
 	 * @see resetAutoIncrementLazily
+	 *
+	 * @return void
 	 */
 	public function setResetAutoIncrementThreshold($threshold) {
 		if ($threshold <= 0) {
@@ -1662,6 +1706,8 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @param string $tableNames
 	 *        the table name or a comma-separated list of table names to put on the list of dirty tables, must not be empty
+	 *
+	 * @return void
 	 */
 	public function markTableAsDirty($tableNames) {
 		foreach (t3lib_div::trimExplode(',', $tableNames) as $currentTable) {
@@ -1750,6 +1796,8 @@ final class tx_oelib_testingFramework {
 	 * @param string $tableName name of the table, must not be empty
 	 * @param integer $uid the UID of the record to modify, must be > 0
 	 * @param string $fieldName the field name of the field to modify, must not be empty
+	 *
+	 * @return void
 	 */
 	public function increaseRelationCounter($tableName, $uid, $fieldName) {
 		if (!$this->isTableNameAllowed($tableName)) {
@@ -1788,6 +1836,8 @@ final class tx_oelib_testingFramework {
 	 *       not available but required for a test to pass succesfully.
 	 *
 	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
+	 *
+	 * @return void
 	 */
 	public function checkForZipArchive() {
 		if (!in_array('zip', get_loaded_extensions())) {
@@ -1818,6 +1868,8 @@ final class tx_oelib_testingFramework {
 
 	/**
 	 * Purges the cached hooks.
+	 *
+	 * @return void
 	 */
 	public function purgeHooks() {
 		self::$hooks = array();

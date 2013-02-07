@@ -43,6 +43,8 @@ final class tx_oelib_tests_fixtures_ReadOnlyModel extends tx_oelib_Model {
 	 *
 	 * @param string $value
 	 *        the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);

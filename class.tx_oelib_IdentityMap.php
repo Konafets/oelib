@@ -62,6 +62,8 @@ class tx_oelib_IdentityMap {
 	 * Adds a model to the identity map.
 	 *
 	 * @param tx_oelib_Model $model the model to add, must have a UID
+	 *
+	 * @return void
 	 */
 	public function add(tx_oelib_Model $model) {
 		if (!$model->hasUid()) {

@@ -54,6 +54,8 @@ class tx_oelib_ViewHelper_Price {
 	 *
 	 * @param float $value
 	 *        the value of the price to render, may be negative, positive or zero
+	 *
+	 * @return void
 	 */
 	public function setValue($value) {
 		$this->value = $value;
@@ -65,6 +67,8 @@ class tx_oelib_ViewHelper_Price {
 	 *
 	 * @param string $isoAlpha3Code
 	 *        the ISO alpha 3 code of the currency to set, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setCurrencyFromIsoAlpha3Code($isoAlpha3Code) {
 		try {

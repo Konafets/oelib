@@ -70,8 +70,9 @@ class tx_oelib_TemplateRegistry {
 	}
 
 	/**
-	 * Purges the current instance so that getInstance will create a new
-	 * instance.
+	 * Purges the current instance so that getInstance will create a new instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		self::$instance = NULL;

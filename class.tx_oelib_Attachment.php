@@ -60,6 +60,8 @@ class tx_oelib_Attachment {
 	 *
 	 * @param string $fileName
 	 *        the file name of the attachment, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setFileName($fileName) {
 		if ($fileName == '') {
@@ -84,6 +86,8 @@ class tx_oelib_Attachment {
 	 * @param string $contentType
 	 *        the content type of the attachment, must not be empty, e.g.,
 	 *        'text/plain', 'image/jpeg' or 'application/octet-stream'
+	 *
+	 * @return void
 	 */
 	public function setContentType($contentType) {
 		if ($contentType == '') {
@@ -107,6 +111,8 @@ class tx_oelib_Attachment {
 	 *
 	 * @param string $content
 	 *        the content of the attachment, may be empty
+	 *
+	 * @return void
 	 */
 	public function setContent($content) {
 		$this->content = $content;

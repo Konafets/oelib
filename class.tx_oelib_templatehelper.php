@@ -103,6 +103,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
 	 * @param array $conf TypoScript configuration for the plugin, set to NULL to load the configuration from a BE page
+	 *
+	 * @return void
 	 */
 	public function init(array $conf = NULL) {
 		if (!$this->isInitialized) {
@@ -169,6 +171,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * If this object has no cObj and there is no front end, this function will
 	 * do nothing.
+	 *
+	 * @return void
 	 */
 	protected function ensureContentObject() {
 		if ($this->cObj instanceof tslib_cObj) {
@@ -399,6 +403,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param string $key key of the configuration property to set, must not be empty
 	 * @param mixed $value value of the configuration property, may be empty or zero
+	 *
+	 * @return void
 	 */
 	public function setConfigurationValue($key, $value) {
 		if ($key == '') {
@@ -419,6 +425,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *        key of the configuration property to set, must not be empty
 	 * @param mixed $value
 	 *        value of the configuration property, may be empty or zero
+	 *
+	 * @return void
 	 */
 	static public function setCachedConfigurationValue($key, $value) {
 		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
@@ -434,6 +442,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Purges all cached configuration values.
 	 *
 	 * This function is intended to be used for testing purposes only.
+	 *
+	 * @return void
 	 */
 	static public function purgeCachedConfigurations() {
 		self::$cachedConfigurations = array();
@@ -451,6 +461,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Ensures that $this->conf is set and that it is an array.
+	 *
+	 * @return void
 	 */
 	private function ensureConfigurationArray() {
 		if (!is_array($this->conf)) {
@@ -464,6 +476,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
 	 * @param boolean $ignoreFlexform whether the settings in the Flexform should be ignored
+	 *
+	 * @return void
 	 */
 	public function getTemplateCode($ignoreFlexform = FALSE) {
 		// Trying to fetch the template code via $this->cObj in BE mode leads to
@@ -521,6 +535,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * 'MY_SUBPART'.
 	 *
 	 * @param string $templateCode the content of the HTML template
+	 *
+	 * @return void
 	 */
 	public function processTemplate($templateCode) {
 		$this->getTemplate()->processTemplate($templateCode);
@@ -557,6 +573,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param string $content the marker's content, may be empty
 	 * @param string $prefix prefix to the marker name (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function setMarker($markerName, $content, $prefix = '') {
 		$this->getTemplate()->setMarker($markerName, $content, $prefix);
@@ -587,6 +605,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *        the subpart's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param string $content the subpart's content, may be empty
 	 * @param string $prefix prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function setSubpart($subpartName, $content, $prefix = '') {
 		try {
@@ -670,6 +690,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param string $subparts comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
 		$this->getTemplate()->hideSubparts($subparts, $prefix);
@@ -688,6 +710,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param array<string> $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function hideSubpartsArray(array $subparts, $prefix = '') {
 		$this->getTemplate()->hideSubpartsArray($subparts, $prefix);
@@ -715,6 +739,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *        comma-separated list of subpart names that shouldn't get unhidden
 	 * @param string $prefix
 	 *        prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
@@ -744,6 +770,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @param array<string> $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
 	 * @param array<string> $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function unhideSubpartsArray(
 		array $subparts, array $permanentlyHiddenSubparts = array(), $prefix = ''
@@ -890,6 +918,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * "LABEL_" (e.g. "###LABEL_FOO###"), and the corresponding localization
 	 * entry must have the same key, but lowercased and without the ###
 	 * (e.g. "label_foo").
+	 *
+	 * @return void
 	 */
 	public function setLabels() {
 		try {
@@ -911,6 +941,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * Classes are set only if they are set via TS, else the marker will be an
 	 * empty string.
+	 *
+	 * @return void
 	 */
 	public function setCss() {
 		try {
@@ -953,6 +985,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If no file is specified, no link is created.
 	 *
 	 * This function may only be called if $this->$prefixId has been set.
+	 *
+	 * @return void
 	 */
 	public function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
@@ -968,6 +1002,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 
 	/**
 	 * Resets the list of subparts to hide.
+	 *
+	 * @return void
 	 */
 	public function resetSubpartsHiding() {
 		$this->getTemplate()->resetSubpartsHiding();
@@ -1011,6 +1047,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * @param array<string> $additionalPiVars
 	 *        keys for $this->piVars that will be ensured to exist intvaled in $this->piVars as well, may be empty
+	 *
+	 * @return void
 	 */
 	protected function ensureIntegerPiVars(array $additionalPiVars = array()) {
 		if (!is_array($this->piVars)) {
@@ -1033,6 +1071,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * or invalid values.
 	 *
 	 * @param array $keys the keys of the piVars to check, may be empty
+	 *
+	 * @return void
 	 */
 	protected function ensureIntegerArrayValues(array $keys) {
 		if (empty($keys)) {
@@ -1202,6 +1242,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Sets the "flavor" of the object to check.
 	 *
 	 * @param string $flavor a short string identifying the "flavor" of the object to check (may be empty)
+	 *
+	 * @return void
 	 */
 	public function setFlavor($flavor) {
 		if ($this->configurationCheck) {
@@ -1231,6 +1273,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * If this->configurationCheck is NULL, this function is a no-op.
 	 *
 	 * @param string $message error text to set (may be empty)
+	 *
+	 * @return void
 	 */
 	protected function setErrorMessage($message) {
 		if ($this->configurationCheck) {
@@ -1318,6 +1362,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * recommend to not use this function anymore.
 	 *
 	 * @deprecated 2010-09-23
+	 *
+	 * @return void
 	 */
 	protected function setLocaleConvention() {
 		t3lib_div::logDeprecatedFunction();

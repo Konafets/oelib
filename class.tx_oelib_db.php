@@ -65,6 +65,8 @@ class tx_oelib_db {
 
 	/**
 	 * Enables query logging in TYPO3's DB class.
+	 *
+	 * @return void
 	 */
 	public static function enableQueryLogging() {
 		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
@@ -130,6 +132,8 @@ class tx_oelib_db {
 
 	/**
 	 * Makes sure that self::$pageForEnableFields is a page object.
+	 *
+	 * @return void
 	 */
 	private static function retrievePageForEnableFields() {
 		if (!is_object(self::$pageForEnableFields)) {
@@ -549,6 +553,8 @@ class tx_oelib_db {
 	 *
 	 * This function does nothing if the table names already have been
 	 * retrieved.
+	 *
+	 * @return void
 	 */
 	private static function retrieveTableNames() {
 		if (!empty(self::$tableNameCache)) {
@@ -621,6 +627,8 @@ class tx_oelib_db {
 	 *
 	 * @param string $table
 	 *        the name of the table for which the column names should be retrieved, must not be empty
+	 *
+	 * @return void
 	 */
 	private static function retrieveColumnsForTable($table) {
 		if (!isset(self::$tableColumnCache[$table])) {

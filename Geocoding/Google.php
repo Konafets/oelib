@@ -107,6 +107,8 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	 *
 	 * @param tx_oelib_Interface_GeocodingLookup $instance
 	 *        the instance which getInstance() should return
+	 *
+	 * @return void
 	 */
 	public static function setInstance(tx_oelib_Interface_GeocodingLookup $instance) {
 		self::$instance = $instance;
@@ -114,6 +116,8 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 
 	/**
 	 * Purges the current GoogleMaps look-up instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (is_object(self::$instance)) {
@@ -182,6 +186,8 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	/**
 	 * Makes sure the necessary amount of time has passed since the last
 	 * geocoding request.
+	 *
+	 * @return void
 	 */
 	protected function throttle() {
 		if (self::$lastGeocodingTimestamp > 0.00) {

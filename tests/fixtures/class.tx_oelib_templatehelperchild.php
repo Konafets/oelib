@@ -67,6 +67,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 *
 	 * @param string $salutation
 	 *        the salutation mode to use ("formal" or "informal")
+	 *
+	 * @return void
 	 */
 	public function setSalutationMode($salutation) {
 		$this->setConfigurationValue('salutation', $salutation);
@@ -121,6 +123,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 *
 	 * @param array $additionalPiVars
 	 *        keys for $this->piVars that will be intvaled as well
+	 *
+	 * @return void
 	 */
 	public function securePiVars(array $additionalPiVars = array()) {
 		parent::securePiVars($additionalPiVars);
@@ -136,6 +140,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * @param array $additionalPiVars
 	 *        keys for $this->piVars that will be ensured to exist intvaled in
 	 *        $this->piVars as well
+	 *
+	 * @return void
 	 */
 	public function ensureIntegerPiVars(array $additionalPiVars = array()) {
 		parent::ensureIntegerPiVars($additionalPiVars);
@@ -146,6 +152,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 * or invalid values.
 	 *
 	 * @param array $keys the keys of the piVars to check, may be empty
+	 *
+	 * @return void
 	 */
 	public function ensureIntegerArrayValues(array $keys) {
 		parent::ensureIntegerArrayValues($keys);
@@ -161,6 +169,8 @@ final class tx_oelib_templatehelperchild extends tx_oelib_templatehelper {
 	 *
 	 * If this object has no cObj and there is no front end, this function will
 	 * do nothing.
+	 *
+	 * @return void
 	 */
 	public function ensureContentObject() {
 		parent::ensureContentObject();

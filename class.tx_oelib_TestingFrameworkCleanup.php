@@ -35,6 +35,8 @@
 class tx_oelib_TestingFrameworkCleanup {
 	/**
 	 * Cleans up oelib after running a test.
+	 *
+	 * @return void
 	 */
 	public function cleanUp() {
 		tx_oelib_configurationProxy::purgeInstances();

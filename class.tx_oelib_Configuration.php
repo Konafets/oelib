@@ -65,6 +65,8 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 	 *
 	 * @param array $data
 	 *        the data for this configuration, may be empty
+	 *
+	 * @return void
 	 */
 	public function setData(array $data) {
 		$this->data = $data;
@@ -77,6 +79,8 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 	 *        the key of the data item to get, must not be empty
 	 * @param mixed $value
 	 *        the data for the key $key
+	 *
+	 * @return void
 	 */
 	public function set($key, $value) {
 		if ($key == '') {

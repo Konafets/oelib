@@ -112,6 +112,8 @@ class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
 	 * Sets the return value for sendEmail().
 	 *
 	 * @param boolean $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
+	 *
+	 * @return void
 	 */
 	public function setFakedReturnValue($isSuccessful) {
 		$this->fakeSuccess = $isSuccessful;

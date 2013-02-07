@@ -580,6 +580,8 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 *
 	 * @param tx_oelib_Model_Country $country
 	 *        the country to set for this place, can be NULL for "no country"
+	 *
+	 * @return void
 	 */
 	public function setCountry(tx_oelib_Model_Country $country = NULL) {
 		$countryCode = ($country !== NULL) ? $country->getIsoAlpha3Code() : '';

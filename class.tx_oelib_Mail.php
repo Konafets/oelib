@@ -89,6 +89,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 *
 	 * @param string $key the key of the data item to set, must not be empty
 	 * @param mixed $value the data for the key $key
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
@@ -114,6 +116,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Sets the sender of the e-mail.
 	 *
 	 * @param tx_oelib_Interface_MailRole $sender the sender of the e-mail
+	 *
+	 * @return void
 	 */
 	public function setSender(tx_oelib_Interface_MailRole $sender) {
 		$this->sender = $sender;
@@ -142,6 +146,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Adds a recipient for the e-mail.
 	 *
 	 * @param tx_oelib_Interface_MailRole $recipient a recipient for the e-mail, must not be empty
+	 *
+	 * @return void
 	 */
 	public function addRecipient(tx_oelib_Interface_MailRole $recipient) {
 		$this->recipients[] = $recipient;
@@ -161,6 +167,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Sets the subject of the e-mail.
 	 *
 	 * @param string $subject the subject of the e-mail, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setSubject($subject) {
 		if ($subject == '') {
@@ -188,6 +196,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Sets the message of the e-mail.
 	 *
 	 * @param string $message the message of the e-mail, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setMessage($message) {
 		if ($message == '') {
@@ -220,6 +230,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Sets the HTML message of the e-mail.
 	 *
 	 * @param string $message the HTML message of the e-mail, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setHTMLMessage($message) {
 		if ($message == '') {
@@ -259,6 +271,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Adds an attachment to the e-mail.
 	 *
 	 * @param tx_oelib_Attachment $attachment the attachment to add
+	 *
+	 * @return void
 	 */
 	public function addAttachment(tx_oelib_Attachment $attachment) {
 		$this->attachments[] = $attachment;
@@ -277,6 +291,8 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * Sets the CSS file for sending an e-mail.
 	 *
 	 * @param string $cssFile the complete path to a valid CSS file, may be empty
+	 *
+	 * @return void
 	 */
 	public function setCssFile($cssFile) {
 		if (!$this->cssFileIsCached($cssFile)) {
@@ -331,8 +347,9 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	 * value.
 	 * If an empty string is given this function is a no-op.
 	 *
-	 * @param string $returnPath the e-mail address for the return path, may be
-	 *               empty
+	 * @param string $returnPath the e-mail address for the return path, may be empty
+	 *
+	 * @return void
 	 */
 	public function setReturnPath($returnPath) {
 		if ($returnPath == '') {

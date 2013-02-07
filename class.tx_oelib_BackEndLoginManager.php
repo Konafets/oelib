@@ -73,6 +73,8 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -125,6 +127,8 @@ class tx_oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *
 	 * @param tx_oelib_Model_BackEndUser $loggedInUser
 	 *        the fake logged-in back-end user
+	 *
+	 * @return void
 	 */
 	public function setLoggedInUser(tx_oelib_Model_BackEndUser $loggedInUser) {
 		$this->loggedInUser = $loggedInUser;

@@ -75,6 +75,8 @@ class tx_oelib_Visibility_Node {
 	 * Adds a child to this node.
 	 *
 	 * @param tx_oelib_Visibility_Node $child the child to add to this node
+	 *
+	 * @return void
 	 */
 	public function addChild(tx_oelib_Visibility_Node $child) {
 		$this->children[] = $child;
@@ -87,6 +89,8 @@ class tx_oelib_Visibility_Node {
 	 * The parent can only be set once.
 	 *
 	 * @param tx_oelib_Visibility_Node $parentNode the parent node to add
+	 *
+	 * @return void
 	 */
 	public function setParent(tx_oelib_Visibility_Node $parentNode) {
 		if ($this->parentNode instanceof tx_oelib_Visibility_Node) {
@@ -108,6 +112,8 @@ class tx_oelib_Visibility_Node {
 	/**
 	 * Marks this node as visible and propagates the visibility recursively to
 	 * the parent up to the root.
+	 *
+	 * @return void
 	 */
 	public function markAsVisible() {
 		$this->isVisible = TRUE;

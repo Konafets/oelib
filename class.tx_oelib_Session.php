@@ -126,6 +126,8 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 * @throws InvalidArgumentException if $type is neither ::TYPE_USER nor ::TYPE_TEMPORARY
 	 *
 	 * @param integer $type the type ID to check
+	 *
+	 * @return void
 	 */
 	protected static function checkType($type) {
 		if (($type != self::TYPE_USER) && ($type != self::TYPE_TEMPORARY)) {
@@ -134,8 +136,9 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	}
 
 	/**
-	 * Purges the instances of all types so that getInstance will create new
-	 * instances.
+	 * Purges the instances of all types so that getInstance will create new instances.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstances() {
 		foreach (self::$instances as $key => $instance) {
@@ -166,6 +169,8 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
 	 * @param mixed $value the data for the key $key
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		$GLOBALS['TSFE']->fe_user->setKey(

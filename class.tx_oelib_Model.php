@@ -152,6 +152,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * 3. before a new model should be saved to the database
 	 *
 	 * @param array $data the data for this model, may be empty
+	 *
+	 * @return void
 	 */
 	public function setData(array $data) {
 		if ($this->isLoaded()) {
@@ -188,14 +190,17 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Marks this model as "loaded", ie. that it has some real data.
+	 *
+	 * @return void
 	 */
 	protected function markAsLoaded() {
 		$this->loadStatus = self::STATUS_LOADED;
 	}
 
 	/**
-	 * Marks this model as "dead", ie. that retrieving its data from the DB has
-	 * failed.
+	 * Marks this model as "dead", ie. that retrieving its data from the DB has failed.
+	 *
+	 * @return void
 	 */
 	public function markAsDead() {
 		$this->loadStatus = self::STATUS_DEAD;
@@ -211,6 +216,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * to ghost.
 	 *
 	 * @param integer $uid the UID to set, must be > 0
+	 *
+	 * @return void
 	 */
 	public function setUid($uid) {
 		if ($this->hasUid()) {
@@ -228,6 +235,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
 	 * @param mixed $value the data for the key $key
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		if ($key == 'deleted') {
@@ -341,6 +350,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Makes sure this model has some data by loading the data for ghost models.
+	 *
+	 * @return void
 	 */
 	private function load() {
 		if ($this->isVirgin()) {
@@ -427,6 +438,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Marks this model as hidden.
+	 *
+	 * @return void
 	 */
 	public function markAsHidden() {
 		$this->setAsBoolean('hidden', TRUE);
@@ -434,6 +447,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Marks this model as visible (= not hidden).
+	 *
+	 * @return void
 	 */
 	public function markAsVisible() {
 		$this->setAsBoolean('hidden', FALSE);
@@ -443,6 +458,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * Sets the callback function for loading this model with data.
 	 *
 	 * @param array $callback the callback function for loading this model with data
+	 *
+	 * @return void
 	 */
 	public function setLoadCallback(array $callback) {
 		$this->loadCallback = $callback;
@@ -461,6 +478,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Marks this model's data as clean.
+	 *
+	 * @return void
 	 */
 	public function markAsClean() {
 		$this->isDirty = FALSE;
@@ -468,6 +487,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Marks this model's data as dirty.
+	 *
+	 * @return void
 	 */
 	public function markAsDirty() {
 		$this->isDirty = TRUE;
@@ -487,6 +508,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * Sets the "deleted" property for the current model.
 	 *
 	 * Note: This function is intended to be called only by a data mapper.
+	 *
+	 * @return void
 	 */
 	public function setToDeleted() {
 		if ($this->isLoaded()) {
@@ -517,6 +540,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Sets the the modification date and time.
+	 *
+	 * @return void
 	 */
 	public function setTimestamp() {
 		$this->setAsInteger('tstamp', $GLOBALS['SIM_EXEC_TIME']);
@@ -524,6 +549,8 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 
 	/**
 	 * Sets the the creation date and time.
+	 *
+	 * @return void
 	 */
 	public function setCreationDate() {
 		if ($this->hasUid()) {

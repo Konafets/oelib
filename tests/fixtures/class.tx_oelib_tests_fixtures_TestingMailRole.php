@@ -65,6 +65,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 *        the key of the data item to set, must not be empty
 	 * @param mixed $value
 	 *        the data for the key $key
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		$this->data[$key] = $value;
@@ -101,6 +103,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 *
 	 * @param string $name
 	 *        the real name of the e-mail role, may be empty
+	 *
+	 * @return void
 	 */
 	public function setName($name) {
 		$this->setAsString('name', $name);
@@ -120,6 +124,8 @@ class tx_oelib_tests_fixtures_TestingMailRole extends tx_oelib_Object implements
 	 *
 	 * @param string $eMail
 	 *        the e-mail address of the e-mail role, may be empty
+	 *
+	 * @return void
 	 */
 	public function setEmailAddress($eMail) {
 		$this->setAsString('email', $eMail);

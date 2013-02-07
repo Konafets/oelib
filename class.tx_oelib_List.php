@@ -90,6 +90,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * The model to add need not necessarily have a UID.
 	 *
 	 * @param tx_oelib_Model $model the model to add, need not have a UID
+	 *
+	 * @return void
 	 */
 	public function add(tx_oelib_Model $model) {
 		$this->attach($model);
@@ -159,6 +161,8 @@ class tx_oelib_List extends SplObjectStorage {
 	/**
 	 * Checks whether the UID list cache needs to be rebuild and does so if
 	 * necessary.
+	 *
+	 * @return void
 	 */
 	private function checkUidCache() {
 		if ($this->hasItemWithoutUid) {
@@ -168,6 +172,8 @@ class tx_oelib_List extends SplObjectStorage {
 
 	/**
 	 * Rebuilds the UID cache.
+	 *
+	 * @return void
 	 */
 	private function rebuildUidCache() {
 		$this->hasItemWithoutUid = FALSE;
@@ -191,6 +197,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * one and 0 means the parameters stay in order.
 	 *
 	 * @param mixed $callbackFunction a callback function to use with the models stored in the list, must not be empty
+	 *
+	 * @return void
 	 */
 	public function sort($callbackFunction) {
 		$items = iterator_to_array($this, FALSE);
@@ -212,6 +220,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * no object is added more than once to it.
 	 *
 	 * @param tx_oelib_List $list the list to append, may be empty
+	 *
+	 * @return void
 	 */
 	public function append(tx_oelib_List $list) {
 		foreach ($list as $item) {
@@ -226,6 +236,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * @param tx_oelib_List $list the list to append, may be empty
 	 *
 	 * @deprecated 2010-05-27 use append() instead
+	 *
+	 * @return void
 	 */
 	public function appendUnique(tx_oelib_List $list) {
 		t3lib_div::logDeprecatedFunction();
@@ -243,6 +255,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 *
 	 * If the pointer does not point to a valid element, this function is a
 	 * no-op.
+	 *
+	 * @return void
 	 */
 	public function purgeCurrent() {
 		if (!$this->valid()) {
@@ -265,6 +279,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 * Sets the model this list belongs to.
 	 *
 	 * @param tx_oelib_Model $model the model this list belongs to
+	 *
+	 * @return void
 	 */
 	public function setParentModel(tx_oelib_Model $model) {
 		$this->parentModel = $model;
@@ -272,6 +288,8 @@ class tx_oelib_List extends SplObjectStorage {
 
 	/**
 	 * Marks the parent model as dirty.
+	 *
+	 * @return void
 	 */
 	protected function markAsDirty() {
 		if ($this->parentModel instanceof tx_oelib_Model) {
@@ -284,6 +302,8 @@ class tx_oelib_List extends SplObjectStorage {
 	 *
 	 * This function may only be used if all items in this list implement the
 	 * tx_oelib_Interface_Sortable interface.
+	 *
+	 * @return void
 	 */
 	public function sortBySorting() {
 		$this->sort(array($this, 'compareSortings'));

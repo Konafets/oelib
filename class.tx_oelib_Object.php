@@ -49,6 +49,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
 	 * @param mixed $value the data for the key $key
+	 *
+	 * @return void
 	 */
 	abstract protected function set($key, $value);
 
@@ -58,6 +60,8 @@ abstract class tx_oelib_Object {
 	 * @throws InvalidArgumentException if $key is empty
 	 *
 	 * @param string $key the key to check
+	 *
+	 * @return void
 	 */
 	protected function checkForNonEmptyKey($key) {
 		if ($key == '') {
@@ -95,6 +99,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	protected function setAsString($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -133,6 +139,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	protected function setAsInteger($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -183,6 +191,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @see getAsTrimmedArray
 	 * @see getAsIntegerArray
+	 *
+	 * @return void
 	 */
 	protected function setAsArray($key, array $value) {
 		$this->setAsString($key, implode(',', $value));
@@ -206,6 +216,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	protected function setAsBoolean($key, $value) {
 		$this->checkForNonEmptyKey($key);
@@ -244,6 +256,8 @@ abstract class tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	protected function setAsFloat($key, $value) {
 		$this->checkForNonEmptyKey($key);

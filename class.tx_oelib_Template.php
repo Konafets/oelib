@@ -87,6 +87,8 @@ class tx_oelib_Template {
 	 * stores it and retrieves all subparts, writing them to $this->subparts.
 	 *
 	 * @param string $fileName the file name of the HTML template to process, must be an existing file, must not be empty
+	 *
+	 * @return void
 	 */
 	public function processTemplateFromFile($fileName) {
 		$this->processTemplate(
@@ -106,6 +108,8 @@ class tx_oelib_Template {
 	 * 'MY_SUBPART'.
 	 *
 	 * @param string $templateCode the content of the HTML template
+	 *
+	 * @return void
 	 */
 	public function processTemplate($templateCode) {
 		$this->templateCode = $templateCode;
@@ -118,6 +122,8 @@ class tx_oelib_Template {
 	 * $this->subparts.
 	 *
 	 * @param string $templateCode the template code to process, may be empty
+	 *
+	 * @return void
 	 */
 	private function extractSubparts($templateCode) {
 		// If there are no HTML comments in  the template code, there cannot be
@@ -145,6 +151,8 @@ class tx_oelib_Template {
 	/**
 	 * Finds all markers within the current HTML template and writes their names
 	 * to $this->markerNames.
+	 *
+	 * @return void
 	 */
 	private function findMarkers() {
 		$matches = array();
@@ -194,6 +202,8 @@ class tx_oelib_Template {
 	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param string $content the marker's content, may be empty
 	 * @param string $prefix prefix to the marker name (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function setMarker($markerName, $content, $prefix = '') {
 		$unifiedMarkerName = $this->createMarkerName($markerName, $prefix);
@@ -233,6 +243,8 @@ class tx_oelib_Template {
 	 *        the subpart's name without the ### signs, case-insensitive, will get uppercased, must not be empty
 	 * @param string $content the subpart's content, may be empty
 	 * @param string $prefix prefix to the subpart name (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function setSubpart($subpartName, $content, $prefix = '') {
 		$subpartName = $this->createMarkerNameWithoutHashes(
@@ -320,6 +332,8 @@ class tx_oelib_Template {
 	 *
 	 * @param string $subparts comma-separated list of at least 1 subpart name to hide (case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
 		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
@@ -340,6 +354,8 @@ class tx_oelib_Template {
 	 *
 	 * @param array<string> $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function hideSubpartsArray(array $subparts, $prefix = '') {
 		foreach ($subparts as $currentSubpartName) {
@@ -374,6 +390,8 @@ class tx_oelib_Template {
 	 *        comma-separated list of subpart names that shouldn't get unhidden
 	 * @param string $prefix
 	 *        prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
@@ -407,6 +425,8 @@ class tx_oelib_Template {
 	 * @param array<string> $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
 	 * @param array<string> $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
+	 *
+	 * @return void
 	 */
 	public function unhideSubpartsArray(
 		array $subparts, array $permanentlyHiddenSubparts = array(), $prefix = ''
@@ -682,6 +702,8 @@ class tx_oelib_Template {
 
 	/**
 	 * Resets the list of subparts to hide.
+	 *
+	 * @return void
 	 */
 	public function resetSubpartsHiding() {
 		$this->subpartsToHide = array();

@@ -120,7 +120,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @ŧest
+	 * @test
 	 */
 	public function getLeftSymbolForCurrencyWithLeftSymbolReturnsLeftSymbol() {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
@@ -175,7 +175,7 @@ class tx_oelib_Model_CurrencyTest extends tx_phpunit_testcase {
 	}
 
 	/**
-	 * @ŧest
+	 * @test
 	 */
 	public function getRightSymbolForCurrencyWithRightSymbolReturnsRightSymbol() {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->

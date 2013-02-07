@@ -94,6 +94,8 @@ class tx_oelib_configcheck {
 	 *
 	 * @param string $flavor
 	 *        a short string identifying the "flavor" of the object to check (may be empty)
+	 *
+	 * @return void
 	 */
 	public function setFlavor($flavor) {
 		$this->flavor = $flavor;
@@ -156,6 +158,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Calls the correct configuration checks, depending on the class name of
 	 * $this->objectToCheck and (if applicable) on $this->flavor.
+	 *
+	 * @return void
 	 */
 	protected function checkByClassNameAndFlavor() {
 		$checkFunctionName = 'check_'.$this->className;
@@ -186,6 +190,8 @@ class tx_oelib_configcheck {
 	 * this function is a no-op.
 	 *
 	 * @param string $message error text to set (may be empty)
+	 *
+	 * @return void
 	 */
 	public function setErrorMessage($message) {
 		if (!empty($message) && empty($this->errorText)) {
@@ -206,6 +212,8 @@ class tx_oelib_configcheck {
 	 *        mentioned in the error message)
 	 * @param string $explanation
 	 *        error text to set (may be empty)
+	 *
+	 * @return void
 	 */
 	protected function setErrorMessageAndRequestCorrection(
 		$fieldName, $canUseFlexforms, $explanation
@@ -284,6 +292,8 @@ class tx_oelib_configcheck {
 
 	/**
 	 * Checks whether the static template has been included.
+	 *
+	 * @return void
 	 */
 	protected function checkStaticIncluded() {
 		if (!$this->objectToCheck->getConfValueBoolean('isStaticTemplateLoaded')) {
@@ -302,6 +312,8 @@ class tx_oelib_configcheck {
 	 *
 	 * @param boolean $canUseFlexforms
 	 *        whether the template can also be selected via flexforms
+	 *
+	 * @return void
 	 */
 	protected function checkTemplateFile($canUseFlexforms = FALSE) {
 		if (TYPO3_MODE == 'BE') {
@@ -348,6 +360,8 @@ class tx_oelib_configcheck {
 	 * Checks whether the CSS file (if a name is provided) actually is a file.
 	 * If no file name is provided, no error will be displayed as this is
 	 * perfectly allowed.
+	 *
+	 * @return void
 	 */
 	protected function checkCssFileFromConstants() {
 		if ($this->objectToCheck->hasConfValueString('cssFile')) {
@@ -384,6 +398,8 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks the CSS class names provided in the TS setup for validity.
 	 * Empty values are considered as valid.
+	 *
+	 * @return void
 	 */
 	protected function checkCssClassNames() {
 		$cssEntries = $this->objectToCheck->getPrefixedMarkers('class');
@@ -421,6 +437,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for
 	 *        and why it needs to be non-empty, must not be empty
+	 *
+	 * @return void
 	 */
 	public function checkForNonEmptyString(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -450,6 +468,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for
 	 *        and why it needs to be non-empty, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkForNonEmptyStringValue(
 		$value, $fieldName, $canUseFlexforms, $explanation
@@ -483,6 +503,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleInSetNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
@@ -519,6 +541,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleInSetOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
@@ -553,6 +577,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleInSetOrEmptyValue(
 		$value, $fieldName, $canUseFlexforms, $explanation, array $allowedValues
@@ -588,6 +614,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfBoolean($fieldName, $canUseFlexforms, $sheet, $explanation) {
 		$this->checkIfSingleInSetNotEmpty(
@@ -613,6 +641,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfInteger($fieldName, $canUseFlexforms, $sheet, $explanation) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
@@ -651,6 +681,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfIntegerInRange(
 		$fieldName,
@@ -701,6 +733,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPositiveIntegerValue(
 		$value, $fieldName, $canUseFlexforms, $explanation
@@ -741,6 +775,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPositiveInteger(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -769,6 +805,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPositiveIntegerOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -804,6 +842,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPositiveIntegerOrZero(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -850,6 +890,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfMultiInSetNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
@@ -886,6 +928,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfMultiInSetOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
@@ -934,6 +978,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $tableName
 	 *        a DB table name (must not be empty)
+	 *
+	 * @return void
 	 */
 	public function checkIfSingleInTableNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
@@ -964,6 +1010,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $tableName
 	 *        a DB table name (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleInTableOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
@@ -994,6 +1042,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $tableName
 	 *        a DB table name (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfMultiInTableNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
@@ -1024,6 +1074,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $tableName
 	 *        a DB table name (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkIfMultiInTableOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $tableName
@@ -1043,6 +1095,8 @@ class tx_oelib_configcheck {
 	 * @param boolean $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
+	 *
+	 * @return void
 	 */
 	protected function checkSalutationMode($canUseFlexforms = FALSE) {
 		$this->checkIfSingleInSetNotEmpty(
@@ -1105,6 +1159,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $regExp
 	 *        a regular expression (including the delimiting slashes)
+	 *
+	 * @return void
 	 */
 	protected function checkRegExp(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $regExp
@@ -1141,6 +1197,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param string $regExp
 	 *        a regular expression (including the delimiting slashes)
+	 *
+	 * @return void
 	 */
 	protected function checkRegExpNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $regExp
@@ -1175,6 +1233,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPidListOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1203,6 +1263,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfPidListNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1236,6 +1298,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfFePagesNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1269,6 +1333,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleFePageNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1302,6 +1368,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleFePageOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1330,6 +1398,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfFePagesOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1369,6 +1439,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSysFoldersNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1402,6 +1474,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleSysFolderNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1435,6 +1509,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSingleSysFolderOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1468,6 +1544,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkIfSysFoldersOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation
@@ -1513,6 +1591,8 @@ class tx_oelib_configcheck {
 	 *        a comparison operator with a value that will be used in a SQL
 	 *        query to check for the correct page types, for example "<199" or
 	 *        "=254", must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkPageTypeOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $explanation, $typeCondition
@@ -1557,8 +1637,9 @@ class tx_oelib_configcheck {
 	/**
 	 * Checks whether CSS Styled Content is installed and active.
 	 *
-	 * TODO: Some of this can be simplified by asking the EM whether CSC is
-	 * loaded.
+	 * TODO: Some of this can be simplified by asking the EM whether CSC is loaded.
+	 *
+	 * @return void
 	 */
 	protected function checkCssStyledContent() {
 		if (isset($GLOBALS['TSFE'])) {
@@ -1578,6 +1659,8 @@ class tx_oelib_configcheck {
 	 *
 	 * @param array<string> $allowedSortFields
 	 *        allowed sort keys for the list view, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkListView(array $allowedSortFields) {
 		$fieldName = 'listView.';
@@ -1637,6 +1720,8 @@ class tx_oelib_configcheck {
 	 *        must not be empty
 	 * @param array $allowedValues
 	 *        allowed values (must not be empty)
+	 *
+	 * @return void
 	 */
 	protected function checkListViewIfSingleInSetNotEmpty(
 		$fieldName, $explanation, array $allowedValues
@@ -1668,6 +1753,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkListViewIfPositiveInteger($fieldName, $explanation) {
 		$fieldSubPath = 'listView.'.$fieldName;
@@ -1683,6 +1770,8 @@ class tx_oelib_configcheck {
 
 	/**
 	 * Checks whether the locale is set correctly.
+	 *
+	 * @return void
 	 */
 	public function checkLocale() {
 		// Skip this check if Windows is used to avoid a crash of the
@@ -1782,6 +1871,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	public function checkIsValidEmailOrEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $unused, $explanation
@@ -1818,6 +1909,8 @@ class tx_oelib_configcheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	public function checkIsValidEmailNotEmpty(
 		$fieldName, $canUseFlexforms, $sheet, $allowInternalAddresses, $explanation

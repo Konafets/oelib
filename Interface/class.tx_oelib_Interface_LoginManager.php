@@ -44,6 +44,8 @@ interface tx_oelib_Interface_LoginManager {
 	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance();
 

@@ -62,6 +62,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setAsString($key, $value) {
 		parent::setAsString($key, $value);
@@ -96,6 +98,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setAsInteger($key, $value) {
 		parent::setAsInteger($key, $value);
@@ -138,6 +142,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @see getAsTrimmedArray
 	 * @see getAsIntegerArray
+	 *
+	 * @return void
 	 */
 	public function setAsArray($key, array $value) {
 		parent::setAsArray($key, $value);
@@ -159,6 +165,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setAsBoolean($key, $value) {
 		parent::setAsBoolean($key, $value);
@@ -193,6 +201,8 @@ abstract class tx_oelib_PublicObject extends tx_oelib_Object {
 	 *
 	 * @param string $key the key of the element to set, must not be empty
 	 * @param mixed $value the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setAsFloat($key, $value) {
 		parent::setAsFloat($key, $value);

@@ -76,6 +76,8 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * Adds the headers to the static test e-mail as LF cannot be used when it
 	 * is defined.
+	 *
+	 * @return void
 	 */
 	private function addHeadersToTestEmail() {
 		self::$email['headers'] = 'From: any-sender@email-address.org' . LF .

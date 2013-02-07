@@ -125,6 +125,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	/**
 	 * Checks whether the extension user_oelibtest is currently loaded and lets
 	 * a test fail if the extension is not loaded.
+	 *
+	 * @return void
 	 */
 	private function checkIfExtensionUserOelibtestIsLoaded() {
 		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
@@ -139,6 +141,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	/**
 	 * Checks whether the extension user_oelibtest2 is currently loaded and lets
 	 * a test fail if the extension is not loaded.
+	 *
+	 * @return void
 	 */
 	private function checkIfExtensionUserOelibtest2IsLoaded() {
 		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
@@ -152,6 +156,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	/**
 	 * Deletes a "foreign" file which was created for test purposes.
+	 *
+	 * @return void
 	 */
 	private function deleteForeignFile() {
 		if ($this->foreignFileToDelete == '') {
@@ -164,6 +170,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	/**
 	 * Deletes a "foreign" folder which was created for test purposes.
+	 *
+	 * @return void
 	 */
 	private function deleteForeignFolder() {
 		if ($this->foreignFolderToDelete == '') {
@@ -177,6 +185,8 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	/**
 	 * Marks a test as skipped if the ZIPArchive class is not available in the
 	 * PHP installation.
+	 *
+	 * @return void
 	 */
 	private function markAsSkippedForNoZipArchive() {
 		try {
@@ -187,9 +197,9 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding markTableAsDirty()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding markTableAsDirty()
+	 */
 
 	public function testMarkTableAsDirty() {
 		$this->assertSame(

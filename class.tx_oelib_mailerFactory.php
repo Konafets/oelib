@@ -100,8 +100,9 @@ class tx_oelib_mailerFactory {
 	}
 
 	/**
-	 * Purges the current instance so that getInstance will create a new
-	 * instance.
+	 * Purges the current instance so that getInstance will create a new instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -112,6 +113,8 @@ class tx_oelib_mailerFactory {
 
 	/**
 	 * Enables the test mode.
+	 *
+	 * @return void
 	 */
 	public function enableTestMode() {
 		$this->isTestMode = TRUE;

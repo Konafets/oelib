@@ -73,6 +73,8 @@ class tx_oelib_tests_fixtures_TestingGeo extends tx_oelib_Model implements tx_oe
 	 * @param string $address
 	 *        the address to set, for example
 	 *        "Pariser Str. 50, 53117 Auerberg, Bonn, DE", may be empty
+	 *
+	 * @return void
 	 */
 	public function setGeoAddress($address) {
 		$this->address = $address;
@@ -128,6 +130,8 @@ class tx_oelib_tests_fixtures_TestingGeo extends tx_oelib_Model implements tx_oe
 	 *
 	 * Note: Calling this function has no influence on this object's geo error
 	 * status.
+	 *
+	 * @return void
 	 */
 	public function clearGeoCoordinates() {
 		$this->coordinates = array();
@@ -148,6 +152,8 @@ class tx_oelib_tests_fixtures_TestingGeo extends tx_oelib_Model implements tx_oe
 
 	/**
 	 * Marks this object as having an error with the geo coordinates.
+	 *
+	 * @return void
 	 */
 	public function setGeoError() {
 		$this->hasGeoError = TRUE;
@@ -155,6 +161,8 @@ class tx_oelib_tests_fixtures_TestingGeo extends tx_oelib_Model implements tx_oe
 
 	/**
 	 * Marks this object as not having an error with the geo coordinates.
+	 *
+	 * @return void
 	 */
 	public function clearGeoError() {
 		$this->hasGeoError = FALSE;

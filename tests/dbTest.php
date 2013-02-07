@@ -176,6 +176,8 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 * implemented in oelib.
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2180
+	 *
+	 * @return void
 	 */
 	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
 		$this->markTestSkipped(

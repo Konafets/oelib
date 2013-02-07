@@ -62,6 +62,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	 * @param string $language
 	 *        two-letter lowercase language like "en" or "de" or "default"
 	 *        (which is an alias for "en")
+	 *
+	 * @return void
 	 */
 	public function setLanguage($language) {
 		if ($this->getLanguage() != $language) {
@@ -91,6 +93,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	 * @param string $language
 	 *        two-letter lowercase fallback language like "en" or "de" or
 	 *        "default" (which is an alias for "en")
+	 *
+	 * @return void
 	 */
 	public function setFallbackLanguage($language) {
 		if ($this->getFallbackLanguage() != $language) {
@@ -119,6 +123,8 @@ final class tx_oelib_salutationswitcherchild extends tx_oelib_salutationswitcher
 	 *
 	 * @param string $salutation
 	 *        the salutation mode to use ("formal" or "informal")
+	 *
+	 * @return void
 	 */
 	public function setSalutationMode($salutation) {
 		$this->conf['salutation'] = $salutation;

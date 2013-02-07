@@ -79,6 +79,8 @@ class tx_oelib_FakeSession extends tx_oelib_Session {
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
 	 * @param mixed $value the data for the key $key
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		$this->sessionData[$key] = $value;

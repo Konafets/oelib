@@ -38,6 +38,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param string $value
 	 *        the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);
@@ -122,6 +124,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 *
 	 * @param tx_oelib_tests_fixtures_TestingModel $friend
 	 *        the "friend" data item to set
+	 *
+	 * @return void
 	 */
 	public function setFriend(tx_oelib_tests_fixtures_TestingModel $friend) {
 		$this->set('friend', $friend);
@@ -215,6 +219,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	 * Sets the deleted property via set().
 	 *
 	 * Note: This function is expected to fail.
+	 *
+	 * @return void
 	 */
 	public function setDeletedPropertyUsingSet() {
 		$this->setAsBoolean('deleted', TRUE);
@@ -222,6 +228,8 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 
 	/**
 	 * Sets the dummy column to TRUE.
+	 *
+	 * @return void
 	 */
 	public function markAsDummyModel() {
 		$this->set('is_dummy_record', TRUE);

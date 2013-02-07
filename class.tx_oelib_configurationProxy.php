@@ -99,16 +99,19 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	}
 
 	/**
-	 * Purges the current instances so that getInstance will create new
-	 * instances.
+	 * Purges the current instances so that getInstance will create new instances.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstances() {
 		self::$instances = array();
 	}
 
 	/**
-	 * Loads the EM configuration for the extionsion key passed via
+	 * Loads the EM configuration for the extension key passed via
 	 * getInstance() if the configuration is not yet loaded.
+	 *
+	 * @return void
 	 */
 	private function loadConfigurationLazily() {
 		if (!$this->isConfigurationLoaded) {
@@ -117,11 +120,13 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	}
 
 	/**
-	 * Retrieves the EM configuration for the extionsion key passed via
+	 * Retrieves the EM configuration for the extension key passed via
 	 * getInstance().
 	 *
 	 * This function is accessible for testing purposes. As lazy implementation
 	 * is used, this function might be useful to ensure static test conditions.
+	 *
+	 * @return void
 	 */
 	public function retrieveConfiguration() {
 		$this->configuration = unserialize(
@@ -175,6 +180,8 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 *        key of the value to set, must not be empty
 	 * @param mixed $value
 	 *        the value to set
+	 *
+	 * @return void
 	 */
 	protected function set($key, $value) {
 		$this->loadConfigurationLazily();

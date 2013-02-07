@@ -70,6 +70,8 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_IdentityMap $map
 	 *        the map to set
+	 *
+	 * @return void
 	 */
 	public function setMap(tx_oelib_IdentityMap $map) {
 		$this->map = $map;
@@ -98,6 +100,8 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * @param string $className
 	 *        model class name, must not be empty
+	 *
+	 * @return void
 	 */
 	public function setModelClassName($className) {
 		$this->modelClassName = $className;
@@ -111,6 +115,8 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *        the model data to process, might be modified
 	 * @param tx_oelib_Model $model
 	 *        the model to create the relations for
+	 *
+	 * @return void
 	 */
 	public function createRelations(array &$data, tx_oelib_Model $model) {
 		parent::createRelations($data, $model);

@@ -94,8 +94,9 @@ class tx_oelib_headerProxyFactory {
 	}
 
 	/**
-	 * Purges the current instance so that getInstance will create a new
-	 * instance.
+	 * Purges the current instance so that getInstance will create a new instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -106,6 +107,8 @@ class tx_oelib_headerProxyFactory {
 
 	/**
 	 * Enables the test mode.
+	 *
+	 * @return void
 	 */
 	public function enableTestMode() {
 		$this->isTestMode = TRUE;

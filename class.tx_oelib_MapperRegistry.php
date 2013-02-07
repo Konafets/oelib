@@ -95,6 +95,8 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -193,6 +195,8 @@ class tx_oelib_MapperRegistry {
 
 	/**
 	 * Disables database access for all mappers received with get().
+	 *
+	 * @return void
 	 */
 	public static function denyDatabaseAccess() {
 		self::getInstance()->denyDatabaseAccess = TRUE;
@@ -203,6 +207,8 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @param tx_oelib_testingFramework $testingFramework the testingFramework
 	 *                                                    to use in testing mode
+	 *
+	 * @return void
 	 */
 	public function activateTestingMode(tx_oelib_testingFramework $testingFramework) {
 		$this->testingMode = TRUE;
@@ -221,6 +227,8 @@ class tx_oelib_MapperRegistry {
 	 *        the mapper to set, must be an instance of $className
 	 *
 	 * @see setByClassName
+	 *
+	 * @return void
 	 */
 	static public function set($className, tx_oelib_DataMapper $mapper) {
 		self::getInstance()->setByClassName($className, $mapper);
@@ -234,6 +242,8 @@ class tx_oelib_MapperRegistry {
 	 * @param string $className the class name of the mapper to set
 	 * @param tx_oelib_DataMapper $mapper
 	 *        the mapper to set, must be an instance of $className
+	 *
+	 * @return void
 	 */
 	private function setByClassName($className, tx_oelib_DataMapper $mapper) {
 		if (!($mapper instanceof $className)) {

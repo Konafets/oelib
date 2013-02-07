@@ -250,6 +250,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model
 	 *        the model to fill, must already have a UID
+	 *
+	 * @return void
 	 */
 	public function load(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
@@ -277,6 +279,8 @@ abstract class tx_oelib_DataMapper {
 	 *        the model to fill, needs to have a UID
 	 * @param array &$data
 	 *        the model data to process as it comes from the DB, will be modified
+	 *
+	 * @return void
 	 */
 	private function fillModel(tx_oelib_Model $model, array &$data) {
 		$this->cacheModelByKeys($model, $data);
@@ -292,6 +296,8 @@ abstract class tx_oelib_DataMapper {
 	 *        the model data to process, might be modified
 	 * @param tx_oelib_Model $model
 	 *        the model to create the relations for
+	 *
+	 * @return void
 	 */
 	protected function createRelations(array &$data, tx_oelib_Model $model) {
 		foreach (array_keys($this->relations) as $key) {
@@ -392,6 +398,8 @@ abstract class tx_oelib_DataMapper {
 	 *        must not be empty
 	 * @param tx_oelib_Model $model
 	 *        the model to create the relation for
+	 *
+	 * @return void
 	 */
 	private function createOneToManyRelation(array &$data, $key, tx_oelib_Model $model) {
 		$relationUids = array();
@@ -425,6 +433,8 @@ abstract class tx_oelib_DataMapper {
 	 *        the model data to process, will be modified
 	 * @param string $key
 	 *        the key of the data item for which the relation should be created, must not be empty
+	 *
+	 * @return void
 	 */
 	private function createManyToOneRelation(array &$data, $key) {
 		$uid = isset($data[$key]) ? intval($data[$key]) : 0;
@@ -442,6 +452,8 @@ abstract class tx_oelib_DataMapper {
 	 * @param string $key
 	 *        the key of the data item for which the relation should be created, must not be empty
 	 * @param tx_oelib_Model $model the model to create the relation for
+	 *
+	 * @return void
 	 */
 	private function createCommaSeparatedRelation(
 		array &$data, $key, tx_oelib_Model $model
@@ -481,6 +493,8 @@ abstract class tx_oelib_DataMapper {
 	 * @param string $key
 	 *        the key of the data item for which the relation should be created, must not be empty
 	 * @param tx_oelib_Model $model the model to create the relation for
+	 *
+	 * @return void
 	 */
 	private function createMToNRelation(
 		array &$data, $key, tx_oelib_Model $model
@@ -653,6 +667,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * This function is for testing purposes only. For testing, it should be
 	 * used whenever possible.
+	 *
+	 * @return void
 	 */
 	public function disableDatabaseAccess() {
 		$this->denyDatabaseAccess = TRUE;
@@ -673,6 +689,8 @@ abstract class tx_oelib_DataMapper {
 	 * ghost, if the model is read-only or if there is no data to set.
 	 *
 	 * @param tx_oelib_Model $model the model to write to the database
+	 *
+	 * @return void
 	 */
 	public function save(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
@@ -767,6 +785,8 @@ abstract class tx_oelib_DataMapper {
 	 * Prepares the data for models that get newly inserted into the DB.
 	 *
 	 * @param array $data the data of the record, will be modified
+	 *
+	 * @return void
 	 */
 	protected function prepareDataForNewRecord(array &$data) {
 	}
@@ -776,6 +796,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to save
 	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
+	 *
+	 * @return void
 	 */
 	private function saveManyToOneRelatedModels(
 		tx_oelib_Model $model, tx_oelib_DataMapper $mapper
@@ -788,6 +810,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_List $list the list of models to save
 	 * @param tx_oelib_DataMapper $mapper the mapper to use for saving
+	 *
+	 * @return void
 	 */
 	private function saveManyToManyAndCommaSeparatedRelatedModels(
 		tx_oelib_List $list, tx_oelib_DataMapper $mapper
@@ -803,6 +827,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to delete the records in the
 	 *                              intermediate table of m:n relations for
+	 *
+	 * @return void
 	 */
 	private function deleteManyToManyRelationIntermediateRecords(
 		tx_oelib_Model $model
@@ -829,6 +855,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to create the records in the
 	 *                              intermediate table of m:n relations for
+	 *
+	 * @return void
 	 */
 	private function createManyToManyRelationIntermediateRecords(
 		tx_oelib_Model $model
@@ -869,6 +897,8 @@ abstract class tx_oelib_DataMapper {
 	 * Saves records that this model relates to as 1:n.
 	 *
 	 * @param tx_oelib_Model $model the model to save the related records for
+	 *
+	 * @return void
 	 */
 	private function saveOneToManyRelationRecords(tx_oelib_Model $model) {
 		$data = $model->getData();
@@ -960,6 +990,8 @@ abstract class tx_oelib_DataMapper {
 	 * @param tx_oelib_Model $model
 	 *        the model to delete, must not be a memory-only dummy, must not be
 	 *        read-only
+	 *
+	 * @return void
 	 */
 	public function delete(tx_oelib_Model $model) {
 		if ($this->isModelAMemoryOnlyDummy($model)) {
@@ -988,6 +1020,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model
 	 *        the model for which to delete the related models
+	 *
+	 * @return void
 	 */
 	private function deleteOneToManyRelations(tx_oelib_Model $model) {
 		$data = $model->getData();
@@ -1041,6 +1075,8 @@ abstract class tx_oelib_DataMapper {
 	 * Registers a model as a memory-only dummy that must not be saved.
 	 *
 	 * @param tx_oelib_Model $model the model to register
+	 *
+	 * @return void
 	 */
 	private function registerModelAsMemoryOnlyDummy(tx_oelib_Model $model) {
 		if (!$model->hasUid()) {
@@ -1176,6 +1212,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to cache
 	 * @param array $data the data of the model as it is in the DB, may be empty
+	 *
+	 * @return void
 	 */
 	private function cacheModelByKeys(tx_oelib_Model $model, array $data) {
 		foreach ($this->additionalKeys as $key) {
@@ -1197,6 +1235,8 @@ abstract class tx_oelib_DataMapper {
 	 *
 	 * @param tx_oelib_Model $model the model to cache
 	 * @param array $data the data of the model as it is in the DB, may be empty
+	 *
+	 * @return void
 	 */
 	protected function cacheModelByCombinedKeys(
 		tx_oelib_Model $model, array $data

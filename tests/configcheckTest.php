@@ -72,6 +72,8 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	 * @param string $localeKey
 	 *        key for the locale, to receive a non-configured locale, provide
 	 *        an empty string
+	 *
+	 * @return void
 	 */
 	private function setConfigurationForLocale($localeKey) {
 		$GLOBALS['TSFE']->config['config']['locale_all'] = $localeKey;

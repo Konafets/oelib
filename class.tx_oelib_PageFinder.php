@@ -81,8 +81,9 @@ class tx_oelib_PageFinder {
 	}
 
 	/**
-	 * Purges the current instance so that getInstance will create a new
-	 * instance.
+	 * Purges the current instance so that getInstance will create a new instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (is_object(self::$instance)) {
@@ -125,6 +126,8 @@ class tx_oelib_PageFinder {
 	 * Manually sets a page UID which always will be returned by getPageUid.
 	 *
 	 * @param integer $uidToStore the page UID to store manually, must be > 0
+	 *
+	 * @return void
 	 */
 	public function setPageUid($uidToStore) {
 		if ($uidToStore <= 0) {
@@ -141,6 +144,8 @@ class tx_oelib_PageFinder {
 	 * source, ignoring an empty value or the original precedence.
 	 *
 	 * @param integer $modeToForce SOURCE_BACK_END or SOURCE_FRONT_END
+	 *
+	 * @return void
 	 */
 	public function forceSource($modeToForce) {
 		$this->manualPageUidSource = $modeToForce;

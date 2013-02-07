@@ -58,6 +58,8 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 	 *
 	 * @param tx_oelib_Interface_Geo $geoObject
 	 *        the object for which the geo coordinates will be looked up and set
+	 *
+	 * @return void
 	 */
 	public function lookUp(tx_oelib_Interface_Geo $geoObject) {
 		if ($geoObject->hasGeoError() || $geoObject->hasGeoCoordinates()) {
@@ -80,6 +82,8 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 	 *
 	 * @param float $latitude latitude coordinate
 	 * @param float $longitude longitude coordinate
+	 *
+	 * @return void
 	 */
 	public function setCoordinates($latitude, $longitude) {
 		$this->coordinates = array(
@@ -89,6 +93,8 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 
 	/**
 	 * Resets the fake coordinates.
+	 *
+	 * @return void
 	 */
 	public function clearCoordinates() {
 		$this->coordinates = array();

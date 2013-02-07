@@ -99,6 +99,8 @@ class tx_oelib_Timer {
 	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -114,6 +116,8 @@ class tx_oelib_Timer {
 	 * first.
 	 *
 	 * @param string $bucketName the name of the bucket to open, must not be empty
+	 *
+	 * @return void
 	 */
 	public function openBucket($bucketName = 'default') {
 		if ($bucketName != $this->currentBucketName) {
@@ -136,6 +140,8 @@ class tx_oelib_Timer {
 	 * @see openBucket
 	 *
 	 * @param string $bucketName the name of the bucket to open, must not be empty
+	 *
+	 * @return void
 	 */
 	public static function oB($bucketName = 'default') {
 		self::getInstance()->openBucket($bucketName);
@@ -143,6 +149,8 @@ class tx_oelib_Timer {
 
 	/**
 	 * Stops the timer and adds the passed time to the current bucket.
+	 *
+	 * @return void
 	 */
 	public function stopTimer() {
 		$this->closeCurrentBucket();
@@ -219,6 +227,8 @@ class tx_oelib_Timer {
 	 * Stops all timers and deletes all buckets.
 	 *
 	 * After this, a completely new sets of buckets can be created.
+	 *
+	 * @return void
 	 */
 	public function destroyAllBuckets() {
 		$this->stopTimer();
@@ -233,6 +243,8 @@ class tx_oelib_Timer {
 	 * time to it and set $this->lastTime to the current time.
 	 *
 	 * Note: This function does not stop the timer.
+	 *
+	 * @return void
 	 */
 	private function closeCurrentBucket() {
 		$currentTime = microtime(TRUE);
@@ -251,6 +263,8 @@ class tx_oelib_Timer {
 	 * stack of previously used buckets).
 	 *
 	 * If there is not previous bucket, the timer will be stopped.
+	 *
+	 * @return void
 	 */
 	public function returnToPreviousBucket() {
 		$this->closeCurrentBucket();
@@ -273,6 +287,8 @@ class tx_oelib_Timer {
 	 * This is a static shortcut for returnToPreviousBucket.
 	 *
 	 * @see returnToPreviousBucket
+	 *
+	 * @return void
 	 */
 	public static function rB() {
 		self::getInstance()->returnToPreviousBucket();
@@ -280,6 +296,8 @@ class tx_oelib_Timer {
 
 	/**
 	 * Empties the stack of previous buckets.
+	 *
+	 * @return void
 	 */
 	private function clearAllPreviousBuckets() {
 		$this->previousBucketNames = array();

@@ -89,6 +89,8 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	 *
 	 * @param array<string> $titles
 	 *        the titles for the models, must not be empty
+	 *
+	 * @return void
 	 */
 	private function addModelsToFixture(array $titles = array('')) {
 		foreach ($titles as $title) {

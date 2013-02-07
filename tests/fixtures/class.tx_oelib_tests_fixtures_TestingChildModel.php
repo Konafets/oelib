@@ -39,6 +39,8 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	 *
 	 * @param string $value
 	 *        the value to set, may be empty
+	 *
+	 * @return void
 	 */
 	public function setTitle($value) {
 		$this->setAsString('title', $value);
@@ -80,6 +82,8 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	 *
 	 * @param tx_oelib_tests_fixtures_TestingModel $parent
 	 *        the "parent" data item to set
+	 *
+	 * @return void
 	 */
 	public function setParent(tx_oelib_tests_fixtures_TestingModel $parent) {
 		$this->set('parent', $parent);
@@ -90,6 +94,8 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 	 *
 	 * @param tx_oelib_tests_fixtures_TestingModel $parent
 	 *        the "tx_oelib_parent2" data item to set
+	 *
+	 * @return void
 	 */
 	public function setParent2(tx_oelib_tests_fixtures_TestingModel $parent) {
 		$this->set('tx_oelib_parent2', $parent);
@@ -97,6 +103,8 @@ class tx_oelib_tests_fixtures_TestingChildModel extends tx_oelib_Model implement
 
 	/**
 	 * Sets the dummy column to TRUE.
+	 *
+	 * @return void
 	 */
 	public function markAsDummyModel() {
 		$this->set('is_dummy_record', TRUE);

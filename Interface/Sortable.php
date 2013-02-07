@@ -48,6 +48,8 @@ interface tx_oelib_Interface_Sortable {
 	 * This is the sorting as used in the back end.
 	 *
 	 * @param integer $sorting the sorting value of this object, must be >= 0
+	 *
+	 * @return void
 	 */
 	public function setSorting($sorting);
 }

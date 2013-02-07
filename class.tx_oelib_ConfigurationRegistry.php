@@ -66,6 +66,8 @@ class tx_oelib_ConfigurationRegistry {
 	 * @param string $namespace
 	 *       the namespace of the configuration to drop, must not be empty, must
 	 *       have been set in this registry
+	 *
+	 * @return void
 	 */
 	private function dropConfiguration($namespace) {
 		$this->configurations[$namespace]->__destruct();
@@ -88,6 +90,8 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * Purges the current instance so that getInstance will create a new
 	 * instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -138,6 +142,8 @@ class tx_oelib_ConfigurationRegistry {
 	 *        the namespace of the configuration to set, must not be empty
 	 * @param tx_oelib_Configuration $configuration
 	 *        the configuration to set
+	 *
+	 * @return void
 	 */
 	public function set($namespace, tx_oelib_Configuration $configuration) {
 		$this->checkForNonEmptyNamespace($namespace);
@@ -156,6 +162,8 @@ class tx_oelib_ConfigurationRegistry {
 	 *
 	 * @param string $namespace
 	 *        namespace name to check
+	 *
+	 * @return void
 	 */
 	private function checkForNonEmptyNamespace($namespace) {
 		if ($namespace == '') {

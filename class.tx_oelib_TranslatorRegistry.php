@@ -102,6 +102,8 @@ class tx_oelib_TranslatorRegistry {
 
 	/**
 	 * Initializes the TranslatorRegistry for the front end.
+	 *
+	 * @return void
 	 */
 	private function initializeFrontEnd() {
 		$this->setLanguageKeyFromConfiguration(tx_oelib_ConfigurationRegistry::get('config'));
@@ -135,6 +137,8 @@ class tx_oelib_TranslatorRegistry {
 
 	/**
 	 * Initializes the TranslatorRegistry for the back end.
+	 *
+	 * @return void
 	 */
 	private function initializeBackEnd() {
 		$backEndUser = tx_oelib_BackEndLoginManager::getInstance()->
@@ -181,8 +185,9 @@ class tx_oelib_TranslatorRegistry {
 	}
 
 	/**
-	 * Purges the current instance so that getInstance will create a new
-	 * instance.
+	 * Purges the current instance so that getInstance will create a new instance.
+	 *
+	 * @return void
 	 */
 	public static function purgeInstance() {
 		if (self::$instance) {
@@ -334,6 +339,8 @@ class tx_oelib_TranslatorRegistry {
 	 *
 	 * @param string $languageKey the language key to set for the translator,
 	 *        must not be empty
+	 *
+	 * @return void
 	 */
 	public function setLanguageKey($languageKey) {
 		if ($languageKey == '') {

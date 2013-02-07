@@ -85,6 +85,8 @@ interface tx_oelib_Interface_Geo {
 	 *
 	 * Note: Calling this function has no influence on this object's geo error
 	 * status.
+	 *
+	 * @return void
 	 */
 	public function clearGeoCoordinates();
 
@@ -101,11 +103,15 @@ interface tx_oelib_Interface_Geo {
 
 	/**
 	 * Marks this object as having an error with the geo coordinates.
+	 *
+	 * @return void
 	 */
 	public function setGeoError();
 
 	/**
 	 * Marks this object as not having an error with the geo coordinates.
+	 *
+	 * @return void
 	 */
 	public function clearGeoError();
 }

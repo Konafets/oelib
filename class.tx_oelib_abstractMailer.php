@@ -106,6 +106,8 @@ abstract class tx_oelib_abstractMailer {
 	 * Sends an tx_oelib_Mail object.
 	 *
 	 * @param tx_oelib_Mail $email the tx_oelib_Mail object to send
+	 *
+	 * @return void
 	 */
 	public function send(tx_oelib_Mail $email) {
 		if (!$email->hasSender()) {
@@ -183,6 +185,8 @@ abstract class tx_oelib_abstractMailer {
 	 *
 	 * @param boolean $enableFormatting
 	 *        TRUE to enable formatting, FALSE to disable
+	 *
+	 * @return void
 	 */
 	public function sendFormattedEmails($enableFormatting) {
 		$this->enableFormatting = $enableFormatting;
@@ -245,6 +249,8 @@ abstract class tx_oelib_abstractMailer {
 	 *        e-mail subject, must not be empty
 	 * @param string $message
 	 *        message to send, must not be empty
+	 *
+	 * @return void
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
 		if ($emailAddress == '') {
