@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Time {
+abstract class tx_oelib_Time {
 	/**
 	 * the number of seconds per minute
 	 *
