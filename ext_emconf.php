@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "oelib".
  *
- * Auto generated 30-11-2012 17:58
+ * Auto generated 30-11-2013 17:58
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
