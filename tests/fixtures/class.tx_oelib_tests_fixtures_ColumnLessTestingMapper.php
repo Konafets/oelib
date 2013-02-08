@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_ColumnLessTestingMapper' for the 'oelib' extension.
- *
- * This class represents a mapper that is broken because it has no columns
- * defined.
+ * This class represents a mapper that is broken because it has no columns defined.
  *
  * @package TYPO3
  * @subpackage tx_oelib

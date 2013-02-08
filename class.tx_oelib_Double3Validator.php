@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Double3Validator' for the 'oelib' extension.
- *
  * This class represents a validator for a float number with three decimal
  * digits. It is called by TCEmain.
  *

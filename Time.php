@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_Time for the "oelib" extension.
- *
  * This class provides time-related constants.
  *
  * @package TYPO3

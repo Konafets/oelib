@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_mailerFactory' for the 'oelib' extension.
- *
  * This class returns either an instance of the tx_oelib_realMailer which sends
  * e-mails or an instance of the tx_oelib_emailCollector. The collector stores
  * the data provided to sendEmail() and does not send it. This mode is for

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_FakeSession' for the 'oelib' extension.
- *
  * This class represents a fake session that doesn't use any real sessions,
  * thus not sending any HTTP headers.
  *

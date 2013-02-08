@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Exception_AccessDenied' for the 'oelib' extension.
- *
  * This exception can be used to indicate that a user has no access to a page.
  *
  * @package TYPO3

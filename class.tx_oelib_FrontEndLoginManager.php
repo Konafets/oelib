@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_FrontEndLoginManager' for the 'oelib' extension.
- *
- * This class represents a manager for front-end logins, providing access to the
- * logged-in user.
+ * This class represents a manager for front-end logins, providing access to the logged-in user.
  *
  * @package TYPO3
  * @subpackage tx_oelib

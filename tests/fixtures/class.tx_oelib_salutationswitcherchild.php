@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_salutationswitcherchild' for the 'oelib' extension.
- *
- * This is mere a class used for unit tests of the 'oelib' extension. Don't
- * use it for any other purpose.
+ * This is mere a class used for unit tests. Don't use it for any other purpose.
  *
  * @package TYPO3
  * @subpackage tx_oelib

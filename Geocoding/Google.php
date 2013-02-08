@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_Geocoding_Lookup for the "oelib" extension.
- *
  * This class represents a service to look up geo coordinates via Google Maps.
  *
  * @package TYPO3

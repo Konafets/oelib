@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_PageFinder' for the 'oelib' extension.
+ * This class provides an abstraction for selecting a page in the FE or BE.
  *
  * @package TYPO3
  * @subpackage tx_oelib

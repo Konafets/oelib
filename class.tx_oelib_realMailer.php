@@ -23,7 +23,8 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_realMailer' for the 'oelib' extension.
+ * This class sends e-mails.
+ *
  * Regarding the Strategy pattern, sendEmail() represents one concrete behavior.
  *
  * @package TYPO3

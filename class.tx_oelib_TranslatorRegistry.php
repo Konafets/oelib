@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_TranslatorRegistry' for the 'oelib' extension.
+ * This class provides a registry for translators.
  *
  * @package TYPO3
  * @subpackage tx_oelib

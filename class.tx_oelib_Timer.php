@@ -23,9 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Timer' for the 'oelib' extension.
- *
- * This singleton class provides functions for performance measurement.
+ * This Singleton class provides functions for performance measurement.
  *
  * @package TYPO3
  * @subpackage tx_oelib

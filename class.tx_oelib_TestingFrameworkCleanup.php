@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_TestingFrameworkCleanup for the "oelib" extension.
- *
  * This class takes care of cleaning up oelib after the testing framework.
  *
  * @package TYPO3

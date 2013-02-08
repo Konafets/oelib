@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Interface 'tx_oelib_Interface_LoginManager' for the 'oelib' extension.
- *
- * This interface represents a manager for logins, providing access to the
- * logged-in user.
+ * This interface represents a manager for logins, providing access to the logged-in user.
  *
  * @package TYPO3
  * @subpackage tx_oelib

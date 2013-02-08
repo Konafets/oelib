@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Interface tx_oelib_Interface_Sortable for the "oelib" extension.
- *
  * This class represents an object that can be sorted.
  *
  * @package TYPO3

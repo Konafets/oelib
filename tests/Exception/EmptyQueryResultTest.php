@@ -23,8 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_Exception_EmptyQueryResult class in the "oelib"
- * extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage oelib

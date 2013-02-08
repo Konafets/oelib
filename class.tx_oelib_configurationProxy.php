@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_configurationProxy' for the 'oelib' extension.
- *
  * This singleton class provides access to an extension's global configuration
  * and allows to fake global configuration values for testing purposes.
  *

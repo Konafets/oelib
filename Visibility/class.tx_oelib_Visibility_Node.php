@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Visibility_Node' for the 'oelib' extension.
+ * Test case.
  *
  * This class represents a node for a visibility tree.
  *

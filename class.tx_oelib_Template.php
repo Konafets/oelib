@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Template' for the 'oelib' extension.
- *
  * This class represents a HTML template with markers (###MARKER###) and
  * subparts (<!-- ###SUBPART### --><!-- ###SUBPART### -->).
  *

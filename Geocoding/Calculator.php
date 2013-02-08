@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_Geocoding_Calculator for the "oelib" extension.
- *
- * This class provides functions for calculating the distance between geo
- * objects.
+ * This class provides functions for calculating the distance between geo objects.
  *
  * @package TYPO3
  * @subpackage tx_oelib

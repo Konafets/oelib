@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_TemplateRegistry' for the 'oelib' extension.
- *
  * This class represents a registry for templates.
  *
  * @package TYPO3

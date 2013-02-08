@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_testingObject' for the 'oelib' extension.
- *
  * This class represents an object for testing purposes.
  *
  * @package TYPO3

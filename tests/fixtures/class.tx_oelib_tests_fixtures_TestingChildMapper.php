@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_TestingChildMapper' for the 'oelib' extension.
- *
  * This class represents a mapper for a testing child model.
  *
  * @package TYPO3

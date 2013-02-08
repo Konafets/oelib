@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_Model_FrontEndUser for the "oelib" extension.
- *
  * This class represents a front-end user.
  *
  * @package TYPO3

@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_templatehelper' for the 'oelib' extension
- * (taken from the 'seminars' extension).
- *
- * This utitity class provides some commonly-used functions for handling
+ * This utility class provides some commonly-used functions for handling
  * templates (in addition to all functionality provided by the base classes).
  *
  * @package TYPO3

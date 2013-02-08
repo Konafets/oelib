@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_headerProxyFactory' for the 'oelib' extension.
- *
  * This class returns either an instance of the tx_oelib_realHeaderProxy which
  * adds HTTP headers or an instance of the tx_oelib_headerCollector. The
  * collector stores the headers that were added and does not send them. This

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_DataMapper' for the 'oelib' extension.
- *
  * This class represents a mapper that maps database record to model instances.
  *
  * @package TYPO3

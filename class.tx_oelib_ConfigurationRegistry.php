@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_ConfigurationRegistry' for the 'oelib' extension.
- *
  * This class represents a registration that allows the storage and retrieval
  * of configuration objects.
  *

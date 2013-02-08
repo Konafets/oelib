@@ -24,7 +24,7 @@
 define('OELIB_EXTENSION_KEY', 'oelib');
 
 /**
- * Testcase for the tx_oelib_configurationProxy class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

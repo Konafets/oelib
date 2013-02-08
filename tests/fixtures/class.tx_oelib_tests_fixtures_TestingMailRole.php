@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_TestingMailRole' for the 'oelib' extension.
- *
  * This class represents an e-mail role, e.g. a sender or a recipient.
  *
  * @package TYPO3

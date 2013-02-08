@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Translator' for the 'oelib' extension.
- *
  * This class returns localized labels in the given languages.
  *
  * @package TYPO3

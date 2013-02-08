@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_testingFramework' for the 'oelib' extension.
- *
  * This class provides various functions to handle dummy records in unit tests.
  *
  * @package TYPO3

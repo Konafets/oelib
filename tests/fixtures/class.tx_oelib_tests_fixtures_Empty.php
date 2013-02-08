@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_Empty' for the 'oelib' extension.
- *
  * This class represents a completely empty class.
  *
  * @package TYPO3

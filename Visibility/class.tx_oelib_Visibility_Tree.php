@@ -23,9 +23,9 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Visibility_Tree' for the 'oelib' extension.
+ * Test case.
  *
- * This class represents a visbility tree.
+ * This class represents a visibility tree.
  *
  * @package TYPO3
  * @subpackage tx_oelib

@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Interface 'tx_oelib_Interface_Address' for the 'oelib' extension.
- *
  * This interfaces represents a postal address.
  *
  * @package TYPO3

@@ -23,14 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_List' for the 'oelib' extension.
- *
  * This class represents a list of models.
- *
- * Note: Cloning an instance of this class in PHP 5.2 will crash. This has
- * been fixed in PHP 5.3.0.
- *
- * @see http://bugs.php.net/47671
  *
  * @package TYPO3
  * @subpackage tx_oelib

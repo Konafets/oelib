@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_MapperRegistry' for the 'oelib' extension.
- *
  * This class represents a registry for mappers. The mappers must be located in
  * the directory Mapper/ in each extension. Extension can use mappers from
  * other extensions as well.

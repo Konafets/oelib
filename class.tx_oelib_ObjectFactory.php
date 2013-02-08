@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_ObjectFactory' for the 'oelib' extension.
- *
- * This helper class can create class instances with and without parameters,
- * working both in TYPO3 4.2 and 4.3 without deprecation warnings.
+ * This helper class can create class instances with and without parameters.
  *
  * @package TYPO3
  * @subpackage tx_oelib

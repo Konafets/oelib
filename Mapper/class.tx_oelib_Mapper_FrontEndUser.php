@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Mapper_FrontEndUser' for the 'oelib' extension.
- *
  * This class represents a mapper for front-end users.
  *
  * @package TYPO3

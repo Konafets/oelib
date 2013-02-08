@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_TestingMapper' for the 'oelib' extension.
- *
  * This class represents a mapper for a testing model.
  *
  * @package TYPO3

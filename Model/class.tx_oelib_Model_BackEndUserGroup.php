@@ -23,9 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_BackEndUserGroup' for the 'oelib' extension.
- *
- * This class represents a back-end usergroup.
+ * This class represents a back-end user group.
  *
  * @package TYPO3
  * @subpackage tx_oelib

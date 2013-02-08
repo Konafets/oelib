@@ -30,7 +30,7 @@ if (!defined('OELIB_TESTTABLE_MM')) {
 }
 
 /**
- * Testcase for the tx_oelib_testingFramework class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

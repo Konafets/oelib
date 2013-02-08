@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_ReadOnlyModel' for the 'oelib' extension.
- *
  * This class represents a read-only model for testing purposes.
  *
  * @package TYPO3

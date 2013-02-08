@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Mapper_Language' for the 'oelib' extension.
- *
  * This class represents a mapper for languages.
  *
  * @package TYPO3

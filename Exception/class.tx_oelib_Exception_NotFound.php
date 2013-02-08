@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Exception_NotFound' for the 'oelib' extension.
- *
- * This exception can be used to indicate that an element was not found in an
- * identity map.
+ * This exception can be used to indicate that an element was not found in an identity map.
  *
  * @package TYPO3
  * @subpackage tx_oelib

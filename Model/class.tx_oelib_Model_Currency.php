@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_Currency' for the 'oelib' extension.
- *
  * This class represents a currency.
  *
  * @package TYPO3

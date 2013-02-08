@@ -25,8 +25,6 @@
 require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
 
 /**
- * Class 'tx_oelib_Autoloader' for the 'oelib' extension.
- *
  * This class implements the SPL autoloader.
  *
  * In addition, it loads the common constants.

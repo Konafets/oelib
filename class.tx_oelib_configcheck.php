@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_configcheck' for the 'oelib' extension.
- *
  * This class checks the extension configuration (TS setup) and some data for
  * basic sanity. This works for FE plug-ins, BE modules and free-floating data
  * structures.

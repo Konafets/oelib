@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_PublicObject' for the 'oelib' extension.
- *
- * This class represents an object that allows getting and setting its data
- * via public methods.
+ * This class represents an object that allows getting and setting its data via public methods.
  *
  * @package TYPO3
  * @subpackage tx_oelib

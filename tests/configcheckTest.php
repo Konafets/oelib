@@ -22,7 +22,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_configcheck class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

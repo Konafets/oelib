@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Interface tx_oelib_Interface_Geo for the "oelib" extension.
- *
  * This class represents an object that can have geo coordinates.
  *
  * @package TYPO3

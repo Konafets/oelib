@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Exception_EmptyQueryResult' for the 'oelib' extension.
- *
  * This class represents an exception that should be thrown when a database
  * query has an empty result, but shouldn't have.
  *

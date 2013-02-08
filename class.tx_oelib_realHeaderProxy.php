@@ -23,7 +23,8 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_realHeaderProxy' for the 'oelib' extension.
+ * This class sends HTTP headers.
+ *
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
  *
  * @package TYPO3

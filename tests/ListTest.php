@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_List class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage oelib

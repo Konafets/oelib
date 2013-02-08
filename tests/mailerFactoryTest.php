@@ -26,8 +26,7 @@ if (!class_exists('mail_mime', FALSE)) {
 }
 
 /**
- * Testcase for the tx_oelib_mailerFactory class and the tx_oelib_emailCollector
- * class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

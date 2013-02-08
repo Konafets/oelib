@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_BackEndUser' for the 'oelib' extension.
- *
  * This class represents a back-end user.
  *
  * @package TYPO3

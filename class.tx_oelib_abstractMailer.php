@@ -27,9 +27,9 @@ if (!class_exists('mail_mime', FALSE)) {
 }
 
 /**
- * Abstract class 'tx_oelib_abstractMailer' for the 'oelib' extension.
  * This class declares the function sendEmail() for its inheritants. So they
  * need to implement the concrete behavior.
+ *
  * Regarding the Strategy pattern, sendEmail() represents the abstract strategy.
  *
  * @package TYPO3

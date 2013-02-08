@@ -23,13 +23,9 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model' for the 'oelib' extension.
+ * This class represents a general domain model which is capable of lazy loading (using ghosts).
  *
- * This class represents a general domain model which is capable of lazy loading
- * (using ghosts).
- *
- * A model can have one of the following states: dead, ghost, loading, loaded,
- * virgin.
+ * A model can have one of the following states: dead, ghost, loading, loaded, virgin.
  *
  * @package TYPO3
  * @subpackage tx_oelib

@@ -23,9 +23,9 @@
 ***************************************************************/
 
 /**
- * Abstract class 'tx_oelib_abstractHeaderProxy' for the 'oelib' extension.
  * This class declares the function addHeader() for its inheritants. So they
  * need to implement the concrete behavior.
+ *
  * Regarding the Strategy pattern, addHeader() represents the abstract strategy.
  *
  * @package TYPO3

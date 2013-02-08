@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Object' for the 'oelib' extension.
- *
  * This class represents an object that allows getting and setting its data,
  * but only via protected methods so that encapsulation is retained.
  *

@@ -23,8 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_headerProxyFactory class and the
- * tx_oelib_headerCollector class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

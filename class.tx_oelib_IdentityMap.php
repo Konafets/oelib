@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_IdentityMap' for the 'oelib' extension.
- *
- * This class represents an identity map that stores and retrieves model
- * instances by their UIDs.
+ * This class represents an identity map that stores and retrieves model instances by their UIDs.
  *
  * @package TYPO3
  * @subpackage tx_oelib

@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_tests_fixtures_DummyGeo for the "oelib" extension.
- *
- * This class represents an testing object that can have an address and geo
- * coordinates.
+ * This class represents an testing object that can have an address and geo coordinates.
  *
  * @package TYPO3
  * @subpackage tx_oelib

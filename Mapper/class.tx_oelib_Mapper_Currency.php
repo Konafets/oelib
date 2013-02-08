@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Mapper_Currency' for the 'oelib' extension.
- *
  * This class represents a mapper for currencies.
  *
  * @package TYPO3

@@ -27,8 +27,6 @@ if (!class_exists('emogrifier', FALSE)) {
 }
 
 /**
- * Class 'tx_oelib_Mail' for the 'oelib' extension.
- *
  * This class represents an e-mail.
  *
  * @package TYPO3

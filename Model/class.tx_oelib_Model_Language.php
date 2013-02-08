@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_Language' for the 'oelib' extension.
- *
  * This class represents a language.
  *
  * @package TYPO3

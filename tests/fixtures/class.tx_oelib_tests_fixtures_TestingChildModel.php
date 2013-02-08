@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_TestingChildModel' for the 'oelib' extension.
- *
  * This class represents a domain model for testing purposes.
  *
  * @package TYPO3

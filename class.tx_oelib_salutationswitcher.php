@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_salutationswitcher' for the 'oelib' extension.
+ * This class provides functions for localization.
  *
  * @package TYPO3
  * @subpackage tx_oelib

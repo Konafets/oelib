@@ -22,8 +22,7 @@
 ***************************************************************/
 
 /**
- * This is mere a class to test the configuration check class in the 'oelib'
- * extension.
+ * This is mere a class to test the configuration check class.
  *
  * @package TYPO3
  * @subpackage tx_oelib

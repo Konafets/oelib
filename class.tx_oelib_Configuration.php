@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Configuration' for the 'oelib' extension.
- *
  * This class represents a set of configuration options within a certain
  * namespace.
  *

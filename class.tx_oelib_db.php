@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_db' for the 'oelib' extension.
- *
  * This class provides some static database-related functions.
  *
  * @package TYPO3

@@ -23,9 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'ux_tx_oelib_tests_fixtures_Empty' for the 'oelib' extension.
- *
- * This testing class is an XCLASS to tx_oelib_tests_fixtures_Empty.
+ * This testing class is an XCLASS.
  *
  * To make testing possible, this class needs to be located in a directory where
  * the Autoloader cannot find it by name.

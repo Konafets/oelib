@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_pi1_NotIncluded1' for the 'oelib' extension.
- *
  * This class is for testing purposes only.
  *
  * @package TYPO3

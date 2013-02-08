@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_ViewHelper_Price for the "oelib" extension.
+ * Test case.
  *
  * This class represents a view helper for formatting a price.
  *

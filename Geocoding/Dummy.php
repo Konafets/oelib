@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class tx_oelib_Geocoding_Dummy for the "oelib" extension.
- *
  * This class represents a faked service to look up geo coordinates.
  *
  * @package TYPO3

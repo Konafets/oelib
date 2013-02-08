@@ -23,10 +23,7 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_tests_fixtures_ModelLessTestingMapper' for the 'oelib' extension.
- *
- * This class represents a mapper that is broken because it has no model name
- * defined.
+ * This class represents a mapper that is broken because it has no model name defined.
  *
  * @package TYPO3
  * @subpackage tx_oelib

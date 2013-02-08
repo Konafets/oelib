@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Session' for the 'oelib' extension.
- *
  * This Singleton class represents a session and its data.
  *
  * @package TYPO3

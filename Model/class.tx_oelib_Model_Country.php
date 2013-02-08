@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Model_Country' for the 'oelib' extension.
- *
  * This class represents a country.
  *
  * @package TYPO3

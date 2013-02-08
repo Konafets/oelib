@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Interface 'tx_oelib_Interface_MailRole' for the 'oelib' extension.
- *
  * This interfaces represents an e-mail role, e.g. a sender or a recipient.
  *
  * @package TYPO3

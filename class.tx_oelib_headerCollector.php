@@ -23,10 +23,9 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_headerCollector' for the 'oelib' extension.
- *
  * This class stores HTTP header which were meant to be sent instead of really
  * sending them and provides various functions to get them for testing purposes.
+ *
  * Regarding the Strategy pattern, addHeader() represents one concrete behavior.
  *
  * @package TYPO3

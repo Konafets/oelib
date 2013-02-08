@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_Attachment' for the 'oelib' extension.
- *
  * This class represents an e-mail attachment.
  *
  * @package TYPO3

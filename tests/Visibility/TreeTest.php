@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_Visibility_Tree class of the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib

@@ -23,8 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_Model_FrontEndUserGroup class in the "oelib"
- * extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage oelib

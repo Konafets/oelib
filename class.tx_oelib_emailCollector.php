@@ -23,10 +23,9 @@
 ***************************************************************/
 
 /**
- * Class 'tx_oelib_emailCollector' for the 'oelib' extension.
- *
  * This class stores all parameters which were meant to be sent as an e-mail and
  * provides various functions to get them for testing purposes.
+ *
  * Regarding the Strategy pattern, sendEmail() represents one concrete behavior.
  *
  * @package TYPO3

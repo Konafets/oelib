@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_Exception_Database class in the "oelib" extension.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage oelib
