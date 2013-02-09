@@ -1019,6 +1019,8 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *
 	 * Note: The returned page list is _not_ sorted.
 	 *
+	 * @deprecated 2013-02-09
+	 *
 	 * @param string comma-separated list of page UIDs to start from,
 	 *               must only contain numbers and commas, may be empty
 	 * @param integer maximum depth of recursion, must be >= 0
@@ -1028,9 +1030,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                $startPages is empty
 	 */
 	public function pi_getPidList($startPages, $recursionDepth = 0) {
-		return tx_oelib_db::createRecursivePageList(
-			$startPages, $recursionDepth
-		);
+		$version = class_exists('t3lib_utility_VersionNumber')
+			? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+			: t3lib_div::int_from_ver(TYPO3_version);
+		if ($version >= 4003000) {
+			t3lib_div::logDeprecatedFunction();
+		}
+		return tx_oelib_db::createRecursivePageList($startPages, $recursionDepth);
 	}
 
 	/**

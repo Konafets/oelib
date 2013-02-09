@@ -1,4 +1,5 @@
 0.7.9 - currently working on
+- [#4647] Cleanup: Deprecate TemplateHelper::pi_getPidList
 - [#4600] Fix: Test failure tx_oelib_SalutationSwitcherTest
 - [#3996] Fix: Two tests of the templatehelperchild testcase fail
 - [#4591] Fix: Session::setInstance must be static
