@@ -3826,14 +3826,20 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	// Tests concerning getStoragePid
 	///////////////////////////////////
 
-	public function test_getStoragePidForNoSetGRSP_ReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getStoragePidForNoSetGrspReturnsZero() {
 		$this->assertSame(
 			0,
 			$this->fixture->getStoragePid()
 		);
 	}
 
-	public function test_getStoragePidForGRSPSet_ReturnsThisId() {
+	/**
+	 * @test
+	 */
+	public function getStoragePidForGrspSetReturnsThisId() {
 		$pageUid = $this->testingFramework->createFrontEndPage(
 			0, array('storage_pid' => 42)
 		);
@@ -3845,7 +3851,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_hasStoragePidForGRSPSet_ReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasStoragePidForGrspSetReturnsTrue() {
 		$pageUid = $this->testingFramework->createFrontEndPage(
 			0, array('storage_pid' => 42)
 		);
@@ -3856,7 +3865,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_hasStoragePidForNoGRSPSet_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasStoragePidForNoGrspSetReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->hasStoragePid()
 		);
@@ -3867,7 +3879,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 	// Tests concerning ensureIntegerArrayValues
 	//////////////////////////////////////////////
 
-	public function test_ensureIntegerArrayValuesForEmptyArrayGiven_DoesNotAddAnyPiVars() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForEmptyArrayGivenDoesNotAddAnyPiVars() {
 		$originalPiVars = $this->fixture->piVars;
 		$this->fixture->ensureIntegerArrayValues(array());
 
@@ -3877,7 +3892,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForNotSetPiVarGiven_DoesNotAddThisPiVar() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForNotSetPiVarGivenDoesNotAddThisPiVar() {
 		$originalPiVars = $this->fixture->piVars;
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3887,7 +3905,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForPiVarNotArray_DoesNotModifyThisPiVar() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForPiVarNotArrayDoesNotModifyThisPiVar() {
 		$this->fixture->piVars['foo'] = 'Hallo';
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3897,7 +3918,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForValidIntegerInArray_DoesNotModifyThisArrayElement() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForValidIntegerInArrayDoesNotModifyThisArrayElement() {
 		$this->fixture->piVars['foo'] = array(10);
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3907,7 +3931,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForStringInArray_RemovesThisArrayElement() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForStringInArrayRemovesThisArrayElement() {
 		$this->fixture->piVars['foo'] = array('Hallo');
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3916,7 +3943,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForIntegerFollowedByStringInArray_RemovesStringFromArrayElement() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForIntegerFollowedByStringInArrayRemovesStringFromArrayElement() {
 		$this->fixture->piVars['foo'] = array('2;blubb');
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3926,7 +3956,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForSingleInArray_RemovesNumbersAfterDecimalPoint() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForSingleInArrayRemovesNumbersAfterDecimalPoint() {
 		$this->fixture->piVars['foo'] = array(2.3);
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3936,7 +3969,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesForZeroInArray_RemovesThisArrayElement() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesForZeroInArrayRemovesThisArrayElement() {
 		$this->fixture->piVars['foo'] = array(0);
 		$this->fixture->ensureIntegerArrayValues(array('foo'));
 
@@ -3945,7 +3981,10 @@ class tx_oelib_TemplateHelperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_ensureIntegerArrayValuesMultiplePiKeysGiven_ValidatesElementsOfAllPiVars() {
+	/**
+	 * @test
+	 */
+	public function ensureIntegerArrayValuesMultiplePiKeysGivenValidatesElementsOfAllPiVars() {
 		$this->fixture->piVars['foo'] = array('2;blubb');
 		$this->fixture->piVars['bar'] = array('42');
 

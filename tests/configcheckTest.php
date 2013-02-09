@@ -201,7 +201,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	// Tests concerning the e-mail address check.
 	///////////////////////////////////////////////
 
-	public function testCheckIsValidEmailOrEmptyWithAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function checkIsValidEmailOrEmptyWithEmptyString() {
 		$this->fixture->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertSame(
@@ -210,7 +213,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIsValidEmailOrEmptyWithAValidEmail() {
+	/**
+	 * @test
+	 */
+	public function checkIsValidEmailOrEmptyWithValidEmail() {
 		$this->fixture->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertSame(
@@ -219,7 +225,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIsValidEmailOrEmptyWithAnInvalidEmail() {
+	/**
+	 * @test
+	 */
+	public function checkIsValidEmailOrEmptyWithInvalidEmail() {
 		$this->fixture->checkIsValidEmailOrEmpty('nonEmptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
@@ -228,7 +237,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIsValidEmailNotEmptyWithAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function checkIsValidEmailNotEmptyWithEmptyString() {
 		$this->fixture->checkIsValidEmailNotEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
@@ -237,7 +249,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIsValidEmailNotEmptyWithAValidEmail() {
+	/**
+	 * @test
+	 */
+	public function checkIsValidEmailNotEmptyWithValidEmail() {
 		$this->fixture->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertSame(

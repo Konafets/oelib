@@ -50,7 +50,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 	// Tests for the constructor
 	//////////////////////////////
 
-	public function test_IsVisible_IfSetToVisibleConstruction_ReturnsVisibilityFromConstruction() {
+	/**
+	 * @test
+	 */
+	public function isVisibleIfSetToVisibleConstructionReturnsVisibilityFromConstruction() {
 		$fixture = new tx_oelib_Visibility_Node(TRUE);
 
 		$this->assertTrue(
@@ -60,7 +63,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		$fixture->__destruct();
 	}
 
-	public function test_IsVisible_IfSetToHiddenConstruction_ReturnsVisibilityFromConstruction() {
+	/**
+	 * @test
+	 */
+	public function isVisibleIfSetToHiddenConstructionReturnsVisibilityFromConstruction() {
 		$fixture = new tx_oelib_Visibility_Node(FALSE);
 
 		$this->assertFalse(
@@ -75,14 +81,20 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 	// Tests concerning addChild
 	//////////////////////////////
 
-	public function test_getChildren_WithoutChildrenSet_ReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getChildrenWithoutChildrenSetReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getChildren()
 		);
 	}
 
-	public function test_addChild_WithOneGivenChildren_AddsOneChildToNode() {
+	/**
+	 * @test
+	 */
+	public function addChildWithOneGivenChildrenAddsOneChildToNode() {
 		$childNode = new tx_oelib_Visibility_Node();
 		$this->fixture->addChild($childNode);
 
@@ -92,7 +104,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_addChild_ForNodeWithOneChildAndAnotherChildGiven_AddsAnotherChildToNode() {
+	/**
+	 * @test
+	 */
+	public function addChildForNodeWithOneChildAndAnotherChildGivenAddsAnotherChildToNode() {
 		$this->fixture->addChild(new tx_oelib_Visibility_Node());
 		$this->fixture->addChild(new tx_oelib_Visibility_Node());
 
@@ -102,7 +117,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_addChild_AddsParentToChild() {
+	/**
+	 * @test
+	 */
+	public function addChildAddsParentToChild() {
 		$childNode = new tx_oelib_Visibility_Node();
 		$this->fixture->addChild($childNode);
 
@@ -117,13 +135,19 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 	// Tests concerning setParent
 	///////////////////////////////
 
-	public function test_getParent_ForNodeWithoutParent_ReturnsNull() {
+	/**
+	 * @test
+	 */
+	public function getParentForNodeWithoutParentReturnsNull() {
 		$this->assertNull(
 			$this->fixture->getParent()
 		);
 	}
 
-	public function test_setParent_WithGivenParent_SetsThisNodeAsParent() {
+	/**
+	 * @test
+	 */
+	public function setParentWithGivenParentSetsThisNodeAsParent() {
 		$childNode = new tx_oelib_Visibility_Node();
 		$childNode->setParent($this->fixture);
 
@@ -133,7 +157,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_setParent_ForNodeWithAlreadySetParentAndGivenParent_ThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setParentForNodeWithAlreadySetParentAndGivenParentThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'This node already has a parent node.'
@@ -149,7 +176,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 	// Tests concerning markAsVisible
 	///////////////////////////////////
 
-	public function test_markAsVisible_ForInvisibleNode_SetsVisibilityTrue() {
+	/**
+	 * @test
+	 */
+	public function markAsVisibleForInvisibleNodeSetsVisibilityTrue() {
 		$this->fixture->markAsVisible();
 
 		$this->assertTrue(
@@ -157,7 +187,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_markAsVisible_ForVisibleNode_SetsVisibilityTrue() {
+	/**
+	 * @test
+	 */
+	public function markAsVisibleForVisibleNodeSetsVisibilityTrue() {
 		$visibleNode = new tx_oelib_Visibility_Node(TRUE);
 		$visibleNode->markAsVisible();
 
@@ -168,7 +201,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		$visibleNode->__destruct();
 	}
 
-	public function test_markAsVisible_ForNodeWithParent_MarksParentAsVisible() {
+	/**
+	 * @test
+	 */
+	public function markAsVisibleForNodeWithParentMarksParentAsVisible() {
 		$childNode = new tx_oelib_Visibility_Node();
 		$childNode->setParent($this->fixture);
 		$childNode->markAsVisible();
@@ -178,7 +214,10 @@ class tx_oelib_Visibility_NodeTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_markAsVisible_ForNodeWithParentAndGrandparent_MarksGrandparentNodeAsVisible() {
+	/**
+	 * @test
+	 */
+	public function markAsVisibleForNodeWithParentAndGrandparentMarksGrandparentNodeAsVisible() {
 		$childNode = new tx_oelib_Visibility_Node();
 		$grandChildNode = new tx_oelib_Visibility_Node();
 		$childNode->setParent($this->fixture);

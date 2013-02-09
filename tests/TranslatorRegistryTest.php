@@ -389,7 +389,10 @@ class tx_oelib_TranslatorRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getByExtensionNameDoesNotDeleteLanguageLabelsNotAffectedByTyposcript() {
+	/**
+	 * @test
+	 */
+	public function getByExtensionNameDoesNotDeleteLanguageLabelsNotAffectedByTypoScript() {
 		$testingFramework = new tx_oelib_testingFramework('oelib');
 		$testingFramework->createFakeFrontEnd();
 		$GLOBALS['TSFE']->initLLvars();

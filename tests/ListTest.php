@@ -111,7 +111,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	// Tests concerning sortByTitleAscending
 	//////////////////////////////////////////
 
-	public function test_sortByTitleAscending_ForFirstModelTitleAlphaAndSecondModelTitleBeta_ReturnsMinusOne() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleAscendingForFirstModelTitleAlphaAndSecondModelTitleBetaReturnsMinusOne() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('alpha');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -126,7 +129,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel->__destruct();
 	}
 
-	public function test_sortByTitleAscending_ForFirstModelTitleBetaAndSecondModelTitleAlpha_ReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleAscendingForFirstModelTitleBetaAndSecondModelTitleAlphaReturnsOne() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('beta');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -141,7 +147,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel->__destruct();
 	}
 
-	public function test_sortByTitleAscending_ForFirstAndSecontModelTitleSame_ReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleAscendingForFirstAndSecondModelTitleSameReturnsZero() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('alpha');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -161,7 +170,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	// Tests concerning sortByTitleDescending
 	///////////////////////////////////////////
 
-	public function test_sortByTitleDescending_ForFirstModelTitleAlphaAndSecondModelTitleBeta_ReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleDescendingForFirstModelTitleAlphaAndSecondModelTitleBetaReturnsOne() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('alpha');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -176,7 +188,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel->__destruct();
 	}
 
-	public function test_sortByTitleDescending_ForFirstModelTitleBetaAndSecondModelTitleAlpha_ReturnsMinusOne() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleDescendingForFirstModelTitleBetaAndSecondModelTitleAlphaReturnsMinusOne() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('beta');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -191,7 +206,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		$secondModel->__destruct();
 	}
 
-	public function test_sortByTitleDescending_ForFirstAndSecontModelTitleSame_ReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function sortByTitleDescendingForFirstAndSecondModelTitleSameReturnsZero() {
 		$firstModel = new tx_oelib_tests_fixtures_TestingModel();
 		$firstModel->setTitle('alpha');
 		$secondModel = new tx_oelib_tests_fixtures_TestingModel();
@@ -211,7 +229,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	// Tests concerning addModelsToFixture
 	////////////////////////////////////////
 
-	public function test_AddModelsToFixture_ForOneGivenTitle_AddsOneModelToFixture() {
+	/**
+	 * @test
+	 */
+	public function addModelsToFixtureForOneGivenTitleAddsOneModelToFixture() {
 		$this->addModelsToFixture(array('foo'));
 
 		$this->assertSame(
@@ -220,7 +241,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_AddModelsToFixture_ForOneGivenTitle_AddsModelWithTitleGiven() {
+	/**
+	 * @test
+	 */
+	public function addModelsToFixtureForOneGivenTitleAddsModelWithTitleGiven() {
 		$this->addModelsToFixture(array('foo'));
 
 		$this->assertSame(
@@ -229,7 +253,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_AddModelsToFixture_ForTwoGivenTitles_AddsTwoModelsToFixture() {
+	/**
+	 * @test
+	 */
+	public function addModelsToFixtureForTwoGivenTitlesAddsTwoModelsToFixture() {
 		$this->addModelsToFixture(array('foo', 'bar'));
 
 		$this->assertSame(
@@ -238,7 +265,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_AddModelsToFixture_ForTwoGivenTitles_AddsFirstTitleToFirstModelFixture() {
+	/**
+	 * @test
+	 */
+	public function addModelsToFixtureForTwoGivenTitlesAddsFirstTitleToFirstModelFixture() {
 		$this->addModelsToFixture(array('bar', 'foo'));
 
 		$this->assertSame(
@@ -247,7 +277,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_AddModelsToFixture_ForThreeGivenTitles_AddsThreeModelsToFixture() {
+	/**
+	 * @test
+	 */
+	public function addModelsToFixtureForThreeGivenTitlesAddsThreeModelsToFixture() {
 		$this->addModelsToFixture(array('foo', 'bar','fooBar'));
 
 		$this->assertSame(
@@ -712,7 +745,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 	// Tests concerning sort
 	//////////////////////////
 
-	public function test_sort_WithTwoModelsAndSortByTitleAscendingFunction_SortsModelsByTitleAscending() {
+	/**
+	 * @test
+	 */
+	public function sortWithTwoModelsAndSortByTitleAscendingFunctionSortsModelsByTitleAscending() {
 		$this->addModelsToFixture(array('Beta', 'Alpha'));
 		$this->fixture->sort(array($this, 'sortByTitleAscending'));
 
@@ -722,7 +758,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sort_WithThreeModelsAndSortByTitleAscendingFunction_SortsModelsByTitleAscending() {
+	/**
+	 * @test
+	 */
+	public function sortWithThreeModelsAndSortByTitleAscendingFunctionSortsModelsByTitleAscending() {
 		$this->addModelsToFixture(array('Zeta', 'Beta', 'Alpha'));
 		$this->fixture->sort(array($this, 'sortByTitleAscending'));
 
@@ -732,7 +771,10 @@ class tx_oelib_ListTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sort_WithTwoModelsAndSortByTitleDescendingFunction_SortsModelsByTitleDescending() {
+	/**
+	 * @test
+	 */
+	public function sortWithTwoModelsAndSortByTitleDescendingFunctionSortsModelsByTitleDescending() {
 		$this->addModelsToFixture(array('Alpha', 'Beta'));
 		$this->fixture->sort(array($this, 'sortByTitleDescending'));
 

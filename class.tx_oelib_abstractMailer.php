@@ -117,15 +117,15 @@ abstract class tx_oelib_abstractMailer {
 		$additionalParameters = '';
 		$characterSet = $this->getCharacterSet();
 
-		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setHeaderCharset($characterSet);
-		$mimeEMail->setFrom(
+		$mimeEmail = new Mail_mime(array('eol' => LF));
+		$mimeEmail->setHeaderCharset($characterSet);
+		$mimeEmail->setFrom(
 			$this->formatMailRole($email->getSender())
 		);
 		if ($email->hasAdditionalHeaders()) {
 			$additionalHeaders = $email->getAdditionalHeaders();
 
-			$mimeEMail->headers($additionalHeaders);
+			$mimeEmail->headers($additionalHeaders);
 
 			$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
 			$returnPath = $email->getReturnPath();
@@ -136,15 +136,15 @@ abstract class tx_oelib_abstractMailer {
 		}
 
 		if ($email->hasMessage()) {
-			$mimeEMail->setTXTBody($this->formatEmailBody($email->getMessage()));
+			$mimeEmail->setTXTBody($this->formatEmailBody($email->getMessage()));
 		}
 
 		if ($email->hasHTMLMessage()) {
-			$mimeEMail->setHTMLBody($email->getHTMLMessage());
+			$mimeEmail->setHTMLBody($email->getHTMLMessage());
 		}
 
 		foreach ($email->getAttachments() as $attachment) {
-			$mimeEMail->addAttachment(
+			$mimeEmail->addAttachment(
 				$attachment->getContent(),
 				$attachment->getContentType(),
 				$attachment->getFileName(),
@@ -163,8 +163,8 @@ abstract class tx_oelib_abstractMailer {
 			$email->getSubject(), 'quoted-printable', $characterSet
 		);
 
-		$body = $mimeEMail->get($buildParameter);
-		$headers = $mimeEMail->txtHeaders();
+		$body = $mimeEmail->get($buildParameter);
+		$headers = $mimeEmail->txtHeaders();
 
 		foreach ($email->getRecipients() as $recipient) {
 			$this->mail(

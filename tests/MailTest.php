@@ -365,7 +365,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests regarding setting and getting the CSS file.
 	//////////////////////////////////////////////////////
 
-	public function test_SetCssFile_ForNoCssFileGiven_DoesNotSetCssFile() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForNoCssFileGivenDoesNotSetCssFile() {
 		$this->fixture->setCssFile('');
 
 		$this->assertFalse(
@@ -373,7 +376,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForStringGivenWhichIsNoFile_DoesNotSetCssFile() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForStringGivenWhichIsNoFileDoesNotSetCssFile() {
 		$this->fixture->setCssFile('foo');
 
 		$this->assertFalse(
@@ -381,7 +387,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForGivenCssFileWithAbsolutePath_SetsCssFile() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForGivenCssFileWithAbsolutePathSetsCssFile() {
 		$this->fixture->setCssFile(
 			t3lib_extMgm::extPath('oelib') . 'tests/fixtures/test.css'
 		);
@@ -391,7 +400,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForGivenCssFileWithAbsoluteExtPath_SetsCssFile() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForGivenCssFileWithAbsoluteExtPathSetsCssFile() {
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
 
 		$this->assertTrue(
@@ -399,7 +411,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForGivenCssFile_StoresContentsOfCssFile() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForGivenCssFileStoresContentsOfCssFile() {
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
 
 		$this->assertContains(
@@ -408,7 +423,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForSetCssFileAndThenGivenEmtpyString_ClearesStoredCssFileData() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForSetCssFileAndThenGivenEmptyStringClearsStoredCssFileData() {
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
 		$this->fixture->setCssFile('');
 
@@ -417,7 +435,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForSetCssFileAndThenGivenNewCssFile_RemovesOldCssDataFromStorage() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForSetCssFileAndThenGivenNewCssFileRemovesOldCssDataFromStorage() {
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test_2.css');
 
@@ -427,7 +448,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetCssFile_ForSetCssFileAndThenGivenNewCssFile_StoresNewCssData() {
+	/**
+	 * @test
+	 */
+	public function setCssFileForSetCssFileAndThenGivenNewCssFileStoresNewCssData() {
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test.css');
 		$this->fixture->setCssFile('EXT:oelib/tests/fixtures/test_2.css');
 
@@ -442,7 +466,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests concerning the mogrification of the HTML Messages and the CSS file
 	/////////////////////////////////////////////////////////////////////////////
 
-	public function test_SetHtmlMessage_WithNoCssFileStored_OnlyStoresTheHtmlMessage() {
+	/**
+	 * @test
+	 */
+	public function setHtmlMessageWithNoCssFileStoredOnlyStoresTheHtmlMessage() {
 		$htmlMessage =
 			'<html>' .
 				'<head><title>foo</title></head>' .
@@ -456,7 +483,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetHtmlMessage_WithCssFileStored_StoresAttributesFromCssInHtmlMessage() {
+	/**
+	 * @test
+	 */
+	public function setHtmlMessageWithCssFileStoredStoresAttributesFromCssInHtmlMessage() {
 		$this->fixture->setCssFile(
 			t3lib_extMgm::extPath('oelib') . 'tests/fixtures/test.css'
 		);

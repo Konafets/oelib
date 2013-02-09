@@ -165,7 +165,10 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning setLoggedInUser
 	////////////////////////////////////
 
-	public function test_SetLoggedInUserForUserGiven_SetsTheLoggedInUser() {
+	/**
+	 * @test
+	 */
+	public function setLoggedInUserForUserGivenSetsTheLoggedInUser() {
 		$backEndUser = tx_oelib_MapperRegistry::get(
 			'tx_oelib_Mapper_BackEndUser')->getNewGhost();
 		$this->fixture->setLoggedInUser($backEndUser);
@@ -176,7 +179,10 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_SetLoggedInUserForUserGivenAndAlreadyStoredLoggedInUser_OverridesTheOldUserWithTheNewOne() {
+	/**
+	 * @test
+	 */
+	public function setLoggedInUserForUserGivenAndAlreadyStoredLoggedInUserOverridesTheOldUserWithTheNewOne() {
 		$oldBackEndUser = tx_oelib_MapperRegistry::get(
 			'tx_oelib_Mapper_BackEndUser')->getNewGhost();
 		$this->fixture->setLoggedInUser($oldBackEndUser);

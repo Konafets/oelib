@@ -191,7 +191,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the e-mail address
 	////////////////////////////////////////////////
 
-	public function testGetEmailAddressForEmptyEMailReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getEmailAddressForEmptyEmailReturnsEmptyString() {
 		$this->fixture->setData(array('email' => ''));
 
 		$this->assertSame(
@@ -200,7 +203,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetEmailAddressForNonEmptyEMailReturnsEMail() {
+	/**
+	 * @test
+	 */
+	public function getEmailAddressForNonEmptyEmailReturnsEmail() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
 		$this->assertSame(

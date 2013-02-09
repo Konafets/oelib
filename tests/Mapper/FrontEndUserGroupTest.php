@@ -58,7 +58,10 @@ class tx_oelib_Mapper_FrontEndUserGroupTest extends tx_phpunit_testcase {
 	// Tests concerning the basic functions
 	/////////////////////////////////////////
 
-	public function test_Find_WithUidOfExistingRecord_ReturnsFrontEndUserGroupInstance() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsFrontEndUserGroupInstance() {
 		$uid = $this->testingFramework->createFrontEndUserGroup();
 
 		$this->assertTrue(
@@ -67,7 +70,10 @@ class tx_oelib_Mapper_FrontEndUserGroupTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_load_ForExistingUserGroup_CanLoadUserGroupData() {
+	/**
+	 * @test
+	 */
+	public function loadForExistingUserGroupCanLoadUserGroupData() {
 		$userGroup = $this->fixture->find(
 			$this->testingFramework->createFrontEndUserGroup(
 				array('title' => 'foo')

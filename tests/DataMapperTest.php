@@ -2165,7 +2165,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findAllForGivenSortParameter_OverridesDefaultSorting() {
+	/**
+	 * @test
+	 */
+	public function findAllForGivenSortParameterOverridesDefaultSorting() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'record a')
 		);
@@ -2179,7 +2182,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findAllForGivenSortParameterWithSortDirection_SortsResultsBySortdirection() {
+	/**
+	 * @test
+	 */
+	public function findAllForGivenSortParameterWithSortDirectionSortsResultsBySortdirection() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'record b')
 		);
@@ -2193,7 +2199,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findAllForGivenSortParameter_FindsMultipleEntries() {
+	/**
+	 * @test
+	 */
+	public function findAllForGivenSortParameterFindsMultipleEntries() {
 		$this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRecord('tx_oelib_test');
 
@@ -2208,7 +2217,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning findByWhereClause
 	///////////////////////////////////////
 
-	public function test_findByWhereClauseForNoGivenParameterAndTwoRecords_FindsBothRecords() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForNoGivenParameterAndTwoRecordsFindsBothRecords() {
 		$this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRecord('tx_oelib_test');
 
@@ -2218,7 +2230,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByWhereClauseForGivenWhereClauseAndOneMatchingRecord_FindsThisRecord() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForGivenWhereClauseAndOneMatchingRecordFindsThisRecord() {
 		$foundRecordUid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -2229,7 +2244,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByWhereClauseForGivenWhereClauseAndTwoRecordsOneMatchingOneNot_DoesNotFindNonMatchingRecord() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForGivenWhereClauseAndTwoRecordsOneMatchingOneNotDoesNotFindNonMatchingRecord() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -2243,7 +2261,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByWhereClauseForNoSortingProvided_SortsRecordsByDefaultSorting() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForNoSortingProvidedSortsRecordsByDefaultSorting() {
 		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid2 = $this->testingFramework->createRecord('tx_oelib_test');
 
@@ -2253,7 +2274,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByWhereClauseForSortingProvided_SortsRecordsByGivenSorting() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForSortingProvidedSortsRecordsByGivenSorting() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -2267,7 +2291,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByWhereClauseForSortingAndWhereClauseProvided_SortsMatchingRecords() {
+	/**
+	 * @test
+	 */
+	public function findByWhereClauseForSortingAndWhereClauseProvidedSortsMatchingRecords() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo', 'sorting' => 2)
 		);
@@ -2344,7 +2371,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning findByPageUId
 	///////////////////////////////////
 
-	public function test_findByPageUid_ForPageUidZero_ReturnsEntryWithZeroPageUid() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForPageUidZeroReturnsEntryWithZeroPageUid() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertSame(
@@ -2353,7 +2383,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForPageUidZero_ReturnsEntryWithNonZeroPageUid() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForPageUidZeroReturnsEntryWithNonZeroPageUid() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 42)
 		);
@@ -2364,7 +2397,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForPageUidEmpty_ReturnsRecordWithNonZeroPageUid() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForPageUidEmptyReturnsRecordWithNonZeroPageUid() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 42)
 		);
@@ -2375,7 +2411,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForNonZeroPageUid_ReturnsEntryFromThatPage() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForNonZeroPageUidReturnsEntryFromThatPage() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 1)
 		);
@@ -2386,7 +2425,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForNonZeroPageUid_DoesNotReturnEntryWithDifferentPageUId() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForNonZeroPageUidDoesNotReturnEntryWithDifferentPageUId() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 2)
 		);
@@ -2396,7 +2438,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForPageUidAndSortingGiven_ReturnEntrySortedBySorting() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForPageUidAndSortingGivenReturnEntrySortedBySorting() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 2, 'sorting' => 3)
 		);
@@ -2411,7 +2456,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForTwoNonZeroPageUids_CanReturnRecordFromFirstPage() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForTwoNonZeroPageUidsCanReturnRecordFromFirstPage() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 1)
 		);
@@ -2422,7 +2470,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_findByPageUid_ForTwoNonZeroPageUids_CanReturnRecordFromSecondPage() {
+	/**
+	 * @test
+	 */
+	public function findByPageUidForTwoNonZeroPageUidsCanReturnRecordFromSecondPage() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('pid' => 2)
 		);

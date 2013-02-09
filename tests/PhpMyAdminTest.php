@@ -40,7 +40,10 @@ class tx_oelib_PhpMyAdminTest extends tx_phpunit_testcase {
 	// Test if phpMyAdmin is installed
 	///////////////////////////////////////////////////////
 
-	public function test_phpMyAdminMustNotBeInstalled() {
+	/**
+	 * @test
+	 */
+	public function phpMyAdminMustNotBeInstalled() {
 		$this->assertFalse(
 			t3lib_extMgm::isLoaded('phpmyadmin'),
 			'For the oelib unit tests to run, the phpMyAdmin extension ' .

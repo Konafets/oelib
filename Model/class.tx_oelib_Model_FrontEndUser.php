@@ -315,7 +315,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * @return boolean TRUE if the user agreed to receive HTML e-mails, FALSE
 	 *                 otherwise
 	 */
-	public function wantsHtmlEMail() {
+	public function wantsHtmlEmail() {
 		return $this->getAsBoolean('module_sys_dmail_html');
 	}
 

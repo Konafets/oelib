@@ -4213,7 +4213,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests concerning createBackEndUserGroup
 	////////////////////////////////////////////
 
-	public function test_createBackEndUserGroupForNoDataGiven_CreatesBackEndGroup() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserGroupForNoDataGivenCreatesBackEndGroup() {
 		$this->fixture->createBackEndUserGroup(array());
 
 		$this->assertTrue(
@@ -4221,7 +4224,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_createBackEndUserGroupForNoDataGiven_ReturnsUidOfCreatedBackEndGroup() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserGroupForNoDataGivenReturnsUidOfCreatedBackEndGroup() {
 		$backendGroupUid = $this->fixture->createBackEndUserGroup(array());
 
 		$this->assertTrue(
@@ -4231,7 +4237,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_createBackEndUserGroupForTitleGiven_StoresTitleInGroupRecord() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserGroupForTitleGivenStoresTitleInGroupRecord() {
 		$this->fixture->createBackEndUserGroup(
 			array('title' => 'foo group')
 		);

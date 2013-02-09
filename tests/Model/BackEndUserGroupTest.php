@@ -51,7 +51,10 @@ class tx_oelib_Model_BackEndUserGroupTest extends tx_phpunit_testcase {
 	// Tests concerning getTitle()
 	////////////////////////////////
 
-	public function test_GetTitle_ForNonEmptyGroupTitle_ReturnsGroupTitle() {
+	/**
+	 * @test
+	 */
+	public function getTitleForNonEmptyGroupTitleReturnsGroupTitle() {
 		$this->fixture->setData(array('title' => 'foo'));
 
 		$this->assertSame(
@@ -60,7 +63,10 @@ class tx_oelib_Model_BackEndUserGroupTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_GetTitle_ForEmptyGroupTitle_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getTitleForEmptyGroupTitleReturnsEmptyString() {
 		$this->fixture->setData(array('title' => ''));
 
 		$this->assertSame(

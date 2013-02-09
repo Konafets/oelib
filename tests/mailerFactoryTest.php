@@ -303,7 +303,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function sendWithAnEMailAndGetIt() {
+	public function sendWithAnEmailAndGetIt() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -328,16 +328,16 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEmailAddress());
-		$mimeEMail->setTXTBody(self::$email['message']);
+		$mimeEmail = new Mail_mime(array('eol' => LF));
+		$mimeEmail->setFrom($sender->getEmailAddress());
+		$mimeEmail->setTXTBody(self::$email['message']);
 
 		$this->assertSame(
 			array(
 				'recipient' => self::$email['recipient'],
 				'subject' => self::$email['subject'],
-				'message' => $mimeEMail->get($buildParameter),
-				'headers' => $mimeEMail->txtHeaders(),
+				'message' => $mimeEmail->get($buildParameter),
+				'headers' => $mimeEmail->txtHeaders(),
 			),
 			$this->fixture->getLastEmail()
 		);
@@ -385,7 +385,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function sendWithTwoEMailsAndGetTheLastEMail() {
+	public function sendWithTwoEmailsAndGetTheLastEmail() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -404,14 +404,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			'', self::$otherEmail['recipient']
 		);
 
-		$otherEMail = new tx_oelib_Mail();
-		$otherEMail->setSender($sender);
-		$otherEMail->addRecipient($otherRecipient);
-		$otherEMail->setSubject(self::$otherEmail['subject']);
-		$otherEMail->setMessage(self::$otherEmail['message']);
+		$otherEmail = new tx_oelib_Mail();
+		$otherEmail->setSender($sender);
+		$otherEmail->addRecipient($otherRecipient);
+		$otherEmail->setSubject(self::$otherEmail['subject']);
+		$otherEmail->setMessage(self::$otherEmail['message']);
 
 		$this->fixture->send($eMail);
-		$this->fixture->send($otherEMail);
+		$this->fixture->send($otherEmail);
 
 		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
@@ -421,16 +421,16 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEmailAddress());
-		$mimeEMail->setTXTBody(self::$otherEmail['message']);
+		$mimeEmail = new Mail_mime(array('eol' => LF));
+		$mimeEmail->setFrom($sender->getEmailAddress());
+		$mimeEmail->setTXTBody(self::$otherEmail['message']);
 
 		$this->assertSame(
 			array(
 				'recipient' => self::$otherEmail['recipient'],
 				'subject' => self::$otherEmail['subject'],
-				'message' => $mimeEMail->get($buildParameter),
-				'headers' => $mimeEMail->txtHeaders(),
+				'message' => $mimeEmail->get($buildParameter),
+				'headers' => $mimeEmail->txtHeaders(),
 			),
 			$this->fixture->getLastEmail()
 		);
@@ -439,13 +439,13 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$recipient->__destruct();
 		$eMail->__destruct();
 		$otherRecipient->__destruct();
-		$otherEMail->__destruct();
+		$otherEmail->__destruct();
 	}
 
 	/**
 	 * @test
 	 */
-	public function sendWithTwoEMailsAndGetBothEMails() {
+	public function sendWithTwoEmailsAndGetBothEmails() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -464,14 +464,14 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			'', self::$otherEmail['recipient']
 		);
 
-		$otherEMail = new tx_oelib_Mail();
-		$otherEMail->setSender($sender);
-		$otherEMail->addRecipient($otherRecipient);
-		$otherEMail->setSubject(self::$otherEmail['subject']);
-		$otherEMail->setMessage(self::$otherEmail['message']);
+		$otherEmail = new tx_oelib_Mail();
+		$otherEmail->setSender($sender);
+		$otherEmail->addRecipient($otherRecipient);
+		$otherEmail->setSubject(self::$otherEmail['subject']);
+		$otherEmail->setMessage(self::$otherEmail['message']);
 
 		$this->fixture->send($eMail);
-		$this->fixture->send($otherEMail);
+		$this->fixture->send($otherEmail);
 
 		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
@@ -481,27 +481,27 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 			'html_charset' => $characterSet,
 		);
 
-		$mimeEMail = new Mail_mime(array('eol' => LF));
-		$mimeEMail->setFrom($sender->getEmailAddress());
-		$mimeEMail->setTXTBody(self::$email['message']);
+		$mimeEmail = new Mail_mime(array('eol' => LF));
+		$mimeEmail->setFrom($sender->getEmailAddress());
+		$mimeEmail->setTXTBody(self::$email['message']);
 
-		$otherMimeEMail = new Mail_mime(array('eol' => LF));
-		$otherMimeEMail->setFrom($sender->getEmailAddress());
-		$otherMimeEMail->setTXTBody(self::$otherEmail['message']);
+		$otherMimeEmail = new Mail_mime(array('eol' => LF));
+		$otherMimeEmail->setFrom($sender->getEmailAddress());
+		$otherMimeEmail->setTXTBody(self::$otherEmail['message']);
 
 		$this->assertSame(
 			array(
 				array(
 					'recipient' => self::$email['recipient'],
 					'subject' => self::$email['subject'],
-					'message' => $mimeEMail->get($buildParameter),
-					'headers' => $mimeEMail->txtHeaders(),
+					'message' => $mimeEmail->get($buildParameter),
+					'headers' => $mimeEmail->txtHeaders(),
 				),
 				array(
 					'recipient' => self::$otherEmail['recipient'],
 					'subject' => self::$otherEmail['subject'],
-					'message' => $otherMimeEMail->get($buildParameter),
-					'headers' => $otherMimeEMail->txtHeaders(),
+					'message' => $otherMimeEmail->get($buildParameter),
+					'headers' => $otherMimeEmail->txtHeaders(),
 				),
 			),
 			$this->fixture->getAllEmail()
@@ -511,7 +511,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$recipient->__destruct();
 		$eMail->__destruct();
 		$otherRecipient->__destruct();
-		$otherEMail->__destruct();
+		$otherEmail->__destruct();
 	}
 
 	/**
@@ -606,7 +606,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		$this->fixture->mail('john@doe.com', 'subject', '');
 	}
 
-	public function test_sendForSubjectWithAsciiCharactersOnly_DoesNotEncodeIt() {
+	/**
+	 * @test
+	 */
+	public function sendForSubjectWithAsciiCharactersOnlyDoesNotEncodeIt() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);
@@ -629,7 +632,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_sendForSubjectWithNonAsciiCharacters_EncodesItWithUtf8CharsetInformation() {
+	/**
+	 * @test
+	 */
+	public function sendForSubjectWithNonAsciiCharactersEncodesItWithUtf8CharsetInformation() {
 		if ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] == '') {
 			$this->markTestSkipped(
 				'This test applies to installations with forceCharset only.'
@@ -661,7 +667,7 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function sendForSubjectWithNonAsciiCharacters_EncodesItWithUtfEightCharsetInformation() {
+	public function sendForSubjectWithNonAsciiCharactersEncodesItWithUtfEightCharsetInformation() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			$this->markTestSkipped('This test is only applicable in TYPO3 < 4.7.');
 		}
@@ -945,7 +951,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	// Tests concerning the additional headers in the e-mails
 	///////////////////////////////////////////////////////////
 
-	public function test_send_ForEmailWithAdditionalHeader_AddsThisHeaderToSentMail() {
+	/**
+	 * @test
+	 */
+	public function sendForEmailWithAdditionalHeaderAddsThisHeaderToSentMail() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'', 'any-sender@email-address.org'
 		);

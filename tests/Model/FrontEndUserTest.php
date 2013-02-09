@@ -571,7 +571,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the e-mail address
 	////////////////////////////////////////
 
-	public function testHasEmailAddressForEmptyEMailReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasEmailAddressForEmptyEmailReturnsFalse() {
 		$this->fixture->setData(array('email' => ''));
 
 		$this->assertFalse(
@@ -579,7 +582,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasEmailAddressForNonEmptyEMailReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasEmailAddressForNonEmptyEmailReturnsTrue() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
 		$this->assertTrue(
@@ -587,7 +593,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetEmailAddressForEmptyEMailReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getEmailAddressForEmptyEmailReturnsEmptyString() {
 		$this->fixture->setData(array('email' => ''));
 
 		$this->assertSame(
@@ -596,7 +605,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetEmailAddressForNonEmptyEMailReturnsEMail() {
+	/**
+	 * @test
+	 */
+	public function getEmailAddressForNonEmptyEmailReturnsEmail() {
 		$this->fixture->setData(array('email' => 'john@doe.com'));
 
 		$this->assertSame(
@@ -697,30 +709,39 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 
 
 	////////////////////////////////////
-	// Tests concerning wantsHtmlEMail
+	// Tests concerning wantsHtmlEmail
 	////////////////////////////////////
 
-	public function test_WantsHtmlEMail_ForMissingModuleSysDmailHtmlField_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function wantsHtmlEmailForMissingModuleSysDmailHtmlFieldReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->wantsHtmlEMail()
+			$this->fixture->wantsHtmlEmail()
 		);
 	}
 
-	public function test_WantsHtmlEMail_ForModuleSysDmailHtmlOne_ReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function wantsHtmlEmailForModuleSysDmailHtmlOneReturnsTrue() {
 		$this->fixture->setData(array('module_sys_dmail_html' => 1));
 
 		$this->assertTrue(
-			$this->fixture->wantsHtmlEMail()
+			$this->fixture->wantsHtmlEmail()
 		);
 	}
 
-	public function test_WantsHtmlEMail_ForModuleSysDmailHtmlZero_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function wantsHtmlEmailForModuleSysDmailHtmlZeroReturnsFalse() {
 		$this->fixture->setData(array('module_sys_dmail_html' => 0));
 
 		$this->assertFalse(
-			$this->fixture->wantsHtmlEMail()
+			$this->fixture->wantsHtmlEmail()
 		);
 	}
 
@@ -800,7 +821,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getGender
 	///////////////////////////////
 
-	public function test_getGender_ForNotInstalledSrFeUserRegister_ReturnsGenderUnknown() {
+	/**
+	 * @test
+	 */
+	public function getGenderForNotInstalledSrFeUserRegisterReturnsGenderUnknown() {
 		if (t3lib_extMgm::isLoaded('sr_feuser_register')) {
 			$this->markTestSkipped(
 					'This test is only applicable if sr_feuser_register is ' .
@@ -814,7 +838,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getGender_ForGenderValueZero_ReturnsGenderMale() {
+	/**
+	 * @test
+	 */
+	public function getGenderForGenderValueZeroReturnsGenderMale() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
 			$this->markTestSkipped(
 					'This test is only applicable if sr_feuser_register is ' .
@@ -829,7 +856,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getGender_ForGenderValueOne_ReturnsGenderFemale() {
+	/**
+	 * @test
+	 */
+	public function getGenderForGenderValueOneReturnsGenderFemale() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
 			$this->markTestSkipped(
 					'This test is only applicable if sr_feuser_register is ' .
@@ -849,7 +879,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the first name
 	////////////////////////////////////
 
-	public function test_hasFirstName_ForNoFirstNameSet_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasFirstNameForNoFirstNameSetReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
@@ -857,7 +890,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_hasFirstName_ForFirstNameSet_ReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasFirstNameForFirstNameSetReturnsTrue() {
 		$this->fixture->setData(array('first_name' => 'foo'));
 
 		$this->assertTrue(
@@ -865,7 +901,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getFirstName_ForNoFirstNameSet_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getFirstNameForNoFirstNameSetReturnsEmptyString() {
 		$this->fixture->setData(array());
 
 		$this->assertSame(
@@ -874,7 +913,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getFirstName_ForFirstNameSet_ReturnsFirstName() {
+	/**
+	 * @test
+	 */
+	public function getFirstNameForFirstNameSetReturnsFirstName() {
 		$this->fixture->setData(array('first_name' => 'foo'));
 
 		$this->assertSame(
@@ -895,7 +937,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getFirstOrFullName_ForUserWithFirstName_ReturnsFirstName() {
+	/**
+	 * @test
+	 */
+	public function getFirstOrFullNameForUserWithFirstNameReturnsFirstName() {
 		$this->fixture->setData(
 			array('first_name' => 'foo', 'name' => 'foo bar')
 		);
@@ -906,7 +951,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getFirstOrFullName_ForUserWithoutFirstName_ReturnsName() {
+	/**
+	 * @test
+	 */
+	public function getFirstOrFullNameForUserWithoutFirstNameReturnsName() {
 		$this->fixture->setData(array('name' => 'foo bar'));
 
 		$this->assertSame(
@@ -920,7 +968,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the last name
 	///////////////////////////////////
 
-	public function test_hasLastName_ForNoLastNameSet_ReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasLastNameForNoLastNameSetReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
@@ -928,7 +979,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_hasLastName_ForLastNameSet_ReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasLastNameForLastNameSetReturnsTrue() {
 		$this->fixture->setData(array('last_name' => 'bar'));
 
 		$this->assertTrue(
@@ -936,7 +990,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getLastName_ForNoLastNameSet_ReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getLastNameForNoLastNameSetReturnsEmptyString() {
 		$this->fixture->setData(array());
 
 		$this->assertSame(
@@ -945,7 +1002,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getLastName_ForLastNameSet_ReturnsLastName() {
+	/**
+	 * @test
+	 */
+	public function getLastNameForLastNameSetReturnsLastName() {
 		$this->fixture->setData(array('last_name' => 'bar'));
 
 		$this->assertSame(
@@ -966,7 +1026,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getLastOrFullName_ForUserWithLastName_ReturnsLastName() {
+	/**
+	 * @test
+	 */
+	public function getLastOrFullNameForUserWithLastNameReturnsLastName() {
 		$this->fixture->setData(
 			array('last_name' => 'bar', 'name' => 'foo bar')
 		);
@@ -977,7 +1040,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function test_getLastOrFullName_ForUserWithoutLastName_ReturnsName() {
+	/**
+	 * @test
+	 */
+	public function getLastOrFullNameForUserWithoutLastNameReturnsName() {
 		$this->fixture->setData(array('name' => 'foo bar'));
 
 		$this->assertSame(

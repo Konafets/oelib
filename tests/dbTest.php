@@ -993,7 +993,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::getTcaForTable(OELIB_TESTTABLE_MM);
 	}
 
-	public function test_getTcaForTableCanLoadFieldsAddedByExtensions() {
+	/**
+	 * @test
+	 */
+	public function getTcaForTableCanLoadFieldsAddedByExtensions() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
 			$this->markTestSkipped(
 				'This test is only applicable if sr_feuser_register is loaded.'
