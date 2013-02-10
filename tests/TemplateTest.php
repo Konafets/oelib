@@ -49,7 +49,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for reading the HTML from a file.
 	////////////////////////////////////////////
 
-	public function testProcessTemplateFromFileProcessesTemplateFromFile() {
+	/**
+	 * @test
+	 */
+	public function processTemplateFromFileProcessesTemplateFromFile() {
 		$this->fixture->processTemplateFromFile(
 			'EXT:oelib/tests/fixtures/oelib.html'
 		);
@@ -63,7 +66,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for getting subparts.
 	///////////////////////////////
 
-	public function testGetSubpartWithNoSubpartNameInitiallyReturnsAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNoSubpartNameInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
 			'', $this->fixture->getSubpart()
 		);
@@ -104,7 +110,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteTemplateReturnsCompleteTemplateContent() {
+	/**
+	 * @test
+	 */
+	public function getCompleteTemplateReturnsCompleteTemplateContent() {
 		$templateCode = 'This is a test including'.LF.'a linefeed.'.LF;
 		$this->fixture->processTemplate(
 			$templateCode
@@ -114,7 +123,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteTemplateCanContainUtf8Umlauts() {
+	/**
+	 * @test
+	 */
+	public function getCompleteTemplateCanContainUtf8Umlauts() {
 		$this->fixture->processTemplate('äöüßÄÖÜßéèáàóò');
 
 		$this->assertSame(
@@ -123,7 +135,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteTemplateCanContainIso88591Umlauts() {
+	/**
+	 * @test
+	 */
+	public function getCompleteTemplateCanContainIso88591Umlauts() {
 		// 228 = ä, 223 = ß (in ISO8859-1)
 		$this->fixture->processTemplate(chr(228) . chr(223));
 
@@ -133,7 +148,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteTemplateWithComment() {
+	/**
+	 * @test
+	 */
+	public function getCompleteTemplateWithComment() {
 		$templateCode = 'This is a test including a comment. '
 			.'<!-- This is a comment. -->'
 			.'And some more text.';
@@ -145,7 +163,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSimpleSubpart() {
+	/**
+	 * @test
+	 */
+	public function getSimpleSubpart() {
 		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
@@ -332,7 +353,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSubpartFromTemplateCanContainUtf8Umlauts() {
+	/**
+	 * @test
+	 */
+	public function getSubpartFromTemplateCanContainUtf8Umlauts() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 			'äöüßÄÖÜßéèáàóò' .
@@ -345,7 +369,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSubpartFromTemplateCanContainIso88591Umlauts() {
+	/**
+	 * @test
+	 */
+	public function getSubpartFromTemplateCanContainIso88591Umlauts() {
 		// 228 = ä, 223 = ß (in ISO8859-1)
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
@@ -359,7 +386,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetOneOfTwoSimpleSubparts() {
+	/**
+	 * @test
+	 */
+	public function getOneOfTwoSimpleSubparts() {
 		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
@@ -378,7 +408,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSimpleSubpartWithLinefeed() {
+	/**
+	 * @test
+	 */
+	public function getSimpleSubpartWithLinefeed() {
 		$subpartContent = LF.'Subpart content'.LF;
 		$templateCode = 'Text before the subpart'.LF
 			.'<!-- ###MY_SUBPART### -->'
@@ -393,7 +426,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetDoubleOccuringSubpart() {
+	/**
+	 * @test
+	 */
+	public function getDoubleOccurringSubpart() {
 		$subpartContent = 'Subpart content';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
@@ -412,7 +448,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSubpartWithNestedInnerSubparts() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNestedInnerSubparts() {
 		$subpartContent = 'Subpart content ';
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
@@ -436,7 +475,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetEmptyExistingSubpart() {
+	/**
+	 * @test
+	 */
+	public function getEmptyExistingSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -447,7 +489,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHiddenSubpart() {
+	/**
+	 * @test
+	 */
+	public function getHiddenSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'Some text. '
@@ -461,7 +506,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayAndGetHiddenSubpartReturnsEmptySubpartContent() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayAndGetHiddenSubpartReturnsEmptySubpartContent() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 				'Some text. ' .
@@ -481,7 +529,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for filling in markers.
 	//////////////////////////////////
 
-	public function testGetInexistentMarkerWillReturnAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getInexistentMarkerWillReturnAnEmptyString() {
 		$this->fixture->processTemplate(
 			'foo'
 		);
@@ -490,7 +541,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetAndGetInexistentMarkerSucceeds() {
+	/**
+	 * @test
+	 */
+	public function setAndGetInexistentMarkerSucceeds() {
 		$this->fixture->processTemplate(
 			'foo'
 		);
@@ -501,7 +555,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetAndGetExistingMarkerSucceeds() {
+	/**
+	 * @test
+	 */
+	public function setAndGetExistingMarkerSucceeds() {
 		$this->fixture->processTemplate(
 			'###BAR###'
 		);
@@ -512,7 +569,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerAndGetMarkerCanHaveUtf8UmlautsInMarkerContent() {
+	/**
+	 * @test
+	 */
+	public function setMarkerAndGetMarkerCanHaveUtf8UmlautsInMarkerContent() {
 		$this->fixture->processTemplate(
 			'###BAR###'
 		);
@@ -524,7 +584,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerAndGetMarkerCanHaveIso88591UmlautsInMarkerContent() {
+	/**
+	 * @test
+	 */
+	public function setMarkerAndGetMarkerCanHaveIso88591UmlautsInMarkerContent() {
 		$this->fixture->processTemplate(
 			'###BAR###'
 		);
@@ -537,7 +600,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetLowercaseMarkerInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setLowercaseMarkerInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -548,7 +614,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetUppercaseMarkerInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setUppercaseMarkerInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -559,7 +628,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetLowercaseMarkerInSubpart() {
+	/**
+	 * @test
+	 */
+	public function setLowercaseMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -572,7 +644,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetUppercaseMarkerInSubpart() {
+	/**
+	 * @test
+	 */
+	public function setUppercaseMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -585,7 +660,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDoubleMarkerInSubpart() {
+	/**
+	 * @test
+	 */
+	public function setDoubleMarkerInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'###MARKER### This is some template code. ###MARKER### More text.'
@@ -598,7 +676,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerInCompleteTemplateTwoTimes() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInCompleteTemplateTwoTimes() {
 		$this->fixture->processTemplate(
 			'This is some template code. ###MARKER### More text.'
 		);
@@ -616,7 +697,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerInSubpartTwoTimes() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInSubpartTwoTimes() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code. ###MARKER### More text.'
@@ -636,7 +720,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesArePrefixesBothUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesArePrefixesBothUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
@@ -649,7 +736,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesAreSuffixesBothUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesAreSuffixesBothUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
@@ -662,7 +752,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesArePrefixesFirstUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesArePrefixesFirstUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
@@ -674,7 +767,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesAreSuffixesFirstUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesAreSuffixesFirstUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
@@ -686,7 +782,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesArePrefixesSecondUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesArePrefixesSecondUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###MY_MARKER_TOO###'
 		);
@@ -698,7 +797,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesAreSuffixesSecondUsed() {
+	/**
+	 * @test
+	 */
+	public function markerNamesAreSuffixesSecondUsed() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER### ###ALSO_MY_MARKER###'
 		);
@@ -710,7 +812,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesArePrefixesBothUsedWithSubpart() {
+	/**
+	 * @test
+	 */
+	public function markerNamesArePrefixesBothUsedWithSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 			.'###MY_MARKER### ###MY_MARKER_TOO###'
@@ -725,7 +830,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkerNamesAreSuffixesBothUsedWithSubpart() {
+	/**
+	 * @test
+	 */
+	public function markerNamesAreSuffixesBothUsedWithSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 			.'###MY_MARKER### ###ALSO_MY_MARKER###'
@@ -745,7 +853,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for replacing subparts with their content on output.
 	///////////////////////////////////////////////////////////////
 
-	public function testGetUnchangedSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function getUnchangedSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code.'
 				.'<!-- ###INNER_SUBPART### -->'
@@ -761,7 +872,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUnchangedDoubleSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function getUnchangedDoubleSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'This is some template code.'
 				.'<!-- ###INNER_SUBPART### -->'
@@ -783,7 +897,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUnchangedSubpartInRequestedSubpart() {
+	/**
+	 * @test
+	 */
+	public function getUnchangedSubpartInRequestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code.'
@@ -801,7 +918,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUnchangedDoubleSubpartInRequestedSubpart() {
+	/**
+	 * @test
+	 */
+	public function getUnchangedDoubleSubpartInRequestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'This is some template code.'
@@ -831,7 +951,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// or suffixes of other subpart names.
 	///////////////////////////////////////////////////////////////
 
-	public function testSubpartNamesArePrefixesGetCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesArePrefixesGetCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -847,7 +970,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartNamesAreSuffixesGetCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesAreSuffixesGetCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -863,7 +989,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartNamesArePrefixesGetFirstSubpart() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesArePrefixesGetFirstSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -879,7 +1008,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartNamesAreSuffixesGetFirstSubpart() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesAreSuffixesGetFirstSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -895,7 +1027,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartNamesArePrefixesGetSecondSubpart() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesArePrefixesGetSecondSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -911,7 +1046,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartNamesAreSuffixesGetSecondSubpart() {
+	/**
+	 * @test
+	 */
+	public function subpartNamesAreSuffixesGetSecondSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'foo'
@@ -932,7 +1070,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for hiding and unhiding subparts.
 	////////////////////////////////////////////
 
-	public function testHideSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -948,7 +1089,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideOverwrittenSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function hideOverwrittenSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -964,7 +1108,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -981,7 +1128,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartInCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartInCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -999,7 +1149,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -1017,7 +1170,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTwoSubpartInNestedSubpart() {
+	/**
+	 * @test
+	 */
+	public function twoSubpartInNestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###SINGLE_VIEW###  -->'
 				.'<!-- ###FIELD_WRAPPER_TITLE### -->'
@@ -1037,7 +1193,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -1056,7 +1215,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -1076,7 +1238,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsSeparately() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsSeparately() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1096,7 +1261,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsWithoutSpaceAfterComma() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsWithoutSpaceAfterComma() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1115,7 +1283,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsInReverseOrder() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsInReverseOrder() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1134,7 +1305,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsWithSpaceAfterComma() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsWithSpaceAfterComma() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1153,7 +1327,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideTwoSubpartsSeparately() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideTwoSubpartsSeparately() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1177,7 +1354,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideTwoSubpartsInSameOrder() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideTwoSubpartsInSameOrder() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1199,7 +1379,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideTwoSubpartsInReverseOrder() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideTwoSubpartsInReverseOrder() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1221,7 +1404,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsUnhideFirst() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsUnhideFirst() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1242,7 +1428,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsUnhideSecond() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsUnhideSecond() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART_1### -->'
@@ -1263,7 +1452,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhidePermanentlyHiddenSubpart() {
+	/**
+	 * @test
+	 */
+	public function unhidePermanentlyHiddenSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -1280,7 +1472,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideOneOfTwoPermanentlyHiddenSubparts() {
+	/**
+	 * @test
+	 */
+	public function unhideOneOfTwoPermanentlyHiddenSubparts() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -1297,7 +1492,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartAndPermanentlyHideAnother() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartAndPermanentlyHideAnother() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -1315,7 +1513,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhidePermanentlyHiddenSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function unhidePermanentlyHiddenSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->'
 				.'Some text. '
@@ -1334,7 +1535,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function unhideOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->'
 				.'Some text. '
@@ -1353,7 +1557,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartAndPermanentlyHideAnotherWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartAndPermanentlyHideAnotherWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->'
 				.'Some text. '
@@ -1373,7 +1580,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartIsInvisibleIfTheSubpartNameIsEmpty() {
+	/**
+	 * @test
+	 */
+	public function subpartIsInvisibleIfTheSubpartNameIsEmpty() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -1383,7 +1593,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNoExistentSubpartIsInvisible() {
+	/**
+	 * @test
+	 */
+	public function noExistentSubpartIsInvisible() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -1393,7 +1606,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartIsVisibleByDefault() {
+	/**
+	 * @test
+	 */
+	public function subpartIsVisibleByDefault() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -1403,7 +1619,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartIsNotVisibleAfterHiding() {
+	/**
+	 * @test
+	 */
+	public function subpartIsNotVisibleAfterHiding() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -1414,7 +1633,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSubpartIsVisibleAfterHidingAndUnhiding() {
+	/**
+	 * @test
+	 */
+	public function subpartIsVisibleAfterHidingAndUnhiding() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'<!-- ###MY_SUBPART### -->'
@@ -1426,7 +1648,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetSubpartReturnsContentOfVisibleSubpartThatWasFilledWhenHidden() {
+	/**
+	 * @test
+	 */
+	public function getSubpartReturnsContentOfVisibleSubpartThatWasFilledWhenHidden() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 				'<!-- ###MY_SUBPART### -->'
@@ -1440,7 +1665,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayWithCompleteTemplateHidesSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayWithCompleteTemplateHidesSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1456,7 +1684,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayWithCompleteTemplateHidesOverwrittenSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayWithCompleteTemplateHidesOverwrittenSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1472,7 +1703,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartsArrayWithCompleteTemplateUnhidesSubpart() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartsArrayWithCompleteTemplateUnhidesSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1489,7 +1723,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayWithCompleteTemplateHidesAndUnhidesSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayWithCompleteTemplateHidesAndUnhidesSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1507,7 +1744,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->' .
 				'Some text. ' .
@@ -1525,7 +1765,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesSubpartInNestedSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesSubpartInNestedSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###SINGLE_VIEW###  -->' .
 				'<!-- ###FIELD_WRAPPER_TITLE### -->' .
@@ -1545,7 +1788,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnhideSubpartsArrayUnhidesSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function unhideSubpartsArrayUnhidesSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->' .
 				'Some text. ' .
@@ -1564,7 +1810,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesSubpartInSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesSubpartInSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->' .
 				'Some text. ' .
@@ -1584,7 +1833,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesTwoSubpartsSeparately() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesTwoSubpartsSeparately() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1604,7 +1856,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesTwoSubparts() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesTwoSubparts() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1623,7 +1878,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesTwoSubpartsInReverseOrder() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesTwoSubpartsInReverseOrder() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1642,7 +1900,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsSeparately() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsSeparately() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1666,7 +1927,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInSameOrder() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInSameOrder() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1688,7 +1952,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInReverseOrder() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsInReverseOrder() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1710,7 +1977,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheFirst() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheFirst() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1731,7 +2001,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheSecond() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesTwoSubpartsAndUnhidesTheSecond() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART_1### -->' .
@@ -1752,7 +2025,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1771,7 +2047,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubparts() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubparts() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1790,7 +2069,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnother() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnother() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###MY_SUBPART### -->' .
@@ -1810,7 +2092,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesPermanentlyHiddenSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->' .
 				'Some text. ' .
@@ -1831,7 +2116,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesOneOfTwoPermanentlyHiddenSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->' .
 				'Some text. ' .
@@ -1852,7 +2140,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnotherWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayUnhidesSubpartAndPermanentlyHidesAnotherWithPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###SUBPART### -->' .
 				'Some text. ' .
@@ -1874,7 +2165,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayResultsInNotVisibleSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayResultsInNotVisibleSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 				'<!-- ###MY_SUBPART### -->'
@@ -1885,7 +2179,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayResultsInVisibleSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayResultsInVisibleSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 				'<!-- ###MY_SUBPART### -->'
@@ -1897,7 +2194,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayWithFilledSubpartWhenHiddenReturnsContentOfUnhiddenSubpart() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayWithFilledSubpartWhenHiddenReturnsContentOfUnhiddenSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 				'<!-- ###MY_SUBPART### -->'
@@ -1916,7 +2216,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for setting subparts.
 	////////////////////////////////
 
-	public function testSetSubpartNotEmptyGetCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setSubpartNotEmptyGetCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -1933,7 +2236,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartNotEmptyGetSubpart() {
+	/**
+	 * @test
+	 */
+	public function setSubpartNotEmptyGetSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -1948,7 +2254,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetNewSubpartNotEmptyGetSubpart() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartNotEmptyGetSubpart() {
 		$this->fixture->processTemplate(
 			'Some text.'
 		);
@@ -1959,7 +2268,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetNewSubpartWithNameWithSpaceThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartWithNameWithSpaceThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $subpartName is not valid.'
@@ -1971,7 +2283,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->setSubpart('MY SUBPART', 'foo');
 	}
 
-	public function testSetNewSubpartWithNameWithUtf8UmlautThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartWithNameWithUtf8UmlautThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $subpartName is not valid.'
@@ -1983,7 +2298,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->setSubpart('MY_SÜBPART', 'foo');
 	}
 
-	public function testSetNewSubpartWithNameWithUnderscoreSuffixThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartWithNameWithUnderscoreSuffixThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $subpartName is not valid.'
@@ -1995,7 +2313,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->setSubpart('MY_SUBPART_', 'foo');
 	}
 
-	public function testSetNewSubpartWithNameStartingWithUnderscoreThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartWithNameStartingWithUnderscoreThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $subpartName is not valid.'
@@ -2007,7 +2328,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->setSubpart('_MY_SUBPART', 'foo');
 	}
 
-	public function testSetNewSubpartWithNameStartingWithNumberThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setNewSubpartWithNameStartingWithNumberThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $subpartName is not valid.'
@@ -2019,7 +2343,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->setSubpart('1_MY_SUBPART', 'foo');
 	}
 
-	public function testSetSubpartNotEmptyGetOuterSubpart() {
+	/**
+	 * @test
+	 */
+	public function setSubpartNotEmptyGetOuterSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -2036,7 +2363,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartToEmptyGetCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setSubpartToEmptyGetCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -2052,7 +2382,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartToEmptyGetSubpart() {
+	/**
+	 * @test
+	 */
+	public function setSubpartToEmptyGetSubpart() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -2067,7 +2400,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartToEmptyGetOuterSubpart() {
+	/**
+	 * @test
+	 */
+	public function setSubpartToEmptyGetOuterSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -2084,7 +2420,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartAndGetSubpartCanHaveUtf8UmlautsInSubpartContent() {
+	/**
+	 * @test
+	 */
+	public function setSubpartAndGetSubpartCanHaveUtf8UmlautsInSubpartContent() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 			'<!-- ###MY_SUBPART### -->'
@@ -2097,7 +2436,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartAndGetSubpartCanHaveIso88591UmlautsInSubpartContent() {
+	/**
+	 * @test
+	 */
+	public function setSubpartAndGetSubpartCanHaveIso88591UmlautsInSubpartContent() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->' .
 			'<!-- ###MY_SUBPART### -->'
@@ -2116,7 +2458,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for setting markers within nested subparts.
 	//////////////////////////////////////////////////////
 
-	public function testSetMarkerInSubpartWithinCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInSubpartWithinCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -2133,7 +2478,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerInSubpartWithinOtherSubpart() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -2152,7 +2500,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerInOverwrittenSubpartWithinCompleteTemplate() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInOverwrittenSubpartWithinCompleteTemplate() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###MY_SUBPART### -->'
@@ -2172,7 +2523,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerInOverwrittenSubpartWithinOtherSubpart() {
+	/**
+	 * @test
+	 */
+	public function setMarkerInOverwrittenSubpartWithinOtherSubpart() {
 		$this->fixture->processTemplate(
 			'<!-- ###OUTER_SUBPART### -->'
 				.'Some text. '
@@ -2194,7 +2548,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerWithinNestedInnerSubpart() {
+	/**
+	 * @test
+	 */
+	public function setMarkerWithinNestedInnerSubpart() {
 		$templateCode = 'Text before the subpart'
 			.'<!-- ###MY_SUBPART### -->'
 			.'outer start, '
@@ -2224,7 +2581,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for using the prefix to marker and subpart names.
 	////////////////////////////////////////////////////////////
 
-	public function testSetMarkerWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerWithPrefix() {
 		$this->fixture->processTemplate(
 			'This is some template code. '
 				.'###FIRST_MARKER### ###MARKER### More text.'
@@ -2236,7 +2596,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###FIRST_MY_SUBPART### -->'
@@ -2257,7 +2620,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###FIRST_MY_SUBPART### -->'
@@ -2277,7 +2643,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###FIRST_MY_SUBPART### -->'
@@ -2299,7 +2668,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideTwoSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideTwoSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###FIRST_MY_SUBPART_1### -->'
@@ -2318,7 +2690,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideTwoSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideTwoSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. '
 				.'<!-- ###FIRST_MY_SUBPART_1### -->'
@@ -2341,7 +2716,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###FIRST_MY_SUBPART### -->' .
@@ -2361,7 +2739,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideSubpartsArrayHidesTwoSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideSubpartsArrayHidesTwoSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###FIRST_MY_SUBPART_1### -->' .
@@ -2382,7 +2763,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesSubpartWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesSubpartWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###FIRST_MY_SUBPART### -->' .
@@ -2404,7 +2788,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function hideAndUnhideSubpartsArrayHidesAndUnhidesTwoSubpartsWithPrefix() {
 		$this->fixture->processTemplate(
 			'Some text. ' .
 				'<!-- ###FIRST_MY_SUBPART_1### -->' .
@@ -2434,7 +2821,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Test for conditional filling and hiding of markers and subparts.
 	/////////////////////////////////////////////////////////////////////
 
-	public function testSetMarkerIfNotZeroWithPositiveInteger() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithPositiveInteger() {
 		$this->fixture->processTemplate(
 			'###MARKER###'
 		);
@@ -2448,7 +2838,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotZeroWithNegativeInteger() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithNegativeInteger() {
 		$this->fixture->processTemplate(
 			'###MARKER###'
 		);
@@ -2462,7 +2855,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotZeroWithZero() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithZero() {
 		$this->fixture->processTemplate(
 			'###MARKER###'
 		);
@@ -2476,7 +2872,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotZeroWithPositiveIntegerWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithPositiveIntegerWithPrefix() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER###'
 		);
@@ -2490,7 +2889,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotZeroWithNegativeIntegerWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithNegativeIntegerWithPrefix() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER###'
 		);
@@ -2504,7 +2906,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotZeroWithZeroWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotZeroWithZeroWithPrefix() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER###'
 		);
@@ -2518,7 +2923,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotEmptyWithNotEmpty() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotEmptyWithNotEmpty() {
 		$this->fixture->processTemplate(
 			'###MARKER###'
 		);
@@ -2532,7 +2940,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotEmptyWithEmpty() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotEmptyWithEmpty() {
 		$this->fixture->processTemplate(
 			'###MARKER###'
 		);
@@ -2546,7 +2957,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotEmptyWithNotEmptyWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotEmptyWithNotEmptyWithPrefix() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER###'
 		);
@@ -2560,7 +2974,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMarkerIfNotEmptyWithEmptyWithPrefix() {
+	/**
+	 * @test
+	 */
+	public function setMarkerIfNotEmptyWithEmptyWithPrefix() {
 		$this->fixture->processTemplate(
 			'###MY_MARKER###'
 		);
@@ -2574,7 +2991,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerWithTrue() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerWithTrue() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2592,7 +3012,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerWithFalse() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerWithFalse() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2610,7 +3033,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerWithTrueWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerWithTrueWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2628,7 +3054,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerWithFalseWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerWithFalseWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2646,7 +3075,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithZero() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithZero() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2664,7 +3096,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithPositiveIntegers() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithPositiveIntegers() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2682,7 +3117,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithNegativeIntegers() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithNegativeIntegers() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2700,7 +3138,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithZeroWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithZeroWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2718,7 +3159,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithPositiveIntegerWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithPositiveIntegerWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2736,7 +3180,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotZeroWithNegativeIntegerWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotZeroWithNegativeIntegerWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2754,7 +3201,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotEmptyWithEmpty() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotEmptyWithEmpty() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2772,7 +3222,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotEmptyWithNotEmpty() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotEmptyWithNotEmpty() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MARKER###'
@@ -2790,7 +3243,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotEmptyWithEmptyWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotEmptyWithEmptyWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2808,7 +3264,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetOrDeleteMarkerIfNotEmptyWithNotEmptyWithMarkerPrefix() {
+	/**
+	 * @test
+	 */
+	public function setOrDeleteMarkerIfNotEmptyWithNotEmptyWithMarkerPrefix() {
 		$this->fixture->processTemplate(
 			'<!-- ###WRAPPER_MARKER### -->'
 				.'###MY_MARKER###'
@@ -2831,7 +3290,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Test concerning unclosed markers and subparts.
 	///////////////////////////////////////////////////
 
-	public function testUnclosedMarkersAreIgnored() {
+	/**
+	 * @test
+	 */
+	public function unclosedMarkersAreIgnored() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'###MY_MARKER_1### '
@@ -2865,7 +3327,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnclosedSubpartsAreIgnored() {
+	/**
+	 * @test
+	 */
+	public function unclosedSubpartsAreIgnored() {
 		$this->fixture->processTemplate(
 			'Text before. '
 				.'<!-- ###UNCLOSED_SUBPART_1### -->'
@@ -2904,7 +3369,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUnclosedSubpartMarkersAreIgnored() {
+	/**
+	 * @test
+	 */
+	public function unclosedSubpartMarkersAreIgnored() {
 		$this->fixture->processTemplate(
 			'Text before. '
 				.'<!-- ###UNCLOSED_SUBPART_1###'
@@ -2943,7 +3411,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInvalidMarkerNamesAreIgnored() {
+	/**
+	 * @test
+	 */
+	public function invalidMarkerNamesAreIgnored() {
 		$this->fixture->processTemplate(
 			'<!-- ###MY_SUBPART### -->'
 				.'###MARKER 1### '
@@ -2978,7 +3449,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests for getting subparts with invalid names.
 	///////////////////////////////////////////////////
 
-	public function testGetSubpartWithNameWithSpaceThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNameWithSpaceThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $key is not valid.'
@@ -2993,7 +3467,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('MY SUBPART');
 	}
 
-	public function testGetSubpartWithNameWithUtf8UmlautThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNameWithUtf8UmlautThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $key is not valid.'
@@ -3008,7 +3485,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('MY_SÜBPART');
 	}
 
-	public function testGetSubpartWithNameWithUnderscoreSuffixThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNameWithUnderscoreSuffixThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $key is not valid.'
@@ -3023,7 +3503,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('MY_SUBPART_');
 	}
 
-	public function testGetSubpartWithNameStartingWithUnderscoreThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNameStartingWithUnderscoreThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $key is not valid.'
@@ -3038,7 +3521,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		$this->fixture->getSubpart('_MY_SUBPART');
 	}
 
-	public function testGetSubpartWithNameStartingWithNumberThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getSubpartWithNameStartingWithNumberThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The value of the parameter $key is not valid.'
@@ -3095,7 +3581,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 	// Tests concerning getPrefixedMarkers
 	////////////////////////////////////////
 
-	public function testGetPrefixedMarkersForNoMatchesReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getPrefixedMarkersForNoMatchesReturnsEmptyArray() {
 		$this->fixture->processTemplate('');
 
 		$this->assertSame(
@@ -3104,7 +3593,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPrefixedMarkersForOneMatchReturnsArrayWithCompleteMarkerName() {
+	/**
+	 * @test
+	 */
+	public function getPrefixedMarkersForOneMatchReturnsArrayWithCompleteMarkerName() {
 		$this->fixture->processTemplate('###FOO_BAR###');
 
 		$this->assertSame(
@@ -3113,7 +3605,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPrefixedMarkersForTwoIdenticalMatchesReturnsArrayWithCompleteMarkerNameOnce() {
+	/**
+	 * @test
+	 */
+	public function getPrefixedMarkersForTwoIdenticalMatchesReturnsArrayWithCompleteMarkerNameOnce() {
 		$this->fixture->processTemplate('###FOO_BAR### ###FOO_BAR###');
 
 		$this->assertSame(
@@ -3122,7 +3617,10 @@ class tx_oelib_TemplateTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPrefixedMarkersForTwoMatchesReturnsArrayWithCompleteMarkerNames() {
+	/**
+	 * @test
+	 */
+	public function getPrefixedMarkersForTwoMatchesReturnsArrayWithCompleteMarkerNames() {
 		$this->fixture->processTemplate('###FOO_BAR### ###FOO_BAZ###');
 
 		$this->assertSame(

@@ -51,7 +51,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 	// Tests for setting and getting the Singleton instance
 	/////////////////////////////////////////////////////////
 
-	public function testGetInstanceThrowsExceptionWithoutFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function getInstanceThrowsExceptionWithoutFrontEnd() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'This class must not be instantiated when there is no front end.'
@@ -62,7 +65,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER);
 	}
 
-	public function testGetInstanceWithInvalidTypeThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithInvalidTypeThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
@@ -73,7 +79,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		tx_oelib_Session::getInstance(42);
 	}
 
-	public function testGetInstanceWithUserTypeReturnsSessionInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithUserTypeReturnsSessionInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -82,7 +91,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithTemporaryTypeReturnsSessionInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithTemporaryTypeReturnsSessionInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -91,7 +103,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithSameTypeReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithSameTypeReturnsSameInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertSame(
@@ -100,7 +115,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithDifferentTypesReturnsDifferentInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithDifferentTypesReturnsDifferentInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertNotSame(
@@ -109,7 +127,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithSameTypesAfterPurgeInstancesReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithSameTypesAfterPurgeInstancesReturnsNewInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 		$firstInstance = tx_oelib_Session::getInstance(tx_oelib_Session::TYPE_USER);
 		tx_oelib_Session::purgeInstances();
@@ -120,7 +141,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetInstanceWithInvalidTypeThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setInstanceWithInvalidTypeThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.'
@@ -129,7 +153,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		tx_oelib_Session::setInstance(42, new tx_oelib_FakeSession());
 	}
 
-	public function testGetInstanceWithUserTypeReturnsInstanceFromSetInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithUserTypeReturnsInstanceFromSetInstance() {
 		$instance = new tx_oelib_FakeSession();
 		tx_oelib_Session::setInstance(tx_oelib_Session::TYPE_USER, $instance);
 
@@ -139,7 +166,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithTemporaryTypeReturnsInstanceFromSetInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithTemporaryTypeReturnsInstanceFromSetInstance() {
 		$instance = new tx_oelib_FakeSession();
 		tx_oelib_Session::setInstance(
 			tx_oelib_Session::TYPE_TEMPORARY, $instance
@@ -151,7 +181,10 @@ class tx_oelib_SessionTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstanceWithDifferentTypesReturnsDifferentInstancesSetViaSetInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceWithDifferentTypesReturnsDifferentInstancesSetViaSetInstance() {
 		tx_oelib_Session::setInstance(
 			tx_oelib_Session::TYPE_USER,
 			new tx_oelib_FakeSession()

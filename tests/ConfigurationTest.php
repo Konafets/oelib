@@ -50,7 +50,10 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 	// Tests for the basic functionality
 	//////////////////////////////////////
 
-	public function testSetWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -60,11 +63,17 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 		$this->fixture->set('', 'foo');
 	}
 
-	public function testSetDataWithEmptyArrayIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function setDataWithEmptyArrayIsAllowed() {
 		$this->fixture->setData(array());
 	}
 
-	public function testGetAfterSetReturnsTheSetValue() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetReturnsTheSetValue() {
 		$this->fixture->set('foo', 'bar');
 
 		$this->assertSame(
@@ -73,7 +82,10 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterSetDataReturnsTheSetValue() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetDataReturnsTheSetValue() {
 		$this->fixture->setData(
 			array('foo' => 'bar')
 		);
@@ -84,7 +96,10 @@ class tx_oelib_ConfigurationTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDataCalledTwoTimesDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function setDataCalledTwoTimesDoesNotFail() {
 		$this->fixture->setData(
 			array('title' => 'bar')
 		);

@@ -199,7 +199,10 @@ class tx_oelib_PageFinderTest extends tx_phpunit_testcase {
 	// Tests concerning forceSource
 	/////////////////////////////////
 
-	public function testForceSourceWithSourceSetToFrontEndAndManuallySetPageUidReturnsFrontEndPageUid() {
+	/**
+	 * @test
+	 */
+	public function forceSourceWithSourceSetToFrontEndAndManuallySetPageUidReturnsFrontEndPageUid() {
 		$this->fixture->forceSource(tx_oelib_PageFinder::SOURCE_FRONT_END);
 		$frontEndPageUid = $this->testingFramework->createFakeFrontEnd();
 
@@ -211,7 +214,10 @@ class tx_oelib_PageFinderTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testForceSourceWithSourceSetToBackEndAndSetFrontEndUidReturnsBackEndEndPageUid() {
+	/**
+	 * @test
+	 */
+	public function forceSourceWithSourceSetToBackEndAndSetFrontEndUidReturnsBackEndEndPageUid() {
 		$this->fixture->forceSource(tx_oelib_PageFinder::SOURCE_BACK_END);
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -225,7 +231,10 @@ class tx_oelib_PageFinderTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testForceSourceWithSourceSetToFrontEndAndManuallySetPageUidButNoFrontEndUidSetReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function forceSourceWithSourceSetToFrontEndAndManuallySetPageUidButNoFrontEndUidSetReturnsZero() {
 		$this->fixture->forceSource(tx_oelib_PageFinder::SOURCE_FRONT_END);
 
 		$this->fixture->setPageUid(15);

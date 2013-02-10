@@ -62,6 +62,9 @@ class tx_oelib_Model_LanguageTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
 	public function getLocalNameReturnsLocalNameOfEnglish() {
 		$this->fixture->setData(array('lg_name_local' => 'English'));
 

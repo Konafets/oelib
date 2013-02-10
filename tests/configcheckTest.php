@@ -107,7 +107,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	// Tests for the utility functions.
 	/////////////////////////////////////
 
-	public function testSetConfigurationForLocaleToANonEmptyValue() {
+	/**
+	 * @test
+	 */
+	public function setConfigurationForLocaleToANonEmptyValue() {
 		$this->setConfigurationForLocale('foo');
 
 		$this->assertSame(
@@ -116,7 +119,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetConfigurationForLocaleToAnEmptyString() {
+	/**
+	 * @test
+	 */
+	public function setConfigurationForLocaleToAnEmptyString() {
 		$this->setConfigurationForLocale('');
 
 		$this->assertSame(
@@ -125,7 +131,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetInstalledUtfLocale() {
+	/**
+	 * @test
+	 */
+	public function getInstalledLocalesForInstalledUtf8LocaleReturnsUtf8Locale() {
 		$locale = $this->getInstalledUtfLocale();
 
 		$this->assertTrue(
@@ -142,7 +151,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	// Tests concerning the flavor.
 	/////////////////////////////////
 
-	public function testSetAndGetFlavor() {
+	/**
+	 * @test
+	 */
+	public function setFlavorReturnsFlavor() {
 		$this->fixture->setFlavor('foo');
 
 		$this->assertSame(
@@ -156,7 +168,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	// Tests concerning values to check.
 	//////////////////////////////////////
 
-	public function testCheckForNonEmptyStringWithNonEmptyString() {
+	/**
+	 * @test
+	 */
+	public function checkForNonEmptyStringWithNonEmptyString() {
 		$this->fixture->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
 
 		$this->assertSame(
@@ -165,7 +180,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckForNonEmptyStringWithEmptyString() {
+	/**
+	 * @test
+	 */
+	public function checkForNonEmptyStringWithEmptyString() {
 		$this->fixture->checkForNonEmptyString('emptyString', FALSE, '', '');
 
 		$this->assertContains(
@@ -174,7 +192,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIfSingleInTableNotEmptyForValueNotInTableComplains() {
+	/**
+	 * @test
+	 */
+	public function checkIfSingleInTableNotEmptyForValueNotInTableComplains() {
 		$this->fixture->checkIfSingleInTableNotEmpty(
 			'inexistentColumn', FALSE, '', '', 'tx_oelib_test'
 		);
@@ -185,7 +206,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckIfSingleInTableNotEmptyForValueNotInTableNotComplains() {
+	/**
+	 * @test
+	 */
+	public function checkIfSingleInTableNotEmptyForValueNotInTableNotComplains() {
 		$this->fixture->checkIfSingleInTableNotEmpty(
 			'existingColumn', FALSE, '', '', 'tx_oelib_test'
 		);
@@ -266,7 +290,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	// Tests concerning the check of the locale.
 	//////////////////////////////////////////////
 
-	public function testGetInstalledLocalesReturnsAtLeastOneLocale() {
+	/**
+	 * @test
+	 */
+	public function getInstalledLocalesReturnsAtLeastOneLocale() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
@@ -279,7 +306,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckLocaleIfLocaleIsSetCorrectly() {
+	/**
+	 * @test
+	 */
+	public function checkLocaleIfLocaleIsSetCorrectly() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
@@ -295,7 +325,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckLocaleIfLocaleIsSetCorrectlyAndContainsAHyphen() {
+	/**
+	 * @test
+	 */
+	public function checkLocaleIfLocaleIsSetCorrectlyAndContainsAHyphen() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
@@ -312,7 +345,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckLocaleIfLocaleIsSetCorrectlyAndContainsNoHyphen() {
+	/**
+	 * @test
+	 */
+	public function checkLocaleIfLocaleIsSetCorrectlyAndContainsNoHyphen() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
@@ -330,7 +366,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 	}
 
 
-	public function testCheckLocaleIfLocaleIsNotSet() {
+	/**
+	 * @test
+	 */
+	public function checkLocaleIfLocaleIsNotSet() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
@@ -348,7 +387,10 @@ class tx_oelib_configcheckTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCheckLocaleIfLocaleIsSetToANonInstalledLocale() {
+	/**
+	 * @test
+	 */
+	public function checkLocaleIfLocaleIsSetToANonInstalledLocale() {
 		if (TYPO3_OS == 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}

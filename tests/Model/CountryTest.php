@@ -56,6 +56,9 @@ class tx_oelib_Model_CountryTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
 	public function getLocalShortNameReturnsLocalShortNameOfUnitedKingdomOfGreatBritain() {
 		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
 			find(74);

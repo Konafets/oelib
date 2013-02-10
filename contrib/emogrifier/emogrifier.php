@@ -21,19 +21,45 @@ class Emogrifier {
     private $css = '';
     private $unprocessableHTMLTags = array('wbr');
 
-    public function __construct($html = '', $css = '') {
+	/**
+	 * @param string $html
+	 * @param string $css
+	 */
+	public function __construct($html = '', $css = '') {
         $this->html = $html;
         $this->css  = $css;
     }
 
-    public function setHTML($html = '') { $this->html = $html; }
-    public function setCSS($css = '') { $this->css = $css; }
+	/**
+	 * @param string $html
+	 *
+	 * @return void
+	 */
+	public function setHTML($html = '') { $this->html = $html; }
+
+	/**
+	 * @param string $css
+	 *
+	 * @return void
+	 */
+	public function setCSS($css = '') { $this->css = $css; }
 
 	// there are some HTML tags that DOMDocument cannot process, and will throw an error if it encounters them.
 	// these functions allow you to add/remove them if necessary.
 	// it only strips them from the code (does not remove actual nodes).
-    public function addUnprocessableHTMLTag($tag) { $this->unprocessableHTMLTags[] = $tag; }
-    public function removeUnprocessableHTMLTag($tag) {
+	/**
+	 * @param string $tag
+	 *
+	 * @return void
+	 */
+	public function addUnprocessableHTMLTag($tag) { $this->unprocessableHTMLTags[] = $tag; }
+
+	/**
+	 * @param string $tag
+	 *
+	 * @return void
+	 */
+	public function removeUnprocessableHTMLTag($tag) {
         if (($key = array_search($tag,$this->unprocessableHTMLTags)) !== false)
             unset($this->unprocessableHTMLTags[$key]);
     }

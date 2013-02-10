@@ -43,21 +43,30 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////
 
-	public function testGetInstanceReturnsMapperRegistryInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsMapperRegistryInstance() {
 		$this->assertTrue(
 			tx_oelib_MapperRegistry::getInstance()
 				instanceof tx_oelib_MapperRegistry
 		);
 	}
 
-	public function testGetInstanceTwoTimesReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
 			tx_oelib_MapperRegistry::getInstance(),
 			tx_oelib_MapperRegistry::getInstance()
 		);
 	}
 
-	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		$firstInstance = tx_oelib_MapperRegistry::getInstance();
 		tx_oelib_MapperRegistry::purgeInstance();
 
@@ -72,7 +81,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 	// Test concerning get and setMappings
 	////////////////////////////////////////
 
-	public function testGetForEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getForEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$className must not be empty.'
@@ -81,7 +93,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_MapperRegistry::get('');
 	}
 
-	public function testGetForMalformedKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getForMalformedKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$className must be in the format tx_extensionname[_Folder]_ClassName, but was "foo".'
@@ -90,7 +105,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_MapperRegistry::get('foo');
 	}
 
-	public function testGetForInexistentClassThrowsNotFoundException() {
+	/**
+	 * @test
+	 */
+	public function getForInexistentClassThrowsNotFoundException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
 			'No mapper class "tx_oelib_inexistentMapper" could be found.'
@@ -99,14 +117,20 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_MapperRegistry::get('tx_oelib_inexistentMapper');
 	}
 
-	public function testGetForExistingClassReturnsObjectOfRequestedClass() {
+	/**
+	 * @test
+	 */
+	public function getForExistingClassReturnsObjectOfRequestedClass() {
 		$this->assertTrue(
 			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
 				instanceof tx_oelib_tests_fixtures_TestingMapper
 		);
 	}
 
-	public function testGetForExistingClassCalledTwoTimesReturnsTheSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getForExistingClassCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
 			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper'),
 			tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper')
@@ -118,7 +142,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning denied database access
 	////////////////////////////////////////////
 
-	public function testGetAfterDenyDatabaseAccessReturnsNewMapperInstanceWithDatabaseAccessDisabled() {
+	/**
+	 * @test
+	 */
+	public function getAfterDenyDatabaseAccessReturnsNewMapperInstanceWithDatabaseAccessDisabled() {
 		tx_oelib_MapperRegistry::denyDatabaseAccess();
 
 		$this->assertFalse(
@@ -126,7 +153,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterDenyDatabaseAccessReturnsExistingMapperInstanceWithDatabaseAccessDisabled() {
+	/**
+	 * @test
+	 */
+	public function getAfterDenyDatabaseAccessReturnsExistingMapperInstanceWithDatabaseAccessDisabled() {
 		tx_oelib_MapperRegistry::get('tx_oelib_tests_fixtures_TestingMapper');
 		tx_oelib_MapperRegistry::denyDatabaseAccess();
 
@@ -135,7 +165,10 @@ class tx_oelib_MapperRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterInstanceWithDeniedDatabaseAccessWasPurgedReturnsMapperWithDatabaseAccessGranted() {
+	/**
+	 * @test
+	 */
+	public function getAfterInstanceWithDeniedDatabaseAccessWasPurgedReturnsMapperWithDatabaseAccessGranted() {
 		tx_oelib_MapperRegistry::getInstance();
 		tx_oelib_MapperRegistry::denyDatabaseAccess();
 		tx_oelib_MapperRegistry::purgeInstance();

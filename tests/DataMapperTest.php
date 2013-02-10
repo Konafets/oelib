@@ -73,7 +73,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning the instantiation
 	///////////////////////////////////////
 
-	public function testInstantiationOfSubclassWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function instantiationOfSubclassWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_TableLessTestingMapper::tableName must not be empty.'
@@ -82,7 +85,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		new tx_oelib_tests_fixtures_TableLessTestingMapper();
 	}
 
-	public function testInstantiationOfSubclassWithEmptyColumnListThrowsException() {
+	/**
+	 * @test
+	 */
+	public function instantiationOfSubclassWithEmptyColumnListThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_ColumnLessTestingMapper::columns must not be empty.'
@@ -91,7 +97,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		new tx_oelib_tests_fixtures_ColumnLessTestingMapper();
 	}
 
-	public function testInstantiationOfSubclassWithEmptyModelNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function instantiationOfSubclassWithEmptyModelNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'tx_oelib_tests_fixtures_ModelLessTestingMapper::modelClassName must not be empty.'
@@ -105,7 +114,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning find
 	//////////////////////////
 
-	public function testFindWithZeroUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findWithZeroUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -114,7 +126,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->find(0);
 	}
 
-	public function testFindWithNegativeUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findWithNegativeUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -123,7 +138,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->find(-1);
 	}
 
-	public function testFindWithUidOfCachedModelReturnsThatModel() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfCachedModelReturnsThatModel() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(1);
 
@@ -137,7 +155,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findWithUidReturnsModelWithThatUid() {
 		$uid = 42;
 
 		$this->assertSame(
@@ -146,7 +167,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidOfExistingRecordReturnsModelDataFromDatabase() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsModelDataFromDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -157,7 +181,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidCalledTwoTimesReturnsSameModel() {
+	/**
+	 * @test
+	 */
+	public function findWithUidCalledTwoTimesReturnsSameModel() {
 		$uid = 42;
 
 		$this->assertSame(
@@ -171,7 +198,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning getModel
 	//////////////////////////////
 
-	public function testGetModelWithArrayWithoutUidElementProvidedThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getModelWithArrayWithoutUidElementProvidedThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$data must contain an element "uid".'
@@ -180,20 +210,29 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->getModel(array());
 	}
 
-	public function testGetModelForNonMappedUidReturnsModelInstance() {
+	/**
+	 * @test
+	 */
+	public function getModelForNonMappedUidReturnsModelInstance() {
 		$this->assertTrue(
 			$this->fixture->getModel(array('uid' => 2))
 				instanceof tx_oelib_Model
 		);
 	}
 
-	public function testGetModelForNonMappedUidReturnsLoadedModel() {
+	/**
+	 * @test
+	 */
+	public function getModelForNonMappedUidReturnsLoadedModel() {
 		$this->assertTrue(
 			$this->fixture->getModel(array('uid' => 2))->isLoaded()
 		);
 	}
 
-	public function testGetModelForMappedUidOfGhostReturnsModelInstance() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfGhostReturnsModelInstance() {
 		$mappedUid = $this->fixture->getNewGhost()->getUid();
 
 		$this->assertTrue(
@@ -202,7 +241,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfGhostReturnsLoadedModel() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfGhostReturnsLoadedModel() {
 		$mappedUid = $this->fixture->getNewGhost()->getUid();
 
 		$this->assertTrue(
@@ -210,7 +252,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfGhostReturnsLoadedModelWithTheProvidedData() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfGhostReturnsLoadedModelWithTheProvidedData() {
 		$mappedModel = $this->fixture->getNewGhost();
 
 		$this->assertSame(
@@ -221,7 +266,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfGhostReturnsThatModel() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfGhostReturnsThatModel() {
 		$mappedModel = $this->fixture->getNewGhost();
 
 		$this->assertSame(
@@ -230,7 +278,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfLoadedModelReturnsThatModelInstance() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfLoadedModelReturnsThatModelInstance() {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->setData(array('title' => 'foo'));
 
@@ -240,7 +291,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfLoadedModelAndNoNewDataProvidedReturnsModelWithTheInitialData() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfLoadedModelAndNoNewDataProvidedReturnsModelWithTheInitialData() {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->setData(array('title' => 'foo'));
 
@@ -250,7 +304,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfLoadedModelAndNewDataProvidedReturnsModelWithTheInitialData() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfLoadedModelAndNewDataProvidedReturnsModelWithTheInitialData() {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->setData(array('title' => 'foo'));
 
@@ -262,7 +319,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForMappedUidOfDeadModelReturnsDeadModel() {
+	/**
+	 * @test
+	 */
+	public function getModelForMappedUidOfDeadModelReturnsDeadModel() {
 		$mappedModel = $this->fixture->getNewGhost();
 		$mappedModel->markAsDead();
 
@@ -271,7 +331,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetModelForNonMappedUidReturnsModelWithChildrenList() {
+	/**
+	 * @test
+	 */
+	public function getModelForNonMappedUidReturnsModelWithChildrenList() {
 		$this->assertTrue(
 			$this->fixture->getModel(array('uid' => 2))->getChildren()
 				instanceof tx_oelib_List
@@ -283,41 +346,59 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning getListOfModels
 	/////////////////////////////////////
 
-	public function testGetListOfModelsReturnsInstanceOfList() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsReturnsInstanceOfList() {
 		$this->assertTrue(
 			$this->fixture->getListOfModels(array(array('uid' => 1)))
 				instanceof tx_oelib_List
 		);
 	}
 
-	public function testGetListOfModelsForAnEmptyArrayProvidedReturnsEmptyList() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsForAnEmptyArrayProvidedReturnsEmptyList() {
 		$this->assertTrue(
 			$this->fixture->getListOfModels(array())->isEmpty()
 		);
 	}
 
-	public function testGetListOfModelsForOneRecordsProvidedReturnsListWithOneElement() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsForOneRecordsProvidedReturnsListWithOneElement() {
 		$this->assertSame(
 			1,
 			$this->fixture->getListOfModels(array(array('uid' => 1)))->count()
 		);
 	}
 
-	public function testGetListOfModelsForTwoRecordsProvidedReturnsListWithTwoElements() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsForTwoRecordsProvidedReturnsListWithTwoElements() {
 		$this->assertSame(
 			2,
 			$this->fixture->getListOfModels(array(array('uid' => 1), array('uid' => 2)))->count()
 		);
 	}
 
-	public function testGetListOfModelsReturnsListOfModelInstances() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsReturnsListOfModelInstances() {
 		$this->assertTrue(
 			$this->fixture->getListOfModels(array(array('uid' => 1)))->current()
 				instanceof tx_oelib_Model
 		);
 	}
 
-	public function testGetListOfModelsReturnsListOfModelWithProvidedTitel() {
+	/**
+	 * @test
+	 */
+	public function getListOfModelsReturnsListOfModelWithProvidedTitel() {
 		$this->assertSame(
 			'foo',
 			$this->fixture->getListOfModels(array(array('uid' => 1, 'title' => 'foo')))
@@ -330,7 +411,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning load
 	//////////////////////////
 
-	public function testLoadWithModelWithoutUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function loadWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'load must only be called with models that already have a UID.'
@@ -340,7 +424,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->load($model);
 	}
 
-	public function testLoadWithModelWithExistingUidFillsModelWithData() {
+	/**
+	 * @test
+	 */
+	public function loadWithModelWithExistingUidFillsModelWithData() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -357,7 +444,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->__destruct();
 	}
 
-	public function testLoadWithModelWithExistingUidOfHiddenRecordMarksModelAsLoaded() {
+	/**
+	 * @test
+	 */
+	public function loadWithModelWithExistingUidOfHiddenRecordMarksModelAsLoaded() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -373,7 +463,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->__destruct();
 	}
 
-	public function testLoadForModelWithExistingUidMarksModelAsClean() {
+	/**
+	 * @test
+	 */
+	public function loadForModelWithExistingUidMarksModelAsClean() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -454,7 +547,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning the model states
 	//////////////////////////////////////
 
-	public function testFindInitiallyReturnsGhostModel() {
+	/**
+	 * @test
+	 */
+	public function findInitiallyReturnsGhostModel() {
 		$uid = 42;
 
 		$this->assertTrue(
@@ -462,7 +558,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindAndAccessingDataLoadsModel() {
+	/**
+	 * @test
+	 */
+	public function findAndAccessingDataLoadsModel() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -473,7 +572,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenOnGhostInDatabaseLoadsModel() {
+	/**
+	 * @test
+	 */
+	public function isHiddenOnGhostInDatabaseLoadsModel() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$model = $this->fixture->find($uid);
@@ -484,7 +586,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenOnGhostNotInDatabaseThrowsException() {
+	/**
+	 * @test
+	 */
+	public function isHiddenOnGhostNotInDatabaseThrowsException() {
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 
 		$this->setExpectedException(
@@ -496,7 +601,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->find($uid)->isHidden();
 	}
 
-	public function testLoadWithModelWithExistingUidLoadsModel() {
+	/**
+	 * @test
+	 */
+	public function loadWithModelWithExistingUidLoadsModel() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -512,7 +620,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$model->__destruct();
 	}
 
-	public function testLoadWithModelWithInexistentUidMarksModelAsDead() {
+	/**
+	 * @test
+	 */
+	public function loadWithModelWithInexistentUidMarksModelAsDead() {
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 
 		$model = new tx_oelib_tests_fixtures_TestingModel();
@@ -531,7 +642,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning existsModel
 	/////////////////////////////////
 
-	public function testExistsModelForUidOfLoadedModelReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForUidOfLoadedModelReturnsTrue() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->fixture->load($this->fixture->find($uid));
 
@@ -540,7 +654,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForUidOfNotLoadedModelInDatabaseReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForUidOfNotLoadedModelInDatabaseReturnsTrue() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertTrue(
@@ -548,7 +665,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForInexistentUidReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsModelForInexistentUidReturnsFalse() {
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 
 		$this->assertFalse(
@@ -556,7 +676,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForGhostModelWithInexistentUidReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsModelForGhostModelWithInexistentUidReturnsFalse() {
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 		$this->fixture->find($uid);
 
@@ -565,7 +688,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistingUidLoadsModel() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistingUidLoadsModel() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->fixture->existsModel($uid);
 
@@ -574,7 +700,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfHiddenRecordReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfHiddenRecordReturnsFalse() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -584,7 +713,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -594,7 +726,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfLoadedHiddenRecordAndHiddenNotBeingAllowedReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfLoadedHiddenRecordAndHiddenNotBeingAllowedReturnsFalse() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -605,7 +740,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfLoadedHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfLoadedHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -616,7 +754,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfLoadedNonHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfLoadedNonHiddenRecordAndHiddenBeingAllowedReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 0)
 		);
@@ -627,7 +768,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsModelForExistentUidOfHiddenRecordAfterLoadingAsNonHiddenAndHiddenBeingAllowedReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsModelForExistentUidOfHiddenRecordAfterLoadingAsNonHiddenAndHiddenBeingAllowedReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('hidden' => 1)
 		);
@@ -643,7 +787,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning the foreign key mapping
 	/////////////////////////////////////////////
 
-	public function testRelatedRecordWithZeroUidIsNull() {
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithZeroUidIsNull() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertNull(
@@ -651,7 +798,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRelatedRecordWithExistingUidReturnsRelatedRecord() {
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithExistingUidReturnsRelatedRecord() {
 		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('friend' => $friendUid)
@@ -679,7 +829,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRelatedRecordWithExistingUidCanReturnOtherModelType() {
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithExistingUidCanReturnOtherModelType() {
 		$ownerUid = $this->testingFramework->createFrontEndUser();
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('owner' => $ownerUid)
@@ -691,7 +844,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRelatedRecordWithExistingUidReturnsRelatedRecordThatCanBeLoaded() {
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithExistingUidReturnsRelatedRecordThatCanBeLoaded() {
 		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('friend' => $friendUid)
@@ -704,7 +860,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRelatedRecordWithInexistentUidReturnsRelatedRecordAsGhost() {
+	/**
+	 * @test
+	 */
+	public function relatedRecordWithInexistentUidReturnsRelatedRecordAsGhost() {
 		$friendUid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('friend' => $friendUid)
@@ -783,7 +942,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning the m:n mapping using an m:n table
 	////////////////////////////////////////////////////////
 
-	public function testMNRelationsWithEmptyStringCreatesEmptyList() {
+	/**
+	 * @test
+	 */
+	public function mnRelationsWithEmptyStringCreatesEmptyList() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$this->assertTrue(
@@ -791,7 +953,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMNRelationsWithOneRelatedModelReturnsListWithRelatedModel() {
+	/**
+	 * @test
+	 */
+	public function mnRelationsWithOneRelatedModelReturnsListWithRelatedModel() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$relatedUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRelationAndUpdateCounter(
@@ -804,7 +969,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMNRelationsWithTwoRelatedModelsReturnsListWithBothRelatedModels() {
+	/**
+	 * @test
+	 */
+	public function mnRelationsWithTwoRelatedModelsReturnsListWithBothRelatedModels() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRelationAndUpdateCounter(
@@ -821,7 +989,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMNRelationsReturnsListSortedBySorting() {
+	/**
+	 * @test
+	 */
+	public function mnRelationsReturnsListSortedBySorting() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$relatedUid2 = $this->testingFramework->createRecord('tx_oelib_test');
@@ -988,25 +1159,37 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning getNewGhost
 	/////////////////////////////////
 
-	public function testGetNewGhostReturnsModel() {
+	/**
+	 * @test
+	 */
+	public function getNewGhostReturnsModel() {
 		$this->assertTrue(
 			$this->fixture->getNewGhost() instanceof tx_oelib_Model
 		);
 	}
 
-	public function testGetNewGhostReturnsGhost() {
+	/**
+	 * @test
+	 */
+	public function getNewGhostReturnsGhost() {
 		$this->assertTrue(
 			$this->fixture->getNewGhost()->isGhost()
 		);
 	}
 
-	public function testGetNewGhostReturnsModelWithUid() {
+	/**
+	 * @test
+	 */
+	public function getNewGhostReturnsModelWithUid() {
 		$this->assertTrue(
 			$this->fixture->getNewGhost()->hasUid()
 		);
 	}
 
-	public function testGetNewGhostCreatesRegisteredModel() {
+	/**
+	 * @test
+	 */
+	public function getNewGhostCreatesRegisteredModel() {
 		$ghost = $this->fixture->getNewGhost();
 
 		$this->assertSame(
@@ -1033,7 +1216,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning getLoadedTestingModel
 	///////////////////////////////////////////
 
-	public function testGetLoadedTestingModelReturnsModel() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelReturnsModel() {
 		$this->fixture->disableDatabaseAccess();
 
 		$this->assertTrue(
@@ -1042,7 +1228,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoadedTestingModelReturnsLoadedModel() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelReturnsLoadedModel() {
 		$this->fixture->disableDatabaseAccess();
 
 		$this->assertTrue(
@@ -1050,7 +1239,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoadedTestingModelReturnsModelWithUid() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelReturnsModelWithUid() {
 		$this->fixture->disableDatabaseAccess();
 
 		$this->assertTrue(
@@ -1058,7 +1250,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoadedTestingModelCreatesRegisteredModel() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelCreatesRegisteredModel() {
 		$this->fixture->disableDatabaseAccess();
 		$model = $this->fixture->getLoadedTestingModel(array());
 
@@ -1068,7 +1263,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoadedTestingModelSetsTheProvidedData() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelSetsTheProvidedData() {
 		$this->fixture->disableDatabaseAccess();
 
 		$model = $this->fixture->getLoadedTestingModel(
@@ -1081,7 +1279,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoadedTestingModelCreatesRelations() {
+	/**
+	 * @test
+	 */
+	public function getLoadedTestingModelCreatesRelations() {
 		$this->fixture->disableDatabaseAccess();
 
 		$relatedModel = $this->fixture->getNewGhost();
@@ -1100,7 +1301,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning findSingleByWhereClause().
 	////////////////////////////////////////////////
 
-	public function testFindSingleByWhereClauseWithEmptyWhereClausePartsThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseWithEmptyWhereClausePartsThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The parameter $whereClauseParts must not be empty.'
@@ -1109,7 +1313,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		$this->fixture->findSingleByWhereClause(array());
 	}
 
-	public function testFindSingleByWhereClauseWithUidOfInexistentRecordThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseWithUidOfInexistentRecordThrowsException() {
 		$this->setExpectedException('tx_oelib_Exception_NotFound');
 
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
@@ -1119,7 +1326,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindSingleByWhereClauseWithUidOfExistentNotMappedRecordReturnsModelWithTheData() {
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseWithUidOfExistentNotMappedRecordReturnsModelWithTheData() {
 		$this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1132,7 +1342,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindSingleByWhereClauseWithUidOfExistentYetMappedRecordReturnsModelWithTheMappedData() {
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseWithUidOfExistentYetMappedRecordReturnsModelWithTheMappedData() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1151,13 +1364,19 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning disabled database access
 	//////////////////////////////////////////////
 
-	public function testHasDatabaseAccessInitiallyReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasDatabaseAccessInitiallyReturnsTrue() {
 		$this->assertTrue(
 			$this->fixture->hasDatabaseAccess()
 		);
 	}
 
-	public function testHasDatabaseAccessAfterDisableDatabaseAccessReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasDatabaseAccessAfterDisableDatabaseAccessReturnsFalse() {
 		$this->fixture->disableDatabaseAccess();
 
 		$this->assertFalse(
@@ -1165,7 +1384,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadWithUidOfRecordInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
+	/**
+	 * @test
+	 */
+	public function loadWithUidOfRecordInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1178,7 +1400,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoadWithUidOfRecordNotInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
+	/**
+	 * @test
+	 */
+	public function loadWithUidOfRecordNotInDatabaseAndDatabaseAccessDisabledMarksModelAsDead() {
 		$uid = $this->testingFramework->getAutoIncrement('tx_oelib_test');
 
 		$this->fixture->disableDatabaseAccess();
@@ -1189,7 +1414,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindSingleByWhereClauseAndDatabaseAccessDisabledThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findSingleByWhereClauseAndDatabaseAccessDisabledThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
 			'No record can be retrieved from the database because database ' .
@@ -1205,7 +1433,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	// Tests concerning save()
 	////////////////////////////
 
-	public function testSaveForReadOnlyModelDoesNotCommitModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForReadOnlyModelDoesNotCommitModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1221,7 +1452,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDatabaseAccessDeniedDoesNotCommitDirtyLoadedModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDatabaseAccessDeniedDoesNotCommitDirtyLoadedModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1237,7 +1471,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForGhostDoesNotCommitModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForGhostDoesNotCommitModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1251,7 +1488,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDeadModelDoesNotCommitDirtyModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDeadModelDoesNotCommitDirtyModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1267,7 +1507,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForCleanLoadedModelDoesNotCommitModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForCleanLoadedModelDoesNotCommitModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1283,7 +1526,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithUidCommitsModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithUidCommitsModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1298,7 +1544,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithUidDoesNotChangeTheUid() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithUidDoesNotChangeTheUid() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1313,7 +1562,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithUidSetsTimestamp() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithUidSetsTimestamp() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1329,7 +1581,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithUidAndWithoutDataCommitsModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithUidAndWithoutDataCommitsModelToDatabase() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 
 		$model = new tx_oelib_tests_fixtures_TestingModel();
@@ -1346,7 +1601,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveNewModelFromMemoryAndMapperInTestingModeMarksModelAsDummyModel() {
+	/**
+	 * @test
+	 */
+	public function saveNewModelFromMemoryAndMapperInTestingModeMarksModelAsDummyModel() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setData(array('title' => 'foo'));
 		$model->markAsDirty();
@@ -1360,7 +1618,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveNewModelFromMemoryRegistersModelInMapper() {
+	/**
+	 * @test
+	 */
+	public function saveNewModelFromMemoryRegistersModelInMapper() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setData(array('title' => 'foo'));
 		$model->markAsDirty();
@@ -1373,7 +1634,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyAfterSaveForDirtyLoadedModelWithUidReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSaveForDirtyLoadedModelWithUidReturnsFalse() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1386,7 +1650,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidAndWithoutRelationsCommitsModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidAndWithoutRelationsCommitsModelToDatabase() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setData(array('is_dummy_record' => '1', 'title' => 'bar'));
 		$model->markAsDirty();
@@ -1400,7 +1667,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidAndWithRelationsCommitsModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidAndWithRelationsCommitsModelToDatabase() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1418,7 +1688,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidAddsModelToMapAfterSave() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidAddsModelToMapAfterSave() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1435,7 +1708,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidSetsUidForModel() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidSetsUidForModel() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1451,7 +1727,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidSetsUidReceivedFromDatabaseForModel() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidSetsUidReceivedFromDatabaseForModel() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1469,7 +1748,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyAfterSaveForDirtyLoadedModelWithoutUidReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSaveForDirtyLoadedModelWithoutUidReturnsFalse() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1485,7 +1767,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidSetsTimestamp() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidSetsTimestamp() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1504,7 +1789,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithoutUidSetsCrdate() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithoutUidSetsCrdate() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1523,7 +1811,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForDirtyLoadedModelWithNoDataDoesNotCommitModelToDatabase() {
+	/**
+	 * @test
+	 */
+	public function saveForDirtyLoadedModelWithNoDataDoesNotCommitModelToDatabase() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1545,7 +1836,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDeadAfterSaveForDirtyLoadedModelWithDeletedFlagSetReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isDeadAfterSaveForDirtyLoadedModelWithDeletedFlagSetReturnsTrue() {
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('title' => 'foo')
 		);
@@ -1559,7 +1853,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForModelWithN1RelationSavesUidOfRelatedRecord() {
+	/**
+	 * @test
+	 */
+	public function saveForModelWithN1RelationSavesUidOfRelatedRecord() {
 		$friendUid = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
 			'tx_oelib_test', array('friend' => $friendUid)
@@ -1574,7 +1871,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForModelWithMNCommaSeparatedRelationSavesUidList() {
+	/**
+	 * @test
+	 */
+	public function saveForModelWithMNCommaSeparatedRelationSavesUidList() {
 		$childUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$childUid2 = $this->testingFramework->createRecord('tx_oelib_test');
 		$uid = $this->testingFramework->createRecord(
@@ -1591,7 +1891,10 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSaveForModelWithMNTableRelationSavesNumberOfRelatedRecords() {
+	/**
+	 * @test
+	 */
+	public function saveForModelWithMNTableRelationSavesNumberOfRelatedRecords() {
 		$uid = $this->testingFramework->createRecord('tx_oelib_test');
 		$relatedUid1 = $this->testingFramework->createRecord('tx_oelib_test');
 		$this->testingFramework->createRelationAndUpdateCounter(

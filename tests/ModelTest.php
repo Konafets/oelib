@@ -81,7 +81,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$fixture2->__destruct();
 	}
 
-	public function testGetWithNoDataThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getWithNoDataThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Please call setData() directly after instantiation first.'
@@ -90,11 +93,17 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getTitle();
 	}
 
-	public function testSetDataWithEmptyArrayIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function setDataWithEmptyArrayIsAllowed() {
 		$this->fixture->setData(array());
 	}
 
-	public function testGetAfterSetReturnsTheSetValue() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetReturnsTheSetValue() {
 		$this->fixture->setTitle('bar');
 
 		$this->assertSame(
@@ -103,7 +112,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterSetDataReturnsTheSetValue() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetDataReturnsTheSetValue() {
 		$this->fixture->setData(
 			array('title' => 'bar')
 		);
@@ -114,7 +126,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDataCalledTwoTimesThrowsAnException() {
+	/**
+	 * @test
+	 */
+	public function setDataCalledTwoTimesThrowsAnException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'setData must only be called once per model instance.'
@@ -128,7 +143,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenForLoadedHiddenObjectReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isHiddenForLoadedHiddenObjectReturnsTrue() {
 		$this->fixture->setData(
 			array('hidden' => 1)
 		);
@@ -138,7 +156,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsHiddenForLoadedNonHiddenObjectReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isHiddenForLoadedNonHiddenObjectReturnsFalse() {
 		$this->fixture->setData(
 			array('hidden' => 0)
 		);
@@ -221,7 +242,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning getAsModel
 	////////////////////////////////
 
-	public function testGetAsModelWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsModelWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -230,7 +254,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getAsModel('');
 	}
 
-	public function testGetAsModelWithInexistentKeyReturnsNull() {
+	/**
+	 * @test
+	 */
+	public function getAsModelWithInexistentKeyReturnsNull() {
 		$this->fixture->setData(array());
 
 		$this->assertNull(
@@ -238,7 +265,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsModelWithKeyForStringDataThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsModelWithKeyForStringDataThrowsException() {
 		$this->setExpectedException(
 			'UnexpectedValueException',
 			'The data item for the key "foo" is no model instance.'
@@ -249,7 +279,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getAsModel('foo');
 	}
 
-	public function testGetAsModelReturnsNullSetViaSetData() {
+	/**
+	 * @test
+	 */
+	public function getAsModelReturnsNullSetViaSetData() {
 		$this->fixture->setData(
 			array('foo' => NULL)
 		);
@@ -259,7 +292,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsModelReturnsModelSetViaSetData() {
+	/**
+	 * @test
+	 */
+	public function getAsModelReturnsModelSetViaSetData() {
 		$otherModel = new tx_oelib_tests_fixtures_TestingModel();
 		$this->fixture->setData(
 			array('foo' => $otherModel)
@@ -292,7 +328,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning getAsList
 	////////////////////////////////
 
-	public function testGetAsListWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsListWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -301,7 +340,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getAsList('');
 	}
 
-	public function testGetAsListWithInexistentKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsListWithInexistentKeyThrowsException() {
 		$this->setExpectedException(
 			'UnexpectedValueException',
 			'The data item for the key "foo" is no list instance.'
@@ -314,7 +356,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsListWithKeyForStringDataThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsListWithKeyForStringDataThrowsException() {
 		$this->setExpectedException(
 			'UnexpectedValueException',
 			'The data item for the key "foo" is no list instance.'
@@ -325,7 +370,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getAsList('foo');
 	}
 
-	public function testGetAsListReturnsListSetViaSetData() {
+	/**
+	 * @test
+	 */
+	public function getAsListReturnsListSetViaSetData() {
 		$list = new tx_oelib_List();
 		$this->fixture->setData(
 			array('foo' => $list)
@@ -344,7 +392,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning the UID
 	/////////////////////////////
 
-	public function testGetUidForNoUidReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getUidForNoUidReturnsZero() {
 		$this->fixture->setData(array());
 
 		$this->assertSame(
@@ -353,7 +404,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUidForSetUidReturnsTheSetUid() {
+	/**
+	 * @test
+	 */
+	public function getUidForSetUidReturnsTheSetUid() {
 		$this->fixture->setUid(42);
 
 		$this->assertSame(
@@ -362,7 +416,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUidForSetUidViaSetDataReturnsTheSetUid() {
+	/**
+	 * @test
+	 */
+	public function getUidForSetUidViaSetDataReturnsTheSetUid() {
 		$this->fixture->setData(array('uid' => 42));
 
 		$this->assertSame(
@@ -383,7 +440,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasUidForNoUidReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasUidForNoUidReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
@@ -391,7 +451,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasUidForPositiveUidReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasUidForPositiveUidReturnsTrue() {
 		$this->fixture->setUid(42);
 
 		$this->assertTrue(
@@ -399,7 +462,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetUidTwoTimesThrowsAnException() {
+	/**
+	 * @test
+	 */
+	public function setUidTwoTimesThrowsAnException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'The UID of a model cannot be set a second time.'
@@ -408,7 +474,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setUid(42);
 	}
 
-	public function testSetUidForAModelWithAUidSetViaSetDataThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setUidForAModelWithAUidSetViaSetDataThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'The UID of a model cannot be set a second time.'
@@ -418,7 +487,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setUid(42);
 	}
 
-	public function testSetUidForAModelWithoutUidDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function setUidForAModelWithoutUidDoesNotFail() {
 		$this->fixture->setData(array());
 		$this->fixture->setUid(42);
 	}
@@ -428,13 +500,19 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning the model states
 	//////////////////////////////////////
 
-	public function testInitiallyHasVirginState() {
+	/**
+	 * @test
+	 */
+	public function initiallyHasVirginState() {
 		$this->assertTrue(
 			$this->fixture->isVirgin()
 		);
 	}
 
-	public function testAfterSettingDataWithoutUidHasLoadedState() {
+	/**
+	 * @test
+	 */
+	public function afterSettingDataWithoutUidHasLoadedState() {
 		$this->fixture->setData(array());
 
 		$this->assertTrue(
@@ -442,7 +520,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAfterSettingDataWithUidHasLoadedState() {
+	/**
+	 * @test
+	 */
+	public function afterSettingDataWithUidHasLoadedState() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertTrue(
@@ -450,7 +531,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAfterSettingDataWithUidNotHasDeadState() {
+	/**
+	 * @test
+	 */
+	public function afterSettingDataWithUidNotHasDeadState() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertFalse(
@@ -458,7 +542,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAfterSettingUidWithoutDataHasGhostState() {
+	/**
+	 * @test
+	 */
+	public function afterSettingUidWithoutDataHasGhostState() {
 		$this->fixture->setUid(1);
 
 		$this->assertTrue(
@@ -466,7 +553,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAfterMarkAsDeadHasDeadState() {
+	/**
+	 * @test
+	 */
+	public function afterMarkAsDeadHasDeadState() {
 		$this->fixture->markAsDead();
 
 		$this->assertTrue(
@@ -474,7 +564,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetOnAModelWithoutLoadCallbackThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getOnAModelWithoutLoadCallbackThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Ghosts need a load callback function before their data can be accessed.'
@@ -484,7 +577,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getTitle();
 	}
 
-	public function testSetOnAModelInStatusGhostWithoutLoadCallbackThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setOnAModelInStatusGhostWithoutLoadCallbackThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Ghosts need a load callback function before their data can be accessed.'
@@ -494,7 +590,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setTitle('foo');
 	}
 
-	public function testGetOnDeadModelThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getOnDeadModelThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
 			'The tx_oelib_tests_fixtures_TestingModel with the UID 0' .
@@ -505,12 +604,18 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->getTitle();
 	}
 
-	public function testGetUidOnDeadModelDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function getUidOnDeadModelDoesNotFail() {
 		$this->fixture->markAsDead();
 		$this->fixture->getUid();
 	}
 
-	public function testIsHiddenOnDeadModelThrowsException() {
+	/**
+	 * @test
+	 */
+	public function isHiddenOnDeadModelThrowsException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
 			'The tx_oelib_tests_fixtures_TestingModel with the UID 0' .
@@ -605,7 +710,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests for isDirty
 	//////////////////////
 
-	public function testIsDirtyAfterMarkAsDirtyReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterMarkAsDirtyReturnsTrue() {
 		$this->fixture->markAsDirty();
 
 		$this->assertTrue(
@@ -613,7 +721,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyAfterMarkAsCleanReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterMarkAsCleanReturnsFalse() {
 		$this->fixture->markAsClean();
 
 		$this->assertFalse(
@@ -621,7 +732,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyAfterSetReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isDirtyAfterSetReturnsTrue() {
 		$this->fixture->setTitle('foo');
 
 		$this->assertTrue(
@@ -674,7 +788,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyOnModelInVirginStateReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyOnModelInVirginStateReturnsFalse() {
 		$this->assertTrue(
 			$this->fixture->isVirgin()
 		);
@@ -683,7 +800,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyOnModelInGhostStateReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyOnModelInGhostStateReturnsFalse() {
 		$this->fixture->setUid(1);
 
 		$this->assertTrue(
@@ -694,7 +814,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyOnInitiallyDeadModelReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyOnInitiallyDeadModelReturnsFalse() {
 		$this->fixture->markAsDead();
 
 		$this->assertFalse(
@@ -702,7 +825,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDirtyOnModelWhichTurnedIntoDeadStateReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDirtyOnModelWhichTurnedIntoDeadStateReturnsFalse() {
 		$this->fixture->setTitle('foo');
 
 		$this->assertTrue(
@@ -723,7 +849,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning the deleted property
 	//////////////////////////////////////////
 
-	public function testSetToDeletedOnVirginModelMarksModelAsDead() {
+	/**
+	 * @test
+	 */
+	public function setToDeletedOnVirginModelMarksModelAsDead() {
 		$this->assertTrue(
 			$this->fixture->isVirgin()
 		);
@@ -735,7 +864,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetToDeletedOnGhostModelMarksModelAsDead() {
+	/**
+	 * @test
+	 */
+	public function setToDeletedOnGhostModelMarksModelAsDead() {
 		$this->fixture->setUid(1);
 
 		$this->assertTrue(
@@ -749,7 +881,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetToDeletedOnLoadedModelMarksModelAsDirty() {
+	/**
+	 * @test
+	 */
+	public function setToDeletedOnLoadedModelMarksModelAsDirty() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertTrue(
@@ -763,7 +898,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetToDeletedOnLoadedModelMarksModelAsDeleted() {
+	/**
+	 * @test
+	 */
+	public function setToDeletedOnLoadedModelMarksModelAsDeleted() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertTrue(
@@ -777,7 +915,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSettingDeletedByUsingSetThrowsAnException() {
+	/**
+	 * @test
+	 */
+	public function settingDeletedByUsingSetThrowsAnException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be "deleted". Please use setToDeleted() instead.'
@@ -786,7 +927,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		$this->fixture->setDeletedPropertyUsingSet();
 	}
 
-	public function testIsDeletedForModelSetToDeletedReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isDeletedForModelSetToDeletedReturnsTrue() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->fixture->setToDeleted();
@@ -796,7 +940,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsDeletedForNonDeletedModelReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isDeletedForNonDeletedModelReturnsFalse() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertFalse(
@@ -859,14 +1006,20 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Tests concerning getData
 	/////////////////////////////
 
-	public function testGetDataForNoDataSetReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getDataForNoDataSetReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getData()
 		);
 	}
 
-	public function testGetDataReturnsArrayWithTheSetData() {
+	/**
+	 * @test
+	 */
+	public function getDataReturnsArrayWithTheSetData() {
 		$data = array('foo' => 'bar');
 		$this->fixture->setData($data);
 
@@ -876,7 +1029,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetDataReturnsArrayWithoutKeyUid() {
+	/**
+	 * @test
+	 */
+	public function getDataReturnsArrayWithoutKeyUid() {
 		$this->fixture->setData(array('uid' => 1));
 
 		$this->assertSame(
@@ -890,7 +1046,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 	// Test concerning setTimestamp and setCreationDate
 	/////////////////////////////////////////////////////
 
-	public function testSetTimestampForLoadedModelSetsTheTimestamp() {
+	/**
+	 * @test
+	 */
+	public function setTimestampForLoadedModelSetsTheTimestamp() {
 		$this->fixture->setData(array());
 		$this->fixture->setTimestamp();
 
@@ -900,7 +1059,10 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testsetCreationDateForLoadedModelWithUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setCreationDateForLoadedModelWithUidThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Only new objects (without UID) may receive "crdate".'

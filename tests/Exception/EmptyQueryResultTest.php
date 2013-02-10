@@ -57,7 +57,10 @@ class tx_oelib_Exception_EmptyQueryResultTest extends tx_phpunit_testcase {
 			= $this->savedStoreLastBuildQuery;
 	}
 
-	public function testMessageAfterQueryWithLastQueryEnabledContainsLastQuery() {
+	/**
+	 * @test
+	 */
+	public function messageAfterQueryWithLastQueryEnabledContainsLastQuery() {
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('title', 'tx_oelib_test', '');
 		$fixture = new tx_oelib_Exception_EmptyQueryResult();
 

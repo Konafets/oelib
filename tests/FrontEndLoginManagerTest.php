@@ -58,20 +58,29 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////
 
-	public function testGetInstanceReturnsFrontEndLoginManagerInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsFrontEndLoginManagerInstance() {
 		$this->assertTrue(
 			$this->fixture instanceof tx_oelib_FrontEndLoginManager
 		);
 	}
 
-	public function testGetInstanceTwoTimesReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_FrontEndLoginManager::getInstance()
 		);
 	}
 
-	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		tx_oelib_FrontEndLoginManager::purgeInstance();
 
 		$this->assertNotSame(
@@ -85,13 +94,19 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning isLoggedIn
 	////////////////////////////////
 
-	public function testIsLoggedInForNoFrontEndReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInForNoFrontEndReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->isLoggedIn()
 		);
 	}
 
-	public function testIsLoggedInForFrontEndWithoutLoggedInUserReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInForFrontEndWithoutLoggedInUserReturnsFalse() {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertFalse(
@@ -99,7 +114,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsLoggedInWithLoggedInFrontEndUserReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInWithLoggedInFrontEndUserReturnsTrue() {
 		$this->testingFramework->createFakeFrontEnd();
 		$this->testingFramework->createAndLoginFrontEndUser();
 
@@ -113,7 +131,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning getLoggedInUser
 	/////////////////////////////////////
 
-	public function testGetLoggedInUserWithEmptyMapperNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithEmptyMapperNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$mapperName must not be empty.'
@@ -122,7 +143,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		$this->fixture->getLoggedInUser('');
 	}
 
-	public function testGetLoggedInUserWithoutFrontEndReturnsNull() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithoutFrontEndReturnsNull() {
 		$this->testingFramework->discardFakeFrontEnd();
 
 		$this->assertNull(
@@ -130,7 +154,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithoutLoggedInUserReturnsNull() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithoutLoggedInUserReturnsNull() {
 		$this->testingFramework->createFakeFrontEnd();
 		$this->testingFramework->logoutFrontEndUser();
 
@@ -139,7 +166,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithLoggedInUserReturnsFrontEndUserInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 		$this->testingFramework->createAndLoginFrontEndUser();
 
@@ -149,7 +179,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
 		$this->testingFramework->createFakeFrontEnd();
 		$this->testingFramework->createAndLoginFrontEndUser();
 
@@ -159,7 +192,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithLoggedInUserReturnsFrontEndUserWithUidOfLoggedInUser() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithLoggedInUserReturnsFrontEndUserWithUidOfLoggedInUser() {
 		$this->testingFramework->createFakeFrontEnd();
 		$uid = $this->testingFramework->createAndLoginFrontEndUser();
 
@@ -169,7 +205,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 		$uid = $this->testingFramework->createAndLoginFrontEndUser();
 		$user = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
@@ -181,7 +220,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserWithLoadedModelOfUserNotInDatabaseReturnsThatInstance() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithLoadedModelOfUserNotInDatabaseReturnsThatInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 		$user = tx_oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
@@ -194,7 +236,10 @@ class tx_oelib_FrontEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserUsesMappedUserDataFromMemory() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserUsesMappedUserDataFromMemory() {
 		$this->testingFramework->createFakeFrontEnd();
 		$feUserUid = $this->testingFramework->createAndLoginFrontEndUser(
 			'', array('name' => 'John Doe')

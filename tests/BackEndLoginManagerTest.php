@@ -58,20 +58,29 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////
 
-	public function testGetInstanceReturnsBackEndLoginManagerInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsBackEndLoginManagerInstance() {
 		$this->assertTrue(
 			$this->fixture instanceof tx_oelib_BackEndLoginManager
 		);
 	}
 
-	public function testGetInstanceTwoTimesReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_BackEndLoginManager::getInstance()
 		);
 	}
 
-	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		tx_oelib_BackEndLoginManager::purgeInstance();
 
 		$this->assertNotSame(
@@ -85,14 +94,20 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning isLoggedIn
 	////////////////////////////////
 
-	public function testIsLoggedInWithLoggedInBackEndUserReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInWithLoggedInBackEndUserReturnsTrue() {
 		// We assume that the tests are run when logged in in the BE.
 		$this->assertTrue(
 			$this->fixture->isLoggedIn()
 		);
 	}
 
-	public function testIsLoggedInForFakedUserReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInForFakedUserReturnsTrue() {
 		$this->fixture->setLoggedInUser(
 			tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')
 				->getNewGhost()
@@ -108,7 +123,10 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 	// Tests concerning getLoggedInUser
 	/////////////////////////////////////
 
-	public function testGetLoggedInUserWithEmptyMapperNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithEmptyMapperNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$mapperName must not be empty.'
@@ -117,28 +135,40 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 		$this->fixture->getLoggedInUser('');
 	}
 
-	public function testGetLoggedInUserWithLoggedInUserReturnsBackEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserInstance() {
 		$this->assertTrue(
 			$this->fixture->getLoggedInUser()
 				instanceof tx_oelib_Model_BackEndUser
 		);
 	}
 
-	public function testGetLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
 		$this->assertTrue(
 			$this->fixture->getLoggedInUser('tx_oelib_tests_fixtures_TestingMapper')
 				instanceof tx_oelib_tests_fixtures_TestingModel
 		);
 	}
 
-	public function testGetLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
 		$this->assertSame(
 			intval($GLOBALS['BE_USER']->user['uid']),
 			$this->fixture->getLoggedInUser()->getUid()
 		);
 	}
 
-	public function testGetLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
 		$user = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')
 			->find($GLOBALS['BE_USER']->user['uid']);
 
@@ -148,7 +178,10 @@ class tx_oelib_BackEndLoginManagerTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLoggedInUserUsesMappedUserDataFromMemory() {
+	/**
+	 * @test
+	 */
+	public function getLoggedInUserUsesMappedUserDataFromMemory() {
 		$backedUpName = $GLOBALS['BE_USER']->user['realName'];
 		$GLOBALS['BE_USER']->user['realName'] = 'John Doe';
 

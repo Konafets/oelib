@@ -50,7 +50,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for checkForNonEmptyKey
 	//////////////////////////////////
 
-	public function testCheckForNonEmptyKeyWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function checkForNonEmptyKeyWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -59,7 +62,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->checkForNonEmptyKey('');
 	}
 
-	public function testCheckForNonEmptyKeyWithNonEmptyKeyIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function checkForNonEmptyKeyWithNonEmptyKeyIsAllowed() {
 		$this->fixture->checkForNonEmptyKey('foo');
 	}
 
@@ -68,7 +74,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for setAsString and getAsString
 	//////////////////////////////////////////
 
-	public function testGetAsStringWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsStringWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -77,7 +86,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsString('');
 	}
 
-	public function testSetAsStringWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setAsStringWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -86,14 +98,20 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setAsString('', 'bar');
 	}
 
-	public function testGetAsStringWithInexistentKeyReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getAsStringWithInexistentKeyReturnsEmptyString() {
 		$this->assertSame(
 			'',
 			$this->fixture->getAsString('foo')
 		);
 	}
 
-	public function testGetAsStringReturnsNonEmptyStringSetViaSetAsString() {
+	/**
+	 * @test
+	 */
+	public function getAsStringReturnsNonEmptyStringSetViaSetAsString() {
 		$this->fixture->setAsString('foo', 'bar');
 
 		$this->assertSame(
@@ -102,7 +120,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsStringReturnsTrimmedValue() {
+	/**
+	 * @test
+	 */
+	public function getAsStringReturnsTrimmedValue() {
 		$this->fixture->setAsString('foo', ' bar ');
 
 		$this->assertSame(
@@ -111,7 +132,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsStringReturnsEmptyStringSetViaSetAsString() {
+	/**
+	 * @test
+	 */
+	public function getAsStringReturnsEmptyStringSetViaSetAsString() {
 		$this->fixture->setAsString('foo', '');
 
 		$this->assertSame(
@@ -125,7 +149,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for setAsInteger and getAsInteger
 	////////////////////////////////////////////
 
-	public function testGetAsIntegerWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -134,7 +161,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsInteger('');
 	}
 
-	public function testSetAsIntegerWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setAsIntegerWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -143,14 +173,20 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setAsInteger('', 42);
 	}
 
-	public function testGetAsIntegerWithInexistentKeyReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerWithInexistentKeyReturnsZero() {
 		$this->assertSame(
 			0,
 			$this->fixture->getAsInteger('foo')
 		);
 	}
 
-	public function testGetAsIntegerReturnsPositiveIntegerSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsPositiveIntegerSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 42);
 
 		$this->assertSame(
@@ -159,7 +195,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsNegativeIntegerSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsNegativeIntegerSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', -42);
 
 		$this->assertSame(
@@ -168,7 +207,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsZeroSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsZeroSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 0);
 
 		$this->assertSame(
@@ -177,7 +219,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsZeroForStringSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsZeroForStringSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 'bar');
 
 		$this->assertSame(
@@ -186,7 +231,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsRoundedValueForFloatSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsRoundedValueForFloatSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 12.34);
 
 		$this->assertSame(
@@ -200,7 +248,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for setAsArray, getAsTrimmedArray and getAsIntegerArray
 	//////////////////////////////////////////////////////////////////
 
-	public function testGetAsTrimmedArrayWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsTrimmedArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -209,7 +260,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsTrimmedArray('');
 	}
 
-	public function testGetAsIntegerArrayWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -218,7 +272,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsIntegerArray('');
 	}
 
-	public function testSetAsArrayWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setAsArrayWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -227,21 +284,30 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setAsArray('', array('bar'));
 	}
 
-	public function testGetAsTrimmedArrayWithInexistentKeyReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getAsTrimmedArrayWithInexistentKeyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getAsTrimmedArray('foo')
 		);
 	}
 
-	public function testGetAsIntegerArrayWithInexistentKeyReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerArrayWithInexistentKeyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getAsIntegerArray('foo')
 		);
 	}
 
-	public function testGetAsTrimmedArrayReturnsNonEmptyArraySetViaSetAsArray() {
+	/**
+	 * @test
+	 */
+	public function getAsTrimmedArrayReturnsNonEmptyArraySetViaSetAsArray() {
 		$this->fixture->setAsArray('foo', array('foo', 'bar'));
 
 		$this->assertSame(
@@ -250,7 +316,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerArrayReturnsNonEmptyArraySetViaSetAsArray() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerArrayReturnsNonEmptyArraySetViaSetAsArray() {
 		$this->fixture->setAsArray('foo', array(1, -2));
 
 		$this->assertSame(
@@ -259,7 +328,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsTrimmedArrayReturnsEmptyArraySetViaSetAsArray() {
+	/**
+	 * @test
+	 */
+	public function getAsTrimmedArrayReturnsEmptyArraySetViaSetAsArray() {
 		$this->fixture->setAsArray('foo', array());
 
 		$this->assertSame(
@@ -268,7 +340,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerArrayReturnsEmptyArraySetViaSetAsArray() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerArrayReturnsEmptyArraySetViaSetAsArray() {
 		$this->fixture->setAsArray('foo', array());
 
 		$this->assertSame(
@@ -277,7 +352,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsTrimmedArrayReturnsTrimmedValues() {
+	/**
+	 * @test
+	 */
+	public function getAsTrimmedArrayReturnsTrimmedValues() {
 		$this->fixture->setAsArray('foo', array(' foo '));
 
 		$this->assertSame(
@@ -286,7 +364,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerArrayReturnsIntvaledValues() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerArrayReturnsIntvaledValues() {
 		$this->fixture->setAsArray('foo', array('asdf'));
 
 		$this->assertSame(
@@ -300,7 +381,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for setAsBoolean and getAsBoolean
 	////////////////////////////////////////////
 
-	public function testGetAsBooleanWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -309,7 +393,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsBoolean('');
 	}
 
-	public function testSetAsBooleanWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setAsBooleanWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -318,14 +405,20 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setAsBoolean('', FALSE);
 	}
 
-	public function testGetAsBooleanWithInexistentKeyReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanWithInexistentKeyReturnsFalse() {
 		$this->assertSame(
 			FALSE,
 			$this->fixture->getAsBoolean('foo')
 		);
 	}
 
-	public function testGetAsBooleanReturnsTrueSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsTrueSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', TRUE);
 
 		$this->assertSame(
@@ -334,7 +427,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsFalseSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsFalseSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', FALSE);
 
 		$this->assertSame(
@@ -343,7 +439,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsTrueForNonEmptyStringSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsTrueForNonEmptyStringSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', 'bar');
 
 		$this->assertSame(
@@ -352,7 +451,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsFalseForEmptyStringSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsFalseForEmptyStringSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', '');
 
 		$this->assertSame(
@@ -361,7 +463,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', TRUE);
 
 		$this->assertSame(
@@ -370,7 +475,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
+	/**
+	 * @test
+	 */
+	public function getAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
 		$this->fixture->setAsBoolean('foo', FALSE);
 
 		$this->assertSame(
@@ -379,7 +487,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsTrueForPositiveIntegerSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsTrueForPositiveIntegerSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 42);
 
 		$this->assertSame(
@@ -388,7 +499,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsTrueForNegativeIntegerSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsTrueForNegativeIntegerSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', -42);
 
 		$this->assertSame(
@@ -397,7 +511,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsBooleanReturnsFalseForZeroSetViaSetAsInteger() {
+	/**
+	 * @test
+	 */
+	public function getAsBooleanReturnsFalseForZeroSetViaSetAsInteger() {
 		$this->fixture->setAsInteger('foo', 0);
 
 		$this->assertSame(
@@ -411,7 +528,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for setAsFloat and getAsFloat
 	////////////////////////////////////////
 
-	public function testGetAsFloatWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getAsFloatWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -420,7 +540,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->getAsFloat('');
 	}
 
-	public function testSetAsFloatWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setAsFloatWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$key must not be empty.'
@@ -429,7 +552,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		$this->fixture->setAsFloat('', 42.5);
 	}
 
-	public function testGetAsFloatWithInexistentKeyReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function getAsFloatWithInexistentKeyReturnsZero() {
 		$this->assertSame(
 			0.0,
 			$this->fixture->getAsFloat('foo')
@@ -472,7 +598,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
+	/**
+	 * @test
+	 */
+	public function getAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
 		$this->fixture->setAsFloat('foo', -42.5);
 
 		$this->assertSame(
@@ -481,7 +610,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsFloatReturnsZeroSetViaSetAsFloat() {
+	/**
+	 * @test
+	 */
+	public function getAsFloatReturnsZeroSetViaSetAsFloat() {
 		$this->fixture->setAsFloat('foo', 0.5);
 
 		$this->assertSame(
@@ -490,7 +622,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAsFloatReturnsZeroForStringSetViaSetAsFloat() {
+	/**
+	 * @test
+	 */
+	public function getAsFloatReturnsZeroForStringSetViaSetAsFloat() {
 		$this->fixture->setAsFloat('foo', 'bar');
 
 		$this->assertSame(
@@ -517,7 +652,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 	// Tests for hasString, hasInteger and hasFloat
 	/////////////////////////////////////////////////
 
-	public function testHasStringForNonEmptyStringReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasStringForNonEmptyStringReturnsTrue() {
 		$this->fixture->setAsString('foo', 'bar');
 
 		$this->assertTrue(
@@ -525,7 +663,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasStringForEmptyStringReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasStringForEmptyStringReturnsFalse() {
 		$this->fixture->setAsString('foo', '');
 
 		$this->assertFalse(
@@ -533,7 +674,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasIntegerForPositiveIntegerReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasIntegerForPositiveIntegerReturnsTrue() {
 		$this->fixture->setAsInteger('foo', 42);
 
 		$this->assertTrue(
@@ -541,7 +685,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasIntegerForNegativeIntegerReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasIntegerForNegativeIntegerReturnsTrue() {
 		$this->fixture->setAsInteger('foo', -42);
 
 		$this->assertTrue(
@@ -549,7 +696,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasIntegerForZeroReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasIntegerForZeroReturnsFalse() {
 		$this->fixture->setAsInteger('foo', 0);
 
 		$this->assertFalse(
@@ -557,7 +707,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasFloatForPositiveFloatReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasFloatForPositiveFloatReturnsTrue() {
 		$this->fixture->setAsFloat('foo', 42.00);
 
 		$this->assertTrue(
@@ -565,7 +718,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasFloatForNegativeFloatReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasFloatForNegativeFloatReturnsTrue() {
 		$this->fixture->setAsFloat('foo', -42.00);
 
 		$this->assertTrue(
@@ -573,7 +729,10 @@ class tx_oelib_ObjectTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasFloatForZeroReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasFloatForZeroReturnsFalse() {
 		$this->fixture->setAsFloat('foo', 0.00);
 
 		$this->assertFalse(

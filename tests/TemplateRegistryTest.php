@@ -42,21 +42,30 @@ class tx_oelib_TemplateRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////
 
-	public function testGetInstanceReturnsTemplateRegistryInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsTemplateRegistryInstance() {
 		$this->assertTrue(
 			tx_oelib_TemplateRegistry::getInstance()
 				instanceof tx_oelib_TemplateRegistry
 		);
 	}
 
-	public function testGetInstanceTwoTimesReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
 			tx_oelib_TemplateRegistry::getInstance(),
 			tx_oelib_TemplateRegistry::getInstance()
 		);
 	}
 
-	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		$firstInstance = tx_oelib_TemplateRegistry::getInstance();
 		tx_oelib_TemplateRegistry::purgeInstance();
 
@@ -71,34 +80,49 @@ class tx_oelib_TemplateRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning get()
 	///////////////////////////
 
-	public function testGetForEmptyTemplateFileNameReturnsTemplateInstance() {
+	/**
+	 * @test
+	 */
+	public function getForEmptyTemplateFileNameReturnsTemplateInstance() {
 		$this->assertTrue(
 			tx_oelib_TemplateRegistry::get('') instanceof tx_oelib_template
 		);
 	}
 
-	public function testGetForEmptyTemplateFileNameCalledTwoTimesReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getForEmptyTemplateFileNameCalledTwoTimesReturnsNewInstance() {
 		$this->assertNotSame(
 			tx_oelib_TemplateRegistry::get(''),
 			tx_oelib_TemplateRegistry::get('')
 		);
 	}
 
-	public function testGetForExistingTemplateFileNameReturnsTemplate() {
+	/**
+	 * @test
+	 */
+	public function getForExistingTemplateFileNameReturnsTemplate() {
 		$this->assertTrue(
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
 				instanceof tx_oelib_template
 		);
 	}
 
-	public function testGetForExistingTemplateFileNameCalledTwoTimesReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getForExistingTemplateFileNameCalledTwoTimesReturnsNewInstance() {
 		$this->assertNotSame(
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html'),
 			tx_oelib_TemplateRegistry::get('EXT:oelib/tests/fixtures/oelib.html')
 		);
 	}
 
-	public function testGetForExistingTemplateFileNameReturnsProcessedTemplate() {
+	/**
+	 * @test
+	 */
+	public function getForExistingTemplateFileNameReturnsProcessedTemplate() {
 		$template = tx_oelib_TemplateRegistry::get(
 			'EXT:oelib/tests/fixtures/oelib.html'
 		);

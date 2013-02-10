@@ -47,14 +47,20 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
-	public function testGetHeaderProxyInTestMode() {
+	/**
+	 * @test
+	 */
+	public function getHeaderProxyInTestMode() {
 		$this->assertSame(
 			'tx_oelib_headerCollector',
 			get_class($this->fixture)
 		);
 	}
 
-	public function testGetHeaderProxyInNonTestMode() {
+	/**
+	 * @test
+	 */
+	public function getHeaderProxyInNonTestMode() {
 		// new instances always have a disabled test mode
 		tx_oelib_headerProxyFactory::purgeInstance();
 
@@ -64,7 +70,10 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHeaderProxyInSameModeAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getHeaderProxyInSameModeAfterPurgeInstanceReturnsNewInstance() {
 		tx_oelib_headerProxyFactory::purgeInstance();
 		$instance = tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy();
 		tx_oelib_headerProxyFactory::purgeInstance();
@@ -75,14 +84,20 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHeaderProxyReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
+	/**
+	 * @test
+	 */
+	public function getHeaderProxyReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 		);
 	}
 
-	public function testGetHeaderProxyNotReturnsTheSameObjectWhenCalledInTheSameClassInAnotherMode() {
+	/**
+	 * @test
+	 */
+	public function getHeaderProxyNotReturnsTheSameObjectWhenCalledInTheSameClassInAnotherMode() {
 		// new instances always have a disabled test mode
 		tx_oelib_headerProxyFactory::purgeInstance();
 
@@ -92,7 +107,10 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddHeaderAndGetIt() {
+	/**
+	 * @test
+	 */
+	public function addHeaderAndGetIt() {
 		$this->fixture->addHeader('123: foo.');
 
 		$this->assertSame(
@@ -101,7 +119,10 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddTwoHeadersAndGetTheLast() {
+	/**
+	 * @test
+	 */
+	public function addTwoHeadersAndGetTheLast() {
 		$this->fixture->addHeader('123: foo.');
 		$this->fixture->addHeader('123: bar.');
 
@@ -111,7 +132,10 @@ class tx_oelib_headerProxyFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddTwoHeadersAndGetBoth() {
+	/**
+	 * @test
+	 */
+	public function addTwoHeadersAndGetBoth() {
 		$this->fixture->addHeader('123: foo.');
 		$this->fixture->addHeader('123: bar.');
 

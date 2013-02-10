@@ -59,7 +59,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the user name
 	///////////////////////////////////
 
-	public function testGetUserNameForEmptyUserNameReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getUserNameForEmptyUserNameReturnsEmptyString() {
 		$this->fixture->setData(array('username' => ''));
 
 		$this->assertSame(
@@ -68,7 +71,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUserNameForNonEmptyUserNameReturnsUserName() {
+	/**
+	 * @test
+	 */
+	public function getUserNameForNonEmptyUserNameReturnsUserName() {
 		$this->fixture->setData(array('username' => 'johndoe'));
 
 		$this->assertSame(
@@ -153,7 +159,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning the name
 	//////////////////////////////
 
-	public function testHasNameForEmptyNameLastNameAndFirstNameReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasNameForEmptyNameLastNameAndFirstNameReturnsFalse() {
 		$this->fixture->setData(array(
 			'name' => '',
 			'first_name' => '',
@@ -165,7 +174,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasNameForNonEmptyUserReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasNameForNonEmptyUserReturnsFalse() {
 		$this->fixture->setData(array(
 			'username' => 'johndoe',
 		));
@@ -175,7 +187,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasNameForNonEmptyNameReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasNameForNonEmptyNameReturnsTrue() {
 		$this->fixture->setData(array(
 			'name' => 'John Doe',
 			'first_name' => '',
@@ -187,7 +202,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasNameForNonEmptyFirstNameReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasNameForNonEmptyFirstNameReturnsTrue() {
 		$this->fixture->setData(array(
 			'name' => '',
 			'first_name' => 'John',
@@ -199,7 +217,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasNameForNonEmptyLastNameReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasNameForNonEmptyLastNameReturnsTrue() {
 		$this->fixture->setData(array(
 			'name' => '',
 			'first_name' => '',
@@ -211,7 +232,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForNonEmptyNameReturnsName() {
+	/**
+	 * @test
+	 */
+	public function getNameForNonEmptyNameReturnsName() {
 		$this->fixture->setData(array(
 			'name' => 'John Doe',
 		));
@@ -222,7 +246,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForNonEmptyNameFirstNameAndLastNameReturnsName() {
+	/**
+	 * @test
+	 */
+	public function getNameForNonEmptyNameFirstNameAndLastNameReturnsName() {
 		$this->fixture->setData(array(
 			'name' => 'John Doe',
 			'first_name' => 'Peter',
@@ -235,7 +262,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForEmptyNameAndNonEmptyFirstAndLastNameReturnsFirstAndLastName() {
+	/**
+	 * @test
+	 */
+	public function getNameForEmptyNameAndNonEmptyFirstAndLastNameReturnsFirstAndLastName() {
 		$this->fixture->setData(array(
 			'name' => '',
 			'first_name' => 'Peter',
@@ -248,7 +278,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForNonEmptyFirstAndLastNameAndNonEmptyUserNameReturnsFirstAndLastName() {
+	/**
+	 * @test
+	 */
+	public function getNameForNonEmptyFirstAndLastNameAndNonEmptyUserNameReturnsFirstAndLastName() {
 		$this->fixture->setData(array(
 			'first_name' => 'Peter',
 			'last_name' => 'Pan',
@@ -261,7 +294,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForEmptyFirstNameAndNonEmptyLastAndUserNameReturnsLastName() {
+	/**
+	 * @test
+	 */
+	public function getNameForEmptyFirstNameAndNonEmptyLastAndUserNameReturnsLastName() {
 		$this->fixture->setData(array(
 			'first_name' => '',
 			'last_name' => 'Pan',
@@ -274,7 +310,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForEmptyLastNameAndNonEmptyFirstAndUserNameReturnsFirstName() {
+	/**
+	 * @test
+	 */
+	public function getNameForEmptyLastNameAndNonEmptyFirstAndUserNameReturnsFirstName() {
 		$this->fixture->setData(array(
 			'first_name' => 'Peter',
 			'last_name' => '',
@@ -287,7 +326,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForEmptyFirstAndLastNameAndNonEmptyUserNameReturnsUserName() {
+	/**
+	 * @test
+	 */
+	public function getNameForEmptyFirstAndLastNameAndNonEmptyUserNameReturnsUserName() {
 		$this->fixture->setData(array(
 			'first_name' => '',
 			'last_name' => '',
@@ -317,7 +359,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the company
 	/////////////////////////////////////////
 
-	public function testHasCompanyForEmptyCompanyReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasCompanyForEmptyCompanyReturnsFalse() {
 		$this->fixture->setData(array('company' => ''));
 
 		$this->assertFalse(
@@ -325,7 +370,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasCompanyForNonEmptyCompanyReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasCompanyForNonEmptyCompanyReturnsTrue() {
 		$this->fixture->setData(array('company' => 'Test Inc.'));
 
 		$this->assertTrue(
@@ -333,7 +381,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompanyForEmptyCompanyReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getCompanyForEmptyCompanyReturnsEmptyString() {
 		$this->fixture->setData(array('company' => ''));
 
 		$this->assertSame(
@@ -342,7 +393,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompanyForNonEmptyCompanyReturnsCompany() {
+	/**
+	 * @test
+	 */
+	public function getCompanyForNonEmptyCompanyReturnsCompany() {
 		$this->fixture->setData(array('company' => 'Test Inc.'));
 
 		$this->assertSame(
@@ -356,7 +410,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the street
 	////////////////////////////////////////
 
-	public function testHasStreetForEmptyAddressReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasStreetForEmptyAddressReturnsFalse() {
 		$this->fixture->setData(array('address' => ''));
 
 		$this->assertFalse(
@@ -364,7 +421,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasStreetForNonEmptyAddressReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasStreetForNonEmptyAddressReturnsTrue() {
 		$this->fixture->setData(array('address' => 'Foo street 1'));
 
 		$this->assertTrue(
@@ -372,7 +432,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetStreetForEmptyAddressReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getStreetForEmptyAddressReturnsEmptyString() {
 		$this->fixture->setData(array('address' => ''));
 
 		$this->assertSame(
@@ -381,7 +444,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetStreetForNonEmptyAddressReturnsAddress() {
+	/**
+	 * @test
+	 */
+	public function getStreetForNonEmptyAddressReturnsAddress() {
 		$this->fixture->setData(array('address' => 'Foo street 1'));
 
 		$this->assertSame(
@@ -390,7 +456,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetStreetForMultilineAddressReturnsAddress() {
+	/**
+	 * @test
+	 */
+	public function getStreetForMultilineAddressReturnsAddress() {
 		$this->fixture->setData(array(
 			'address' => 'Foo street 1' . LF . 'Floor 3'
 		));
@@ -406,7 +475,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the ZIP code
 	//////////////////////////////////////////
 
-	public function testHasZipForEmptyZipReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasZipForEmptyZipReturnsFalse() {
 		$this->fixture->setData(array('zip' => ''));
 
 		$this->assertFalse(
@@ -414,7 +486,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasZipForNonEmptyZipReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasZipForNonEmptyZipReturnsTrue() {
 		$this->fixture->setData(array('zip' => '12345'));
 
 		$this->assertTrue(
@@ -422,7 +497,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetZipForEmptyZipReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getZipForEmptyZipReturnsEmptyString() {
 		$this->fixture->setData(array('zip' => ''));
 
 		$this->assertSame(
@@ -431,7 +509,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetZipForNonEmptyZipReturnsZip() {
+	/**
+	 * @test
+	 */
+	public function getZipForNonEmptyZipReturnsZip() {
 		$this->fixture->setData(array('zip' => '12345'));
 
 		$this->assertSame(
@@ -445,7 +526,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the city
 	//////////////////////////////////////
 
-	public function testHasCityForEmptyCityReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasCityForEmptyCityReturnsFalse() {
 		$this->fixture->setData(array('city' => ''));
 
 		$this->assertFalse(
@@ -453,7 +537,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasCityForNonEmptyCityReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasCityForNonEmptyCityReturnsTrue() {
 		$this->fixture->setData(array('city' => 'Test city'));
 
 		$this->assertTrue(
@@ -461,7 +548,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCityForEmptyCityReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getCityForEmptyCityReturnsEmptyString() {
 		$this->fixture->setData(array('city' => ''));
 
 		$this->assertSame(
@@ -470,7 +560,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCityForNonEmptyCityReturnsCity() {
+	/**
+	 * @test
+	 */
+	public function getCityForNonEmptyCityReturnsCity() {
 		$this->fixture->setData(array('city' => 'Test city'));
 
 		$this->assertSame(
@@ -479,7 +572,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetZipAndCityForNonEmptyZipAndCityReturnsZipAndCity() {
+	/**
+	 * @test
+	 */
+	public function getZipAndCityForNonEmptyZipAndCityReturnsZipAndCity() {
 		$this->fixture->setData(array(
 			'zip' => '12345',
 			'city' => 'Test city',
@@ -491,7 +587,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetZipAndCityForEmptyZipAndNonEmptyCityReturnsCity() {
+	/**
+	 * @test
+	 */
+	public function getZipAndCityForEmptyZipAndNonEmptyCityReturnsCity() {
 		$this->fixture->setData(array(
 			'zip' => '',
 			'city' => 'Test city',
@@ -503,7 +602,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testZipAndGetCityForNonEmptyZipAndEmptyCityReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getZipAndGetCityForNonEmptyZipAndEmptyCityReturnsEmptyString() {
 		$this->fixture->setData(array(
 			'zip' => '12345',
 			'city' => '',
@@ -515,7 +617,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testZipAndGetCityForEmptyZipAndCityReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getZipAndGetCityForEmptyZipAndEmptyCityReturnsEmptyString() {
 		$this->fixture->setData(array(
 			'zip' => '',
 			'city' => '',
@@ -532,7 +637,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the phone
 	//////////////////////////////////////
 
-	public function testHasPhoneNumberForEmptyPhoneReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasPhoneNumberForEmptyPhoneReturnsFalse() {
 		$this->fixture->setData(array('telephone' => ''));
 
 		$this->assertFalse(
@@ -540,7 +648,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasPhoneNumberForNonEmptyPhoneReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasPhoneNumberForNonEmptyPhoneReturnsTrue() {
 		$this->fixture->setData(array('telephone' => '1234 5678'));
 
 		$this->assertTrue(
@@ -548,7 +659,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPhoneNumberForEmptyPhoneReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getPhoneNumberForEmptyPhoneReturnsEmptyString() {
 		$this->fixture->setData(array('telephone' => ''));
 
 		$this->assertSame(
@@ -557,7 +671,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetPhoneNumberForNonEmptyPhoneReturnsPhone() {
+	/**
+	 * @test
+	 */
+	public function getPhoneNumberForNonEmptyPhoneReturnsPhone() {
 		$this->fixture->setData(array('telephone' => '1234 5678'));
 
 		$this->assertSame(
@@ -634,7 +751,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the homepage
 	//////////////////////////////////////////
 
-	public function testHasHomepageForEmptyWwwReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasHomepageForEmptyWwwReturnsFalse() {
 		$this->fixture->setData(array('www' => ''));
 
 		$this->assertFalse(
@@ -642,7 +762,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasHomepageForNonEmptyWwwReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasHomepageForNonEmptyWwwReturnsTrue() {
 		$this->fixture->setData(array('www' => 'http://www.doe.com'));
 
 		$this->assertTrue(
@@ -650,7 +773,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHomepageForEmptyWwwReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getHomepageForEmptyWwwReturnsEmptyString() {
 		$this->fixture->setData(array('www' => ''));
 
 		$this->assertSame(
@@ -659,7 +785,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetHomepageForNonEmptyWwwReturnsWww() {
+	/**
+	 * @test
+	 */
+	public function getHomepageForNonEmptyWwwReturnsWww() {
 		$this->fixture->setData(array('www' => 'http://www.doe.com'));
 
 		$this->assertSame(
@@ -673,7 +802,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the picture
 	/////////////////////////////////////////
 
-	public function testHasImageForEmptyImageReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasImageForEmptyImageReturnsFalse() {
 		$this->fixture->setData(array('image' => ''));
 
 		$this->assertFalse(
@@ -681,7 +813,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasImageForNonEmptyImageReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasImageForNonEmptyImageReturnsTrue() {
 		$this->fixture->setData(array('image' => 'thats-me.jpg'));
 
 		$this->assertTrue(
@@ -689,7 +824,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetImageForEmptyImageReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getImageForEmptyImageReturnsEmptyString() {
 		$this->fixture->setData(array('image' => ''));
 
 		$this->assertSame(
@@ -698,7 +836,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetImageForNonEmptyImageReturnsImage() {
+	/**
+	 * @test
+	 */
+	public function getImageForNonEmptyImageReturnsImage() {
 		$this->fixture->setData(array('image' => 'thats-me.jpg'));
 
 		$this->assertSame(
@@ -750,7 +891,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 	// Test concerning hasGroupMembership
 	///////////////////////////////////////
 
-	public function testHasGroupMembershipWithEmptyUidListThrowsException() {
+	/**
+	 * @test
+	 */
+	public function hasGroupMembershipWithEmptyUidListThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uidList must not be empty.'
@@ -759,7 +903,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		$this->fixture->hasGroupMembership('');
 	}
 
-	public function testHasGroupMembershipForUserOnlyInProvidedGroupReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasGroupMembershipForUserOnlyInProvidedGroupReturnsTrue() {
 		$userGroup = tx_oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUserGroup')->getNewGhost();
 		$list = new tx_oelib_List();
@@ -772,7 +919,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasGroupMembershipForUserInProvidedGroupAndInAnotherReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasGroupMembershipForUserInProvidedGroupAndInAnotherReturnsTrue() {
 		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
 		$userGroup = $groupMapper->getNewGhost();
 		$list = new tx_oelib_List();
@@ -786,7 +936,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasGroupMembershipForUserInOneOfTheProvidedGroupsReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasGroupMembershipForUserInOneOfTheProvidedGroupsReturnsTrue() {
 		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
 		$userGroup = $groupMapper->getNewGhost();
 		$list = new tx_oelib_List();
@@ -801,7 +954,10 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasGroupMembershipForUserNoneOfTheProvidedGroupsReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasGroupMembershipForUserNoneOfTheProvidedGroupsReturnsFalse() {
 		$groupMapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
 		$list = new tx_oelib_List();
 		$list->add($groupMapper->getNewGhost());

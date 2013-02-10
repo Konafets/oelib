@@ -103,14 +103,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 	// Tests concerning the basic functionality
 	/////////////////////////////////////////////
 
-	public function testGetMailerInTestMode() {
+	/**
+	 * @test
+	 */
+	public function getMailerInTestMode() {
 		$this->assertSame(
 			'tx_oelib_emailCollector',
 			get_class($this->fixture)
 		);
 	}
 
-	public function testGetMailerInNonTestMode() {
+	/**
+	 * @test
+	 */
+	public function getMailerInNonTestMode() {
 		// initially, the test mode is disabled
 		tx_oelib_mailerFactory::purgeInstance();
 
@@ -120,14 +126,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
+	/**
+	 * @test
+	 */
+	public function getMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_mailerFactory::getInstance()->getMailer()
 		);
 	}
 
-	public function testGetMailerAfterPurgeInstanceReturnsNewObject() {
+	/**
+	 * @test
+	 */
+	public function getMailerAfterPurgeInstanceReturnsNewObject() {
 		tx_oelib_mailerFactory::purgeInstance();
 
 		$this->assertNotSame(
@@ -136,7 +148,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStoreAnEmailAndGetIt() {
+	/**
+	 * @test
+	 */
+	public function storeAnEmailAndGetIt() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -150,7 +165,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStoreTwoEmailsAndGetTheLastEmail() {
+	/**
+	 * @test
+	 */
+	public function storeTwoEmailsAndGetTheLastEmail() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -168,14 +186,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testStoreNoEmailAndTryToGetTheLastEmail() {
+	/**
+	 * @test
+	 */
+	public function storeNoEmailAndTryToGetTheLastEmail() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getLastEmail()
 		);
 	}
 
-	public function testStoreTwoEmailsAndGetBothEmails() {
+	/**
+	 * @test
+	 */
+	public function storeTwoEmailsAndGetBothEmails() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -197,7 +221,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
+	/**
+	 * @test
+	 */
+	public function sendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
 		$this->fixture->setFakedReturnValue(TRUE);
 
 		$this->assertTrue(
@@ -205,7 +232,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSendEmailReturnsFalseIfTheReturnValueIsSetToFalse() {
+	/**
+	 * @test
+	 */
+	public function sendEmailReturnsFalseIfTheReturnValueIsSetToFalse() {
 		$this->fixture->setFakedReturnValue(FALSE);
 
 		$this->assertFalse(
@@ -213,7 +243,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLastRecipientReturnsTheRecipientOfTheLastEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastRecipientReturnsTheRecipientOfTheLastEmail() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -226,14 +259,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLastRecipientReturnsAnEmptyStringIfThereWasNoEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastRecipientReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
 			$this->fixture->getLastRecipient()
 		);
 	}
 
-	public function testGetLastSubjectReturnsTheSubjectOfTheLastEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastSubjectReturnsTheSubjectOfTheLastEmail() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -246,14 +285,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLastSubjectReturnsAnEmptyStringIfThereWasNoEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastSubjectReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
 			$this->fixture->getLastSubject()
 		);
 	}
 
-	public function testGetLastBodyReturnsTheBodyOfTheLastEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastBodyReturnsTheBodyOfTheLastEmail() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
@@ -266,14 +311,20 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLastBodyReturnsAnEmptyStringIfThereWasNoEmail() {
+	/**
+	 * @test
+	 */
+	public function getLastBodyReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
 			$this->fixture->getLastBody()
 		);
 	}
 
-	public function testGetLastHeadersIfTheEmailDoesNotHaveAny() {
+	/**
+	 * @test
+	 */
+	public function getLastHeadersIfTheEmailDoesNotHaveAny() {
 		$this->fixture->sendEmail(
 			self::$otherEmail['recipient'],
 			self::$otherEmail['subject'],
@@ -286,7 +337,10 @@ class tx_oelib_mailerFactoryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLastHeadersReturnsTheLastHeaders() {
+	/**
+	 * @test
+	 */
+	public function getLastHeadersReturnsTheLastHeaders() {
 		$this->fixture->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],

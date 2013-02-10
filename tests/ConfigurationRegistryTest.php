@@ -51,21 +51,30 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////
 
-	public function testGetInstanceReturnsConfigurationRegistryInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsConfigurationRegistryInstance() {
 		$this->assertTrue(
 			tx_oelib_ConfigurationRegistry::getInstance()
 				instanceof tx_oelib_ConfigurationRegistry
 		);
 	}
 
-	public function testGetInstanceTwoTimesReturnsSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
 			tx_oelib_ConfigurationRegistry::getInstance(),
 			tx_oelib_ConfigurationRegistry::getInstance()
 		);
 	}
 
-	public function testGetInstanceAfterPurgeInstanceReturnsNewInstance() {
+	/**
+	 * @test
+	 */
+	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		$firstInstance = tx_oelib_ConfigurationRegistry::getInstance();
 		tx_oelib_ConfigurationRegistry::purgeInstance();
 
@@ -80,7 +89,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 	// Test concerning get and set
 	////////////////////////////////
 
-	public function testGetForEmptyNamespaceThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getForEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$namespace must not be empty.'
@@ -89,7 +101,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		tx_oelib_ConfigurationRegistry::get('');
 	}
 
-	public function testGetForNonEmptyNamespaceReturnsConfigurationInstance() {
+	/**
+	 * @test
+	 */
+	public function getForNonEmptyNamespaceReturnsConfigurationInstance() {
 		tx_oelib_PageFinder::getInstance()->setPageUid(
 			$this->testingFramework->createFrontEndPage()
 		);
@@ -100,7 +115,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetForTheSameNamespaceCalledTwoTimesReturnsTheSameInstance() {
+	/**
+	 * @test
+	 */
+	public function getForTheSameNamespaceCalledTwoTimesReturnsTheSameInstance() {
 		tx_oelib_PageFinder::getInstance()->setPageUid(
 			$this->testingFramework->createFrontEndPage()
 		);
@@ -111,7 +129,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetWithEmptyNamespaceThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setWithEmptyNamespaceThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$namespace must not be empty.'
@@ -122,7 +143,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterSetReturnsTheSetInstance() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetReturnsTheSetInstance() {
 		$configuration = new tx_oelib_Configuration();
 
 		tx_oelib_ConfigurationRegistry::getInstance()
@@ -134,7 +158,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetTwoTimesForTheSameNamespaceDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function setTwoTimesForTheSameNamespaceDoesNotFail() {
 		tx_oelib_ConfigurationRegistry::getInstance()->set(
 			'foo',  new tx_oelib_Configuration()
 		);
@@ -148,7 +175,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 	// Tests concerning TypoScript setup
 	//////////////////////////////////////
 
-	public function testGetReturnsDataFromTypoScriptSetupFromManuallySetPage() {
+	/**
+	 * @test
+	 */
+	public function getReturnsDataFromTypoScriptSetupFromManuallySetPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createTemplate(
 			$pageUid,
@@ -164,7 +194,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetReturnsDataFromTypoScriptSetupFromBackEndPage() {
+	/**
+	 * @test
+	 */
+	public function getReturnsDataFromTypoScriptSetupFromBackEndPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createTemplate(
 			$pageUid,
@@ -185,7 +218,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		unset($_POST['id']);
 	}
 
-	public function testGetReturnsDataFromTypoScriptSetupFromFrontEndPage() {
+	/**
+	 * @test
+	 */
+	public function getReturnsDataFromTypoScriptSetupFromFrontEndPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createTemplate(
 			$pageUid,
@@ -230,7 +266,10 @@ class tx_oelib_ConfigurationRegistryTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAfterSetReturnsManuallySetConfigurationEvenIfThereIsAPage() {
+	/**
+	 * @test
+	 */
+	public function getAfterSetReturnsManuallySetConfigurationEvenIfThereIsAPage() {
 		$pageUid = $this->testingFramework->createFrontEndPage();
 		$this->testingFramework->createTemplate(
 			$pageUid,

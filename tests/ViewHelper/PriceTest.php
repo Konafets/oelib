@@ -41,7 +41,7 @@ class tx_oelib_ViewHelper_PriceTest extends tx_phpunit_testcase {
 		$this->fixture = new tx_oelib_ViewHelper_Price();
 	}
 
-	public function teardown() {
+	public function tearDown() {
 		unset($this->fixture);
 	}
 

@@ -50,13 +50,19 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests regarding setting and getting the sender.
 	////////////////////////////////////////////////////
 
-	public function testGetSenderInitiallyReturnsNull() {
+	/**
+	 * @test
+	 */
+	public function getSenderInitiallyReturnsNull() {
 		$this->assertNull(
 			$this->fixture->getSender()
 		);
 	}
 
-	public function testGetSenderForNonEmptySenderReturnsSender() {
+	/**
+	 * @test
+	 */
+	public function getSenderForNonEmptySenderReturnsSender() {
 		$sender = new tx_oelib_tests_fixtures_TestingMailRole(
 			'John Doe', 'foo@bar.com'
 		);
@@ -102,14 +108,20 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests regarding adding and getting the recipients.
 	////////////////////////////////////////////////////////
 
-	public function testGetRecipientsInitiallyReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function getRecipientsInitiallyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getRecipients()
 		);
 	}
 
-	public function testGetRecipientsWithOneRecipientReturnsOneRecipient() {
+	/**
+	 * @test
+	 */
+	public function getRecipientsWithOneRecipientReturnsOneRecipient() {
 		$recipient = new tx_oelib_tests_fixtures_TestingMailRole(
 			'John Doe', 'foo@bar.com'
 		);
@@ -123,7 +135,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$recipient->__destruct();
 	}
 
-	public function testGetRecipientsWithTwoRecipientsReturnsTwoRecipients() {
+	/**
+	 * @test
+	 */
+	public function getRecipientsWithTwoRecipientsReturnsTwoRecipients() {
 		$recipient1 = new tx_oelib_tests_fixtures_TestingMailRole(
 			'John Doe', 'foo@bar.com'
 		);
@@ -147,14 +162,20 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests regarding setting and getting the subject.
 	/////////////////////////////////////////////////////
 
-	public function testGetSubjectInitiallyReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getSubjectInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
 			$this->fixture->getSubject()
 		);
 	}
 
-	public function testGetSubjectWithNonEmptySubjectReturnsSubject() {
+	/**
+	 * @test
+	 */
+	public function getSubjectWithNonEmptySubjectReturnsSubject() {
 		$this->fixture->setSubject('test subject');
 
 		$this->assertSame(
@@ -163,7 +184,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetSubjectWithEmptySubjectThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setSubjectWithEmptySubjectThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$subject must not be empty.'
@@ -172,7 +196,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setSubject('');
 	}
 
-	public function testSetSubjectWithSubjectContainingCarriageReturnThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setSubjectWithSubjectContainingCarriageReturnThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
@@ -181,7 +208,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setSubject('test ' . CR . ' subject');
 	}
 
-	public function testSetSubjectWithSubjectContainingLinefeedThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setSubjectWithSubjectContainingLinefeedThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
@@ -190,7 +220,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		$this->fixture->setSubject('test ' . LF . ' subject');
 	}
 
-	public function testSetSubjectWithSubjectContainingCarriageReturnLinefeedThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setSubjectWithSubjectContainingCarriageReturnLinefeedThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$subject must not contain any line breaks or carriage returns.'
@@ -204,14 +237,20 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 	// Tests regarding setting and getting the message.
 	/////////////////////////////////////////////////////
 
-	public function testGetMessageInitiallyReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getMessageInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
 			$this->fixture->getMessage()
 		);
 	}
 
-	public function testGetMessageWithNonEmptyMessageReturnsMessage() {
+	/**
+	 * @test
+	 */
+	public function getMessageWithNonEmptyMessageReturnsMessage() {
 		$this->fixture->setMessage('test message');
 
 		$this->assertSame(
@@ -220,7 +259,10 @@ class tx_oelib_MailTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetMessageWithEmptyMessageThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setMessageWithEmptyMessageThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$message must not be empty.'

@@ -59,14 +59,20 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning find
 	//////////////////////////
 
-	public function testFindWithUidOfExistingRecordReturnsBackEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsBackEndUserInstance() {
 		$this->assertTrue(
 			$this->fixture->find($this->testingFramework->createBackEndUser())
 				instanceof tx_oelib_Model_BackEndUser
 		);
 	}
 
-	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsModelWithThatUid() {
 		$uid = $this->testingFramework->createBackEndUser();
 
 		$this->assertSame(
@@ -80,7 +86,10 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning findByUserName
 	////////////////////////////////////
 
-	public function testFindByUserNameForEmptyUserNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameForEmptyUserNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$value must not be empty.'
@@ -89,7 +98,10 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 		$this->fixture->findByUserName('');
 	}
 
-	public function testFindByUserNameWithNameOfExistingUserReturnsBackEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithNameOfExistingUserReturnsBackEndUserInstance() {
 		$this->testingFramework->createBackEndUser(array('username' => 'foo'));
 
 		$this->assertTrue(
@@ -98,28 +110,40 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
 			$this->fixture->findByUserName('foo')->getUid()
 		);
 	}
 
-	public function testFindByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
 			$this->fixture->findByUserName('FOO')->getUid()
 		);
 	}
 
-	public function testFindByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
 			$this->fixture->findByUserName('FOO')->getUid()
 		);
 	}
 
-	public function testFindByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findByUserNameWithLowercaseNameOfExistingUppercaseUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
 			$this->fixture->findByUserName('foo')->getUid()
@@ -144,7 +168,10 @@ class tx_oelib_Mapper_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning findByCliKey
 	//////////////////////////////////
 
-	public function testFindByCliKeyForCliKeyDefinedReturnsBackEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function findByCliKeyForCliKeyDefinedReturnsBackEndUserInstance() {
 		$this->testingFramework->createBackEndUser(array('username' => 'foo'));
 		// fakes the CLI definition
 		define('TYPO3_cliKey', 'oelib_mapper_test');

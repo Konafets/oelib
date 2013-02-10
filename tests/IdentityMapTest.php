@@ -50,7 +50,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 	// Tests for get and add
 	//////////////////////////
 
-	public function testGetWithZeroUidThrowsException(){
+	/**
+	 * @test
+	 */
+	public function getWithZeroUidThrowsException(){
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -59,7 +62,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		$this->fixture->get(0);
 	}
 
-	public function testGetWithNegativeUidThrowsException(){
+	/**
+	 * @test
+	 */
+	public function getWithNegativeUidThrowsException(){
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -68,7 +74,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		$this->fixture->get(-1);
 	}
 
-	public function testAddWithModelWithoutUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function addWithModelWithoutUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'Add() requires a model that has a UID.'
@@ -80,7 +89,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		$this->fixture->add($model);
 	}
 
-	public function testGetWithExistingUidAfterAddWithModelHavingAUidReturnsSameObject() {
+	/**
+	 * @test
+	 */
+	public function getWithExistingUidAfterAddWithModelHavingAUidReturnsSameObject() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(42);
 		$this->fixture->add($model);
@@ -91,7 +103,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testAddForExistingUidReturnsModelWithGivenUidForSeveralUids() {
+	/**
+	 * @test
+	 */
+	public function addForExistingUidReturnsModelWithGivenUidForSeveralUids() {
 		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
@@ -110,7 +125,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetForExistingUidAfterAddingTwoModelsWithSameUidReturnsTheLastAddedModel() {
+	/**
+	 * @test
+	 */
+	public function getForExistingUidAfterAddingTwoModelsWithSameUidReturnsTheLastAddedModel() {
 		$model1 = new tx_oelib_tests_fixtures_TestingModel();
 		$model1->setUid(1);
 		$this->fixture->add($model1);
@@ -125,7 +143,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetForInexistentUidThrowsNotFoundException() {
+	/**
+	 * @test
+	 */
+	public function getForInexistentUidThrowsNotFoundException() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound',
 			'This map currently does not contain a model with the UID 42.'
@@ -139,14 +160,20 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 	// Tests concerning getNewUid
 	///////////////////////////////
 
-	public function testGetNewUidForEmptyMapReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function getNewUidForEmptyMapReturnsOne() {
 		$this->assertSame(
 			1,
 			$this->fixture->getNewUid()
 		);
 	}
 
-	public function testGetNewUidForNonEmptyMapReturnsUidNotInMap() {
+	/**
+	 * @test
+	 */
+	public function getNewUidForNonEmptyMapReturnsUidNotInMap() {
 		$this->setExpectedException(
 			'tx_oelib_Exception_NotFound'
 		);
@@ -160,7 +187,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		$this->fixture->get($newUid);
 	}
 
-	public function testGetNewUidForNonEmptyMapReturnsUidGreaterThanGreatestUid() {
+	/**
+	 * @test
+	 */
+	public function getNewUidForNonEmptyMapReturnsUidGreaterThanGreatestUid() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 		$model->setUid(42);
 		$this->fixture->add($model);
@@ -171,7 +201,10 @@ class tx_oelib_IdentityMapTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNewUidForMapWithTwoItemsInReverseOrderReturnsUidGreaterThanTheGreatesUid() {
+	/**
+	 * @test
+	 */
+	public function getNewUidForMapWithTwoItemsInReverseOrderReturnsUidGreaterThanTheGreatesUid() {
 		$model2 = new tx_oelib_tests_fixtures_TestingModel();
 		$model2->setUid(2);
 		$this->fixture->add($model2);

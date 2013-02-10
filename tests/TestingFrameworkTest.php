@@ -201,7 +201,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	 * Tests regarding markTableAsDirty()
 	 */
 
-	public function testMarkTableAsDirty() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirty() {
 		$this->assertSame(
 			array(),
 			$this->fixture->getListOfDirtyTables()
@@ -216,7 +219,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkTableAsDirtyWillCleanUpANonSystemTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyWillCleanUpANonSystemTable() {
 		$uid = tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('is_dummy_record' => 1)
 		);
@@ -229,7 +235,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkTableAsDirtyWillCleanUpASystemTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyWillCleanUpASystemTable() {
 		$uid = tx_oelib_db::insert (
 			'pages', array('tx_oelib_is_dummy_record' => 1)
 		);
@@ -242,7 +251,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkTableAsDirtyWillCleanUpAdditionalAllowedTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyWillCleanUpAdditionalAllowedTable() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$uid = tx_oelib_db::insert(
@@ -257,7 +269,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testMarkTableAsDirtyFailsOnInexistentTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyFailsOnInexistentTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "tx_oelib_DOESNOTEXIST" is not allowed for markTableAsDirty.'
@@ -265,7 +280,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->markTableAsDirty('tx_oelib_DOESNOTEXIST');
 	}
 
-	public function testMarkTableAsDirtyFailsOnNotAllowedSystemTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyFailsOnNotAllowedSystemTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "sys_domain" is not allowed for markTableAsDirty.'
@@ -273,7 +291,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->markTableAsDirty('sys_domain');
 	}
 
-	public function testMarkTableAsDirtyFailsOnForeignTable() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyFailsOnForeignTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "tx_seminars_seminars" is not allowed for markTableAsDirty.'
@@ -281,7 +302,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->markTableAsDirty('tx_seminars_seminars');
 	}
 
-	public function testMarkTableAsDirtyFailsWithEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyFailsWithEmptyTableName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "" is not allowed for markTableAsDirty.'
@@ -289,7 +313,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->markTableAsDirty('');
 	}
 
-	public function testMarkTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
+	/**
+	 * @test
+	 */
+	public function markTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
 		$this->fixture->markTableAsDirty(OELIB_TESTTABLE.','.OELIB_TESTTABLE_MM);
 		$this->assertSame(
 			array(
@@ -305,14 +332,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createRecord()
 	// ---------------------------------------------------------------------
 
-	public function testCreateRecordOnValidTableWithNoData() {
+	/**
+	 * @test
+	 */
+	public function createRecordOnValidTableWithNoData() {
 		$this->assertNotSame(
 			0,
 			$this->fixture->createRecord(OELIB_TESTTABLE, array())
 		);
 	}
 
-	public function testCreateRecordWithValidData() {
+	/**
+	 * @test
+	 */
+	public function createRecordWithValidData() {
 		$title = 'TEST record';
 		$uid = $this->fixture->createRecord(
 			OELIB_TESTTABLE,
@@ -337,7 +370,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordOnInvalidTable() {
+	/**
+	 * @test
+	 */
+	public function createRecordOnInvalidTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "tx_oelib_DOESNOTEXIST" is not allowed.'
@@ -345,7 +381,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRecord('tx_oelib_DOESNOTEXIST', array());
 	}
 
-	public function testCreateRecordWithEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function createRecordWithEmptyTableName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "" is not allowed.'
@@ -353,7 +392,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRecord('', array());
 	}
 
-	public function testCreateRecordWithUidFails() {
+	/**
+	 * @test
+	 */
+	public function createRecordWithUidFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -363,7 +405,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecordOnValidAdditionalAllowedTableWithValidDataSucceeds() {
+	/**
+	 * @test
+	 */
+	public function createRecordOnValidAdditionalAllowedTableWithValidDataSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$title = 'TEST record';
@@ -380,7 +425,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding changeRecord()
 	// ---------------------------------------------------------------------
 
-	public function testChangeRecordWithExistingRecord() {
+	/**
+	 * @test
+	 */
+	public function changeRecordWithExistingRecord() {
 		$uid = $this->fixture->createRecord(
 			OELIB_TESTTABLE,
 			array('title' => 'foo')
@@ -404,7 +452,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsOnForeignTable() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsOnForeignTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table "tx_seminars_seminars" is not on the lists with allowed tables.'
@@ -416,7 +467,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsOnInexistentTable() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsOnInexistentTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table "tx_oelib_DOESNOTEXIST" is not on the lists with allowed tables.'
@@ -428,7 +482,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordOnAllowedSystemTableForPages() {
+	/**
+	 * @test
+	 */
+	public function changeRecordOnAllowedSystemTableForPages() {
 		$pid = $this->fixture->createFrontEndPage(0, array('title' => 'foo'));
 
 		$this->fixture->changeRecord(
@@ -443,7 +500,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordOnAllowedSystemTableForContent() {
+	/**
+	 * @test
+	 */
+	public function changeRecordOnAllowedSystemTableForContent() {
 		$pid = $this->fixture->createFrontEndPage(0, array('title' => 'foo'));
 		$uid = $this->fixture->createContentElement(
 			$pid,
@@ -462,7 +522,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsOnOtherSystemTable() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsOnOtherSystemTable() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table "sys_domain" is not on the lists with allowed tables.'
@@ -474,7 +537,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordOnAdditionalAllowedTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function changeRecordOnAdditionalAllowedTableSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$uid = $this->fixture->createRecord(
@@ -489,7 +555,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsWithUidZero() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsWithUidZero() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The parameter $uid must not be zero.'
@@ -497,7 +566,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
 	}
 
-	public function testChangeRecordFailsWithEmptyData() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsWithEmptyData() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The array with the new record data must not be empty.'
@@ -509,7 +581,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsWithUidFieldInRecordData() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsWithUidFieldInRecordData() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The parameter $recordData must not contain changes to the UID of a record.'
@@ -521,7 +596,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsWithDummyRecordFieldInRecordData() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsWithDummyRecordFieldInRecordData() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The parameter $recordData must not contain changes to the field ' .
@@ -534,7 +612,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testChangeRecordFailsOnInexistentRecord() {
+	/**
+	 * @test
+	 */
+	public function changeRecordFailsOnInexistentRecord() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 		$this->setExpectedException(
 			'BadMethodCallException',
@@ -551,7 +632,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding deleteRecord()
 	// ---------------------------------------------------------------------
 
-	public function testDeleteRecordOnValidDummyRecord() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnValidDummyRecord() {
 		// Creates and directly destroys a dummy record.
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE, array());
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
@@ -563,7 +647,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteRecordOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		// Creates and directly destroys a dummy record.
@@ -571,7 +658,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord('user_oelibtest_test', $uid);
 	}
 
-	public function testDeleteRecordOnInexistentRecord() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnInexistentRecord() {
 		$uid = 99999;
 
 		// Checks that the record is inexistent before testing on it.
@@ -585,7 +675,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 	}
 
-	public function testDeleteRecordOnForeignTable() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnForeignTable() {
 		$table = 'tx_seminars_seminars';
 		$uid = 99999;
 
@@ -596,7 +689,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord($table, $uid);
 	}
 
-	public function testDeleteRecordOnInexistentTable() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnInexistentTable() {
 		$table = 'tx_oelib_DOESNOTEXIST';
 		$uid = 99999;
 
@@ -607,7 +703,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord($table, $uid);
 	}
 
-	public function testDeleteRecordWithEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordWithEmptyTableName() {
 		$table = '';
 		$uid = 99999;
 
@@ -618,7 +717,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteRecord($table, $uid);
 	}
 
-	public function testDeleteRecordOnNonTestRecordNotDeletesRecord() {
+	/**
+	 * @test
+	 */
+	public function deleteRecordOnNonTestRecordNotDeletesRecord() {
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
 		$uid = tx_oelib_db::insert(
@@ -654,7 +756,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createRelation()
 	// ---------------------------------------------------------------------
 
-	public function testCreateRelationWithValidData() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithValidData() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -672,7 +777,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRelationWithValidDataOnAdditionalAllowedTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithValidDataOnAdditionalAllowedTableSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$uidLocal = $this->fixture->createRecord('user_oelibtest_test');
@@ -683,7 +791,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRelationWithInvalidTable() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithInvalidTable() {
 		$table = 'tx_oelib_test_DOESNOTEXIST_mm';
 		$uidLocal = 99999;
 		$uidForeign = 199999;
@@ -695,7 +806,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRelation($table, $uidLocal, $uidForeign);
 	}
 
-	public function testCreateRelationWithEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithEmptyTableName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name "" is not allowed.'
@@ -703,7 +817,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRelation('', 99999, 199999);
 	}
 
-	public function testCreateRelationWithZeroFirstUid() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithZeroFirstUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uidLocal must be an integer > 0, but actually is "0"'
@@ -712,7 +829,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
 	}
 
-	public function testCreateRelationWithZeroSecondUid() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithZeroSecondUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uidForeign must be an integer > 0, but actually is "0"'
@@ -721,7 +841,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
 	}
 
-	public function testCreateRelationWithNegativeFirstUid() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithNegativeFirstUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uidLocal must be an integer > 0, but actually is "-1"'
@@ -730,7 +853,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
 	}
 
-	public function testCreateRelationWithNegativeSecondUid() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithNegativeSecondUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uidForeign must be an integer > 0, but actually is "-1"'
@@ -740,7 +866,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	}
 
 
-	public function testCreateRelationWithAutomaticSorting() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithAutomaticSorting() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->createRelation(
@@ -764,7 +893,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRelationWithManualSorting() {
+	/**
+	 * @test
+	 */
+	public function createRelationWithManualSorting() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$sorting = 99999;
@@ -784,7 +916,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createRelationFromTca()
 	// ---------------------------------------------------------------------
 
-	public function testCreateRelationAndUpdateCounterIncreasesZeroValueCounterByOne() {
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterIncreasesZeroValueCounterByOne() {
 		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -807,7 +942,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRelationAndUpdateCounterIncreasesNonZeroValueCounterToOne() {
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterIncreasesNonZeroValueCounterToOne() {
 		$firstRecordUid = $this->fixture->createRecord(
 			OELIB_TESTTABLE,
 			array('related_records' => 1)
@@ -833,7 +971,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRelationAndUpdateCounterCreatesRecordInRelationTable() {
+	/**
+	 * @test
+	 */
+	public function createRelationAndUpdateCounterCreatesRecordInRelationTable() {
 		$firstRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$secondRecordUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -937,7 +1078,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding removeRelation()
 	// ---------------------------------------------------------------------
 
-	public function testRemoveRelationOnValidDummyRecord() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnValidDummyRecord() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);
 
@@ -959,7 +1103,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRemoveRelationOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnValidDummyRecordOnAdditionalAllowedTableSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$uidLocal = $this->fixture->createRecord('user_oelibtest_test');
@@ -974,7 +1121,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRemoveRelationOnInexistentRecord() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnInexistentRecord() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidLocal = $uid + 1;
 		$uidForeign = $uid + 2;
@@ -995,7 +1145,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRemoveRelationOnForeignTable() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnForeignTable() {
 		$table = 'tx_seminars_seminars_places_mm';
 		$uidLocal = 99999;
 		$uidForeign = 199999;
@@ -1007,7 +1160,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
-	public function testRemoveRelationOnInexistentTable() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnInexistentTable() {
 		$table = 'tx_oelib_DOESNOTEXIST';
 		$uidLocal = 99999;
 		$uidForeign = 199999;
@@ -1019,7 +1175,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
-	public function testRemoveRelationWithEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function removeRelationWithEmptyTableName() {
 		$table = '';
 		$uidLocal = 99999;
 		$uidForeign = 199999;
@@ -1031,7 +1190,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->removeRelation($table, $uidLocal, $uidForeign);
 	}
 
-	public function testRemoveRelationOnRealRecordNotRemovesRelation() {
+	/**
+	 * @test
+	 */
+	public function removeRelationOnRealRecordNotRemovesRelation() {
 		$uidLocal = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$uidForeign = $this->fixture->createRecord(OELIB_TESTTABLE);;
 
@@ -1224,7 +1386,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// The method is called in the constructor of the fixture.
 	// ---------------------------------------------------------------------
 
-	public function testCreateListOfAllowedTablesContainsOurTestTable() {
+	/**
+	 * @test
+	 */
+	public function createListOfAllowedTablesContainsOurTestTable() {
 		$allowedTables = $this->fixture->getListOfOwnAllowedTableNames();
 		$this->assertContains(
 			OELIB_TESTTABLE,
@@ -1232,7 +1397,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateListOfAllowedTablesDoesNotContainForeignTables() {
+	/**
+	 * @test
+	 */
+	public function createListOfAllowedTablesDoesNotContainForeignTables() {
 		$allowedTables = $this->fixture->getListOfOwnAllowedTableNames();
 		$this->assertNotContains(
 			'be_users',
@@ -1247,7 +1415,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// (That method is called in the constructor of the fixture.)
 	// ---------------------------------------------------------------------
 
-	public function testCreateListOfAdditionalAllowedTablesContainsOurTestTable() {
+	/**
+	 * @test
+	 */
+	public function createListOfAdditionalAllowedTablesContainsOurTestTable() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		$allowedTables = $this->fixture->getListOfAdditionalAllowedTableNames();
@@ -1257,7 +1428,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateListOfAdditionalAllowedTablesDoesNotContainForeignTables() {
+	/**
+	 * @test
+	 */
+	public function createListOfAdditionalAllowedTablesDoesNotContainForeignTables() {
 		$allowedTables = $this->fixture->getListOfAdditionalAllowedTableNames();
 		$this->assertNotContains(
 			'be_users',
@@ -1265,7 +1439,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateListOfAdditionalAllowedTablesContainsOurTestTables() {
+	/**
+	 * @test
+	 */
+	public function createListOfAdditionalAllowedTablesContainsOurTestTables() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 		$this->checkIfExtensionUserOelibtest2IsLoaded();
 
@@ -1289,7 +1466,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding getAutoIncrement()
 	// ---------------------------------------------------------------------
 
-	public function testGetAutoIncrementReturnsOneForTruncatedTable() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementReturnsOneForTruncatedTable() {
 		tx_oelib_db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'TRUNCATE TABLE ' . OELIB_TESTTABLE . ';'
@@ -1304,7 +1484,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAutoIncrementGetsCurrentAutoIncrement() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementGetsCurrentAutoIncrement() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		// $uid will equals be the previous auto increment value, so $uid + 1
@@ -1315,19 +1498,31 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetAutoIncrementForFeUsersTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForFeUsersTableIsAllowed() {
 		$this->fixture->getAutoIncrement('fe_users');
 	}
 
-	public function testGetAutoIncrementForPagesTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForPagesTableIsAllowed() {
 		$this->fixture->getAutoIncrement('pages');
 	}
 
-	public function testGetAutoIncrementForTtContentTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForTtContentTableIsAllowed() {
 		$this->fixture->getAutoIncrement('tt_content');
 	}
 
-	public function testGetAutoIncrementWithOtherSystemTableFails() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementWithOtherSystemTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1335,7 +1530,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->getAutoIncrement('sys_domains');
 	}
 
-	public function testGetAutoIncrementWithEmptyTableNameFails() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1343,7 +1541,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->getAutoIncrement('');
 	}
 
-	public function testGetAutoIncrementWithForeignTableFails() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementWithForeignTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1351,7 +1552,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->getAutoIncrement('tx_seminars_seminars');
 	}
 
-	public function testGetAutoIncrementWithInexistentTableFails() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementWithInexistentTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1359,7 +1563,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->getAutoIncrement('tx_oelib_DOESNOTEXIST');
 	}
 
-	public function testGetAutoIncrementWithTableWithoutUidFails() {
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementWithTableWithoutUidFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1372,15 +1579,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding countRecords()
 	// ---------------------------------------------------------------------
 
-	public function testCountRecordsWithEmptyWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithEmptyWhereClauseIsAllowed() {
 		$this->fixture->countRecords(OELIB_TESTTABLE, '');
 	}
 
-	public function testCountRecordsWithMissingWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithMissingWhereClauseIsAllowed() {
 		$this->fixture->countRecords(OELIB_TESTTABLE);
 	}
 
-	public function testCountRecordsWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1389,7 +1605,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->countRecords('');
 	}
 
-	public function testCountRecordsWithInvalidTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1399,27 +1618,42 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithFeGroupsTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithFeGroupsTableIsAllowed() {
 		$table = 'fe_groups';
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithFeUsersTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithFeUsersTableIsAllowed() {
 		$table = 'fe_users';
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithPagesTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithPagesTableIsAllowed() {
 		$table = 'pages';
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithTtContentTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithTtContentTableIsAllowed() {
 		$table = 'tt_content';
 		$this->fixture->countRecords($table);
 	}
 
-	public function testCountRecordsWithOtherTableThrowsException() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithOtherTableThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1428,14 +1662,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->countRecords('sys_domain');
 	}
 
-	public function testCountRecordsReturnsZeroForNoMatches() {
+	/**
+	 * @test
+	 */
+	public function countRecordsReturnsZeroForNoMatches() {
 		$this->assertSame(
 			0,
 			$this->fixture->countRecords(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
 
-	public function testCountRecordsReturnsOneForOneDummyRecordMatch() {
+	/**
+	 * @test
+	 */
+	public function countRecordsReturnsOneForOneDummyRecordMatch() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1446,7 +1686,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCountRecordsWithMissingWhereClauseReturnsOneForOneDummyRecordMatch() {
+	/**
+	 * @test
+	 */
+	public function countRecordsWithMissingWhereClauseReturnsOneForOneDummyRecordMatch() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1457,7 +1700,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCountRecordsReturnsTwoForTwoMatches() {
+	/**
+	 * @test
+	 */
+	public function countRecordsReturnsTwoForTwoMatches() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1471,11 +1717,17 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCountRecordsForPagesTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function countRecordsForPagesTableIsAllowed() {
 		$this->fixture->countRecords('pages');
 	}
 
-	public function testCountRecordsIgnoresNonDummyRecords() {
+	/**
+	 * @test
+	 */
+	public function countRecordsIgnoresNonDummyRecords() {
 		tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1503,15 +1755,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding existsRecord()
 	// ---------------------------------------------------------------------
 
-	public function testExistsRecordWithEmptyWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithEmptyWhereClauseIsAllowed() {
 		$this->fixture->existsRecord(OELIB_TESTTABLE, '');
 	}
 
-	public function testExistsRecordWithMissingWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithMissingWhereClauseIsAllowed() {
 		$this->fixture->existsRecord(OELIB_TESTTABLE);
 	}
 
-	public function testExistsRecordWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1520,7 +1781,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecord('');
 	}
 
-	public function testExistsRecordWithInvalidTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1530,13 +1794,19 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecord($table);
 	}
 
-	public function testExistsRecordForNoMatchesReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsRecordForNoMatchesReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
 		);
 	}
 
-	public function testExistsRecordForOneMatchReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsRecordForOneMatchReturnsTrue() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1546,7 +1816,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsRecordForTwoMatchesReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsRecordForTwoMatchesReturnsTrue() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1559,7 +1832,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsRecordIgnoresNonDummyRecords() {
+	/**
+	 * @test
+	 */
+	public function existsRecordIgnoresNonDummyRecords() {
 		tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1586,7 +1862,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding existsRecordWithUid()
 	// ---------------------------------------------------------------------
 
-	public function testExistsRecordWithUidWithZeroUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithZeroUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -1595,7 +1874,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, 0);
 	}
 
-	public function testExistsRecordWithUidWithNegativeUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithNegativeUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$uid must be > 0.'
@@ -1604,7 +1886,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecordWithUid(OELIB_TESTTABLE, -1);
 	}
 
-	public function testExistsRecordWithUidWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1613,7 +1898,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecordWithUid('', 1);
 	}
 
-	public function testExistsRecordWithUidWithInvalidTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1623,7 +1911,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsRecordWithUid($table, 1);
 	}
 
-	public function testExistsRecordWithUidForNoMatcheReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidForNoMatcheReturnsFalse() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $uid);
 
@@ -1634,7 +1925,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsRecordWithUidForAMatchReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidForAMatchReturnsTrue() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		$this->assertTrue(
@@ -1642,7 +1936,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsRecordWithUidIgnoresNonDummyRecords() {
+	/**
+	 * @test
+	 */
+	public function existsRecordWithUidIgnoresNonDummyRecords() {
 		$uid = tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1668,15 +1965,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding existsExactlyOneRecord()
 	// ---------------------------------------------------------------------
 
-	public function testExistsExactlyOneRecordWithEmptyWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithEmptyWhereClauseIsAllowed() {
 		$this->fixture->existsExactlyOneRecord(OELIB_TESTTABLE, '');
 	}
 
-	public function testExistsExactlyOneRecordWithMissingWhereClauseIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithMissingWhereClauseIsAllowed() {
 		$this->fixture->existsExactlyOneRecord(OELIB_TESTTABLE);
 	}
 
-	public function testExistsExactlyOneRecordWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1685,7 +1991,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsExactlyOneRecord('');
 	}
 
-	public function testExistsExactlyOneRecordWithInvalidTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordWithInvalidTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1695,7 +2004,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->existsExactlyOneRecord($table);
 	}
 
-	public function testExistsExactlyOneRecordForNoMatchesReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForNoMatchesReturnsFalse() {
 		$this->assertFalse(
 			$this->fixture->existsExactlyOneRecord(
 				OELIB_TESTTABLE, 'title = "foo"'
@@ -1703,7 +2015,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsExactlyOneRecordForOneMatchReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForOneMatchReturnsTrue() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1715,7 +2030,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsExactlyOneRecordForTwoMatchesReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordForTwoMatchesReturnsFalse() {
 		$this->fixture->createRecord(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1728,7 +2046,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testExistsExactlyOneRecordIgnoresNonDummyRecords() {
+	/**
+	 * @test
+	 */
+	public function existsExactlyOneRecordIgnoresNonDummyRecords() {
 		tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
@@ -1755,7 +2076,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding resetAutoIncrement()
 	// ---------------------------------------------------------------------
 
-	public function testResetAutoIncrementForTestTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForTestTableSucceeds() {
 		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$this->fixture->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
@@ -1766,11 +2090,17 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testResetAutoIncrementForUnchangedTestTableCanBeRun() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForUnchangedTestTableCanBeRun() {
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE);
 	}
 
-	public function testResetAutoIncrementForAdditionalAllowedTableSucceeds() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForAdditionalAllowedTableSucceeds() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
 		// Creates and deletes a record and then resets the auto increment.
@@ -1779,23 +2109,38 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrement('user_oelibtest_test');
 	}
 
-	public function testResetAutoIncrementForTableWithoutUidIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForTableWithoutUidIsAllowed() {
 		$this->fixture->resetAutoIncrement(OELIB_TESTTABLE_MM);
 	}
 
-	public function testResetAutoIncrementForFeUsersTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForFeUsersTableIsAllowed() {
 		$this->fixture->resetAutoIncrement('fe_users');
 	}
 
-	public function testResetAutoIncrementForPagesTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForPagesTableIsAllowed() {
 		$this->fixture->resetAutoIncrement('pages');
 	}
 
-	public function testResetAutoIncrementForTtContentTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForTtContentTableIsAllowed() {
 		$this->fixture->resetAutoIncrement('tt_content');
 	}
 
-	public function testResetAutoIncrementWithOtherSystemTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementWithOtherSystemTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1804,7 +2149,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrement('sys_domains');
 	}
 
-	public function testResetAutoIncrementWithEmptyTableNameFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1813,7 +2161,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrement('');
 	}
 
-	public function testResetAutoIncrementWithForeignTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementWithForeignTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1822,7 +2173,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrement('tx_seminars_seminars');
 	}
 
-	public function testResetAutoIncrementWithInexistentTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementWithInexistentTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1837,27 +2191,45 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// setResetAutoIncrementThreshold
 	// ---------------------------------------------------------------------
 
-	public function testResetAutoIncrementLazilyForTestTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForTestTableIsAllowed() {
 		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE);
 	}
 
-	public function testResetAutoIncrementLazilyForTableWithoutUidIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForTableWithoutUidIsAllowed() {
 		$this->fixture->resetAutoIncrementLazily(OELIB_TESTTABLE_MM);
 	}
 
-	public function testResetAutoIncrementLazilyForFeUsersTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForFeUsersTableIsAllowed() {
 		$this->fixture->resetAutoIncrementLazily('fe_users');
 	}
 
-	public function testResetAutoIncrementLazilyForPagesTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForPagesTableIsAllowed() {
 		$this->fixture->resetAutoIncrementLazily('pages');
 	}
 
-	public function testResetAutoIncrementLazilyForTtContentTableIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForTtContentTableIsAllowed() {
 		$this->fixture->resetAutoIncrementLazily('tt_content');
 	}
 
-	public function testResetAutoIncrementLazilyWithOtherSystemTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyWithOtherSystemTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1866,7 +2238,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrementLazily('sys_domains');
 	}
 
-	public function testResetAutoIncrementLazilyWithEmptyTableNameFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1875,7 +2250,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrementLazily('');
 	}
 
-	public function testResetAutoIncrementLazilyWithForeignTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyWithForeignTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1884,7 +2262,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrementLazily('tx_seminars_seminars');
 	}
 
-	public function testResetAutoIncrementLazilyWithInexistentTableFails() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyWithInexistentTableFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
@@ -1893,7 +2274,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->resetAutoIncrementLazily('tx_oelib_DOESNOTEXIST');
 	}
 
-	public function testResetAutoIncrementLazilyDoesNothingAfterOneNewRecordByDefault() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyDoesNothingAfterOneNewRecordByDefault() {
 		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
 
 		$latestUid = $this->fixture->createRecord(OELIB_TESTTABLE);
@@ -1906,7 +2290,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testResetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThreshholdOfOne() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThreshholdOfOne() {
 		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
 		$this->fixture->setResetAutoIncrementThreshold(1);
 
@@ -1920,7 +2307,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testResetAutoIncrementLazilyCleansUpsAfter100NewRecordsByDefault() {
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyCleansUpsAfter100NewRecordsByDefault() {
 		$oldAutoIncrement = $this->fixture->getAutoIncrement(OELIB_TESTTABLE);
 
 		for ($i = 0; $i < 100; $i++) {
@@ -1936,15 +2326,24 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetResetAutoIncrementThresholdForOneIsAllowed() {
+	/**
+	 * @test
+	 */
+	public function setResetAutoIncrementThresholdForOneIsAllowed() {
 		$this->fixture->setResetAutoIncrementThreshold(1);
 	}
 
-	public function testSetResetAutoIncrementThresholdFor100IsAllowed() {
+	/**
+	 * @test
+	 */
+	public function setResetAutoIncrementThresholdFor100IsAllowed() {
 		$this->fixture->setResetAutoIncrementThreshold(100);
 	}
 
-	public function testSetResetAutoIncrementThresholdForZeroFails() {
+	/**
+	 * @test
+	 */
+	public function setResetAutoIncrementThresholdForZeroFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$threshold must be > 0.'
@@ -1953,7 +2352,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->setResetAutoIncrementThreshold(0);
 	}
 
-	public function testSetResetAutoIncrementThresholdForMinus1Fails() {
+	/**
+	 * @test
+	 */
+	public function setResetAutoIncrementThresholdForMinus1Fails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$threshold must be > 0.'
@@ -1967,7 +2369,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createFrontEndPage()
 	// ---------------------------------------------------------------------
 
-	public function testFrontEndPageCanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageCanBeCreated() {
 		$uid = $this->fixture->createFrontEndPage();
 
 		$this->assertNotSame(
@@ -1983,7 +2388,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFrontEndPageSetsCorrectDocumentType() {
+	/**
+	 * @test
+	 */
+	public function createFrontEndPageSetsCorrectDocumentType() {
 		$uid = $this->fixture->createFrontEndPage();
 
 		$this->assertNotSame(
@@ -2003,7 +2411,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageWillBeCreatedOnRootPage() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createFrontEndPage();
 
 		$this->assertNotSame(
@@ -2023,7 +2434,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageCanBeCreatedOnOtherPage() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageCanBeCreatedOnOtherPage() {
 		$parent = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createFrontEndPage($parent);
 
@@ -2044,7 +2458,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -2061,7 +2478,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndPage();
 		$this->assertNotSame(
 			0,
@@ -2077,7 +2497,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageHasNoTitleByDefault() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageHasNoTitleByDefault() {
 		$uid = $this->fixture->createFrontEndPage();
 
 		$row = tx_oelib_db::selectSingle(
@@ -2092,7 +2515,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageCanHaveTitle() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageCanHaveTitle() {
 		$uid = $this->fixture->createFrontEndPage(
 			0,
 			array('title' => 'Test title')
@@ -2110,7 +2536,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndPageMustHaveNoZeroPid() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2118,7 +2547,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndPage(0, array('pid' => 0));
 	}
 
-	public function testFrontEndPageMustHaveNoNonZeroPid() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2126,7 +2558,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndPage(0, array('pid' => 99999));
 	}
 
-	public function testFrontEndPageMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2134,7 +2569,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndPage(0, array('uid' => 0));
 	}
 
-	public function testFrontEndPageMustHaveNoNonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2142,7 +2580,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndPage(0, array('uid' => 99999));
 	}
 
-	public function testFrontEndPageMustHaveNoZeroDoktype() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoZeroDocumentType() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "doktype" must not be set in $recordData.'
@@ -2150,7 +2591,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndPage(0, array('doktype' => 0));
 	}
 
-	public function testFrontEndPageMustHaveNoNonZeroDoktype() {
+	/**
+	 * @test
+	 */
+	public function frontEndPageMustHaveNoNonZeroDocumentType() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "doktype" must not be set in $recordData.'
@@ -2163,7 +2607,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createSystemFolder()
 	// ---------------------------------------------------------------------
 
-	public function testSystemFolderCanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function systemFolderCanBeCreated() {
 		$uid = $this->fixture->createSystemFolder();
 
 		$this->assertNotSame(
@@ -2179,7 +2626,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateSystemFolderSetsCorrectDocumentType() {
+	/**
+	 * @test
+	 */
+	public function createSystemFolderSetsCorrectDocumentType() {
 		$uid = $this->fixture->createSystemFolder();
 
 		$this->assertNotSame(
@@ -2199,7 +2649,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderWillBeCreatedOnRootPage() {
+	/**
+	 * @test
+	 */
+	public function systemFolderWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createSystemFolder();
 
 		$this->assertNotSame(
@@ -2219,7 +2672,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderCanBeCreatedOnOtherPage() {
+	/**
+	 * @test
+	 */
+	public function systemFolderCanBeCreatedOnOtherPage() {
 		$parent = $this->fixture->createSystemFolder();
 		$uid = $this->fixture->createSystemFolder($parent);
 
@@ -2240,7 +2696,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function systemFolderCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -2257,7 +2716,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function systemFolderWillBeCleanedUp() {
 		$uid = $this->fixture->createSystemFolder();
 		$this->assertNotSame(
 			0,
@@ -2273,7 +2735,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderHasNoTitleByDefault() {
+	/**
+	 * @test
+	 */
+	public function systemFolderHasNoTitleByDefault() {
 		$uid = $this->fixture->createSystemFolder();
 
 		$row = tx_oelib_db::selectSingle(
@@ -2288,7 +2753,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderCanHaveTitle() {
+	/**
+	 * @test
+	 */
+	public function systemFolderCanHaveTitle() {
 		$uid = $this->fixture->createSystemFolder(
 			0,
 			array('title' => 'Test title')
@@ -2306,7 +2774,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSystemFolderMustHaveNoZeroPid() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2314,7 +2785,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createSystemFolder(0, array('pid' => 0));
 	}
 
-	public function testSystemFolderMustHaveNoNonZeroPid() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2322,7 +2796,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createSystemFolder(0, array('pid' => 99999));
 	}
 
-	public function testSystemFolderMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2330,7 +2807,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createSystemFolder(0, array('uid' => 0));
 	}
 
-	public function testSystemFolderMustHaveNoNonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2338,7 +2818,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createSystemFolder(0, array('uid' => 99999));
 	}
 
-	public function testSystemFolderMustHaveNoZeroDoktype() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoZeroDoktype() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "doktype" must not be set in $recordData.'
@@ -2346,7 +2829,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createSystemFolder(0, array('doktype' => 0));
 	}
 
-	public function testSystemFolderMustHaveNoNonZeroDoktype() {
+	/**
+	 * @test
+	 */
+	public function systemFolderMustHaveNoNonZeroDoktype() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "doktype" must not be set in $recordData.'
@@ -2359,7 +2845,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createContentElement()
 	// ---------------------------------------------------------------------
 
-	public function testContentElementCanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function contentElementCanBeCreated() {
 		$uid = $this->fixture->createContentElement();
 
 		$this->assertNotSame(
@@ -2375,7 +2864,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementWillBeCreatedOnRootPage() {
+	/**
+	 * @test
+	 */
+	public function contentElementWillBeCreatedOnRootPage() {
 		$uid = $this->fixture->createContentElement();
 
 		$this->assertNotSame(
@@ -2395,7 +2887,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementCanBeCreatedOnNonRootPage() {
+	/**
+	 * @test
+	 */
+	public function contentElementCanBeCreatedOnNonRootPage() {
 		$parent = $this->fixture->createSystemFolder();
 		$uid = $this->fixture->createContentElement($parent);
 
@@ -2416,7 +2911,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function contentElementCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -2433,7 +2931,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function contentElementWillBeCleanedUp() {
 		$uid = $this->fixture->createContentElement();
 		$this->assertNotSame(
 			0,
@@ -2449,7 +2950,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementHasNoHeaderByDefault() {
+	/**
+	 * @test
+	 */
+	public function contentElementHasNoHeaderByDefault() {
 		$uid = $this->fixture->createContentElement();
 
 		$row = tx_oelib_db::selectSingle(
@@ -2464,7 +2968,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementCanHaveHeader() {
+	/**
+	 * @test
+	 */
+	public function contentElementCanHaveHeader() {
 		$uid = $this->fixture->createContentElement(
 			0,
 			array('header' => 'Test header')
@@ -2482,7 +2989,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementIsTextElementByDefault() {
+	/**
+	 * @test
+	 */
+	public function contentElementIsTextElementByDefault() {
 		$uid = $this->fixture->createContentElement();
 
 		$row = tx_oelib_db::selectSingle(
@@ -2497,7 +3007,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementCanHaveOtherType() {
+	/**
+	 * @test
+	 */
+	public function contentElementCanHaveOtherType() {
 		$uid = $this->fixture->createContentElement(
 			0,
 			array('CType' => 'list')
@@ -2515,7 +3028,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testContentElementMustHaveNoZeroPid() {
+	/**
+	 * @test
+	 */
+	public function contentElementMustHaveNoZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2523,7 +3039,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createContentElement(0, array('pid' => 0));
 	}
 
-	public function testContentElementMustHaveNoNonZeroPid() {
+	/**
+	 * @test
+	 */
+	public function contentElementMustHaveNoNonZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2531,7 +3050,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createContentElement(0, array('pid' => 99999));
 	}
 
-	public function testContentElementMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function contentElementMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2539,7 +3061,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createContentElement(0, array('uid' => 0));
 	}
 
-	public function testContentElementMustHaveNoNonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function contentElementMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2552,7 +3077,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createTemplate()
 	// ---------------------------------------------------------------------
 
-	public function testTemplateCanBeCreatedOnNonRootPage() {
+	/**
+	 * @test
+	 */
+	public function templateCanBeCreatedOnNonRootPage() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
 
@@ -2569,7 +3097,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateCannotBeCreatedOnRootPage() {
+	/**
+	 * @test
+	 */
+	public function templateCannotBeCreatedOnRootPage() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$pageId must be > 0.'
@@ -2578,7 +3109,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createTemplate(0);
 	}
 
-	public function testTemplateCannotBeCreatedWithNegativePageNumber() {
+	/**
+	 * @test
+	 */
+	public function templateCannotBeCreatedWithNegativePageNumber() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$pageId must be > 0.'
@@ -2587,7 +3121,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createTemplate(-1);
 	}
 
-	public function testTemplateCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function templateCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -2606,7 +3143,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function templateWillBeCleanedUp() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
 		$this->assertNotSame(
@@ -2623,7 +3163,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateInitiallyHasNoConfig() {
+	/**
+	 * @test
+	 */
+	public function templateInitiallyHasNoConfig() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
 		$row = tx_oelib_db::selectSingle(
@@ -2637,7 +3180,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateCanHaveConfig() {
+	/**
+	 * @test
+	 */
+	public function templateCanHaveConfig() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate(
 			$pageId,
@@ -2655,7 +3201,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateConfigIsReadableAsTsTemplate() {
+	/**
+	 * @test
+	 */
+	public function templateConfigIsReadableAsTsTemplate() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$this->fixture->createTemplate(
 			$pageId,
@@ -2673,7 +3222,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateInitiallyHasNoConstants() {
+	/**
+	 * @test
+	 */
+	public function templateInitiallyHasNoConstants() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate($pageId);
 		$row = tx_oelib_db::selectSingle(
@@ -2687,7 +3239,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateCanHaveConstants() {
+	/**
+	 * @test
+	 */
+	public function templateCanHaveConstants() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$uid = $this->fixture->createTemplate(
 			$pageId,
@@ -2705,7 +3260,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateConstantsAreUsedInTsSetup() {
+	/**
+	 * @test
+	 */
+	public function templateConstantsAreUsedInTsSetup() {
 		$pageId = $this->fixture->createFrontEndPage();
 		$this->fixture->createTemplate(
 			$pageId,
@@ -2726,7 +3284,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTemplateMustNotHaveAZeroPid() {
+	/**
+	 * @test
+	 */
+	public function templateMustNotHaveAZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2734,7 +3295,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createTemplate(42, array('pid' => 0));
 	}
 
-	public function testTemplateMustNotHaveANonZeroPid() {
+	/**
+	 * @test
+	 */
+	public function templateMustNotHaveANonZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -2742,7 +3306,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createTemplate(42, array('pid' => 99999));
 	}
 
-	public function testTemplateMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function templateMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2750,7 +3317,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createTemplate(42, array('uid' => 0));
 	}
 
-	public function testTemplateMustNotHaveANonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function templateMustNotHaveANonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -2763,13 +3333,19 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createDummyFile()
 	// ---------------------------------------------------------------------
 
-	public function testCreateDummyFileCreatesFile() {
+	/**
+	 * @test
+	 */
+	public function createDummyFileCreatesFile() {
 		$dummyFile = $this->fixture->createDummyFile();
 
 		$this->assertTrue(file_exists($dummyFile));
 	}
 
-	public function testCreateDummyFileCreatesFileInSubfolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFileCreatesFileInSubfolder() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$dummyFile = $this->fixture->createDummyFile(
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
@@ -2779,20 +3355,29 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(file_exists($dummyFile));
 	}
 
-	public function testCreateDummyFileCreatesFileWithTheProvidedContent() {
+	/**
+	 * @test
+	 */
+	public function createDummyFileCreatesFileWithTheProvidedContent() {
 		$dummyFile = $this->fixture->createDummyFile('test.txt', 'Hello world!');
 
 		$this->assertSame('Hello world!', file_get_contents($dummyFile));
 	}
 
-	public function testCreateDummyFileForNonExistentUploadFolderSetCreatesUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFileForNonExistentUploadFolderSetCreatesUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$this->fixture->createDummyFile();
 
 		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
 	}
 
-	public function testCreateDummyFileForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFileForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$dummyFile = $this->fixture->createDummyFile();
 
@@ -2804,7 +3389,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createDummyZipArchive()
 	// ---------------------------------------------------------------------
 
-	public function testCreateDummyZipArchiveForNoContentProvidedCreatesZipArchive() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForNoContentProvidedCreatesZipArchive() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$dummyFile = $this->fixture->createDummyZipArchive();
@@ -2812,7 +3400,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(file_exists($dummyFile));
 	}
 
-	public function testCreateDummyZipArchiveForFileNameInSubFolderProvidedCreatesZipArchiveInSubFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForFileNameInSubFolderProvidedCreatesZipArchiveInSubFolder() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2826,7 +3417,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForNoContentProvidedCreatesZipArchiveWithDummyFile() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForNoContentProvidedCreatesZipArchiveWithDummyFile() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2841,7 +3435,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForFileProvidedCreatesZipArchiveWithThatFile() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForFileProvidedCreatesZipArchiveWithThatFile() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2858,7 +3455,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForFileProvidedWithContentCreatesZipArchiveWithThatFileAndContentInIt() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForFileProvidedWithContentCreatesZipArchiveWithThatFileAndContentInIt() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2876,7 +3476,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForTwoFilesProvidedCreatesZipArchiveWithTheseFiles() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForTwoFilesProvidedCreatesZipArchiveWithTheseFiles() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2899,7 +3502,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForFileInSubFolderOfUploadFolderProvidedCreatesZipArchiveWithFileInSubFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForFileInSubFolderOfUploadFolderProvidedCreatesZipArchiveWithFileInSubFolder() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2917,7 +3523,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForNonExistentUploadFolderSetCreatesUploadFolder() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2926,7 +3535,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
 	}
 
-	public function testCreateDummyZipArchiveForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyZipArchiveForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
 		$this->markAsSkippedForNoZipArchive();
 
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
@@ -2940,21 +3552,30 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding deleteDummyFile()
 	// ---------------------------------------------------------------------
 
-	public function testDeleteDummyFileDeletesCreatedDummyFile() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFileDeletesCreatedDummyFile() {
 		$dummyFile = $this->fixture->createDummyFile();
 		$this->fixture->deleteDummyFile(basename($dummyFile));
 
 		$this->assertFalse(file_exists($dummyFile));
 	}
 
-	public function testDeleteDummyFileWithAlreadyDeletedFileThrowsNoException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFileWithAlreadyDeletedFileThrowsNoException() {
 		$dummyFile = $this->fixture->createDummyFile();
 		unlink($dummyFile);
 
 		$this->fixture->deleteDummyFile(basename($dummyFile));
 	}
 
-	public function testDeleteDummyFileWithInexistentFileThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFileWithInexistentFileThrowsException() {
 		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 
 		$this->setExpectedException(
@@ -2966,7 +3587,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteDummyFile(basename($uniqueFileName));
 	}
 
-	public function testDeleteDummyFileWithForeignFileThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFileWithForeignFileThrowsException() {
 		$uniqueFileName = $this->fixture->getUniqueFileOrFolderPath('test.txt');
 		t3lib_div::writeFile($uniqueFileName, '');
 		$this->foreignFileToDelete = $uniqueFileName;
@@ -2985,13 +3609,19 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createDummyFolder()
 	// ---------------------------------------------------------------------
 
-	public function testCreateDummyFolderCreatesFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFolderCreatesFolder() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 
 		$this->assertTrue(is_dir($dummyFolder));
 	}
 
-	public function testCreateDummyFolderCanCreateFolderInDummyFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFolderCanCreateFolderInDummyFolder() {
 		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$innerDummyFolder = $this->fixture->createDummyFolder(
 			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
@@ -3001,14 +3631,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(is_dir($innerDummyFolder));
 	}
 
-	public function testCreateDummyFolderForNonExistentUploadFolderSetCreatesUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFolderForNonExistentUploadFolderSetCreatesUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$this->fixture->createDummyFolder('test_folder');
 
 		$this->assertTrue(is_dir($this->fixture->getUploadFolderPath()));
 	}
 
-	public function testCreateDummyFolderForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
+	/**
+	 * @test
+	 */
+	public function createDummyFolderForNonExistentUploadFolderSetCreatesFileInCreatedUploadFolder() {
 		$this->fixture->setUploadFolderPath(PATH_site . 'typo3temp/tx_oelib_test/');
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 
@@ -3020,7 +3656,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding deleteDummyFolder()
 	// ---------------------------------------------------------------------
 
-	public function testDeleteDummyFolderDeletesCreatedDummyFolder() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderDeletesCreatedDummyFolder() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$this->fixture->deleteDummyFolder(
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
@@ -3029,7 +3668,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertFalse(is_dir($dummyFolder));
 	}
 
-	public function testDeleteDummyFolderWithInexistentFolderThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderWithInexistentFolderThrowsException() {
 		$uniqueFolderName = $this->fixture->getUniqueFileOrFolderPath('test_folder');
 
 		$this->setExpectedException(
@@ -3042,7 +3684,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteDummyFolderWithForeignFolderThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderWithForeignFolderThrowsException() {
 		$uniqueFolderName = $this->fixture->getUniqueFileOrFolderPath('test_folder');
 		t3lib_div::mkdir($uniqueFolderName);
 		$this->foreignFolderToDelete = $uniqueFolderName;
@@ -3056,7 +3701,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->deleteDummyFolder(basename($uniqueFolderName));
 	}
 
-	public function testDeleteDummyFolderCanDeleteCreatedDummyFolderInDummyFolder() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderCanDeleteCreatedDummyFolderInDummyFolder() {
 		$outerDummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$innerDummyFolder = $this->fixture->createDummyFolder(
 			$this->fixture->getPathRelativeToUploadDirectory($outerDummyFolder) .
@@ -3071,7 +3719,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->assertTrue(file_exists($outerDummyFolder));
 	}
 
-	public function testDeleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$this->fixture->createDummyFile(
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
@@ -3088,7 +3739,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteDummyFolderWithFolderNameConsistingOnlyOfNumbersDoesNotThrowAnException() {
+	/**
+	 * @test
+	 */
+	public function deleteDummyFolderWithFolderNameConsistingOnlyOfNumbersDoesNotThrowAnException() {
 		$dummyFolder = $this->fixture->createDummyFolder('123');
 
 		$this->fixture->deleteDummyFolder(
@@ -3101,14 +3755,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding set- and getUploadFolderPath()
 	// ---------------------------------------------------------------------
 
-	public function testGetUploadFolderPathReturnsUploadFolderPathIncludingTablePrefix() {
+	/**
+	 * @test
+	 */
+	public function getUploadFolderPathReturnsUploadFolderPathIncludingTablePrefix() {
 		$this->assertRegExp(
 			'/\/uploads\/tx_oelib\/$/',
 			$this->fixture->getUploadFolderPath()
 		);
 	}
 
-	public function testGetUploadFolderPathAfterSetReturnsSetUploadFolderPath() {
+	/**
+	 * @test
+	 */
+	public function getUploadFolderPathAfterSetReturnsSetUploadFolderPath() {
 		$this->fixture->setUploadFolderPath('/foo/bar/');
 
 		$this->assertSame(
@@ -3117,7 +3777,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetUploadFolderPathAfterCreatingADummyFileThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setUploadFolderPathAfterCreatingADummyFileThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'The upload folder path must not be changed if there are already dummy files or folders.'
@@ -3132,7 +3795,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding getPathRelativeToUploadDirectory()
 	// ---------------------------------------------------------------------
 
-	public function testGetPathRelativeToUploadDirectoryWithPathOutsideUploadDirectoryThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getPathRelativeToUploadDirectoryWithPathOutsideUploadDirectoryThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The first parameter $absolutePath is not within the calling extension\'s upload directory.'
@@ -3146,7 +3812,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding getUniqueFileOrFolderPath()
 	// ---------------------------------------------------------------------
 
-	public function testGetUniqueFileOrFolderPathWithEmptyPathThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getUniqueFileOrFolderPathWithEmptyPathThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The first parameter $path must not be empty.'
@@ -3160,7 +3829,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createFrontEndUserGroup()
 	// ---------------------------------------------------------------------
 
-	public function testFrontEndUserGroupCanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupCanBeCreated() {
 		$uid = $this->fixture->createFrontEndUserGroup();
 
 		$this->assertNotSame(
@@ -3176,7 +3848,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserGroupTableCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupTableCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -3193,7 +3868,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserGroupTableWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupTableWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndUserGroup();
 		$this->assertNotSame(
 			0,
@@ -3209,7 +3887,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserGroupHasNoTitleByDefault() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupHasNoTitleByDefault() {
 		$uid = $this->fixture->createFrontEndUserGroup();
 
 		$row = tx_oelib_db::selectSingle(
@@ -3224,7 +3905,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserGroupCanHaveATitle() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupCanHaveATitle() {
 		$uid = $this->fixture->createFrontEndUserGroup(
 			array('title' => 'Test title')
 		);
@@ -3241,7 +3925,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserGroupMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3250,7 +3937,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndUserGroup(array('uid' => 0));
 	}
 
-	public function testFrontEndUserGroupMustHaveNoNonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserGroupMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3264,7 +3954,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createFrontEndUser()
 	// ---------------------------------------------------------------------
 
-	public function testFrontEndUserCanBeCreated() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserCanBeCreated() {
 		$uid = $this->fixture->createFrontEndUser();
 
 		$this->assertNotSame(
@@ -3280,7 +3973,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserTableCanBeDirty() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserTableCanBeDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -3297,7 +3993,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserTableWillBeCleanedUp() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserTableWillBeCleanedUp() {
 		$uid = $this->fixture->createFrontEndUser();
 		$this->assertNotSame(
 			0,
@@ -3313,7 +4012,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserHasNoUserNameByDefault() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserHasNoUserNameByDefault() {
 		$uid = $this->fixture->createFrontEndUser();
 
 		$row = tx_oelib_db::selectSingle(
@@ -3328,7 +4030,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserCanHaveAUserName() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserCanHaveAUserName() {
 		$uid = $this->fixture->createFrontEndUser(
 			'',
 			array('username' => 'Test name')
@@ -3346,7 +4051,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserCanHaveSeveralUserGroups() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserCanHaveSeveralUserGroups() {
 		$feUserGroupUidOne = $this->fixture->createFrontEndUserGroup();
 		$feUserGroupUidTwo = $this->fixture->createFrontEndUserGroup();
 		$feUserGroupUidThree = $this->fixture->createFrontEndUserGroup();
@@ -3367,7 +4075,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserMustHaveNoZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3376,7 +4087,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndUser('', array('uid' => 0));
 	}
 
-	public function testFrontEndUserMustHaveNoNonZeroUid() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3385,7 +4099,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndUser('', array('uid' => 99999));
 	}
 
-	public function testFrontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoZeroUserGroupInTheDataArray() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "usergroup" must not be set in $recordData.'
@@ -3394,7 +4111,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndUser('', array('usergroup' => 0));
 	}
 
-	public function testFrontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoNonZeroUserGroupInTheDataArray() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "usergroup" must not be set in $recordData.'
@@ -3403,7 +4123,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createFrontEndUser('', array('usergroup' => 99999));
 	}
 
-	public function testFrontEndUserMustHaveNoUserGroupListInTheDataArray() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoUserGroupListInTheDataArray() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "usergroup" must not be set in $recordData.'
@@ -3414,7 +4137,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFrontEndUserWithEmptyGroupCreatesGroup() {
+	/**
+	 * @test
+	 */
+	public function createFrontEndUserWithEmptyGroupCreatesGroup() {
 		$this->fixture->createFrontEndUser('');
 
 		$this->assertTrue(
@@ -3422,7 +4148,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoZeroUserGroupEvenIfSeveralGroupsAreProvided() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$frontEndUserGroups must contain a comma-separated list of UIDs. Each UID must be > 0.'
@@ -3437,7 +4166,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFrontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
+	/**
+	 * @test
+	 */
+	public function frontEndUserMustHaveNoAlphabeticalCharactersInTheUserGroupList() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$frontEndUserGroups must contain a comma-separated list of UIDs. Each UID must be > 0.'
@@ -3455,14 +4187,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding createBackEndUser()
 	// ---------------------------------------------------------------------
 
-	public function testCreateBackEndUserReturnsUidGreaterZero() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserReturnsUidGreaterZero() {
 		$this->assertNotSame(
 			0,
 			$this->fixture->createBackEndUser()
 		);
 	}
 
-	public function testCreateBackEndUserCreatesBackEndUserRecordInTheDatabase() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserCreatesBackEndUserRecordInTheDatabase() {
 		$this->assertSame(
 			1,
 			$this->fixture->countRecords(
@@ -3471,7 +4209,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateBackEndUserMarksBackEndUserTableAsDirty() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserMarksBackEndUserTableAsDirty() {
 		$this->assertSame(
 			0,
 			count($this->fixture->getListOfDirtySystemTables())
@@ -3497,7 +4238,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateBackEndUserCreatesRecordWithoutUserNameByDefault() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserCreatesRecordWithoutUserNameByDefault() {
 		$uid = $this->fixture->createBackEndUser();
 
 		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
@@ -3508,7 +4252,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateBackEndUserForUserNameProvidedCreatesRecordWithUserName() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserForUserNameProvidedCreatesRecordWithUserName() {
 		$uid = $this->fixture->createBackEndUser(array('username' => 'Test name'));
 
 		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
@@ -3519,7 +4266,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateBackEndUserWithZeroUidProvidedInRecordDataThrowsExeption() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserWithZeroUidProvidedInRecordDataThrowsExeption() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3528,7 +4278,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->createBackEndUser(array('uid' => 0));
 	}
 
-	public function testCreateBackEndUserWithNonZeroUidProvidedInRecordDataThrowsExeption() {
+	/**
+	 * @test
+	 */
+	public function createBackEndUserWithNonZeroUidProvidedInRecordDataThrowsExeption() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3542,7 +4295,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests concerning fakeFrontend
 	// ---------------------------------------------------------------------
 
-	public function testCreateFakeFrontEndCreatesGlobalFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesGlobalFrontEnd() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3551,14 +4307,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndReturnsPositivePageUidIfCalledWithoutParameters() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndReturnsPositivePageUidIfCalledWithoutParameters() {
 		$this->assertGreaterThan(
 			0,
 			$this->fixture->createFakeFrontEnd()
 		);
 	}
 
-	public function testCreateFakeFrontEndReturnsCurrentFrontEndPageUid() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndReturnsCurrentFrontEndPageUid() {
 		$GLOBALS['TSFE'] = NULL;
 		$result = $this->fixture->createFakeFrontEnd();
 
@@ -3580,7 +4342,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesSysPage() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesSysPage() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3589,7 +4354,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesFrontEndUser() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3598,7 +4366,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesContentObject() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesContentObject() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3607,7 +4378,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesTemplate() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesTemplate() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3616,7 +4390,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndReadsTypoScriptSetupFromPage() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndReadsTypoScriptSetupFromPage() {
 		$pageUid = $this->fixture->createFrontEndPage();
 		$this->fixture->createTemplate(
 			$pageUid,
@@ -3649,7 +4426,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndCreatesConfiguration() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndCreatesConfiguration() {
 		$GLOBALS['TSFE'] = NULL;
 		$this->fixture->createFakeFrontEnd();
 
@@ -3658,7 +4438,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginUserIsZeroAfterCreateFakeFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function loginUserIsZeroAfterCreateFakeFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertSame(
@@ -3679,7 +4462,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDiscardFakeFrontEndNullsOutGlobalFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function discardFakeFrontEndNullsOutGlobalFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->discardFakeFrontEnd();
 
@@ -3688,7 +4474,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDiscardFakeFrontEndNullsOutGlobalTimeTrack() {
+	/**
+	 * @test
+	 */
+	public function discardFakeFrontEndNullsOutGlobalTimeTrack() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->discardFakeFrontEnd();
 
@@ -3697,18 +4486,27 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDiscardFakeFrontEndCanBeCalledTwoTimesInARow() {
+	/**
+	 * @test
+	 */
+	public function discardFakeFrontEndCanBeCalledTwoTimesInARow() {
 		$this->fixture->discardFakeFrontEnd();
 		$this->fixture->discardFakeFrontEnd();
 	}
 
-	public function testHasFakeFrontEndInitiallyIsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasFakeFrontEndInitiallyIsFalse() {
 		$this->assertFalse(
 			$this->fixture->hasFakeFrontEnd()
 		);
 	}
 
-	public function testHasFakeFrontEndIsTrueAfterCreateFakeFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function hasFakeFrontEndIsTrueAfterCreateFakeFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertTrue(
@@ -3716,7 +4514,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasFakeFrontEndIsFalseAfterCreateAndDiscardFakeFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function hasFakeFrontEndIsFalseAfterCreateAndDiscardFakeFrontEnd() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->discardFakeFrontEnd();
 
@@ -3737,7 +4538,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndReturnsProvidedPageUid() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndReturnsProvidedPageUid() {
 		$pageUid = $this->fixture->createFrontEndPage();
 
 		$this->assertSame(
@@ -3746,7 +4550,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontEndUsesProvidedPageUidAsFrontEndId() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontEndUsesProvidedPageUidAsFrontEndId() {
 		$pageUid = $this->fixture->createFrontEndPage();
 		$this->fixture->createFakeFrontEnd($pageUid);
 
@@ -3756,7 +4563,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateFakeFrontThrowsExceptionForNegativePageUid() {
+	/**
+	 * @test
+	 */
+	public function createFakeFrontThrowsExceptionForNegativePageUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$pageUid must be >= 0.'
@@ -3776,7 +4586,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// to the FE index.php), but getImageDimensions use the path relative to the
 	// executed script which is the FE index.php or the PHPUnit BE module
 	// index.php. This results getImageDimensions not returning anything useful.
-	public function testFakeFrontEndCObjImageCreatesImageTagForExistingImageFile() {
+	/**
+	 * @test
+	 */
+	public function fakeFrontEndCObjImageCreatesImageTagForExistingImageFile() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertContains(
@@ -3792,7 +4605,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding user login and logout
 	// ---------------------------------------------------------------------
 
-	public function testIsLoggedInInitiallyIsFalse() {
+	/**
+	 * @test
+	 */
+	public function isLoggedInInitiallyIsFalse() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->assertFalse(
@@ -3800,7 +4616,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIsLoggedThrowsExceptionWithoutFrontEnd() {
+	/**
+	 * @test
+	 */
+	public function isLoggedThrowsExceptionWithoutFrontEnd() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Please create a front end before calling isLoggedIn.'
@@ -3809,7 +4628,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->isLoggedIn();
 	}
 
-	public function testLoginFrontEndUserSwitchesToLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserSwitchesToLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserId = $this->fixture->createFrontEndUser();
@@ -3834,7 +4656,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserSetsLoginUserToOne() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserSetsLoginUserToOne() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserId = $this->fixture->createFrontEndUser();
@@ -3846,7 +4671,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserRetrievesNameOfUser() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserRetrievesNameOfUser() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserId = $this->fixture->createFrontEndUser(
@@ -3860,7 +4688,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserWithZeroUidThrowsException() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserWithZeroUidThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The user ID must be > 0.'
@@ -3871,7 +4702,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->loginFrontEndUser(0);
 	}
 
-	public function testLoginFrontEndUserWithoutFrontEndThrowsException() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Please create a front end before calling loginFrontEndUser.'
@@ -3881,7 +4715,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->loginFrontEndUser($feUserId);
 	}
 
-	public function testLoginFrontEndUserSetsGroupDataOfUser() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserSetsGroupDataOfUser() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup(
@@ -3896,7 +4733,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLogoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserId = $this->fixture->createFrontEndUser();
@@ -3923,7 +4763,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLogoutFrontEndUserSetsLoginUserToZero() {
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserSetsLoginUserToZero() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->fixture->logoutFrontEndUser();
@@ -3934,7 +4777,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserNotInDatabaseSwitchesToLoggedIn() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserNotInDatabaseSwitchesToLoggedIn() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUser = tx_oelib_MapperRegistry
@@ -3947,7 +4793,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserNotInDatabaseSetsLoginUserToOne() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserNotInDatabaseSetsLoginUserToOne() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUser = tx_oelib_MapperRegistry
@@ -3961,7 +4810,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserNotInDatabaseRetrievesNameOfUser() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserNotInDatabaseRetrievesNameOfUser() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUser = tx_oelib_MapperRegistry
@@ -3975,7 +4827,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLoginFrontEndUserNotInDatabaseWithoutFrontEndThrowsException() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserNotInDatabaseWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Please create a front end before calling loginFrontEndUser.'
@@ -3987,7 +4842,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->loginFrontEndUser($feUser->getUid());
 	}
 
-	public function testLoginFrontEndUserMappedAsGhostAndInDatabaseSetsGroupDataOfUser() {
+	/**
+	 * @test
+	 */
+	public function loginFrontEndUserMappedAsGhostAndInDatabaseSetsGroupDataOfUser() {
 		$this->fixture->createFakeFrontEnd();
 
 		$feUserGroupUid = $this->fixture->createFrontEndUserGroup(
@@ -4003,7 +4861,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testLogoutFrontEndUserWithoutFrontEndThrowsException() {
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserWithoutFrontEndThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'Please create a front end before calling logoutFrontEndUser.'
@@ -4012,14 +4873,20 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		$this->fixture->logoutFrontEndUser();
 	}
 
-	public function testLogoutFrontEndUserCanBeCalledTwoTimesInARow() {
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserCanBeCalledTwoTimesInARow() {
 		$this->fixture->createFakeFrontEnd();
 
 		$this->fixture->logoutFrontEndUser();
 		$this->fixture->logoutFrontEndUser();
 	}
 
-	public function testCreateAndLogInFrontEndUserCreatesFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserCreatesFrontEndUser() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->createAndLogInFrontEndUser();
 
@@ -4029,7 +4896,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserWithRecordDataCreatesFrontEndUserWithThatData() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserWithRecordDataCreatesFrontEndUserWithThatData() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->createAndLogInFrontEndUser(
 			'', array('name' => 'John Doe')
@@ -4041,7 +4911,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserLogsInFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserLogsInFrontEndUser() {
 		$this->fixture->createFakeFrontEnd();
 		$this->fixture->createAndLogInFrontEndUser();
 
@@ -4050,7 +4923,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUser() {
 		$this->fixture->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
@@ -4061,7 +4937,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUserWithGivenGroup() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUserWithGivenGroup() {
 		$this->fixture->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$frontEndUserUid = $this->fixture->createAndLogInFrontEndUser(
@@ -4080,7 +4959,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateAFrontEndUserGroup() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateAFrontEndUserGroup() {
 		$this->fixture->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createAndLogInFrontEndUser(
@@ -4093,7 +4975,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateAndLogInFrontEndUserWithFrontEndUserGroupLogsInFrontEndUser() {
+	/**
+	 * @test
+	 */
+	public function createAndLogInFrontEndUserWithFrontEndUserGroupLogsInFrontEndUser() {
 		$this->fixture->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->fixture->createFrontEndUserGroup();
 		$this->fixture->createAndLogInFrontEndUser($frontEndUserGroupUid);
@@ -4108,7 +4993,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 	// Tests regarding increaseRelationCounter()
 	// ---------------------------------------------------------------------
 
-	public function testIncreaseRelationCounterIncreasesNonZeroFieldValueByOne() {
+	/**
+	 * @test
+	 */
+	public function increaseRelationCounterIncreasesNonZeroFieldValueByOne() {
 		$uid = $this->fixture->createRecord(
 			OELIB_TESTTABLE,
 			array('related_records' => 41)
@@ -4132,7 +5020,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIncreaseRelationCounterThrowsExceptionOnInvalidUid() {
+	/**
+	 * @test
+	 */
+	public function increaseRelationCounterThrowsExceptionOnInvalidUid() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 		$invalidUid = $uid + 1;
 
@@ -4147,7 +5038,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIncreaseRelationCounterThrowsExceptionOnInvalidTableName() {
+	/**
+	 * @test
+	 */
+	public function increaseRelationCounterThrowsExceptionOnInvalidTableName() {
 		$uid = $this->fixture->createRecord(OELIB_TESTTABLE);
 
 		$this->setExpectedException(
@@ -4161,7 +5055,10 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testIncreaseRelationCounterThrowsExceptionOnInexistentFieldName() {
+	/**
+	 * @test
+	 */
+	public function increaseRelationCounterThrowsExceptionOnInexistentFieldName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table ' . OELIB_TESTTABLE . ' has no column inexistent_column.'

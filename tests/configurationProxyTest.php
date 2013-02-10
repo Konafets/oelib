@@ -66,13 +66,19 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 	}
 
 
-	public function testGetInstanceReturnsObject() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsObject() {
 		$this->assertTrue(
 			is_object($this->fixture)
 		);
 	}
 
-	public function testGetInstanceThrowsExeptionIfNoExtensionKeyGiven() {
+	/**
+	 * @test
+	 */
+	public function getInstanceThrowsExceptionIfNoExtensionKeyGiven() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The extension key was not set.'
@@ -80,14 +86,20 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		tx_oelib_configurationProxy::getInstance('');
 	}
 
-	public function testGetInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
+	/**
+	 * @test
+	 */
+	public function getInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
 		$this->assertSame(
 			$this->fixture,
 			tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY)
 		);
 	}
 
-	public function testInstanciateOfAnotherProxyCreatesNewObject() {
+	/**
+	 * @test
+	 */
+	public function instantiateOfAnotherProxyCreatesNewObject() {
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
 
 		$this->assertNotSame(
@@ -105,14 +117,20 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetCompleteConfigurationReturnsAllTestConfigurationData() {
+	/**
+	 * @test
+	 */
+	public function getCompleteConfigurationReturnsAllTestConfigurationData() {
 		$this->assertSame(
 			$this->testConfiguration,
 			$this->fixture->getCompleteConfiguration()
 		);
 	}
 
-	public function testRetrieveConfigurationIfThereIsNone() {
+	/**
+	 * @test
+	 */
+	public function retrieveConfigurationIfThereIsNone() {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
 		$this->fixture->retrieveConfiguration();
 
@@ -121,7 +139,10 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testRetrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
+	/**
+	 * @test
+	 */
+	public function retrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
 		$this->fixture->retrieveConfiguration();
 		$this->fixture->setAsString('testValue', 'foo');
@@ -132,7 +153,10 @@ class tx_oelib_configurationProxyTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInstanciateAnotherProxyAndSetValueNotAffectsThisFixture() {
+	/**
+	 * @test
+	 */
+	public function instantiateAnotherProxyAndSetValueNotAffectsThisFixture() {
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
 		$otherConfiguration->setAsString('testValue', 'foo');
 

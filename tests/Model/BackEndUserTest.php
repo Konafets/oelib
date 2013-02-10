@@ -51,7 +51,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the user name
 	///////////////////////////////////////////
 
-	public function testGetUserNameForEmptyUserNameReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getUserNameForEmptyUserNameReturnsEmptyString() {
 		$this->fixture->setData(array('username' => ''));
 
 		$this->assertSame(
@@ -60,7 +63,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetUserNameForNonEmptyUserNameReturnsUserName() {
+	/**
+	 * @test
+	 */
+	public function getUserNameForNonEmptyUserNameReturnsUserName() {
 		$this->fixture->setData(array('username' => 'johndoe'));
 
 		$this->assertSame(
@@ -74,7 +80,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning getting the name
 	//////////////////////////////////////
 
-	public function testGetNameForNonEmptyNameReturnsName() {
+	/**
+	 * @test
+	 */
+	public function getNameForNonEmptyNameReturnsName() {
 		$this->fixture->setData(array('realName' => 'John Doe'));
 
 		$this->assertSame(
@@ -83,7 +92,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetNameForEmptyNameReturnsEmptyString() {
+	/**
+	 * @test
+	 */
+	public function getNameForEmptyNameReturnsEmptyString() {
 		$this->fixture->setData(array('realName' => ''));
 
 		$this->assertSame(
@@ -97,7 +109,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning setting and getting the language
 	//////////////////////////////////////////////////////
 
-	public function testGetLanguageForNonEmptyLanguageReturnsLanguageKey() {
+	/**
+	 * @test
+	 */
+	public function getLanguageForNonEmptyLanguageReturnsLanguageKey() {
 		$this->fixture->setData(array('lang' => 'de'));
 
 		$this->assertSame(
@@ -106,7 +121,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLanguageForEmptyLanguageKeyReturnsDefault() {
+	/**
+	 * @test
+	 */
+	public function getLanguageForEmptyLanguageKeyReturnsDefault() {
 		$this->fixture->setData(array('lang' => ''));
 
 		$this->assertSame(
@@ -115,7 +133,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLanguageForLanguageSetInUserConfigurationReturnsThisLanguage() {
+	/**
+	 * @test
+	 */
+	public function getLanguageForLanguageSetInUserConfigurationReturnsThisLanguage() {
 		$this->fixture->setData(array('uc' => serialize(array('lang' => 'de'))));
 
 		$this->assertSame(
@@ -124,7 +145,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetLanguageForSetDefaultLanguageAndLanguageSetInUserConfigurationReturnsLanguageFromConfiguration() {
+	/**
+	 * @test
+	 */
+	public function getLanguageForSetDefaultLanguageAndLanguageSetInUserConfigurationReturnsLanguageFromConfiguration() {
 		$this->fixture->setData(array('uc' => serialize(array('lang' => 'fr'))));
 		$this->fixture->setDefaultLanguage('de');
 
@@ -134,7 +158,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDefaultLanguageSetsLanguage() {
+	/**
+	 * @test
+	 */
+	public function getDefaultLanguageSetsLanguage() {
 		$this->fixture->setDefaultLanguage('de');
 
 		$this->assertSame(
@@ -143,7 +170,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDefaultLanguageWithDefaultSetsLanguage() {
+	/**
+	 * @test
+	 */
+	public function setDefaultLanguageWithDefaultSetsLanguage() {
 		$this->fixture->setDefaultLanguage('default');
 
 		$this->assertSame(
@@ -152,7 +182,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testSetDefaultLanguageWithEmptyKeyThrowsException() {
+	/**
+	 * @test
+	 */
+	public function setDefaultLanguageWithEmptyKeyThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$language must not be empty.'
@@ -161,7 +194,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		$this->fixture->setDefaultLanguage('');
 	}
 
-	public function testHasLanguageWithoutLanguageReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasLanguageWithoutLanguageReturnsFalse() {
 		$this->fixture->setData(array());
 
 		$this->assertFalse(
@@ -169,7 +205,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasLanguageWithDefaultLanguageSetReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function hasLanguageWithDefaultLanguageSetReturnsFalse() {
 		$this->fixture->setData(array());
 		$this->fixture->setDefaultLanguage('default');
 
@@ -178,7 +217,10 @@ class tx_oelib_Model_BackEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testHasLanguageWithNonEmptyLanguageReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function hasLanguageWithNonEmptyLanguageReturnsTrue() {
 		$this->fixture->setData(array('lang' => 'de'));
 
 		$this->assertTrue(

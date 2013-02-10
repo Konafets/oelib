@@ -58,7 +58,10 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	// Tests concerning find
 	//////////////////////////
 
-	public function testFindWithUidOfExistingRecordReturnsFrontEndUserInstance() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsFrontEndUserInstance() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(
@@ -66,7 +69,10 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testFindWithUidOfExistingRecordReturnsModelWithThatUid() {
+	/**
+	 * @test
+	 */
+	public function findWithUidOfExistingRecordReturnsModelWithThatUid() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertSame(
@@ -81,7 +87,10 @@ class tx_oelib_Mapper_FrontEndUserTest extends tx_phpunit_testcase {
 	// Test concerning getGroups
 	//////////////////////////////
 
-	public function testGetUserGroupsGetsRelatedGroupsAsList() {
+	/**
+	 * @test
+	 */
+	public function getUserGroupsGetsRelatedGroupsAsList() {
 		$groupMapper
 			= tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
 

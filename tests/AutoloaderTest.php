@@ -31,47 +31,71 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class tx_oelib_AutoloaderTest extends tx_phpunit_testcase {
-	public function testLoadWithEmptyStringDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function loadWithEmptyStringDoesNotFail() {
 		tx_oelib_Autoloader::load('');
 	}
 
-	public function testLoadWithNameInOtherFormatReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameInOtherFormatReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_Autoloader::load('asdfkj12k_jh234')
 		);
 	}
 
-	public function testLoadWithNameOfInexistentExtensionReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfInexistentExtensionReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_Autoloader::load('tx_foo_Nothing')
 		);
 	}
 
-	public function testLoadWithNameOfInexistentClassReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfInexistentClassReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_CatchMe')
 		);
 	}
 
-	public function testLoadWithNameOfLoadedClassReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfLoadedClassReturnsTrue() {
 		$this->assertTrue(
 			tx_oelib_Autoloader::load('tx_oelib_AutoloaderTest')
 		);
 	}
 
-	public function testLoadWithNameOfExistingNotLoadedClassReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfExistingNotLoadedClassReturnsTrue() {
 		$this->assertTrue(
 			tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_NotIncluded')
 		);
 	}
 
-	public function testLoadWithNameOfExistingClassWithDigitsInPathReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfExistingClassWithDigitsInPathReturnsTrue() {
 		$this->assertTrue(
 			tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_pi1_NotIncluded1')
 		);
 	}
 
-	public function testLoadWithNameOfExistingNotLoadedClassLoadsClass() {
+	/**
+	 * @test
+	 */
+	public function loadWithNameOfExistingNotLoadedClassLoadsClass() {
 		tx_oelib_Autoloader::load('tx_oelib_tests_fixtures_NotIncluded');
 
 		$this->assertTrue(
@@ -79,7 +103,10 @@ class tx_oelib_AutoloaderTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testNewWithNotIncludedClassDoesNotFail() {
+	/**
+	 * @test
+	 */
+	public function newWithNotIncludedClassDoesNotFail() {
 		new tx_oelib_tests_fixtures_NotIncludedEither();
 	}
 }

@@ -83,28 +83,40 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests for the utility functions
 	////////////////////////////////////
 
-	public function testSortExplodeWithEmptyStringReturnsEmptyArray() {
+	/**
+	 * @test
+	 */
+	public function sortExplodeWithEmptyStringReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
 			$this->sortExplode('')
 		);
 	}
 
-	public function testSortExplodeWithOneNumberReturnsArrayWithNumber() {
+	/**
+	 * @test
+	 */
+	public function sortExplodeWithOneNumberReturnsArrayWithNumber() {
 		$this->assertSame(
 			array(42),
 			$this->sortExplode('42')
 		);
 	}
 
-	public function testSortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers() {
+	/**
+	 * @test
+	 */
+	public function sortExplodeWithTwoAscendingNumbersReturnsArrayWithBothNumbers() {
 		$this->assertSame(
 			array(1, 2),
 			$this->sortExplode('1,2')
 		);
 	}
 
-	public function testSortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers() {
+	/**
+	 * @test
+	 */
+	public function sortExplodeWithTwoDescendingNumbersReturnsSortedArrayWithBothNumbers() {
 		$this->assertSame(
 			array(1, 2),
 			$this->sortExplode('2,1')
@@ -116,7 +128,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests for enableFields
 	//////////////////////////////////
 
-	public function testEnableFieldsThrowsExceptionForTooSmallShowHidden() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsThrowsExceptionForTooSmallShowHidden() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$showHidden may only be -1, 0 or 1, but actually is -2'
@@ -125,7 +140,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::enableFields(OELIB_TESTTABLE, -2);
 	}
 
-	public function testEnableFieldsThrowsExceptionForTooBigShowHidden() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsThrowsExceptionForTooBigShowHidden() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$showHidden may only be -1, 0 or 1, but actually is 2'
@@ -134,35 +152,50 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::enableFields(OELIB_TESTTABLE, 2);
 	}
 
-	public function testEnableFieldsIsDifferentForDifferentTables() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsIsDifferentForDifferentTables() {
 		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE),
 			tx_oelib_db::enableFields('pages')
 		);
 	}
 
-	public function testEnableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsCanBeDifferentForShowHiddenZeroAndOne() {
 		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1)
 		);
 	}
 
-	public function testEnableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsAreTheSameForShowHiddenZeroAndMinusOne() {
 		$this->assertSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
-	public function testEnableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsCanBeDifferentForShowHiddenOneAndMinusOne() {
 		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 1),
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, -1)
 		);
 	}
 
-	public function testEnableFieldsCanBeDifferentForDifferentIgnores() {
+	/**
+	 * @test
+	 */
+	public function enableFieldsCanBeDifferentForDifferentIgnores() {
 		$this->assertNotSame(
 			tx_oelib_db::enableFields(OELIB_TESTTABLE, 0, array()),
 			tx_oelib_db::enableFields(
@@ -177,9 +210,9 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2180
 	 *
-	 * @return void
+	 * @test
 	 */
-	public function testEnableFieldsCanBeDifferentForDifferentVersionParameters() {
+	public function enableFieldsCanBeDifferentForDifferentVersionParameters() {
 		$this->markTestSkipped(
 			'This test does not work until the full versioning feature is ' .
 				'implemented in oelib. See ' .
@@ -202,28 +235,40 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning createRecursivePageList
 	/////////////////////////////////////////////
 
-	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListReturnsAnEmptyStringForNoPagesWithDefaultRecursion() {
 		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('')
 		);
 	}
 
-	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListReturnsAnEmptyStringForNoPagesWithZeroRecursion() {
 		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('', 0)
 		);
 	}
 
-	public function testCreateRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListReturnsAnEmptyStringForNoPagesWithNonZeroRecursion() {
 		$this->assertSame(
 			'',
 			tx_oelib_db::createRecursivePageList('', 1)
 		);
 	}
 
-	public function testCreateRecursivePageListThrowsWithNegativeRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListThrowsWithNegativeRecursion() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$recursionDepth must be >= 0.'
@@ -232,7 +277,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::createRecursivePageList('', -1);
 	}
 
-	public function testCreateRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListDoesNotContainSubpagesForOnePageWithZeroRecursion() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createSystemFolder($uid);
 
@@ -242,7 +290,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListDoesNotContainSubpagesForTwoPagesWithZeroRecursion() {
 		$uid1 = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createSystemFolder($uid1);
 		$uid2 = $this->testingFramework->createSystemFolder();
@@ -255,7 +306,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListDoesNotContainSubsubpagesForRecursionOfOne() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 		$this->testingFramework->createSystemFolder($subFolderUid);
@@ -266,7 +320,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListDoesNotContainUnrelatedPages() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListDoesNotContainUnrelatedPages() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$this->testingFramework->createSystemFolder();
 
@@ -276,7 +333,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListCanContainTwoSubpagesOfOnePage() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListCanContainTwoSubpagesOfOnePage() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid);
 		$subFolderUid2 = $this->testingFramework->createSystemFolder($uid);
@@ -287,7 +347,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListCanContainSubpagesOfTwoPages() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListCanContainSubpagesOfTwoPages() {
 		$uid1 = $this->testingFramework->createSystemFolder();
 		$uid2 = $this->testingFramework->createSystemFolder();
 		$subFolderUid1 = $this->testingFramework->createSystemFolder($uid1);
@@ -303,7 +366,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListHeedsIncreasingRecursionDepthOnSubsequentCalls() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 
@@ -317,7 +383,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testCreateRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls() {
+	/**
+	 * @test
+	 */
+	public function createRecursivePageListHeedsDecreasingRecursionDepthOnSubsequentCalls() {
 		$uid = $this->testingFramework->createSystemFolder();
 		$subFolderUid = $this->testingFramework->createSystemFolder($uid);
 
@@ -336,7 +405,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning getColumnsInTable
 	///////////////////////////////////////
 
-	public function testGetColumnsInTableForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getColumnsInTableForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -357,7 +429,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::getColumnsInTable('tx_oelib_doesnotexist');
 	}
 
-	public function testGetColumnsInTableReturnsArrayThatContainsExistingColumn() {
+	/**
+	 * @test
+	 */
+	public function getColumnsInTableReturnsArrayThatContainsExistingColumn() {
 		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertTrue(
@@ -365,7 +440,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testGetColumnsInTableReturnsArrayThatNotContainsInexistentColumn() {
+	/**
+	 * @test
+	 */
+	public function getColumnsInTableReturnsArrayThatNotContainsInexistentColumn() {
 		$columns = tx_oelib_db::getColumnsInTable(OELIB_TESTTABLE);
 
 		$this->assertFalse(
@@ -378,7 +456,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning getColumnDefinition
 	//////////////////////////////////////////
 
-	public function testGetColumnDefinitionForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function getColumnDefinitionForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -387,7 +468,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::getColumnDefinition('', 'uid');
 	}
 
-	public function testGetColumnDefinitionReturnsArrayThatContainsFieldName() {
+	/**
+	 * @test
+	 */
+	public function getColumnDefinitionReturnsArrayThatContainsFieldName() {
 		$definition = tx_oelib_db::getColumnDefinition(OELIB_TESTTABLE, 'title');
 
 		$this->assertTrue(
@@ -400,7 +484,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests regarding tableHasColumnUid()
 	////////////////////////////////////////
 
-	public function testTableHasColumnUidForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnUidForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -409,19 +496,28 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::tableHasColumnUid('');
 	}
 
-	public function testTableHasColumnUidIsTrueOnTableWithColumnUid() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnUidIsTrueOnTableWithColumnUid() {
 		$this->assertTrue(
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE)
 		);
 	}
 
-	public function testTableHasColumnUidIsFalseOnTableWithoutColumnUid() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnUidIsFalseOnTableWithoutColumnUid() {
 		$this->assertFalse(
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE_MM)
 		);
 	}
 
-	public function testTableHasColumnUidCanReturnDifferentResultsForDifferentTables() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnUidCanReturnDifferentResultsForDifferentTables() {
 		$this->assertNotSame(
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE),
 			tx_oelib_db::tableHasColumnUid(OELIB_TESTTABLE_MM)
@@ -433,7 +529,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests regarding tableHasColumn()
 	/////////////////////////////////////
 
-	public function testTableHasColumnReturnsTrueOnTableWithColumn() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnReturnsTrueOnTableWithColumn() {
 		$this->assertTrue(
 			tx_oelib_db::tableHasColumn(
 				OELIB_TESTTABLE, 'title'
@@ -441,7 +540,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTableHasColumnReturnsFalseOnTableWithoutColumn() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnReturnsFalseOnTableWithoutColumn() {
 		$this->assertFalse(
 			tx_oelib_db::tableHasColumn(
 				OELIB_TESTTABLE, 'inexistent_column'
@@ -449,7 +551,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTableHasColumnThrowsExceptionOnEmptyTableName() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnThrowsExceptionOnEmptyTableName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -460,7 +565,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testTableHasColumnReturnsFalseOnEmptyColumnName() {
+	/**
+	 * @test
+	 */
+	public function tableHasColumnReturnsFalseOnEmptyColumnName() {
 		$this->assertFalse(
 			tx_oelib_db::tableHasColumn(
 				OELIB_TESTTABLE, ''
@@ -473,7 +581,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests for delete
 	/////////////////////
 
-	public function testDeleteForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function deleteForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -484,7 +595,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteDeletesRecord() {
+	/**
+	 * @test
+	 */
+	public function deleteDeletesRecord() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
 		tx_oelib_db::delete(
@@ -498,7 +612,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteForNoDeletedRecordReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function deleteForNoDeletedRecordReturnsZero() {
 		$this->assertSame(
 			0,
 			tx_oelib_db::delete(
@@ -507,7 +624,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteForOneDeletedRecordReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function deleteForOneDeletedRecordReturnsOne() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
 		$this->assertSame(
@@ -518,7 +638,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testDeleteForTwoDeletedRecordsReturnsTwo() {
+	/**
+	 * @test
+	 */
+	public function deleteForTwoDeletedRecordsReturnsTwo() {
 		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
@@ -536,7 +659,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests for update
 	/////////////////////
 
-	public function testUpdateForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function updateForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -547,7 +673,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdateChangesRecord() {
+	/**
+	 * @test
+	 */
+	public function updateChangesRecord() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
 		tx_oelib_db::update(
@@ -561,7 +690,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdateForNoChangedRecordReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function updateForNoChangedRecordReturnsZero() {
 		$this->assertSame(
 			0,
 			tx_oelib_db::update(
@@ -570,7 +702,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdateForOneChangedRecordReturnsOne() {
+	/**
+	 * @test
+	 */
+	public function updateForOneChangedRecordReturnsOne() {
 		$uid = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
 		$this->assertSame(
@@ -581,7 +716,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testUpdateForTwoChangedRecordsReturnsTwo() {
+	/**
+	 * @test
+	 */
+	public function updateForTwoChangedRecordsReturnsTwo() {
 		$uid1 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 		$uid2 = $this->testingFramework->createRecord(OELIB_TESTTABLE);
 
@@ -600,7 +738,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests for insert
 	/////////////////////
 
-	public function testInsertForEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function insertForEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -611,7 +752,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertForEmptyRecordDataThrowsException() {
+	/**
+	 * @test
+	 */
+	public function insertForEmptyRecordDataThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$recordData must not be empty.'
@@ -622,7 +766,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertInsertsRecord() {
+	/**
+	 * @test
+	 */
+	public function insertInsertsRecord() {
 		tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo', 'is_dummy_record' => 1)
 		);
@@ -635,7 +782,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertForTableWithUidReturnsUidOfCreatedRecord() {
+	/**
+	 * @test
+	 */
+	public function insertForTableWithUidReturnsUidOfCreatedRecord() {
 		$uid = tx_oelib_db::insert(
 			OELIB_TESTTABLE, array('is_dummy_record' => 1)
 		);
@@ -648,7 +798,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		);
 	}
 
-	public function testInsertForTableWithoutUidReturnsZero() {
+	/**
+	 * @test
+	 */
+	public function insertForTableWithoutUidReturnsZero() {
 		$this->testingFramework->markTableAsDirty(OELIB_TESTTABLE_MM);
 
 		$this->assertSame(
@@ -907,13 +1060,19 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning getAllTableNames
 	//////////////////////////////////////
 
-	public function testGetAllTableNamesContainsExistingTable() {
+	/**
+	 * @test
+	 */
+	public function getAllTableNamesContainsExistingTable() {
 		$this->assertTrue(
 			in_array(OELIB_TESTTABLE, tx_oelib_db::getAllTableNames())
 		);
 	}
 
-	public function testGetAllTableNamesNotContainsInexistentTable() {
+	/**
+	 * @test
+	 */
+	public function getAllTableNamesNotContainsInexistentTable() {
 		$this->assertFalse(
 			in_array('tx_oelib_doesnotexist', tx_oelib_db::getAllTableNames())
 		);
@@ -924,7 +1083,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning existsTable
 	/////////////////////////////////
 
-	public function testExistsTableWithEmptyTableNameThrowsException() {
+	/**
+	 * @test
+	 */
+	public function existsTableWithEmptyTableNameThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The table name must not be empty.'
@@ -933,13 +1095,19 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::existsTable('');
 	}
 
-	public function testExistsTableForExistingTableReturnsTrue() {
+	/**
+	 * @test
+	 */
+	public function existsTableForExistingTableReturnsTrue() {
 		$this->assertTrue(
 			tx_oelib_db::existsTable(OELIB_TESTTABLE)
 		);
 	}
 
-	public function testExistsTableForInexistentTableReturnsFalse() {
+	/**
+	 * @test
+	 */
+	public function existsTableForInexistentTableReturnsFalse() {
 		$this->assertFalse(
 			tx_oelib_db::existsTable('tx_oelib_doesnotexist')
 		);
@@ -950,7 +1118,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 	// Tests concerning getTcaForTable
 	////////////////////////////////////
 
-	public function testGetTcaForTableReturnsValidTcaArray() {
+	/**
+	 * @test
+	 */
+	public function getTcaForTableReturnsValidTcaArray() {
 		$tca = tx_oelib_db::getTcaForTable(OELIB_TESTTABLE);
 
 		$this->assertTrue(is_array($tca['ctrl']));
@@ -984,7 +1155,10 @@ class tx_oelib_dbTest extends tx_phpunit_testcase {
 		tx_oelib_db::getTcaForTable('tx_oelib_doesnotexist');
 	}
 
-	public function testGetTcaForTableThrowsExceptionOnTableWithoutTca() {
+	/**
+	 * @test
+	 */
+	public function getTcaForTableThrowsExceptionOnTableWithoutTca() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'The table "' . OELIB_TESTTABLE_MM . '" has no TCA.'
