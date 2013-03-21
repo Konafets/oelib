@@ -53,6 +53,25 @@ final class tx_oelib_tests_fixtures_TestingModel extends tx_oelib_Model {
 	}
 
 	/**
+	 * Sets the "header" data item for this model.
+	 *
+	 * @param string $value
+	 *        the value to set, may be empty
+	 */
+	public function setHeader($value) {
+		$this->setAsString('header', $value);
+	}
+
+	/**
+	 * Gets the "header" data item.
+	 *
+	 * @return string the value of the "header" data item, may be empty
+	 */
+	public function getHeader() {
+		return $this->getAsString('header');
+	}
+
+	/**
 	 * Checks whether a data item with a certain key exists.
 	 *
 	 * @param string $key

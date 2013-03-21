@@ -42,22 +42,22 @@ class tx_oelib_Mapper_FederalState extends tx_oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Model_FederalState';
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var array the column names of additional combined keys
 	 */
-	protected $additionalKeys = array('zn_code');
+	protected $compoundKeyParts = array('zn_country_iso_2', 'zn_code');
 
 	/**
-	 * Finds a federal state by its ISO 3166-1 alpha-2 code.
+	 * Finds a federal state by its ISO 3166-1 and ISO 3166-2 code.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no record with the provided ISO 3166-1 alpha-2 code
-	 *
-	 * @param string $isoAlpha2Code
-	 *        the ISO 3166-1 alpha-2 code to find, must not be empty
+	 * @param string $isoAlpha2CountryCode
+	 *        the ISO 3166-1 alpha-2 country code to find, must not be empty
+	 * @param string $isoAlpha2ZoneCode
+	 *        the ISO 3166-2 code to find, must not be empty
 	 *
 	 * @return tx_oelib_Model_FederalState the federal state with the requested code
 	 */
-	public function findByIsoAlpha2Code($isoAlpha2Code) {
-		return $this->findOneByKey('zn_code', $isoAlpha2Code);
+	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode($isoAlpha2CountryCode, $isoAlpha2ZoneCode) {
+		return $this->findOneByCompoundKey(array('zn_country_iso_2' => $isoAlpha2CountryCode, 'zn_code' => $isoAlpha2ZoneCode));
 	}
 }
 

@@ -91,22 +91,44 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	/**
 	 * @test
 	 */
-	public function getIsoAlphaTwoCodeInitiallyReturnsEmptyString() {
+	public function getIsoCountryCodeInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getIsoAlphaTwoCode()
+			$this->fixture->getIsoCountryCode()
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function setIsoAlphaTwoCodeSetsIsoAlphaTwoCode() {
-		$this->fixture->setIsoAlphaTwoCode('NW');
+	public function setIsoCountryCodeSetsIsoAlphaTwoCode() {
+		$this->fixture->setIsoCountryCode('DE');
+
+		$this->assertSame(
+			'DE',
+			$this->fixture->getIsoCountryCode()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getIsoZoneCodeInitiallyReturnsEmptyString() {
+		$this->assertSame(
+			'',
+			$this->fixture->getIsoZoneCode()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setIsoZoneCodeSetsIsoAlphaTwoCode() {
+		$this->fixture->setIsoZoneCode('NW');
 
 		$this->assertSame(
 			'NW',
-			$this->fixture->getIsoAlphaTwoCode()
+			$this->fixture->getIsoZoneCode()
 		);
 	}
 }

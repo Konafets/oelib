@@ -55,11 +55,20 @@ class tx_oelib_Model_FederalState extends tx_oelib_Model {
 	}
 
 	/**
-	 * Returns the ISO 3166-1 alpha-2 code, e.g., "NW".
+	 * Returns the ISO 3166-1 alpha-2 code, e.g., "DE".
 	 *
 	 * @return string the ISO 3166-1 alpha-2 code, will not be empty
 	 */
 	public function getIsoAlpha2Code() {
+		return $this->getAsString('zn_country_iso_2');
+	}
+
+	/**
+	 * Returns the ISO 3166-2 alpha-2 code, e.g., "NW".
+	 *
+	 * @return string the ISO 3166-2 alpha-2 code, will not be empty
+	 */
+	public function getIsoAlpha2ZoneCode() {
 		return $this->getAsString('zn_code');
 	}
 }

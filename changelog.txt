@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4604] Feature: Add model caching by compound keys
 - [#4626] Cleanup: Fix all instances of "Missing function doc comment"
 - [#4647] Cleanup: Deprecate TemplateHelper::pi_getPidList
 - [#4625] Cleanup: Fix all instances of "Underscores are not allowed in method names"

@@ -44,7 +44,12 @@ class Tx_Oelib_Domain_Model_FederalState extends Tx_Extbase_DomainObject_Abstrac
 	/**
 	 * @var string
 	 */
-	protected $isoAlphaTwoCode = '';
+	protected $isoCountryCode = '';
+
+	/**
+	 * @var string
+	 */
+	protected $isoZoneCode = '';
 
 	/**
 	 * Gets the local name of this federal state, e.g., "Nordrhein-Westfalen".
@@ -91,25 +96,47 @@ class Tx_Oelib_Domain_Model_FederalState extends Tx_Extbase_DomainObject_Abstrac
 	}
 
 	/**
-	 * Gets the ISO 3166 alpha-2 code of this federal state, e.g., "NW".
+	 * Gets the ISO 3166-1 code (country code) of this federal state, e.g., "DE".
 	 *
 	 * @return string
-	 *         the ISO 3166 alpha-2 code, will not be empty for proper models from the database
+	 *         the ISO 3166-1 code (country code), will not be empty for proper models from the database
 	 */
-	public function getIsoAlphaTwoCode() {
-		return $this->isoAlphaTwoCode;
+	public function getIsoCountryCode() {
+		return $this->isoCountryCode;
 	}
 
 	/**
-	 * Sets the ISO 3166 alpha-2 code of this federal state, e.g., "NW".
+	 * Sets the ISO 3166-1 code (country code) of this federal state, e.g., "DE".
 	 *
 	 * @param string $code
-	 *        the 3166 ISO alpha-2 code, must not be empty
+	 *        the ISO 3166-1 code (country code), must not be empty
 	 *
 	 * @return void
 	 */
-	public function setIsoAlphaTwoCode($code) {
-		$this->isoAlphaTwoCode = $code;
+	public function setIsoCountryCode($code) {
+		$this->isoCountryCode = $code;
+	}
+
+	/**
+	 * Gets the ISO 3166-2 code (country subdivision) of this federal state, e.g., "NW".
+	 *
+	 * @return string
+	 *         the ISO 3166-2 code (country subdivision), will not be empty for proper models from the database
+	 */
+	public function getIsoZoneCode() {
+		return $this->isoZoneCode;
+	}
+
+	/**
+	 * Sets the ISO 3166-2 code (country subdivision) of this federal state, e.g., "NW".
+	 *
+	 * @param string $code
+	 *        the 3166-2 ISO code (country subdivision), must not be empty
+	 *
+	 * @return void
+	 */
+	public function setIsoZoneCode($code) {
+		$this->isoZoneCode = $code;
 	}
 }
 ?>

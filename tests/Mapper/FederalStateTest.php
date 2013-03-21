@@ -66,32 +66,32 @@ class tx_oelib_Mapper_FederalStateTest extends tx_phpunit_testcase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'NW',
-			$this->fixture->find(88)->getIsoAlpha2Code()
+			$this->fixture->find(88)->getIsoAlpha2ZoneCode()
 		);
 	}
 
 
-	/*
+	/**
 	 * Tests concerning findByIsoAlpha2Code
 	 *
 
 	/**
 	 * @test
 	 */
-	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsFederalStateInstance() {
+	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsFederalStateInstance() {
 		$this->assertInstanceOf(
 			'tx_oelib_Model_FederalState',
-			$this->fixture->findByIsoAlpha2Code('NW')
+			$this->fixture->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
+	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'NW',
-			$this->fixture->findByIsoAlpha2Code('NW')->getIsoAlpha2Code()
+			$this->fixture->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')->getIsoAlpha2ZoneCode()
 		);
 	}
 }

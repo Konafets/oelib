@@ -3043,6 +3043,155 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	}
 
 
+	/*
+	 * Tests concerning compound key
+	 */
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findOneByCompoundKeyFromCacheForEmptyCompoundKeyThrowsException() {
+		$this->fixture->findOneByCompoundKeyFromCache('bar');
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function findOneByCompoundKeyFromCacheForEmptyValueThrowsException() {
+		$this->fixture->findOneByCompoundKeyFromCache('');
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findOneByCompoundKeyFromCacheForModelNotInCacheThrowsException() {
+		$this->fixture->findOneByCompoundKeyFromCache('foo.bar');
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByCompoundKeyFindsLoadedModel() {
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByCompoundKeyFromCache('Earl Grey.Tea Time')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByCompoundKeyFindsLastLoadedModelWithSameCompoundKey() {
+		$this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByCompoundKeyFromCache('Earl Grey.Tea Time')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByCompoundKeyFindsSavedModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+		$model = $this->fixture->find($uid);
+		$model->setTitle('Earl Grey');
+		$model->setHeader('Tea Time');
+		$this->fixture->save($model);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByCompoundKeyFromCache('Earl Grey.Tea Time')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findByCompoundKeyFindsLastSavedModelWithSameCompoundKey() {
+		$uid1 = $this->testingFramework->createRecord('tx_oelib_test');
+		$model1 = $this->fixture->find($uid1);
+		$model1->setTitle('Earl Grey');
+		$model1->setHeader('Tea Time');
+		$this->fixture->save($model1);
+
+		$uid2 = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+		$model2 = $this->fixture->find($uid2);
+		$model2->setTitle('Earl Grey');
+		$model2->setHeader('Tea Time');
+		$this->fixture->save($model2);
+
+		$this->assertSame(
+			$model2,
+			$this->fixture->findOneByCompoundKeyFromCache('Earl Grey.Tea Time')
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function findOneByCompoundKeyForEmptyCompoundKeyThrowsException() {
+		$this->fixture->findOneByCompoundKey(array());
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByCompoundKeyCanFindModelFromCache() {
+		$model = $this->fixture->getLoadedTestingModel(
+			array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+
+		$this->assertSame(
+			$model,
+			$this->fixture->findOneByCompoundKey(array('title' => 'Earl Grey', 'header' => 'Tea Time'))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function findOneByCompoundKeyCanLoadModelFromDatabase() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'Earl Grey', 'header' => 'Tea Time')
+		);
+
+		$this->assertSame(
+			$uid,
+			$this->fixture->findOneByCompoundKey(array('title' => 'Earl Grey', 'header' => 'Tea Time'))->getUid()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException tx_oelib_Exception_NotFound
+	 */
+	public function findOneByCompoundKeyForNonExistentThrowsException() {
+		$this->fixture->findOneByCompoundKey(array('title' => 'Darjeeling', 'header' => 'Tea Time'));
+	}
+
+
 	////////////////////////////
 	// Tests concerning delete
 	////////////////////////////

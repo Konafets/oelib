@@ -73,10 +73,27 @@ abstract class tx_oelib_DataMapper {
 	protected $additionalKeys = array();
 
 	/**
+	 * The column names of an additional compound key.
+	 * There can only be one compound key per data mapper.
+	 *
+	 * @var array
+	 */
+	protected $compoundKeyParts = array();
+
+	/**
 	 * @var array two-dimensional cache for the objects by key:
 	 *            [key name][key value] => model
 	 */
 	private $cacheByKey = array();
+
+	/**
+	 * Cache for the objects by compound key:
+	 * [compound key value] => model
+	 * The column values are concatenated via a dot as compound key value.
+	 *
+	 * @var array
+	 */
+	protected $cacheByCompoundKey = array();
 
 	/**
 	 * @var boolean whether database access is denied for this mapper
@@ -1178,22 +1195,23 @@ abstract class tx_oelib_DataMapper {
 	 * When this function reports "no match", the model could still exist in the
 	 * database, though.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
-	 *
 	 * @param string $key an existing key, must not be empty
 	 * @param string $value
 	 *        the value for the key of the model to find, must not be empty
 	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
+	 *
 	 * @return tx_oelib_Model the cached model
 	 */
 	protected function findOneByKeyFromCache($key, $value) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty.');
 		}
 		if (!isset($this->cacheByKey[$key])) {
 			throw new InvalidArgumentException('"' . $key . '" is not a valid key for this mapper.', 1331319882);
 		}
-		if ($value == '') {
+		if ($value === '') {
 			throw new InvalidArgumentException('$value must not be empty.', 1331319892);
 		}
 
@@ -1202,6 +1220,32 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return $this->cacheByKey[$key][$value];
+	}
+
+	/**
+	 * Looks up a model in the compound cache.
+	 *
+	 * When this function reports "no match", the model could still exist in the
+	 * database, though.
+	 *
+	 * @param string $value
+	 *        the value for the compound key of the model to find, must not be empty
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	public function findOneByCompoundKeyFromCache($value) {
+		if ($value === '') {
+			throw new InvalidArgumentException('$value must not be empty.', 1331319992);
+		}
+
+		if (!isset($this->cacheByCompoundKey[$value])) {
+			throw new tx_oelib_Exception_NotFound();
+		}
+
+		return $this->cacheByCompoundKey[$value];
 	}
 
 	/**
@@ -1223,22 +1267,42 @@ abstract class tx_oelib_DataMapper {
 			}
 		}
 
-		$this->cacheModelByCombinedKeys($model, $data);
+		if (!empty($this->compoundKeyParts)) {
+			$this->cacheModelByCompoundKey($model, $data);
+		}
 	}
 
 	/**
-	 * Caches a model by additional combined keys.
+	 * Caches a model by additional compound key.
 	 *
-	 * This function can be overwritten in subclasses for additional caching.
+	 * It is cached only if all parts of the compound key have values.
 	 *
 	 * @param tx_oelib_Model $model the model to cache
 	 * @param array $data the data of the model as it is in the DB, may be empty
 	 *
+	 * @throws BadMethodCallException
+	 *
 	 * @return void
 	 */
-	protected function cacheModelByCombinedKeys(
-		tx_oelib_Model $model, array $data
-	) {}
+	protected function cacheModelByCompoundKey(tx_oelib_Model $model, array $data) {
+		if (empty($this->compoundKeyParts)) {
+			throw new BadMethodCallException(
+				'The compound key parts are not defined.', 1363806895
+			);
+		}
+		$values = array();
+		foreach ($this->compoundKeyParts as $key) {
+			if (isset($data[$key])) {
+				$values[] = $data[$key];
+			}
+		}
+		if (count($this->compoundKeyParts) === count($values)) {
+			$value = implode('.', $values);
+			if ($value !== '') {
+				$this->cacheByCompoundKey[$value] = $model;
+			}
+		}
+	}
 
 	/**
 	 * Looks up a model by key.
@@ -1263,6 +1327,61 @@ abstract class tx_oelib_DataMapper {
 		}
 
 		return $model;
+	}
+
+	/**
+	 * Looks up a model by a compound key.
+	 *
+	 * This function will first check the cache-by-key and, if there is no match,
+	 * will try to find the model in the database.
+	 *
+	 * @param array $compoundKeyValues
+	 *        existing key value pairs, must not be empty
+	 *        The array must have all the keys that are set in the additionalCompoundKey array.
+	 *        The array values contain the model data with which to look up.
+	 *
+	 * @throws InvalidArgumentException if parameter array $keyValue is empty
+	 * @throws tx_oelib_Exception_NotFound if there is no match (neither in the cache nor in the database)
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	public function findOneByCompoundKey(array $compoundKeyValues) {
+		if (empty($compoundKeyValues)) {
+			throw new InvalidArgumentException(get_class($this) . '::compoundKeyValues must not be empty.', 1354976660);
+		}
+
+		try {
+			$model = $this->findOneByCompoundKeyFromCache($this->extractCompoundKeyValues($compoundKeyValues));
+		} catch (tx_oelib_Exception_NotFound $exception) {
+			$model = $this->findSingleByWhereClause($compoundKeyValues);
+		}
+
+		return $model;
+	}
+
+	/**
+	 * Extracting the key value from model data.
+	 *
+	 * @param array $compoundKeyValues
+	 *        existing key value pairs, must not be empty
+	 *        The array must have all the keys that are set in the additionalCompoundKey array.
+	 *        The array values contain the model data with which to look up.
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @return string Contains the values for the compound key parts concatenated with a dot.
+	 *
+	 */
+	protected function extractCompoundKeyValues(array $compoundKeyValues) {
+		$values = array();
+		foreach ($this->compoundKeyParts as $key) {
+			if (!isset($compoundKeyValues[$key])) {
+				throw new InvalidArgumentException(get_class($this) . '::keyValue does not contain all compound keys.', 1354976661);
+			}
+			$values[] = $compoundKeyValues[$key];
+		}
+
+		return implode('.', $values);
 	}
 
 	/**

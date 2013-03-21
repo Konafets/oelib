@@ -81,8 +81,20 @@ class tx_oelib_Model_FederalStateTest extends tx_phpunit_testcase {
 		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
 
 		$this->assertSame(
-			'NW',
+			'DE',
 			$model->getIsoAlpha2Code()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getIsoAlpha2ZoneCodeReturnsIsoAlpha2ZoneCodeOfNorthRhineWestphalia() {
+		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+
+		$this->assertSame(
+			'NW',
+			$model->getIsoAlpha2ZoneCode()
 		);
 	}
 

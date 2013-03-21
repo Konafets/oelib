@@ -25,6 +25,7 @@ CREATE TABLE tx_oelib_test (
 	float_data float(9,6) DEFAULT '0.000000' NOT NULL,
 	decimal_data decimal(10,3) DEFAULT '0.000' NOT NULL,
 	string_data tinytext,
+	header tinytext,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),

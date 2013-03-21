@@ -16,7 +16,8 @@ config.tx_extbase.persistence.classes {
 		columns {
 			zn_name_local.mapOnProperty = localName
 			zn_name_en.mapOnProperty = englishName
-			zn_code.mapOnProperty = isoAlphaTwoCode
+			zn_country_iso_2.mapOnProperty = isoCountryCode
+			zn_code.mapOnProperty = isoZoneCode
 		}
 	}
 }

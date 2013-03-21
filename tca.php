@@ -144,6 +144,13 @@ $TCA['tx_oelib_test'] = array(
 				'MM_opposite_field' => 'related_records',
 			),
 		),
+		'header' => array(
+			'exclude' => 0,
+			'config' => array(
+				'type' => 'none',
+				'size' => '30',
+			),
+		),
 	),
 	'types' => array(
 		'0' => array('showitem' => 'title;;;;2-2-2, friend, owner, children, related_records, composition'),

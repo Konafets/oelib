@@ -62,6 +62,11 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	protected $additionalKeys = array('title');
 
 	/**
+	 * @var array the column names of an additional compound key
+	 */
+	protected $compoundKeyParts = array('title', 'header');
+
+	/**
 	 * Sets the map for this mapper.
 	 *
 	 * This function is intendend to be used for testing purposes only.
@@ -155,6 +160,27 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 */
 	public function findOneByKeyFromCache($key, $value) {
 		return parent::findOneByKeyFromCache($key, $value);
+	}
+
+	/**
+	 * Looks up a model in the cache by compound key.
+	 *
+	 * When this function reports "no match", the model could still exist in the
+	 * database, though.
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
+	 *
+	 * @param string $value
+	 *        the value for the compound key of the model to find, must not be empty
+	 *
+	 * @return tx_oelib_Model the cached model
+	 */
+	public function findOneByTitleAndHeader($title, $header) {
+		$value = array();
+		$value['title'] = $title;
+		$value['header'] = $header;
+
+		return $this->findOneByCompoundKeyFromCache($value);
 	}
 }
 ?>
