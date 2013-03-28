@@ -341,6 +341,18 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getModelSavesModelToCacheByKeys() {
+		$model = $this->fixture->getModel(array('uid' => 2));
+
+		$this->assertSame(
+			array($model),
+			$this->fixture->getCachedModels()
+		);
+	}
+
 
 	/////////////////////////////////////
 	// Tests concerning getListOfModels
@@ -2114,6 +2126,27 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			)
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function saveAddsModelToCache() {
+		$uid = $this->testingFramework->createRecord(
+			'tx_oelib_test', array('title' => 'foo')
+		);
+
+
+		$model = $this->fixture->find($uid);
+		$model->setTitle('bar');
+		$this->fixture->save($model);
+
+		$cachedModels = $this->fixture->getCachedModels();
+		$this->assertSame(
+			$model->getUid(),
+			$cachedModels[0]->getUid()
+		);
+	}
+
 
 	/**
 	 * @test

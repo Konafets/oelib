@@ -67,6 +67,22 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	protected $compoundKeyParts = array('title', 'header');
 
 	/**
+	 * @var array<tx_oelib_Model>
+	 */
+	protected $cachedModels = array();
+
+	/**
+	 * Gets the cached models.
+	 *
+	 * This function is intented for testing whether models have been cached.
+	 *
+	 * @return array<tx_oelib_Model>
+	 */
+	public function getCachedModels() {
+		return $this->cachedModels;
+	}
+
+	/**
 	 * Sets the map for this mapper.
 	 *
 	 * This function is intendend to be used for testing purposes only.
@@ -163,17 +179,35 @@ class tx_oelib_tests_fixtures_TestingMapper extends tx_oelib_DataMapper {
 	}
 
 	/**
+	 * Caches a model by an additional compound key.
+	 *
+	 * This method needs to be overwritten in subclasses to work. However, it is recommended to use cacheModelByCompoundKey
+	 * instead. So this method primarily is here for backwards compatibility.
+	 *
+	 * @param tx_oelib_Model $model the model to cache
+	 * @param array $data the data of the model as it is in the DB, may be empty
+	 *
+	 * @return void
+	 *
+	 * @see cacheModelByCompoundKey
+	 */
+	protected function cacheModelByCombinedKeys(tx_oelib_Model $model, array $data) {
+		$this->cachedModels[] = $model;
+	}
+
+	/**
 	 * Looks up a model in the cache by compound key.
 	 *
 	 * When this function reports "no match", the model could still exist in the
 	 * database, though.
 	 *
-	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
 	 *
-	 * @param string $value
-	 *        the value for the compound key of the model to find, must not be empty
+	 * @param string $title
+	 * @param string $header
 	 *
 	 * @return tx_oelib_Model the cached model
+	 *
+	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
 	 */
 	public function findOneByTitleAndHeader($title, $header) {
 		$value = array();

@@ -1267,15 +1267,33 @@ abstract class tx_oelib_DataMapper {
 			}
 		}
 
+		$this->cacheModelByCombinedKeys($model, $data);
 		if (!empty($this->compoundKeyParts)) {
 			$this->cacheModelByCompoundKey($model, $data);
 		}
 	}
 
 	/**
-	 * Caches a model by additional compound key.
+	 * Caches a model by an additional compound key.
+	 *
+	 * This method needs to be overwritten in subclasses to work. However, it is recommended to use cacheModelByCompoundKey
+	 * instead. So this method primarily is here for backwards compatibility.
+	 *
+	 * @param tx_oelib_Model $model the model to cache
+	 * @param array $data the data of the model as it is in the DB, may be empty
+	 *
+	 * @return void
+	 *
+	 * @see cacheModelByCompoundKey
+	 */
+	protected function cacheModelByCombinedKeys(tx_oelib_Model $model, array $data) {}
+
+	/**
+	 * Automatically caches a model by an additional compound key.
 	 *
 	 * It is cached only if all parts of the compound key have values.
+	 *
+	 * This method works automatically; it is not necessary to overwrite it.
 	 *
 	 * @param tx_oelib_Model $model the model to cache
 	 * @param array $data the data of the model as it is in the DB, may be empty
