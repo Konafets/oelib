@@ -158,6 +158,17 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
+	 * Sets the company.
+	 *
+	 * @param string $company the company set, may be empty
+	 *
+	 * @return void
+	 */
+	public function setCompany($company) {
+		$this->setAsString('company', $company);
+	}
+
+	/**
 	 * Gets this user's street.
 	 *
 	 * @return string this user's street, may be multi-line, may be empty

@@ -405,6 +405,19 @@ class tx_oelib_Model_FrontEndUserTest extends tx_phpunit_testcase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setCompanySetsCompany() {
+		$this->fixture->setCompany('Test Inc.');
+
+		$this->assertSame(
+			'Test Inc.',
+			$this->fixture->getCompany()
+		);
+	}
+
+
 
 	////////////////////////////////////////
 	// Tests concerning getting the street
