@@ -1804,7 +1804,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function saveForDirtyLoadedModelWithoutUidSetsCrdate() {
+	public function saveForDirtyLoadedModelWithoutUidSetsCreationDate() {
 		$model = new tx_oelib_tests_fixtures_TestingModel();
 
 		$data = array('is_dummy_record' => '1', 'title' => 'bar');
@@ -1986,7 +1986,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 	/**
 	 * @test
 	 */
-	public function saveForModelWith1NRelationSavesNewRelatedRecord() {
+	public function saveForModelWith1NRelationSavesFirstNewRelatedRecord() {
 		$model = $this->fixture->find(
 			$this->testingFramework->createRecord('tx_oelib_test')
 		);
@@ -2003,6 +2003,34 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 				'tx_oelib_testchild',
 				'uid = ' . $component->getUid() .
 					' AND parent = ' . $model->getUid()
+			)
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function saveForModelWith1NRelationSavesSecondNewRelatedRecord() {
+		$model = $this->fixture->find(
+			$this->testingFramework->createRecord('tx_oelib_test')
+		);
+		$model->setTitle('bar');
+
+		$newComponent1 = new tx_oelib_tests_fixtures_TestingChildModel();
+		$newComponent1->markAsDummyModel();
+		$model->getComposition()->add($newComponent1);
+
+		$newComponent2 = new tx_oelib_tests_fixtures_TestingChildModel();
+		$newComponent2->markAsDummyModel();
+		$model->getComposition()->add($newComponent2);
+
+		$this->fixture->save($model);
+
+		$this->assertTrue(
+			$this->testingFramework->existsRecord(
+				'tx_oelib_testchild',
+				'uid = ' . $newComponent2->getUid() .
+				' AND parent = ' . $model->getUid()
 			)
 		);
 	}

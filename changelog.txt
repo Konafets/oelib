@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4732] Bugfix: For 1:n relations, the second related model gets marked as deleted
 - [#4686] Feature: Add FrontEndUser.setCompany (thanks to Tomas Norre Mikkelsen)
 - [#4673] Bugfix: Re-add DataMapper::cacheModelByCombinedKeys
 - [#4604] Feature: Add model caching by compound keys

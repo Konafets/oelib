@@ -947,7 +947,7 @@ abstract class tx_oelib_DataMapper {
 			$getter = 'get' . $foreignKey;
 			$setter = 'set' . $foreignKey;
 
-			foreach ($relatedModels as $relatedModel) {
+			foreach ($relatedModels->toArray() as $relatedModel) {
 				if (!method_exists($relatedModel, $getter)) {
 					throw new BadMethodCallException(
 						'The class ' . get_class($relatedModel) . ' is missing the function ' . $getter .
