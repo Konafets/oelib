@@ -46,6 +46,16 @@ class tx_oelib_ModelTest extends tx_phpunit_testcase {
 		unset($this->fixture);
 	}
 
+	/**
+	 * Loading function stub.
+	 *
+	 * @param tx_oelib_Model $model
+	 *
+	 * @return void
+	 */
+	public function load(tx_oelib_Model $model) {
+	}
+
 
 	//////////////////////////////////////
 	// Tests for the basic functionality
