@@ -3721,17 +3721,39 @@ class tx_oelib_TestingFrameworkTest extends tx_phpunit_testcase {
 
 	/**
 	 * @test
+	 *
+	 * @expectedException PHPUnit_Framework_Error_Warning
 	 */
-	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
+	public function deleteDummyFolderWithNonEmptyDummyFolderRaisesWarning() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 below version 6.2.');
+		}
+
 		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
 		$this->fixture->createDummyFile(
 			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
-				'/test.txt'
+			'/test.txt'
 		);
 
-		$this->setExpectedException(
-			'RuntimeException',
-			'The folder "' . $dummyFolder . '" could not be deleted.'
+		$this->fixture->deleteDummyFolder(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder)
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException t3lib_exception
+	 */
+	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 6.2 and above.');
+		}
+
+		$dummyFolder = $this->fixture->createDummyFolder('test_folder');
+		$this->fixture->createDummyFile(
+			$this->fixture->getPathRelativeToUploadDirectory($dummyFolder) .
+			'/test.txt'
 		);
 
 		$this->fixture->deleteDummyFolder(
