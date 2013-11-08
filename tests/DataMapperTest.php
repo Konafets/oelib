@@ -2861,7 +2861,7 @@ class tx_oelib_DataMapperTest extends tx_phpunit_testcase {
 			->method('findByWhereClause')
 			->with('', '', '');
 
-		$fixture->findByPageUid();
+		$fixture->findByPageUid('');
 	}
 
 	/**
