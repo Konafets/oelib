@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4781] Cleanup: Move the unit tests to Tests/Unit
 - [#4741] Bugfix: Exception in deleteDummyFolderWithNonEmptyDummyFolderThrowsException
 - [#4739] Bugfix: Test error in tx_oelib_DataMapperTest
 - [#4740] Bugfix: Test error in tx_oelib_ModelTest

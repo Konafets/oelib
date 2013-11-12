@@ -29,6 +29,8 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  *
  * In addition, it loads the common constants.
  *
+ * This class is deprecated. Please use the extbase or TYPO3 CMS autoloader instead.
+ *
  * @package TYPO3
  * @subpackage tx_oelib
  *
@@ -49,18 +51,17 @@ class tx_oelib_Autoloader {
 		// where they are included.
 		global $TYPO3_CONF_VARS;
 
-		if ($className == '') {
+		if ($className === '') {
 			return FALSE;
 		}
 
-		if (class_exists($className, FALSE)
-			|| interface_exists($className, FALSE)
+		if (class_exists($className, FALSE) || interface_exists($className, FALSE)
 		) {
 			return TRUE;
 		}
 
 		$path = self::createPath($className);
-		if (($path != '') && (is_readable($path))) {
+		if (($path !== '') && (is_readable($path))) {
 			include_once($path);
 			$result = TRUE;
 		} else {
@@ -74,29 +75,25 @@ class tx_oelib_Autoloader {
 	 * Creates a path from a class name.
 	 *
 	 * @param string $className
-	 *        class name in the format tx_myext_Dir1_Dir2_MyClass, must not be empty
+	 *        class name in the format tx_myext_Dir1_Dir2_MyClass or Tx_MyExt_Dir1_Dir2_MyClass, must not be empty
 	 *
-	 * @return string the path to that class, will be empty if the path could
-	 *                not be created
+	 * @return string the path to that class, will be empty if the path could not be created
 	 */
 	private static function createPath($className) {
 		$matches = array();
 
-		if (!preg_match(
-			'/tx_([a-z0-9]+)_((?:[a-zA-Z0-9]+_)*)(?:[a-zA-Z0-9]+)/', $className, $matches
-		)) {
+		if (!preg_match('/[tT]x_([a-zA-Z0-9]+)_((?:[a-zA-Z0-9]+_)*)(?:[a-zA-Z0-9]+)/', $className, $matches)) {
 			return '';
 		}
 
-		$extensionKey = $matches[1];
+		$extensionKey = strtolower($matches[1]);
 		if (!t3lib_extMgm::isLoaded($extensionKey)) {
 			return '';
 		}
 
 		$directories = str_replace('_', '/', $matches[2]);
 
-		return t3lib_extMgm::extPath($extensionKey) . $directories . 'class.' .
-			$className . '.php';
+		return t3lib_extMgm::extPath($extensionKey) . $directories . 'class.' . $className . '.php';
 	}
 }
 

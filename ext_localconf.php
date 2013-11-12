@@ -3,8 +3,8 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/tests/fixtures/class.tx_oelib_tests_fixtures_Empty.php']
-	= t3lib_extMgm::extPath('oelib') . 'tests/fixtures/xclass/class.ux_tx_oelib_tests_fixtures_Empty.php';
+$GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Tests/Unit/Fixtures/Empty.php']
+	= t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/Xclass/Empty.php';
 
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_oelib_Double3Validator'] = 'EXT:oelib/class.tx_oelib_Double3Validator.php';
 
