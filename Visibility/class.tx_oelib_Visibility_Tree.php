@@ -23,8 +23,6 @@
 ***************************************************************/
 
 /**
- * Test case.
- *
  * This class represents a visibility tree.
  *
  * @package TYPO3
