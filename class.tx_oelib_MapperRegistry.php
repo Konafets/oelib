@@ -126,19 +126,22 @@ class tx_oelib_MapperRegistry {
 	 * @param string $className the name of an existing mapper class, must not be empty
 	 *
 	 * @return tx_oelib_DataMapper the mapper with the class $className
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	private function getByClassName($className) {
 		if ($className == '') {
 			throw new InvalidArgumentException('$className must not be empty.', 1331488868);
 		}
-		if (!preg_match('/^tx_[a-z0-9]+_[a-zA-Z_]+/', $className)) {
+		if (!preg_match('/^[tT]x_[A-Za-z0-9]+_[a-zA-Z_]+/', $className)) {
 			throw new InvalidArgumentException(
 				'$className must be in the format tx_extensionname[_Folder]_ClassName, but was "' . $className . '".',
 				1331488887
 			);
 		}
+		$unifiedClassName = self::unifyClassName($className);
 
-		if (!isset($this->mappers[$className])) {
+		if (!isset($this->mappers[$unifiedClassName])) {
 			if (!class_exists($className, TRUE)) {
 				throw new tx_oelib_Exception_NotFound(
 					'No mapper class "' . $className . '" could be found.'
@@ -146,10 +149,10 @@ class tx_oelib_MapperRegistry {
 			}
 
 			if ($this->testingMode) {
-				$testingClassName = $className . 'Testing';
+				$testingClassName = $unifiedClassName . 'Testing';
 				if (!class_exists($testingClassName, FALSE)) {
 					eval(
-						'class ' . $testingClassName . ' extends ' . $className .
+						'class ' . $testingClassName . ' extends ' . $unifiedClassName .
 							' {' .
 							'private $testingFramework;' .
 							'public function __destruct() {' .
@@ -176,19 +179,29 @@ class tx_oelib_MapperRegistry {
 							'}'
 					);
 				}
-				$this->mappers[$className] = new $testingClassName();
-				$this->mappers[$className]->setTestingFramework($this->testingFramework);
+				$this->mappers[$unifiedClassName] = new $testingClassName();
+				$this->mappers[$unifiedClassName]->setTestingFramework($this->testingFramework);
 			} else {
-				$this->mappers[$className]
-					= tx_oelib_ObjectFactory::make($className);
+				$this->mappers[$unifiedClassName] = tx_oelib_ObjectFactory::make($unifiedClassName);
 			}
 		}
 
 		if ($this->denyDatabaseAccess) {
-			$this->mappers[$className]->disableDatabaseAccess();
+			$this->mappers[$unifiedClassName]->disableDatabaseAccess();
 		}
 
-		return $this->mappers[$className];
+		return $this->mappers[$unifiedClassName];
+	}
+
+	/**
+	 * Unifies a class name to a common format.
+	 *
+	 * @param string $className the class name to unify, must not be empty
+	 *
+	 * @return string the unified class name
+	 */
+	protected static function unifyClassName($className) {
+		return strtolower($className);
 	}
 
 	/**
@@ -229,7 +242,7 @@ class tx_oelib_MapperRegistry {
 	 * @return void
 	 */
 	static public function set($className, tx_oelib_DataMapper $mapper) {
-		self::getInstance()->setByClassName($className, $mapper);
+		self::getInstance()->setByClassName(self::unifyClassName($className), $mapper);
 	}
 
 	/**

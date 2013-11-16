@@ -107,14 +107,11 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 
 	/**
 	 * @test
+	 *
+	 * @expectedException Tx_Oelib_Exception_NotFound
 	 */
 	public function getForInexistentClassThrowsNotFoundException() {
-		$this->setExpectedException(
-			'tx_oelib_Exception_NotFound',
-			'No mapper class "tx_oelib_inexistentMapper" could be found.'
-		);
-
-		tx_oelib_MapperRegistry::get('tx_oelib_inexistentMapper');
+		tx_oelib_MapperRegistry::get('Tx_Oelib_InexistentMapper');
 	}
 
 	/**
@@ -122,8 +119,28 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getForExistingClassReturnsObjectOfRequestedClass() {
 		$this->assertTrue(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 				instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getForExistingClassWithExtbaseCapitalizationReturnsObjectOfRequestedClass() {
+		$this->assertTrue(
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
+			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getForExistingClassWithAllLowercaseReturnsObjectOfRequestedClass() {
+		$this->assertTrue(
+			tx_oelib_MapperRegistry::get('tx_oelib_tests_unit_fixtures_testingmapper')
+			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
 		);
 	}
 
@@ -132,8 +149,8 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getForExistingClassCalledTwoTimesReturnsTheSameInstance() {
 		$this->assertSame(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper'),
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper'),
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 		);
 	}
 
@@ -149,7 +166,7 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		tx_oelib_MapperRegistry::denyDatabaseAccess();
 
 		$this->assertFalse(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
 
@@ -157,11 +174,11 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAfterDenyDatabaseAccessReturnsExistingMapperInstanceWithDatabaseAccessDisabled() {
-		tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper');
+		tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper');
 		tx_oelib_MapperRegistry::denyDatabaseAccess();
 
 		$this->assertFalse(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
 
@@ -174,7 +191,7 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		tx_oelib_MapperRegistry::purgeInstance();
 
 		$this->assertTrue(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
 
@@ -187,8 +204,8 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertTrue(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
-				instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapperTesting
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
+				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapper
 		);
 	}
 
@@ -202,8 +219,8 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		tx_oelib_MapperRegistry::purgeInstance();
 
 		$this->assertFalse(
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
-				instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapperTesting
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
+				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapperTesting
 		);
 	}
 
@@ -218,45 +235,70 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function getReturnsMapperSetViaSet() {
 		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
 		tx_oelib_MapperRegistry::set(
-			'tx_oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
+			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
 		);
 
 		$this->assertSame(
 			$mapper,
-			tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
+			tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 		);
 	}
 
 	/**
 	 * @test
+	 */
+	public function getWithAllLowercaseReturnsMapperSetViaSetWithExtbaseCasing() {
+		$className = 'Tx_Oelib_AnotherTestingMapper';
+
+		/** @var $mapper Tx_Oelib_Tests_Unit_Fixtures_TestingMapper */
+		$mapper = $this->getMock('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', array(), array(), $className);
+		tx_oelib_MapperRegistry::set($className, $mapper);
+
+		$this->assertSame(
+			$mapper,
+			tx_oelib_MapperRegistry::get(strtolower($className))
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getWithExtbaseCasingReturnsMapperSetViaSetWithAllLowercase() {
+		$className = 'Tx_Oelib_AnotherTestingMapper';
+
+		/** @var $mapper Tx_Oelib_Tests_Unit_Fixtures_TestingMapper */
+		$mapper = $this->getMock('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', array(), array(), $className);
+		tx_oelib_MapperRegistry::set(strtolower($className), $mapper);
+
+		$this->assertSame(
+			$mapper,
+			tx_oelib_MapperRegistry::get($className)
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
 	 */
 	public function setThrowsExceptionForMismatchingWrapperClass() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'The provided mapper is not an instance of tx_oelib_Mapper_Foo.'
-		);
-
 		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
 		tx_oelib_MapperRegistry::set(
-			'tx_oelib_Mapper_Foo', $mapper
+			'Tx_Oelib_Mapper_Foo', $mapper
 		);
 	}
 
 	/**
 	 * @test
+	 *
+	 * @expectedException BadMethodCallException
 	 */
 	public function setThrowsExceptionIfTheMapperTypeAlreadyIsRegistered() {
-		$this->setExpectedException(
-			'BadMethodCallException',
-			'There already is a tx_oelib_Tests_Unit_Fixtures_TestingMapper mapper registered. ' .
-				'Overwriting existing wrappers is not allowed.'
-		);
-
-		tx_oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper');
+		tx_oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper');
 
 		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
 		tx_oelib_MapperRegistry::set(
-			'tx_oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
+			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
 		);
 	}
 }
