@@ -51,8 +51,4 @@ class tx_oelib_Model_FrontEndUserGroup extends tx_oelib_Model {
 		return $this->getAsString('description');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUserGroup.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_FrontEndUserGroup.php']);
-}
 ?>

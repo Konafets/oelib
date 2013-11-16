@@ -311,8 +311,4 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 		return self::MAP_HTML_ID_PREFIX . '_' . $this->mapNumber;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/ViewHelper/GoogleMapsViewHelper.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/ViewHelper/GoogleMapsViewHelper.php']);
-}
 ?>

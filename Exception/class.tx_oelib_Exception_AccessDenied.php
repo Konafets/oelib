@@ -32,8 +32,4 @@
  */
 class tx_oelib_Exception_AccessDenied extends Exception {
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Exception/class.tx_oelib_Exception_AccessDenied.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Exception/class.tx_oelib_Exception_AccessDenied.php']);
-}
 ?>

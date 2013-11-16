@@ -301,8 +301,4 @@ class tx_oelib_Timer {
 		$this->previousBucketNames = array();
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Timer.php']) {
-	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Timer.php']);
-}
 ?>

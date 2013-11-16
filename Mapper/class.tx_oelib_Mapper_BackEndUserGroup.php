@@ -49,8 +49,4 @@ class tx_oelib_Mapper_BackEndUserGroup extends tx_oelib_DataMapper {
 		'subgroup' => 'tx_oelib_Mapper_BackEndUserGroup',
 	);
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_BackEndUserGroup.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_BackEndUserGroup.php']);
-}
 ?>

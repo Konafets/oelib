@@ -60,8 +60,4 @@ class tx_oelib_Mapper_FederalState extends tx_oelib_DataMapper {
 		return $this->findOneByCompoundKey(array('zn_country_iso_2' => $isoAlpha2CountryCode, 'zn_code' => $isoAlpha2ZoneCode));
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/FederalState.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/FederalState.php']);
-}
 ?>

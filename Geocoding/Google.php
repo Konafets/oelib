@@ -198,8 +198,4 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 		self::$lastGeocodingTimestamp = microtime(TRUE);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Google.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Google.php']);
-}
 ?>

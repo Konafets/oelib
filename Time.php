@@ -67,8 +67,4 @@ abstract class tx_oelib_Time {
 	 */
 	const SECONDS_PER_YEAR = 220752000;
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Time.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Time.php']);
-}
 ?>

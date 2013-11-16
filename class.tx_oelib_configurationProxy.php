@@ -199,8 +199,4 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 		return $this->configuration;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']) {
-	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_configurationProxy.php']);
-}
 ?>

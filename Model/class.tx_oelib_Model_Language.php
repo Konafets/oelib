@@ -54,8 +54,4 @@ class tx_oelib_Model_Language extends tx_oelib_Model {
 		return $this->getAsString('lg_iso_2');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Language.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Language.php']);
-}
 ?>

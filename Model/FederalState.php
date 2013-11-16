@@ -72,8 +72,4 @@ class tx_oelib_Model_FederalState extends tx_oelib_Model {
 		return $this->getAsString('zn_code');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/FederalState.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/FederalState.php']);
-}
 ?>

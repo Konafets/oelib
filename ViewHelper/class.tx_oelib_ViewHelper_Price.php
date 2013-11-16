@@ -114,8 +114,4 @@ class tx_oelib_ViewHelper_Price {
 		return $result;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/ViewHelper/class.tx_oelib_ViewHelper_Price.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/ViewHelper/class.tx_oelib_ViewHelper_Price.php']);
-}
 ?>

@@ -50,8 +50,4 @@ class tx_oelib_FileFunctions {
 		return t3lib_div::rmdir($path, $removeNonEmpty);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FileFunctions.php']) {
-	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_FileFunctions.php']);
-}
 ?>

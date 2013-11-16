@@ -272,8 +272,4 @@ class tx_oelib_MapperRegistry {
 		$this->mappers[$className] = $mapper;
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_MapperRegistry.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_MapperRegistry.php']);
-}
 ?>

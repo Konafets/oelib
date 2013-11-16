@@ -98,8 +98,4 @@ class tx_oelib_Autoloader {
 }
 
 spl_autoload_register(array('tx_oelib_Autoloader', 'load'));
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Autoloader.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Autoloader.php']);
-}
 ?>

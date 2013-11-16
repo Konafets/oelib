@@ -164,8 +164,4 @@ class tx_oelib_Configuration extends tx_oelib_PublicObject {
 		return $this->data[$key];
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Configuration.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Configuration.php']);
-}
 ?>

@@ -111,8 +111,4 @@ class tx_oelib_Model_Currency extends tx_oelib_Model {
 		return $this->getAsInteger('cu_decimal_digits');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Currency.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Model/class.tx_oelib_Model_Currency.php']);
-}
 ?>

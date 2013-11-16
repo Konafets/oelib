@@ -98,8 +98,4 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 		$this->coordinates = array();
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Dummy.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Geocoding/Dummy.php']);
-}
 ?>

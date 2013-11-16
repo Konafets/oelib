@@ -77,8 +77,4 @@ class tx_oelib_Mapper_Country extends tx_oelib_DataMapper {
 		return $this->findOneByKey('cn_iso_3', $isoAlpha3Code);
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Country.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Mapper/class.tx_oelib_Mapper_Country.php']);
-}
 ?>

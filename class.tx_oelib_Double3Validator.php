@@ -81,8 +81,4 @@ class tx_oelib_Double3Validator {
 		return number_format($result, 3, '.', '');
 	}
 }
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Double3Validator.php']) {
-	include_once ($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/class.tx_oelib_Double3Validator.php']);
-}
 ?>
