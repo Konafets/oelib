@@ -34,15 +34,15 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_FrontEndUserGroup
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_FrontEndUserGroup();
+		$this->subject = new tx_oelib_Model_FrontEndUserGroup();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -54,11 +54,11 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTitleForNonEmptyGroupTitleReturnsGroupTitle() {
-		$this->fixture->setData(array('title' => 'foo'));
+		$this->subject->setData(array('title' => 'foo'));
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -66,11 +66,11 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTitleForEmptyGroupTitleReturnsEmptyString() {
-		$this->fixture->setData(array('title' => ''));
+		$this->subject->setData(array('title' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -83,11 +83,11 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDescriptionForNonEmptyGroupDescriptionReturnsGroupDescription() {
-		$this->fixture->setData(array('description' => 'foo'));
+		$this->subject->setData(array('description' => 'foo'));
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getDescription()
+			$this->subject->getDescription()
 		);
 	}
 
@@ -95,11 +95,11 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDescriptionForEmptyGroupDescriptionReturnsEmptyString() {
-		$this->fixture->setData(array('description' => ''));
+		$this->subject->setData(array('description' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getDescription()
+			$this->subject->getDescription()
 		);
 	}
 }

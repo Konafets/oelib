@@ -34,15 +34,15 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_Country
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mapper_Country();
+		$this->subject = new tx_oelib_Mapper_Country();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,7 +55,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
-			$this->fixture->find(54) instanceof tx_oelib_Model_Country
+			$this->subject->find(54) instanceof tx_oelib_Model_Country
 		);
 	}
 
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'DE',
-			$this->fixture->find(54)->getIsoAlpha2Code()
+			$this->subject->find(54)->getIsoAlpha2Code()
 		);
 	}
 
@@ -79,7 +79,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
-			$this->fixture->findByIsoAlpha2Code('DE')
+			$this->subject->findByIsoAlpha2Code('DE')
 				instanceof tx_oelib_Model_Country
 		);
 	}
@@ -90,7 +90,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'DE',
-			$this->fixture->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
+			$this->subject->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
 		);
 	}
 
@@ -104,7 +104,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
-			$this->fixture->findByIsoAlpha3Code('DEU')
+			$this->subject->findByIsoAlpha3Code('DEU')
 				instanceof tx_oelib_Model_Country
 		);
 	}
@@ -115,7 +115,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'DE',
-			$this->fixture->findByIsoAlpha3Code('DEU')->getIsoAlpha2Code()
+			$this->subject->findByIsoAlpha3Code('DEU')->getIsoAlpha2Code()
 		);
 	}
 }

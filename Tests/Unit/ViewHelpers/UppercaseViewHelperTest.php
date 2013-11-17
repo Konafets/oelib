@@ -35,12 +35,12 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function renderConvertsToUppercase() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('foo bar'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('foo bar'));
 
 		$this->assertSame(
 			'FOO BAR',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -48,12 +48,12 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function renderCanConvertUmlautsToUppercase() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('äöü'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('äöü'));
 
 		$this->assertSame(
 			'ÄÖÜ',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -61,12 +61,12 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 	 * @test
 	 */
 	public function renderCanConvertAccentedCharactersToUppercase() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('áàéè'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('áàéè'));
 
 		$this->assertSame(
 			'ÁÀÉÈ',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 }

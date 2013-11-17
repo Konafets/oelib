@@ -34,15 +34,15 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_FederalState
 	 */
-	private $fixture = NULL;
+	private $subject = NULL;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mapper_FederalState();
+		$this->subject = new tx_oelib_Mapper_FederalState();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -56,7 +56,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsFederalStateInstance() {
 		$this->assertInstanceOf(
 			'tx_oelib_Model_FederalState',
-			$this->fixture->find(88)
+			$this->subject->find(88)
 		);
 	}
 
@@ -66,7 +66,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'NW',
-			$this->fixture->find(88)->getIsoAlpha2ZoneCode()
+			$this->subject->find(88)->getIsoAlpha2ZoneCode()
 		);
 	}
 
@@ -81,7 +81,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsFederalStateInstance() {
 		$this->assertInstanceOf(
 			'tx_oelib_Model_FederalState',
-			$this->fixture->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')
+			$this->subject->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')
 		);
 	}
 
@@ -91,7 +91,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'NW',
-			$this->fixture->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')->getIsoAlpha2ZoneCode()
+			$this->subject->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')->getIsoAlpha2ZoneCode()
 		);
 	}
 }

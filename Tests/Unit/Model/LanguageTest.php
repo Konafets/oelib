@@ -34,15 +34,15 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_Language
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_Language();
+		$this->subject = new tx_oelib_Model_Language();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -54,11 +54,11 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalNameReturnsLocalNameOfGerman() {
-		$this->fixture->setData(array('lg_name_local' => 'Deutsch'));
+		$this->subject->setData(array('lg_name_local' => 'Deutsch'));
 
 		$this->assertSame(
 			'Deutsch',
-			$this->fixture->getLocalName()
+			$this->subject->getLocalName()
 		);
 	}
 
@@ -66,11 +66,11 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalNameReturnsLocalNameOfEnglish() {
-		$this->fixture->setData(array('lg_name_local' => 'English'));
+		$this->subject->setData(array('lg_name_local' => 'English'));
 
 		$this->assertSame(
 			'English',
-			$this->fixture->getLocalName()
+			$this->subject->getLocalName()
 		);
 	}
 
@@ -83,11 +83,11 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfGerman() {
-		$this->fixture->setData(array('lg_iso_2' => 'DE'));
+		$this->subject->setData(array('lg_iso_2' => 'DE'));
 
 		$this->assertSame(
 			'DE',
-			$this->fixture->getIsoAlpha2Code()
+			$this->subject->getIsoAlpha2Code()
 		);
 	}
 
@@ -95,11 +95,11 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfEnglish() {
-		$this->fixture->setData(array('lg_iso_2' => 'EN'));
+		$this->subject->setData(array('lg_iso_2' => 'EN'));
 
 		$this->assertSame(
 			'EN',
-			$this->fixture->getIsoAlpha2Code()
+			$this->subject->getIsoAlpha2Code()
 		);
 	}
 
@@ -113,7 +113,7 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isReadOnlyIsTrue() {
 		$this->assertTrue(
-			$this->fixture->isReadOnly()
+			$this->subject->isReadOnly()
 		);
 	}
 }

@@ -35,12 +35,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	 * @test
 	 */
 	public function renderForEmptyReturnsEmptyString() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue(''));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue(''));
 
 		$this->assertSame(
 			'',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -48,12 +48,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	 * @test
 	 */
 	public function renderForNonEmptyNonImageContentReturnsEmptyString() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('foo bar'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('foo bar'));
 
 		$this->assertSame(
 			'',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -61,12 +61,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	 * @test
 	 */
 	public function renderForOtherTagReturnsEmptyString() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<p>foo<br />bar</p>'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<p>foo<br />bar</p>'));
 
 		$this->assertSame(
 			'',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -74,12 +74,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	 * @test
 	 */
 	public function renderForImageWithMissingSourceReturnsEmptyString() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img />'));
 
 		$this->assertSame(
 			'',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -87,12 +87,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	 * @test
 	 */
 	public function renderForImageWithEmptySourceReturnsEmptyString() {
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src="" />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src="" />'));
 
 		$this->assertSame(
 			'',
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -102,12 +102,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForOneImageWithNonEmptySourceReturnsImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src="' . $imageSource . '" />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src="' . $imageSource . '" />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -117,12 +117,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForOneImageWithAltTextAndWithNonEmptySourceReturnsImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img alt="Foo" src="' . $imageSource . '" />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img alt="Foo" src="' . $imageSource . '" />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -132,12 +132,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForOneImageWithNonEmptySourceWithSpacesBeforeSrcReturnsImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img   src="' . $imageSource . '" />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img   src="' . $imageSource . '" />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -147,12 +147,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForOneImageWithNonEmptySourceWithSpacesAroundEqualsSignReturnsImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src  =  "' . $imageSource . '" />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src  =  "' . $imageSource . '" />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -162,12 +162,12 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForOneImageWithNonEmptySourceUsingSingleQuotesReturnsImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src=\'' . $imageSource . '\' />'));
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('<img src=\'' . $imageSource . '\' />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 
@@ -177,13 +177,13 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 	public function renderForTwoImagesWithNonEmptySourceReturnsFirstImageSource() {
 		$imageSource = 'fileadmin/foo.jpg';
 
-		$fixture = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
-		$fixture->expects($this->once())->method('renderChildren')
+		$subject = $this->getMock('Tx_Oelib_ViewHelpers_ImageSourceViewHelper', array('renderChildren'));
+		$subject->expects($this->once())->method('renderChildren')
 			->will($this->returnValue('<img src="' . $imageSource . '" /> <img src="anotherImage.png" />'));
 
 		$this->assertSame(
 			$imageSource,
-			$fixture->render()
+			$subject->render()
 		);
 	}
 }

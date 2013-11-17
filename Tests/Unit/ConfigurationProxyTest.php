@@ -36,7 +36,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_configurationProxy
 	 */
-	private $fixture;
+	private $subject;
 
 	/**
 	 * @var array
@@ -52,17 +52,17 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	);
 
 	public function setUp() {
-		$this->fixture
+		$this->subject
 			= tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
-		$this->fixture->retrieveConfiguration();
+		$this->subject->retrieveConfiguration();
 	}
 
 	public function tearDown() {
 		tx_oelib_configurationProxy::purgeInstances();
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 
@@ -71,7 +71,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceReturnsObject() {
 		$this->assertTrue(
-			is_object($this->fixture)
+			is_object($this->subject)
 		);
 	}
 
@@ -91,7 +91,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
 		$this->assertSame(
-			$this->fixture,
+			$this->subject,
 			tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY)
 		);
 	}
@@ -103,7 +103,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
 
 		$this->assertNotSame(
-			$this->fixture,
+			$this->subject,
 			$otherConfiguration
 		);
 	}
@@ -113,7 +113,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function extendsPublicObject() {
 		$this->assertTrue(
-			$this->fixture instanceof tx_oelib_PublicObject
+			$this->subject instanceof tx_oelib_PublicObject
 		);
 	}
 
@@ -123,7 +123,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	public function getCompleteConfigurationReturnsAllTestConfigurationData() {
 		$this->assertSame(
 			$this->testConfiguration,
-			$this->fixture->getCompleteConfiguration()
+			$this->subject->getCompleteConfiguration()
 		);
 	}
 
@@ -132,10 +132,10 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function retrieveConfigurationIfThereIsNone() {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
-		$this->fixture->retrieveConfiguration();
+		$this->subject->retrieveConfiguration();
 
 		$this->assertFalse(
-			$this->fixture->getCompleteConfiguration()
+			$this->subject->getCompleteConfiguration()
 		);
 	}
 
@@ -144,12 +144,12 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function retrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
-		$this->fixture->retrieveConfiguration();
-		$this->fixture->setAsString('testValue', 'foo');
+		$this->subject->retrieveConfiguration();
+		$this->subject->setAsString('testValue', 'foo');
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getAsString('testValue')
+			$this->subject->getAsString('testValue')
 		);
 	}
 
@@ -167,7 +167,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$this->testConfiguration,
-			$this->fixture->getCompleteConfiguration()
+			$this->subject->getCompleteConfiguration()
 		);
 	}
 }

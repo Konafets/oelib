@@ -34,15 +34,15 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_Language
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mapper_Language();
+		$this->subject = new tx_oelib_Mapper_Language();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,7 +55,7 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsLanguageInstance() {
 		$this->assertTrue(
-			$this->fixture->find(43) instanceof tx_oelib_Model_Language
+			$this->subject->find(43) instanceof tx_oelib_Model_Language
 		);
 	}
 
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'DE',
-			$this->fixture->find(43)->getIsoAlpha2Code()
+			$this->subject->find(43)->getIsoAlpha2Code()
 		);
 	}
 
@@ -79,7 +79,7 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsLanguageInstance() {
 		$this->assertTrue(
-			$this->fixture->findByIsoAlpha2Code('DE')
+			$this->subject->findByIsoAlpha2Code('DE')
 				instanceof tx_oelib_Model_Language
 		);
 	}
@@ -90,7 +90,7 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			'DE',
-			$this->fixture->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
+			$this->subject->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
 		);
 	}
 }

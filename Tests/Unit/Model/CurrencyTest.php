@@ -34,15 +34,15 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_Currency
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_Currency();
+		$this->subject = new tx_oelib_Model_Currency();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,7 +55,7 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isReadOnlyIsTrue() {
 		$this->assertTrue(
-			$this->fixture->isReadOnly()
+			$this->subject->isReadOnly()
 		);
 	}
 
@@ -68,12 +68,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha3CodeCanReturnIsoAlpha3CodeOfEuro() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			'EUR',
-			$fixture->getIsoAlpha3Code()
+			$subject->getIsoAlpha3Code()
 		);
 	}
 
@@ -81,12 +81,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha3CodeCanReturnIsoAlpha3CodeOfUsDollars() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
 		$this->assertSame(
 			'USD',
-			$fixture->getIsoAlpha3Code()
+			$subject->getIsoAlpha3Code()
 		);
 	}
 
@@ -99,11 +99,11 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLeftSymbolForCurrencyWithLeftSymbolReturnsTrue() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertTrue(
-			$fixture->hasLeftSymbol()
+			$subject->hasLeftSymbol()
 		);
 	}
 
@@ -111,11 +111,11 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLeftSymbolForCurrencyWithoutLeftSymbolReturnsFalse() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
 		$this->assertFalse(
-			$fixture->hasLeftSymbol()
+			$subject->hasLeftSymbol()
 		);
 	}
 
@@ -123,12 +123,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLeftSymbolForCurrencyWithLeftSymbolReturnsLeftSymbol() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			'€',
-			$fixture->getLeftSymbol()
+			$subject->getLeftSymbol()
 		);
 	}
 
@@ -136,12 +136,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLeftSymbolForCurrencyWithoutLeftSymbolReturnsEmptyString() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
 		$this->assertSame(
 			'',
-			$fixture->getLeftSymbol()
+			$subject->getLeftSymbol()
 		);
 	}
 
@@ -154,11 +154,11 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasRightSymbolForCurrencyWithRightSymbolReturnsTrue() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
 		$this->assertTrue(
-			$fixture->hasRightSymbol()
+			$subject->hasRightSymbol()
 		);
 	}
 
@@ -166,11 +166,11 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasRightSymbolForCurrencyWithoutRightSymbolReturnsFalse() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertFalse(
-			$fixture->hasRightSymbol()
+			$subject->hasRightSymbol()
 		);
 	}
 
@@ -178,12 +178,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getRightSymbolForCurrencyWithRightSymbolReturnsRightSymbol() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(40);
 
 		$this->assertSame(
 			'Kč',
-			$fixture->getRightSymbol()
+			$subject->getRightSymbol()
 		);
 	}
 
@@ -191,12 +191,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getRightSymbolForCurrencyWithoutRightSymbolReturnsEmptyString() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			'',
-			$fixture->getRightSymbol()
+			$subject->getRightSymbol()
 		);
 	}
 
@@ -209,12 +209,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getThousandsSeparatorForEuroReturnsPoint() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			'.',
-			$fixture->getThousandsSeparator()
+			$subject->getThousandsSeparator()
 		);
 	}
 
@@ -222,12 +222,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getThousandsSeparatorForUsDollarReturnsComma() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
 		$this->assertSame(
 			',',
-			$fixture->getThousandsSeparator()
+			$subject->getThousandsSeparator()
 		);
 	}
 
@@ -240,12 +240,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalSeparatorForEuroReturnsComma() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			',',
-			$fixture->getDecimalSeparator()
+			$subject->getDecimalSeparator()
 		);
 	}
 
@@ -253,12 +253,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalSeparatorForUsDollarReturnsPoint() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(155);
 
 		$this->assertSame(
 			'.',
-			$fixture->getDecimalSeparator()
+			$subject->getDecimalSeparator()
 		);
 	}
 
@@ -271,12 +271,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalDigitsForSudaneseDinarReturnsZero() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(130);
 
 		$this->assertSame(
 			0,
-			$fixture->getDecimalDigits()
+			$subject->getDecimalDigits()
 		);
 	}
 
@@ -284,12 +284,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalDigitsForMalagasyAriaryReturnsOne() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(173);
 
 		$this->assertSame(
 			1,
-			$fixture->getDecimalDigits()
+			$subject->getDecimalDigits()
 		);
 	}
 
@@ -297,12 +297,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalDigitsForEuroReturnsTwo() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(49);
 
 		$this->assertSame(
 			2,
-			$fixture->getDecimalDigits()
+			$subject->getDecimalDigits()
 		);
 	}
 
@@ -310,12 +310,12 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalDigitsForKuwaitiDinarReturnsThree() {
-		$fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
+		$subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
 			find(81);
 
 		$this->assertSame(
 			3,
-			$fixture->getDecimalDigits()
+			$subject->getDecimalDigits()
 		);
 	}
 }

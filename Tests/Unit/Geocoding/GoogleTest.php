@@ -34,15 +34,15 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Geocoding_Google
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = tx_oelib_Geocoding_Google::getInstance();
+		$this->subject = tx_oelib_Geocoding_Google::getInstance();
 	}
 
 	public function tearDown() {
 		tx_oelib_Geocoding_Google::purgeInstance();
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 
@@ -90,7 +90,7 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		);
 		$geo->expects($this->once())->method('setGeoError');
 
-		$this->fixture->lookUp($geo);
+		$this->subject->lookUp($geo);
 	}
 
 	/**
@@ -100,16 +100,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo->setGeoError();
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->never())->method('sendRequest');
+		$subject->expects($this->never())->method('sendRequest');
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
-		$this->fixture->lookUp($geo);
+		$this->subject->lookUp($geo);
 		$coordinates = $geo->getGeoCoordinates();
 
 		$this->assertEquals(
@@ -144,16 +144,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.7335500, 'longitude' => 7.1014300)
 		);
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->never())->method('sendRequest');
+		$subject->expects($this->never())->method('sendRequest');
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 	}
 
 	/**
@@ -164,16 +164,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 		$geo->setGeoError();
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->never())->method('sendRequest');
+		$subject->expects($this->never())->method('sendRequest');
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 	}
 
 	/**
@@ -185,16 +185,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
+		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 
 		$this->assertTrue(
 			$geo->hasGeoError()
@@ -210,16 +210,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue(FALSE));
+		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue(FALSE));
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 	}
 
 	/**
@@ -244,16 +244,16 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest', 'throttle'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
+		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
 
-		$fixture->lookUp($geo);
+		$subject->lookUp($geo);
 
 		$this->assertSame(
 			array(
@@ -290,19 +290,19 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$geo2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$geo2->setGeoAddress('Am Hof 1, 53113 Zentrum, Bonn, DE');
 
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'tx_oelib_Geocoding_Google',
 			array('sendRequest'),
 			array(),
 			'',
 			FALSE
 		);
-		$fixture->expects($this->any())->method('sendRequest')
+		$subject->expects($this->any())->method('sendRequest')
 			->will($this->returnValue($jsonResult));
 
 		$startTime = microtime(TRUE);
-		$fixture->lookUp($geo1);
-		$fixture->lookUp($geo2);
+		$subject->lookUp($geo1);
+		$subject->lookUp($geo2);
 		$endTime = microtime(TRUE);
 
 		$timePassed = $endTime - $startTime;

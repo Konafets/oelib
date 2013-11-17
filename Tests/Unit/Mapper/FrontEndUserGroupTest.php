@@ -38,19 +38,19 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_FrontEndUserGroup the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_Mapper_FrontEndUserGroup();
+		$this->subject = new tx_oelib_Mapper_FrontEndUserGroup();
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		$this->subject->__destruct();
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 		$uid = $this->testingFramework->createFrontEndUserGroup();
 
 		$this->assertTrue(
-			$this->fixture->find($uid)
+			$this->subject->find($uid)
 				instanceof tx_oelib_Model_FrontEndUserGroup
 		);
 	}
@@ -74,13 +74,13 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadForExistingUserGroupCanLoadUserGroupData() {
-		$userGroup = $this->fixture->find(
+		$userGroup = $this->subject->find(
 			$this->testingFramework->createFrontEndUserGroup(
 				array('title' => 'foo')
 			)
 		);
 
-		$this->fixture->load($userGroup);
+		$this->subject->load($userGroup);
 
 		$this->assertSame(
 			'foo',

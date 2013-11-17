@@ -34,15 +34,15 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Attachment
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Attachment();
+		$this->subject = new tx_oelib_Attachment();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -56,7 +56,7 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getFileNameInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getFileName()
+			$this->subject->getFileName()
 		);
 	}
 
@@ -64,11 +64,11 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFileNameWithFileNameSetReturnsFileName() {
-		$this->fixture->setFileName('test.txt');
+		$this->subject->setFileName('test.txt');
 
 		$this->assertSame(
 			'test.txt',
-			$this->fixture->getFileName()
+			$this->subject->getFileName()
 		);
 	}
 
@@ -81,7 +81,7 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 			'$fileName must not be empty.'
 		);
 
-		$this->fixture->setFileName('');
+		$this->subject->setFileName('');
 	}
 
 
@@ -95,7 +95,7 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getContentTypeInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getContentType()
+			$this->subject->getContentType()
 		);
 	}
 
@@ -103,11 +103,11 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getContentTypeWithContentTypeSetReturnsContentType() {
-		$this->fixture->setContentType('text/plain');
+		$this->subject->setContentType('text/plain');
 
 		$this->assertSame(
 			'text/plain',
-			$this->fixture->getContentType()
+			$this->subject->getContentType()
 		);
 	}
 
@@ -120,7 +120,7 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 			'$contentType must not be empty.'
 		);
 
-		$this->fixture->setContentType('');
+		$this->subject->setContentType('');
 	}
 
 
@@ -134,7 +134,7 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getContentInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getContent()
+			$this->subject->getContent()
 		);
 	}
 
@@ -142,11 +142,11 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getContentWithContentSetReturnsContent() {
-		$this->fixture->setContent('test content');
+		$this->subject->setContent('test content');
 
 		$this->assertSame(
 			'test content',
-			$this->fixture->getContent()
+			$this->subject->getContent()
 		);
 	}
 }

@@ -34,15 +34,15 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_Currency
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mapper_Currency();
+		$this->subject = new tx_oelib_Mapper_Currency();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,7 +55,7 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsCurrencyInstance() {
 		$this->assertTrue(
-			$this->fixture->find(49) instanceof tx_oelib_Model_Currency
+			$this->subject->find(49) instanceof tx_oelib_Model_Currency
 		);
 	}
 
@@ -69,7 +69,7 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsCurrencyInstance() {
 		$this->assertTrue(
-			$this->fixture->findByIsoAlpha3Code('EUR')
+			$this->subject->findByIsoAlpha3Code('EUR')
 				instanceof tx_oelib_Model_Currency
 		);
 	}
@@ -80,7 +80,7 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
 		$this->assertSame(
 			49,
-			$this->fixture->findByIsoAlpha3Code('EUR')->getUid()
+			$this->subject->findByIsoAlpha3Code('EUR')->getUid()
 		);
 	}
 }

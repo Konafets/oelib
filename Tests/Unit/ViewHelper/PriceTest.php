@@ -35,14 +35,14 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_ViewHelper_Price
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_ViewHelper_Price();
+		$this->subject = new tx_oelib_ViewHelper_Price();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	public function renderWithoutSettingValueOrCurrencyFirstRendersZeroWithTwoDigits() {
 		$this->assertSame(
 			'0.00',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -59,11 +59,11 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderWithValueWithoutSettingCurrencyUsesDecimalPointAndTwoRoundedDecimalDigits() {
-		$this->fixture->setValue(12345.678);
+		$this->subject->setValue(12345.678);
 
 		$this->assertSame(
 			'12345.68',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -71,12 +71,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderAfterSettingAnInvalidCurrencyUsesDecimalPointAndTwoRoundedDecimalDigits() {
-		$this->fixture->setValue(12345.678);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('FOO');
+		$this->subject->setValue(12345.678);
+		$this->subject->setCurrencyFromIsoAlpha3Code('FOO');
 
 		$this->assertSame(
 			'12345.68',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -84,12 +84,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithLeftSymbolRendersCurrencySymbolLeftOfPrice() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('EUR');
 
 		$this->assertSame(
 			'€ 123,45',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -97,12 +97,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithRightSymbolRendersCurrencySymbolRightOfPrice() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('CZK');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('CZK');
 
 		$this->assertSame(
 			'123,45 Kč',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -110,12 +110,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithoutDecimalDigitsReturnsPriceWithoutDecimalDigits() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('SDD');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('SDD');
 
 		$this->assertSame(
 			'sD 123',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -123,12 +123,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithOneDecimalDigitReturnsPriceWithOneDecimalDigit() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('MGA');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('MGA');
 
 		$this->assertSame(
 			'123,5',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -136,12 +136,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithTwoDecimalDigitsReturnsPriceWithTwoDecimalDigits() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('EUR');
 
 		$this->assertSame(
 			'€ 123,45',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -149,12 +149,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithThreeDecimalDigitsReturnsPriceWithThreeDecimalDigits() {
-		$this->fixture->setValue(123.456);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('KWD');
+		$this->subject->setValue(123.456);
+		$this->subject->setCurrencyFromIsoAlpha3Code('KWD');
 
 		$this->assertSame(
 			'KD 123,456',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -162,12 +162,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithCommaAsDecimalSeparatorReturnsPriceWithCommaAsDecimalSeparator() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('EUR');
 
 		$this->assertSame(
 			'€ 123,45',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -175,12 +175,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithPointAsDecimalSeparatorReturnsPriceWithPointAsDecimalSeparator() {
-		$this->fixture->setValue(123.45);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('USD');
+		$this->subject->setValue(123.45);
+		$this->subject->setCurrencyFromIsoAlpha3Code('USD');
 
 		$this->assertSame(
 			'$ 123.45',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -188,12 +188,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithPointAsThousandsSeparatorReturnsPriceWithPointAsThousandsSeparator() {
-		$this->fixture->setValue(1234.56);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('EUR');
+		$this->subject->setValue(1234.56);
+		$this->subject->setCurrencyFromIsoAlpha3Code('EUR');
 
 		$this->assertSame(
 			'€ 1.234,56',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 
@@ -201,12 +201,12 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function renderForCurrencyWithCommaAsThousandsSeparatorReturnsPriceWithCommaAsThousandsSeparator() {
-		$this->fixture->setValue(1234.56);
-		$this->fixture->setCurrencyFromIsoAlpha3Code('USD');
+		$this->subject->setValue(1234.56);
+		$this->subject->setCurrencyFromIsoAlpha3Code('USD');
 
 		$this->assertSame(
 			'$ 1,234.56',
-			$this->fixture->render()
+			$this->subject->render()
 		);
 	}
 }

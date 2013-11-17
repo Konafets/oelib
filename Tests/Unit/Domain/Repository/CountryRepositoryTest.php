@@ -34,16 +34,16 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	/**
 	 * @var Tx_Oelib_Domain_Repository_CountryRepository
 	 */
-	private $fixture = NULL;
+	private $subject = NULL;
 
 	protected function setUp() {
-		$this->fixture = new Tx_Oelib_Domain_Repository_CountryRepository(
+		$this->subject = new Tx_Oelib_Domain_Repository_CountryRepository(
 			$this->getMock('Tx_Extbase_Object_ObjectManagerInterface')
 		);
 	}
 
 	protected function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 	/**
@@ -62,14 +62,14 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 */
 	public function initializeObjectSetsRespectStoragePidToFalse() {
 		$objectManager = $this->getMock('Tx_Extbase_Object_ObjectManagerInterface');
-		$fixture = new Tx_Oelib_Domain_Repository_CountryRepository($objectManager);
+		$subject = new Tx_Oelib_Domain_Repository_CountryRepository($objectManager);
 
 		$querySettings = $this->getMock('Tx_Extbase_Persistence_Typo3QuerySettings');
 		$querySettings->expects($this->once())->method('setRespectStoragePage')->with(FALSE);
 		$objectManager->expects($this->once())->method('create')
 			->with('Tx_Extbase_Persistence_Typo3QuerySettings')->will($this->returnValue($querySettings));
 
-		$fixture->initializeObject();
+		$subject->initializeObject();
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 */
 	public function initializeObjectSetsDefaultQuerySettings() {
 		$objectManager = $this->getMock('Tx_Extbase_Object_ObjectManagerInterface');
-		$fixture = $this->getMock(
+		$subject = $this->getMock(
 			'Tx_Oelib_Domain_Repository_CountryRepository',
 			array('setDefaultQuerySettings'), array($objectManager)
 		);
@@ -86,9 +86,9 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 		$objectManager->expects($this->once())->method('create')
 			->with('Tx_Extbase_Persistence_Typo3QuerySettings')->will($this->returnValue($querySettings));
 
-		$fixture->expects($this->once())->method('setDefaultQuerySettings')->with($querySettings);
+		$subject->expects($this->once())->method('setDefaultQuerySettings')->with($querySettings);
 
-		$fixture->initializeObject();
+		$subject->initializeObject();
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 * @expectedException BadMethodCallException
 	 */
 	public function addThrowsException() {
-		$this->fixture->add(new Tx_Oelib_Domain_Model_Country());
+		$this->subject->add(new Tx_Oelib_Domain_Model_Country());
 	}
 
 	/**
@@ -106,7 +106,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 * @expectedException BadMethodCallException
 	 */
 	public function removeThrowsException() {
-		$this->fixture->remove(new Tx_Oelib_Domain_Model_Country());
+		$this->subject->remove(new Tx_Oelib_Domain_Model_Country());
 	}
 
 	/**
@@ -115,7 +115,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 * @expectedException BadMethodCallException
 	 */
 	public function replaceThrowsException() {
-		$this->fixture->replace(new Tx_Oelib_Domain_Model_Country(), new Tx_Oelib_Domain_Model_Country());
+		$this->subject->replace(new Tx_Oelib_Domain_Model_Country(), new Tx_Oelib_Domain_Model_Country());
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 * @expectedException BadMethodCallException
 	 */
 	public function updateThrowsException() {
-		$this->fixture->update(new Tx_Oelib_Domain_Model_Country());
+		$this->subject->update(new Tx_Oelib_Domain_Model_Country());
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	 * @expectedException BadMethodCallException
 	 */
 	public function removeAllThrowsException() {
-		$this->fixture->removeAll();
+		$this->subject->removeAll();
 	}
 }
 ?>

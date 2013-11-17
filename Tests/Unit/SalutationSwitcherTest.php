@@ -36,7 +36,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_salutationswitcherchild
 	 */
-	private $fixture;
+	private $subject;
 	/**
 	 * @var tx_oelib_testingFramework
 	 */
@@ -46,14 +46,14 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->fixture = new Tx_Oelib_TestingSalutationSwitcher(array());
+		$this->subject = new Tx_Oelib_TestingSalutationSwitcher(array());
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		$this->subject->__destruct();
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -66,7 +66,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function initialLanguage() {
 		$this->assertSame(
-			'default', $this->fixture->getLanguage()
+			'default', $this->subject->getLanguage()
 		);
 	}
 
@@ -74,9 +74,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setLanguageDefault() {
-		$this->fixture->setLanguage('default');
+		$this->subject->setLanguage('default');
 		$this->assertSame(
-			'default', $this->fixture->getLanguage()
+			'default', $this->subject->getLanguage()
 		);
 	}
 
@@ -84,9 +84,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setLanguageDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'de', $this->fixture->getLanguage()
+			'de', $this->subject->getLanguage()
 		);
 	}
 
@@ -94,9 +94,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setLanguageDefaultEmpty() {
-		$this->fixture->setLanguage('');
+		$this->subject->setLanguage('');
 		$this->assertSame(
-			'', $this->fixture->getLanguage()
+			'', $this->subject->getLanguage()
 		);
 	}
 
@@ -105,7 +105,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function initialFallbackLanguage() {
 		$this->assertSame(
-			'default', $this->fixture->getFallbackLanguage()
+			'default', $this->subject->getFallbackLanguage()
 		);
 	}
 
@@ -113,9 +113,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setFallbackLanguageDefault() {
-		$this->fixture->setFallbackLanguage('default');
+		$this->subject->setFallbackLanguage('default');
 		$this->assertSame(
-			'default', $this->fixture->getFallbackLanguage()
+			'default', $this->subject->getFallbackLanguage()
 		);
 	}
 
@@ -123,9 +123,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setFallbackLanguageDe() {
-		$this->fixture->setFallbackLanguage('de');
+		$this->subject->setFallbackLanguage('de');
 		$this->assertSame(
-			'de', $this->fixture->getFallbackLanguage()
+			'de', $this->subject->getFallbackLanguage()
 		);
 	}
 
@@ -133,9 +133,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setFallbackLanguageEmpty() {
-		$this->fixture->setFallbackLanguage('');
+		$this->subject->setFallbackLanguage('');
 		$this->assertSame(
-			'', $this->fixture->getFallbackLanguage()
+			'', $this->subject->getFallbackLanguage()
 		);
 	}
 
@@ -148,9 +148,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setSalutationFormal() {
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
-			'formal', $this->fixture->getSalutationMode()
+			'formal', $this->subject->getSalutationMode()
 		);
 	}
 
@@ -158,9 +158,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setSalutationInformal() {
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
-			'informal', $this->fixture->getSalutationMode()
+			'informal', $this->subject->getSalutationMode()
 		);
 	}
 
@@ -178,8 +178,8 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setLanguage('default');
-		$this->fixture->translate('');
+		$this->subject->setLanguage('default');
+		$this->subject->translate('');
 	}
 
 	/**
@@ -191,18 +191,18 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setLanguage('de');
-		$this->fixture->translate('');
+		$this->subject->setLanguage('de');
+		$this->subject->translate('');
 	}
 
 	/**
 	 * @test
 	 */
 	public function noLanguageAtAllWithKnownKey() {
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('');
+		$this->subject->setLanguage('');
+		$this->subject->setFallbackLanguage('');
 		$this->assertSame(
-			'in_both', $this->fixture->translate('in_both')
+			'in_both', $this->subject->translate('in_both')
 		);
 	}
 
@@ -210,10 +210,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function noLanguageAtAllWithUnknownKey() {
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('');
+		$this->subject->setLanguage('');
+		$this->subject->setFallbackLanguage('');
 		$this->assertSame(
-			'missing_key', $this->fixture->translate('missing_key')
+			'missing_key', $this->subject->translate('missing_key')
 		);
 	}
 
@@ -225,12 +225,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
-		$this->fixture->setLanguage('de');
-		$this->fixture->setFallbackLanguage('');
+		$this->subject->setLanguage('de');
+		$this->subject->setFallbackLanguage('');
 
 		$this->assertSame(
 			'only_in_default',
-			$this->fixture->translate('only_in_default')
+			$this->subject->translate('only_in_default')
 		);
 	}
 
@@ -242,12 +242,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 
-		$this->fixture->setLanguage('de');
-		$this->fixture->setFallbackLanguage('');
+		$this->subject->setLanguage('de');
+		$this->subject->setFallbackLanguage('');
 
 		$this->assertSame(
 			'only in default',
-			$this->fixture->translate('only_in_default')
+			$this->subject->translate('only_in_default')
 		);
 	}
 
@@ -261,7 +261,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function translateWithoutLanguageOnlyInDefault() {
 		$this->assertSame(
-			'only in default', $this->fixture->translate('only_in_default')
+			'only in default', $this->subject->translate('only_in_default')
 		);
 	}
 
@@ -270,7 +270,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function translateWithoutLanguageInBoth() {
 		$this->assertSame(
-			'in both languages', $this->fixture->translate('in_both')
+			'in both languages', $this->subject->translate('in_both')
 		);
 	}
 
@@ -278,9 +278,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function missingKeyDefault() {
-		$this->fixture->setLanguage('default');
+		$this->subject->setLanguage('default');
 		$this->assertSame(
-			'missing_key', $this->fixture->translate('missing_key')
+			'missing_key', $this->subject->translate('missing_key')
 		);
 	}
 
@@ -288,9 +288,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function missingKeyDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'missing_key', $this->fixture->translate('missing_key')
+			'missing_key', $this->subject->translate('missing_key')
 		);
 	}
 
@@ -298,9 +298,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function onlyInDefaultUsingDefault() {
-		$this->fixture->setLanguage('default');
+		$this->subject->setLanguage('default');
 		$this->assertSame(
-			'only in default', $this->fixture->translate('only_in_default')
+			'only in default', $this->subject->translate('only_in_default')
 		);
 	}
 
@@ -309,7 +309,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function onlyInDefaultUsingNothing() {
 		$this->assertSame(
-			'only in default', $this->fixture->translate('only_in_default')
+			'only in default', $this->subject->translate('only_in_default')
 		);
 	}
 
@@ -317,9 +317,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function onlyInDefaultUsingDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'only in default', $this->fixture->translate('only_in_default')
+			'only in default', $this->subject->translate('only_in_default')
 		);
 	}
 
@@ -327,9 +327,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function inBothUsingDefault() {
-		$this->fixture->setLanguage('default');
+		$this->subject->setLanguage('default');
 		$this->assertSame(
-			'in both languages', $this->fixture->translate('in_both')
+			'in both languages', $this->subject->translate('in_both')
 		);
 	}
 
@@ -337,9 +337,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function inBothUsingDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'in beiden Sprachen', $this->fixture->translate('in_both')
+			'in beiden Sprachen', $this->subject->translate('in_both')
 		);
 	}
 
@@ -347,9 +347,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function emptyStringDefault() {
-		$this->fixture->setLanguage('default');
+		$this->subject->setLanguage('default');
 		$this->assertSame(
-			'', $this->fixture->translate('empty_string_in_default')
+			'', $this->subject->translate('empty_string_in_default')
 		);
 	}
 
@@ -357,9 +357,9 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function emptyStringDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'', $this->fixture->translate('empty_string_in_default')
+			'', $this->subject->translate('empty_string_in_default')
 		);
 	}
 
@@ -367,10 +367,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fallbackToDefault() {
-		$this->fixture->setLanguage('xy');
+		$this->subject->setLanguage('xy');
 		$this->assertSame(
 			'default_not_fallback default',
-			$this->fixture->translate('default_not_fallback')
+			$this->subject->translate('default_not_fallback')
 		);
 	}
 
@@ -378,12 +378,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$this->fixture->setLanguage('xy');
-		$this->fixture->setFallbackLanguage('de');
+		$this->subject->setLanguage('xy');
+		$this->subject->setFallbackLanguage('de');
 
 		$this->assertSame(
 			'default_not_fallback de',
-			$this->fixture->translate('default_not_fallback')
+			$this->subject->translate('default_not_fallback')
 		);
 	}
 
@@ -391,11 +391,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fallbackToDefaultFromEmptyLanguage() {
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('default');
+		$this->subject->setLanguage('');
+		$this->subject->setFallbackLanguage('default');
 		$this->assertSame(
 			'default_not_fallback default',
-			$this->fixture->translate('default_not_fallback')
+			$this->subject->translate('default_not_fallback')
 		);
 	}
 
@@ -403,12 +403,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$this->fixture->setLanguage('');
-		$this->fixture->setFallbackLanguage('de');
+		$this->subject->setLanguage('');
+		$this->subject->setFallbackLanguage('de');
 
 		$this->assertSame(
 			'default_not_fallback de',
-			$this->fixture->translate('default_not_fallback')
+			$this->subject->translate('default_not_fallback')
 		);
 	}
 
@@ -416,12 +416,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsFrenchTranslation() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setFallbackLanguage('fr');
+		$this->subject->setLanguage('de');
+		$this->subject->setFallbackLanguage('fr');
 
 		$this->assertSame(
 			'only in french fr',
-			$this->fixture->translate('only_in_french')
+			$this->subject->translate('only_in_french')
 		);
 	}
 
@@ -429,10 +429,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fallbackToDefaultFromDe() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'only in french',
-			$this->fixture->translate('only_in_french')
+			$this->subject->translate('only_in_french')
 		);
 	}
 
@@ -445,10 +445,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalOnly() {
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'only formal',
-			$this->fixture->translate('formal_string_only')
+			$this->subject->translate('formal_string_only')
 		);
 	}
 
@@ -456,10 +456,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalOnly() {
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'only informal',
-			$this->fixture->translate('informal_string_only')
+			$this->subject->translate('informal_string_only')
 		);
 	}
 
@@ -467,10 +467,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormal() {
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -478,10 +478,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingInformal() {
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -491,7 +491,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function formalWithNormalTryingNothing() {
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -499,10 +499,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingInvalid() {
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -510,10 +510,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormal() {
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'informal with normal, informal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -521,10 +521,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingFormal() {
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'informal with normal, normal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -534,7 +534,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function informalWithNormalTryingNothing() {
 		$this->assertSame(
 			'informal with normal, normal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -542,10 +542,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingInvalid() {
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'informal with normal, normal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -553,10 +553,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingFormal() {
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'both without normal, formal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -564,10 +564,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingInformal() {
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'both without normal, informal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -577,7 +577,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function bothWithoutNormalTryingNothing() {
 		$this->assertSame(
 			'both without normal, formal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -585,10 +585,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingInvalid() {
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'both without normal, formal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -603,11 +603,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalOnlyNoGermanLabel() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'only formal',
-			$this->fixture->translate('formal_string_only')
+			$this->subject->translate('formal_string_only')
 		);
 	}
 
@@ -615,11 +615,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalOnlyNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'only informal',
-			$this->fixture->translate('informal_string_only')
+			$this->subject->translate('informal_string_only')
 		);
 	}
 
@@ -627,11 +627,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -639,11 +639,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingInformalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -651,10 +651,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingNothingNoGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'formal with normal, formal',
-			$this->fixture->translate('formal_string_with_normal')
+			$this->subject->translate('formal_string_with_normal')
 		);
 	}
 
@@ -662,11 +662,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'informal with normal, informal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -674,11 +674,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingFormalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'informal with normal, normal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -686,10 +686,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingNothingNoGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'informal with normal, normal',
-			$this->fixture->translate('informal_string_with_normal')
+			$this->subject->translate('informal_string_with_normal')
 		);
 	}
 
@@ -697,11 +697,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingFormalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'both without normal, formal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -709,11 +709,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingInformalNoGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'both without normal, informal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -721,10 +721,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingNothingNoGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'both without normal, formal',
-			$this->fixture->translate('both_without_normal')
+			$this->subject->translate('both_without_normal')
 		);
 	}
 
@@ -738,11 +738,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalOnlyWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'de only formal',
-			$this->fixture->translate('de_formal_string_only')
+			$this->subject->translate('de_formal_string_only')
 		);
 	}
 
@@ -750,11 +750,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalOnlyWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'de only informal',
-			$this->fixture->translate('de_informal_string_only')
+			$this->subject->translate('de_informal_string_only')
 		);
 	}
 
@@ -762,11 +762,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'de formal with normal, formal',
-			$this->fixture->translate('de_formal_string_with_normal')
+			$this->subject->translate('de_formal_string_with_normal')
 		);
 	}
 
@@ -774,11 +774,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingInformalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'de formal with normal, formal',
-			$this->fixture->translate('de_formal_string_with_normal')
+			$this->subject->translate('de_formal_string_with_normal')
 		);
 	}
 
@@ -786,10 +786,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingNothingWithGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'de formal with normal, formal',
-			$this->fixture->translate('de_formal_string_with_normal')
+			$this->subject->translate('de_formal_string_with_normal')
 		);
 	}
 
@@ -797,11 +797,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function formalWithNormalTryingInvalidWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'de formal with normal, formal',
-			$this->fixture->translate('de_formal_string_with_normal')
+			$this->subject->translate('de_formal_string_with_normal')
 		);
 	}
 
@@ -809,11 +809,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'de informal with normal, informal',
-			$this->fixture->translate('de_informal_string_with_normal')
+			$this->subject->translate('de_informal_string_with_normal')
 		);
 	}
 
@@ -821,11 +821,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingFormalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'de informal with normal, normal',
-			$this->fixture->translate('de_informal_string_with_normal')
+			$this->subject->translate('de_informal_string_with_normal')
 		);
 	}
 
@@ -833,10 +833,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingNothingWithGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'de informal with normal, normal',
-			$this->fixture->translate('de_informal_string_with_normal')
+			$this->subject->translate('de_informal_string_with_normal')
 		);
 	}
 
@@ -844,11 +844,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function informalWithNormalTryingInvalidWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'de informal with normal, normal',
-			$this->fixture->translate('de_informal_string_with_normal')
+			$this->subject->translate('de_informal_string_with_normal')
 		);
 	}
 
@@ -856,11 +856,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingFormalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('formal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('formal');
 		$this->assertSame(
 			'de both without normal, formal',
-			$this->fixture->translate('de_both_without_normal')
+			$this->subject->translate('de_both_without_normal')
 		);
 	}
 
@@ -868,11 +868,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingInformalWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('informal');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('informal');
 		$this->assertSame(
 			'de both without normal, informal',
-			$this->fixture->translate('de_both_without_normal')
+			$this->subject->translate('de_both_without_normal')
 		);
 	}
 
@@ -880,10 +880,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingNothingWithGermanLabels() {
-		$this->fixture->setLanguage('de');
+		$this->subject->setLanguage('de');
 		$this->assertSame(
 			'de both without normal, formal',
-			$this->fixture->translate('de_both_without_normal')
+			$this->subject->translate('de_both_without_normal')
 		);
 	}
 
@@ -891,11 +891,11 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function bothWithoutNormalTryingInvalidWithGermanLabels() {
-		$this->fixture->setLanguage('de');
-		$this->fixture->setSalutationMode('foobar');
+		$this->subject->setLanguage('de');
+		$this->subject->setSalutationMode('foobar');
 		$this->assertSame(
 			'de both without normal, formal',
-			$this->fixture->translate('de_both_without_normal')
+			$this->subject->translate('de_both_without_normal')
 		);
 	}
 
@@ -910,7 +910,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function htmlSpecialCharsWithNoOption() {
 		$this->assertSame(
 			'a&o',
-			$this->fixture->translate('htmlspecialchars')
+			$this->subject->translate('htmlspecialchars')
 		);
 	}
 
@@ -920,7 +920,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function htmlSpecialCharsWithFalse() {
 		$this->assertSame(
 			'a&o',
-			$this->fixture->translate('htmlspecialchars', FALSE)
+			$this->subject->translate('htmlspecialchars', FALSE)
 		);
 	}
 
@@ -930,7 +930,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function htmlSpecialCharsWithTrue() {
 		$this->assertSame(
 			'a&amp;o',
-			$this->fixture->translate('htmlspecialchars', TRUE)
+			$this->subject->translate('htmlspecialchars', TRUE)
 		);
 	}
 
@@ -940,7 +940,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function piGetLlHtmlSpecialCharsWithNoOption() {
 		$this->assertSame(
 			'a&o',
-			$this->fixture->pi_getLL('htmlspecialchars')
+			$this->subject->pi_getLL('htmlspecialchars')
 		);
 	}
 
@@ -950,7 +950,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function piGetLlHtmlSpecialCharsWithFalse() {
 		$this->assertSame(
 			'a&o',
-			$this->fixture->pi_getLL('htmlspecialchars', '', FALSE)
+			$this->subject->pi_getLL('htmlspecialchars', '', FALSE)
 		);
 	}
 
@@ -960,7 +960,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function piGetLlHtmlSpecialCharsWithTrue() {
 		$this->assertSame(
 			'a&amp;o',
-			$this->fixture->pi_getLL('htmlspecialchars', '', TRUE)
+			$this->subject->pi_getLL('htmlspecialchars', '', TRUE)
 		);
 	}
 }

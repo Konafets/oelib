@@ -39,19 +39,19 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_BackEndUserGroup the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
+		$this->subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		$this->subject->__destruct();
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -63,10 +63,10 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findReturnsBackEndUserGroupInstance() {
-		$uid = $this->fixture->getNewGhost()->getUid();
+		$uid = $this->subject->getNewGhost()->getUid();
 
 		$this->assertTrue(
-			$this->fixture->find($uid)
+			$this->subject->find($uid)
 				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}
@@ -75,13 +75,13 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadForExistingUserGroupCanLoadUserGroupData() {
-		$userGroup = $this->fixture->find(
+		$userGroup = $this->subject->find(
 			$this->testingFramework->createBackEndUserGroup(
 				array('title' => 'foo')
 			)
 		);
 
-		$this->fixture->load($userGroup);
+		$this->subject->load($userGroup);
 
 		$this->assertSame(
 			'foo',
@@ -98,13 +98,13 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function subgroupRelationIsUserGroupList() {
-		$subgroup = $this->fixture->getNewGhost();
-		$group = $this->fixture->getLoadedTestingModel(
+		$subgroup = $this->subject->getNewGhost();
+		$group = $this->subject->getLoadedTestingModel(
 			array('subgroup' => $subgroup->getUid())
 		);
 
 		$this->assertTrue(
-			$this->fixture->find($group->getUid())->getSubgroups()->first()
+			$this->subject->find($group->getUid())->getSubgroups()->first()
 				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}

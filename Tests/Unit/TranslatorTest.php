@@ -40,14 +40,14 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForInexistentLabelReturnsLabelKey() {
-		$fixture = new tx_oelib_Translator('default', '', array());
+		$subject = new tx_oelib_Translator('default', '', array());
 
 		$this->assertSame(
 			'label_test',
-			$fixture->translate('label_test')
+			$subject->translate('label_test')
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 
 	/**
@@ -65,14 +65,14 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 				'de' => array('label_test' => 'Deutsch'),
 			);
 		}
-		$fixture = new tx_oelib_Translator('default', '', $localizedLabels);
+		$subject = new tx_oelib_Translator('default', '', $localizedLabels);
 
 		$this->assertSame(
 			'English',
-			$fixture->translate('label_test')
+			$subject->translate('label_test')
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 
 	/**
@@ -90,14 +90,14 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 				'de' => array('label_test' => 'Deutsch'),
 			);
 		}
-		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
+		$subject = new tx_oelib_Translator('de', '', $localizedLabels);
 
 		$this->assertSame(
 			'Deutsch',
-			$fixture->translate('label_test')
+			$subject->translate('label_test')
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 
 	/**
@@ -113,14 +113,14 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 				'default' => array('label_test' => 'English'),
 			);
 		}
-		$fixture = new tx_oelib_Translator('de', '', $localizedLabels);
+		$subject = new tx_oelib_Translator('de', '', $localizedLabels);
 
 		$this->assertSame(
 			'English',
-			$fixture->translate('label_test')
+			$subject->translate('label_test')
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 
 	/**
@@ -136,14 +136,14 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 				'de' => array('label_test' => 'Deutsch'),
 			);
 		}
-		$fixture = new tx_oelib_Translator('default', 'de', $localizedLabels);
+		$subject = new tx_oelib_Translator('default', 'de', $localizedLabels);
 
 		$this->assertSame(
 			'Deutsch',
-			$fixture->translate('label_test')
+			$subject->translate('label_test')
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 }
 ?>

@@ -34,15 +34,15 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_testingObject the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_testingObject();
+		$this->subject = new tx_oelib_testingObject();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -59,14 +59,14 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->checkForNonEmptyKey('');
+		$this->subject->checkForNonEmptyKey('');
 	}
 
 	/**
 	 * @test
 	 */
 	public function checkForNonEmptyKeyWithNonEmptyKeyIsAllowed() {
-		$this->fixture->checkForNonEmptyKey('foo');
+		$this->subject->checkForNonEmptyKey('foo');
 	}
 
 
@@ -83,7 +83,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsString('');
+		$this->subject->getAsString('');
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setAsString('', 'bar');
+		$this->subject->setAsString('', 'bar');
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsStringWithInexistentKeyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -112,11 +112,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringReturnsNonEmptyStringSetViaSetAsString() {
-		$this->fixture->setAsString('foo', 'bar');
+		$this->subject->setAsString('foo', 'bar');
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -124,11 +124,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringReturnsTrimmedValue() {
-		$this->fixture->setAsString('foo', ' bar ');
+		$this->subject->setAsString('foo', ' bar ');
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -136,11 +136,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringReturnsEmptyStringSetViaSetAsString() {
-		$this->fixture->setAsString('foo', '');
+		$this->subject->setAsString('foo', '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -158,7 +158,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsInteger('');
+		$this->subject->getAsInteger('');
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setAsInteger('', 42);
+		$this->subject->setAsInteger('', 42);
 	}
 
 	/**
@@ -179,7 +179,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerWithInexistentKeyReturnsZero() {
 		$this->assertSame(
 			0,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -187,11 +187,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsPositiveIntegerSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 42);
+		$this->subject->setAsInteger('foo', 42);
 
 		$this->assertSame(
 			42,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -199,11 +199,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsNegativeIntegerSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', -42);
+		$this->subject->setAsInteger('foo', -42);
 
 		$this->assertSame(
 			-42,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -211,11 +211,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsZeroSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 0);
+		$this->subject->setAsInteger('foo', 0);
 
 		$this->assertSame(
 			0,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -223,11 +223,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsZeroForStringSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 'bar');
+		$this->subject->setAsInteger('foo', 'bar');
 
 		$this->assertSame(
 			0,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -235,11 +235,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsRoundedValueForFloatSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 12.34);
+		$this->subject->setAsInteger('foo', 12.34);
 
 		$this->assertSame(
 			12,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -257,7 +257,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsTrimmedArray('');
+		$this->subject->getAsTrimmedArray('');
 	}
 
 	/**
@@ -269,7 +269,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsIntegerArray('');
+		$this->subject->getAsIntegerArray('');
 	}
 
 	/**
@@ -281,7 +281,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setAsArray('', array('bar'));
+		$this->subject->setAsArray('', array('bar'));
 	}
 
 	/**
@@ -290,7 +290,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsTrimmedArrayWithInexistentKeyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsTrimmedArray('foo')
+			$this->subject->getAsTrimmedArray('foo')
 		);
 	}
 
@@ -300,7 +300,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerArrayWithInexistentKeyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsIntegerArray('foo')
+			$this->subject->getAsIntegerArray('foo')
 		);
 	}
 
@@ -308,11 +308,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsTrimmedArrayReturnsNonEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array('foo', 'bar'));
+		$this->subject->setAsArray('foo', array('foo', 'bar'));
 
 		$this->assertSame(
 			array('foo', 'bar'),
-			$this->fixture->getAsTrimmedArray('foo')
+			$this->subject->getAsTrimmedArray('foo')
 		);
 	}
 
@@ -320,11 +320,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerArrayReturnsNonEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array(1, -2));
+		$this->subject->setAsArray('foo', array(1, -2));
 
 		$this->assertSame(
 			array(1, -2),
-			$this->fixture->getAsIntegerArray('foo')
+			$this->subject->getAsIntegerArray('foo')
 		);
 	}
 
@@ -332,11 +332,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsTrimmedArrayReturnsEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array());
+		$this->subject->setAsArray('foo', array());
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsTrimmedArray('foo')
+			$this->subject->getAsTrimmedArray('foo')
 		);
 	}
 
@@ -344,11 +344,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerArrayReturnsEmptyArraySetViaSetAsArray() {
-		$this->fixture->setAsArray('foo', array());
+		$this->subject->setAsArray('foo', array());
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsIntegerArray('foo')
+			$this->subject->getAsIntegerArray('foo')
 		);
 	}
 
@@ -356,11 +356,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsTrimmedArrayReturnsTrimmedValues() {
-		$this->fixture->setAsArray('foo', array(' foo '));
+		$this->subject->setAsArray('foo', array(' foo '));
 
 		$this->assertSame(
 			array('foo'),
-			$this->fixture->getAsTrimmedArray('foo')
+			$this->subject->getAsTrimmedArray('foo')
 		);
 	}
 
@@ -368,11 +368,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerArrayReturnsIntvaledValues() {
-		$this->fixture->setAsArray('foo', array('asdf'));
+		$this->subject->setAsArray('foo', array('asdf'));
 
 		$this->assertSame(
 			array(0),
-			$this->fixture->getAsIntegerArray('foo')
+			$this->subject->getAsIntegerArray('foo')
 		);
 	}
 
@@ -390,7 +390,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsBoolean('');
+		$this->subject->getAsBoolean('');
 	}
 
 	/**
@@ -402,7 +402,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setAsBoolean('', FALSE);
+		$this->subject->setAsBoolean('', FALSE);
 	}
 
 	/**
@@ -411,7 +411,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanWithInexistentKeyReturnsFalse() {
 		$this->assertSame(
 			FALSE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -419,11 +419,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsTrueSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', TRUE);
+		$this->subject->setAsBoolean('foo', TRUE);
 
 		$this->assertSame(
 			TRUE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -431,11 +431,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsFalseSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', FALSE);
+		$this->subject->setAsBoolean('foo', FALSE);
 
 		$this->assertSame(
 			FALSE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -443,11 +443,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsTrueForNonEmptyStringSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', 'bar');
+		$this->subject->setAsBoolean('foo', 'bar');
 
 		$this->assertSame(
 			TRUE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -455,11 +455,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsFalseForEmptyStringSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', '');
+		$this->subject->setAsBoolean('foo', '');
 
 		$this->assertSame(
 			FALSE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -467,11 +467,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', TRUE);
+		$this->subject->setAsBoolean('foo', TRUE);
 
 		$this->assertSame(
 			1,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -479,11 +479,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
-		$this->fixture->setAsBoolean('foo', FALSE);
+		$this->subject->setAsBoolean('foo', FALSE);
 
 		$this->assertSame(
 			0,
-			$this->fixture->getAsInteger('foo')
+			$this->subject->getAsInteger('foo')
 		);
 	}
 
@@ -491,11 +491,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsTrueForPositiveIntegerSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 42);
+		$this->subject->setAsInteger('foo', 42);
 
 		$this->assertSame(
 			TRUE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -503,11 +503,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsTrueForNegativeIntegerSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', -42);
+		$this->subject->setAsInteger('foo', -42);
 
 		$this->assertSame(
 			TRUE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -515,11 +515,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanReturnsFalseForZeroSetViaSetAsInteger() {
-		$this->fixture->setAsInteger('foo', 0);
+		$this->subject->setAsInteger('foo', 0);
 
 		$this->assertSame(
 			FALSE,
-			$this->fixture->getAsBoolean('foo')
+			$this->subject->getAsBoolean('foo')
 		);
 	}
 
@@ -537,7 +537,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsFloat('');
+		$this->subject->getAsFloat('');
 	}
 
 	/**
@@ -549,7 +549,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->setAsFloat('', 42.5);
+		$this->subject->setAsFloat('', 42.5);
 	}
 
 	/**
@@ -558,7 +558,7 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatWithInexistentKeyReturnsZero() {
 		$this->assertSame(
 			0.0,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -566,11 +566,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatCanReturnPositiveFloatFromFloat() {
-		$this->fixture->setData(array('foo' => 42.5));
+		$this->subject->setData(array('foo' => 42.5));
 
 		$this->assertSame(
 			42.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -578,11 +578,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatReturnsPositiveFloatSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', 42.5);
+		$this->subject->setAsFloat('foo', 42.5);
 
 		$this->assertSame(
 			42.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -590,11 +590,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatReturnsPositiveFloatSetAsStringViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', '42.5');
+		$this->subject->setAsFloat('foo', '42.5');
 
 		$this->assertSame(
 			42.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -602,11 +602,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', -42.5);
+		$this->subject->setAsFloat('foo', -42.5);
 
 		$this->assertSame(
 			-42.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -614,11 +614,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatReturnsZeroSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', 0.5);
+		$this->subject->setAsFloat('foo', 0.5);
 
 		$this->assertSame(
 			0.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -626,11 +626,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatReturnsZeroForStringSetViaSetAsFloat() {
-		$this->fixture->setAsFloat('foo', 'bar');
+		$this->subject->setAsFloat('foo', 'bar');
 
 		$this->assertSame(
 			0.0,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -638,11 +638,11 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatCanReturnPositiveFloatFromString() {
-		$this->fixture->setData(array('foo' => '42.5'));
+		$this->subject->setData(array('foo' => '42.5'));
 
 		$this->assertSame(
 			42.5,
-			$this->fixture->getAsFloat('foo')
+			$this->subject->getAsFloat('foo')
 		);
 	}
 
@@ -656,10 +656,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasStringForNonEmptyStringReturnsTrue() {
-		$this->fixture->setAsString('foo', 'bar');
+		$this->subject->setAsString('foo', 'bar');
 
 		$this->assertTrue(
-			$this->fixture->hasString('foo')
+			$this->subject->hasString('foo')
 		);
 	}
 
@@ -667,10 +667,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasStringForEmptyStringReturnsFalse() {
-		$this->fixture->setAsString('foo', '');
+		$this->subject->setAsString('foo', '');
 
 		$this->assertFalse(
-			$this->fixture->hasString('foo')
+			$this->subject->hasString('foo')
 		);
 	}
 
@@ -678,10 +678,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasIntegerForPositiveIntegerReturnsTrue() {
-		$this->fixture->setAsInteger('foo', 42);
+		$this->subject->setAsInteger('foo', 42);
 
 		$this->assertTrue(
-			$this->fixture->hasInteger('foo')
+			$this->subject->hasInteger('foo')
 		);
 	}
 
@@ -689,10 +689,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasIntegerForNegativeIntegerReturnsTrue() {
-		$this->fixture->setAsInteger('foo', -42);
+		$this->subject->setAsInteger('foo', -42);
 
 		$this->assertTrue(
-			$this->fixture->hasInteger('foo')
+			$this->subject->hasInteger('foo')
 		);
 	}
 
@@ -700,10 +700,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasIntegerForZeroReturnsFalse() {
-		$this->fixture->setAsInteger('foo', 0);
+		$this->subject->setAsInteger('foo', 0);
 
 		$this->assertFalse(
-			$this->fixture->hasInteger('foo')
+			$this->subject->hasInteger('foo')
 		);
 	}
 
@@ -711,10 +711,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFloatForPositiveFloatReturnsTrue() {
-		$this->fixture->setAsFloat('foo', 42.00);
+		$this->subject->setAsFloat('foo', 42.00);
 
 		$this->assertTrue(
-			$this->fixture->hasFloat('foo')
+			$this->subject->hasFloat('foo')
 		);
 	}
 
@@ -722,10 +722,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFloatForNegativeFloatReturnsTrue() {
-		$this->fixture->setAsFloat('foo', -42.00);
+		$this->subject->setAsFloat('foo', -42.00);
 
 		$this->assertTrue(
-			$this->fixture->hasFloat('foo')
+			$this->subject->hasFloat('foo')
 		);
 	}
 
@@ -733,10 +733,10 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFloatForZeroReturnsFalse() {
-		$this->fixture->setAsFloat('foo', 0.00);
+		$this->subject->setAsFloat('foo', 0.00);
 
 		$this->assertFalse(
-			$this->fixture->hasFloat('foo')
+			$this->subject->hasFloat('foo')
 		);
 	}
 }

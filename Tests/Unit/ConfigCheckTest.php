@@ -33,7 +33,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_configcheck configuration check object to be tested
 	 */
-	private $fixture;
+	private $subject;
 
 	/**
 	 * @var tx_oelib_dummyObjectToCheck dummy object to be checked by the
@@ -51,14 +51,14 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 				'inexistentColumn' => 'does_not_exist',
 			)
 		);
-		$this->fixture = new tx_oelib_configcheck($this->objectToCheck);
+		$this->subject = new tx_oelib_configcheck($this->objectToCheck);
 	}
 
 	protected function tearDown() {
-		$this->fixture->__destruct();
+		$this->subject->__destruct();
 		$this->objectToCheck->__destruct();
 
-		unset($this->fixture, $this->objectToCheck);
+		unset($this->subject, $this->objectToCheck);
 	}
 
 
@@ -92,7 +92,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		}
 
 		$result = '';
-		foreach ($this->fixture->getInstalledLocales() as $key) {
+		foreach ($this->subject->getInstalledLocales() as $key) {
 			if (stripos($key, 'utf') !== FALSE) {
 				$result = $key;
 				break;
@@ -138,7 +138,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$locale = $this->getInstalledUtfLocale();
 
 		$this->assertTrue(
-			in_array($locale, $this->fixture->getInstalledLocales())
+			in_array($locale, $this->subject->getInstalledLocales())
 		);
 		$this->assertContains(
 			'utf',
@@ -155,11 +155,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setFlavorReturnsFlavor() {
-		$this->fixture->setFlavor('foo');
+		$this->subject->setFlavor('foo');
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getFlavor()
+			$this->subject->getFlavor()
 		);
 	}
 
@@ -172,11 +172,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkForNonEmptyStringWithNonEmptyString() {
-		$this->fixture->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
+		$this->subject->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -184,11 +184,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkForNonEmptyStringWithEmptyString() {
-		$this->fixture->checkForNonEmptyString('emptyString', FALSE, '', '');
+		$this->subject->checkForNonEmptyString('emptyString', FALSE, '', '');
 
 		$this->assertContains(
 			'emptyString',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -196,13 +196,13 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIfSingleInTableNotEmptyForValueNotInTableComplains() {
-		$this->fixture->checkIfSingleInTableNotEmpty(
+		$this->subject->checkIfSingleInTableNotEmpty(
 			'inexistentColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
 		$this->assertContains(
 			'inexistentColumn',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -210,13 +210,13 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIfSingleInTableNotEmptyForValueNotInTableNotComplains() {
-		$this->fixture->checkIfSingleInTableNotEmpty(
+		$this->subject->checkIfSingleInTableNotEmpty(
 			'existingColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -229,11 +229,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIsValidEmailOrEmptyWithEmptyString() {
-		$this->fixture->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
+		$this->subject->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -241,11 +241,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIsValidEmailOrEmptyWithValidEmail() {
-		$this->fixture->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
+		$this->subject->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -253,11 +253,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIsValidEmailOrEmptyWithInvalidEmail() {
-		$this->fixture->checkIsValidEmailOrEmpty('nonEmptyString', FALSE, '', FALSE, '');
+		$this->subject->checkIsValidEmailOrEmpty('nonEmptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
 			'nonEmptyString',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -265,11 +265,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIsValidEmailNotEmptyWithEmptyString() {
-		$this->fixture->checkIsValidEmailNotEmpty('emptyString', FALSE, '', FALSE, '');
+		$this->subject->checkIsValidEmailNotEmpty('emptyString', FALSE, '', FALSE, '');
 
 		$this->assertContains(
 			'emptyString',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -277,11 +277,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function checkIsValidEmailNotEmptyWithValidEmail() {
-		$this->fixture->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
+		$this->subject->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -300,7 +300,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->assertGreaterThan(
 			0,
-			count($this->fixture->getInstalledLocales()),
+			count($this->subject->getInstalledLocales()),
 			'Tests concerning the locale will not proceed successfully because '
 				.'there is no locale installed on this web server.'
 		);
@@ -314,14 +314,14 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
 
-		$locales = $this->fixture->getInstalledLocales();
+		$locales = $this->subject->getInstalledLocales();
 		$this->setConfigurationForLocale($locales[0]);
 
-		$this->fixture->checkLocale();
+		$this->subject->checkLocale();
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -337,11 +337,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			str_ireplace('f8', 'f-8', $this->getInstalledUtfLocale())
 		);
 
-		$this->fixture->checkLocale();
+		$this->subject->checkLocale();
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -357,11 +357,11 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			str_ireplace('f-8', 'f8', $this->getInstalledUtfLocale())
 		);
 
-		$this->fixture->checkLocale();
+		$this->subject->checkLocale();
 
 		$this->assertSame(
 			'',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -375,15 +375,15 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		}
 
 		$this->setConfigurationForLocale('');
-		$this->fixture->checkLocale();
+		$this->subject->checkLocale();
 
 		$this->assertContains(
 			'locale',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 		$this->assertContains(
 			'not configured',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 
@@ -396,15 +396,15 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		}
 
 		$this->setConfigurationForLocale('xy_XY');
-		$this->fixture->checkLocale();
+		$this->subject->checkLocale();
 
 		$this->assertContains(
 			'locale',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 		$this->assertContains(
 			'not installed',
-			$this->fixture->getRawMessage()
+			$this->subject->getRawMessage()
 		);
 	}
 

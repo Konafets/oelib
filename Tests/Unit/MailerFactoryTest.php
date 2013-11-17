@@ -38,7 +38,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_emailCollector
 	 */
-	private $fixture;
+	private $subject;
 
 	private static $email = array(
 		'recipient' => 'any-recipient@email-address.org',
@@ -57,14 +57,14 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		// Only the instance with an enabled test mode can be tested as in the
 		// non-test mode e-mails are sent.
 		tx_oelib_mailerFactory::getInstance()->enableTestMode();
-		$this->fixture = tx_oelib_mailerFactory::getInstance()->getMailer();
+		$this->subject = tx_oelib_mailerFactory::getInstance()->getMailer();
 
 		$this->addHeadersToTestEmail();
 	}
 
 	protected function tearDown() {
 		tx_oelib_mailerFactory::purgeInstance();
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 
@@ -109,7 +109,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function getMailerInTestMode() {
 		$this->assertSame(
 			'tx_oelib_emailCollector',
-			get_class($this->fixture)
+			get_class($this->subject)
 		);
 	}
 
@@ -131,7 +131,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
 		$this->assertSame(
-			$this->fixture,
+			$this->subject,
 			tx_oelib_mailerFactory::getInstance()->getMailer()
 		);
 	}
@@ -143,7 +143,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		tx_oelib_mailerFactory::purgeInstance();
 
 		$this->assertNotSame(
-			$this->fixture,
+			$this->subject,
 			tx_oelib_mailerFactory::getInstance()->getMailer()
 		);
 	}
@@ -152,7 +152,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeAnEmailAndGetIt() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message'],
@@ -161,7 +161,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$email,
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 	}
 
@@ -169,12 +169,12 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetTheLastEmail() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message']
 		);
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$otherEmail['recipient'],
 			self::$otherEmail['subject'],
 			self::$otherEmail['message']
@@ -182,7 +182,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$otherEmail,
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 	}
 
@@ -192,7 +192,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function storeNoEmailAndTryToGetTheLastEmail() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 	}
 
@@ -200,13 +200,13 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetBothEmails() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message'],
 			self::$email['headers']
 		);
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$otherEmail['recipient'],
 			self::$otherEmail['subject'],
 			self::$otherEmail['message']
@@ -217,7 +217,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 				self::$email,
 				self::$otherEmail
 			),
-			$this->fixture->getAllEmail()
+			$this->subject->getAllEmail()
 		);
 	}
 
@@ -225,10 +225,10 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
-		$this->fixture->setFakedReturnValue(TRUE);
+		$this->subject->setFakedReturnValue(TRUE);
 
 		$this->assertTrue(
-			$this->fixture->sendEmail('', '', '')
+			$this->subject->sendEmail('', '', '')
 		);
 	}
 
@@ -236,10 +236,10 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sendEmailReturnsFalseIfTheReturnValueIsSetToFalse() {
-		$this->fixture->setFakedReturnValue(FALSE);
+		$this->subject->setFakedReturnValue(FALSE);
 
 		$this->assertFalse(
-			$this->fixture->sendEmail('', '', '')
+			$this->subject->sendEmail('', '', '')
 		);
 	}
 
@@ -247,7 +247,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastRecipientReturnsTheRecipientOfTheLastEmail() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message']
@@ -255,7 +255,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$email['recipient'],
-			$this->fixture->getLastRecipient()
+			$this->subject->getLastRecipient()
 		);
 	}
 
@@ -265,7 +265,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function getLastRecipientReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLastRecipient()
+			$this->subject->getLastRecipient()
 		);
 	}
 
@@ -273,7 +273,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastSubjectReturnsTheSubjectOfTheLastEmail() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message']
@@ -281,7 +281,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$email['subject'],
-			$this->fixture->getLastSubject()
+			$this->subject->getLastSubject()
 		);
 	}
 
@@ -291,7 +291,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function getLastSubjectReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLastSubject()
+			$this->subject->getLastSubject()
 		);
 	}
 
@@ -299,7 +299,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastBodyReturnsTheBodyOfTheLastEmail() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message']
@@ -307,7 +307,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$email['message'],
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -317,7 +317,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function getLastBodyReturnsAnEmptyStringIfThereWasNoEmail() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -325,7 +325,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastHeadersIfTheEmailDoesNotHaveAny() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$otherEmail['recipient'],
 			self::$otherEmail['subject'],
 			self::$otherEmail['message']
@@ -333,7 +333,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'',
-			$this->fixture->getLastHeaders()
+			$this->subject->getLastHeaders()
 		);
 	}
 
@@ -341,7 +341,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastHeadersReturnsTheLastHeaders() {
-		$this->fixture->sendEmail(
+		$this->subject->sendEmail(
 			self::$email['recipient'],
 			self::$email['subject'],
 			self::$email['message'],
@@ -350,7 +350,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			self::$email['headers'],
-			$this->fixture->getLastHeaders()
+			$this->subject->getLastHeaders()
 		);
 	}
 
@@ -372,7 +372,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject(self::$email['subject']);
 		$eMail->setMessage(self::$email['message']);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
@@ -393,7 +393,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 				'message' => $mimeEmail->get($buildParameter),
 				'headers' => $mimeEmail->txtHeaders(),
 			),
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 
 		$sender->__destruct();
@@ -424,11 +424,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'and a line with umlauts: Hörbär saß früh.'
 		);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$this->assertNotContains(
 			CR,
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 
 		$sender->__destruct();
@@ -464,8 +464,8 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$otherEmail->setSubject(self::$otherEmail['subject']);
 		$otherEmail->setMessage(self::$otherEmail['message']);
 
-		$this->fixture->send($eMail);
-		$this->fixture->send($otherEmail);
+		$this->subject->send($eMail);
+		$this->subject->send($otherEmail);
 
 		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
@@ -486,7 +486,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 				'message' => $mimeEmail->get($buildParameter),
 				'headers' => $mimeEmail->txtHeaders(),
 			),
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 
 		$sender->__destruct();
@@ -524,8 +524,8 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$otherEmail->setSubject(self::$otherEmail['subject']);
 		$otherEmail->setMessage(self::$otherEmail['message']);
 
-		$this->fixture->send($eMail);
-		$this->fixture->send($otherEmail);
+		$this->subject->send($eMail);
+		$this->subject->send($otherEmail);
 
 		$characterSet = $this->getCharacterSet();
 		$buildParameter = array(
@@ -558,7 +558,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 					'headers' => $otherMimeEmail->txtHeaders(),
 				),
 			),
-			$this->fixture->getAllEmail()
+			$this->subject->getAllEmail()
 		);
 
 		$sender->__destruct();
@@ -579,7 +579,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 
 		$eMail = new tx_oelib_Mail();
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 	}
 
 	/**
@@ -603,7 +603,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject(self::$email['subject']);
 		$eMail->setHTMLMessage($htmlMessage);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$characterSet = $this->getCharacterSet();
 		$this->assertSame(
@@ -616,7 +616,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 					'Content-Transfer-Encoding: quoted-printable' . LF .
 					'From: any-sender@email-address.org' . LF,
 			),
-			$this->fixture->getLastEmail()
+			$this->subject->getLastEmail()
 		);
 
 		$sender->__destruct();
@@ -633,7 +633,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'$emailAddress must not be empty.'
 		);
 
-		$this->fixture->mail('', 'subject', 'message');
+		$this->subject->mail('', 'subject', 'message');
 	}
 
 	/**
@@ -645,7 +645,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'$subject must not be empty.'
 		);
 
-		$this->fixture->mail('john@doe.com', '', 'message');
+		$this->subject->mail('john@doe.com', '', 'message');
 	}
 
 	/**
@@ -657,7 +657,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'$message must not be empty.'
 		);
 
-		$this->fixture->mail('john@doe.com', 'subject', '');
+		$this->subject->mail('john@doe.com', 'subject', '');
 	}
 
 	/**
@@ -678,11 +678,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject(self::$email['subject']);
 		$eMail->setMessage(self::$email['message']);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$this->assertSame(
 			self::$email['subject'],
-			$this->fixture->getLastSubject()
+			$this->subject->getLastSubject()
 		);
 	}
 
@@ -710,11 +710,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('föö');
 		$eMail->setMessage(self::$email['message']);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$this->assertContains(
 			'utf-8',
-			$this->fixture->getLastSubject()
+			$this->subject->getLastSubject()
 		);
 	}
 
@@ -743,11 +743,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('föö');
 		$eMail->setMessage(self::$email['message']);
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$this->assertContains(
 			'UTF-8',
-			$this->fixture->getLastSubject()
+			$this->subject->getLastSubject()
 		);
 	}
 
@@ -760,11 +760,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneLineFeedIsKeptIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . LF . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . LF . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -772,11 +772,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneCarriageReturnIsReplacedByLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . CR . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . CR . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -784,11 +784,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function twoLineFeedsAreKeptIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . LF . LF . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . LF . LF . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -796,11 +796,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function twoCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . CR . CR . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . CR . CR . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -808,11 +808,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function severalLineFeedsAreReplacedByTwoLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -820,11 +820,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function severalCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -832,12 +832,12 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function emailBodyIsNotChangesWhenFormattingIsDisabled() {
-		$this->fixture->sendFormattedEmails(FALSE);
-		$this->fixture->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
+		$this->subject->sendFormattedEmails(FALSE);
+		$this->subject->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
 		$this->assertSame(
 			'foo' . CR . CR . CR . CR . CR . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -845,11 +845,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneCrLfPairIsReplacedByLfIfFormatingIsEnabled() {
-		$this->fixture->sendEmail('', '', 'foo' . CRLF . 'bar');
+		$this->subject->sendEmail('', '', 'foo' . CRLF . 'bar');
 
 		$this->assertSame(
 			'foo' . LF . 'bar',
-			$this->fixture->getLastBody()
+			$this->subject->getLastBody()
 		);
 	}
 
@@ -876,9 +876,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('Hello world');
 		$eMail->setMessage('Summertime...');
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
-		$rawMail = $this->fixture->getLastEmail();
+		$rawMail = $this->subject->getLastEmail();
 		$this->assertContains(
 			'From: "John Doe" <any-sender@email-address.org>',
 			$rawMail['headers']
@@ -907,14 +907,14 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('Hello world');
 		$eMail->setMessage('Summertime...');
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$characterSet = $this->getCharacterSet();
 		$encodedName = t3lib_div::encodeHeader(
 			'Jöhn Döe', 'quoted-printable', $characterSet
 		);
 
-		$rawMail = $this->fixture->getLastEmail();
+		$rawMail = $this->subject->getLastEmail();
 		$this->assertContains(
 			'From: "' . $encodedName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
@@ -945,9 +945,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('Hello world');
 		$eMail->setMessage('Summertime...');
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
-		$rawMail = $this->fixture->getLastEmail();
+		$rawMail = $this->subject->getLastEmail();
 		$this->assertContains(
 			'From: "' . $senderName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
@@ -978,7 +978,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('Hello world');
 		$eMail->setMessage('Summertime...');
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
 		$characterSet = $this->getCharacterSet();
 		$encodedName = t3lib_div::encodeHeader(
@@ -989,7 +989,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			$encodedName
 		);
 
-		$rawMail = $this->fixture->getLastEmail();
+		$rawMail = $this->subject->getLastEmail();
 		$this->assertContains(
 			'From: "' . $encodedName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
@@ -1024,9 +1024,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$eMail->setMessage(self::$email['message']);
 		$eMail->setReturnPath('mail@foobar.com');
 
-		$this->fixture->send($eMail);
+		$this->subject->send($eMail);
 
-		$sentMail = $this->fixture->getLastEmail();
+		$sentMail = $this->subject->getLastEmail();
 
 		$this->assertContains(
 			'Return-Path: <mail@foobar.com>',

@@ -34,14 +34,14 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	/**
 	 * @var Tx_Oelib_Domain_Model_Country
 	 */
-	private $fixture = NULL;
+	private $subject = NULL;
 
 	public function setUp() {
-		$this->fixture = new Tx_Oelib_Domain_Model_Country();
+		$this->subject = new Tx_Oelib_Domain_Model_Country();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getLocalShortNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLocalShortName()
+			$this->subject->getLocalShortName()
 		);
 	}
 
@@ -58,11 +58,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setLocalShortNameSetsLocalShortName() {
-		$this->fixture->setLocalShortName('Deutschland');
+		$this->subject->setLocalShortName('Deutschland');
 
 		$this->assertSame(
 			'Deutschland',
-			$this->fixture->getLocalShortName()
+			$this->subject->getLocalShortName()
 		);
 	}
 
@@ -72,7 +72,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getLocalOfficialNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLocalOfficialName()
+			$this->subject->getLocalOfficialName()
 		);
 	}
 
@@ -80,11 +80,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setLocalOfficialNameSetsLocalOfficialName() {
-		$this->fixture->setLocalOfficialName('Bundesrepublik Deutschland');
+		$this->subject->setLocalOfficialName('Bundesrepublik Deutschland');
 
 		$this->assertSame(
 			'Bundesrepublik Deutschland',
-			$this->fixture->getLocalOfficialName()
+			$this->subject->getLocalOfficialName()
 		);
 	}
 
@@ -94,7 +94,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getEnglishShortNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getEnglishShortName()
+			$this->subject->getEnglishShortName()
 		);
 	}
 
@@ -102,11 +102,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setEnglishShortNameSetsEnglishShortName() {
-		$this->fixture->setEnglishShortName('Germany');
+		$this->subject->setEnglishShortName('Germany');
 
 		$this->assertSame(
 			'Germany',
-			$this->fixture->getEnglishShortName()
+			$this->subject->getEnglishShortName()
 		);
 	}
 
@@ -116,7 +116,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getEnglishOfficialNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getEnglishOfficialName()
+			$this->subject->getEnglishOfficialName()
 		);
 	}
 
@@ -124,11 +124,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setEnglishOfficialNameSetsEnglishOfficialName() {
-		$this->fixture->setEnglishOfficialName('Federal Republic of Germany');
+		$this->subject->setEnglishOfficialName('Federal Republic of Germany');
 
 		$this->assertSame(
 			'Federal Republic of Germany',
-			$this->fixture->getEnglishOfficialName()
+			$this->subject->getEnglishOfficialName()
 		);
 	}
 
@@ -138,7 +138,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getIsoAlphaTwoCodeInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getIsoAlphaTwoCode()
+			$this->subject->getIsoAlphaTwoCode()
 		);
 	}
 
@@ -146,11 +146,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setIsoAlphaTwoCodeSetsIsoAlphaTwoCode() {
-		$this->fixture->setIsoAlphaTwoCode('GB');
+		$this->subject->setIsoAlphaTwoCode('GB');
 
 		$this->assertSame(
 			'GB',
-			$this->fixture->getIsoAlphaTwoCode()
+			$this->subject->getIsoAlphaTwoCode()
 		);
 	}
 
@@ -160,7 +160,7 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	public function getIsoAlphaThreeCodeInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getIsoAlphaThreeCode()
+			$this->subject->getIsoAlphaThreeCode()
 		);
 	}
 
@@ -168,11 +168,11 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	 * @test
 	 */
 	public function setIsoAlphaThreeCodeSetsIsoAlphaThreeCode() {
-		$this->fixture->setIsoAlphaThreeCode('DEU');
+		$this->subject->setIsoAlphaThreeCode('DEU');
 
 		$this->assertSame(
 			'DEU',
-			$this->fixture->getIsoAlphaThreeCode()
+			$this->subject->getIsoAlphaThreeCode()
 		);
 	}
 }

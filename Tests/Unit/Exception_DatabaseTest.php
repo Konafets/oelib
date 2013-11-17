@@ -62,11 +62,11 @@ class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 	 */
 	public function messageForInvalidQueryContainsErrorMessageFromDatabase() {
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('asdf', 'tx_oelib_test', '');
-		$fixture = new tx_oelib_Exception_Database();
+		$subject = new tx_oelib_Exception_Database();
 
 		$this->assertContains(
 			'asdf',
-			$fixture->getMessage()
+			$subject->getMessage()
 		);
 	}
 
@@ -75,11 +75,11 @@ class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 	 */
 	public function messageForInvalidQueryWithLastQueryEnabledContainsLastQuery() {
 		$GLOBALS['TYPO3_DB']->exec_SELECTquery('asdf', 'tx_oelib_test', '');
-		$fixture = new tx_oelib_Exception_Database();
+		$subject = new tx_oelib_Exception_Database();
 
 		$this->assertContains(
 			'SELECT',
-			$fixture->getMessage()
+			$subject->getMessage()
 		);
 	}
 }

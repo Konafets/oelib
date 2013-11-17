@@ -34,15 +34,15 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_FakeSession the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_FakeSession();
+		$this->subject = new tx_oelib_FakeSession();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -68,7 +68,7 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	public function getAsStringWithInexistentKeyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -76,11 +76,11 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringReturnsNonEmptyStringSetViaSetAsString() {
-		$this->fixture->setAsString('foo', 'bar');
+		$this->subject->setAsString('foo', 'bar');
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -88,11 +88,11 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringReturnsEmptyStringSetViaSetAsString() {
-		$this->fixture->setAsString('foo', '');
+		$this->subject->setAsString('foo', '');
 
 		$this->assertSame(
 			'',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 }

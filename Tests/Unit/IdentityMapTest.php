@@ -34,15 +34,15 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_IdentityMap the indentity map to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_IdentityMap();
+		$this->subject = new tx_oelib_IdentityMap();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -59,7 +59,7 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 			'$uid must be > 0.'
 		);
 
-		$this->fixture->get(0);
+		$this->subject->get(0);
 	}
 
 	/**
@@ -71,7 +71,7 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 			'$uid must be > 0.'
 		);
 
-		$this->fixture->get(-1);
+		$this->subject->get(-1);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setData(array());
 
-		$this->fixture->add($model);
+		$this->subject->add($model);
 	}
 
 	/**
@@ -95,11 +95,11 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function getWithExistingUidAfterAddWithModelHavingAUidReturnsSameObject() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(42);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->get(42)
+			$this->subject->get(42)
 		);
 	}
 
@@ -109,19 +109,19 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function addForExistingUidReturnsModelWithGivenUidForSeveralUids() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(1);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(4);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			1,
-			$this->fixture->get(1)->getUid()
+			$this->subject->get(1)->getUid()
 		);
 		$this->assertSame(
 			4,
-			$this->fixture->get(4)->getUid()
+			$this->subject->get(4)->getUid()
 		);
 	}
 
@@ -131,15 +131,15 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function getForExistingUidAfterAddingTwoModelsWithSameUidReturnsTheLastAddedModel() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(1);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(1);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			$model2,
-			$this->fixture->get(1)
+			$this->subject->get(1)
 		);
 	}
 
@@ -152,7 +152,7 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 			'This map currently does not contain a model with the UID 42.'
 		);
 
-		$this->fixture->get(42);
+		$this->subject->get(42);
 	}
 
 
@@ -166,7 +166,7 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function getNewUidForEmptyMapReturnsOne() {
 		$this->assertSame(
 			1,
-			$this->fixture->getNewUid()
+			$this->subject->getNewUid()
 		);
 	}
 
@@ -180,11 +180,11 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(1);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
-		$newUid = $this->fixture->getNewUid();
+		$newUid = $this->subject->getNewUid();
 
-		$this->fixture->get($newUid);
+		$this->subject->get($newUid);
 	}
 
 	/**
@@ -193,11 +193,11 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function getNewUidForNonEmptyMapReturnsUidGreaterThanGreatestUid() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(42);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertGreaterThan(
 			42,
-			$this->fixture->getNewUid()
+			$this->subject->getNewUid()
 		);
 	}
 
@@ -207,15 +207,15 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	public function getNewUidForMapWithTwoItemsInReverseOrderReturnsUidGreaterThanTheGreatesUid() {
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(2);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(1);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 
 		$this->assertGreaterThan(
 			2,
-			$this->fixture->getNewUid()
+			$this->subject->getNewUid()
 		);
 	}
 }

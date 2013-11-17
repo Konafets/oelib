@@ -139,7 +139,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * This testing framework can be instantiated for one extension at a time.
 	 * Example: In your testcase, you'll have something similar to this line of code:
-	 * $this->fixture = new tx_oelib_testingFramework('tx_seminars');
+	 * $this->subject = new tx_oelib_testingFramework('tx_seminars');
 	 * The parameter you provide is the prefix of the table names of that particular
 	 * extension. Like this, we ensure that the testing framework creates and
 	 * deletes records only on table with this prefix.

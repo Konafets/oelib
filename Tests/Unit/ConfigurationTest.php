@@ -34,15 +34,15 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Configuration the model to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Configuration();
+		$this->subject = new tx_oelib_Configuration();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -60,25 +60,25 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 		);
 
 
-		$this->fixture->set('', 'foo');
+		$this->subject->set('', 'foo');
 	}
 
 	/**
 	 * @test
 	 */
 	public function setDataWithEmptyArrayIsAllowed() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 	}
 
 	/**
 	 * @test
 	 */
 	public function getAfterSetReturnsTheSetValue() {
-		$this->fixture->set('foo', 'bar');
+		$this->subject->set('foo', 'bar');
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -86,13 +86,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAfterSetDataReturnsTheSetValue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => 'bar')
 		);
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getAsString('foo')
+			$this->subject->getAsString('foo')
 		);
 	}
 
@@ -100,10 +100,10 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setDataCalledTwoTimesDoesNotFail() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('title' => 'bar')
 		);
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('title' => 'bar')
 		);
 	}
@@ -117,11 +117,11 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getArrayKeysWithEmptyKeyReturnsKeysOfDataArray() {
-		$this->fixture->setData(array('first' => 'test', 'second' => 'test'));
+		$this->subject->setData(array('first' => 'test', 'second' => 'test'));
 
 		$this->assertSame(
 			array('first', 'second'),
-			$this->fixture->getArrayKeys()
+			$this->subject->getArrayKeys()
 		);
 	}
 
@@ -131,7 +131,7 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	public function getArrayKeysForInexistentKeyReturnEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getArrayKeys('key')
+			$this->subject->getArrayKeys('key')
 		);
 	}
 
@@ -139,11 +139,11 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getArrayKeysForKeyOfStringDataItemReturnsEmptyArray() {
-		$this->fixture->setData(array('key' => 'blub'));
+		$this->subject->setData(array('key' => 'blub'));
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getArrayKeys('key')
+			$this->subject->getArrayKeys('key')
 		);
 	}
 
@@ -151,11 +151,11 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getArrayKeysForKeyOfDataItemWithOneArrayElementReturnsKeyOfArrayElement() {
-		$this->fixture->setData(array('key' => array('test' => 'child')));
+		$this->subject->setData(array('key' => array('test' => 'child')));
 
 		$this->assertSame(
 			array('test'),
-			$this->fixture->getArrayKeys('key')
+			$this->subject->getArrayKeys('key')
 		);
 	}
 
@@ -163,13 +163,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getArrayKeysForKeyOfDataItemWithTwoArrayElementsReturnsKeysOfArrayElements() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('key' => array('first' => 'child', 'second' => 'child'))
 		);
 
 		$this->assertSame(
 			array('first', 'second'),
-			$this->fixture->getArrayKeys('key')
+			$this->subject->getArrayKeys('key')
 		);
 	}
 
@@ -177,13 +177,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsMultidimensionalArrayReturnsMultidimensionalArray() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('1' => array('1.1' => array('1.1.1' => 'child')))
 		);
 
 		$this->assertSame(
 			array('1.1' => array('1.1.1' => 'child')),
-			$this->fixture->getAsMultidimensionalArray('1')
+			$this->subject->getAsMultidimensionalArray('1')
 		);
 	}
 
@@ -191,11 +191,11 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsMultidimensionalArrayForInexistentKeyReturnsEmptyArray() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsMultidimensionalArray('1')
+			$this->subject->getAsMultidimensionalArray('1')
 		);
 	}
 
@@ -203,13 +203,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsMultidimensionalArrayForStringReturnsEmptyArray() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('1' => 'child')
 		);
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsMultidimensionalArray('1')
+			$this->subject->getAsMultidimensionalArray('1')
 		);
 	}
 
@@ -217,13 +217,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsMultidimensionalArrayForIntegerReturnsEmptyArray() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('1' => 42)
 		);
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsMultidimensionalArray('1')
+			$this->subject->getAsMultidimensionalArray('1')
 		);
 	}
 
@@ -231,13 +231,13 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsMultidimensionalArrayForFloatReturnsEmptyArray() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('1' => 42.42)
 		);
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAsMultidimensionalArray('1')
+			$this->subject->getAsMultidimensionalArray('1')
 		);
 	}
 }

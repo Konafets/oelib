@@ -39,19 +39,19 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_BackEndUser the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_Mapper_BackEndUser();
+		$this->subject = new tx_oelib_Mapper_BackEndUser();
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		$this->subject->__destruct();
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -64,7 +64,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsBackEndUserInstance() {
 		$this->assertTrue(
-			$this->fixture->find($this->testingFramework->createBackEndUser())
+			$this->subject->find($this->testingFramework->createBackEndUser())
 				instanceof tx_oelib_Model_BackEndUser
 		);
 	}
@@ -77,7 +77,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$uid,
-			$this->fixture->find($uid)->getUid()
+			$this->subject->find($uid)->getUid()
 		);
 	}
 
@@ -95,7 +95,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 			'$value must not be empty.'
 		);
 
-		$this->fixture->findByUserName('');
+		$this->subject->findByUserName('');
 	}
 
 	/**
@@ -105,7 +105,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createBackEndUser(array('username' => 'foo'));
 
 		$this->assertTrue(
-			$this->fixture->findByUserName('foo')
+			$this->subject->findByUserName('foo')
 				instanceof tx_oelib_Model_BackEndUser
 		);
 	}
@@ -116,7 +116,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function findByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
-			$this->fixture->findByUserName('foo')->getUid()
+			$this->subject->findByUserName('foo')->getUid()
 		);
 	}
 
@@ -126,7 +126,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function findByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'foo')),
-			$this->fixture->findByUserName('FOO')->getUid()
+			$this->subject->findByUserName('FOO')->getUid()
 		);
 	}
 
@@ -136,7 +136,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function findByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
-			$this->fixture->findByUserName('FOO')->getUid()
+			$this->subject->findByUserName('FOO')->getUid()
 		);
 	}
 
@@ -146,7 +146,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function findByUserNameWithLowercaseNameOfExistingUppercaseUserReturnsModelWithThatUid() {
 		$this->assertSame(
 			$this->testingFramework->createBackEndUser(array('username' => 'FOO')),
-			$this->fixture->findByUserName('foo')->getUid()
+			$this->subject->findByUserName('foo')->getUid()
 		);
 	}
 
@@ -160,7 +160,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 			array('username' => 'foo', 'deleted' => 1)
 		);
 
-		$this->fixture->findByUserName('foo');
+		$this->subject->findByUserName('foo');
 	}
 
 
@@ -179,7 +179,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 			['cliKeys'][TYPO3_cliKey][1] = 'foo';
 
 		$this->assertTrue(
-			$this->fixture->findByCliKey() instanceof tx_oelib_Model_BackEndUser
+			$this->subject->findByCliKey() instanceof tx_oelib_Model_BackEndUser
 		);
 	}
 
@@ -194,12 +194,12 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function usergroupRelationIsUserGroupList() {
 		$groupUid = tx_oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost()->getUid();
-		$userUid = $this->fixture->getLoadedTestingModel(
+		$userUid = $this->subject->getLoadedTestingModel(
 			array('usergroup' => $groupUid)
 		)->getUid();
 
 		$this->assertTrue(
-			$this->fixture->find($userUid)->getGroups()->first()
+			$this->subject->find($userUid)->getGroups()->first()
 				instanceof tx_oelib_Model_BackEndUserGroup
 		);
 	}

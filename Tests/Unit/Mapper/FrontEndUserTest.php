@@ -38,19 +38,19 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_FrontEndUser the object to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = new tx_oelib_Mapper_FrontEndUser();
+		$this->subject = new tx_oelib_Mapper_FrontEndUser();
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->fixture->__destruct();
-		unset($this->fixture, $this->testingFramework);
+		$this->subject->__destruct();
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->find($uid) instanceof tx_oelib_Model_FrontEndUser
+			$this->subject->find($uid) instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
 
@@ -77,7 +77,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$uid,
-			$this->fixture->find($uid)->getUid()
+			$this->subject->find($uid)->getUid()
 		);
 	}
 
@@ -102,7 +102,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$groupUids,
-			$this->fixture->find($uid)->getUserGroups()->getUids()
+			$this->subject->find($uid)->getUserGroups()->getUids()
 		);
 	}
 
@@ -120,7 +120,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			'$groupUids must not be an empty string.'
 		);
 
-		$this->fixture->getGroupMembers('');
+		$this->subject->getGroupMembers('');
 	}
 
 	/**
@@ -128,7 +128,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getGroupMembersForNonExistingGroupUidReturnsEmptyList() {
 		$this->assertTrue(
-			$this->fixture->getGroupMembers(
+			$this->subject->getGroupMembers(
 				$this->testingFramework->getAutoIncrement('fe_groups')
 			)->isEmpty()
 		);
@@ -139,7 +139,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getGroupMembersForGroupWithNoMembersReturnsInstanceOfOelibList() {
 		$this->assertTrue(
-			$this->fixture->getGroupMembers(
+			$this->subject->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
 			) instanceof tx_oelib_List
 		);
@@ -150,7 +150,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getGroupMembersForGroupWithNoMembersReturnsEmptyList() {
 		$this->assertTrue(
-			$this->fixture->getGroupMembers(
+			$this->subject->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
 			)->isEmpty()
 		);
@@ -165,7 +165,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
 	}
 
@@ -180,7 +180,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertTrue(
-			$this->fixture->getGroupMembers($feUserGroupUid)->isEmpty()
+			$this->subject->getGroupMembers($feUserGroupUid)->isEmpty()
 		);
 	}
 
@@ -195,7 +195,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertTrue(
-			$this->fixture->getGroupMembers($feUserGroupUid)->isEmpty()
+			$this->subject->getGroupMembers($feUserGroupUid)->isEmpty()
 		);
 	}
 
@@ -210,7 +210,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
 	}
 
@@ -225,7 +225,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
 	}
 
@@ -241,7 +241,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
 	}
 
@@ -253,7 +253,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
 		$this->assertTrue(
-			$this->fixture->getGroupMembers($feUserGroupUid)->first()
+			$this->subject->getGroupMembers($feUserGroupUid)->first()
 				instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
@@ -268,7 +268,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			2,
-			$this->fixture->getGroupMembers($feUserGroupUid)->count()
+			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
 	}
 
@@ -283,7 +283,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertFalse(
-			$this->fixture->getGroupMembers($firstGroupUid)->hasUid(
+			$this->subject->getGroupMembers($firstGroupUid)->hasUid(
 				$secondUserUid
 			)
 		);
@@ -300,7 +300,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			2,
-			$this->fixture->getGroupMembers(
+			$this->subject->getGroupMembers(
 				$firstGroupUid . ',' . $secondGroupUid
 			)->count()
 		);
@@ -316,7 +316,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->getGroupMembers($userGroups)->count()
+			$this->subject->getGroupMembers($userGroups)->count()
 		);
 	}
 
@@ -333,7 +333,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			3,
-			$this->fixture->getGroupMembers($userGroups)->count()
+			$this->subject->getGroupMembers($userGroups)->count()
 		);
 	}
 
@@ -351,7 +351,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			'$value must not be empty.'
 		);
 
-		$this->fixture->findByUserName('');
+		$this->subject->findByUserName('');
 	}
 
 	/**
@@ -363,7 +363,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertTrue(
-			$this->fixture->findByUserName('foo')
+			$this->subject->findByUserName('foo')
 				instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
@@ -376,7 +376,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
-			$this->fixture->findByUserName('foo')->getUid()
+			$this->subject->findByUserName('foo')->getUid()
 		);
 	}
 
@@ -388,7 +388,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
-			$this->fixture->findByUserName('FOO')->getUid()
+			$this->subject->findByUserName('FOO')->getUid()
 		);
 	}
 
@@ -400,7 +400,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),
-			$this->fixture->findByUserName('FOO')->getUid()
+			$this->subject->findByUserName('FOO')->getUid()
 		);
 	}
 
@@ -412,7 +412,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),
-			$this->fixture->findByUserName('foo')->getUid()
+			$this->subject->findByUserName('foo')->getUid()
 		);
 	}
 
@@ -427,7 +427,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('username' => 'foo', 'deleted' => 1)
 		);
 
-		$this->fixture->findByUserName('foo');
+		$this->subject->findByUserName('foo');
 	}
 }
 ?>

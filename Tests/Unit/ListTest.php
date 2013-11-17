@@ -34,7 +34,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_List
 	 */
-	private $fixture;
+	private $subject;
 
 	/**
 	 * @var array models that need to be cleaned up during tearDown.
@@ -49,17 +49,17 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function setUp() {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
-		$this->fixture = new tx_oelib_List();
+		$this->subject = new tx_oelib_List();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
+		$this->subject->__destruct();
 		foreach($this->modelStorage as $key => $model ) {
 			$model->__destruct();
 			unset($this->modelStorage[$key]);
 		}
 
-		unset($this->fixture, $this->modelStorage);
+		unset($this->subject, $this->modelStorage);
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
@@ -96,7 +96,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	}
 
 	/**
-	 * Adds models with the given titles to the fixture, one for each title
+	 * Adds models with the given titles to the subject, one for each title
 	 * given in $titles.
 	 *
 	 * @param array<string> $titles
@@ -108,7 +108,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		foreach ($titles as $title) {
 			$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 			$model->setTitle($title);
-			$this->fixture->add($model);
+			$this->subject->add($model);
 
 			$this->modelStorage[] = $model;
 		}
@@ -249,7 +249,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -261,7 +261,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->first()->getTitle()
+			$this->subject->first()->getTitle()
 		);
 	}
 
@@ -273,7 +273,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -285,7 +285,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->first()->getTitle()
+			$this->subject->first()->getTitle()
 		);
 	}
 
@@ -297,7 +297,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			3,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -311,7 +311,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isEmptyForEmptyListReturnsTrue() {
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -322,7 +322,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture();
 
 		$this->assertFalse(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -337,7 +337,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function countForEmptyListReturnsZero() {
 		$this->assertSame(
 			0,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -349,7 +349,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -359,11 +359,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function countWithOneModelWithUidReturnsOne() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(1);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$model->__destruct();
@@ -377,7 +377,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -386,12 +386,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function countAfterAddingTheSameModelTwiceReturnsOne() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
-		$this->fixture->add($model);
+		$this->subject->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$model->__destruct();
@@ -407,7 +407,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function currentForEmptyListReturnsNull() {
 		$this->assertNull(
-			$this->fixture->current()
+			$this->subject->current()
 		);
 	}
 
@@ -416,11 +416,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function currentWithOneItemReturnsThatItem() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->current()
+			$this->subject->current()
 		);
 
 		$model->__destruct();
@@ -431,13 +431,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function currentWithTwoItemsInitiallyReturnsTheFirstItem() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->current()
+			$this->subject->current()
 		);
 
 		$model1->__destruct();
@@ -455,7 +455,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function keyInitiallyReturnsZero() {
 		$this->assertSame(
 			0,
-			$this->fixture->key()
+			$this->subject->key()
 		);
 	}
 
@@ -464,11 +464,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function keyAfterNextInListWithOneElementReturnsOne() {
 		$this->addModelsToFixture();
-		$this->fixture->next();
+		$this->subject->next();
 
 		$this->assertSame(
 			1,
-			$this->fixture->key()
+			$this->subject->key()
 		);
 	}
 
@@ -478,10 +478,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function currentWithOneItemAfterNextReturnsNull() {
 		$this->addModelsToFixture();
 
-		$this->fixture->next();
+		$this->subject->next();
 
 		$this->assertNull(
-			$this->fixture->current()
+			$this->subject->current()
 		);
 	}
 
@@ -490,15 +490,15 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function currentWithTwoItemsAfterNextReturnsTheSecondItem() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
-		$this->fixture->next();
+		$this->subject->next();
 
 		$this->assertSame(
 			$model2,
-			$this->fixture->current()
+			$this->subject->current()
 		);
 
 		$model1->__destruct();
@@ -514,12 +514,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function rewindAfterNextResetsKeyToZero() {
-		$this->fixture->next();
-		$this->fixture->rewind();
+		$this->subject->next();
+		$this->subject->rewind();
 
 		$this->assertSame(
 			0,
-			$this->fixture->key()
+			$this->subject->key()
 		);
 	}
 
@@ -528,14 +528,14 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function rewindAfterNextForOneItemsResetsCurrentToTheOnlyItem() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
-		$this->fixture->next();
-		$this->fixture->rewind();
+		$this->subject->next();
+		$this->subject->rewind();
 
 		$this->assertSame(
 			$model,
-			$this->fixture->current()
+			$this->subject->current()
 		);
 
 		$model->__destruct();
@@ -551,7 +551,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function firstForEmptyListReturnsNull() {
 		$this->assertNull(
-			$this->fixture->first()
+			$this->subject->first()
 		);
 	}
 
@@ -560,11 +560,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function firstForListWithOneItemReturnsThatItem() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$model->__destruct();
@@ -575,13 +575,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function firstWithTwoItemsReturnsTheFirstItem() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$model1->__destruct();
@@ -593,15 +593,15 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function firstWithTwoItemsAfterNextReturnsTheFirstItem() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
-		$this->fixture->next();
+		$this->subject->next();
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$model1->__destruct();
@@ -618,7 +618,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function validForEmptyListReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->valid()
+			$this->subject->valid()
 		);
 	}
 
@@ -629,7 +629,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture();
 
 		$this->assertTrue(
-			$this->fixture->valid()
+			$this->subject->valid()
 		);
 	}
 
@@ -639,10 +639,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function validForOneElementAfterNextReturnsFalse() {
 		$this->addModelsToFixture();
 
-		$this->fixture->next();
+		$this->subject->next();
 
 		$this->assertFalse(
-			$this->fixture->valid()
+			$this->subject->valid()
 		);
 	}
 
@@ -652,11 +652,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function validForOneElementAfterNextAndRewindReturnsTrue() {
 		$this->addModelsToFixture();
 
-		$this->fixture->next();
-		$this->fixture->rewind();
+		$this->subject->next();
+		$this->subject->rewind();
 
 		$this->assertTrue(
-			$this->fixture->valid()
+			$this->subject->valid()
 		);
 	}
 
@@ -670,7 +670,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isIterator() {
 		$this->assertTrue(
-			$this->fixture instanceof Iterator
+			$this->subject instanceof Iterator
 		);
 	}
 
@@ -680,10 +680,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function iteratingOverOneItemDoesNotFail() {
 		$this->addModelsToFixture();
 
-		$this->fixture->next();
-		$this->fixture->rewind();
+		$this->subject->next();
+		$this->subject->rewind();
 
-		foreach ($this->fixture as $value);
+		foreach ($this->subject as $value);
 	}
 
 
@@ -697,7 +697,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function getUidsForEmptyListReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 	}
 
@@ -709,7 +709,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 	}
 
@@ -719,11 +719,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function getUidsForOneItemsWithUidReturnsThatUid() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(1);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			'1',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$model->__destruct();
@@ -735,14 +735,14 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function getUidsForTwoItemsWithUidReturnsCommaSeparatedItems() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(1);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(42);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			'1,42',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$model1->__destruct();
@@ -755,14 +755,14 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function getUidsForTwoItemsWithDecreasingUidReturnsItemsInOrdnerOfInsertion() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(42);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(1);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			'42,1',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$model1->__destruct();
@@ -775,16 +775,16 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function getUidsForDuplicateUidsReturnsUidsInOrdnerOfFirstInsertion() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model1->setUid(1);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model2->setUid(2);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 
 		$this->assertSame(
 			'1,2',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$model1->__destruct();
@@ -796,12 +796,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getUidsForElementThatGotItsUidAfterAddingItReturnsItsUid() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 		$model->setUid(42);
 
 		$this->assertSame(
 			'42',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$model->__destruct();
@@ -817,7 +817,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasUidForInexistentUidReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->hasUid(42)
+			$this->subject->hasUid(42)
 		);
 	}
 
@@ -827,10 +827,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function hasUidForExistingUidReturnsTrue() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(42);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertTrue(
-			$this->fixture->hasUid(42)
+			$this->subject->hasUid(42)
 		);
 
 		$model->__destruct();
@@ -841,11 +841,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasUidForElementThatGotItsUidAfterAddingItReturnsTrue() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 		$model->setUid(42);
 
 		$this->assertTrue(
-			$this->fixture->hasUid(42)
+			$this->subject->hasUid(42)
 		);
 
 		$model->__destruct();
@@ -861,11 +861,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function sortWithTwoModelsAndSortByTitleAscendingFunctionSortsModelsByTitleAscending() {
 		$this->addModelsToFixture(array('Beta', 'Alpha'));
-		$this->fixture->sort(array($this, 'sortByTitleAscending'));
+		$this->subject->sort(array($this, 'sortByTitleAscending'));
 
 		$this->assertSame(
 			'Alpha',
-			$this->fixture->first()->getTitle()
+			$this->subject->first()->getTitle()
 		);
 	}
 
@@ -874,11 +874,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function sortWithThreeModelsAndSortByTitleAscendingFunctionSortsModelsByTitleAscending() {
 		$this->addModelsToFixture(array('Zeta', 'Beta', 'Alpha'));
-		$this->fixture->sort(array($this, 'sortByTitleAscending'));
+		$this->subject->sort(array($this, 'sortByTitleAscending'));
 
 		$this->assertSame(
 			'Alpha',
-			$this->fixture->first()->getTitle()
+			$this->subject->first()->getTitle()
 		);
 	}
 
@@ -887,11 +887,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function sortWithTwoModelsAndSortByTitleDescendingFunctionSortsModelsByTitleDescending() {
 		$this->addModelsToFixture(array('Alpha', 'Beta'));
-		$this->fixture->sort(array($this, 'sortByTitleDescending'));
+		$this->subject->sort(array($this, 'sortByTitleDescending'));
 
 		$this->assertSame(
 			'Beta',
-			$this->fixture->first()->getTitle()
+			$this->subject->first()->getTitle()
 		);
 	}
 
@@ -899,10 +899,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sortMakesListDirty() {
-		$fixture = $this->getMock('tx_oelib_List', array('markAsDirty'));
-		$fixture->expects($this->once())->method('markAsDirty');
+		$subject = $this->getMock('tx_oelib_List', array('markAsDirty'));
+		$subject->expects($this->once())->method('markAsDirty');
 
-		$fixture->sort(array($this, 'sortByTitleAscending'));
+		$subject->sort(array($this, 'sortByTitleAscending'));
 	}
 
 
@@ -915,10 +915,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function appendEmptyListToEmptyListMakesEmptyList() {
 		$otherList = new tx_oelib_List();
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 
 		$otherList->__destruct();
@@ -934,11 +934,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model2);
 
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -953,11 +953,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture(array('First', 'Second'));
 
 		$otherList = new tx_oelib_List();
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -969,16 +969,16 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function appendOneItemListToOneItemListWithTheSameItemMakesOneItemList() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(42);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$otherList = new tx_oelib_List();
 		$otherList->add($model);
 
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -995,11 +995,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model2);
 
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$otherList->__destruct();
@@ -1012,17 +1012,17 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function appendAppendsItemAfterExistingItems() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$otherList = new tx_oelib_List();
 		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($otherModel);
 
-		$this->fixture->append($otherList);
+		$this->subject->append($otherList);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$otherList->__destruct();
@@ -1042,10 +1042,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$otherList = new tx_oelib_List();
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 
 		$otherList->__destruct();
@@ -1063,11 +1063,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model2);
 
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -1084,11 +1084,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture(array('First', 'Second'));
 
 		$otherList = new tx_oelib_List();
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
 			2,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -1102,16 +1102,16 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(42);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$otherList = new tx_oelib_List();
 		$otherList->add($model);
 
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$otherList->__destruct();
@@ -1130,11 +1130,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model2);
 
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$otherList->__destruct();
@@ -1149,17 +1149,17 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$otherList = new tx_oelib_List();
 		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($otherModel);
 
-		$this->fixture->appendUnique($otherList);
+		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 
 		$otherList->__destruct();
@@ -1176,7 +1176,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function purgeCurrentWithEmptyListDoesNotFail() {
-		$this->fixture->purgeCurrent();
+		$this->subject->purgeCurrent();
 	}
 
 	/**
@@ -1185,11 +1185,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentWithRewoundOneElementListMakesListEmpty() {
 		$this->addModelsToFixture();
 
-		$this->fixture->rewind();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->purgeCurrent();
 
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -1199,11 +1199,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentWithRewoundOneElementListMakesPointerInvalid() {
 		$this->addModelsToFixture();
 
-		$this->fixture->rewind();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->purgeCurrent();
 
 		$this->assertFalse(
-			$this->fixture->valid()
+			$this->subject->valid()
 		);
 	}
 
@@ -1213,12 +1213,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentWithOneElementListAndPointerAfterLastItemLeavesListUntouched() {
 		$this->addModelsToFixture();
 
-		$this->fixture->rewind();
-		$this->fixture->next();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->next();
+		$this->subject->purgeCurrent();
 
 		$this->assertFalse(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -1228,12 +1228,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentForFirstOfTwoElementsMakesOneItemList() {
 		$this->addModelsToFixture(array('', ''));
 
-		$this->fixture->rewind();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->purgeCurrent();
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -1243,13 +1243,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentForSecondOfTwoElementsMakesOneItemList() {
 		$this->addModelsToFixture(array('', ''));
 
-		$this->fixture->rewind();
-		$this->fixture->next();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->next();
+		$this->subject->purgeCurrent();
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 	}
 
@@ -1260,14 +1260,14 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture();
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
-		$this->fixture->rewind();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->purgeCurrent();
 
 		$this->assertSame(
 			$model,
-			$this->fixture->current()
+			$this->subject->current()
 		);
 
 		$model->__destruct();
@@ -1281,9 +1281,9 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$completedIterations = 0;
 
-		foreach ($this->fixture as $model) {
+		foreach ($this->subject as $model) {
 			if ($completedIterations == 1) {
-				$this->fixture->purgeCurrent();
+				$this->subject->purgeCurrent();
 			}
 
 			$completedIterations++;
@@ -1303,13 +1303,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$completedIterations = 0;
 
-		while ($this->fixture->valid()) {
+		while ($this->subject->valid()) {
 			if ($completedIterations == 1) {
-				$this->fixture->purgeCurrent();
+				$this->subject->purgeCurrent();
 			}
 
 			$completedIterations++;
-			$this->fixture->next();
+			$this->subject->next();
 		}
 
 		$this->assertSame(
@@ -1324,15 +1324,15 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function purgeCurrentForModelWithUidRemovesModelFromGetUids() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(1);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 		$this->modelStorage[] = $model;
 
-		$this->fixture->rewind();
-		$this->fixture->purgeCurrent();
+		$this->subject->rewind();
+		$this->subject->purgeCurrent();
 
 		$this->assertSame(
 			'',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 	}
 
@@ -1351,7 +1351,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			);
 		}
 
-		clone $this->fixture;
+		clone $this->subject;
 	}
 
 	/**
@@ -1366,13 +1366,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->addModelsToFixture();
 
-		$clonedList = clone($this->fixture);
+		$clonedList = clone($this->subject);
 		$clonedList->rewind();
 		$clonedList->purgeCurrent();
 
 		$this->assertSame(
 			1,
-			$this->fixture->count()
+			$this->subject->count()
 		);
 
 		$clonedList->__destruct();
@@ -1390,16 +1390,16 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$model->setUid(1);
-		$this->fixture->add($model);
+		$this->subject->add($model);
 		$this->modelStorage[] = $model;
 
-		$clonedList = clone($this->fixture);
+		$clonedList = clone($this->subject);
 		$clonedList->rewind();
 		$clonedList->purgeCurrent();
 
 		$this->assertSame(
 			'1',
-			$this->fixture->getUids()
+			$this->subject->getUids()
 		);
 
 		$clonedList->__destruct();
@@ -1416,17 +1416,17 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function sortBySortingMovesItemWithHigherSortingValueAfterItemWithLowerSortingValue() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel();
 		$model1->setSorting(2);
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel();
 		$model2->setSorting(1);
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
-		$this->fixture->sortBySorting();
+		$this->subject->sortBySorting();
 
 		$this->assertSame(
 			$model2,
-			$this->fixture->first()
+			$this->subject->first()
 		);
 	}
 
@@ -1441,7 +1441,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function atForNegativePositionThrowsException() {
-		$this->fixture->at(-1);
+		$this->subject->at(-1);
 	}
 
 	/**
@@ -1449,7 +1449,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function atForPositionZeroWithEmptyListReturnsNull() {
 		$this->assertNull(
-			$this->fixture->at(0)
+			$this->subject->at(0)
 		);
 	}
 
@@ -1458,7 +1458,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function atForPositionOneWithEmptyListReturnsNull() {
 		$this->assertNull(
-			$this->fixture->at(1)
+			$this->subject->at(1)
 		);
 	}
 
@@ -1467,11 +1467,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function atForPositionZeroWithOneItemListReturnsItem() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			$model,
-			$this->fixture->at(0)
+			$this->subject->at(0)
 		);
 	}
 
@@ -1479,10 +1479,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function atForPositionOneWithOneItemListReturnsNull() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
 		$this->assertNull(
-			$this->fixture->at(1)
+			$this->subject->at(1)
 		);
 	}
 
@@ -1491,12 +1491,12 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function atForPositionZeroWithTwoItemListReturnsFirstItem() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add($model1);
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
 		$this->assertSame(
 			$model1,
-			$this->fixture->at(0)
+			$this->subject->at(0)
 		);
 	}
 
@@ -1504,13 +1504,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function atForPositionOneWithTwoItemListReturnsSecondItem() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			$model2,
-			$this->fixture->at(1)
+			$this->subject->at(1)
 		);
 	}
 
@@ -1518,11 +1518,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function atForPositionTwoWithTwoItemListReturnsNull() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
 		$this->assertNull(
-			$this->fixture->at(2)
+			$this->subject->at(2)
 		);
 	}
 
@@ -1537,7 +1537,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function inRangeWithNegativeStartThrowsException() {
-		$this->fixture->inRange(-1, 1);
+		$this->subject->inRange(-1, 1);
 	}
 
 	/**
@@ -1546,18 +1546,18 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function inRangeWithNegativeLengthThrowsException() {
-		$this->fixture->inRange(1, -1);
+		$this->subject->inRange(1, -1);
 	}
 
 	/**
 	 * @test
 	 */
 	public function inRangeWithZeroLengthReturnsEmptyList() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
 		$this->assertTrue(
-			$this->fixture->inRange(1, 0)->isEmpty()
+			$this->subject->inRange(1, 0)->isEmpty()
 		);
 	}
 
@@ -1566,10 +1566,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function inRangeCanReturnOneElementFromStartOfList() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add($model);
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
-		$result = $this->fixture->inRange(0, 1);
+		$result = $this->subject->inRange(0, 1);
 		$this->assertSame(
 			1,
 			$result->count()
@@ -1585,10 +1585,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function inRangeCanReturnOneElementAfterStartOfList() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
-		$this->fixture->add($model);
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add($model);
 
-		$result = $this->fixture->inRange(1, 1);
+		$result = $this->subject->inRange(1, 1);
 		$this->assertSame(
 			1,
 			$result->count()
@@ -1604,13 +1604,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function inRangeCanReturnTwoElementsFromStartOfList() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			2,
-			$this->fixture->inRange(0, 2)->count()
+			$this->subject->inRange(0, 2)->count()
 		);
 	}
 
@@ -1618,10 +1618,10 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function inRangeWithStartAfterListEndReturnsEmptyList() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 
 		$this->assertTrue(
-			$this->fixture->inRange(1, 1)->isEmpty()
+			$this->subject->inRange(1, 1)->isEmpty()
 		);
 	}
 
@@ -1629,11 +1629,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function inRangeWithRangeCrossingListEndReturnsElementUpToListEnd() {
-		$this->fixture->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
+		$this->subject->add(new Tx_Oelib_Tests_Unit_Fixtures_TestingModel());
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
-		$result = $this->fixture->inRange(1, 2);
+		$result = $this->subject->inRange(1, 2);
 
 		$this->assertSame(
 			1,
@@ -1656,7 +1656,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function toArrayForNoElementsReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->toArray()
+			$this->subject->toArray()
 		);
 	}
 
@@ -1665,11 +1665,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function toArrayWithOneElementReturnsArrayWithElement() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model);
+		$this->subject->add($model);
 
 		$this->assertSame(
 			array($model),
-			$this->fixture->toArray()
+			$this->subject->toArray()
 		);
 	}
 
@@ -1678,13 +1678,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	public function toArrayWithTwoElementsReturnsArrayWithBothElementsInAddingOrder() {
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model1);
+		$this->subject->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->add($model2);
+		$this->subject->add($model2);
 
 		$this->assertSame(
 			array($model1, $model2),
-			$this->fixture->toArray()
+			$this->subject->toArray()
 		);
 	}
 }

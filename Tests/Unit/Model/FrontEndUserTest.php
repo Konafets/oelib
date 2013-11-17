@@ -34,7 +34,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_FrontEndUser
 	 */
-	private $fixture;
+	private $subject;
 
 	/**
 	 * @var integer a backup of $GLOBALS['EXEC_TIME']
@@ -42,7 +42,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	private $globalExecTimeBackup;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_FrontEndUser();
+		$this->subject = new tx_oelib_Model_FrontEndUser();
 
 		$this->globalExecTimeBackup = $GLOBALS['EXEC_TIME'];
 	}
@@ -50,8 +50,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function tearDown() {
 		$GLOBALS['EXEC_TIME'] = $this->globalExecTimeBackup;
 
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -63,11 +63,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUserNameForEmptyUserNameReturnsEmptyString() {
-		$this->fixture->setData(array('username' => ''));
+		$this->subject->setData(array('username' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getUserName()
+			$this->subject->getUserName()
 		);
 	}
 
@@ -75,11 +75,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUserNameForNonEmptyUserNameReturnsUserName() {
-		$this->fixture->setData(array('username' => 'johndoe'));
+		$this->subject->setData(array('username' => 'johndoe'));
 
 		$this->assertSame(
 			'johndoe',
-			$this->fixture->getUserName()
+			$this->subject->getUserName()
 		);
 	}
 
@@ -87,11 +87,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setUserNameSetsUserName() {
-		$this->fixture->setUserName('foo_bar');
+		$this->subject->setUserName('foo_bar');
 
 		$this->assertSame(
 			'foo_bar',
-			$this->fixture->getUserName()
+			$this->subject->getUserName()
 		);
 	}
 
@@ -101,7 +101,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setUserNameWithEmptyUserNameThrowsException() {
-		$this->fixture->setUserName('');
+		$this->subject->setUserName('');
 	}
 
 
@@ -113,11 +113,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPasswordInitiallyReturnsEmptyString() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			'',
-			$this->fixture->getPassword()
+			$this->subject->getPassword()
 		);
 	}
 
@@ -125,11 +125,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPasswordReturnsPassword() {
-		$this->fixture->setData(array('password' => 'kasfdjklsdajk'));
+		$this->subject->setData(array('password' => 'kasfdjklsdajk'));
 
 		$this->assertSame(
 			'kasfdjklsdajk',
-			$this->fixture->getPassword()
+			$this->subject->getPassword()
 		);
 	}
 
@@ -137,11 +137,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setPasswordSetsPassword() {
-		$this->fixture->setPassword('kljvasgd24vsga354');
+		$this->subject->setPassword('kljvasgd24vsga354');
 
 		$this->assertSame(
 			'kljvasgd24vsga354',
-			$this->fixture->getPassword()
+			$this->subject->getPassword()
 		);
 	}
 
@@ -151,7 +151,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setPasswordWithEmptyPasswordThrowsException() {
-		$this->fixture->setPassword('');
+		$this->subject->setPassword('');
 	}
 
 
@@ -163,14 +163,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasNameForEmptyNameLastNameAndFirstNameReturnsFalse() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => '',
 			'first_name' => '',
 			'last_name' => '',
 		));
 
 		$this->assertFalse(
-			$this->fixture->hasName()
+			$this->subject->hasName()
 		);
 	}
 
@@ -178,12 +178,12 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasNameForNonEmptyUserReturnsFalse() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'username' => 'johndoe',
 		));
 
 		$this->assertFalse(
-			$this->fixture->hasName()
+			$this->subject->hasName()
 		);
 	}
 
@@ -191,14 +191,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasNameForNonEmptyNameReturnsTrue() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => 'John Doe',
 			'first_name' => '',
 			'last_name' => '',
 		));
 
 		$this->assertTrue(
-			$this->fixture->hasName()
+			$this->subject->hasName()
 		);
 	}
 
@@ -206,14 +206,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasNameForNonEmptyFirstNameReturnsTrue() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => '',
 			'first_name' => 'John',
 			'last_name' => '',
 		));
 
 		$this->assertTrue(
-			$this->fixture->hasName()
+			$this->subject->hasName()
 		);
 	}
 
@@ -221,14 +221,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasNameForNonEmptyLastNameReturnsTrue() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => '',
 			'first_name' => '',
 			'last_name' => 'Doe',
 		));
 
 		$this->assertTrue(
-			$this->fixture->hasName()
+			$this->subject->hasName()
 		);
 	}
 
@@ -236,13 +236,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForNonEmptyNameReturnsName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => 'John Doe',
 		));
 
 		$this->assertSame(
 			'John Doe',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -250,7 +250,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForNonEmptyNameFirstNameAndLastNameReturnsName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => 'John Doe',
 			'first_name' => 'Peter',
 			'last_name' => 'Pan',
@@ -258,7 +258,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'John Doe',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -266,7 +266,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForEmptyNameAndNonEmptyFirstAndLastNameReturnsFirstAndLastName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'name' => '',
 			'first_name' => 'Peter',
 			'last_name' => 'Pan',
@@ -274,7 +274,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'Peter Pan',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -282,7 +282,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForNonEmptyFirstAndLastNameAndNonEmptyUserNameReturnsFirstAndLastName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'first_name' => 'Peter',
 			'last_name' => 'Pan',
 			'username' => 'johndoe',
@@ -290,7 +290,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'Peter Pan',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -298,7 +298,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForEmptyFirstNameAndNonEmptyLastAndUserNameReturnsLastName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'first_name' => '',
 			'last_name' => 'Pan',
 			'username' => 'johndoe',
@@ -306,7 +306,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'Pan',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -314,7 +314,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForEmptyLastNameAndNonEmptyFirstAndUserNameReturnsFirstName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'first_name' => 'Peter',
 			'last_name' => '',
 			'username' => 'johndoe',
@@ -322,7 +322,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'Peter',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -330,7 +330,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForEmptyFirstAndLastNameAndNonEmptyUserNameReturnsUserName() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'first_name' => '',
 			'last_name' => '',
 			'username' => 'johndoe',
@@ -338,7 +338,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'johndoe',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -346,11 +346,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setNameSetsFullName() {
-		$this->fixture->setName('Alfred E. Neumann');
+		$this->subject->setName('Alfred E. Neumann');
 
 		$this->assertSame(
 			'Alfred E. Neumann',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -363,10 +363,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCompanyForEmptyCompanyReturnsFalse() {
-		$this->fixture->setData(array('company' => ''));
+		$this->subject->setData(array('company' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasCompany()
+			$this->subject->hasCompany()
 		);
 	}
 
@@ -374,10 +374,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCompanyForNonEmptyCompanyReturnsTrue() {
-		$this->fixture->setData(array('company' => 'Test Inc.'));
+		$this->subject->setData(array('company' => 'Test Inc.'));
 
 		$this->assertTrue(
-			$this->fixture->hasCompany()
+			$this->subject->hasCompany()
 		);
 	}
 
@@ -385,11 +385,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCompanyForEmptyCompanyReturnsEmptyString() {
-		$this->fixture->setData(array('company' => ''));
+		$this->subject->setData(array('company' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getCompany()
+			$this->subject->getCompany()
 		);
 	}
 
@@ -397,11 +397,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCompanyForNonEmptyCompanyReturnsCompany() {
-		$this->fixture->setData(array('company' => 'Test Inc.'));
+		$this->subject->setData(array('company' => 'Test Inc.'));
 
 		$this->assertSame(
 			'Test Inc.',
-			$this->fixture->getCompany()
+			$this->subject->getCompany()
 		);
 	}
 
@@ -409,11 +409,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCompanySetsCompany() {
-		$this->fixture->setCompany('Test Inc.');
+		$this->subject->setCompany('Test Inc.');
 
 		$this->assertSame(
 			'Test Inc.',
-			$this->fixture->getCompany()
+			$this->subject->getCompany()
 		);
 	}
 
@@ -427,10 +427,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasStreetForEmptyAddressReturnsFalse() {
-		$this->fixture->setData(array('address' => ''));
+		$this->subject->setData(array('address' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasStreet()
+			$this->subject->hasStreet()
 		);
 	}
 
@@ -438,10 +438,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasStreetForNonEmptyAddressReturnsTrue() {
-		$this->fixture->setData(array('address' => 'Foo street 1'));
+		$this->subject->setData(array('address' => 'Foo street 1'));
 
 		$this->assertTrue(
-			$this->fixture->hasStreet()
+			$this->subject->hasStreet()
 		);
 	}
 
@@ -449,11 +449,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getStreetForEmptyAddressReturnsEmptyString() {
-		$this->fixture->setData(array('address' => ''));
+		$this->subject->setData(array('address' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getStreet()
+			$this->subject->getStreet()
 		);
 	}
 
@@ -461,11 +461,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getStreetForNonEmptyAddressReturnsAddress() {
-		$this->fixture->setData(array('address' => 'Foo street 1'));
+		$this->subject->setData(array('address' => 'Foo street 1'));
 
 		$this->assertSame(
 			'Foo street 1',
-			$this->fixture->getStreet()
+			$this->subject->getStreet()
 		);
 	}
 
@@ -473,13 +473,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getStreetForMultilineAddressReturnsAddress() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'address' => 'Foo street 1' . LF . 'Floor 3'
 		));
 
 		$this->assertSame(
 			'Foo street 1' . LF . 'Floor 3',
-			$this->fixture->getStreet()
+			$this->subject->getStreet()
 		);
 	}
 
@@ -492,10 +492,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasZipForEmptyZipReturnsFalse() {
-		$this->fixture->setData(array('zip' => ''));
+		$this->subject->setData(array('zip' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasZip()
+			$this->subject->hasZip()
 		);
 	}
 
@@ -503,10 +503,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasZipForNonEmptyZipReturnsTrue() {
-		$this->fixture->setData(array('zip' => '12345'));
+		$this->subject->setData(array('zip' => '12345'));
 
 		$this->assertTrue(
-			$this->fixture->hasZip()
+			$this->subject->hasZip()
 		);
 	}
 
@@ -514,11 +514,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipForEmptyZipReturnsEmptyString() {
-		$this->fixture->setData(array('zip' => ''));
+		$this->subject->setData(array('zip' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getZip()
+			$this->subject->getZip()
 		);
 	}
 
@@ -526,11 +526,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipForNonEmptyZipReturnsZip() {
-		$this->fixture->setData(array('zip' => '12345'));
+		$this->subject->setData(array('zip' => '12345'));
 
 		$this->assertSame(
 			'12345',
-			$this->fixture->getZip()
+			$this->subject->getZip()
 		);
 	}
 
@@ -543,10 +543,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCityForEmptyCityReturnsFalse() {
-		$this->fixture->setData(array('city' => ''));
+		$this->subject->setData(array('city' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasCity()
+			$this->subject->hasCity()
 		);
 	}
 
@@ -554,10 +554,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCityForNonEmptyCityReturnsTrue() {
-		$this->fixture->setData(array('city' => 'Test city'));
+		$this->subject->setData(array('city' => 'Test city'));
 
 		$this->assertTrue(
-			$this->fixture->hasCity()
+			$this->subject->hasCity()
 		);
 	}
 
@@ -565,11 +565,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCityForEmptyCityReturnsEmptyString() {
-		$this->fixture->setData(array('city' => ''));
+		$this->subject->setData(array('city' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getCity()
+			$this->subject->getCity()
 		);
 	}
 
@@ -577,11 +577,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCityForNonEmptyCityReturnsCity() {
-		$this->fixture->setData(array('city' => 'Test city'));
+		$this->subject->setData(array('city' => 'Test city'));
 
 		$this->assertSame(
 			'Test city',
-			$this->fixture->getCity()
+			$this->subject->getCity()
 		);
 	}
 
@@ -589,14 +589,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipAndCityForNonEmptyZipAndCityReturnsZipAndCity() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'zip' => '12345',
 			'city' => 'Test city',
 		));
 
 		$this->assertSame(
 			'12345 Test city',
-			$this->fixture->getZipAndCity()
+			$this->subject->getZipAndCity()
 		);
 	}
 
@@ -604,14 +604,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipAndCityForEmptyZipAndNonEmptyCityReturnsCity() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'zip' => '',
 			'city' => 'Test city',
 		));
 
 		$this->assertSame(
 			'Test city',
-			$this->fixture->getZipAndCity()
+			$this->subject->getZipAndCity()
 		);
 	}
 
@@ -619,14 +619,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipAndGetCityForNonEmptyZipAndEmptyCityReturnsEmptyString() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'zip' => '12345',
 			'city' => '',
 		));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getZipAndCity()
+			$this->subject->getZipAndCity()
 		);
 	}
 
@@ -634,14 +634,14 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getZipAndGetCityForEmptyZipAndEmptyCityReturnsEmptyString() {
-		$this->fixture->setData(array(
+		$this->subject->setData(array(
 			'zip' => '',
 			'city' => '',
 		));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getZipAndCity()
+			$this->subject->getZipAndCity()
 		);
 	}
 
@@ -654,10 +654,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasPhoneNumberForEmptyPhoneReturnsFalse() {
-		$this->fixture->setData(array('telephone' => ''));
+		$this->subject->setData(array('telephone' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasPhoneNumber()
+			$this->subject->hasPhoneNumber()
 		);
 	}
 
@@ -665,10 +665,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasPhoneNumberForNonEmptyPhoneReturnsTrue() {
-		$this->fixture->setData(array('telephone' => '1234 5678'));
+		$this->subject->setData(array('telephone' => '1234 5678'));
 
 		$this->assertTrue(
-			$this->fixture->hasPhoneNumber()
+			$this->subject->hasPhoneNumber()
 		);
 	}
 
@@ -676,11 +676,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPhoneNumberForEmptyPhoneReturnsEmptyString() {
-		$this->fixture->setData(array('telephone' => ''));
+		$this->subject->setData(array('telephone' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getPhoneNumber()
+			$this->subject->getPhoneNumber()
 		);
 	}
 
@@ -688,11 +688,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPhoneNumberForNonEmptyPhoneReturnsPhone() {
-		$this->fixture->setData(array('telephone' => '1234 5678'));
+		$this->subject->setData(array('telephone' => '1234 5678'));
 
 		$this->assertSame(
 			'1234 5678',
-			$this->fixture->getPhoneNumber()
+			$this->subject->getPhoneNumber()
 		);
 	}
 
@@ -705,10 +705,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasEmailAddressForEmptyEmailReturnsFalse() {
-		$this->fixture->setData(array('email' => ''));
+		$this->subject->setData(array('email' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasEmailAddress()
+			$this->subject->hasEmailAddress()
 		);
 	}
 
@@ -716,10 +716,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasEmailAddressForNonEmptyEmailReturnsTrue() {
-		$this->fixture->setData(array('email' => 'john@doe.com'));
+		$this->subject->setData(array('email' => 'john@doe.com'));
 
 		$this->assertTrue(
-			$this->fixture->hasEmailAddress()
+			$this->subject->hasEmailAddress()
 		);
 	}
 
@@ -727,11 +727,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEmailAddressForEmptyEmailReturnsEmptyString() {
-		$this->fixture->setData(array('email' => ''));
+		$this->subject->setData(array('email' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getEmailAddress()
+			$this->subject->getEmailAddress()
 		);
 	}
 
@@ -739,11 +739,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEmailAddressForNonEmptyEmailReturnsEmail() {
-		$this->fixture->setData(array('email' => 'john@doe.com'));
+		$this->subject->setData(array('email' => 'john@doe.com'));
 
 		$this->assertSame(
 			'john@doe.com',
-			$this->fixture->getEmailAddress()
+			$this->subject->getEmailAddress()
 		);
 	}
 
@@ -751,11 +751,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setEmailAddressSetsEmailAddress() {
-		$this->fixture->setEmailAddress('john@example.com');
+		$this->subject->setEmailAddress('john@example.com');
 
 		$this->assertSame(
 			'john@example.com',
-			$this->fixture->getEmailAddress()
+			$this->subject->getEmailAddress()
 		);
 	}
 
@@ -768,10 +768,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasHomepageForEmptyWwwReturnsFalse() {
-		$this->fixture->setData(array('www' => ''));
+		$this->subject->setData(array('www' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasHomepage()
+			$this->subject->hasHomepage()
 		);
 	}
 
@@ -779,10 +779,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasHomepageForNonEmptyWwwReturnsTrue() {
-		$this->fixture->setData(array('www' => 'http://www.doe.com'));
+		$this->subject->setData(array('www' => 'http://www.doe.com'));
 
 		$this->assertTrue(
-			$this->fixture->hasHomepage()
+			$this->subject->hasHomepage()
 		);
 	}
 
@@ -790,11 +790,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getHomepageForEmptyWwwReturnsEmptyString() {
-		$this->fixture->setData(array('www' => ''));
+		$this->subject->setData(array('www' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getHomepage()
+			$this->subject->getHomepage()
 		);
 	}
 
@@ -802,11 +802,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getHomepageForNonEmptyWwwReturnsWww() {
-		$this->fixture->setData(array('www' => 'http://www.doe.com'));
+		$this->subject->setData(array('www' => 'http://www.doe.com'));
 
 		$this->assertSame(
 			'http://www.doe.com',
-			$this->fixture->getHomepage()
+			$this->subject->getHomepage()
 		);
 	}
 
@@ -819,10 +819,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasImageForEmptyImageReturnsFalse() {
-		$this->fixture->setData(array('image' => ''));
+		$this->subject->setData(array('image' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasImage()
+			$this->subject->hasImage()
 		);
 	}
 
@@ -830,10 +830,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasImageForNonEmptyImageReturnsTrue() {
-		$this->fixture->setData(array('image' => 'thats-me.jpg'));
+		$this->subject->setData(array('image' => 'thats-me.jpg'));
 
 		$this->assertTrue(
-			$this->fixture->hasImage()
+			$this->subject->hasImage()
 		);
 	}
 
@@ -841,11 +841,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getImageForEmptyImageReturnsEmptyString() {
-		$this->fixture->setData(array('image' => ''));
+		$this->subject->setData(array('image' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getImage()
+			$this->subject->getImage()
 		);
 	}
 
@@ -853,11 +853,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getImageForNonEmptyImageReturnsImage() {
-		$this->fixture->setData(array('image' => 'thats-me.jpg'));
+		$this->subject->setData(array('image' => 'thats-me.jpg'));
 
 		$this->assertSame(
 			'thats-me.jpg',
-			$this->fixture->getImage()
+			$this->subject->getImage()
 		);
 	}
 
@@ -870,10 +870,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function wantsHtmlEmailForMissingModuleSysDmailHtmlFieldReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->wantsHtmlEmail()
+			$this->subject->wantsHtmlEmail()
 		);
 	}
 
@@ -881,10 +881,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function wantsHtmlEmailForModuleSysDmailHtmlOneReturnsTrue() {
-		$this->fixture->setData(array('module_sys_dmail_html' => 1));
+		$this->subject->setData(array('module_sys_dmail_html' => 1));
 
 		$this->assertTrue(
-			$this->fixture->wantsHtmlEmail()
+			$this->subject->wantsHtmlEmail()
 		);
 	}
 
@@ -892,10 +892,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function wantsHtmlEmailForModuleSysDmailHtmlZeroReturnsFalse() {
-		$this->fixture->setData(array('module_sys_dmail_html' => 0));
+		$this->subject->setData(array('module_sys_dmail_html' => 0));
 
 		$this->assertFalse(
-			$this->fixture->wantsHtmlEmail()
+			$this->subject->wantsHtmlEmail()
 		);
 	}
 
@@ -913,7 +913,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			'$uidList must not be empty.'
 		);
 
-		$this->fixture->hasGroupMembership('');
+		$this->subject->hasGroupMembership('');
 	}
 
 	/**
@@ -925,10 +925,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$list = new tx_oelib_List();
 		$list->add($userGroup);
 
-		$this->fixture->setData(array('usergroup' => $list));
+		$this->subject->setData(array('usergroup' => $list));
 
 		$this->assertTrue(
-			$this->fixture->hasGroupMembership($userGroup->getUid())
+			$this->subject->hasGroupMembership($userGroup->getUid())
 		);
 	}
 
@@ -942,10 +942,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$list->add($groupMapper->getNewGhost());
 		$list->add($userGroup);
 
-		$this->fixture->setData(array('usergroup' => $list));
+		$this->subject->setData(array('usergroup' => $list));
 
 		$this->assertTrue(
-			$this->fixture->hasGroupMembership($userGroup->getUid())
+			$this->subject->hasGroupMembership($userGroup->getUid())
 		);
 	}
 
@@ -958,10 +958,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$list = new tx_oelib_List();
 		$list->add($userGroup);
 
-		$this->fixture->setData(array('usergroup' => $list));
+		$this->subject->setData(array('usergroup' => $list));
 
 		$this->assertTrue(
-			$this->fixture->hasGroupMembership(
+			$this->subject->hasGroupMembership(
 				$userGroup->getUid() . ',' . $groupMapper->getNewGhost()->getUid()
 			)
 		);
@@ -976,10 +976,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$list->add($groupMapper->getNewGhost());
 		$list->add($groupMapper->getNewGhost());
 
-		$this->fixture->setData(array('usergroup' => $list));
+		$this->subject->setData(array('usergroup' => $list));
 
 		$this->assertFalse(
-			$this->fixture->hasGroupMembership(
+			$this->subject->hasGroupMembership(
 				$groupMapper->getNewGhost()->getUid() . ',' . $groupMapper->getNewGhost()->getUid()
 			)
 		);
@@ -1003,7 +1003,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_UNKNOWN,
-			$this->fixture->getGender()
+			$this->subject->getGender()
 		);
 	}
 
@@ -1017,11 +1017,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 						'loaded.'
 			);
 		}
-		$this->fixture->setData(array('gender' => 0));
+		$this->subject->setData(array('gender' => 0));
 
 		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_MALE,
-			$this->fixture->getGender()
+			$this->subject->getGender()
 		);
 	}
 
@@ -1035,11 +1035,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 						'loaded.'
 			);
 		}
-		$this->fixture->setData(array('gender' => 1));
+		$this->subject->setData(array('gender' => 1));
 
 		$this->assertSame(
 			tx_oelib_Model_FrontEndUser::GENDER_FEMALE,
-			$this->fixture->getGender()
+			$this->subject->getGender()
 		);
 	}
 
@@ -1052,10 +1052,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFirstNameForNoFirstNameSetReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasFirstName()
+			$this->subject->hasFirstName()
 		);
 	}
 
@@ -1063,10 +1063,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFirstNameForFirstNameSetReturnsTrue() {
-		$this->fixture->setData(array('first_name' => 'foo'));
+		$this->subject->setData(array('first_name' => 'foo'));
 
 		$this->assertTrue(
-			$this->fixture->hasFirstName()
+			$this->subject->hasFirstName()
 		);
 	}
 
@@ -1074,11 +1074,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFirstNameForNoFirstNameSetReturnsEmptyString() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			'',
-			$this->fixture->getFirstName()
+			$this->subject->getFirstName()
 		);
 	}
 
@@ -1086,11 +1086,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFirstNameForFirstNameSetReturnsFirstName() {
-		$this->fixture->setData(array('first_name' => 'foo'));
+		$this->subject->setData(array('first_name' => 'foo'));
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getFirstName()
+			$this->subject->getFirstName()
 		);
 	}
 
@@ -1098,11 +1098,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setFirstNameSetsFirstName() {
-		$this->fixture->setFirstName('John');
+		$this->subject->setFirstName('John');
 
 		$this->assertSame(
 			'John',
-			$this->fixture->getFirstName()
+			$this->subject->getFirstName()
 		);
 	}
 
@@ -1110,13 +1110,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFirstOrFullNameForUserWithFirstNameReturnsFirstName() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('first_name' => 'foo', 'name' => 'foo bar')
 		);
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getFirstOrFullName()
+			$this->subject->getFirstOrFullName()
 		);
 	}
 
@@ -1124,11 +1124,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFirstOrFullNameForUserWithoutFirstNameReturnsName() {
-		$this->fixture->setData(array('name' => 'foo bar'));
+		$this->subject->setData(array('name' => 'foo bar'));
 
 		$this->assertSame(
 			'foo bar',
-			$this->fixture->getFirstOrFullName()
+			$this->subject->getFirstOrFullName()
 		);
 	}
 
@@ -1141,10 +1141,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLastNameForNoLastNameSetReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasLastName()
+			$this->subject->hasLastName()
 		);
 	}
 
@@ -1152,10 +1152,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLastNameForLastNameSetReturnsTrue() {
-		$this->fixture->setData(array('last_name' => 'bar'));
+		$this->subject->setData(array('last_name' => 'bar'));
 
 		$this->assertTrue(
-			$this->fixture->hasLastName()
+			$this->subject->hasLastName()
 		);
 	}
 
@@ -1163,11 +1163,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastNameForNoLastNameSetReturnsEmptyString() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			'',
-			$this->fixture->getLastName()
+			$this->subject->getLastName()
 		);
 	}
 
@@ -1175,11 +1175,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastNameForLastNameSetReturnsLastName() {
-		$this->fixture->setData(array('last_name' => 'bar'));
+		$this->subject->setData(array('last_name' => 'bar'));
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getLastName()
+			$this->subject->getLastName()
 		);
 	}
 
@@ -1187,11 +1187,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setLastNameSetsLastName() {
-		$this->fixture->setLastName('Jacuzzi');
+		$this->subject->setLastName('Jacuzzi');
 
 		$this->assertSame(
 			'Jacuzzi',
-			$this->fixture->getLastName()
+			$this->subject->getLastName()
 		);
 	}
 
@@ -1199,13 +1199,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastOrFullNameForUserWithLastNameReturnsLastName() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('last_name' => 'bar', 'name' => 'foo bar')
 		);
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getLastOrFullName()
+			$this->subject->getLastOrFullName()
 		);
 	}
 
@@ -1213,11 +1213,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastOrFullNameForUserWithoutLastNameReturnsName() {
-		$this->fixture->setData(array('name' => 'foo bar'));
+		$this->subject->setData(array('name' => 'foo bar'));
 
 		$this->assertSame(
 			'foo bar',
-			$this->fixture->getLastOrFullName()
+			$this->subject->getLastOrFullName()
 		);
 	}
 
@@ -1230,11 +1230,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDateOfBirthReturnsZeroForNoDateSet() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			0,
-			$this->fixture->getDateOfBirth()
+			$this->subject->getDateOfBirth()
 		);
 	}
 
@@ -1244,11 +1244,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getDateOfBirthReturnsDateFromDateOfBirthField() {
 		// 1980-04-01
 		$date = 323391600;
-		$this->fixture->setData(array('date_of_birth' => $date));
+		$this->subject->setData(array('date_of_birth' => $date));
 
 		$this->assertSame(
 			$date,
-			$this->fixture->getDateOfBirth()
+			$this->subject->getDateOfBirth()
 		);
 	}
 
@@ -1256,10 +1256,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasDateOfBirthForNoDateOfBirthReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasDateOfBirth()
+			$this->subject->hasDateOfBirth()
 		);
 	}
 
@@ -1269,10 +1269,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function hasDateOfBirthForNonZeroDateOfBirthReturnsTrue() {
 		// 1980-04-01
 		$date = 323391600;
-		$this->fixture->setData(array('date_of_birth' => $date));
+		$this->subject->setData(array('date_of_birth' => $date));
 
 		$this->assertTrue(
-			$this->fixture->hasDateOfBirth()
+			$this->subject->hasDateOfBirth()
 		);
 	}
 
@@ -1285,11 +1285,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAgeForNoDateOfBirthReturnsZero() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			0,
-			$this->fixture->getAge()
+			$this->subject->getAge()
 		);
 	}
 
@@ -1300,13 +1300,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$now = mktime(18, 0, 0, 9, 15, 2010);
 		$GLOBALS['EXEC_TIME'] = $now;
 
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('date_of_birth' => $now - 60 * 60)
 		);
 
 		$this->assertSame(
 			0,
-			$this->fixture->getAge()
+			$this->subject->getAge()
 		);
 	}
 
@@ -1316,13 +1316,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getAgeForAnAgeOfTenYearsAndSomeMonthsReturnsTen() {
 		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
 
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('date_of_birth' => mktime(18, 0, 0, 1, 15, 2000))
 		);
 
 		$this->assertSame(
 			10,
-			$this->fixture->getAge()
+			$this->subject->getAge()
 		);
 	}
 
@@ -1332,13 +1332,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getAgeForAnAgeOfTenYearsMinusSomeMonthsReturnsNine() {
 		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
 
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('date_of_birth' => mktime(18, 0, 0, 11, 15, 2000))
 		);
 
 		$this->assertSame(
 			9,
-			$this->fixture->getAge()
+			$this->subject->getAge()
 		);
 	}
 
@@ -1348,13 +1348,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getAgeForAnAgeOfTenYearsMinusSomeDaysReturnsNine() {
 		$GLOBALS['EXEC_TIME'] = mktime(18, 0, 0, 9, 15, 2010);
 
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('date_of_birth' => mktime(18, 0, 0, 9, 21, 2000))
 		);
 
 		$this->assertSame(
 			9,
-			$this->fixture->getAge()
+			$this->subject->getAge()
 		);
 	}
 
@@ -1367,11 +1367,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastLoginAsUnixTimestampReturnsZeroForNoDateSet() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			0,
-			$this->fixture->getLastLoginAsUnixTimestamp()
+			$this->subject->getLastLoginAsUnixTimestamp()
 		);
 	}
 
@@ -1381,11 +1381,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getLastLoginAsUnixTimestampReturnsDateFromLastLoginField() {
 		// 1980-04-01
 		$date = 323391600;
-		$this->fixture->setData(array('lastlogin' => $date));
+		$this->subject->setData(array('lastlogin' => $date));
 
 		$this->assertSame(
 			$date,
-			$this->fixture->getLastLoginAsUnixTimestamp()
+			$this->subject->getLastLoginAsUnixTimestamp()
 		);
 	}
 
@@ -1393,10 +1393,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLastLoginForNoLastLoginReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasLastLogin()
+			$this->subject->hasLastLogin()
 		);
 	}
 
@@ -1406,10 +1406,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function hasLastLoginForNonZeroLastLoginReturnsTrue() {
 		// 1980-04-01
 		$date = 323391600;
-		$this->fixture->setData(array('lastlogin' => $date));
+		$this->subject->setData(array('lastlogin' => $date));
 
 		$this->assertTrue(
-			$this->fixture->hasLastLogin()
+			$this->subject->hasLastLogin()
 		);
 	}
 
@@ -1422,10 +1422,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCountryWithoutCountryReturnsNull() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertNull(
-			$this->fixture->getCountry()
+			$this->subject->getCountry()
 		);
 	}
 
@@ -1433,10 +1433,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCountryWithInvalidCountryCodeReturnsNull() {
-		$this->fixture->setData(array('static_info_country' => 'xyz'));
+		$this->subject->setData(array('static_info_country' => 'xyz'));
 
 		$this->assertNull(
-			$this->fixture->getCountry()
+			$this->subject->getCountry()
 		);
 	}
 
@@ -1446,13 +1446,13 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getCountryWithCountryReturnsCountryAsModel() {
 		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
 			->find(54);
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('static_info_country' => $country->getIsoAlpha3Code())
 		);
 
 		$this->assertSame(
 			$country,
-			$this->fixture->getCountry()
+			$this->subject->getCountry()
 		);
 	}
 
@@ -1462,11 +1462,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function setCountrySetsCountry() {
 		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
 			->find(54);
-		$this->fixture->setCountry($country);
+		$this->subject->setCountry($country);
 
 		$this->assertSame(
 			$country,
-			$this->fixture->getCountry()
+			$this->subject->getCountry()
 		);
 	}
 
@@ -1474,10 +1474,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countryCanBeSetToNull() {
-		$this->fixture->setCountry(NULL);
+		$this->subject->setCountry(NULL);
 
 		$this->assertNull(
-			$this->fixture->getCountry()
+			$this->subject->getCountry()
 		);
 	}
 
@@ -1485,10 +1485,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCountryWithoutCountryReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasCountry()
+			$this->subject->hasCountry()
 		);
 	}
 
@@ -1496,10 +1496,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasCountryWithInvalidCountryReturnsFalse() {
-		$this->fixture->setData(array('static_info_country' => 'xyz'));
+		$this->subject->setData(array('static_info_country' => 'xyz'));
 
 		$this->assertFalse(
-			$this->fixture->hasCountry()
+			$this->subject->hasCountry()
 		);
 	}
 
@@ -1509,10 +1509,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function hasCountryWithCountryReturnsTrue() {
 		$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
 			->find(54);
-		$this->fixture->setCountry($country);
+		$this->subject->setCountry($country);
 
 		$this->assertTrue(
-			$this->fixture->hasCountry()
+			$this->subject->hasCountry()
 		);
 	}
 
@@ -1525,10 +1525,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasJobTitleForEmptyJobTitleReturnsFalse() {
-		$this->fixture->setData(array('title' => ''));
+		$this->subject->setData(array('title' => ''));
 
 		$this->assertFalse(
-			$this->fixture->hasJobTitle()
+			$this->subject->hasJobTitle()
 		);
 	}
 
@@ -1536,10 +1536,10 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasJobTitleForNonEmptyJobTitleReturnsTrue() {
-		$this->fixture->setData(array('title' => 'facility manager'));
+		$this->subject->setData(array('title' => 'facility manager'));
 
 		$this->assertTrue(
-			$this->fixture->hasJobTitle()
+			$this->subject->hasJobTitle()
 		);
 	}
 
@@ -1547,11 +1547,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getJobTitleForEmptyJobTitleReturnsEmptyString() {
-		$this->fixture->setData(array('title' => ''));
+		$this->subject->setData(array('title' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getJobTitle()
+			$this->subject->getJobTitle()
 		);
 	}
 
@@ -1559,11 +1559,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getJobTitleForNonEmptyJobTitleReturnsJobTitle() {
-		$this->fixture->setData(array('title' => 'facility manager'));
+		$this->subject->setData(array('title' => 'facility manager'));
 
 		$this->assertSame(
 			'facility manager',
-			$this->fixture->getJobTitle()
+			$this->subject->getJobTitle()
 		);
 	}
 
@@ -1571,11 +1571,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setJobTitleSetsJobTitle() {
-		$this->fixture->setJobTitle('foo bar');
+		$this->subject->setJobTitle('foo bar');
 
 		$this->assertSame(
 			'foo bar',
-			$this->fixture->getJobTitle()
+			$this->subject->getJobTitle()
 		);
 	}
 
@@ -1590,11 +1590,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function getUserGroupsForReturnsUserGroups() {
 		$userGroups = new tx_oelib_List();
 
-		$this->fixture->setData(array('usergroup' => $userGroups));
+		$this->subject->setData(array('usergroup' => $userGroups));
 
 		$this->assertSame(
 			$userGroups,
-			$this->fixture->getUserGroups()
+			$this->subject->getUserGroups()
 		);
 	}
 
@@ -1604,11 +1604,11 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function setUserGroupsSetsUserGroups() {
 		$userGroups = new tx_oelib_List();
 
-		$this->fixture->setUserGroups($userGroups);
+		$this->subject->setUserGroups($userGroups);
 
 		$this->assertSame(
 			$userGroups,
-			$this->fixture->getUserGroups()
+			$this->subject->getUserGroups()
 		);
 	}
 }

@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4776] Cleanup: Replace "fixture" with "subject"
 - [#4787] Cleanup: Drop the XCLASS footers
 - [#4782] Feature: The MapperRegistry should accept extbase-style class names
 - [#4781] Cleanup: Move the unit tests to Tests/Unit

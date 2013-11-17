@@ -34,15 +34,15 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mail
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Mail();
+		$this->subject = new tx_oelib_Mail();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,7 +55,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getSenderInitiallyReturnsNull() {
 		$this->assertNull(
-			$this->fixture->getSender()
+			$this->subject->getSender()
 		);
 	}
 
@@ -67,11 +67,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'John Doe', 'foo@bar.com'
 		);
 
-		$this->fixture->setSender($sender);
+		$this->subject->setSender($sender);
 
 		$this->assertSame(
 			$sender,
-			$this->fixture->getSender()
+			$this->subject->getSender()
 		);
 
 		$sender->__destruct();
@@ -82,7 +82,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasSenderInitiallyReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->hasSender()
+			$this->subject->hasSender()
 		);
 	}
 
@@ -94,10 +94,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'John Doe', 'foo@bar.com'
 		);
 
-		$this->fixture->setSender($sender);
+		$this->subject->setSender($sender);
 
 		$this->assertTrue(
-			$this->fixture->hasSender()
+			$this->subject->hasSender()
 		);
 
 		$sender->__destruct();
@@ -114,7 +114,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getRecipientsInitiallyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getRecipients()
+			$this->subject->getRecipients()
 		);
 	}
 
@@ -125,11 +125,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		$recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole(
 			'John Doe', 'foo@bar.com'
 		);
-		$this->fixture->addRecipient($recipient);
+		$this->subject->addRecipient($recipient);
 
 		$this->assertSame(
 			array($recipient),
-			$this->fixture->getRecipients()
+			$this->subject->getRecipients()
 		);
 
 		$recipient->__destruct();
@@ -145,12 +145,12 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		$recipient2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole(
 			'John Doe', 'foo@bar.com'
 		);
-		$this->fixture->addRecipient($recipient1);
-		$this->fixture->addRecipient($recipient2);
+		$this->subject->addRecipient($recipient1);
+		$this->subject->addRecipient($recipient2);
 
 		$this->assertSame(
 			array($recipient1, $recipient2),
-			$this->fixture->getRecipients()
+			$this->subject->getRecipients()
 		);
 
 		$recipient1->__destruct();
@@ -168,7 +168,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getSubjectInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getSubject()
+			$this->subject->getSubject()
 		);
 	}
 
@@ -176,11 +176,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getSubjectWithNonEmptySubjectReturnsSubject() {
-		$this->fixture->setSubject('test subject');
+		$this->subject->setSubject('test subject');
 
 		$this->assertSame(
 			'test subject',
-			$this->fixture->getSubject()
+			$this->subject->getSubject()
 		);
 	}
 
@@ -193,7 +193,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$subject must not be empty.'
 		);
 
-		$this->fixture->setSubject('');
+		$this->subject->setSubject('');
 	}
 
 	/**
@@ -205,7 +205,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
-		$this->fixture->setSubject('test ' . CR . ' subject');
+		$this->subject->setSubject('test ' . CR . ' subject');
 	}
 
 	/**
@@ -217,7 +217,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
-		$this->fixture->setSubject('test ' . LF . ' subject');
+		$this->subject->setSubject('test ' . LF . ' subject');
 	}
 
 	/**
@@ -229,7 +229,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$subject must not contain any line breaks or carriage returns.'
 		);
 
-		$this->fixture->setSubject('test ' . CRLF . ' subject');
+		$this->subject->setSubject('test ' . CRLF . ' subject');
 	}
 
 
@@ -243,7 +243,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getMessageInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getMessage()
+			$this->subject->getMessage()
 		);
 	}
 
@@ -251,11 +251,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getMessageWithNonEmptyMessageReturnsMessage() {
-		$this->fixture->setMessage('test message');
+		$this->subject->setMessage('test message');
 
 		$this->assertSame(
 			'test message',
-			$this->fixture->getMessage()
+			$this->subject->getMessage()
 		);
 	}
 
@@ -268,7 +268,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$message must not be empty.'
 		);
 
-		$this->fixture->setMessage('');
+		$this->subject->setMessage('');
 	}
 
 	/**
@@ -276,7 +276,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasMessageInitiallyReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->hasMessage()
+			$this->subject->hasMessage()
 		);
 	}
 
@@ -284,10 +284,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasMessageWithMessageReturnsTrue() {
-		$this->fixture->setMessage('test');
+		$this->subject->setMessage('test');
 
 		$this->assertTrue(
-			$this->fixture->hasMessage()
+			$this->subject->hasMessage()
 		);
 	}
 
@@ -302,7 +302,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getHTMLMessageInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getHTMLMessage()
+			$this->subject->getHTMLMessage()
 		);
 	}
 
@@ -310,11 +310,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getHTMLMessageWithNonEmptyMessageReturnsMessage() {
-		$this->fixture->setHTMLMessage('test message');
+		$this->subject->setHTMLMessage('test message');
 
 		$this->assertSame(
 			'test message',
-			$this->fixture->getHTMLMessage()
+			$this->subject->getHTMLMessage()
 		);
 	}
 
@@ -327,7 +327,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			'$message must not be empty.'
 		);
 
-		$this->fixture->setHTMLMessage('');
+		$this->subject->setHTMLMessage('');
 	}
 
 	/**
@@ -335,7 +335,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasHTMLMessageInitiallyReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->hasHTMLMessage()
+			$this->subject->hasHTMLMessage()
 		);
 	}
 
@@ -343,10 +343,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasHTMLMessageWithHTMLMessageReturnsTrue() {
-		$this->fixture->setHTMLMessage('<p>test</p>');
+		$this->subject->setHTMLMessage('<p>test</p>');
 
 		$this->assertTrue(
-			$this->fixture->hasHTMLMessage()
+			$this->subject->hasHTMLMessage()
 		);
 	}
 
@@ -360,7 +360,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getAttachmentsInitiallyReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getAttachments()
+			$this->subject->getAttachments()
 		);
 	}
 
@@ -372,11 +372,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		$attachment->setFileName('test.txt');
 		$attachment->setContentType('text/plain');
 		$attachment->setContent('Test');
-		$this->fixture->addAttachment($attachment);
+		$this->subject->addAttachment($attachment);
 
 		$this->assertSame(
 			array($attachment),
-			$this->fixture->getAttachments()
+			$this->subject->getAttachments()
 		);
 	}
 
@@ -388,17 +388,17 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		$attachment->setFileName('test.txt');
 		$attachment->setContentType('text/plain');
 		$attachment->setContent('Test');
-		$this->fixture->addAttachment($attachment);
+		$this->subject->addAttachment($attachment);
 
 		$otherAttachment = new tx_oelib_Attachment();
 		$otherAttachment->setFileName('second_test.txt');
 		$otherAttachment->setContentType('text/plain');
 		$otherAttachment->setContent('Second Test');
-		$this->fixture->addAttachment($otherAttachment);
+		$this->subject->addAttachment($otherAttachment);
 
 		$this->assertSame(
 			array($attachment, $otherAttachment),
-			$this->fixture->getAttachments()
+			$this->subject->getAttachments()
 		);
 	}
 
@@ -411,10 +411,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForNoCssFileGivenDoesNotSetCssFile() {
-		$this->fixture->setCssFile('');
+		$this->subject->setCssFile('');
 
 		$this->assertFalse(
-			$this->fixture->hasCssFile()
+			$this->subject->hasCssFile()
 		);
 	}
 
@@ -422,10 +422,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForStringGivenWhichIsNoFileDoesNotSetCssFile() {
-		$this->fixture->setCssFile('foo');
+		$this->subject->setCssFile('foo');
 
 		$this->assertFalse(
-			$this->fixture->hasCssFile()
+			$this->subject->hasCssFile()
 		);
 	}
 
@@ -433,10 +433,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForGivenCssFileWithAbsolutePathSetsCssFile() {
-		$this->fixture->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
 
 		$this->assertTrue(
-			$this->fixture->hasCssFile()
+			$this->subject->hasCssFile()
 		);
 	}
 
@@ -444,10 +444,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForGivenCssFileWithAbsoluteExtPathSetsCssFile() {
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
 
 		$this->assertTrue(
-			$this->fixture->hasCssFile()
+			$this->subject->hasCssFile()
 		);
 	}
 
@@ -455,11 +455,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForGivenCssFileStoresContentsOfCssFile() {
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
 
 		$this->assertContains(
 			'h3',
-			$this->fixture->getCssFile()
+			$this->subject->getCssFile()
 		);
 	}
 
@@ -467,11 +467,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForSetCssFileAndThenGivenEmptyStringClearsStoredCssFileData() {
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
-		$this->fixture->setCssFile('');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile('');
 
 		$this->assertFalse(
-			$this->fixture->hasCssFile()
+			$this->subject->hasCssFile()
 		);
 	}
 
@@ -479,12 +479,12 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForSetCssFileAndThenGivenNewCssFileRemovesOldCssDataFromStorage() {
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test_2.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test_2.css');
 
 		$this->assertNotContains(
 			'h3',
-			$this->fixture->getCssFile()
+			$this->subject->getCssFile()
 		);
 	}
 
@@ -492,12 +492,12 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForSetCssFileAndThenGivenNewCssFileStoresNewCssData() {
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
-		$this->fixture->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test_2.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile('EXT:oelib/Tests/Unit/Fixtures/test_2.css');
 
 		$this->assertContains(
 			'h4',
-			$this->fixture->getCssFile()
+			$this->subject->getCssFile()
 		);
 	}
 
@@ -515,11 +515,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 				'<head><title>foo</title></head>' .
 				'<body><h3>Bar</h3></body>' .
 			'</html>';
-		$this->fixture->setHTMLMessage($htmlMessage);
+		$this->subject->setHTMLMessage($htmlMessage);
 
 		$this->assertSame(
 			$htmlMessage,
-			$this->fixture->getHTMLMessage()
+			$this->subject->getHTMLMessage()
 		);
 	}
 
@@ -527,8 +527,8 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setHtmlMessageWithCssFileStoredStoresAttributesFromCssInHtmlMessage() {
-		$this->fixture->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
-		$this->fixture->setHTMLMessage(
+		$this->subject->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
+		$this->subject->setHTMLMessage(
 			'<html>' .
 				'<head><title>foo</title></head>' .
 				'<body><h3>Bar</h3></body>' .
@@ -543,7 +543,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 				'<body><h3 style="font-weight: bold;">Bar</h3></body>' . LF .
 			'</html>'
 			,
-			$this->fixture->getHTMLMessage()
+			$this->subject->getHTMLMessage()
 		);
 	}
 
@@ -558,7 +558,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getAdditionalHeadersForNoAdditionalHeadersReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getAdditionalHeaders()
+			$this->subject->getAdditionalHeaders()
 		);
 	}
 
@@ -566,14 +566,14 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathForNoReturnPathSetSetsGivenReturnPath() {
-		$this->fixture->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
-			$this->fixture->getAdditionalHeaders()
+			$this->subject->getAdditionalHeaders()
 		);
 	}
 
@@ -581,15 +581,15 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathForAlreadySetReturnPathOverridesOldReturnPath() {
-		$this->fixture->setReturnPath('old@mail.com');
-		$this->fixture->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('old@mail.com');
+		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
-			$this->fixture->getAdditionalHeaders()
+			$this->subject->getAdditionalHeaders()
 		);
 	}
 
@@ -597,11 +597,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathForNoSetReturnPathAndEmptyStringGivenDoesNotSetAnyReturnPath() {
-		$this->fixture->setReturnPath('');
+		$this->subject->setReturnPath('');
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getAdditionalHeaders()
+			$this->subject->getAdditionalHeaders()
 		);
 	}
 
@@ -609,15 +609,15 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathForSetReturnPathAndEmptyStringGivenDoesNotUnsetReturnPath() {
-		$this->fixture->setReturnPath('foo@bar.com');
-		$this->fixture->setReturnPath('');
+		$this->subject->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('');
 
 		$this->assertSame(
 			array(
 				'Return-Path' => '<foo@bar.com>',
 				'Errors-To' => 'foo@bar.com',
 			),
-			$this->fixture->getAdditionalHeaders()
+			$this->subject->getAdditionalHeaders()
 		);
 	}
 
@@ -625,11 +625,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathSetsMemberVariableReturnPath() {
-		$this->fixture->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertSame(
 			'foo@bar.com',
-			$this->fixture->getReturnPath()
+			$this->subject->getReturnPath()
 		);
 	}
 
@@ -639,7 +639,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	public function getReturnPathInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getReturnPath()
+			$this->subject->getReturnPath()
 		);
 	}
 
@@ -647,12 +647,12 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setReturnPathForAlreadySetReturnPathAndNoStringGivenDoesNotOverrideTheReturnPath() {
-		$this->fixture->setReturnPath('foo@bar.com');
-		$this->fixture->setReturnPath('');
+		$this->subject->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('');
 
 		$this->assertSame(
 			'foo@bar.com',
-			$this->fixture->getReturnPath()
+			$this->subject->getReturnPath()
 		);
 	}
 
@@ -660,11 +660,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getReturnPathForStringSetInReturnPathReturnsThisString() {
-		$this->fixture->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertSame(
 			'foo@bar.com',
-			$this->fixture->getReturnPath()
+			$this->subject->getReturnPath()
 		);
 	}
 
@@ -673,7 +673,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	public function hasAdditionalHeadersForNoAdditionalHeadersSetReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->hasAdditionalHeaders()
+			$this->subject->hasAdditionalHeaders()
 		);
 	}
 
@@ -681,10 +681,10 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasAdditionalHeadersForAdditionalHeadersSetReturnsTrue() {
-		$this->fixture->setReturnPath('foo@bar.com');
+		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertTrue(
-			$this->fixture->hasAdditionalHeaders()
+			$this->subject->hasAdditionalHeaders()
 		);
 	}
 }

@@ -34,14 +34,14 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Double3Validator
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Double3Validator();
+		$this->subject = new tx_oelib_Double3Validator();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 	/**
@@ -49,7 +49,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 */
 	public function returnFieldJSReturnsNonEmptyString() {
 		$this->assertTrue(
-			$this->fixture->returnFieldJS() != ''
+			$this->subject->returnFieldJS() != ''
 		);
 	}
 
@@ -59,7 +59,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForIntegerReturnsFloatWithThreeDecimals() {
 		$this->assertSame(
 			'42.000',
-			$this->fixture->evaluateFieldValue('42')
+			$this->subject->evaluateFieldValue('42')
 		);
 	}
 
@@ -69,7 +69,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForFloatWithCommaReturnsFloatWithPoint() {
 		$this->assertSame(
 			'42.123',
-			$this->fixture->evaluateFieldValue('42,123')
+			$this->subject->evaluateFieldValue('42,123')
 		);
 	}
 
@@ -79,7 +79,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForFloatWithOneDecimalDigitReturnsFloatWithThreeDecimalDigits() {
 		$this->assertSame(
 			'42.100',
-			$this->fixture->evaluateFieldValue('42.1')
+			$this->subject->evaluateFieldValue('42.1')
 		);
 	}
 
@@ -89,7 +89,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForFloatWithTwoDecimalDigitsReturnsFloatWithThreeDecimalDigits() {
 		$this->assertSame(
 			'42.120',
-			$this->fixture->evaluateFieldValue('42.12')
+			$this->subject->evaluateFieldValue('42.12')
 		);
 	}
 
@@ -99,7 +99,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForFloatWithThreeDecimalsReturnsFloatWithThreeDecimals() {
 		$this->assertSame(
 			'42.123',
-			$this->fixture->evaluateFieldValue('42.123')
+			$this->subject->evaluateFieldValue('42.123')
 		);
 	}
 
@@ -109,7 +109,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueWithNegativeValueReturnsNegativeValue() {
 		$this->assertSame(
 			'-42.123',
-			$this->fixture->evaluateFieldValue('-42.123')
+			$this->subject->evaluateFieldValue('-42.123')
 		);
 	}
 
@@ -119,7 +119,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	public function evaluateFieldValueForStringReturnsZeroWithThreeDecimalDigits() {
 		$this->assertSame(
 			'0.000',
-			$this->fixture->evaluateFieldValue('foo bar')
+			$this->subject->evaluateFieldValue('foo bar')
 		);
 	}
 }

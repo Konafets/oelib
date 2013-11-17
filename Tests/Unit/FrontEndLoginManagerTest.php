@@ -34,7 +34,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_FrontEndLoginManager
 	 */
-	private $fixture;
+	private $subject;
 
 	/**
 	 * @var tx_oelib_testingFramework
@@ -44,13 +44,13 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	public function setUp() {
 		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
 
-		$this->fixture = tx_oelib_FrontEndLoginManager::getInstance();
+		$this->subject = tx_oelib_FrontEndLoginManager::getInstance();
 	}
 
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		unset($this->fixture, $this->testingFramework);
+		unset($this->subject, $this->testingFramework);
 	}
 
 
@@ -63,7 +63,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceReturnsFrontEndLoginManagerInstance() {
 		$this->assertTrue(
-			$this->fixture instanceof tx_oelib_FrontEndLoginManager
+			$this->subject instanceof tx_oelib_FrontEndLoginManager
 		);
 	}
 
@@ -72,7 +72,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
-			$this->fixture,
+			$this->subject,
 			tx_oelib_FrontEndLoginManager::getInstance()
 		);
 	}
@@ -84,7 +84,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		tx_oelib_FrontEndLoginManager::purgeInstance();
 
 		$this->assertNotSame(
-			$this->fixture,
+			$this->subject,
 			tx_oelib_FrontEndLoginManager::getInstance()
 		);
 	}
@@ -99,7 +99,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isLoggedInForNoFrontEndReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->isLoggedIn()
+			$this->subject->isLoggedIn()
 		);
 	}
 
@@ -110,7 +110,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->assertFalse(
-			$this->fixture->isLoggedIn()
+			$this->subject->isLoggedIn()
 		);
 	}
 
@@ -122,7 +122,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->isLoggedIn()
+			$this->subject->isLoggedIn()
 		);
 	}
 
@@ -140,7 +140,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 			'$mapperName must not be empty.'
 		);
 
-		$this->fixture->getLoggedInUser('');
+		$this->subject->getLoggedInUser('');
 	}
 
 	/**
@@ -150,7 +150,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->discardFakeFrontEnd();
 
 		$this->assertNull(
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -162,7 +162,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->logoutFrontEndUser();
 
 		$this->assertNull(
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -174,7 +174,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 				instanceof tx_oelib_Model_FrontEndUser
 		);
 	}
@@ -187,7 +187,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$this->assertTrue(
-			$this->fixture->getLoggedInUser('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
+			$this->subject->getLoggedInUser('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
 				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 		);
 	}
@@ -201,7 +201,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$uid,
-			$this->fixture->getLoggedInUser()->getUid()
+			$this->subject->getLoggedInUser()->getUid()
 		);
 	}
 
@@ -216,7 +216,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$user,
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -232,7 +232,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$user,
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -252,7 +252,7 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'John Doe',
-			$this->fixture->getLoggedInUser()->getName()
+			$this->subject->getLoggedInUser()->getName()
 		);
 	}
 
@@ -266,10 +266,10 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function logInUserChangesToLoggedInStatus() {
 		$user = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($user);
+		$this->subject->logInUser($user);
 
 		$this->assertTrue(
-			$this->fixture->isLoggedIn()
+			$this->subject->isLoggedIn()
 		);
 	}
 
@@ -278,11 +278,11 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function logInUserSetsLoggedInUser() {
 		$user = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($user);
+		$this->subject->logInUser($user);
 
 		$this->assertSame(
 			$user,
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -291,13 +291,13 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function logInUserOverwritesFormerSimulatedLoggedInUser() {
 		$oldUser = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($oldUser);
+		$this->subject->logInUser($oldUser);
 		$newUser = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($newUser);
+		$this->subject->logInUser($newUser);
 
 		$this->assertSame(
 			$newUser,
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -309,11 +309,11 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createAndLoginFrontEndUser();
 
 		$user = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($user);
+		$this->subject->logInUser($user);
 
 		$this->assertSame(
 			$user,
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -322,12 +322,12 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function logInUserWithNullSetsUserToNull() {
 		$user = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($user);
+		$this->subject->logInUser($user);
 
-		$this->fixture->logInUser(NULL);
+		$this->subject->logInUser(NULL);
 
 		$this->assertNull(
-			$this->fixture->getLoggedInUser()
+			$this->subject->getLoggedInUser()
 		);
 	}
 
@@ -336,12 +336,12 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function logInUserWithNullSetsStatusToNotLoggedIn() {
 		$user = new tx_oelib_Model_FrontEndUser();
-		$this->fixture->logInUser($user);
+		$this->subject->logInUser($user);
 
-		$this->fixture->logInUser(NULL);
+		$this->subject->logInUser(NULL);
 
 		$this->assertFalse(
-			$this->fixture->isLoggedIn()
+			$this->subject->isLoggedIn()
 		);
 	}
 }

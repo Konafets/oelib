@@ -35,15 +35,15 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel the model to test
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 	/**
@@ -65,30 +65,30 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function destructDoesNotCrashForRelationToSelf() {
-		$fixture = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$fixture->setData(
-			array('foo' => $fixture)
+		$subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$subject->setData(
+			array('foo' => $subject)
 		);
 
-		$fixture->__destruct();
+		$subject->__destruct();
 	}
 
 	/**
 	 * @test
 	 */
 	public function destructDoesNotCrashForTwoModelsInACircle() {
-		$fixture1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$fixture2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$subject1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$subject2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 
-		$fixture1->setData(
-			array('foo' => $fixture2)
+		$subject1->setData(
+			array('foo' => $subject2)
 		);
-		$fixture2->setData(
-			array('foo' => $fixture1)
+		$subject2->setData(
+			array('foo' => $subject1)
 		);
 
-		$fixture1->__destruct();
-		$fixture2->__destruct();
+		$subject1->__destruct();
+		$subject2->__destruct();
 	}
 
 	/**
@@ -100,25 +100,25 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'Please call setData() directly after instantiation first.'
 		);
 
-		$this->fixture->getTitle();
+		$this->subject->getTitle();
 	}
 
 	/**
 	 * @test
 	 */
 	public function setDataWithEmptyArrayIsAllowed() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 	}
 
 	/**
 	 * @test
 	 */
 	public function getAfterSetReturnsTheSetValue() {
-		$this->fixture->setTitle('bar');
+		$this->subject->setTitle('bar');
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -126,13 +126,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAfterSetDataReturnsTheSetValue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('title' => 'bar')
 		);
 
 		$this->assertSame(
 			'bar',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -145,10 +145,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'setData must only be called once per model instance.'
 		);
 
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('title' => 'bar')
 		);
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('title' => 'bar')
 		);
 	}
@@ -157,12 +157,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isHiddenForLoadedHiddenObjectReturnsTrue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('hidden' => 1)
 		);
 
 		$this->assertTrue(
-			$this->fixture->isHidden()
+			$this->subject->isHidden()
 		);
 	}
 
@@ -170,12 +170,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isHiddenForLoadedNonHiddenObjectReturnsFalse() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('hidden' => 0)
 		);
 
 		$this->assertFalse(
-			$this->fixture->isHidden()
+			$this->subject->isHidden()
 		);
 	}
 
@@ -188,10 +188,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsKeyForInexistentKeyReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->existsKey('foo')
+			$this->subject->existsKey('foo')
 		);
 	}
 
@@ -199,12 +199,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsKeyForExistingKeyWithNonEmptyDataReturnsTrue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => 'bar')
 		);
 
 		$this->assertTrue(
-			$this->fixture->existsKey('foo')
+			$this->subject->existsKey('foo')
 		);
 	}
 
@@ -212,12 +212,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsKeyForExistingKeyWithEmptyStringDataReturnsTrue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => '')
 		);
 
 		$this->assertTrue(
-			$this->fixture->existsKey('foo')
+			$this->subject->existsKey('foo')
 		);
 	}
 
@@ -225,12 +225,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsKeyForExistingKeyWithZeroDataReturnsTrue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => 0)
 		);
 
 		$this->assertTrue(
-			$this->fixture->existsKey('foo')
+			$this->subject->existsKey('foo')
 		);
 	}
 
@@ -238,12 +238,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsKeyForExistingKeyWithNullDataReturnsTrue() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => NULL)
 		);
 
 		$this->assertTrue(
-			$this->fixture->existsKey('foo')
+			$this->subject->existsKey('foo')
 		);
 	}
 
@@ -261,17 +261,17 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsModel('');
+		$this->subject->getAsModel('');
 	}
 
 	/**
 	 * @test
 	 */
 	public function getAsModelWithInexistentKeyReturnsNull() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertNull(
-			$this->fixture->getAsModel('foo')
+			$this->subject->getAsModel('foo')
 		);
 	}
 
@@ -284,21 +284,21 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'The data item for the key "foo" is no model instance.'
 		);
 
-		$this->fixture->setData(array('foo' => 'bar'));
+		$this->subject->setData(array('foo' => 'bar'));
 
-		$this->fixture->getAsModel('foo');
+		$this->subject->getAsModel('foo');
 	}
 
 	/**
 	 * @test
 	 */
 	public function getAsModelReturnsNullSetViaSetData() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => NULL)
 		);
 
 		$this->assertNull(
-			$this->fixture->getAsModel('foo')
+			$this->subject->getAsModel('foo')
 		);
 	}
 
@@ -307,13 +307,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAsModelReturnsModelSetViaSetData() {
 		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => $otherModel)
 		);
 
 		$this->assertSame(
 			$otherModel,
-			$this->fixture->getAsModel('foo')
+			$this->subject->getAsModel('foo')
 		);
 
 		$otherModel->__destruct();
@@ -323,13 +323,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsModelForSelfReturnsSelf() {
-		$this->fixture->setData(
-			array('foo' => $this->fixture)
+		$this->subject->setData(
+			array('foo' => $this->subject)
 		);
 
 		$this->assertSame(
-			$this->fixture,
-			$this->fixture->getAsModel('foo')
+			$this->subject,
+			$this->subject->getAsModel('foo')
 		);
 	}
 
@@ -347,7 +347,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'$key must not be empty.'
 		);
 
-		$this->fixture->getAsList('');
+		$this->subject->getAsList('');
 	}
 
 	/**
@@ -359,10 +359,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'The data item for the key "foo" is no list instance.'
 		);
 
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertNull(
-			$this->fixture->getAsList('foo')
+			$this->subject->getAsList('foo')
 		);
 	}
 
@@ -375,9 +375,9 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'The data item for the key "foo" is no list instance.'
 		);
 
-		$this->fixture->setData(array('foo' => 'bar'));
+		$this->subject->setData(array('foo' => 'bar'));
 
-		$this->fixture->getAsList('foo');
+		$this->subject->getAsList('foo');
 	}
 
 	/**
@@ -385,13 +385,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAsListReturnsListSetViaSetData() {
 		$list = new tx_oelib_List();
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => $list)
 		);
 
 		$this->assertSame(
 			$list,
-			$this->fixture->getAsList('foo')
+			$this->subject->getAsList('foo')
 		);
 
 		$list->__destruct();
@@ -406,11 +406,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUidForNoUidReturnsZero() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			0,
-			$this->fixture->getUid()
+			$this->subject->getUid()
 		);
 	}
 
@@ -418,11 +418,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUidForSetUidReturnsTheSetUid() {
-		$this->fixture->setUid(42);
+		$this->subject->setUid(42);
 
 		$this->assertSame(
 			42,
-			$this->fixture->getUid()
+			$this->subject->getUid()
 		);
 	}
 
@@ -430,11 +430,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUidForSetUidViaSetDataReturnsTheSetUid() {
-		$this->fixture->setData(array('uid' => 42));
+		$this->subject->setData(array('uid' => 42));
 
 		$this->assertSame(
 			42,
-			$this->fixture->getUid()
+			$this->subject->getUid()
 		);
 	}
 
@@ -442,11 +442,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUidForSetStringUidViaSetDataReturnsTheSetIntegerUid() {
-		$this->fixture->setData(array('uid' => '42'));
+		$this->subject->setData(array('uid' => '42'));
 
 		$this->assertSame(
 			42,
-			$this->fixture->getUid()
+			$this->subject->getUid()
 		);
 	}
 
@@ -454,10 +454,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasUidForNoUidReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasUid()
+			$this->subject->hasUid()
 		);
 	}
 
@@ -465,10 +465,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasUidForPositiveUidReturnsTrue() {
-		$this->fixture->setUid(42);
+		$this->subject->setUid(42);
 
 		$this->assertTrue(
-			$this->fixture->hasUid()
+			$this->subject->hasUid()
 		);
 	}
 
@@ -480,8 +480,8 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'BadMethodCallException',
 			'The UID of a model cannot be set a second time.'
 		);
-		$this->fixture->setUid(42);
-		$this->fixture->setUid(42);
+		$this->subject->setUid(42);
+		$this->subject->setUid(42);
 	}
 
 	/**
@@ -493,16 +493,16 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'The UID of a model cannot be set a second time.'
 		);
 
-		$this->fixture->setData(array('uid' => 1));
-		$this->fixture->setUid(42);
+		$this->subject->setData(array('uid' => 1));
+		$this->subject->setUid(42);
 	}
 
 	/**
 	 * @test
 	 */
 	public function setUidForAModelWithoutUidDoesNotFail() {
-		$this->fixture->setData(array());
-		$this->fixture->setUid(42);
+		$this->subject->setData(array());
+		$this->subject->setUid(42);
 	}
 
 
@@ -515,7 +515,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function initiallyHasVirginState() {
 		$this->assertTrue(
-			$this->fixture->isVirgin()
+			$this->subject->isVirgin()
 		);
 	}
 
@@ -523,10 +523,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function afterSettingDataWithoutUidHasLoadedState() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertTrue(
-			$this->fixture->isLoaded()
+			$this->subject->isLoaded()
 		);
 	}
 
@@ -534,10 +534,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function afterSettingDataWithUidHasLoadedState() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertTrue(
-			$this->fixture->isLoaded()
+			$this->subject->isLoaded()
 		);
 	}
 
@@ -545,10 +545,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function afterSettingDataWithUidNotHasDeadState() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertFalse(
-			$this->fixture->isDead()
+			$this->subject->isDead()
 		);
 	}
 
@@ -556,10 +556,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function afterSettingUidWithoutDataHasGhostState() {
-		$this->fixture->setUid(1);
+		$this->subject->setUid(1);
 
 		$this->assertTrue(
-			$this->fixture->isGhost()
+			$this->subject->isGhost()
 		);
 	}
 
@@ -567,10 +567,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function afterMarkAsDeadHasDeadState() {
-		$this->fixture->markAsDead();
+		$this->subject->markAsDead();
 
 		$this->assertTrue(
-			$this->fixture->isDead()
+			$this->subject->isDead()
 		);
 	}
 
@@ -583,8 +583,8 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'Ghosts need a load callback function before their data can be accessed.'
 		);
 
-		$this->fixture->setUid(1);
-		$this->fixture->getTitle();
+		$this->subject->setUid(1);
+		$this->subject->getTitle();
 	}
 
 	/**
@@ -596,8 +596,8 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'Ghosts need a load callback function before their data can be accessed.'
 		);
 
-		$this->fixture->setUid(1);
-		$this->fixture->setTitle('foo');
+		$this->subject->setUid(1);
+		$this->subject->setTitle('foo');
 	}
 
 	/**
@@ -610,16 +610,16 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 				' either has been deleted (or has never existed), but still is accessed.'
 		);
 
-		$this->fixture->markAsDead();
-		$this->fixture->getTitle();
+		$this->subject->markAsDead();
+		$this->subject->getTitle();
 	}
 
 	/**
 	 * @test
 	 */
 	public function getUidOnDeadModelDoesNotFail() {
-		$this->fixture->markAsDead();
-		$this->fixture->getUid();
+		$this->subject->markAsDead();
+		$this->subject->getUid();
 	}
 
 	/**
@@ -632,8 +632,8 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 				' either has been deleted (or has never existed), but still is accessed.'
 		);
 
-		$this->fixture->markAsDead();
-		$this->fixture->isHidden();
+		$this->subject->markAsDead();
+		$this->subject->isHidden();
 	}
 
 
@@ -645,10 +645,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isEmptyForLoadedEmptyObjectReturnsTrue() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -656,12 +656,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isEmptyForLoadedNotEmptyObjectReturnsFalse() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => 'bar')
 		);
 
 		$this->assertFalse(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -669,13 +669,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isEmptyForGhostLoadsModel() {
-		$this->fixture->setData(array());
-		$this->fixture->setUid(1);
-		$this->fixture->setLoadCallback(array($this, 'load'));
-		$this->fixture->isEmpty();
+		$this->subject->setData(array());
+		$this->subject->setUid(1);
+		$this->subject->setLoadCallback(array($this, 'load'));
+		$this->subject->isEmpty();
 
 		$this->assertTrue(
-			$this->fixture->isLoaded()
+			$this->subject->isLoaded()
 		);
 	}
 
@@ -683,14 +683,14 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isEmptyForGhostWithLoadedDataReturnsFalse() {
-		$this->fixture->setData(
+		$this->subject->setData(
 			array('foo' => 'bar')
 		);
-		$this->fixture->setUid(1);
-		$this->fixture->setLoadCallback(array($this, 'load'));
+		$this->subject->setUid(1);
+		$this->subject->setLoadCallback(array($this, 'load'));
 
 		$this->assertFalse(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -698,11 +698,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isEmptyForGhostWithoutLoadedDataReturnsTrue() {
-		$this->fixture->setUid(1);
-		$this->fixture->setLoadCallback(array($this, 'load'));
+		$this->subject->setUid(1);
+		$this->subject->setLoadCallback(array($this, 'load'));
 
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -711,7 +711,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isEmptyForVirginStateReturnsTrue() {
 		$this->assertTrue(
-			$this->fixture->isEmpty()
+			$this->subject->isEmpty()
 		);
 	}
 
@@ -724,10 +724,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterMarkAsDirtyReturnsTrue() {
-		$this->fixture->markAsDirty();
+		$this->subject->markAsDirty();
 
 		$this->assertTrue(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -735,10 +735,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterMarkAsCleanReturnsFalse() {
-		$this->fixture->markAsClean();
+		$this->subject->markAsClean();
 
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -746,10 +746,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterSetReturnsTrue() {
-		$this->fixture->setTitle('foo');
+		$this->subject->setTitle('foo');
 
 		$this->assertTrue(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -757,10 +757,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterSetDataWithUidAndOtherDataReturnsFalse() {
-		$this->fixture->setData(array('uid' => 42, 'title' => 'foo'));
+		$this->subject->setData(array('uid' => 42, 'title' => 'foo'));
 
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -768,10 +768,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterSetDataOnlyWithUidReturnsFalse() {
-		$this->fixture->setData(array('uid' => 42, 'title' => 'foo'));
+		$this->subject->setData(array('uid' => 42, 'title' => 'foo'));
 
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -779,11 +779,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterSetDataForAModelAlreadyHavingAUidReturnsFalse() {
-		$this->fixture->setUid(42);
-		$this->fixture->setData(array('title' => 'foo'));
+		$this->subject->setUid(42);
+		$this->subject->setData(array('title' => 'foo'));
 
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -791,10 +791,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyAfterSetDataWithoutUidReturnsTrue() {
-		$this->fixture->setData(array('title' => 'foo'));
+		$this->subject->setData(array('title' => 'foo'));
 
 		$this->assertTrue(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -803,10 +803,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isDirtyOnModelInVirginStateReturnsFalse() {
 		$this->assertTrue(
-			$this->fixture->isVirgin()
+			$this->subject->isVirgin()
 		);
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -814,13 +814,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyOnModelInGhostStateReturnsFalse() {
-		$this->fixture->setUid(1);
+		$this->subject->setUid(1);
 
 		$this->assertTrue(
-			$this->fixture->isGhost()
+			$this->subject->isGhost()
 		);
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -828,10 +828,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyOnInitiallyDeadModelReturnsFalse() {
-		$this->fixture->markAsDead();
+		$this->subject->markAsDead();
 
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -839,18 +839,18 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDirtyOnModelWhichTurnedIntoDeadStateReturnsFalse() {
-		$this->fixture->setTitle('foo');
+		$this->subject->setTitle('foo');
 
 		$this->assertTrue(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 
-		$this->fixture->markAsDead();
+		$this->subject->markAsDead();
 		$this->assertTrue(
-			$this->fixture->isDead()
+			$this->subject->isDead()
 		);
 		$this->assertFalse(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -864,13 +864,13 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function setToDeletedOnVirginModelMarksModelAsDead() {
 		$this->assertTrue(
-			$this->fixture->isVirgin()
+			$this->subject->isVirgin()
 		);
 
-		$this->fixture->setToDeleted();
+		$this->subject->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->isDead()
+			$this->subject->isDead()
 		);
 	}
 
@@ -878,16 +878,16 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setToDeletedOnGhostModelMarksModelAsDead() {
-		$this->fixture->setUid(1);
+		$this->subject->setUid(1);
 
 		$this->assertTrue(
-			$this->fixture->isGhost()
+			$this->subject->isGhost()
 		);
 
-		$this->fixture->setToDeleted();
+		$this->subject->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->isDead()
+			$this->subject->isDead()
 		);
 	}
 
@@ -895,16 +895,16 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setToDeletedOnLoadedModelMarksModelAsDirty() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertTrue(
-			$this->fixture->isLoaded()
+			$this->subject->isLoaded()
 		);
 
-		$this->fixture->setToDeleted();
+		$this->subject->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->isDirty()
+			$this->subject->isDirty()
 		);
 	}
 
@@ -912,16 +912,16 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setToDeletedOnLoadedModelMarksModelAsDeleted() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertTrue(
-			$this->fixture->isLoaded()
+			$this->subject->isLoaded()
 		);
 
-		$this->fixture->setToDeleted();
+		$this->subject->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->isDeleted()
+			$this->subject->isDeleted()
 		);
 	}
 
@@ -934,19 +934,19 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'$key must not be "deleted". Please use setToDeleted() instead.'
 		);
 
-		$this->fixture->setDeletedPropertyUsingSet();
+		$this->subject->setDeletedPropertyUsingSet();
 	}
 
 	/**
 	 * @test
 	 */
 	public function isDeletedForModelSetToDeletedReturnsTrue() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
-		$this->fixture->setToDeleted();
+		$this->subject->setToDeleted();
 
 		$this->assertTrue(
-			$this->fixture->isDeleted()
+			$this->subject->isDeleted()
 		);
 	}
 
@@ -954,10 +954,10 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isDeletedForNonDeletedModelReturnsFalse() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertFalse(
-			$this->fixture->isDeleted()
+			$this->subject->isDeleted()
 		);
 	}
 
@@ -971,7 +971,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isReadOnlyOnReadWriteModelReturnsFalse() {
 		$this->assertFalse(
-			$this->fixture->isReadOnly()
+			$this->subject->isReadOnly()
 		);
 	}
 
@@ -1022,7 +1022,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	public function getDataForNoDataSetReturnsEmptyArray() {
 		$this->assertSame(
 			array(),
-			$this->fixture->getData()
+			$this->subject->getData()
 		);
 	}
 
@@ -1031,11 +1031,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getDataReturnsArrayWithTheSetData() {
 		$data = array('foo' => 'bar');
-		$this->fixture->setData($data);
+		$this->subject->setData($data);
 
 		$this->assertSame(
 			$data,
-			$this->fixture->getData()
+			$this->subject->getData()
 		);
 	}
 
@@ -1043,11 +1043,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDataReturnsArrayWithoutKeyUid() {
-		$this->fixture->setData(array('uid' => 1));
+		$this->subject->setData(array('uid' => 1));
 
 		$this->assertSame(
 			array(),
-			$this->fixture->getData()
+			$this->subject->getData()
 		);
 	}
 
@@ -1060,12 +1060,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setTimestampForLoadedModelSetsTheTimestamp() {
-		$this->fixture->setData(array());
-		$this->fixture->setTimestamp();
+		$this->subject->setData(array());
+		$this->subject->setTimestamp();
 
 		$this->assertSame(
 			$GLOBALS['SIM_EXEC_TIME'],
-			$this->fixture->getAsInteger('tstamp')
+			$this->subject->getAsInteger('tstamp')
 		);
 	}
 
@@ -1078,20 +1078,20 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			'Only new objects (without UID) may receive "crdate".'
 		);
 
-		$this->fixture->setData(array('uid' => 1));
-		$this->fixture->setCreationDate();
+		$this->subject->setData(array('uid' => 1));
+		$this->subject->setCreationDate();
 	}
 
 	/**
 	 * @test
 	 */
 	public function setCreationDateForLoadedModelWithoutUidSetsCrdate() {
-		$this->fixture->setData(array());
-		$this->fixture->setCreationDate();
+		$this->subject->setData(array());
+		$this->subject->setCreationDate();
 
 		$this->assertSame(
 			$GLOBALS['SIM_EXEC_TIME'],
-			$this->fixture->getAsInteger('crdate')
+			$this->subject->getAsInteger('crdate')
 		);
 	}
 
@@ -1104,11 +1104,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPageUidForNoPageUidSetReturnsZero() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertSame(
 			0,
-			$this->fixture->getPageUid()
+			$this->subject->getPageUid()
 		);
 	}
 
@@ -1116,11 +1116,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPageUidReturnsPageUid() {
-		$this->fixture->setData(array('pid' => 42));
+		$this->subject->setData(array('pid' => 42));
 
 		$this->assertSame(
 			42,
-			$this->fixture->getPageUid()
+			$this->subject->getPageUid()
 		);
 	}
 
@@ -1128,11 +1128,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setPageUidSetsPageUid() {
-		$this->fixture->setPageUid(84);
+		$this->subject->setPageUid(84);
 
 		$this->assertSame(
 			84,
-			$this->fixture->getPageUid()
+			$this->subject->getPageUid()
 		);
 	}
 
@@ -1140,7 +1140,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setPageUidWithZeroPageUidNotThrowsException() {
-		$this->fixture->setPageUid(0);
+		$this->subject->setPageUid(0);
 	}
 
 	/**
@@ -1149,7 +1149,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setPageUidWithNegativePageUidThrowsException() {
-		$this->fixture->setPageUid(-1);
+		$this->subject->setPageUid(-1);
 	}
 
 
@@ -1161,12 +1161,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function markAsHiddenMarksVisibleModelAsHidden() {
-		$this->fixture->setData(array('hidden' => FALSE));
+		$this->subject->setData(array('hidden' => FALSE));
 
-		$this->fixture->markAsHidden();
+		$this->subject->markAsHidden();
 
 		$this->assertTrue(
-			$this->fixture->isHidden()
+			$this->subject->isHidden()
 		);
 	}
 
@@ -1174,12 +1174,12 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function markAsVisibleMarksHiddenModelAsNotHidden() {
-		$this->fixture->setData(array('hidden' => TRUE));
+		$this->subject->setData(array('hidden' => TRUE));
 
-		$this->fixture->markAsVisible();
+		$this->subject->markAsVisible();
 
 		$this->assertFalse(
-			$this->fixture->isHidden()
+			$this->subject->isHidden()
 		);
 	}
 }

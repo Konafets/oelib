@@ -34,14 +34,14 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Geocoding_Calculator
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Geocoding_Calculator();
+		$this->subject = new tx_oelib_Geocoding_Calculator();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 
@@ -62,7 +62,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
 		);
 
-		$this->fixture->calculateDistanceInKilometers($noCoordinates, $bonn);
+		$this->subject->calculateDistanceInKilometers($noCoordinates, $bonn);
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$noCoordinates = new Tx_Oelib_Tests_Unit_Fixtures_TestingGeo();
 		$noCoordinates->clearGeoCoordinates();
 
-		$this->fixture->calculateDistanceInKilometers($bonn, $noCoordinates);
+		$this->subject->calculateDistanceInKilometers($bonn, $noCoordinates);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
 		);
 
-		$this->fixture->calculateDistanceInKilometers($brokenBonn, $bonn);
+		$this->subject->calculateDistanceInKilometers($brokenBonn, $bonn);
 	}
 
 	/**
@@ -116,7 +116,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		);
 		$brokenBonn->setGeoError();
 
-		$this->fixture->calculateDistanceInKilometers($bonn, $brokenBonn);
+		$this->subject->calculateDistanceInKilometers($bonn, $brokenBonn);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			0.0,
-			$this->fixture->calculateDistanceInKilometers($bonn, $bonn)
+			$this->subject->calculateDistanceInKilometers($bonn, $bonn)
 		);
 	}
 
@@ -149,7 +149,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 
 		$this->assertEquals(
 			26.0,
-			$this->fixture->calculateDistanceInKilometers($bonn, $cologne),
+			$this->subject->calculateDistanceInKilometers($bonn, $cologne),
 			'',
 			2.0
 		);
@@ -169,8 +169,8 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertSame(
-			$this->fixture->calculateDistanceInKilometers($bonn, $cologne),
-			$this->fixture->calculateDistanceInKilometers($cologne, $bonn)
+			$this->subject->calculateDistanceInKilometers($bonn, $cologne),
+			$this->subject->calculateDistanceInKilometers($cologne, $bonn)
 		);
 	}
 
@@ -195,7 +195,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$list = new tx_oelib_List();
 		$list->add($bonn);
 
-		$filteredList = $this->fixture->filterByDistance(
+		$filteredList = $this->subject->filterByDistance(
 			$list, $cologne, 27.0
 		);
 
@@ -225,7 +225,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$list = new tx_oelib_List();
 		$list->add($bonn);
 
-		$filteredList = $this->fixture->filterByDistance(
+		$filteredList = $this->subject->filterByDistance(
 			$list, $cologne, 25.0
 		);
 
@@ -251,7 +251,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$list->add($bonn);
 		$list->add($cologne);
 
-		$filteredList = $this->fixture->filterByDistance(
+		$filteredList = $this->subject->filterByDistance(
 			$list, $cologne, 27.0
 		);
 

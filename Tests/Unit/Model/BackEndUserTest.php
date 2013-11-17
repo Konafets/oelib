@@ -35,15 +35,15 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_BackEndUser
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_BackEndUser();
+		$this->subject = new tx_oelib_Model_BackEndUser();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,11 +55,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUserNameForEmptyUserNameReturnsEmptyString() {
-		$this->fixture->setData(array('username' => ''));
+		$this->subject->setData(array('username' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getUserName()
+			$this->subject->getUserName()
 		);
 	}
 
@@ -67,11 +67,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getUserNameForNonEmptyUserNameReturnsUserName() {
-		$this->fixture->setData(array('username' => 'johndoe'));
+		$this->subject->setData(array('username' => 'johndoe'));
 
 		$this->assertSame(
 			'johndoe',
-			$this->fixture->getUserName()
+			$this->subject->getUserName()
 		);
 	}
 
@@ -84,11 +84,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForNonEmptyNameReturnsName() {
-		$this->fixture->setData(array('realName' => 'John Doe'));
+		$this->subject->setData(array('realName' => 'John Doe'));
 
 		$this->assertSame(
 			'John Doe',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -96,11 +96,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNameForEmptyNameReturnsEmptyString() {
-		$this->fixture->setData(array('realName' => ''));
+		$this->subject->setData(array('realName' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getName()
+			$this->subject->getName()
 		);
 	}
 
@@ -113,11 +113,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLanguageForNonEmptyLanguageReturnsLanguageKey() {
-		$this->fixture->setData(array('lang' => 'de'));
+		$this->subject->setData(array('lang' => 'de'));
 
 		$this->assertSame(
 			'de',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -125,11 +125,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLanguageForEmptyLanguageKeyReturnsDefault() {
-		$this->fixture->setData(array('lang' => ''));
+		$this->subject->setData(array('lang' => ''));
 
 		$this->assertSame(
 			'default',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -137,11 +137,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLanguageForLanguageSetInUserConfigurationReturnsThisLanguage() {
-		$this->fixture->setData(array('uc' => serialize(array('lang' => 'de'))));
+		$this->subject->setData(array('uc' => serialize(array('lang' => 'de'))));
 
 		$this->assertSame(
 			'de',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -149,12 +149,12 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLanguageForSetDefaultLanguageAndLanguageSetInUserConfigurationReturnsLanguageFromConfiguration() {
-		$this->fixture->setData(array('uc' => serialize(array('lang' => 'fr'))));
-		$this->fixture->setDefaultLanguage('de');
+		$this->subject->setData(array('uc' => serialize(array('lang' => 'fr'))));
+		$this->subject->setDefaultLanguage('de');
 
 		$this->assertSame(
 			'fr',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -162,11 +162,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDefaultLanguageSetsLanguage() {
-		$this->fixture->setDefaultLanguage('de');
+		$this->subject->setDefaultLanguage('de');
 
 		$this->assertSame(
 			'de',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -174,11 +174,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setDefaultLanguageWithDefaultSetsLanguage() {
-		$this->fixture->setDefaultLanguage('default');
+		$this->subject->setDefaultLanguage('default');
 
 		$this->assertSame(
 			'default',
-			$this->fixture->getLanguage()
+			$this->subject->getLanguage()
 		);
 	}
 
@@ -191,17 +191,17 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 			'$language must not be empty.'
 		);
 
-		$this->fixture->setDefaultLanguage('');
+		$this->subject->setDefaultLanguage('');
 	}
 
 	/**
 	 * @test
 	 */
 	public function hasLanguageWithoutLanguageReturnsFalse() {
-		$this->fixture->setData(array());
+		$this->subject->setData(array());
 
 		$this->assertFalse(
-			$this->fixture->hasLanguage()
+			$this->subject->hasLanguage()
 		);
 	}
 
@@ -209,11 +209,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLanguageWithDefaultLanguageSetReturnsFalse() {
-		$this->fixture->setData(array());
-		$this->fixture->setDefaultLanguage('default');
+		$this->subject->setData(array());
+		$this->subject->setDefaultLanguage('default');
 
 		$this->assertFalse(
-			$this->fixture->hasLanguage()
+			$this->subject->hasLanguage()
 		);
 	}
 
@@ -221,10 +221,10 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasLanguageWithNonEmptyLanguageReturnsTrue() {
-		$this->fixture->setData(array('lang' => 'de'));
+		$this->subject->setData(array('lang' => 'de'));
 
 		$this->assertTrue(
-			$this->fixture->hasLanguage()
+			$this->subject->hasLanguage()
 		);
 	}
 
@@ -237,11 +237,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEmailAddressForEmptyEmailReturnsEmptyString() {
-		$this->fixture->setData(array('email' => ''));
+		$this->subject->setData(array('email' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getEmailAddress()
+			$this->subject->getEmailAddress()
 		);
 	}
 
@@ -249,11 +249,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEmailAddressForNonEmptyEmailReturnsEmail() {
-		$this->fixture->setData(array('email' => 'john@doe.com'));
+		$this->subject->setData(array('email' => 'john@doe.com'));
 
 		$this->assertSame(
 			'john@doe.com',
-			$this->fixture->getEmailAddress()
+			$this->subject->getEmailAddress()
 		);
 	}
 
@@ -268,11 +268,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function getGroupsReturnsListFromUserGroupField() {
 		$groups = new tx_oelib_List();
 
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertSame(
 			$groups,
-			$this->fixture->getGroups()
+			$this->subject->getGroups()
 		);
 	}
 
@@ -285,10 +285,10 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForNoGroupsReturnsList() {
-		$this->fixture->setData(array('usergroup' => new tx_oelib_List()));
+		$this->subject->setData(array('usergroup' => new tx_oelib_List()));
 
 		$this->assertTrue(
-			$this->fixture->getAllGroups() instanceof tx_oelib_List
+			$this->subject->getAllGroups() instanceof tx_oelib_List
 		);
 	}
 
@@ -296,10 +296,10 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForNoGroupsReturnsEmptyList() {
-		$this->fixture->setData(array('usergroup' => new tx_oelib_List()));
+		$this->subject->setData(array('usergroup' => new tx_oelib_List()));
 
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->isEmpty()
+			$this->subject->getAllGroups()->isEmpty()
 		);
 	}
 
@@ -311,11 +311,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
 		$groups = new tx_oelib_List();
 		$groups->add($group);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertSame(
 			$group,
-			$this->fixture->getAllGroups()->first()
+			$this->subject->getAllGroups()->first()
 		);
 	}
 
@@ -330,13 +330,13 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 		$groups = new tx_oelib_List();
 		$groups->add($group1);
 		$groups->add($group2);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->hasUid($group1->getUid())
+			$this->subject->getAllGroups()->hasUid($group1->getUid())
 		);
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->hasUid($group2->getUid())
+			$this->subject->getAllGroups()->hasUid($group2->getUid())
 		);
 	}
 
@@ -352,13 +352,13 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 			);
 		$groups = new tx_oelib_List();
 		$groups->add($group);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->hasUid($group->getUid())
+			$this->subject->getAllGroups()->hasUid($group->getUid())
 		);
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->hasUid($subgroup->getUid())
+			$this->subject->getAllGroups()->hasUid($subgroup->getUid())
 		);
 	}
 
@@ -378,10 +378,10 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 			);
 		$groups = new tx_oelib_List();
 		$groups->add($group);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertTrue(
-			$this->fixture->getAllGroups()->hasUid($subsubgroup->getUid())
+			$this->subject->getAllGroups()->hasUid($subsubgroup->getUid())
 		);
 	}
 
@@ -397,11 +397,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 
 		$groups = new tx_oelib_List();
 		$groups->add($group);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertSame(
 			1,
-			$this->fixture->getAllGroups()->count()
+			$this->subject->getAllGroups()->count()
 		);
 	}
 
@@ -424,11 +424,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 
 		$groups = new tx_oelib_List();
 		$groups->add($group1);
-		$this->fixture->setData(array('usergroup' => $groups));
+		$this->subject->setData(array('usergroup' => $groups));
 
 		$this->assertSame(
 			2,
-			$this->fixture->getAllGroups()->count()
+			$this->subject->getAllGroups()->count()
 		);
 	}
 }

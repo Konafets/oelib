@@ -35,15 +35,15 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Model_BackEndUserGroup
 	 */
-	private $fixture;
+	private $subject;
 
 	public function setUp() {
-		$this->fixture = new tx_oelib_Model_BackEndUserGroup();
+		$this->subject = new tx_oelib_Model_BackEndUserGroup();
 	}
 
 	public function tearDown() {
-		$this->fixture->__destruct();
-		unset($this->fixture);
+		$this->subject->__destruct();
+		unset($this->subject);
 	}
 
 
@@ -55,11 +55,11 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTitleForNonEmptyGroupTitleReturnsGroupTitle() {
-		$this->fixture->setData(array('title' => 'foo'));
+		$this->subject->setData(array('title' => 'foo'));
 
 		$this->assertSame(
 			'foo',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -67,11 +67,11 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTitleForEmptyGroupTitleReturnsEmptyString() {
-		$this->fixture->setData(array('title' => ''));
+		$this->subject->setData(array('title' => ''));
 
 		$this->assertSame(
 			'',
-			$this->fixture->getTitle()
+			$this->subject->getTitle()
 		);
 	}
 
@@ -86,11 +86,11 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	public function getSubgroupsReturnsListFromSubgroupField() {
 		$groups = new tx_oelib_List();
 
-		$this->fixture->setData(array('subgroup' => $groups));
+		$this->subject->setData(array('subgroup' => $groups));
 
 		$this->assertSame(
 			$groups,
-			$this->fixture->getSubgroups()
+			$this->subject->getSubgroups()
 		);
 	}
 }

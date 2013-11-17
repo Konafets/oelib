@@ -34,14 +34,14 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	/**
 	 * @var Tx_Oelib_Domain_Model_FederalState
 	 */
-	private $fixture = NULL;
+	private $subject = NULL;
 
 	public function setUp() {
-		$this->fixture = new Tx_Oelib_Domain_Model_FederalState();
+		$this->subject = new Tx_Oelib_Domain_Model_FederalState();
 	}
 
 	public function tearDown() {
-		unset($this->fixture);
+		unset($this->subject);
 	}
 
 	/**
@@ -50,7 +50,7 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	public function getLocalNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getLocalName()
+			$this->subject->getLocalName()
 		);
 	}
 
@@ -58,11 +58,11 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	 * @test
 	 */
 	public function setLocalNameSetsLocalShortName() {
-		$this->fixture->setLocalName('Nordrhein-Westfalen');
+		$this->subject->setLocalName('Nordrhein-Westfalen');
 
 		$this->assertSame(
 			'Nordrhein-Westfalen',
-			$this->fixture->getLocalName()
+			$this->subject->getLocalName()
 		);
 	}
 
@@ -72,7 +72,7 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	public function getEnglishNameInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getEnglishName()
+			$this->subject->getEnglishName()
 		);
 	}
 
@@ -80,11 +80,11 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	 * @test
 	 */
 	public function setEnglishNameSetsEnglishShortName() {
-		$this->fixture->setEnglishName('North Rhine-Westphalia');
+		$this->subject->setEnglishName('North Rhine-Westphalia');
 
 		$this->assertSame(
 			'North Rhine-Westphalia',
-			$this->fixture->getEnglishName()
+			$this->subject->getEnglishName()
 		);
 	}
 
@@ -94,7 +94,7 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	public function getIsoCountryCodeInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getIsoCountryCode()
+			$this->subject->getIsoCountryCode()
 		);
 	}
 
@@ -102,11 +102,11 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	 * @test
 	 */
 	public function setIsoCountryCodeSetsIsoAlphaTwoCode() {
-		$this->fixture->setIsoCountryCode('DE');
+		$this->subject->setIsoCountryCode('DE');
 
 		$this->assertSame(
 			'DE',
-			$this->fixture->getIsoCountryCode()
+			$this->subject->getIsoCountryCode()
 		);
 	}
 
@@ -116,7 +116,7 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	public function getIsoZoneCodeInitiallyReturnsEmptyString() {
 		$this->assertSame(
 			'',
-			$this->fixture->getIsoZoneCode()
+			$this->subject->getIsoZoneCode()
 		);
 	}
 
@@ -124,11 +124,11 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	 * @test
 	 */
 	public function setIsoZoneCodeSetsIsoAlphaTwoCode() {
-		$this->fixture->setIsoZoneCode('NW');
+		$this->subject->setIsoZoneCode('NW');
 
 		$this->assertSame(
 			'NW',
-			$this->fixture->getIsoZoneCode()
+			$this->subject->getIsoZoneCode()
 		);
 	}
 }
