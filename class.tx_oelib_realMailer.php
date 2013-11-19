@@ -32,7 +32,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_realMailer extends tx_oelib_abstractMailer {
+class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Sends a plain-text e-mail.
 	 *

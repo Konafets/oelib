@@ -31,7 +31,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
+class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -67,7 +67,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	protected $compoundKeyParts = array('title', 'header');
 
 	/**
-	 * @var array<tx_oelib_Model>
+	 * @var array<Tx_Oelib_Model>
 	 */
 	protected $cachedModels = array();
 
@@ -76,7 +76,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * This function is intented for testing whether models have been cached.
 	 *
-	 * @return array<tx_oelib_Model>
+	 * @return array<Tx_Oelib_Model>
 	 */
 	public function getCachedModels() {
 		return $this->cachedModels;
@@ -87,12 +87,12 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * This function is intendend to be used for testing purposes only.
 	 *
-	 * @param tx_oelib_IdentityMap $map
+	 * @param Tx_Oelib_IdentityMap $map
 	 *        the map to set
 	 *
 	 * @return void
 	 */
-	public function setMap(tx_oelib_IdentityMap $map) {
+	public function setMap(Tx_Oelib_IdentityMap $map) {
 		$this->map = $map;
 	}
 
@@ -108,7 +108,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *        consist of a column name as key and a value to search for as value
 	 *        (will automatically get quoted), must not be empty
 	 *
-	 * @return tx_oelib_Model the model
+	 * @return Tx_Oelib_Model the model
 	 */
 	public function findSingleByWhereClause(array $whereClauseParts) {
 		return parent::findSingleByWhereClause($whereClauseParts);
@@ -132,12 +132,12 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *
 	 * @param array &$data
 	 *        the model data to process, might be modified
-	 * @param tx_oelib_Model $model
+	 * @param Tx_Oelib_Model $model
 	 *        the model to create the relations for
 	 *
 	 * @return void
 	 */
-	public function createRelations(array &$data, tx_oelib_Model $model) {
+	public function createRelations(array &$data, Tx_Oelib_Model $model) {
 		parent::createRelations($data, $model);
 	}
 
@@ -153,7 +153,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 *        optionally followed by "ASC" or "DESC", may be empty
 	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return tx_oelib_List all models found in DB for the given where clause,
+	 * @return Tx_Oelib_List all models found in DB for the given where clause,
 	 *                       will be an empty list if no models were found
 	 */
 	public function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
@@ -172,7 +172,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * @param string $value
 	 *        the value for the key of the model to find, must not be empty
 	 *
-	 * @return tx_oelib_Model the cached model
+	 * @return Tx_Oelib_Model the cached model
 	 */
 	public function findOneByKeyFromCache($key, $value) {
 		return parent::findOneByKeyFromCache($key, $value);
@@ -184,14 +184,14 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * This method needs to be overwritten in subclasses to work. However, it is recommended to use cacheModelByCompoundKey
 	 * instead. So this method primarily is here for backwards compatibility.
 	 *
-	 * @param tx_oelib_Model $model the model to cache
+	 * @param Tx_Oelib_Model $model the model to cache
 	 * @param array $data the data of the model as it is in the DB, may be empty
 	 *
 	 * @return void
 	 *
 	 * @see cacheModelByCompoundKey
 	 */
-	protected function cacheModelByCombinedKeys(tx_oelib_Model $model, array $data) {
+	protected function cacheModelByCombinedKeys(Tx_Oelib_Model $model, array $data) {
 		$this->cachedModels[] = $model;
 	}
 
@@ -205,7 +205,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends tx_oelib_DataMapper {
 	 * @param string $title
 	 * @param string $header
 	 *
-	 * @return tx_oelib_Model the cached model
+	 * @return Tx_Oelib_Model the cached model
 	 *
 	 * @throws tx_oelib_Exception_NotFound if there is no match in the cache yet
 	 */

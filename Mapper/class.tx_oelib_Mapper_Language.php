@@ -31,7 +31,7 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_Language extends tx_oelib_DataMapper {
+class tx_oelib_Mapper_Language extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -40,7 +40,7 @@ class tx_oelib_Mapper_Language extends tx_oelib_DataMapper {
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
-	protected $modelClassName = 'tx_oelib_Model_Language';
+	protected $modelClassName = 'Tx_Oelib_Model_Language';
 
 	/**
 	 * @var array the column names of additional string keys
@@ -56,7 +56,7 @@ class tx_oelib_Mapper_Language extends tx_oelib_DataMapper {
 	 * @param string $isoAlpha2Code
 	 *        the ISO 639-1 alpha-2 code to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_Language the language
+	 * @return Tx_Oelib_Model_Language the language
 	 */
 	public function findByIsoAlpha2Code($isoAlpha2Code) {
 		return $this->findOneByKey('lg_iso_2', $isoAlpha2Code);

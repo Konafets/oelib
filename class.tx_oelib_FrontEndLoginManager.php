@@ -30,16 +30,16 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
+class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
-	 * @var tx_oelib_FrontEndLoginManager the Singleton instance
+	 * @var Tx_Oelib_FrontEndLoginManager the Singleton instance
 	 */
 	private static $instance = NULL;
 
 	/**
 	 * the simulated logged-in user
 	 *
-	 * @var tx_oelib_Model_FrontEndUser
+	 * @var Tx_Oelib_Model_FrontEndUser
 	 */
 	private $loggedInUser = NULL;
 
@@ -58,11 +58,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_FrontEndLoginManager the current Singleton instance
+	 * @return Tx_Oelib_FrontEndLoginManager the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_FrontEndLoginManager();
+			self::$instance = new Tx_Oelib_FrontEndLoginManager();
 		}
 
 		return self::$instance;
@@ -101,7 +101,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *
 	 * @param string $mapperName the name of the mapper to use for getting the front-end user model, must not be empty
 	 *
-	 * @return tx_oelib_Model_FrontEndUser the logged-in front-end user, will
+	 * @return Tx_Oelib_Model_FrontEndUser the logged-in front-end user, will
 	 *                                     be NULL if no user is logged in or
 	 *                                     if there is no front end
 	 */
@@ -118,7 +118,7 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		if ($this->loggedInUser !== NULL) {
 			$user = $this->loggedInUser;
 		} else {
-			$user = tx_oelib_MapperRegistry::get($mapperName)
+			$user = Tx_Oelib_MapperRegistry::get($mapperName)
 				->find($GLOBALS['TSFE']->fe_user->user['uid']);
 		}
 
@@ -130,11 +130,11 @@ class tx_oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *
 	 * This function is intended to be used for unit test only. Don't use it in the production code.
 	 *
-	 * @param tx_oelib_Model_FrontEndUser|NULL $user the user to log in, set to NULL for no logged-in user
+	 * @param Tx_Oelib_Model_FrontEndUser|NULL $user the user to log in, set to NULL for no logged-in user
 	 *
 	 * @return void
 	 */
-	public function logInUser(tx_oelib_Model_FrontEndUser $user = NULL) {
+	public function logInUser(Tx_Oelib_Model_FrontEndUser $user = NULL) {
 		$this->loggedInUser = $user;
 	}
 }

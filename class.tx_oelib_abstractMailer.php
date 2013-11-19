@@ -38,7 +38,7 @@ if (!class_exists('mail_mime', FALSE)) {
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_abstractMailer {
+abstract class Tx_Oelib_AbstractMailer {
 	/**
 	 * @var boolean whether an e-mail should be formatted before it is sent
 	 */
@@ -103,13 +103,13 @@ abstract class tx_oelib_abstractMailer {
 	);
 
 	/**
-	 * Sends an tx_oelib_Mail object.
+	 * Sends an Tx_Oelib_Mail object.
 	 *
-	 * @param tx_oelib_Mail $email the tx_oelib_Mail object to send
+	 * @param Tx_Oelib_Mail $email the Tx_Oelib_Mail object to send
 	 *
 	 * @return void
 	 */
-	public function send(tx_oelib_Mail $email) {
+	public function send(Tx_Oelib_Mail $email) {
 		if (!$email->hasSender()) {
 			throw new InvalidArgumentException('$email must have a sender set.', 1331318718);
 		}

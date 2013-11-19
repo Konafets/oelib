@@ -59,7 +59,7 @@ interface tx_oelib_Interface_LoginManager {
 	 * @param string $mapperName
 	 *        the name of the mapper to use for getting the user model, must not be empty
 	 *
-	 * @return tx_oelib_Model the logged-in user, will be NULL if no user is
+	 * @return Tx_Oelib_Model the logged-in user, will be NULL if no user is
 	 *                        logged in
 	 */
 	public function getLoggedInUser($mapperName = '');

@@ -29,7 +29,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class Tx_Oelib_dummyObjectToCheck extends tx_oelib_templatehelper {
+final class Tx_Oelib_dummyObjectToCheck extends Tx_Oelib_TemplateHelper {
 	/**
 	 * The constructor.
 	 *

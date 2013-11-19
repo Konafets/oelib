@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Session extends tx_oelib_PublicObject {
+class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	/**
 	 * @var integer session type for persistent data that is stored for the
 	 *              logged-in front-end user and will be available when the
@@ -91,14 +91,14 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 *        the type of the session to use; either TYPE_USER (persistent)
 	 *        or TYPE_TEMPORARY (only for the lifetime of the session cookie)
 	 *
-	 * @return tx_oelib_Session the current Singleton instance for the given
+	 * @return Tx_Oelib_Session the current Singleton instance for the given
 	 *                          type
 	 */
 	public static function getInstance($type) {
 		self::checkType($type);
 
 		if (!isset(self::$instances[$type])) {
-			self::$instances[$type] = new tx_oelib_Session($type);
+			self::$instances[$type] = new Tx_Oelib_Session($type);
 		}
 
 		return self::$instances[$type];
@@ -108,11 +108,11 @@ class tx_oelib_Session extends tx_oelib_PublicObject {
 	 * Sets the instance for the given type.
 	 *
 	 * @param integer $type the type to set, must be either TYPE_USER or TYPE_TEMPORARY
-	 * @param tx_oelib_Session $instance the instance to set
+	 * @param Tx_Oelib_Session $instance the instance to set
 	 *
 	 * @return void
 	 */
-	public static function setInstance($type, tx_oelib_Session $instance) {
+	public static function setInstance($type, Tx_Oelib_Session $instance) {
 		self::checkType($type);
 
 		self::$instances[$type] = $instance;

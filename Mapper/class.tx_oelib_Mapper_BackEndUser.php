@@ -31,7 +31,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
+class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -40,7 +40,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
-	protected $modelClassName = 'tx_oelib_Model_BackEndUser';
+	protected $modelClassName = 'Tx_Oelib_Model_BackEndUser';
 
 	/**
 	 * @var array the (possible) relations of the created models in the format
@@ -66,7 +66,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 * @param string $userName
 	 *        user name, case-insensitive, must not be empty
 	 *
-	 * @return tx_oelib_Model_BackEndUser model of the back-end user with the
+	 * @return Tx_Oelib_Model_BackEndUser model of the back-end user with the
 	 *                                    provided user name
 	 */
 	public function findByUserName($userName) {
@@ -79,7 +79,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 * Note: This function must only be called if the constant "TYPO3_cliKey"
 	 * is defined.
 	 *
-	 * @return tx_oelib_Model_BackEndUser model of the back-end user for the
+	 * @return Tx_Oelib_Model_BackEndUser model of the back-end user for the
 	 *                                    defined CLI key
 	 */
 	public function findByCliKey() {
@@ -110,7 +110,7 @@ class tx_oelib_Mapper_BackEndUser extends tx_oelib_DataMapper {
 	 * @return array the record from the database, will not be empty
 	 */
 	protected function retrieveRecordByUid($uid) {
-		if (tx_oelib_BackEndLoginManager::getInstance()->isLoggedIn() &&
+		if (Tx_Oelib_BackEndLoginManager::getInstance()->isLoggedIn() &&
 			($GLOBALS['BE_USER']->user['uid'] == $uid)
 		) {
 			$data = $GLOBALS['BE_USER']->user;

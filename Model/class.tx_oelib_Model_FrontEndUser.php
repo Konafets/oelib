@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
+class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	tx_oelib_Interface_MailRole, tx_oelib_Interface_Address
 {
 	/**
@@ -333,7 +333,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Gets this user's user groups.
 	 *
-	 * @return tx_oelib_List this user's FE user groups, will not be empty if
+	 * @return Tx_Oelib_List this user's FE user groups, will not be empty if
 	 *                       the user data is valid
 	 */
 	public function getUserGroups() {
@@ -343,11 +343,11 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Sets this user's direct user groups.
 	 *
-	 * @param tx_oelib_List $userGroups the user groups to set, may be empty
+	 * @param Tx_Oelib_List $userGroups the user groups to set, may be empty
 	 *
 	 * @return void
 	 */
-	public function setUserGroups(tx_oelib_List $userGroups) {
+	public function setUserGroups(Tx_Oelib_List $userGroups) {
 		$this->set('usergroup', $userGroups);
 	}
 
@@ -385,9 +385,9 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * Will return "unknown gender" if sr_feuser_register is not installed.
 	 *
 	 * @return integer the gender of the user, will be
-	 *                 tx_oelib_Model_FrontEndUser::GENDER_FEMALE,
-	 *                 tx_oelib_Model_FrontEndUser::GENDER_MALE or
-	 *                 tx_oelib_Model_FrontEndUser::GENDER_UNKNOWN
+	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE,
+	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_MALE or
+	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN
 	 */
 	public function getGender() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
@@ -560,12 +560,12 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	}
 
 	/**
-	 * Returns the country of this user as tx_oelib_Model_Country.
+	 * Returns the country of this user as Tx_Oelib_Model_Country.
 	 *
 	 * Note: This function uses the "country code" field, not the free-text
 	 * country field.
 	 *
-	 * @return tx_oelib_Model_Country the country of this user, will be NULL
+	 * @return Tx_Oelib_Model_Country the country of this user, will be NULL
 	 *                                if no valid country has been set
 	 */
 	public function getCountry() {
@@ -575,7 +575,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 		}
 
 		try {
-			$country = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
+			$country = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
 				->findByIsoAlpha3Code($countryCode);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$country = NULL;
@@ -587,12 +587,12 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	/**
 	 * Sets the country of this user.
 	 *
-	 * @param tx_oelib_Model_Country $country
+	 * @param Tx_Oelib_Model_Country $country
 	 *        the country to set for this place, can be NULL for "no country"
 	 *
 	 * @return void
 	 */
-	public function setCountry(tx_oelib_Model_Country $country = NULL) {
+	public function setCountry(Tx_Oelib_Model_Country $country = NULL) {
 		$countryCode = ($country !== NULL) ? $country->getIsoAlpha3Code() : '';
 
 		$this->setAsString('static_info_country', $countryCode);
@@ -604,7 +604,7 @@ class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
 	 * @return boolean TRUE if this user has a country, FALSE otherwise
 	 */
 	public function hasCountry() {
-		return ($this->getCountry() instanceof tx_oelib_Model_Country);
+		return ($this->getCountry() instanceof Tx_Oelib_Model_Country);
 	}
 
 	/**

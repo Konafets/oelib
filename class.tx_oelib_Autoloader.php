@@ -36,7 +36,7 @@ require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Autoloader {
+class Tx_Oelib_Autoloader {
 	/**
 	 * Tries to load a class by class name.
 	 *

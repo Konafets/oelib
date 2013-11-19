@@ -33,12 +33,12 @@
  */
 class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Model_BackEndUserGroup
+	 * @var Tx_Oelib_Model_BackEndUserGroup
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Model_BackEndUserGroup();
+		$this->subject = new Tx_Oelib_Model_BackEndUserGroup();
 	}
 
 	public function tearDown() {
@@ -84,7 +84,7 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getSubgroupsReturnsListFromSubgroupField() {
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 
 		$this->subject->setData(array('subgroup' => $groups));
 

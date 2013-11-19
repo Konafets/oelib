@@ -41,7 +41,7 @@ if (!defined('OELIB_TESTTABLE_MM')) {
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
-	/** @var tx_oelib_testingFramework */
+	/** @var Tx_Oelib_TestingFramework */
 	private $subject;
 
 	/**
@@ -77,7 +77,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->extConfBackup = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'];
 		$this->t3VarBackup = $GLOBALS['T3_VAR']['getUserObj'];
 
-		$this->subject = new tx_oelib_testingFramework(
+		$this->subject = new Tx_Oelib_TestingFramework(
 			'tx_oelib', array('user_oelibtest')
 		);
 	}
@@ -113,7 +113,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @return integer the sorting value of the relation
 	 */
 	private function getSortingOfRelation($uidLocal, $uidForeign) {
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'sorting',
 			OELIB_TESTTABLE_MM,
 			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
@@ -223,7 +223,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function markTableAsDirtyWillCleanUpANonSystemTable() {
-		$uid = tx_oelib_db::insert(
+		$uid = Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('is_dummy_record' => 1)
 		);
 
@@ -239,7 +239,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function markTableAsDirtyWillCleanUpASystemTable() {
-		$uid = tx_oelib_db::insert (
+		$uid = Tx_Oelib_Db::insert (
 			'pages', array('tx_oelib_is_dummy_record' => 1)
 		);
 
@@ -257,7 +257,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function markTableAsDirtyWillCleanUpAdditionalAllowedTable() {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 
-		$uid = tx_oelib_db::insert(
+		$uid = Tx_Oelib_Db::insert(
 			'user_oelibtest_test', array('tx_oelib_is_dummy_record' => 1)
 		);
 
@@ -358,7 +358,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			OELIB_TESTTABLE,
 			'uid = ' . $uid
@@ -440,7 +440,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('title' => 'bar')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			OELIB_TESTTABLE,
 			'uid = ' . $uid
@@ -723,7 +723,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function deleteRecordOnNonTestRecordNotDeletesRecord() {
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
-		$uid = tx_oelib_db::insert(
+		$uid = Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE,
 			array(
 				'title' => 'TEST',
@@ -736,10 +736,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->deleteRecord(OELIB_TESTTABLE, $uid);
 
 		// Remembers whether the record still exists.
-		$counter = tx_oelib_db::count(OELIB_TESTTABLE, 'uid = ' . $uid);
+		$counter = Tx_Oelib_Db::count(OELIB_TESTTABLE, 'uid = ' . $uid);
 
 		// Deletes the record as it will not be caught by the clean up function.
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE,
 			'uid = ' . $uid . ' AND is_dummy_record = 0'
 		);
@@ -930,7 +930,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'related_records'
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
 			OELIB_TESTTABLE,
 			'uid = ' . $firstRecordUid
@@ -959,7 +959,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'related_records'
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
 			OELIB_TESTTABLE,
 			'uid = ' . $firstRecordUid
@@ -1010,7 +1010,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'bidirectional'
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'bidirectional',
 			OELIB_TESTTABLE,
 			'uid = ' . $firstRecordUid
@@ -1036,7 +1036,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'bidirectional'
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
 			OELIB_TESTTABLE,
 			'uid = ' . $secondRecordUid
@@ -1199,7 +1199,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE_MM,
 			array(
 				'uid_local' => $uidLocal,
@@ -1220,13 +1220,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// 1. reads the value to test
 		// 2. deletes the test record
 		// 3. tests the previously read value (and possibly fails)
-		$numberOfCreatedRelations = tx_oelib_db::count(
+		$numberOfCreatedRelations = Tx_Oelib_Db::count(
 			OELIB_TESTTABLE_MM,
 			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE_MM,
 			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
 				.' AND is_dummy_record = 0'
@@ -1253,7 +1253,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		// Creates a dummy record directly in the database, without putting this
 		// table name to the list of dirty tables.
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
 		);
 
@@ -1290,7 +1290,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		// Creates a dummy record directly in the database without putting this
 		// table name to the list of dirty tables.
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
 		);
 
@@ -1446,7 +1446,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->checkIfExtensionUserOelibtestIsLoaded();
 		$this->checkIfExtensionUserOelibtest2IsLoaded();
 
-		$subject = new tx_oelib_testingFramework(
+		$subject = new Tx_Oelib_TestingFramework(
 			'tx_oelib', array('user_oelibtest', 'user_oelibtest2')
 		);
 
@@ -1470,7 +1470,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementReturnsOneForTruncatedTable() {
-		tx_oelib_db::enableQueryLogging();
+		Tx_Oelib_Db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'TRUNCATE TABLE ' . OELIB_TESTTABLE . ';'
 		);
@@ -1728,7 +1728,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsIgnoresNonDummyRecords() {
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
@@ -1736,7 +1736,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
@@ -1836,7 +1836,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsRecordIgnoresNonDummyRecords() {
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
@@ -1844,7 +1844,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
@@ -1940,7 +1940,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsRecordWithUidIgnoresNonDummyRecords() {
-		$uid = tx_oelib_db::insert(
+		$uid = Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
@@ -1948,7 +1948,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			OELIB_TESTTABLE, $uid
 		);
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE, 'uid = ' . $uid
 		);
 		// We need to do this manually to not confuse the auto_increment counter
@@ -2050,7 +2050,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsExactlyOneRecordIgnoresNonDummyRecords() {
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('title' => 'foo')
 		);
 
@@ -2058,7 +2058,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			OELIB_TESTTABLE, 'title = "foo"'
 		);
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			OELIB_TESTTABLE,
 			'title = "foo"'
 		);
@@ -2399,7 +2399,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'doktype',
 			'pages',
 			'uid = ' . $uid
@@ -2422,7 +2422,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'pages',
 			'uid = ' . $uid
@@ -2446,7 +2446,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'pages',
 			'uid = ' . $uid
@@ -2503,7 +2503,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function frontEndPageHasNoTitleByDefault() {
 		$uid = $this->subject->createFrontEndPage();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'pages',
 			'uid = ' . $uid
@@ -2524,7 +2524,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Test title')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'pages',
 			'uid = ' . $uid
@@ -2637,7 +2637,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'doktype',
 			'pages',
 			'uid = ' . $uid
@@ -2660,7 +2660,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'pages',
 			'uid = ' . $uid
@@ -2684,7 +2684,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'pages',
 			'uid = ' . $uid
@@ -2741,7 +2741,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function systemFolderHasNoTitleByDefault() {
 		$uid = $this->subject->createSystemFolder();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'pages',
 			'uid = ' . $uid
@@ -2762,7 +2762,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Test title')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'pages',
 			'uid = ' . $uid
@@ -2875,7 +2875,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'tt_content',
 			'uid = ' . $uid
@@ -2899,7 +2899,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$uid
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'pid',
 			'tt_content',
 			'uid = ' . $uid
@@ -2956,7 +2956,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function contentElementHasNoHeaderByDefault() {
 		$uid = $this->subject->createContentElement();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'header',
 			'tt_content',
 			'uid = ' . $uid
@@ -2977,7 +2977,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('header' => 'Test header')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'header',
 			'tt_content',
 			'uid = ' . $uid
@@ -2995,7 +2995,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function contentElementIsTextElementByDefault() {
 		$uid = $this->subject->createContentElement();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'CType',
 			'tt_content',
 			'uid = ' . $uid
@@ -3016,7 +3016,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('CType' => 'list')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'CType',
 			'tt_content',
 			'uid = ' . $uid
@@ -3169,7 +3169,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function templateInitiallyHasNoConfig() {
 		$pageId = $this->subject->createFrontEndPage();
 		$uid = $this->subject->createTemplate($pageId);
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'config',
 			'sys_template',
 			'uid = ' . $uid
@@ -3189,7 +3189,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$pageId,
 			array('config' => 'plugin.tx_oelib.test = 1')
 		);
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'config',
 			'sys_template',
 			'uid = ' . $uid
@@ -3228,7 +3228,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function templateInitiallyHasNoConstants() {
 		$pageId = $this->subject->createFrontEndPage();
 		$uid = $this->subject->createTemplate($pageId);
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'constants',
 			'sys_template',
 			'uid = ' . $uid
@@ -3248,7 +3248,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$pageId,
 			array('constants' => 'plugin.tx_oelib.test = 1')
 		);
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'constants',
 			'sys_template',
 			'uid = ' . $uid
@@ -3915,7 +3915,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function frontEndUserGroupHasNoTitleByDefault() {
 		$uid = $this->subject->createFrontEndUserGroup();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'fe_groups',
 			'uid = ' . $uid
@@ -3935,7 +3935,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('title' => 'Test title')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'title',
 			'fe_groups',
 			'uid = ' . $uid
@@ -4040,7 +4040,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function frontEndUserHasNoUserNameByDefault() {
 		$uid = $this->subject->createFrontEndUser();
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'username',
 			'fe_users',
 			'uid = ' . $uid
@@ -4061,7 +4061,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			array('username' => 'Test name')
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'username',
 			'fe_users',
 			'uid = ' . $uid
@@ -4266,7 +4266,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function createBackEndUserCreatesRecordWithoutUserNameByDefault() {
 		$uid = $this->subject->createBackEndUser();
 
-		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
+		$row = Tx_Oelib_Db::selectSingle('username', 'be_users', 'uid = ' . $uid);
 
 		$this->assertSame(
 			'',
@@ -4280,7 +4280,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function createBackEndUserForUserNameProvidedCreatesRecordWithUserName() {
 		$uid = $this->subject->createBackEndUser(array('username' => 'Test name'));
 
-		$row = tx_oelib_db::selectSingle('username', 'be_users', 'uid = ' . $uid);
+		$row = Tx_Oelib_Db::selectSingle('username', 'be_users', 'uid = ' . $uid);
 
 		$this->assertSame(
 			'Test name',
@@ -4674,7 +4674,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->loginFrontEndUser($feUserId);
 
 		$this->assertTrue(
-			tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+			Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 		);
 	}
 
@@ -4781,7 +4781,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->logoutFrontEndUser();
 
 		$this->assertFalse(
-			tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
+			Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn()
 		);
 	}
 
@@ -4805,7 +4805,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function loginFrontEndUserNotInDatabaseSwitchesToLoggedIn() {
 		$this->subject->createFakeFrontEnd();
 
-		$feUser = tx_oelib_MapperRegistry
+		$feUser = Tx_Oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
 		$feUser->setData(array());
 		$this->subject->loginFrontEndUser($feUser->getUid());
@@ -4821,7 +4821,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function loginFrontEndUserNotInDatabaseSetsLoginUserToOne() {
 		$this->subject->createFakeFrontEnd();
 
-		$feUser = tx_oelib_MapperRegistry
+		$feUser = Tx_Oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
 		$feUser->setData(array());
 		$this->subject->loginFrontEndUser($feUser->getUid());
@@ -4838,7 +4838,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function loginFrontEndUserNotInDatabaseRetrievesNameOfUser() {
 		$this->subject->createFakeFrontEnd();
 
-		$feUser = tx_oelib_MapperRegistry
+		$feUser = Tx_Oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
 		$feUser->setData(array('name' => 'John Doe'));
 		$this->subject->loginFrontEndUser($feUser->getUid());
@@ -4858,7 +4858,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'Please create a front end before calling loginFrontEndUser.'
 		);
 
-		$feUser = tx_oelib_MapperRegistry
+		$feUser = Tx_Oelib_MapperRegistry
 			::get('tx_oelib_Mapper_FrontEndUser')->getNewGhost();
 		$feUser->setData(array());
 		$this->subject->loginFrontEndUser($feUser->getUid());
@@ -4873,7 +4873,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUid = $this->subject->createFrontEndUserGroup(
 			array('title' => 'foo')
 		);
-		$feUser = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
+		$feUser = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
 			->find($this->subject->createFrontEndUser($feUserGroupUid));
 		$this->subject->loginFrontEndUser($feUser->getUid());
 
@@ -4969,7 +4969,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$frontEndUserGroupUid
 		);
 
-		$dbResultRow = tx_oelib_db::selectSingle(
+		$dbResultRow = Tx_Oelib_Db::selectSingle(
 			'usergroup',
 			'fe_users',
 			'uid = ' . $frontEndUserUid
@@ -5030,7 +5030,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'related_records'
 		);
 
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
 			OELIB_TESTTABLE,
 			'uid = ' . $uid
@@ -5118,7 +5118,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDummyColumnNameForThirdPartyExtensionTableReturnsPrefixedColumnName() {
-		$testingFramework = new tx_oelib_testingFramework(
+		$testingFramework = new Tx_Oelib_TestingFramework(
 			'user_oelibtest', array('user_oelibtest2')
 		);
 		$this->assertSame(

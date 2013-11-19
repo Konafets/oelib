@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Model_Language
+	 * @var Tx_Oelib_Model_Language
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Model_Language();
+		$this->subject = new Tx_Oelib_Model_Language();
 	}
 
 	public function tearDown() {

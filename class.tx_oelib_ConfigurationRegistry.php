@@ -31,9 +31,9 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_ConfigurationRegistry {
+class Tx_Oelib_ConfigurationRegistry {
 	/**
-	 * @var tx_oelib_ConfigurationRegistry the Singleton instance
+	 * @var Tx_Oelib_ConfigurationRegistry the Singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -75,11 +75,11 @@ class tx_oelib_ConfigurationRegistry {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_ConfigurationRegistry the current Singleton instance
+	 * @return Tx_Oelib_ConfigurationRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_ConfigurationRegistry();
+			self::$instance = new Tx_Oelib_ConfigurationRegistry();
 		}
 
 		return self::$instance;
@@ -105,7 +105,7 @@ class tx_oelib_ConfigurationRegistry {
 	 *        the name of a configuration namespace, e.g., "plugin.tx_oelib",
 	 *        must not be empty
 	 *
-	 * @return tx_oelib_Configuration the configuration for the given namespace
+	 * @return Tx_Oelib_Configuration the configuration for the given namespace
 	 *
 	 * @see getByNamespace
 	 */
@@ -120,7 +120,7 @@ class tx_oelib_ConfigurationRegistry {
 	 *        the name of a configuration namespace, e.g., "plugin.tx_oelib",
 	 *        must not be empty
 	 *
-	 * @return tx_oelib_Configuration the configuration for the given namespace
+	 * @return Tx_Oelib_Configuration the configuration for the given namespace
 	 */
 	private function getByNamespace($namespace) {
 		$this->checkForNonEmptyNamespace($namespace);
@@ -138,12 +138,12 @@ class tx_oelib_ConfigurationRegistry {
 	 *
 	 * @param string $namespace
 	 *        the namespace of the configuration to set, must not be empty
-	 * @param tx_oelib_Configuration $configuration
+	 * @param Tx_Oelib_Configuration $configuration
 	 *        the configuration to set
 	 *
 	 * @return void
 	 */
-	public function set($namespace, tx_oelib_Configuration $configuration) {
+	public function set($namespace, Tx_Oelib_Configuration $configuration) {
 		$this->checkForNonEmptyNamespace($namespace);
 
 		if (isset($this->configurations[$namespace])) {
@@ -192,7 +192,7 @@ class tx_oelib_ConfigurationRegistry {
 			$data = $data[$namespacePart . '.'];
 		}
 
-		$configuration = tx_oelib_ObjectFactory::make('tx_oelib_Configuration');
+		$configuration = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Configuration');
 		$configuration->setData($data);
 		return $configuration;
 	}
@@ -205,7 +205,7 @@ class tx_oelib_ConfigurationRegistry {
 	 *               no page is selected or if the TS setup of the page is empty
 	 */
 	private function getCompleteTypoScriptSetup() {
-		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+		$pageUid = Tx_Oelib_PageFinder::getInstance()->getPageUid();
 		if ($pageUid == 0) {
 			return array();
 		}

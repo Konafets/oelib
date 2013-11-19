@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_ObjectFactory {
+class Tx_Oelib_ObjectFactory {
 	/**
 	 * Creates an instance of the class $className.
 	 *
@@ -44,7 +44,7 @@ class tx_oelib_ObjectFactory {
 	public static function make($className) {
 		// Makes sure that the parent class is included so it can load any
 		// XCLASS subclasses.
-		tx_oelib_Autoloader::load($className);
+		Tx_Oelib_Autoloader::load($className);
 
 		if (func_num_args() == 1) {
 			return t3lib_div::makeInstance($className);

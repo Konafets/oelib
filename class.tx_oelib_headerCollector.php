@@ -33,7 +33,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_headerCollector extends tx_oelib_abstractHeaderProxy {
+class Tx_Oelib_HeaderCollector extends Tx_Oelib_AbstractHeaderProxy {
 	/** headers which were meant to be sent */
 	private $headers = array();
 

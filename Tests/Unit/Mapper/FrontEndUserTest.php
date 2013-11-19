@@ -32,7 +32,7 @@
  */
 class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework for creating dummy records
+	 * @var Tx_Oelib_TestingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
@@ -41,7 +41,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	private $subject;
 
 	public function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		$this->subject = new tx_oelib_Mapper_FrontEndUser();
 	}
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$uid = $this->testingFramework->createFrontEndUser();
 
 		$this->assertTrue(
-			$this->subject->find($uid) instanceof tx_oelib_Model_FrontEndUser
+			$this->subject->find($uid) instanceof Tx_Oelib_Model_FrontEndUser
 		);
 	}
 
@@ -92,7 +92,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getUserGroupsGetsRelatedGroupsAsList() {
 		$groupMapper
-			= tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
+			= Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUserGroup');
 
 		$group1 = $groupMapper->getNewGhost();
 		$group2 = $groupMapper->getNewGhost();
@@ -141,7 +141,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
-			) instanceof tx_oelib_List
+			) instanceof Tx_Oelib_List
 		);
 	}
 
@@ -254,7 +254,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->getGroupMembers($feUserGroupUid)->first()
-				instanceof tx_oelib_Model_FrontEndUser
+				instanceof Tx_Oelib_Model_FrontEndUser
 		);
 	}
 
@@ -364,7 +364,7 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->findByUserName('foo')
-				instanceof tx_oelib_Model_FrontEndUser
+				instanceof Tx_Oelib_Model_FrontEndUser
 		);
 	}
 

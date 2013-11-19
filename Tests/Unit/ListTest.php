@@ -32,7 +32,7 @@
  */
 class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_List
+	 * @var Tx_Oelib_List
 	 */
 	private $subject;
 
@@ -49,7 +49,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function setUp() {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
-		$this->subject = new tx_oelib_List();
+		$this->subject = new Tx_Oelib_List();
 	}
 
 	public function tearDown() {
@@ -899,7 +899,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sortMakesListDirty() {
-		$subject = $this->getMock('tx_oelib_List', array('markAsDirty'));
+		$subject = $this->getMock('Tx_Oelib_List', array('markAsDirty'));
 		$subject->expects($this->once())->method('markAsDirty');
 
 		$subject->sort(array($this, 'sortByTitleAscending'));
@@ -914,7 +914,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function appendEmptyListToEmptyListMakesEmptyList() {
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$this->subject->append($otherList);
 
 		$this->assertTrue(
@@ -928,7 +928,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function appendTwoItemListToEmptyListMakesTwoItemList() {
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
@@ -952,7 +952,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function appendEmptyListToTwoItemListMakesTwoItemList() {
 		$this->addModelsToFixture(array('First', 'Second'));
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$this->subject->append($otherList);
 
 		$this->assertSame(
@@ -971,7 +971,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model->setUid(42);
 		$this->subject->add($model);
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$otherList->add($model);
 
 		$this->subject->append($otherList);
@@ -989,7 +989,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function appendTwoItemListKeepsOrderOfAppendedItems() {
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
@@ -1014,7 +1014,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$this->subject->add($model);
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($otherModel);
 
@@ -1041,7 +1041,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function appendUniqueForEmptyListToEmptyListMakesEmptyList() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$this->subject->appendUnique($otherList);
 
 		$this->assertTrue(
@@ -1057,7 +1057,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function appendUniqueForTwoItemListToEmptyListMakesTwoItemList() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
@@ -1083,7 +1083,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 
 		$this->addModelsToFixture(array('First', 'Second'));
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$this->subject->appendUnique($otherList);
 
 		$this->assertSame(
@@ -1104,7 +1104,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model->setUid(42);
 		$this->subject->add($model);
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$otherList->add($model);
 
 		$this->subject->appendUnique($otherList);
@@ -1124,7 +1124,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function appendUniqueForTwoItemListKeepsOrderOfAppendedItems() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($model1);
 		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
@@ -1151,7 +1151,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$this->subject->add($model);
 
-		$otherList = new tx_oelib_List();
+		$otherList = new Tx_Oelib_List();
 		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$otherList->add($otherModel);
 

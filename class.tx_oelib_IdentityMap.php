@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_IdentityMap {
+class Tx_Oelib_IdentityMap {
 	/**
 	 * @var array the items in this map with their UIDs as keys
 	 */
@@ -58,11 +58,11 @@ class tx_oelib_IdentityMap {
 	/**
 	 * Adds a model to the identity map.
 	 *
-	 * @param tx_oelib_Model $model the model to add, must have a UID
+	 * @param Tx_Oelib_Model $model the model to add, must have a UID
 	 *
 	 * @return void
 	 */
-	public function add(tx_oelib_Model $model) {
+	public function add(Tx_Oelib_Model $model) {
 		if (!$model->hasUid()) {
 			throw new InvalidArgumentException('Add() requires a model that has a UID.', 1331488748);
 		}
@@ -79,7 +79,7 @@ class tx_oelib_IdentityMap {
 	 *
 	 * @param integer $uid the UID of the model to retrieve, must be > 0
 	 *
-	 * @return tx_oelib_Model the stored model with the UID $uid
+	 * @return Tx_Oelib_Model the stored model with the UID $uid
 	 */
 	public function get($uid) {
 		if ($uid <= 0) {

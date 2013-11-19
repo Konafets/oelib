@@ -31,7 +31,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
+class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 	/**
 	 * @var array the singleton configuration proxy objects
 	 */
@@ -80,7 +80,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 	 *        configuration and as identifier for an extension's instance of
 	 *        this class, must not be empty
 	 *
-	 * @return tx_oelib_configurationProxy the singleton configuration
+	 * @return Tx_Oelib_ConfigurationProxy the singleton configuration
 	 *                                     proxy object
 	 */
 	public static function getInstance($extensionKey) {
@@ -90,7 +90,7 @@ class tx_oelib_configurationProxy extends tx_oelib_PublicObject {
 
 		if (!is_object(self::$instances[$extensionKey])) {
 			self::$instances[$extensionKey]
-				= new tx_oelib_configurationProxy($extensionKey);
+				= new Tx_Oelib_ConfigurationProxy($extensionKey);
 		}
 
 		return self::$instances[$extensionKey];

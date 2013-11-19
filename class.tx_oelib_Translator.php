@@ -32,7 +32,7 @@
  * @author Stefano Kowalke <blueduck@gmx.net>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Translator {
+class Tx_Oelib_Translator {
 	/**
 	 * @var string the key of the language to load the translations for
 	 */

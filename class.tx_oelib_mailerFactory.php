@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * This class returns either an instance of the tx_oelib_realMailer which sends
+ * This class returns either an instance of the Tx_Oelib_RealMailer which sends
  * e-mails or an instance of the tx_oelib_emailCollector. The collector stores
  * the data provided to sendEmail() and does not send it. This mode is for
  * testing purposes.
@@ -33,9 +33,9 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_mailerFactory {
+class Tx_Oelib_MailerFactory {
 	/**
-	 * @var tx_oelib_mailerFactory the singleton factory
+	 * @var Tx_Oelib_MailerFactory the singleton factory
 	 */
 	private static $instance = NULL;
 
@@ -45,7 +45,7 @@ class tx_oelib_mailerFactory {
 	private $isTestMode = FALSE;
 
 	/**
-	 * @var tx_oelib_abstractMailer the mailer
+	 * @var Tx_Oelib_AbstractMailer the mailer
 	 */
 	private $mailer = NULL;
 
@@ -65,11 +65,11 @@ class tx_oelib_mailerFactory {
 	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
-	 * @return tx_oelib_mailerFactory the singleton factory
+	 * @return Tx_Oelib_MailerFactory the singleton factory
 	 */
 	public static function getInstance() {
 		if (!is_object(self::$instance)) {
-			self::$instance = new tx_oelib_mailerFactory();
+			self::$instance = new Tx_Oelib_MailerFactory();
 		}
 
 		return self::$instance;
@@ -79,19 +79,19 @@ class tx_oelib_mailerFactory {
 	 * Retrieves the singleton mailer instance. Depending on the mode, this
 	 * instance is either an e-mail collector or a real mailer.
 	 *
-	 * @return tx_oelib_abstractMailer|tx_oelib_realMailer|tx_oelib_emailCollector the singleton mailer object
+	 * @return Tx_Oelib_AbstractMailer|Tx_Oelib_RealMailer|tx_oelib_emailCollector the singleton mailer object
 	 */
 	public function getMailer() {
 		if ($this->isTestMode) {
 			$className = 'tx_oelib_emailCollector';
 		} else {
-			$className = 'tx_oelib_realMailer';
+			$className = 'Tx_Oelib_RealMailer';
 		}
 
 		if (!is_object($this->mailer)
 			|| (get_class($this->mailer) != $className)
 		) {
-			$this->mailer = tx_oelib_ObjectFactory::make($className);
+			$this->mailer = Tx_Oelib_ObjectFactory::make($className);
 		}
 
 		return $this->mailer;

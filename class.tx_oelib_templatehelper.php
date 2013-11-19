@@ -31,7 +31,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
+class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * @var string the prefix used for CSS classes
 	 */
@@ -54,7 +54,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	protected $isInitialized = FALSE;
 
 	/**
-	 * @var tx_oelib_configcheck the configuration check object that will
+	 * @var Tx_Oelib_ConfigCheck the configuration check object that will
 	 *                           check this object
 	 */
 	protected $configurationCheck = NULL;
@@ -65,7 +65,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	private $templateFileName = '';
 
 	/**
-	 * @var tx_oelib_Template this object's (only) template
+	 * @var Tx_Oelib_Template this object's (only) template
 	 */
 	private $template = NULL;
 
@@ -140,13 +140,13 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 			$this->pi_loadLL();
 
 			if ((isset($this->extKey) && ($this->extKey != ''))
-				&& tx_oelib_configurationProxy::getInstance($this->extKey)->
+				&& Tx_Oelib_ConfigurationProxy::getInstance($this->extKey)->
 					getAsBoolean('enableConfigCheck')
 			) {
 				$configurationCheckClassname
 					= 'tx_' . $this->extKey . '_configcheck';
-				if (tx_oelib_Autoloader::load($configurationCheckClassname)) {
-					$this->configurationCheck = tx_oelib_ObjectFactory::make(
+				if (Tx_Oelib_Autoloader::load($configurationCheckClassname)) {
+					$this->configurationCheck = Tx_Oelib_ObjectFactory::make(
 						$configurationCheckClassname, $this
 					);
 				}
@@ -426,7 +426,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * @return void
 	 */
 	static public function setCachedConfigurationValue($key, $value) {
-		$pageUid = tx_oelib_PageFinder::getInstance()->getPageUid();
+		$pageUid = Tx_Oelib_PageFinder::getInstance()->getPageUid();
 
 		if (!isset(self::$cachedConfigurations[$pageUid])) {
 			self::$cachedConfigurations[$pageUid] = array();
@@ -507,12 +507,12 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 * Returns the template object from the template registry for the file name
 	 * in $this->templateFileName.
 	 *
-	 * @return tx_oelib_Template the template object for the template file name
+	 * @return Tx_Oelib_Template the template object for the template file name
 	 *                           in $this->templateFileName
 	 */
 	protected function getTemplate() {
 		if ($this->template === NULL) {
-			$this->template = tx_oelib_TemplateRegistry::get(
+			$this->template = Tx_Oelib_TemplateRegistry::get(
 				$this->templateFileName
 			);
 		}
@@ -1034,7 +1034,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	public function pi_getPidList($startPages, $recursionDepth = 0) {
 		t3lib_div::logDeprecatedFunction();
 
-		return tx_oelib_db::createRecursivePageList($startPages, $recursionDepth);
+		return Tx_Oelib_Db::createRecursivePageList($startPages, $recursionDepth);
 	}
 
 	/**
@@ -1229,7 +1229,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                 logged in
 	 */
 	public function getFeUserUid() {
-		$loginManager = tx_oelib_FrontEndLoginManager::getInstance();
+		$loginManager = Tx_Oelib_FrontEndLoginManager::getInstance();
 		if (!$loginManager->isLoggedIn()) {
 			return 0;
 		}
@@ -1351,7 +1351,7 @@ class tx_oelib_templatehelper extends tx_oelib_salutationswitcher {
 	 *                 error)
 	 */
 	public function getCurrentBePageId() {
-		return tx_oelib_PageFinder::getInstance()->getPageUid();
+		return Tx_Oelib_PageFinder::getInstance()->getPageUid();
 	}
 
 	/**

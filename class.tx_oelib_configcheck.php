@@ -45,9 +45,9 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_configcheck {
+class Tx_Oelib_ConfigCheck {
 	/**
-     * @var tx_oelib_templatehelper the object whose configuration should
+     * @var Tx_Oelib_TemplateHelper the object whose configuration should
      *                              be checked
      */
 	protected $objectToCheck = NULL;
@@ -70,10 +70,10 @@ class tx_oelib_configcheck {
 	/**
 	 * The constructor.
 	 *
-	 * @param tx_oelib_templatehelper $objectToCheck
+	 * @param Tx_Oelib_TemplateHelper $objectToCheck
 	 *        the object that will be checked for configuration problems
 	 */
-	public function __construct(tx_oelib_templatehelper $objectToCheck) {
+	public function __construct(Tx_Oelib_TemplateHelper $objectToCheck) {
 		$this->objectToCheck = $objectToCheck;
 		$this->className = get_class($this->objectToCheck);
 	}
@@ -1138,7 +1138,7 @@ class tx_oelib_configcheck {
 	 * @return array array with the column names as values
 	 */
 	protected function getDbColumnNames($tableName) {
-		return array_keys(tx_oelib_db::getColumnsInTable($tableName));
+		return array_keys(Tx_Oelib_Db::getColumnsInTable($tableName));
 	}
 
 	/**
@@ -1605,11 +1605,11 @@ class tx_oelib_configcheck {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
 			$pids = $this->objectToCheck->getConfValueString($fieldName, $sheet);
 
-			$offendingPids = tx_oelib_db::selectColumnForMultiple(
+			$offendingPids = Tx_Oelib_Db::selectColumnForMultiple(
 				'uid',
 				'pages',
 				'uid IN (' .$pids . ') AND NOT (doktype' . $typeCondition . ')' .
-					tx_oelib_db::enableFields('pages')
+					Tx_Oelib_Db::enableFields('pages')
 			);
 			$dbResultCount = count($offendingPids);
 

@@ -30,7 +30,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Model_Language extends tx_oelib_Model {
+class Tx_Oelib_Model_Language extends Tx_Oelib_Model {
 	/**
 	 * @var boolean whether this model is read-only
 	 */

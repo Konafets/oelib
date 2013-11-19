@@ -32,7 +32,7 @@
  */
 class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework for creating dummy records
+	 * @var Tx_Oelib_TestingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
@@ -41,7 +41,7 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	private $subject;
 
 	public function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		$this->subject = new tx_oelib_Mapper_FrontEndUserGroup();
 	}
@@ -66,7 +66,7 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->find($uid)
-				instanceof tx_oelib_Model_FrontEndUserGroup
+				instanceof Tx_Oelib_Model_FrontEndUserGroup
 		);
 	}
 

@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_salutationswitcher extends tslib_pibase {
+abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	/**
 	  * Pointer to alternative fall-back language to use. This is non-empty so
 	  * we always have a valid fallback language even if it hasn't been

@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Tests_Unit_Fixtures_TableLessTestingMapper extends tx_oelib_DataMapper {
+class Tx_Oelib_Tests_Unit_Fixtures_TableLessTestingMapper extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string a comma-separated list of DB column names to retrieve
 	 *             or "*" for all columns

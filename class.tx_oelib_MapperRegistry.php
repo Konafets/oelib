@@ -34,9 +34,9 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_MapperRegistry {
+class Tx_Oelib_MapperRegistry {
 	/**
-	 * @var tx_oelib_MapperRegistry the Singleton instance
+	 * @var Tx_Oelib_MapperRegistry the Singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -56,7 +56,7 @@ class tx_oelib_MapperRegistry {
 	private $testingMode = FALSE;
 
 	/**
-	 * @var tx_oelib_testingFramework the testingFramework to use in testing mode
+	 * @var Tx_Oelib_TestingFramework the testingFramework to use in testing mode
 	 */
 	private $testingFramework = NULL;
 
@@ -80,11 +80,11 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_MapperRegistry the current Singleton instance
+	 * @return Tx_Oelib_MapperRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_MapperRegistry();
+			self::$instance = new Tx_Oelib_MapperRegistry();
 		}
 
 		return self::$instance;
@@ -110,7 +110,7 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @param string $className the name of an existing mapper class, must not be empty
 	 *
-	 * @return tx_oelib_DataMapper the mapper with the class $className
+	 * @return Tx_Oelib_DataMapper the mapper with the class $className
 	 *
 	 * @see getByClassName
 	 */
@@ -125,7 +125,7 @@ class tx_oelib_MapperRegistry {
 	 *
 	 * @param string $className the name of an existing mapper class, must not be empty
 	 *
-	 * @return tx_oelib_DataMapper the mapper with the class $className
+	 * @return Tx_Oelib_DataMapper the mapper with the class $className
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -159,7 +159,7 @@ class tx_oelib_MapperRegistry {
 							'parent::__destruct();' .
 							'unset($this->testingFramework);' .
 							'}' .
-							'public function setTestingFramework(tx_oelib_testingFramework $testingFramework) {' .
+							'public function setTestingFramework(Tx_Oelib_TestingFramework $testingFramework) {' .
 							'$this->testingFramework = $testingFramework;' .
 							'}' .
 							'protected function getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting) {' .
@@ -172,7 +172,7 @@ class tx_oelib_MapperRegistry {
 							'}' .
 							'protected function getUniversalWhereClause($allowHiddenRecords = FALSE) {' .
 							'$dummyColumnName = $this->testingFramework->getDummyColumnName($this->tableName);' .
-							'$additionalWhere = tx_oelib_db::tableHasColumn($this->tableName, $dummyColumnName) ' .
+							'$additionalWhere = Tx_Oelib_Db::tableHasColumn($this->tableName, $dummyColumnName) ' .
 							'? $dummyColumnName . \' = 1 AND \' : \'\';' .
 							'return $additionalWhere . parent::getUniversalWhereClause($allowHiddenRecords);' .
 							'}' .
@@ -182,7 +182,7 @@ class tx_oelib_MapperRegistry {
 				$this->mappers[$unifiedClassName] = new $testingClassName();
 				$this->mappers[$unifiedClassName]->setTestingFramework($this->testingFramework);
 			} else {
-				$this->mappers[$unifiedClassName] = tx_oelib_ObjectFactory::make($unifiedClassName);
+				$this->mappers[$unifiedClassName] = Tx_Oelib_ObjectFactory::make($unifiedClassName);
 			}
 		}
 
@@ -216,12 +216,12 @@ class tx_oelib_MapperRegistry {
 	/**
 	 * Activates the testing mode of this MapperRegistry.
 	 *
-	 * @param tx_oelib_testingFramework $testingFramework the testingFramework
+	 * @param Tx_Oelib_TestingFramework $testingFramework the testingFramework
 	 *                                                    to use in testing mode
 	 *
 	 * @return void
 	 */
-	public function activateTestingMode(tx_oelib_testingFramework $testingFramework) {
+	public function activateTestingMode(Tx_Oelib_TestingFramework $testingFramework) {
 		$this->testingMode = TRUE;
 		$this->testingFramework = $testingFramework;
 	}
@@ -234,14 +234,14 @@ class tx_oelib_MapperRegistry {
 	 * This function is to be used for testing purposes only.
 	 *
 	 * @param string $className the class name of the mapper to set
-	 * @param tx_oelib_DataMapper $mapper
+	 * @param Tx_Oelib_DataMapper $mapper
 	 *        the mapper to set, must be an instance of $className
 	 *
 	 * @see setByClassName
 	 *
 	 * @return void
 	 */
-	static public function set($className, tx_oelib_DataMapper $mapper) {
+	static public function set($className, Tx_Oelib_DataMapper $mapper) {
 		self::getInstance()->setByClassName(self::unifyClassName($className), $mapper);
 	}
 
@@ -251,12 +251,12 @@ class tx_oelib_MapperRegistry {
 	 * This function is to be used for testing purposes only.
 	 *
 	 * @param string $className the class name of the mapper to set
-	 * @param tx_oelib_DataMapper $mapper
+	 * @param Tx_Oelib_DataMapper $mapper
 	 *        the mapper to set, must be an instance of $className
 	 *
 	 * @return void
 	 */
-	private function setByClassName($className, tx_oelib_DataMapper $mapper) {
+	private function setByClassName($className, Tx_Oelib_DataMapper $mapper) {
 		if (!($mapper instanceof $className)) {
 			throw new InvalidArgumentException(
 				'The provided mapper is not an instance of '. $className . '.', 1331488915

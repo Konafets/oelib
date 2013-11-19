@@ -33,7 +33,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interface_Identity {
+abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interface_Identity {
 	/**
 	 * @var integer a status indicating that this model has neither data nor UID
 	 *              yet
@@ -116,9 +116,9 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 		$this->markAsDead();
 
 		foreach ($this->data as $key => $item) {
-			if ($item instanceof tx_oelib_List) {
+			if ($item instanceof Tx_Oelib_List) {
 				$item->__destruct();
-			} elseif ($item instanceof tx_oelib_Model) {
+			} elseif ($item instanceof Tx_Oelib_Model) {
 				// Models without UIDs are not registered at a mapper and thus
 				// will not be destructed by the mapper.
 				// Still, we need to avoid infinite loops if this model has a
@@ -138,7 +138,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 * The data which is set via this function is considered to be the initial
 	 * data. Fields with relations must already be filled with the constituted
 	 * models/lists, not just with the UIDs (unlike the format that
-	 * tx_oelib_DataMapper::getLoadedTestingModel takes).
+	 * Tx_Oelib_DataMapper::getLoadedTestingModel takes).
 	 *
 	 * This function should be called directly after instantiation and must only
 	 * be called once. Usually, this function is called on only a few occasions:
@@ -305,7 +305,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return tx_oelib_Model the data item for the given key, will be NULL if
+	 * @return Tx_Oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
 	 */
 	protected function getAsModel($key) {
@@ -316,7 +316,7 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 			return NULL;
 		}
 
-		if (!$result instanceof tx_oelib_Model) {
+		if (!$result instanceof Tx_Oelib_Model) {
 			throw new UnexpectedValueException('The data item for the key "' . $key . '" is no model instance.', 1331489359);
 		}
 
@@ -331,13 +331,13 @@ abstract class tx_oelib_Model extends tx_oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return tx_oelib_List the data item for the given key
+	 * @return Tx_Oelib_List the data item for the given key
 	 */
 	public function getAsList($key) {
 		$this->checkForNonEmptyKey($key);
 
 		$result = $this->get($key);
-		if (!$result instanceof tx_oelib_List) {
+		if (!$result instanceof Tx_Oelib_List) {
 			throw new UnexpectedValueException('The data item for the key "' . $key . '" is no list instance.', 1331489379);
 		}
 

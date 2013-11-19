@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_FederalState extends tx_oelib_DataMapper {
+class tx_oelib_Mapper_FederalState extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string
 	 */
@@ -39,7 +39,7 @@ class tx_oelib_Mapper_FederalState extends tx_oelib_DataMapper {
 	/**
 	 * @var string
 	 */
-	protected $modelClassName = 'tx_oelib_Model_FederalState';
+	protected $modelClassName = 'Tx_Oelib_Model_FederalState';
 
 	/**
 	 * @var array the column names of additional combined keys
@@ -54,7 +54,7 @@ class tx_oelib_Mapper_FederalState extends tx_oelib_DataMapper {
 	 * @param string $isoAlpha2ZoneCode
 	 *        the ISO 3166-2 code to find, must not be empty
 	 *
-	 * @return tx_oelib_Model_FederalState the federal state with the requested code
+	 * @return Tx_Oelib_Model_FederalState the federal state with the requested code
 	 */
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode($isoAlpha2CountryCode, $isoAlpha2ZoneCode) {
 		return $this->findOneByCompoundKey(array('zn_country_iso_2' => $isoAlpha2CountryCode, 'zn_code' => $isoAlpha2ZoneCode));

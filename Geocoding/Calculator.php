@@ -89,7 +89,7 @@ class tx_oelib_Geocoding_Calculator {
 	 * $center, including objects that are located at a distance of exactly
 	 * $distance.
 	 *
-	 * @param tx_oelib_List $unfilteredObjects
+	 * @param Tx_Oelib_List $unfilteredObjects
 	 *        the list to filter, may be empty
 	 * @param tx_oelib_Interface_Geo $center
 	 *        the center to which $distance related
@@ -97,15 +97,15 @@ class tx_oelib_Geocoding_Calculator {
 	 *        the distance in kilometers within which the returned objects must
 	 *        be located
 	 *
-	 * @return tx_oelib_List<tx_oelib_Interface_Geo>
+	 * @return Tx_Oelib_List<tx_oelib_Interface_Geo>
 	 *         a copy of $unfilteredObjects with only those objects that are
 	 *         located within $distance kilometers of $center
 	 */
 	public function filterByDistance(
-		tx_oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center,
+		Tx_Oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center,
 		$distance
 	) {
-		$objectsWithinDistance = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$objectsWithinDistance = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
 
 		foreach ($unfilteredObjects as $object) {
 			if ($this->calculateDistanceInKilometers($center, $object)

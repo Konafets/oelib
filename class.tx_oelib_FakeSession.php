@@ -33,7 +33,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_FakeSession extends tx_oelib_Session {
+class Tx_Oelib_FakeSession extends Tx_Oelib_Session {
 	/**
 	 * @var array the data for this session
 	 */

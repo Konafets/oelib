@@ -192,7 +192,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$list = new tx_oelib_List();
+		$list = new Tx_Oelib_List();
 		$list->add($bonn);
 
 		$filteredList = $this->subject->filterByDistance(
@@ -222,7 +222,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$list = new tx_oelib_List();
+		$list = new Tx_Oelib_List();
 		$list->add($bonn);
 
 		$filteredList = $this->subject->filterByDistance(
@@ -247,7 +247,7 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$list = new tx_oelib_List();
+		$list = new Tx_Oelib_List();
 		$list->add($bonn);
 		$list->add($cologne);
 

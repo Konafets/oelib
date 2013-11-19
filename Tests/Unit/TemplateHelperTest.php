@@ -37,17 +37,17 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 	/**
-	 * @var tx_oelib_testingFramework
+	 * @var Tx_Oelib_TestingFramework
 	 */
 	private $testingFramework;
 
 	public function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$pageUid = $this->testingFramework->createFrontEndPage(
 			0, array('storage_pid' => 0)
 		);
 		$this->testingFramework->createFakeFrontEnd($pageUid);
-		tx_oelib_configurationProxy::getInstance('oelib')
+		Tx_Oelib_ConfigurationProxy::getInstance('oelib')
 			->setAsBoolean('enableConfigCheck', TRUE);
 
 		$this->subject = new Tx_Oelib_TestingTemplateHelper(array());
@@ -79,7 +79,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function configurationCheckCreationForDisabledConfigurationCeck() {
-		tx_oelib_configurationProxy::getInstance('oelib')
+		Tx_Oelib_ConfigurationProxy::getInstance('oelib')
 			->setAsBoolean('enableConfigCheck', FALSE);
 		$subject = new Tx_Oelib_TestingTemplateHelper();
 		$result = $subject->getConfigurationCheck();
@@ -153,9 +153,9 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function setCachedConfigurationValueCreatesConfigurationForNewInstance() {
 		$this->testingFramework->discardFakeFrontEnd();
 
-		tx_oelib_templatehelper::setCachedConfigurationValue('foo', 'bar');
+		Tx_Oelib_TemplateHelper::setCachedConfigurationValue('foo', 'bar');
 
-		$subject = new tx_oelib_templatehelper();
+		$subject = new Tx_Oelib_TemplateHelper();
 		$subject->init();
 
 		$this->assertSame(
@@ -172,10 +172,10 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function purgeCachedConfigurationsDropsCachedConfiguration() {
 		$this->testingFramework->discardFakeFrontEnd();
 
-		tx_oelib_templatehelper::setCachedConfigurationValue('foo', 'bar');
-		tx_oelib_templatehelper::purgeCachedConfigurations();
+		Tx_Oelib_TemplateHelper::setCachedConfigurationValue('foo', 'bar');
+		Tx_Oelib_TemplateHelper::purgeCachedConfigurations();
 
-		$subject = new tx_oelib_templatehelper();
+		$subject = new Tx_Oelib_TemplateHelper();
 		$subject->init();
 
 		$this->assertSame(

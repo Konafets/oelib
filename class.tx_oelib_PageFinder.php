@@ -30,7 +30,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_oelib_PageFinder {
+class Tx_Oelib_PageFinder {
 	/**
 	 * @var integer the sources the page can come from
 	 */
@@ -41,7 +41,7 @@ class tx_oelib_PageFinder {
 		NO_SOURCE_FOUND = 4;
 
 	/**
-	 * @var tx_oelib_PageFinder the Singleton instance
+	 * @var Tx_Oelib_PageFinder the Singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -70,11 +70,11 @@ class tx_oelib_PageFinder {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_PageFinder the current Singleton instance
+	 * @return Tx_Oelib_PageFinder the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_PageFinder();
+			self::$instance = new Tx_Oelib_PageFinder();
 		}
 
 		return self::$instance;

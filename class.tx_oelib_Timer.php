@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Timer {
+class Tx_Oelib_Timer {
 	/**
 	 * @var boolean whether the timer currently is running
 	 */
@@ -63,7 +63,7 @@ class tx_oelib_Timer {
 	private $lastTime = 0.00;
 
 	/**
-	 * @var tx_oelib_Timer the singleton instance
+	 * @var Tx_Oelib_Timer the singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -84,11 +84,11 @@ class tx_oelib_Timer {
 	 * Retrieves the singleton timer instance. This function usually should be
 	 * called statically.
 	 *
-	 * @return tx_oelib_Timer a reference to the singleton timer object
+	 * @return Tx_Oelib_Timer a reference to the singleton timer object
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_Timer();
+			self::$instance = new Tx_Oelib_Timer();
 		}
 
 		return self::$instance;

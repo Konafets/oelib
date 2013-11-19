@@ -31,7 +31,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Configuration extends tx_oelib_PublicObject {
+class Tx_Oelib_Configuration extends Tx_Oelib_PublicObject {
 	/**
 	 * @var array the data for this configuration
 	 */

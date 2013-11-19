@@ -56,14 +56,14 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {
 		// Only the instance with an enabled test mode can be tested as in the
 		// non-test mode e-mails are sent.
-		tx_oelib_mailerFactory::getInstance()->enableTestMode();
-		$this->subject = tx_oelib_mailerFactory::getInstance()->getMailer();
+		Tx_Oelib_MailerFactory::getInstance()->enableTestMode();
+		$this->subject = Tx_Oelib_MailerFactory::getInstance()->getMailer();
 
 		$this->addHeadersToTestEmail();
 	}
 
 	protected function tearDown() {
-		tx_oelib_mailerFactory::purgeInstance();
+		Tx_Oelib_MailerFactory::purgeInstance();
 		unset($this->subject);
 	}
 
@@ -118,11 +118,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getMailerInNonTestMode() {
 		// initially, the test mode is disabled
-		tx_oelib_mailerFactory::purgeInstance();
+		Tx_Oelib_MailerFactory::purgeInstance();
 
 		$this->assertSame(
-			'tx_oelib_realMailer',
-			get_class(tx_oelib_mailerFactory::getInstance()->getMailer())
+			'Tx_Oelib_RealMailer',
+			get_class(Tx_Oelib_MailerFactory::getInstance()->getMailer())
 		);
 	}
 
@@ -132,7 +132,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	public function getMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
 		$this->assertSame(
 			$this->subject,
-			tx_oelib_mailerFactory::getInstance()->getMailer()
+			Tx_Oelib_MailerFactory::getInstance()->getMailer()
 		);
 	}
 
@@ -140,11 +140,11 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getMailerAfterPurgeInstanceReturnsNewObject() {
-		tx_oelib_mailerFactory::purgeInstance();
+		Tx_Oelib_MailerFactory::purgeInstance();
 
 		$this->assertNotSame(
 			$this->subject,
-			tx_oelib_mailerFactory::getInstance()->getMailer()
+			Tx_Oelib_MailerFactory::getInstance()->getMailer()
 		);
 	}
 
@@ -366,7 +366,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -413,7 +413,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -448,7 +448,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -458,7 +458,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$otherEmail['recipient']
 		);
 
-		$otherEmail = new tx_oelib_Mail();
+		$otherEmail = new Tx_Oelib_Mail();
 		$otherEmail->setSender($sender);
 		$otherEmail->addRecipient($otherRecipient);
 		$otherEmail->setSubject(self::$otherEmail['subject']);
@@ -508,7 +508,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -518,7 +518,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$otherEmail['recipient']
 		);
 
-		$otherEmail = new tx_oelib_Mail();
+		$otherEmail = new Tx_Oelib_Mail();
 		$otherEmail->setSender($sender);
 		$otherEmail->addRecipient($otherRecipient);
 		$otherEmail->setSubject(self::$otherEmail['subject']);
@@ -577,7 +577,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'$email must have a sender set.'
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 
 		$this->subject->send($eMail);
 	}
@@ -597,7 +597,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -672,7 +672,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);
@@ -704,7 +704,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('föö');
@@ -737,7 +737,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('föö');
@@ -870,7 +870,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('Hello world');
@@ -901,7 +901,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('Hello world');
@@ -939,7 +939,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('Hello world');
@@ -972,7 +972,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject('Hello world');
@@ -1017,7 +1017,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'', self::$email['recipient']
 		);
 
-		$eMail = new tx_oelib_Mail();
+		$eMail = new Tx_Oelib_Mail();
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject(self::$email['subject']);

@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Double3Validator
+	 * @var Tx_Oelib_Double3Validator
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Double3Validator();
+		$this->subject = new Tx_Oelib_Double3Validator();
 	}
 
 	public function tearDown() {

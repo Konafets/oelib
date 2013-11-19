@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
+class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -39,7 +39,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
-	protected $modelClassName = 'tx_oelib_Model_FrontEndUser';
+	protected $modelClassName = 'Tx_Oelib_Model_FrontEndUser';
 
 	/**
 	 * @var array the (possible) relations of the created models in the format
@@ -65,7 +65,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 * @param string $userName
 	 *        user name, case-insensitive, must not be empty
 	 *
-	 * @return tx_oelib_Model_FrontEndUser
+	 * @return Tx_Oelib_Model_FrontEndUser
 	 *         model of the front-end user with the provided user name
 	 */
 	public function findByUserName($userName) {
@@ -79,7 +79,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 	 *        the UIDs of the user groups from which to get the users, must be a
 	 *        comma-separated list of group UIDs, must not be empty
 	 *
-	 * @return tx_oelib_List the found user models, will be empty if
+	 * @return Tx_Oelib_List the found user models, will be empty if
 	 *                       no users were found for the given groups
 	 */
 	public function getGroupMembers($groupUids) {
@@ -88,7 +88,7 @@ class tx_oelib_Mapper_FrontEndUser extends tx_oelib_DataMapper {
 		}
 
 		return $this->getListOfModels(
-			tx_oelib_db::selectMultiple(
+			Tx_Oelib_Db::selectMultiple(
 				'*',
 				$this->tableName,
 				$this->getUniversalWhereClause() . ' AND ' .

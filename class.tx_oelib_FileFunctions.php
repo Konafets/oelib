@@ -30,7 +30,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_FileFunctions {
+class Tx_Oelib_FileFunctions {
 	/**
 	 * Wrapper function for rmdir, allowing recursive deletion of folders and
 	 * files.

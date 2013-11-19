@@ -30,7 +30,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class tx_oelib_Mapper_BackEndUserGroup extends tx_oelib_DataMapper {
+class tx_oelib_Mapper_BackEndUserGroup extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the name of the database table for this mapper
 	 */
@@ -39,7 +39,7 @@ class tx_oelib_Mapper_BackEndUserGroup extends tx_oelib_DataMapper {
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
-	protected $modelClassName = 'tx_oelib_Model_BackEndUserGroup';
+	protected $modelClassName = 'Tx_Oelib_Model_BackEndUserGroup';
 
 	/**
 	 * @var array the (possible) relations of the created models in the format

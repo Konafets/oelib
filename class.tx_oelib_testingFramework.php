@@ -33,7 +33,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-final class tx_oelib_testingFramework {
+final class Tx_Oelib_TestingFramework {
 	/**
 	 * @var string prefix of the extension for which this instance of the
 	 *             testing framework was instantiated (e.g. "tx_seminars")
@@ -139,7 +139,7 @@ final class tx_oelib_testingFramework {
 	 *
 	 * This testing framework can be instantiated for one extension at a time.
 	 * Example: In your testcase, you'll have something similar to this line of code:
-	 * $this->subject = new tx_oelib_testingFramework('tx_seminars');
+	 * $this->subject = new Tx_Oelib_TestingFramework('tx_seminars');
 	 * The parameter you provide is the prefix of the table names of that particular
 	 * extension. Like this, we ensure that the testing framework creates and
 	 * deletes records only on table with this prefix.
@@ -218,7 +218,7 @@ final class tx_oelib_testingFramework {
 		$dummyColumnName = $this->getDummyColumnName($table);
 		$recordData[$dummyColumnName] = 1;
 
-		$uid = tx_oelib_db::insert(
+		$uid = Tx_Oelib_Db::insert(
 			$table, $recordData
 		);
 
@@ -539,7 +539,7 @@ final class tx_oelib_testingFramework {
 			throw new BadMethodCallException('There is no record with UID ' . $uid . ' on table "' . $table . '".', 1331490033);
 		}
 
-		tx_oelib_db::update(
+		Tx_Oelib_Db::update(
 			$table,
 			'uid = ' . $uid . ' AND ' . $dummyColumnName . ' = 1',
 			$recordData
@@ -563,7 +563,7 @@ final class tx_oelib_testingFramework {
 			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331490341);
 		}
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			$table,
 			'uid = ' . $uid . ' AND ' . $this->getDummyColumnName($table) .
 				' = 1'
@@ -610,7 +610,7 @@ final class tx_oelib_testingFramework {
 			$this->getDummyColumnName($table) => 1
 		);
 
-		tx_oelib_db::insert(
+		Tx_Oelib_Db::insert(
 			$table, $recordData
 		);
 	}
@@ -640,7 +640,7 @@ final class tx_oelib_testingFramework {
 			throw new InvalidArgumentException('$uidForeign must be  > 0, but actually is "' . $uidForeign . '"', 1331490429);
 		}
 
-		$tca = tx_oelib_db::getTcaForTable($tableName);
+		$tca = Tx_Oelib_Db::getTcaForTable($tableName);
 		$relationConfiguration = $tca['columns'][$columnName];
 
 		if (!isset($relationConfiguration['config']['MM'])
@@ -691,7 +691,7 @@ final class tx_oelib_testingFramework {
 			throw new InvalidArgumentException('The table name "' . $table . '" is not allowed.', 1331490465);
 		}
 
-		tx_oelib_db::delete(
+		Tx_Oelib_Db::delete(
 			$table,
 			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign .
 				' AND ' . $this->getDummyColumnName($table) . ' = 1'
@@ -760,7 +760,7 @@ final class tx_oelib_testingFramework {
 			// Runs a delete query for each allowed table. A
 			// "one-query-deletes-them-all" approach was tested but we didn't
 			// find a working solution for that.
-			tx_oelib_db::delete(
+			Tx_Oelib_Db::delete(
 				$currentTable,
 				$dummyColumnName . ' = 1'
 			);
@@ -1119,7 +1119,7 @@ final class tx_oelib_testingFramework {
 
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
 
-		$frontEnd = tx_oelib_ObjectFactory::make(
+		$frontEnd = Tx_Oelib_ObjectFactory::make(
 			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
 		);
 
@@ -1242,7 +1242,7 @@ final class tx_oelib_testingFramework {
 			$this->logoutFrontEndUser();
 		}
 
-		$mapper = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
 		// loads the model from database if it is a ghost
 		$mapper->existsModel($userId);
 		$dataToSet = $mapper->find($userId)->getData();
@@ -1284,7 +1284,7 @@ final class tx_oelib_testingFramework {
 		$GLOBALS['TSFE']->fe_user->logoff();
 		$GLOBALS['TSFE']->loginUser = 0;
 
-		tx_oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
+		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
 
 	/**
@@ -1299,7 +1299,7 @@ final class tx_oelib_testingFramework {
 			throw new BadMethodCallException('Please create a front end before calling isLoggedIn.', 1331490846);
 		}
 
-		return tx_oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
+		return Tx_Oelib_FrontEndLoginManager::getInstance()->isLoggedIn();
 	}
 
 
@@ -1322,7 +1322,7 @@ final class tx_oelib_testingFramework {
 	 */
 	private function createListOfOwnAllowedTables() {
 		$this->ownAllowedTables = array();
-		$allTables = tx_oelib_db::getAllTableNames();
+		$allTables = Tx_Oelib_Db::getAllTableNames();
 		$length = strlen($this->tablePrefix);
 
 		foreach ($allTables as $currentTable) {
@@ -1349,7 +1349,7 @@ final class tx_oelib_testingFramework {
 	 * @return void
 	 */
 	private function createListOfAdditionalAllowedTables() {
-		$allTables = implode(',', tx_oelib_db::getAllTableNames());
+		$allTables = implode(',', Tx_Oelib_Db::getAllTableNames());
 		$additionalTablePrefixes = implode('|', $this->additionalTablePrefixes);
 
 		$matches = array();
@@ -1482,7 +1482,7 @@ final class tx_oelib_testingFramework {
 			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
 			: $whereForDummyColumn;
 
-		return tx_oelib_db::count($table, $compoundWhereClause);
+		return Tx_Oelib_Db::count($table, $compoundWhereClause);
 	}
 
 	/**
@@ -1552,13 +1552,13 @@ final class tx_oelib_testingFramework {
 		// is no column "uid" that has the "auto_increment" flag set, we should
 		// not try to reset this inexistent auto increment index to avoid DB
 		// errors.
-		if (!tx_oelib_db::tableHasColumnUid($table)) {
+		if (!Tx_Oelib_Db::tableHasColumnUid($table)) {
 			return;
 		}
 
 		$newAutoIncrementValue = $this->getMaximumUidFromTable($table) + 1;
 
-		tx_oelib_db::enableQueryLogging();
+		Tx_Oelib_Db::enableQueryLogging();
 		// Updates the auto increment index for this table. The index will be
 		// set to one UID above the highest existing UID.
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
@@ -1596,7 +1596,7 @@ final class tx_oelib_testingFramework {
 		// is no column "uid" that has the "auto_increment" flag set, we should
 		// not try to reset this inexistent auto increment index to avoid
 		// database errors.
-		if (!tx_oelib_db::tableHasColumnUid($table)) {
+		if (!Tx_Oelib_Db::tableHasColumnUid($table)) {
 			return;
 		}
 
@@ -1637,7 +1637,7 @@ final class tx_oelib_testingFramework {
 	 * @return integer the highest UID from this table, will be >= 0
 	 */
 	private function getMaximumUidFromTable($table) {
-		$row = tx_oelib_db::selectSingle(
+		$row = Tx_Oelib_Db::selectSingle(
 			'MAX(uid) AS uid', $table
 		);
 
@@ -1663,7 +1663,7 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		tx_oelib_db::enableQueryLogging();
+		Tx_Oelib_Db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
 		);
@@ -1777,12 +1777,12 @@ final class tx_oelib_testingFramework {
 	 *
 	 * @return array associative array with the TCA description for this table
 	 *
-	 * @deprecated 2009-02-12 use tx_oelib_db::getTcaForTable instead
+	 * @deprecated 2009-02-12 use Tx_Oelib_Db::getTcaForTable instead
 	 */
 	public function getTcaForTable($tableName) {
 		t3lib_div::logDeprecatedFunction();
 
-		return tx_oelib_db::getTcaForTable($tableName);
+		return Tx_Oelib_Db::getTcaForTable($tableName);
 	}
 
 	/**
@@ -1805,11 +1805,11 @@ final class tx_oelib_testingFramework {
 				1331490960
 			);
 		}
-		if (!tx_oelib_db::tableHasColumn($tableName, $fieldName)) {
+		if (!Tx_Oelib_Db::tableHasColumn($tableName, $fieldName)) {
 			throw new InvalidArgumentException('The table ' . $tableName . ' has no column ' . $fieldName . '.', 1331490986);
 		}
 
-		tx_oelib_db::enableQueryLogging();
+		Tx_Oelib_Db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
 			'UPDATE ' . $tableName . ' SET ' . $fieldName . '=' .
 			$fieldName . '+1 WHERE uid=' . $uid

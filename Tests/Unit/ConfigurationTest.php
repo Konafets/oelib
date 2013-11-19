@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Configuration the model to test
+	 * @var Tx_Oelib_Configuration the model to test
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Configuration();
+		$this->subject = new Tx_Oelib_Configuration();
 	}
 
 	public function tearDown() {

@@ -33,7 +33,7 @@
  */
 class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework for creating dummy records
+	 * @var Tx_Oelib_TestingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
@@ -42,9 +42,9 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	private $subject;
 
 	public function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
-		$this->subject = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
+		$this->subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
 	}
 
 	public function tearDown() {
@@ -67,7 +67,7 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->find($uid)
-				instanceof tx_oelib_Model_BackEndUserGroup
+				instanceof Tx_Oelib_Model_BackEndUserGroup
 		);
 	}
 
@@ -105,7 +105,7 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->find($group->getUid())->getSubgroups()->first()
-				instanceof tx_oelib_Model_BackEndUserGroup
+				instanceof Tx_Oelib_Model_BackEndUserGroup
 		);
 	}
 }

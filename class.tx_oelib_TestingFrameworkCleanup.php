@@ -37,19 +37,19 @@ class tx_oelib_TestingFrameworkCleanup {
 	 * @return void
 	 */
 	public function cleanUp() {
-		tx_oelib_configurationProxy::purgeInstances();
-		tx_oelib_BackEndLoginManager::purgeInstance();
-		tx_oelib_ConfigurationRegistry::purgeInstance();
-		tx_oelib_FrontEndLoginManager::purgeInstance();
+		Tx_Oelib_ConfigurationProxy::purgeInstances();
+		Tx_Oelib_BackEndLoginManager::purgeInstance();
+		Tx_Oelib_ConfigurationRegistry::purgeInstance();
+		Tx_Oelib_FrontEndLoginManager::purgeInstance();
 		tx_oelib_Geocoding_Google::purgeInstance();
 		tx_oelib_headerProxyFactory::purgeInstance();
-		tx_oelib_mailerFactory::purgeInstance();
-		tx_oelib_MapperRegistry::purgeInstance();
-		tx_oelib_PageFinder::purgeInstance();
-		tx_oelib_Session::purgeInstances();
-		tx_oelib_templatehelper::purgeCachedConfigurations();
-		tx_oelib_Timer::purgeInstance();
-		tx_oelib_TranslatorRegistry::purgeInstance();
+		Tx_Oelib_MailerFactory::purgeInstance();
+		Tx_Oelib_MapperRegistry::purgeInstance();
+		Tx_Oelib_PageFinder::purgeInstance();
+		Tx_Oelib_Session::purgeInstances();
+		Tx_Oelib_TemplateHelper::purgeCachedConfigurations();
+		Tx_Oelib_Timer::purgeInstance();
+		Tx_Oelib_TranslatorRegistry::purgeInstance();
 	}
 }
 ?>

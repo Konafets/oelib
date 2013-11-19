@@ -30,9 +30,9 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_TemplateRegistry {
+class Tx_Oelib_TemplateRegistry {
 	/**
-	 * @var tx_oelib_TemplateRegistry the Singleton instance
+	 * @var Tx_Oelib_TemplateRegistry the Singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -57,11 +57,11 @@ class tx_oelib_TemplateRegistry {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @return tx_oelib_TemplateRegistry the current Singleton instance
+	 * @return Tx_Oelib_TemplateRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (!self::$instance) {
-			self::$instance = new tx_oelib_TemplateRegistry();
+			self::$instance = new Tx_Oelib_TemplateRegistry();
 		}
 
 		return self::$instance;
@@ -86,7 +86,7 @@ class tx_oelib_TemplateRegistry {
 	 * @param string $templateFileName
 	 *        the file name of the template to retrieve, may not be empty to get a template that is not related to a template file.
 	 *
-	 * @return tx_oelib_Template the template for the given template file name
+	 * @return Tx_Oelib_Template the template for the given template file name
 	 *
 	 * @see getByFileName
 	 */
@@ -104,11 +104,11 @@ class tx_oelib_TemplateRegistry {
 	 * @param string $fileName
 	 *        the file name of the template to retrieve, may not be empty to get a template that is not related to a template file
 	 *
-	 * @return tx_oelib_Template the template for the given template file name
+	 * @return Tx_Oelib_Template the template for the given template file name
 	 */
 	public function getByFileName($fileName) {
 		if (!isset($this->templates[$fileName])) {
-			$template = tx_oelib_ObjectFactory::make('tx_oelib_Template');
+			$template = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Template');
 
 			if ($fileName != '') {
 				$template->processTemplateFromFile($fileName);

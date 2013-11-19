@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
+final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
@@ -93,7 +93,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	 * @param string $key
 	 *        the key of the element to retrieve, must not be empty
 	 *
-	 * @return tx_oelib_Model the data item for the given key, will be NULL if
+	 * @return Tx_Oelib_Model the data item for the given key, will be NULL if
 	 *                        it has not been set
 	 */
 	public function getAsModel($key) {
@@ -151,7 +151,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "owner" data item.
 	 *
-	 * @return tx_oelib_Model_FrontEndUser the "owner" data item, will be NULL
+	 * @return Tx_Oelib_Model_FrontEndUser the "owner" data item, will be NULL
 	 *                                     if this model has no owner
 	 */
 	public function getOwner() {
@@ -161,7 +161,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "children" data item.
 	 *
-	 * @return tx_oelib_List the "children" data item, will be empty (but not
+	 * @return Tx_Oelib_List the "children" data item, will be empty (but not
 	 *                       NULL) if this model has no children
 	 */
 	public function getChildren() {
@@ -171,7 +171,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "related_records" data item.
 	 *
-	 * @return tx_oelib_List the "related_records" data item, will be empty (but
+	 * @return Tx_Oelib_List the "related_records" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
 	 */
 	public function getRelatedRecords() {
@@ -181,7 +181,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "bidirectional" data item.
 	 *
-	 * @return tx_oelib_List the "bidirectional" data item, will be empty (but
+	 * @return Tx_Oelib_List the "bidirectional" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
 	 */
 	public function getBidirectional() {
@@ -191,7 +191,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Gets the "composition" data item.
 	 *
-	 * @return tx_oelib_List the "composition" data item, will be empty (but not
+	 * @return Tx_Oelib_List the "composition" data item, will be empty (but not
 	 *                       NULL) if this model has no composition
 	 */
 	public function getComposition() {
@@ -201,19 +201,19 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition" data item.
 	 *
-	 * @param tx_oelib_List $components
+	 * @param Tx_Oelib_List $components
 	 *        the "composition" data to set
 	 *
 	 * @return void
 	 */
-	public function setComposition(tx_oelib_List $components) {
+	public function setComposition(Tx_Oelib_List $components) {
 		$this->set('composition', $components);
 	}
 
 	/**
 	 * Gets the "composition2" data item.
 	 *
-	 * @return tx_oelib_List the "composition2" data item, will be empty (but
+	 * @return Tx_Oelib_List the "composition2" data item, will be empty (but
 	 *                       not NULL) if this model has no composition2
 	 */
 	public function getComposition2() {
@@ -223,12 +223,12 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends tx_oelib_Model {
 	/**
 	 * Sets the "composition2" data item.
 	 *
-	 * @param tx_oelib_List $components
+	 * @param Tx_Oelib_List $components
 	 *        the "composition2" data to set
 	 *
 	 * @return void
 	 */
-	public function setComposition2(tx_oelib_List $components) {
+	public function setComposition2(Tx_Oelib_List $components) {
 		$this->set('composition2', $components);
 	}
 

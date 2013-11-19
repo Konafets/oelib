@@ -47,8 +47,8 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceReturnsTemplateRegistryInstance() {
 		$this->assertTrue(
-			tx_oelib_TemplateRegistry::getInstance()
-				instanceof tx_oelib_TemplateRegistry
+			Tx_Oelib_TemplateRegistry::getInstance()
+				instanceof Tx_Oelib_TemplateRegistry
 		);
 	}
 
@@ -57,8 +57,8 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
 		$this->assertSame(
-			tx_oelib_TemplateRegistry::getInstance(),
-			tx_oelib_TemplateRegistry::getInstance()
+			Tx_Oelib_TemplateRegistry::getInstance(),
+			Tx_Oelib_TemplateRegistry::getInstance()
 		);
 	}
 
@@ -66,12 +66,12 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
-		$firstInstance = tx_oelib_TemplateRegistry::getInstance();
-		tx_oelib_TemplateRegistry::purgeInstance();
+		$firstInstance = Tx_Oelib_TemplateRegistry::getInstance();
+		Tx_Oelib_TemplateRegistry::purgeInstance();
 
 		$this->assertNotSame(
 			$firstInstance,
-			tx_oelib_TemplateRegistry::getInstance()
+			Tx_Oelib_TemplateRegistry::getInstance()
 		);
 	}
 
@@ -86,7 +86,7 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	public function getForEmptyTemplateFileNameReturnsTemplateInstance() {
 		$this->assertInstanceOf(
 			'Tx_Oelib_Template',
-			tx_oelib_TemplateRegistry::get('')
+			Tx_Oelib_TemplateRegistry::get('')
 		);
 	}
 
@@ -95,8 +95,8 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getForEmptyTemplateFileNameCalledTwoTimesReturnsNewInstance() {
 		$this->assertNotSame(
-			tx_oelib_TemplateRegistry::get(''),
-			tx_oelib_TemplateRegistry::get('')
+			Tx_Oelib_TemplateRegistry::get(''),
+			Tx_Oelib_TemplateRegistry::get('')
 		);
 	}
 
@@ -106,7 +106,7 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	public function getForExistingTemplateFileNameReturnsTemplate() {
 		$this->assertInstanceOf(
 			'Tx_Oelib_Template',
-			tx_oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html')
+			Tx_Oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html')
 		);
 	}
 
@@ -115,8 +115,8 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getForExistingTemplateFileNameCalledTwoTimesReturnsNewInstance() {
 		$this->assertNotSame(
-			tx_oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html'),
-			tx_oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html')
+			Tx_Oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html'),
+			Tx_Oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html')
 		);
 	}
 
@@ -124,7 +124,7 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getForExistingTemplateFileNameReturnsProcessedTemplate() {
-		$template = tx_oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html');
+		$template = Tx_Oelib_TemplateRegistry::get('EXT:oelib/Tests/Unit/Fixtures/oelib.html');
 
 		$this->assertSame(
 			'Hello world!' . LF,

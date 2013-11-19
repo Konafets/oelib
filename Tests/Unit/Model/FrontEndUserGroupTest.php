@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Model_FrontEndUserGroup
+	 * @var Tx_Oelib_Model_FrontEndUserGroup
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Model_FrontEndUserGroup();
+		$this->subject = new Tx_Oelib_Model_FrontEndUserGroup();
 	}
 
 	public function tearDown() {

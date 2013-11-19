@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_IdentityMap the indentity map to test
+	 * @var Tx_Oelib_IdentityMap the indentity map to test
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_IdentityMap();
+		$this->subject = new Tx_Oelib_IdentityMap();
 	}
 
 	public function tearDown() {

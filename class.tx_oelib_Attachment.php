@@ -30,7 +30,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Attachment {
+class Tx_Oelib_Attachment {
 	/**
 	 * @var string the file name of the attachment
 	 */

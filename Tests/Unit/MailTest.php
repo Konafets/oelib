@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Mail
+	 * @var Tx_Oelib_Mail
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Mail();
+		$this->subject = new Tx_Oelib_Mail();
 	}
 
 	public function tearDown() {
@@ -368,7 +368,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAttachmentsWithOneAttachmentReturnsOneAttachment() {
-		$attachment = new tx_oelib_Attachment();
+		$attachment = new Tx_Oelib_Attachment();
 		$attachment->setFileName('test.txt');
 		$attachment->setContentType('text/plain');
 		$attachment->setContent('Test');
@@ -384,13 +384,13 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAttachmentsWithTwoAttachmentsReturnsTwoAttachments() {
-		$attachment = new tx_oelib_Attachment();
+		$attachment = new Tx_Oelib_Attachment();
 		$attachment->setFileName('test.txt');
 		$attachment->setContentType('text/plain');
 		$attachment->setContent('Test');
 		$this->subject->addAttachment($attachment);
 
-		$otherAttachment = new tx_oelib_Attachment();
+		$otherAttachment = new Tx_Oelib_Attachment();
 		$otherAttachment->setFileName('second_test.txt');
 		$otherAttachment->setContentType('text/plain');
 		$otherAttachment->setContent('Second Test');

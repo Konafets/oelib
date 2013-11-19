@@ -49,11 +49,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	/**
 	 * Loading function stub.
 	 *
-	 * @param tx_oelib_Model $model
+	 * @param Tx_Oelib_Model $model
 	 *
 	 * @return void
 	 */
-	public function load(tx_oelib_Model $model) {
+	public function load(Tx_Oelib_Model $model) {
 	}
 
 
@@ -384,7 +384,7 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsListReturnsListSetViaSetData() {
-		$list = new tx_oelib_List();
+		$list = new Tx_Oelib_List();
 		$this->subject->setData(
 			array('foo' => $list)
 		);

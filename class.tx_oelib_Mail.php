@@ -34,7 +34,7 @@ if (!class_exists('emogrifier', FALSE)) {
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Mail extends tx_oelib_Object {
+class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * @var tx_oelib_Interface_MailRole the sender of the e-mail
 	 */
@@ -268,11 +268,11 @@ class tx_oelib_Mail extends tx_oelib_Object {
 	/**
 	 * Adds an attachment to the e-mail.
 	 *
-	 * @param tx_oelib_Attachment $attachment the attachment to add
+	 * @param Tx_Oelib_Attachment $attachment the attachment to add
 	 *
 	 * @return void
 	 */
-	public function addAttachment(tx_oelib_Attachment $attachment) {
+	public function addAttachment(Tx_Oelib_Attachment $attachment) {
 		$this->attachments[] = $attachment;
 	}
 

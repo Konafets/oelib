@@ -52,7 +52,7 @@ class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getHeaderProxyInTestMode() {
 		$this->assertSame(
-			'tx_oelib_headerCollector',
+			'Tx_Oelib_HeaderCollector',
 			get_class($this->subject)
 		);
 	}
@@ -65,7 +65,7 @@ class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		tx_oelib_headerProxyFactory::purgeInstance();
 
 		$this->assertSame(
-			'tx_oelib_realHeaderProxy',
+			'Tx_Oelib_RealHeaderProxy',
 			get_class(tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy())
 		);
 	}

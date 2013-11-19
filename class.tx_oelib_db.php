@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_db {
+class Tx_Oelib_Db {
 	/**
 	 * @var t3lib_pageSelect page object which we will use to call
 	 *                       enableFields on

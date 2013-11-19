@@ -31,7 +31,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Double3Validator {
+class Tx_Oelib_Double3Validator {
 	/**
 	 * Returns the JavaScript for the validation.
 	 *

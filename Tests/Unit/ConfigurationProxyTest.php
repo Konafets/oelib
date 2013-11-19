@@ -34,7 +34,7 @@ define('OELIB_EXTENSION_KEY', 'oelib');
  */
 class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_configurationProxy
+	 * @var Tx_Oelib_ConfigurationProxy
 	 */
 	private $subject;
 
@@ -53,7 +53,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 
 	public function setUp() {
 		$this->subject
-			= tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY);
+			= Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
@@ -61,7 +61,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		tx_oelib_configurationProxy::purgeInstances();
+		Tx_Oelib_ConfigurationProxy::purgeInstances();
 		unset($this->subject);
 	}
 
@@ -83,7 +83,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'The extension key was not set.'
 		);
-		tx_oelib_configurationProxy::getInstance('');
+		Tx_Oelib_ConfigurationProxy::getInstance('');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	public function getInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
 		$this->assertSame(
 			$this->subject,
-			tx_oelib_configurationProxy::getInstance(OELIB_EXTENSION_KEY)
+			Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY)
 		);
 	}
 
@@ -100,7 +100,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function instantiateOfAnotherProxyCreatesNewObject() {
-		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
+		$otherConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('other_extension');
 
 		$this->assertNotSame(
 			$this->subject,
@@ -113,7 +113,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 */
 	public function extendsPublicObject() {
 		$this->assertTrue(
-			$this->subject instanceof tx_oelib_PublicObject
+			$this->subject instanceof Tx_Oelib_PublicObject
 		);
 	}
 
@@ -157,7 +157,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function instantiateAnotherProxyAndSetValueNotAffectsThisFixture() {
-		$otherConfiguration = tx_oelib_configurationProxy::getInstance('other_extension');
+		$otherConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('other_extension');
 		$otherConfiguration->setAsString('testValue', 'foo');
 
 		$this->assertSame(

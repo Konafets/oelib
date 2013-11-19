@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_FakeSession the object to test
+	 * @var Tx_Oelib_FakeSession the object to test
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_FakeSession();
+		$this->subject = new Tx_Oelib_FakeSession();
 	}
 
 	public function tearDown() {
@@ -54,7 +54,7 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function fakeSessionCanBeInstantiatedDirectly() {
-		new tx_oelib_FakeSession();
+		new Tx_Oelib_FakeSession();
 	}
 
 

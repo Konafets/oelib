@@ -33,12 +33,12 @@
  */
 class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Model_BackEndUser
+	 * @var Tx_Oelib_Model_BackEndUser
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Model_BackEndUser();
+		$this->subject = new Tx_Oelib_Model_BackEndUser();
 	}
 
 	public function tearDown() {
@@ -266,7 +266,7 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGroupsReturnsListFromUserGroupField() {
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 
 		$this->subject->setData(array('usergroup' => $groups));
 
@@ -285,10 +285,10 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForNoGroupsReturnsList() {
-		$this->subject->setData(array('usergroup' => new tx_oelib_List()));
+		$this->subject->setData(array('usergroup' => new Tx_Oelib_List()));
 
 		$this->assertTrue(
-			$this->subject->getAllGroups() instanceof tx_oelib_List
+			$this->subject->getAllGroups() instanceof Tx_Oelib_List
 		);
 	}
 
@@ -296,7 +296,7 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForNoGroupsReturnsEmptyList() {
-		$this->subject->setData(array('usergroup' => new tx_oelib_List()));
+		$this->subject->setData(array('usergroup' => new Tx_Oelib_List()));
 
 		$this->assertTrue(
 			$this->subject->getAllGroups()->isEmpty()
@@ -307,9 +307,9 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForOneGroupReturnsListWithThatGroup() {
-		$group = tx_oelib_MapperRegistry::
+		$group = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group);
 		$this->subject->setData(array('usergroup' => $groups));
 
@@ -323,11 +323,11 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForTwoGroupsReturnsBothGroups() {
-		$group1 = tx_oelib_MapperRegistry::
+		$group1 = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
-		$group2 = tx_oelib_MapperRegistry::
+		$group2 = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group1);
 		$groups->add($group2);
 		$this->subject->setData(array('usergroup' => $groups));
@@ -344,13 +344,13 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForGroupWithSubgroupReturnsBothGroups() {
-		$subgroup = tx_oelib_MapperRegistry::
+		$subgroup = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
-		$group = tx_oelib_MapperRegistry::
+		$group = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
 				array('subgroup' => $subgroup->getUid())
 			);
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group);
 		$this->subject->setData(array('usergroup' => $groups));
 
@@ -366,17 +366,17 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForGroupWithSubsubgroupContainsSubsubgroup() {
-		$subsubgroup = tx_oelib_MapperRegistry::
+		$subsubgroup = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(array());
-		$subgroup = tx_oelib_MapperRegistry::
+		$subgroup = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
 				array('subgroup' => $subsubgroup->getUid())
 			);
-		$group = tx_oelib_MapperRegistry::
+		$group = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getLoadedTestingModel(
 				array('subgroup' => $subgroup->getUid())
 			);
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group);
 		$this->subject->setData(array('usergroup' => $groups));
 
@@ -389,13 +389,13 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForGroupWithSubgroupSelfReferenceReturnsOnlyOneGroup() {
-		$group = tx_oelib_MapperRegistry::
+		$group = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
-		$subgroups = new tx_oelib_List();
+		$subgroups = new Tx_Oelib_List();
 		$subgroups->add($group);
 		$group->setData(array('subgroup' => $subgroups));
 
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group);
 		$this->subject->setData(array('usergroup' => $groups));
 
@@ -409,20 +409,20 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAllGroupsForGroupWithSubgroupCycleReturnsBothGroups() {
-		$group1 = tx_oelib_MapperRegistry::
+		$group1 = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
-		$group2 = tx_oelib_MapperRegistry::
+		$group2 = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
 
-		$subgroups1 = new tx_oelib_List();
+		$subgroups1 = new Tx_Oelib_List();
 		$subgroups1->add($group2);
 		$group1->setData(array('subgroup' => $subgroups1));
 
-		$subgroups2 = new tx_oelib_List();
+		$subgroups2 = new Tx_Oelib_List();
 		$subgroups2->add($group1);
 		$group2->setData(array('subgroup' => $subgroups2));
 
-		$groups = new tx_oelib_List();
+		$groups = new Tx_Oelib_List();
 		$groups->add($group1);
 		$this->subject->setData(array('usergroup' => $groups));
 

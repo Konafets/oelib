@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Timer
+	 * @var Tx_Oelib_Timer
 	 */
 	private $subject;
 
 	protected function setUp() {
-		$this->subject = tx_oelib_Timer::getInstance();
+		$this->subject = Tx_Oelib_Timer::getInstance();
 	}
 
 	protected function tearDown() {
@@ -56,7 +56,7 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function singleton() {
-		$this->assertSame($this->subject, tx_oelib_Timer::getInstance());
+		$this->assertSame($this->subject, Tx_Oelib_Timer::getInstance());
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function statisticsForDefaultBucketWithDelayUsingShortcut() {
-		tx_oelib_Timer::oB();
+		Tx_Oelib_Timer::oB();
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
@@ -156,7 +156,7 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function statisticsForOneBucketWithDelayUsingShortcut() {
-		tx_oelib_Timer::oB('test');
+		Tx_Oelib_Timer::oB('test');
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
@@ -356,7 +356,7 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$this->subject->openBucket('bucket_2');
-		tx_oelib_Timer::rB();
+		Tx_Oelib_Timer::rB();
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 

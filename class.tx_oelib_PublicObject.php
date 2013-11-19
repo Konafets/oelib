@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class tx_oelib_PublicObject extends tx_oelib_Object {
+abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	/**
 	 * Gets the value stored in under the key $key, converted to a string.
 	 *

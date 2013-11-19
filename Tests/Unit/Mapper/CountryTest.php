@@ -55,7 +55,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
-			$this->subject->find(54) instanceof tx_oelib_Model_Country
+			$this->subject->find(54) instanceof Tx_Oelib_Model_Country
 		);
 	}
 
@@ -80,7 +80,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
 			$this->subject->findByIsoAlpha2Code('DE')
-				instanceof tx_oelib_Model_Country
+				instanceof Tx_Oelib_Model_Country
 		);
 	}
 
@@ -105,7 +105,7 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsCountryInstance() {
 		$this->assertTrue(
 			$this->subject->findByIsoAlpha3Code('DEU')
-				instanceof tx_oelib_Model_Country
+				instanceof Tx_Oelib_Model_Country
 		);
 	}
 

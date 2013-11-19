@@ -55,7 +55,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findWithUidOfExistingRecordReturnsFederalStateInstance() {
 		$this->assertInstanceOf(
-			'tx_oelib_Model_FederalState',
+			'Tx_Oelib_Model_FederalState',
 			$this->subject->find(88)
 		);
 	}
@@ -80,7 +80,7 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsFederalStateInstance() {
 		$this->assertInstanceOf(
-			'tx_oelib_Model_FederalState',
+			'Tx_Oelib_Model_FederalState',
 			$this->subject->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')
 		);
 	}

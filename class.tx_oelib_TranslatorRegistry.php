@@ -32,9 +32,9 @@
  * @author Benjamin Schulte <benj@minschulte.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_TranslatorRegistry {
+class Tx_Oelib_TranslatorRegistry {
 	/**
-	 * @var tx_oelib_TranslatorRegistry the Singleton instance
+	 * @var Tx_Oelib_TranslatorRegistry the Singleton instance
 	 */
 	private static $instance = NULL;
 
@@ -106,8 +106,8 @@ class tx_oelib_TranslatorRegistry {
 	 * @return void
 	 */
 	private function initializeFrontEnd() {
-		$this->setLanguageKeyFromConfiguration(tx_oelib_ConfigurationRegistry::get('config'));
-		$this->setLanguageKeyFromConfiguration(tx_oelib_ConfigurationRegistry::get('page.config'));
+		$this->setLanguageKeyFromConfiguration(Tx_Oelib_ConfigurationRegistry::get('config'));
+		$this->setLanguageKeyFromConfiguration(Tx_Oelib_ConfigurationRegistry::get('page.config'));
 
 		$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
 		$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
@@ -120,11 +120,11 @@ class tx_oelib_TranslatorRegistry {
 	 * The language key is read from the "language" key and the alternate language is read
 	 * from the language_alt key.
 	 *
-	 * @param tx_oelib_Configuration $configuration the configuration to read
+	 * @param Tx_Oelib_Configuration $configuration the configuration to read
 	 *
 	 * @return void
 	 */
-	private function setLanguageKeyFromConfiguration(tx_oelib_Configuration $configuration) {
+	private function setLanguageKeyFromConfiguration(Tx_Oelib_Configuration $configuration) {
 		if (!$configuration->hasString('language')) {
 			return;
 		}
@@ -141,7 +141,7 @@ class tx_oelib_TranslatorRegistry {
 	 * @return void
 	 */
 	private function initializeBackEnd() {
-		$backEndUser = tx_oelib_BackEndLoginManager::getInstance()->
+		$backEndUser = Tx_Oelib_BackEndLoginManager::getInstance()->
 			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
 		$this->languageKey = $backEndUser->getLanguage();
 		$this->renderCharset = $GLOBALS['LANG']->charset;
@@ -174,11 +174,11 @@ class tx_oelib_TranslatorRegistry {
 	/**
 	 * Returns the instance of this class.
 	 *
-	 * @return tx_oelib_TranslatorRegistry the current Singleton instance
+	 * @return Tx_Oelib_TranslatorRegistry the current Singleton instance
 	 */
 	public static function getInstance() {
 		if (self::$instance === NULL) {
-			self::$instance = new tx_oelib_TranslatorRegistry();
+			self::$instance = new Tx_Oelib_TranslatorRegistry();
 		}
 
 		return self::$instance;
@@ -204,7 +204,7 @@ class tx_oelib_TranslatorRegistry {
 	 * @param string $extensionName
 	 *        the extension name to get the Translator for, must not be empty, the corresponding extension must be loaded
 	 *
-	 * @return tx_oelib_Translator the Translator for the specified extension
+	 * @return Tx_Oelib_Translator the Translator for the specified extension
 	 *
 	 * @see getByExtensionName()
 	 */
@@ -218,7 +218,7 @@ class tx_oelib_TranslatorRegistry {
 	 * @param string $extensionName
 	 *        the extension name to get the Translator for, must not be empty, the corresponding extension must be loaded
 	 *
-	 * @return tx_oelib_Translator the Translator for the specified extension
+	 * @return Tx_Oelib_Translator the Translator for the specified extension
 	 *                             name
 	 */
 	private function getByExtensionName($extensionName) {
@@ -250,8 +250,8 @@ class tx_oelib_TranslatorRegistry {
 				}
 			}
 
-			$this->translators[$extensionName] = tx_oelib_ObjectFactory::make(
-				'tx_oelib_Translator',
+			$this->translators[$extensionName] = Tx_Oelib_ObjectFactory::make(
+				'Tx_Oelib_Translator',
 				$this->languageKey,
 				$this->alternativeLanguageKey,
 				$localizedLabels
@@ -319,7 +319,7 @@ class tx_oelib_TranslatorRegistry {
 		$sourceCharset = $this->getCharsetOfLanguage($this->languageKey);
 		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG.' . $this->languageKey;
 
-		$configuration = tx_oelib_ConfigurationRegistry::get($namespace);
+		$configuration = Tx_Oelib_ConfigurationRegistry::get($namespace);
 		foreach ($configuration->getArrayKeys() as $key) {
 			// Converts the label from the source charset to the render
 			// charset.

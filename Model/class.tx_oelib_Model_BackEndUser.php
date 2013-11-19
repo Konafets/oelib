@@ -31,7 +31,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Interface_MailRole {
+class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements tx_oelib_Interface_MailRole {
 	/**
 	 * @var array the user's configuration unserialized
 	 */
@@ -116,7 +116,7 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	/**
 	 * Returns the direct user groups of this user.
 	 *
-	 * @return tx_oelib_List the user's direct groups, will be empty if this
+	 * @return Tx_Oelib_List the user's direct groups, will be empty if this
 	 *                       user has no groups
 	 */
 	public function getGroups() {
@@ -126,15 +126,15 @@ class tx_oelib_Model_BackEndUser extends tx_oelib_Model implements tx_oelib_Inte
 	/**
 	 * Recursively gets all groups and subgroups of this user.
 	 *
-	 * @return tx_oelib_List all groups and subgroups of this user, will be
+	 * @return Tx_Oelib_List all groups and subgroups of this user, will be
 	 *                       empty if this user has no groups
 	 */
 	public function getAllGroups() {
-		$result = tx_oelib_ObjectFactory::make('tx_oelib_List');
+		$result = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
 		$groupsToProcess = $this->getGroups();
 
 		do {
-			$groupsForNextStep = tx_oelib_ObjectFactory::make('tx_oelib_List');
+			$groupsForNextStep = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
 			$result->append($groupsToProcess);
 			foreach ($groupsToProcess as $group) {
 				$subgroups = $group->getSubgroups();

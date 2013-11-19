@@ -30,7 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Model_FederalState extends tx_oelib_Model {
+class Tx_Oelib_Model_FederalState extends Tx_Oelib_Model {
 	/**
 	 * @var boolean
 	 */

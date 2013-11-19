@@ -23,8 +23,8 @@
 ***************************************************************/
 
 /**
- * This class returns either an instance of the tx_oelib_realHeaderProxy which
- * adds HTTP headers or an instance of the tx_oelib_headerCollector. The
+ * This class returns either an instance of the Tx_Oelib_RealHeaderProxy which
+ * adds HTTP headers or an instance of the Tx_Oelib_HeaderCollector. The
  * collector stores the headers that were added and does not send them. This
  * mode is for testing purposes.
  *
@@ -73,19 +73,19 @@ class tx_oelib_headerProxyFactory {
 	 * Retrieves the singleton header proxy instance. Depending on the mode,
 	 * this instance is either a header collector or a real header proxy.
 	 *
-	 * @return tx_oelib_abstractHeaderProxy|tx_oelib_headerCollector|tx_oelib_realHeaderProxy the singleton header proxy
+	 * @return Tx_Oelib_AbstractHeaderProxy|Tx_Oelib_HeaderCollector|Tx_Oelib_RealHeaderProxy the singleton header proxy
 	 */
 	public function getHeaderProxy() {
 		if ($this->isTestMode) {
-			$className = 'tx_oelib_headerCollector';
+			$className = 'Tx_Oelib_HeaderCollector';
 		} else {
-			$className = 'tx_oelib_realHeaderProxy';
+			$className = 'Tx_Oelib_RealHeaderProxy';
 		}
 
 		if (!is_object($this->headerProxy)
 			|| (get_class($this->headerProxy) != $className)
 		) {
-			$this->headerProxy = tx_oelib_ObjectFactory::make($className);
+			$this->headerProxy = Tx_Oelib_ObjectFactory::make($className);
 		}
 
 		return $this->headerProxy;

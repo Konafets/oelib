@@ -32,12 +32,12 @@
  */
 class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Attachment
+	 * @var Tx_Oelib_Attachment
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Attachment();
+		$this->subject = new Tx_Oelib_Attachment();
 	}
 
 	public function tearDown() {

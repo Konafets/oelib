@@ -31,7 +31,7 @@
  */
 class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_configcheck configuration check object to be tested
+	 * @var Tx_Oelib_ConfigCheck configuration check object to be tested
 	 */
 	private $subject;
 
@@ -51,7 +51,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 				'inexistentColumn' => 'does_not_exist',
 			)
 		);
-		$this->subject = new tx_oelib_configcheck($this->objectToCheck);
+		$this->subject = new Tx_Oelib_ConfigCheck($this->objectToCheck);
 	}
 
 	protected function tearDown() {
@@ -419,7 +419,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		}
 
 		$configCheckMock = $this->getMock(
-			'tx_oelib_configcheck',
+			'Tx_Oelib_ConfigCheck',
 			array('getInstalledLocales'),
 			array($this->objectToCheck)
 		);

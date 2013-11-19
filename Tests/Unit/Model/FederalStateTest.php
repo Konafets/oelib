@@ -23,7 +23,7 @@
 ***************************************************************/
 
 /**
- * Testcase for the tx_oelib_Model_FederalState class.
+ * Testcase for the Tx_Oelib_Model_FederalState class.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -32,7 +32,7 @@
  */
 class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function tearDown() {
-		tx_oelib_MapperRegistry::purgeInstance();
+		Tx_Oelib_MapperRegistry::purgeInstance();
 	}
 
 
@@ -44,7 +44,7 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalNameReturnsLocalNameOfNorthRhineWestphalia() {
-		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
 
 		$this->assertSame(
 			'Nordrhein-Westfalen',
@@ -61,7 +61,7 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEnglishNameReturnsLocalNameOfNorthRhineWestphalia() {
-		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
 
 		$this->assertSame(
 			'North Rhine-Westphalia',
@@ -78,7 +78,7 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfNorthRhineWestphalia() {
-		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
 
 		$this->assertSame(
 			'DE',
@@ -90,7 +90,7 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2ZoneCodeReturnsIsoAlpha2ZoneCodeOfNorthRhineWestphalia() {
-		$model = tx_oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
 
 		$this->assertSame(
 			'NW',
@@ -107,7 +107,7 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isReadOnlyIsTrue() {
-		$model = new tx_oelib_Model_FederalState();
+		$model = new Tx_Oelib_Model_FederalState();
 
 		$this->assertTrue(
 			$model->isReadOnly()

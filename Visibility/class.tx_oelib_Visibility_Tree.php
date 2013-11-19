@@ -59,7 +59,7 @@ class tx_oelib_Visibility_Tree {
 	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
-		$this->rootNode = tx_oelib_ObjectFactory::make(
+		$this->rootNode = Tx_Oelib_ObjectFactory::make(
 			'tx_oelib_Visibility_Node'
 		);
 
@@ -94,7 +94,7 @@ class tx_oelib_Visibility_Tree {
 		array $treeStructure, tx_oelib_Visibility_Node $parentNode
 	) {
 		foreach ($treeStructure as $nodeKey => $nodeContents) {
-			$childNode = tx_oelib_ObjectFactory::make(
+			$childNode = Tx_Oelib_ObjectFactory::make(
 				'tx_oelib_Visibility_Node'
 			);
 			$parentNode->addChild($childNode);
@@ -115,7 +115,7 @@ class tx_oelib_Visibility_Tree {
 	 * Creates a numeric array of all subparts that still are hidden.
 	 *
 	 * The output of this function can be used for
-	 * tx_oelib_Template::hideSubpartsArray.
+	 * Tx_Oelib_Template::hideSubpartsArray.
 	 *
 	 * @return array the subparts which are hidden, will be empty if no elements
 	 *               are hidden

@@ -33,7 +33,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_emailCollector extends tx_oelib_abstractMailer {
+class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Two-dimensional array of e-mail data.
 	 * Each e-mail is stored in one element. So the number of elements in the

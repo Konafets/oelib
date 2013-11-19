@@ -43,7 +43,7 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function canCreateInstanceOfClassWithConstructorWithoutParameters() {
 		$this->assertTrue(
-			tx_oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_TestingModel')
+			Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_TestingModel')
 				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 		);
 	}
@@ -52,12 +52,12 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateInstanceOfClassWithConstructorWithParameters() {
-		$object = tx_oelib_ObjectFactory::make(
-			'tx_oelib_Translator', 'de', '', array()
+		$object = Tx_Oelib_ObjectFactory::make(
+			'Tx_Oelib_Translator', 'de', '', array()
 		);
 
 		$this->assertTrue(
-			$object instanceof tx_oelib_Translator
+			$object instanceof Tx_Oelib_Translator
 		);
 
 		$this->assertSame(
@@ -72,7 +72,7 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function makeInstantiatesSubclassIfXclassIsAvailable() {
-		$object = tx_oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
+		$object = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
 
 		$this->assertSame(
 			'ux_Tx_Oelib_Tests_Unit_Fixtures_Empty',

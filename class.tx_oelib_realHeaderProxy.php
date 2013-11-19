@@ -32,7 +32,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_realHeaderProxy extends tx_oelib_abstractHeaderProxy {
+class Tx_Oelib_RealHeaderProxy extends Tx_Oelib_AbstractHeaderProxy {
 	/**
 	 * Adds a header.
 	 *

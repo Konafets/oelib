@@ -33,7 +33,7 @@
  */
 class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingFramework for creating dummy records
+	 * @var Tx_Oelib_TestingFramework for creating dummy records
 	 */
 	private $testingFramework;
 	/**
@@ -42,7 +42,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	private $subject;
 
 	public function setUp() {
-		$this->testingFramework = new tx_oelib_testingFramework('tx_oelib');
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		$this->subject = new tx_oelib_Mapper_BackEndUser();
 	}
@@ -65,7 +65,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsBackEndUserInstance() {
 		$this->assertTrue(
 			$this->subject->find($this->testingFramework->createBackEndUser())
-				instanceof tx_oelib_Model_BackEndUser
+				instanceof Tx_Oelib_Model_BackEndUser
 		);
 	}
 
@@ -106,7 +106,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->findByUserName('foo')
-				instanceof tx_oelib_Model_BackEndUser
+				instanceof Tx_Oelib_Model_BackEndUser
 		);
 	}
 
@@ -179,7 +179,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 			['cliKeys'][TYPO3_cliKey][1] = 'foo';
 
 		$this->assertTrue(
-			$this->subject->findByCliKey() instanceof tx_oelib_Model_BackEndUser
+			$this->subject->findByCliKey() instanceof Tx_Oelib_Model_BackEndUser
 		);
 	}
 
@@ -192,7 +192,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function usergroupRelationIsUserGroupList() {
-		$groupUid = tx_oelib_MapperRegistry::
+		$groupUid = Tx_Oelib_MapperRegistry::
 			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost()->getUid();
 		$userUid = $this->subject->getLoadedTestingModel(
 			array('usergroup' => $groupUid)
@@ -200,7 +200,7 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertTrue(
 			$this->subject->find($userUid)->getGroups()->first()
-				instanceof tx_oelib_Model_BackEndUserGroup
+				instanceof Tx_Oelib_Model_BackEndUserGroup
 		);
 	}
 }

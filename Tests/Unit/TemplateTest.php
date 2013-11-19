@@ -33,12 +33,12 @@
  */
 class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_Template
+	 * @var Tx_Oelib_Template
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_Template();
+		$this->subject = new Tx_Oelib_Template();
 	}
 
 	public function tearDown() {

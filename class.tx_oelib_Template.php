@@ -32,7 +32,7 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class tx_oelib_Template {
+class Tx_Oelib_Template {
 	/**
 	 * @var string the regular expression used to find subparts
 	 */

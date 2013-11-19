@@ -31,7 +31,7 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel extends tx_oelib_Model implements tx_oelib_Interface_Sortable {
+class Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel extends Tx_Oelib_Model implements tx_oelib_Interface_Sortable {
 	/**
 	 * Sets the "title" data item for this model.
 	 *
