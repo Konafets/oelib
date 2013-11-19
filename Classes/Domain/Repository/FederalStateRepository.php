@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2012 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2012-2013 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -24,6 +24,8 @@
 
 /**
  * Repository for federal state models.
+ *
+ * @deprecated Do not use this class. It will be copied to the static_info_tables extension and then removed.
  *
  * @package TYPO3
  * @subpackage tx_oelib
