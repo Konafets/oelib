@@ -79,11 +79,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		if ($this->configurationCheck) {
-			$this->configurationCheck->__destruct();
-			unset($this->configurationCheck);
-		}
-		unset($this->template);
+		unset($this->template, $this->configurationCheck);
 
 		parent::__destruct();
 	}
