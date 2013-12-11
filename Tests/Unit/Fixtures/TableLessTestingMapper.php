@@ -42,4 +42,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TableLessTestingMapper extends Tx_Oelib_DataM
 	 */
 	protected $modelClassName = 'Tx_Oelib_Tests_Unit_Fixtures_TestingModel';
 }
-?>

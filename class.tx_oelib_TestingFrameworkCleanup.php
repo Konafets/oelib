@@ -52,4 +52,3 @@ class tx_oelib_TestingFrameworkCleanup {
 		Tx_Oelib_TranslatorRegistry::purgeInstance();
 	}
 }
-?>

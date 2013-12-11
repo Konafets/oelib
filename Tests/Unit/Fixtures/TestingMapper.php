@@ -217,4 +217,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 		return $this->findOneByCompoundKeyFromCache($value);
 	}
 }
-?>

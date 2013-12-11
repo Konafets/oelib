@@ -32,4 +32,3 @@
  */
 class Tx_Oelib_Tests_Unit_Fixtures_pi1_NotIncluded1 {
 }
-?>

@@ -51,4 +51,3 @@ class tx_oelib_Exception_EmptyQueryResult extends Exception {
 		parent::__construct($message);
 	}
 }
-?>

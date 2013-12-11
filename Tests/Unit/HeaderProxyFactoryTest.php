@@ -145,4 +145,3 @@ class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

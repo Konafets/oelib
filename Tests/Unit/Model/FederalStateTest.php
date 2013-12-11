@@ -114,4 +114,3 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

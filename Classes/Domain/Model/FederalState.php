@@ -141,4 +141,3 @@ class Tx_Oelib_Domain_Model_FederalState extends Tx_Extbase_DomainObject_Abstrac
 		$this->isoZoneCode = $code;
 	}
 }
-?>

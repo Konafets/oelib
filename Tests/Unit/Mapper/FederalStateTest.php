@@ -95,4 +95,3 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

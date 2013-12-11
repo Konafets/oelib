@@ -131,4 +131,3 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 		$this->loggedInUser = $loggedInUser;
 	}
 }
-?>

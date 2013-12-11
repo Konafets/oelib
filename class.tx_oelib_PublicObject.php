@@ -205,4 +205,3 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 		parent::setAsFloat($key, $value);
 	}
 }
-?>

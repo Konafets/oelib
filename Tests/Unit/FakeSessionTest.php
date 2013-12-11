@@ -96,4 +96,3 @@ class Tx_Oelib_FakeSessionTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

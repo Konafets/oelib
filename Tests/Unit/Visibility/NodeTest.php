@@ -229,4 +229,3 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

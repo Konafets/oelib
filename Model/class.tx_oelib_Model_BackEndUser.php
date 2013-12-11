@@ -173,4 +173,3 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements tx_oelib_Inte
 		return $this->getAsString('lang');
 	}
 }
-?>

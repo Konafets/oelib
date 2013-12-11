@@ -187,4 +187,3 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelperTest extends Tx_Extbase_Tests_Un
 		);
 	}
 }
-?>

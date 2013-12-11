@@ -44,4 +44,3 @@ class Tx_Oelib_RealHeaderProxy extends Tx_Oelib_AbstractHeaderProxy {
 		header($header);
 	}
 }
-?>

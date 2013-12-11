@@ -48,4 +48,3 @@ final class Tx_Oelib_Tests_Unit_Fixtures_ReadOnlyModel extends Tx_Oelib_Model {
 		$this->setAsString('title', $value);
 	}
 }
-?>

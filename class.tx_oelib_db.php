@@ -702,4 +702,3 @@ class Tx_Oelib_Db {
 		return self::$tcaCache[$tableName];
 	}
 }
-?>

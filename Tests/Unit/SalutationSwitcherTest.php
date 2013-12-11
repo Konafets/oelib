@@ -964,4 +964,3 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

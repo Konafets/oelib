@@ -64,4 +64,3 @@ interface tx_oelib_Interface_LoginManager {
 	 */
 	public function getLoggedInUser($mapperName = '');
 }
-?>

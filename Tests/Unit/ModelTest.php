@@ -1183,4 +1183,3 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

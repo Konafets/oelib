@@ -125,4 +125,3 @@ class Tx_Oelib_Attachment {
 		return $this->content;
 	}
 }
-?>

@@ -436,4 +436,3 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_TranslatorRegistry::getInstance()->setLanguageKey('');
 	}
 }
-?>

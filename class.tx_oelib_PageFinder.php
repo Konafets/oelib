@@ -201,4 +201,3 @@ class Tx_Oelib_PageFinder {
 		return ($this->storedPageUid > 0);
 	}
 }
-?>

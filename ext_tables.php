@@ -45,4 +45,3 @@ $TCA['tx_oelib_testchild'] = array(
 		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'icon_tx_oelib_test.gif',
 	)
 );
-?>

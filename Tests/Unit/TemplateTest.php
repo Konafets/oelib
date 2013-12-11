@@ -3629,4 +3629,3 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

@@ -98,4 +98,3 @@ class Tx_Oelib_Autoloader {
 }
 
 spl_autoload_register(array('tx_oelib_Autoloader', 'load'));
-?>

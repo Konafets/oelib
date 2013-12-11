@@ -35,4 +35,3 @@
  */
 class ux_Tx_Oelib_Tests_Unit_Fixtures_Empty {
 }
-?>

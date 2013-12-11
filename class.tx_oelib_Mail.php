@@ -389,4 +389,3 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 		return !empty($this->additionalHeaders);
 	}
 }
-?>

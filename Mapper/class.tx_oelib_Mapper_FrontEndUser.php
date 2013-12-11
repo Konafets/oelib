@@ -99,4 +99,3 @@ class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 		);
 	}
 }
-?>

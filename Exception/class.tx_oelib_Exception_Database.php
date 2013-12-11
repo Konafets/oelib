@@ -52,4 +52,3 @@ class tx_oelib_Exception_Database extends Exception {
 		parent::__construct($message);
 	}
 }
-?>

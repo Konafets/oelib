@@ -118,4 +118,3 @@ class tx_oelib_Geocoding_Calculator {
 		return $objectsWithinDistance;
 	}
 }
-?>

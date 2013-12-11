@@ -132,4 +132,3 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 		);
 	}
 }
-?>

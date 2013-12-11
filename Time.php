@@ -67,4 +67,3 @@ abstract class tx_oelib_Time {
 	 */
 	const SECONDS_PER_YEAR = 220752000;
 }
-?>

@@ -5171,4 +5171,3 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

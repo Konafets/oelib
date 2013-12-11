@@ -129,4 +129,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole extends Tx_Oelib_Object imple
 		$this->setAsString('email', $eMail);
 	}
 }
-?>

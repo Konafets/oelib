@@ -63,4 +63,3 @@ class Tx_Oelib_Model_Country extends Tx_Oelib_Model {
 		return $this->getAsString('cn_iso_3');
 	}
 }
-?>

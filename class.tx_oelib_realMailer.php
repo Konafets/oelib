@@ -102,4 +102,3 @@ class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 		}
 	}
 }
-?>

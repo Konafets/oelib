@@ -241,4 +241,3 @@ class Tx_Oelib_ConfigurationTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

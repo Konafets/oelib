@@ -114,4 +114,3 @@ class tx_oelib_ViewHelper_Price {
 		return $result;
 	}
 }
-?>

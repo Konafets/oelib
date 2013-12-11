@@ -111,4 +111,3 @@ class Tx_Oelib_Model_Currency extends Tx_Oelib_Model {
 		return $this->getAsInteger('cu_decimal_digits');
 	}
 }
-?>

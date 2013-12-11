@@ -70,4 +70,3 @@ class Tx_Oelib_Exception_EmptyQueryResultTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

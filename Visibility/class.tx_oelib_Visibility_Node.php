@@ -141,4 +141,3 @@ class tx_oelib_Visibility_Node {
 		return $this->parentNode;
 	}
 }
-?>

@@ -3659,4 +3659,3 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$subject->countByPageUid('42');
 	}
 }
-?>

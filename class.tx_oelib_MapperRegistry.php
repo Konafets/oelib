@@ -272,4 +272,3 @@ class Tx_Oelib_MapperRegistry {
 		$this->mappers[$className] = $mapper;
 	}
 }
-?>

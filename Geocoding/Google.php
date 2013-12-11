@@ -198,4 +198,3 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 		self::$lastGeocodingTimestamp = microtime(TRUE);
 	}
 }
-?>

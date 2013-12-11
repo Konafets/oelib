@@ -260,6 +260,4 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			$filteredList->count()
 		);
 	}
-
 }
-?>

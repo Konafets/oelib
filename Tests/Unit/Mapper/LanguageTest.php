@@ -94,4 +94,3 @@ class Tx_Oelib_Mapper_LanguageTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

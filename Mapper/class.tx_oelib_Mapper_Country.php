@@ -77,4 +77,3 @@ class tx_oelib_Mapper_Country extends Tx_Oelib_DataMapper {
 		return $this->findOneByKey('cn_iso_3', $isoAlpha3Code);
 	}
 }
-?>

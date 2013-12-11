@@ -106,4 +106,3 @@ class Tx_Oelib_IdentityMap {
 		return $this->highestUid + 1;
 	}
 }
-?>

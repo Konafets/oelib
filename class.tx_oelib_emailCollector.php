@@ -211,4 +211,3 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 		return $lastEmail[$key];
 	}
 }
-?>

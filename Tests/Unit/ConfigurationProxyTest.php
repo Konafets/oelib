@@ -171,4 +171,3 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

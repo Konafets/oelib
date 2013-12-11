@@ -322,4 +322,3 @@ class Tx_Oelib_PageFinderTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

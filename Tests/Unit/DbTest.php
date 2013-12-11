@@ -1563,4 +1563,3 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

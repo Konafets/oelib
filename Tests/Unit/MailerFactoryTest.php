@@ -1034,4 +1034,3 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

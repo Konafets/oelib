@@ -123,4 +123,3 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

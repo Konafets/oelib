@@ -45,4 +45,3 @@ class Tx_Oelib_Domain_Repository_FederalStateRepository extends Tx_Oelib_Domain_
 		$this->setDefaultQuerySettings($querySettings);
 	}
 }
-?>

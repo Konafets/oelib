@@ -46,4 +46,3 @@ class Tx_Oelib_ViewHelpers_ImageSourceViewHelper extends Tx_Fluid_Core_ViewHelpe
 		return $imageSource;
 	}
 }
-?>

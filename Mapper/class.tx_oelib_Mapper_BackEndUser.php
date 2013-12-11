@@ -121,4 +121,3 @@ class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 		return $data;
 	}
 }
-?>

@@ -51,4 +51,3 @@ interface tx_oelib_Interface_Sortable {
 	 */
 	public function setSorting($sorting);
 }
-?>

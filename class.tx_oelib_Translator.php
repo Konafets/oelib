@@ -170,4 +170,3 @@ class Tx_Oelib_Translator {
 		return $this->alternativeLanguageKey;
 	}
 }
-?>

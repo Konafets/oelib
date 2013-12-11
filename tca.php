@@ -195,4 +195,3 @@ $TCA['tx_oelib_testchild'] = array(
 		'0' => array('showitem' => 'title;;;;2-2-2'),
 	),
 );
-?>

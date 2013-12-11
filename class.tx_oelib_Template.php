@@ -707,4 +707,3 @@ class Tx_Oelib_Template {
 		$this->subpartsToHide = array();
 	}
 }
-?>

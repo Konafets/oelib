@@ -1921,4 +1921,3 @@ class Tx_Oelib_ConfigCheck {
 		);
 	}
 }
-?>

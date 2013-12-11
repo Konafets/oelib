@@ -103,4 +103,3 @@ abstract class Tx_Oelib_Domain_Repository_AbstractReadOnlyRepository extends Tx_
 		);
 	}
 }
-?>

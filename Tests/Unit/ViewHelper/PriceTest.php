@@ -210,4 +210,3 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

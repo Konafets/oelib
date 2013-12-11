@@ -50,4 +50,3 @@ class Tx_Oelib_FileFunctions {
 		return t3lib_div::rmdir($path, $removeNonEmpty);
 	}
 }
-?>

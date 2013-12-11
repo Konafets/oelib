@@ -40,4 +40,3 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelper extends Tx_Fluid_Core_ViewHelper_
 		return mb_strtoupper($this->renderChildren(), 'UTF-8');
 	}
 }
-?>

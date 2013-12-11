@@ -44,4 +44,3 @@ abstract class Tx_Oelib_AbstractHeaderProxy {
 	 */
 	public abstract function addHeader($header);
 }
-?>

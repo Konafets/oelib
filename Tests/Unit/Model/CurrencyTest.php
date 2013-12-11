@@ -319,4 +319,3 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

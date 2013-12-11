@@ -454,4 +454,3 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

@@ -70,4 +70,3 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 		);
 	}
 }
-?>

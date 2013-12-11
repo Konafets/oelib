@@ -119,4 +119,3 @@ class Tx_Oelib_TemplateRegistry {
 		return clone $this->templates[$fileName];
 	}
 }
-?>

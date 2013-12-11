@@ -43,4 +43,3 @@ interface tx_oelib_Interface_GeocodingLookup {
 	 */
 	public function lookUp(tx_oelib_Interface_Geo $geoObject);
 }
-?>

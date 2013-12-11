@@ -360,4 +360,3 @@ class Tx_Oelib_TranslatorRegistry {
 		return $this->languageKey;
 	}
 }
-?>

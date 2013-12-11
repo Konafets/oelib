@@ -688,4 +688,3 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

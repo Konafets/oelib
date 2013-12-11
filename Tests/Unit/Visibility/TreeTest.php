@@ -341,4 +341,3 @@ class Tx_Oelib_Visibility_TreeTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

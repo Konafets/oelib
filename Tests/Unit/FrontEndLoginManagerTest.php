@@ -345,4 +345,3 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

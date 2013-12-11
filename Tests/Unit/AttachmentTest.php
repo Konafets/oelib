@@ -150,4 +150,3 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

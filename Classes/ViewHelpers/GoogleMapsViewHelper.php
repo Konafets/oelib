@@ -311,4 +311,3 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 		return self::MAP_HTML_ID_PREFIX . '_' . $this->mapNumber;
 	}
 }
-?>

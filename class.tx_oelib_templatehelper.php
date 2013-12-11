@@ -1395,4 +1395,3 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		return $this->getStoragePid() > 0;
 	}
 }
-?>

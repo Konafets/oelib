@@ -56,4 +56,3 @@ class Tx_Oelib_ObjectFactory {
 		);
 	}
 }
-?>

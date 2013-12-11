@@ -45,4 +45,3 @@ class Tx_Oelib_Domain_Repository_CountryRepository extends Tx_Oelib_Domain_Repos
 		$this->setDefaultQuerySettings($querySettings);
 	}
 }
-?>

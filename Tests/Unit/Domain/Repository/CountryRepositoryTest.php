@@ -136,4 +136,3 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 		$this->subject->removeAll();
 	}
 }
-?>

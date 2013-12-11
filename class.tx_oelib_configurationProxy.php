@@ -199,4 +199,3 @@ class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 		return $this->configuration;
 	}
 }
-?>

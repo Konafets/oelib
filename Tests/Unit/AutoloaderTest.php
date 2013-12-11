@@ -129,4 +129,3 @@ class Tx_Oelib_AutoloaderTest extends Tx_Phpunit_TestCase {
 		new tx_oelib_Tests_Unit_Fixtures_NotIncludedEither();
 	}
 }
-?>

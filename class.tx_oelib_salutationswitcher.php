@@ -217,4 +217,3 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 		return $this->suffixesToTry;
 	}
 }
-?>

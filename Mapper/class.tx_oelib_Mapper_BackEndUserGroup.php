@@ -49,4 +49,3 @@ class tx_oelib_Mapper_BackEndUserGroup extends Tx_Oelib_DataMapper {
 		'subgroup' => 'tx_oelib_Mapper_BackEndUserGroup',
 	);
 }
-?>

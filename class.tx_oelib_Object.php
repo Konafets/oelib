@@ -263,4 +263,3 @@ abstract class Tx_Oelib_Object {
 		$this->set($key, (float) $value);
 	}
 }
-?>

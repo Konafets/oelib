@@ -113,4 +113,3 @@ interface tx_oelib_Interface_Geo {
 	 */
 	public function clearGeoError();
 }
-?>

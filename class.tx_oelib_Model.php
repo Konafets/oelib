@@ -594,4 +594,3 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 		return empty($this->data);
 	}
 }
-?>

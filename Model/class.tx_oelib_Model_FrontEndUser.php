@@ -636,4 +636,3 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 		$this->setAsString('title', $jobTitle);
 	}
 }
-?>

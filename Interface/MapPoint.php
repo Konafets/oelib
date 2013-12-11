@@ -80,4 +80,3 @@ interface tx_oelib_Interface_MapPoint {
 	 */
 	public function hasInfoWindowContent();
 }
-?>

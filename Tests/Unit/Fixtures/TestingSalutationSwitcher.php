@@ -142,4 +142,3 @@ final class Tx_Oelib_TestingSalutationSwitcher extends Tx_Oelib_SalutationSwitch
 		return $this->conf['salutation'];
 	}
 }
-?>

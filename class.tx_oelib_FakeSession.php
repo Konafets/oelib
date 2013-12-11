@@ -84,4 +84,3 @@ class Tx_Oelib_FakeSession extends Tx_Oelib_Session {
 		$this->sessionData[$key] = $value;
 	}
 }
-?>

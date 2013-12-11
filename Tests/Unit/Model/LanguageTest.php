@@ -117,4 +117,3 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

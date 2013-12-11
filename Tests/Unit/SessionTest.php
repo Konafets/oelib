@@ -200,4 +200,3 @@ class Tx_Oelib_SessionTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

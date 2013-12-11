@@ -36,4 +36,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_ModelLessTestingMapper extends Tx_Oelib_DataM
 	 */
 	protected $tableName = 'tx_oelib_test';
 }
-?>

@@ -62,4 +62,3 @@ class tx_oelib_Mapper_Language extends Tx_Oelib_DataMapper {
 		return $this->findOneByKey('lg_iso_2', $isoAlpha2Code);
 	}
 }
-?>

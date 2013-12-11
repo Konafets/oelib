@@ -45,4 +45,3 @@ interface tx_oelib_Interface_MailRole {
 	 */
 	public function getEmailAddress();
 }
-?>

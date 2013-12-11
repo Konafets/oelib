@@ -301,4 +301,3 @@ class Tx_Oelib_Timer {
 		$this->previousBucketNames = array();
 	}
 }
-?>

@@ -98,4 +98,3 @@ class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 		$this->coordinates = array();
 	}
 }
-?>

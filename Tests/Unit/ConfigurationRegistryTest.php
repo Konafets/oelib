@@ -287,4 +287,3 @@ class Tx_Oelib_ConfigurationRegistryTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

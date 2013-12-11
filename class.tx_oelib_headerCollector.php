@@ -71,4 +71,3 @@ class Tx_Oelib_HeaderCollector extends Tx_Oelib_AbstractHeaderProxy {
 		return $this->headers;
 	}
 }
-?>

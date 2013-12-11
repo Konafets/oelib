@@ -132,4 +132,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel extends Tx_Oelib_Model impl
 		$this->setAsInteger('sorting', $sorting);
 	}
 }
-?>

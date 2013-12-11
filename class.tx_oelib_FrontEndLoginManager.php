@@ -138,4 +138,3 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		$this->loggedInUser = $user;
 	}
 }
-?>

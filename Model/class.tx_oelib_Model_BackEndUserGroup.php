@@ -52,4 +52,3 @@ class Tx_Oelib_Model_BackEndUserGroup extends Tx_Oelib_Model {
 		return $this->getAsList('subgroup');
 	}
 }
-?>

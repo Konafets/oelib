@@ -302,4 +302,3 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

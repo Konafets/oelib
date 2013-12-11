@@ -88,4 +88,3 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

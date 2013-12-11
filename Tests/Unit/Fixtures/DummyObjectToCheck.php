@@ -40,4 +40,3 @@ final class Tx_Oelib_dummyObjectToCheck extends Tx_Oelib_TemplateHelper {
 		$this->init($configuration);
 	}
 }
-?>

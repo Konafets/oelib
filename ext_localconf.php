@@ -11,4 +11,3 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_oelib_Double3Validator'] 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['oelib']['testingFrameworkCleanUp'][]
 	= 'EXT:oelib/class.tx_oelib_TestingFrameworkCleanup.php:' .
 		'&tx_oelib_TestingFrameworkCleanup';
-?>

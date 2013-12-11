@@ -280,4 +280,3 @@ abstract class Tx_Oelib_AbstractMailer {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'utf-8';
 	}
 }
-?>

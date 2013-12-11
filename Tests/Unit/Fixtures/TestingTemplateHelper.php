@@ -175,4 +175,3 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 		parent::ensureContentObject();
 	}
 }
-?>

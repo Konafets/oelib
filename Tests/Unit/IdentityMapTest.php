@@ -219,4 +219,3 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

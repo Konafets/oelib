@@ -1479,4 +1479,3 @@ abstract class Tx_Oelib_DataMapper {
 		);
 	}
 }
-?>

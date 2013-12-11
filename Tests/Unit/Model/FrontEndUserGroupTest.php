@@ -103,4 +103,3 @@ class Tx_Oelib_Model_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

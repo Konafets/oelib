@@ -83,4 +83,3 @@ class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

@@ -430,4 +430,3 @@ class Tx_Oelib_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->subject->findByUserName('foo');
 	}
 }
-?>

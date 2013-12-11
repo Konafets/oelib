@@ -429,4 +429,3 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$configCheckMock->checkLocale();
 	}
 }
-?>

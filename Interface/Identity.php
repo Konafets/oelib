@@ -57,4 +57,3 @@ interface tx_oelib_Interface_Identity {
 	 */
 	public function setUid($uid);
 }
-?>

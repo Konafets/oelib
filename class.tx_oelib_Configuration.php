@@ -164,4 +164,3 @@ class Tx_Oelib_Configuration extends Tx_Oelib_PublicObject {
 		return $this->data[$key];
 	}
 }
-?>

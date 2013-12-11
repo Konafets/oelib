@@ -1874,4 +1874,3 @@ final class Tx_Oelib_TestingFramework {
 		self::$hooksHaveBeenRetrieved = FALSE;
 	}
 }
-?>

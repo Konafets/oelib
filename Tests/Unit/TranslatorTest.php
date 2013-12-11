@@ -146,4 +146,3 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 		$subject->__destruct();
 	}
 }
-?>

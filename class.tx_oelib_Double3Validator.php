@@ -81,4 +81,3 @@ class Tx_Oelib_Double3Validator {
 		return number_format($result, 3, '.', '');
 	}
 }
-?>

@@ -118,4 +118,3 @@ class Tx_Oelib_MailerFactory {
 		$this->isTestMode = TRUE;
 	}
 }
-?>

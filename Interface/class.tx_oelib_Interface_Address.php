@@ -71,4 +71,3 @@ interface tx_oelib_Interface_Address {
 	 */
 	public function getPhoneNumber();
 }
-?>

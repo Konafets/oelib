@@ -136,4 +136,3 @@ class Tx_Oelib_Domain_Repository_FederalStateRepositoryTest extends Tx_Extbase_T
 		$this->subject->removeAll();
 	}
 }
-?>

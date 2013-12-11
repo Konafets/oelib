@@ -149,4 +149,3 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 		$model->__destruct();
 	}
 }
-?>

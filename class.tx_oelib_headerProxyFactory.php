@@ -112,4 +112,3 @@ class tx_oelib_headerProxyFactory {
 		$this->isTestMode = TRUE;
 	}
 }
-?>

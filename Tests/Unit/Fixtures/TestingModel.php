@@ -279,4 +279,3 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 		return $this->getAsFloat('string_data');
 	}
 }
-?>

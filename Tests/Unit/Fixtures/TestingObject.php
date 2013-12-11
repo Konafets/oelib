@@ -99,4 +99,3 @@ final class Tx_Oelib_testingObject extends Tx_Oelib_PublicObject {
 		parent::checkForNonEmptyKey($key);
 	}
 }
-?>

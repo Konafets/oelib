@@ -72,4 +72,3 @@ class Tx_Oelib_Model_FederalState extends Tx_Oelib_Model {
 		return $this->getAsString('zn_code');
 	}
 }
-?>

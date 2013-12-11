@@ -32,4 +32,3 @@
  */
 class tx_oelib_Exception_NotFound extends Exception {
 }
-?>

@@ -389,4 +389,3 @@ class Tx_Oelib_List extends SplObjectStorage {
 		return $elements;
 	}
 }
-?>

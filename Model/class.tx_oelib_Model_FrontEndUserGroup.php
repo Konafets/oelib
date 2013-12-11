@@ -51,4 +51,3 @@ class Tx_Oelib_Model_FrontEndUserGroup extends Tx_Oelib_Model {
 		return $this->getAsString('description');
 	}
 }
-?>

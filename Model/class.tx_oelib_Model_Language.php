@@ -54,4 +54,3 @@ class Tx_Oelib_Model_Language extends Tx_Oelib_Model {
 		return $this->getAsString('lg_iso_2');
 	}
 }
-?>

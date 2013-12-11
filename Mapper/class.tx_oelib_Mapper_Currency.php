@@ -62,4 +62,3 @@ class tx_oelib_Mapper_Currency extends Tx_Oelib_DataMapper {
 		return $this->findOneByKey('cu_iso_3', $isoAlpha3Code);
 	}
 }
-?>

@@ -104,4 +104,3 @@ return array(
 	'tx_oelib_tests_unit_fixtures_testingmappoint' => $extensionPath . 'Tests/Unit/Fixtures/TestingMapPoint.php',
 	'tx_oelib_tests_unit_fixtures_testingmodel' => $extensionPath . 'Tests/Unit/Fixtures/TestingModel.php',
 );
-?>

@@ -241,4 +241,3 @@ class Tx_Oelib_ConfigurationRegistry {
 			&& $GLOBALS['TSFE']->tmpl->loaded;
 	}
 }
-?>

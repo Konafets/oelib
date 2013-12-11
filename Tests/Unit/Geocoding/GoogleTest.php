@@ -312,4 +312,3 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

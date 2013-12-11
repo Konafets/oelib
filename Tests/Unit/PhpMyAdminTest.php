@@ -52,4 +52,3 @@ class Tx_Oelib_PhpMyAdminTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

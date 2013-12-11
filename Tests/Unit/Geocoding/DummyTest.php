@@ -160,4 +160,3 @@ class Tx_Oelib_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

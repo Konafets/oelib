@@ -129,4 +129,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapPoint implements tx_oelib_Interface
 		return FALSE;
 	}
 }
-?>

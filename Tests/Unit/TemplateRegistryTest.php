@@ -132,4 +132,3 @@ class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

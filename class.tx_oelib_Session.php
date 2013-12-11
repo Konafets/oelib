@@ -179,4 +179,3 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 		$GLOBALS['TSFE']->fe_user->storeSessionData();
 	}
 }
-?>

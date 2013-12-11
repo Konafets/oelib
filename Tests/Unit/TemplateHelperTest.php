@@ -4601,4 +4601,3 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

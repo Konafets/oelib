@@ -84,4 +84,3 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

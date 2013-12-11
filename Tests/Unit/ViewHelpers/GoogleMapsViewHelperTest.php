@@ -696,4 +696,3 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		);
 	}
 }
-?>

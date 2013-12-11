@@ -432,4 +432,3 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 		);
 	}
 }
-?>

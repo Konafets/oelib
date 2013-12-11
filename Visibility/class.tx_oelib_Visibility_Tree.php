@@ -157,4 +157,3 @@ class tx_oelib_Visibility_Tree {
 		}
 	}
 }
-?>

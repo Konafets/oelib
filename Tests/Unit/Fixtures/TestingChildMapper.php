@@ -50,4 +50,3 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingChildMapper extends Tx_Oelib_DataMappe
 		'tx_oelib_parent2' => 'tx_oelib_Tests_Unit_Fixtures_TestingMapper',
 	);
 }
-?>
