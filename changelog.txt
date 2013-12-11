@@ -1,5 +1,6 @@
 0.7.9 - currently working on
-- [#4741] Bugfix: Exception in deleteDummyFolderWithNonEmptyDummyFolderThrowsException
+- [#4610] Fix: PHP/Apache crash/SIGSEV when running the unit tests on PHP 5.4
+- [#4741] Fix: Exception in deleteDummyFolderWithNonEmptyDummyFolderThrowsException
 - [#4647] Cleanup: Deprecate TemplateHelper::pi_getPidList
 - [#4600] Fix: Test failure tx_oelib_SalutationSwitcherTest
 - [#3996] Fix: Two tests of the templatehelperchild testcase fail
