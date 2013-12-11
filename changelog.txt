@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4841] Cleanup: Drop the todo.txt file
 - [#4830] Cleanup: Remove the closing PHP tags
 - [#4789] Cleanup: Deprecate the static_info_tables extbase models and repositories
 - [#4776] Cleanup: Replace "fixture" with "subject"
