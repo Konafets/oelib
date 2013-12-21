@@ -104,7 +104,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * The constructor.
 	 */
 	public function __construct() {
-		if ($this->tableName == '') {
+		if ($this->getTableName() === '') {
 			throw new InvalidArgumentException(get_class($this) . '::tableName must not be empty.', 1331319361);
 		}
 		if ($this->columns == '') {
@@ -336,15 +336,16 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param string $key
 	 *        the key of the relation to retrieve, must not be empty
 	 *
-	 * @return array configuration for that relation, will not be empty if the
-	 *               TCA is valid
+	 * @return array configuration for that relation, will not be empty if the TCA is valid
+	 *
+	 * @throws BadMethodCallException
 	 */
 	private function getRelationConfigurationFromTca($key) {
-		$tca = Tx_Oelib_Db::getTcaForTable($this->tableName);
+		$tca = Tx_Oelib_Db::getTcaForTable($this->getTableName());
 
 		if (!isset($tca['columns'][$key])) {
 			throw new BadMethodCallException(
-				'In the table ' . $this->tableName . ', the column ' . $key . ' does not have a TCA entry.', 1331319627
+				'In the table ' . $this->getTableName() . ', the column ' . $key . ' does not have a TCA entry.', 1331319627
 			);
 		}
 
@@ -567,28 +568,21 @@ abstract class Tx_Oelib_DataMapper {
 
 		$whereClauses = array($this->getUniversalWhereClause(TRUE));
 		foreach ($whereClauseParts as $key => $value) {
-			$columnDefinition = Tx_Oelib_Db::getColumnDefinition(
-				$this->tableName, $key
-			);
+			$columnDefinition = Tx_Oelib_Db::getColumnDefinition($this->getTableName(), $key);
 
 			$whereClauses[] = $key . ' = ' . (
 				(strpos($columnDefinition['Type'], 'int') !== FALSE)
 					? $value
-					: $GLOBALS['TYPO3_DB']->fullQuoteStr(
-						$value, $this->tableName
-					)
+					: $GLOBALS['TYPO3_DB']->fullQuoteStr($value, $this->getTableName())
 			);
 		}
 		$whereClause = implode(' AND ', $whereClauses);
 
 		try {
-			$data = Tx_Oelib_Db::selectSingle(
-				$this->columns, $this->tableName, $whereClause
-			);
+			$data = Tx_Oelib_Db::selectSingle($this->columns, $this->getTableName(), $whereClause);
 		} catch (tx_oelib_Exception_EmptyQueryResult $exception) {
 			throw new tx_oelib_Exception_NotFound(
-				'The record where "' . $whereClause . '" could not be ' .
-					'retrieved from the table ' . $this->tableName . '.'
+				'The record where "' . $whereClause . '" could not be retrieved from the table ' . $this->getTableName() . '.'
 			);
 		}
 
@@ -724,13 +718,11 @@ abstract class Tx_Oelib_DataMapper {
 		$this->cacheModelByKeys($model, $data);
 
 		if ($model->hasUid()) {
-			Tx_Oelib_Db::update(
-				$this->tableName, 'uid = ' . $model->getUid(), $data
-			);
+			Tx_Oelib_Db::update($this->getTableName(), 'uid = ' . $model->getUid(), $data);
 			$this->deleteManyToManyRelationIntermediateRecords($model);
 		} else {
 			$this->prepareDataForNewRecord($data);
-			$model->setUid(Tx_Oelib_Db::insert($this->tableName, $data));
+			$model->setUid(Tx_Oelib_Db::insert($this->getTableName(), $data));
 			$this->map->add($model);
 		}
 
@@ -931,7 +923,7 @@ abstract class Tx_Oelib_DataMapper {
 				$this->getRelationConfigurationFromTca($key);
 			if (!isset($relationConfiguration['foreign_field'])) {
 				throw new BadMethodCallException(
-					'The relation ' . $this->tableName . ':' . $key . ' is missing the "foreign_field" setting.', 1331319719
+					'The relation ' . $this->getTableName() . ':' . $key . ' is missing the "foreign_field" setting.', 1331319719
 				);
 			}
 
@@ -1081,9 +1073,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *                DB, will not be empty
 	 */
 	protected function getUniversalWhereClause($allowHiddenRecords = FALSE) {
-		return '1 = 1' . Tx_Oelib_Db::enableFields(
-			$this->tableName, ($allowHiddenRecords ? 1 : -1)
-		);
+		return '1 = 1' . Tx_Oelib_Db::enableFields($this->getTableName(), ($allowHiddenRecords ? 1 : -1));
 	}
 
 	/**
@@ -1134,7 +1124,7 @@ abstract class Tx_Oelib_DataMapper {
 	protected function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
 		$orderBy = '';
 
-		$tca = Tx_Oelib_Db::getTcaForTable($this->tableName);
+		$tca = Tx_Oelib_Db::getTcaForTable($this->getTableName());
 		if ($sorting != '') {
 			$orderBy = $sorting;
 		} elseif (isset($tca['ctrl']['default_sortby'])) {
@@ -1153,7 +1143,7 @@ abstract class Tx_Oelib_DataMapper {
 
 		$rows = Tx_Oelib_Db::selectMultiple(
 			'*',
-			$this->tableName,
+			$this->getTableName(),
 			$completeWhereClause . $this->getUniversalWhereClause(),
 			'',
 			$orderBy,
@@ -1182,11 +1172,7 @@ abstract class Tx_Oelib_DataMapper {
 			return $this->findByWhereClause('', $sorting, $limit);
 		}
 
-		return $this->findByWhereClause(
-			$this->tableName . '.pid IN (' . $pageUids . ')',
-			$sorting,
-			$limit
-		);
+		return $this->findByWhereClause($this->getTableName() . '.pid IN (' . $pageUids . ')', $sorting, $limit);
 	}
 
 	/**
@@ -1454,10 +1440,7 @@ abstract class Tx_Oelib_DataMapper {
 			? ''
 			: $whereClause . ' AND ';
 
-		return Tx_Oelib_Db::count(
-			$this->tableName,
-			$completeWhereClause . $this->getUniversalWhereClause()
-		);
+		return Tx_Oelib_Db::count($this->getTableName(), $completeWhereClause . $this->getUniversalWhereClause());
 	}
 
 	/**
@@ -1474,8 +1457,15 @@ abstract class Tx_Oelib_DataMapper {
 			return $this->countByWhereClause('');
 		}
 
-		return $this->countByWhereClause(
-			$this->tableName . '.pid IN (' . $pageUids . ')'
-		);
+		return $this->countByWhereClause($this->getTableName() . '.pid IN (' . $pageUids . ')');
+	}
+
+	/**
+	 * Returns the table name of this mapper.
+	 *
+	 * @return string the table name, will not be empty for correctly build data mappers
+	 */
+	public function getTableName() {
+		return $this->tableName;
 	}
 }

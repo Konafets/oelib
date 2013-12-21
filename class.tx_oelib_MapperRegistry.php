@@ -164,15 +164,15 @@ class Tx_Oelib_MapperRegistry {
 							'}' .
 							'protected function getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting) {' .
 							'$this->testingFramework->markTableAsDirty($mnTable);' .
-							'return array_merge(parent::getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting), array($this->testingFramework->getDummyColumnName($this->tableName) => 1));' .
+							'return array_merge(parent::getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting), array($this->testingFramework->getDummyColumnName($this->getTableName()) => 1));' .
 							'}' .
 							'protected function prepareDataForNewRecord(array &$data) {' .
-							'$this->testingFramework->markTableAsDirty($this->tableName);' .
-							'$data[$this->testingFramework->getDummyColumnName($this->tableName)] = 1;' .
+							'$this->testingFramework->markTableAsDirty($this->getTableName());' .
+							'$data[$this->testingFramework->getDummyColumnName($this->getTableName())] = 1;' .
 							'}' .
 							'protected function getUniversalWhereClause($allowHiddenRecords = FALSE) {' .
-							'$dummyColumnName = $this->testingFramework->getDummyColumnName($this->tableName);' .
-							'$additionalWhere = Tx_Oelib_Db::tableHasColumn($this->tableName, $dummyColumnName) ' .
+							'$dummyColumnName = $this->testingFramework->getDummyColumnName($this->getTableName());' .
+							'$additionalWhere = Tx_Oelib_Db::tableHasColumn($this->getTableName(), $dummyColumnName) ' .
 							'? $dummyColumnName . \' = 1 AND \' : \'\';' .
 							'return $additionalWhere . parent::getUniversalWhereClause($allowHiddenRecords);' .
 							'}' .

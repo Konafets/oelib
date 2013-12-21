@@ -32,27 +32,25 @@
  */
 class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_TestingFramework for creating dummy records
+	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	protected $testingFramework = NUIL;
 	/**
-	 * @var tx_oelib_Tests_Unit_Fixtures_TestingMapper the data mapper to test
+	 * @var tx_oelib_Tests_Unit_Fixtures_TestingMapper
 	 */
-	private $subject;
+	protected $subject = NUIL;
 
 	/**
 	 * @var boolean
 	 */
-	private $deprecationLogEnabledBackup = FALSE;
+	protected $deprecationLogEnabledBackup = FALSE;
 
 	public function setUp() {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
-		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode(
-			$this->testingFramework
-		);
+		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
 
 		$this->subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper');
 	}
@@ -3657,5 +3655,15 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			->with('tx_oelib_test.pid IN (42)');
 
 		$subject->countByPageUid('42');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getTableNameReturnsTableName() {
+		$this->assertSame(
+			'tx_oelib_test',
+			$this->subject->getTableName()
+		);
 	}
 }

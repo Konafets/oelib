@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4874] Feature: Add DataMapper.getTableName
 - [#4610] Fix: PHP/Apache crash/SIGSEV when running the unit tests on PHP 5.4
 - [#4841] Cleanup: Drop the todo.txt file
 - [#4830] Cleanup: Remove the closing PHP tags
