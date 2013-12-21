@@ -35,7 +35,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Template
 	 */
-	private $subject;
+	protected $subject = NULL;
 
 	public function setUp() {
 		$this->subject = new Tx_Oelib_Template();
@@ -45,9 +45,10 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		unset($this->subject);
 	}
 
-	////////////////////////////////////////////
-	// Tests for reading the HTML from a file.
-	////////////////////////////////////////////
+
+	/*
+	 * Tests for reading the HTML from a file.
+	 */
 
 	/**
 	 * @test
@@ -58,20 +59,32 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->assertSame(
-			'Hello world!' . LF, $this->subject->getSubpart()
+			'Hello world!' . LF,
+			$this->subject->render()
 		);
 	}
 
-	///////////////////////////////
-	// Tests for getting subparts.
-	///////////////////////////////
+	/*
+	 * Tests for getting subparts.
+	 */
 
 	/**
 	 * @test
 	 */
 	public function getSubpartWithNoSubpartNameInitiallyReturnsAnEmptyString() {
 		$this->assertSame(
-			'', $this->subject->getSubpart()
+			'',
+			$this->subject->getSubpart()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithEmptySubpartNameInitiallyReturnsAnEmptyString() {
+		$this->assertSame(
+			'',
+			$this->subject->getSubpart('')
 		);
 	}
 
@@ -113,24 +126,11 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function getCompleteTemplateReturnsCompleteTemplateContent() {
-		$templateCode = 'This is a test including'.LF.'a linefeed.'.LF;
-		$this->subject->processTemplate(
-			$templateCode
-		);
+	public function getSubpartWithoutParametersReturnsCompleteTemplateContent() {
+		$templateCode = 'This is a test including' . LF . 'a linefeed.' . LF;
+		$this->subject->processTemplate($templateCode);
 		$this->assertSame(
-			$templateCode, $this->subject->getSubpart()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getCompleteTemplateCanContainUtf8Umlauts() {
-		$this->subject->processTemplate('äöüßÄÖÜßéèáàóò');
-
-		$this->assertSame(
-			'äöüßÄÖÜßéèáàóò',
+			$templateCode,
 			$this->subject->getSubpart()
 		);
 	}
@@ -138,28 +138,12 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function getCompleteTemplateCanContainIso88591Umlauts() {
-		// 228 = ä, 223 = ß (in ISO8859-1)
-		$this->subject->processTemplate(chr(228) . chr(223));
-
+	public function getSubpartWithoutEmptySubpartNameReturnsCompleteTemplateContent() {
+		$templateCode = 'This is a test including' . LF . 'a linefeed.' . LF;
+		$this->subject->processTemplate($templateCode);
 		$this->assertSame(
-			chr(228) . chr(223),
-			$this->subject->getSubpart()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getCompleteTemplateWithComment() {
-		$templateCode = 'This is a test including a comment. '
-			.'<!-- This is a comment. -->'
-			.'And some more text.';
-		$this->subject->processTemplate(
-			$templateCode
-		);
-		$this->assertSame(
-			$templateCode, $this->subject->getSubpart()
+			$templateCode,
+			$this->subject->getSubpart('')
 		);
 	}
 
@@ -524,6 +508,62 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	}
 
 
+	/*
+	 * Tests concerning render
+	 */
+
+	/**
+	 * @test
+	 */
+	public function renderReturnsCompleteTemplateContent() {
+		$templateCode = 'This is a test including' . LF . 'a linefeed.' . LF;
+		$this->subject->processTemplate($templateCode);
+		$this->assertSame(
+			$templateCode,
+			$this->subject->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderCanContainUtf8Umlauts() {
+		$this->subject->processTemplate('äöüßÄÖÜßéèáàóò');
+
+		$this->assertSame(
+			'äöüßÄÖÜßéèáàóò',
+			$this->subject->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderCanContainIso88591Umlauts() {
+		// 228 = ä, 223 = ß (in ISO8859-1)
+		$this->subject->processTemplate(chr(228) . chr(223));
+
+		$this->assertSame(
+			chr(228) . chr(223),
+			$this->subject->render()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function renderTemplateWithComment() {
+		$templateCode = 'This is a test including a comment. '
+			.'<!-- This is a comment. -->'
+			.'And some more text.';
+		$this->subject->processTemplate(
+			$templateCode
+		);
+		$this->assertSame(
+			$templateCode, $this->subject->render()
+		);
+	}
+
 
 	//////////////////////////////////
 	// Tests for filling in markers.
@@ -732,7 +772,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('my_marker_too', 'bar');
 		$this->assertSame(
 			'foo bar',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -748,7 +788,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('also_my_marker', 'bar');
 		$this->assertSame(
 			'foo bar',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -763,7 +803,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('my_marker', 'foo');
 		$this->assertSame(
 			'foo ###MY_MARKER_TOO###',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -778,7 +818,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('my_marker', 'foo');
 		$this->assertSame(
 			'foo ###ALSO_MY_MARKER###',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -793,7 +833,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('my_marker_too', 'bar');
 		$this->assertSame(
 			'###MY_MARKER### bar',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -808,7 +848,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->subject->setMarker('also_my_marker', 'bar');
 		$this->assertSame(
 			'###MY_MARKER### bar',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -2474,7 +2514,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 			'Some text. '
 				.'This is some template code. foo More text.'
 				.' Even more text.',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 
@@ -2519,7 +2559,7 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 			'Some text. '
 				.'This is some template code. foo More text.'
 				.' Even more text.',
-			$this->subject->getSubpart('')
+			$this->subject->render()
 		);
 	}
 

@@ -594,6 +594,15 @@ class Tx_Oelib_Template {
 	}
 
 	/**
+	 * Renders the complete template.
+	 *
+	 * @return string the rendered template, might be empty
+	 */
+	public function render() {
+		return $this->replaceMarkersAndSubparts($this->templateCode);
+	}
+
+	/**
 	 * Retrieves a named subpart, recursively filling in its inner subparts
 	 * and markers. Inner subparts that are marked to be hidden will be
 	 * substituted with empty strings.
@@ -601,64 +610,72 @@ class Tx_Oelib_Template {
 	 * This function either works on the subpart with the name $key or the
 	 * complete HTML template if $key is an empty string.
 	 *
-	 * @param string $key
+	 * @param string $subpartKey
 	 *        key of an existing subpart, for example 'LIST_ITEM' (without the ###),
 	 *        or an empty string to use the complete HTML template
 	 *
-	 * @return string the subpart content or an empty string if the
-	 *                subpart is hidden or the subpart name is missing
+	 * @return string the subpart content or an empty string if the subpart is hidden or the subpart name is missing
+	 *
+	 * @throws InvalidArgumentException if $subpartKey is not valid
+	 * @throws tx_oelib_Exception_NotFound if there is no subpart with the provided name
 	 */
-	public function getSubpart($key = '') {
-		if ($key != '') {
-			if (!$this->isMarkerNameValidWithoutHashes($key)) {
-				throw new InvalidArgumentException('The value of the parameter $key is not valid.', 1331489215);
-			}
-
-			if (!isset($this->subparts[$key])) {
-				throw new tx_oelib_Exception_NotFound(
-					'$key contained the subpart name "' . $key . '", but only ' .
-						'the following subparts are available: (' .
-						implode(', ', array_keys($this->subparts)) . ')'
-				);
-			}
-
-			if (!$this->isSubpartVisible($key)) {
-				return '';
-			}
-
-			$templateCode = $this->subparts[$key];
-		} else {
-			$templateCode = $this->templateCode;
+	public function getSubpart($subpartKey = '') {
+		if ($subpartKey === '') {
+			return $this->render();
+		}
+		if (!$this->isMarkerNameValidWithoutHashes($subpartKey)) {
+			throw new InvalidArgumentException('The value of the parameter $key is not valid.', 1331489215);
+		}
+		if (!isset($this->subparts[$subpartKey])) {
+			throw new tx_oelib_Exception_NotFound(
+				'$key contained the subpart name "' . $subpartKey . '", but only the following subparts are available: (' .
+					implode(', ', array_keys($this->subparts)) . ')'
+			);
+		}
+		if (!$this->isSubpartVisible($subpartKey)) {
+			return '';
 		}
 
-		// recursively replaces subparts with their contents
-		$noSubpartMarkers = preg_replace_callback(
-			self::SUBPART_PATTERN,
-			array(
-				$this,
-				'getSubpartForCallback'
-			),
-			$templateCode
-		);
+		return $this->replaceMarkersAndSubparts($this->subparts[$subpartKey]);
+	}
 
-		// replaces markers with their contents
-		return str_replace(
-			array_keys($this->markers), $this->markers, $noSubpartMarkers
+	/**
+	 * Recursively replaces all subparts and markers in $templateCode.
+	 *
+	 * @param string $templateCode the template, may be empty
+	 *
+	 * @return string the template with all subparts and markers replaced
+	 */
+	protected function replaceMarkersAndSubparts($templateCode) {
+		return $this->replaceMarkers($this->replaceSubparts($templateCode));
+	}
+
+	/**
+	 * Recursively replaces subparts with their contents.
+	 *
+	 * @param string $templateCode the template, may be empty
+	 *
+	 * @return string the template with the subparts replaced
+	 */
+	protected function replaceSubparts($templateCode) {
+		return preg_replace_callback(
+			self::SUBPART_PATTERN,
+			function(array $matches) {
+				return $this->getSubpart($matches[1]);
+			},
+			$templateCode
 		);
 	}
 
 	/**
-	 * Retrieves a subpart.
+	 * Replaces all markers with their contents.
 	 *
-	 * @param array<string> $matches
-	 *        numeric array with matches from preg_replace_callback; the element #1 needs to contain the name of the subpart
-	 *        to retrieve (in uppercase without the surrounding ###)
+	 * @param string $templateCode the template, may be empty
 	 *
-	 * @return string the contents of the corresponding subpart or an
-	 *                empty string in case the subpart does not exist
+	 * @return string the template with the markers replaced
 	 */
-	private function getSubpartForCallback(array $matches) {
-		return $this->getSubpart($matches[1]);
+	protected function replaceMarkers($templateCode) {
+		return str_replace(array_keys($this->markers), $this->markers, $templateCode);
 	}
 
 	/**
