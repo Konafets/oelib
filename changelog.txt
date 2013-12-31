@@ -1,4 +1,4 @@
-0.7.9 - currently working on
+0.7.9 - released 2013-12-31
 - [#4610] Fix: PHP/Apache crash/SIGSEV when running the unit tests on PHP 5.4
 - [#4741] Fix: Exception in deleteDummyFolderWithNonEmptyDummyFolderThrowsException
 - [#4647] Cleanup: Deprecate TemplateHelper::pi_getPidList
