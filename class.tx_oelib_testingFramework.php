@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Mario Rimann (typo3-coding@rimann.org)
+* (c) 2007-2014 Mario Rimann (typo3-coding@rimann.org)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -1057,10 +1057,9 @@ final class Tx_Oelib_TestingFramework {
 			);
 		}
 
-		return mb_substr(
-			$absolutePath,
-			mb_strlen($this->getUploadFolderPath())
-		);
+		$encoding = mb_detect_encoding($this->getUploadFolderPath());
+
+		return mb_substr($absolutePath, mb_strlen($this->getUploadFolderPath(), $encoding), NULL, $encoding);
 	}
 
 	/**

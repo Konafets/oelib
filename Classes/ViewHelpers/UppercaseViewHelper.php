@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2012 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2012-2014 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,6 +37,9 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelper extends Tx_Fluid_Core_ViewHelper_
 	 * @return string the uppercased rendered children, might be empty
 	 */
 	public function render() {
-		return mb_strtoupper($this->renderChildren(), 'UTF-8');
+		$renderedChildren = $this->renderChildren();
+		$encoding = mb_detect_encoding($renderedChildren);
+
+		return mb_strtoupper($renderedChildren, $encoding);
 	}
 }
