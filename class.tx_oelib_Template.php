@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Niels Pardon (mail@niels-pardon.de)
+* (c) 2008-2014 Niels Pardon (mail@niels-pardon.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -658,10 +658,11 @@ class Tx_Oelib_Template {
 	 * @return string the template with the subparts replaced
 	 */
 	protected function replaceSubparts($templateCode) {
+		$template = $this;
 		return preg_replace_callback(
 			self::SUBPART_PATTERN,
-			function(array $matches) {
-				return $this->getSubpart($matches[1]);
+			function(array $matches) use ($template) {
+				return $template->getSubpart($matches[1]);
 			},
 			$templateCode
 		);
