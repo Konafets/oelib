@@ -1056,10 +1056,9 @@ final class tx_oelib_testingFramework {
 			);
 		}
 
-		return mb_substr(
-			$absolutePath,
-			mb_strlen($this->getUploadFolderPath())
-		);
+		$encoding = mb_detect_encoding($this->getUploadFolderPath());
+
+		return mb_substr($absolutePath, mb_strlen($this->getUploadFolderPath(), $encoding), NULL, $encoding);
 	}
 
 	/**
