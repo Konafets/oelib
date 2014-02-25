@@ -753,7 +753,6 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-
 	////////////////////////////////////////
 	// Tests concerning the e-mail address
 	////////////////////////////////////////
