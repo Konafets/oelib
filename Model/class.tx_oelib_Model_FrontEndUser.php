@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2014 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,9 +30,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
-	tx_oelib_Interface_MailRole, tx_oelib_Interface_Address
-{
+class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements tx_oelib_Interface_MailRole, tx_oelib_Interface_Address {
 	/**
 	 * @var integer represents the male gender for this user
 	 */
@@ -187,6 +185,17 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	}
 
 	/**
+	 * Sets the street address.
+	 *
+	 * @param string $street the street address, may be empty
+	 *
+	 * @return void
+	 */
+	public function setStreet($street) {
+		$this->setAsString('address', $street);
+	}
+
+	/**
 	 * Gets this user's ZIP code.
 	 *
 	 * @return string this user's ZIP code, may be empty
@@ -205,6 +214,17 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	}
 
 	/**
+	 * Sets the ZIP code.
+	 *
+	 * @param string $zipCode the ZIP code, may be empty
+	 *
+	 * @return void
+	 */
+	public function setZip($zipCode) {
+		$this->setAsString('zip', $zipCode);
+	}
+
+	/**
 	 * Gets this user's city.
 	 *
 	 * @return string this user's city, may be empty
@@ -220,6 +240,17 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	 */
 	public function hasCity() {
 		return $this->hasString('city');
+	}
+
+	/**
+	 * Sets the city.
+	 *
+	 * @param string $city the city name, may be empty
+	 *
+	 * @return void
+	 */
+	public function setCity($city) {
+		$this->setAsString('city', $city);
 	}
 
 	/**
@@ -252,6 +283,17 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	 */
 	public function hasPhoneNumber() {
 		return $this->hasString('telephone');
+	}
+
+	/**
+	 * Sets the phone number.
+	 *
+	 * @param string $phoneNumber the phone number, may be empty
+	 *
+	 * @return void
+	 */
+	public function setPhoneNumber($phoneNumber) {
+		$this->setAsString('telephone', $phoneNumber);
 	}
 
 	/**
@@ -395,6 +437,26 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 		}
 
 		return $this->getAsInteger('gender');
+	}
+
+	/**
+	 * Sets the gender.
+	 *
+	 * @param integer $genderKey one of the predefined gender constants
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public function setGender($genderKey) {
+		$validGenderKeys = array(self::GENDER_MALE, self::GENDER_FEMALE, self::GENDER_UNKNOWN);
+		if (!in_array($genderKey, $validGenderKeys, TRUE)) {
+			throw new InvalidArgumentException(
+				'$genderKey must be one of the predefined constants, but actually is: ' . $genderKey, 1393329321
+			);
+		}
+
+		$this->setAsInteger('gender', $genderKey);
 	}
 
 	/**
@@ -562,21 +624,20 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	/**
 	 * Returns the country of this user as Tx_Oelib_Model_Country.
 	 *
-	 * Note: This function uses the "country code" field, not the free-text
-	 * country field.
+	 * Note: This function uses the "country code" field, not the free-text country field.
 	 *
-	 * @return Tx_Oelib_Model_Country the country of this user, will be NULL
-	 *                                if no valid country has been set
+	 * @return Tx_Oelib_Model_Country the country of this user, will be NULL if no valid country has been set
 	 */
 	public function getCountry() {
 		$countryCode = $this->getAsString('static_info_country');
-		if ($countryCode == '') {
+		if ($countryCode === '') {
 			return NULL;
 		}
 
 		try {
-			$country = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')
-				->findByIsoAlpha3Code($countryCode);
+			/** @var $countryMapper tx_oelib_Mapper_Country */
+			$countryMapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country');
+			$country = $countryMapper->findByIsoAlpha3Code($countryCode);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$country = NULL;
 		}
@@ -604,7 +665,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
 	 * @return boolean TRUE if this user has a country, FALSE otherwise
 	 */
 	public function hasCountry() {
-		return ($this->getCountry() instanceof Tx_Oelib_Model_Country);
+		return $this->getCountry() !== NULL;
 	}
 
 	/**

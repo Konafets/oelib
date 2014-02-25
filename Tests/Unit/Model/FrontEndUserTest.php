@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2008-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -419,9 +419,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 
 
-	////////////////////////////////////////
-	// Tests concerning getting the street
-	////////////////////////////////////////
+	/*
+	 * Tests concerning getting the street
+	 */
 
 	/**
 	 * @test
@@ -483,10 +483,24 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setStreetSetsStreet() {
+		$street = 'Barber Street 42';
+		$this->subject->setData(array());
+		$this->subject->setStreet($street);
 
-	//////////////////////////////////////////
-	// Tests concerning getting the ZIP code
-	//////////////////////////////////////////
+		$this->assertSame(
+			$street,
+			$this->subject->getStreet()
+		);
+	}
+
+
+	/*
+	 * Tests concerning the ZIP code
+	 */
 
 	/**
 	 * @test
@@ -534,10 +548,24 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function setZipSetsZip() {
+		$zip = '12356';
+		$this->subject->setData(array());
+		$this->subject->setZip($zip);
 
-	//////////////////////////////////////
-	// Tests concerning getting the city
-	//////////////////////////////////////
+		$this->assertSame(
+			$zip,
+			$this->subject->getZip()
+		);
+	}
+
+
+	/*
+	 * Tests concerning the city
+	 */
 
 	/**
 	 * @test
@@ -581,6 +609,20 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'Test city',
+			$this->subject->getCity()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setCitySetsCity() {
+		$city = 'Köln';
+		$this->subject->setData(array());
+		$this->subject->setCity($city);
+
+		$this->assertSame(
+			$city,
 			$this->subject->getCity()
 		);
 	}
@@ -646,9 +688,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////////////
-	// Tests concerning getting the phone
-	//////////////////////////////////////
+	/*
+	 * Tests concerning the phone number
+	 */
 
 	/**
 	 * @test
@@ -695,6 +737,21 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->subject->getPhoneNumber()
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function setPhoneNumberSetsPhoneNumber() {
+		$phoneNumber = '+49 124 1234123';
+		$this->subject->setData(array());
+		$this->subject->setPhoneNumber($phoneNumber);
+
+		$this->assertSame(
+			$phoneNumber,
+			$this->subject->getPhoneNumber()
+		);
+	}
+
 
 
 	////////////////////////////////////////
@@ -986,19 +1043,16 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////
-	// Tests concerning getGender
-	///////////////////////////////
+	/*
+	 * Tests concerning the gender
+	 */
 
 	/**
 	 * @test
 	 */
 	public function getGenderForNotInstalledSrFeUserRegisterReturnsGenderUnknown() {
 		if (t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped(
-					'This test is only applicable if sr_feuser_register is ' .
-						'not loaded.'
-			);
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is not loaded.');
 		}
 
 		$this->assertSame(
@@ -1012,10 +1066,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getGenderForGenderValueZeroReturnsGenderMale() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped(
-					'This test is only applicable if sr_feuser_register is ' .
-						'loaded.'
-			);
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
 		}
 		$this->subject->setData(array('gender' => 0));
 
@@ -1030,10 +1081,7 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getGenderForGenderValueOneReturnsGenderFemale() {
 		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped(
-					'This test is only applicable if sr_feuser_register is ' .
-						'loaded.'
-			);
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
 		}
 		$this->subject->setData(array('gender' => 1));
 
@@ -1041,6 +1089,67 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE,
 			$this->subject->getGender()
 		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setGenderCanSetGenderToMale() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		}
+		$this->subject->setData(array());
+		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_MALE);
+
+		$this->assertSame(
+			Tx_Oelib_Model_FrontEndUser::GENDER_MALE,
+			$this->subject->getGender()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setGenderCanSetGenderToFemale() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		}
+		$this->subject->setData(array());
+		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE);
+
+		$this->assertSame(
+			Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE,
+			$this->subject->getGender()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setGenderCanSetGenderToUnknown() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		}
+		$this->subject->setData(array());
+		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN);
+
+		$this->assertSame(
+			Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN,
+			$this->subject->getGender()
+		);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function setGenderForInvalidGenderKeyThrowsException() {
+		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		}
+		$this->subject->setData(array());
+		$this->subject->setGender(4);
 	}
 
 
