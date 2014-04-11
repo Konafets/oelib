@@ -1,9 +1,9 @@
 0.8.0 - currently working on
-- [#4748] Bugfix: Drop early __destruct calls
+- [#4748] Fix: Drop early __destruct calls
 - [#4650] Change: Deprecate the ObjectFactory
-- [#5000] Bugfix: Test failure in 6.1 due to changed XClass mechanism
-- [#4718] Bugfix: Backport the TestingFramework 6.x compatibility changes from PHPUnit
-- [#4717] Bugfix: 6.x compatibility: Backport the DbService changes from PHPUnit
+- [#5000] Fix: Test failure in 6.1 due to changed XClass mechanism
+- [#4718] Fix: Backport the TestingFramework 6.x compatibility changes from PHPUnit
+- [#4717] Fix: 6.x compatibility: Backport the DbService changes from PHPUnit
 - [#4998] Cleanup: Use type[] instead of array<type>
 - [#4984] Feature: Add more setters to the FE user model
 - [#4906] Fix: Test crash in Tx_Oelib_TemplateHelperTest in PHP 5.3
