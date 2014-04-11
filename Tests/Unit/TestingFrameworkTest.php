@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Mario Rimann (typo3-coding@rimann.org)
+* (c) 2007-2014 Mario Rimann (typo3-coding@rimann.org)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,9 +23,15 @@
 ***************************************************************/
 
 if (!defined('OELIB_TESTTABLE')) {
+	/**
+	 * @var string
+	 */
 	define('OELIB_TESTTABLE', 'tx_oelib_test');
 }
 if (!defined('OELIB_TESTTABLE_MM')) {
+	/**
+	 * @var string
+	 */
 	define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
 }
 
@@ -41,15 +47,17 @@ if (!defined('OELIB_TESTTABLE_MM')) {
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
-	/** @var Tx_Oelib_TestingFramework */
-	private $subject;
+	/**
+	 * @var Tx_Oelib_TestingFramework
+	 */
+	protected $subject;
 
 	/**
 	 * @var string absolute path to a "foreign" file which was created for test
 	 *             purposes and which should be deleted in tearDown(); this is
 	 *             needed for testDeleteDummyFileWithForeignFileThrowsException
 	 */
-	private $foreignFileToDelete = '';
+	protected $foreignFileToDelete = '';
 
 	/**
 	 * @var string absolute path to a "foreign" folder which was created for
@@ -57,21 +65,21 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *             this is needed for
 	 *             testDeleteDummyFolderWithForeignFolderThrowsException
 	 */
-	private $foreignFolderToDelete = '';
+	protected $foreignFolderToDelete = '';
 
 	/**
 	 * backed-up extension configuration of the TYPO3 configuration variables
 	 *
 	 * @var array
 	 */
-	private $extConfBackup = array();
+	protected $extConfBackup = array();
 
 	/**
 	 * backed-up T3_VAR configuration
 	 *
 	 * @var array
 	 */
-	private $t3VarBackup = array();
+	protected $t3VarBackup = array();
 
 	public function setUp() {
 		$this->extConfBackup = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'];
@@ -96,9 +104,20 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Utility functions.
-	// ---------------------------------------------------------------------
+	/*
+	 * Utility functions.
+	 */
+
+	/**
+	 * Checks whether TYPO3 is in version 6.0.0 or higher. If it is lower, the current test will be skipped.
+	 *
+	 * @return void
+	 */
+	protected function checkForTypo3SixOrHigher() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+			$this->markTestSkipped('This test is available in TYPO3 6.0 and above.');
+		}
+	}
 
 	/**
 	 * Returns the sorting value of the relation between the local UID given by
@@ -112,7 +131,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return integer the sorting value of the relation
 	 */
-	private function getSortingOfRelation($uidLocal, $uidForeign) {
+	protected function getSortingOfRelation($uidLocal, $uidForeign) {
 		$row = Tx_Oelib_Db::selectSingle(
 			'sorting',
 			OELIB_TESTTABLE_MM,
@@ -128,12 +147,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return void
 	 */
-	private function checkIfExtensionUserOelibtestIsLoaded() {
+	protected function checkIfExtensionUserOelibtestIsLoaded() {
 		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
-			$this->fail(
-				'Extension user_oelibtest is not installed but needs to be ' .
-					'installed! Please install it from EXT:oelib/tests/' .
-					'subjects/user_oelibtest.t3x.'
+			$this->markTestSkipped(
+				'The extension user_oelibtest is not installed, but needs to be installed. Please install it.'
 			);
 		}
 	}
@@ -144,12 +161,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return void
 	 */
-	private function checkIfExtensionUserOelibtest2IsLoaded() {
+	protected function checkIfExtensionUserOelibtest2IsLoaded() {
 		if (!t3lib_extMgm::isLoaded('user_oelibtest')) {
-			$this->fail(
-				'Extension user_oelibtest2 is not installed but needs to be ' .
-					'installed! Please install it from EXT:oelib/tests/' .
-					'subjects/user_oelibtest2.t3x.'
+			$this->markTestSkipped(
+				'The extension user_oelibtest2 is not installed, but needs to be installed. Please install it.'
 			);
 		}
 	}
@@ -159,7 +174,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return void
 	 */
-	private function deleteForeignFile() {
+	protected function deleteForeignFile() {
 		if ($this->foreignFileToDelete == '') {
 			return;
 		}
@@ -173,7 +188,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return void
 	 */
-	private function deleteForeignFolder() {
+	protected function deleteForeignFolder() {
 		if ($this->foreignFolderToDelete == '') {
 			return;
 		}
@@ -188,7 +203,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 * @return void
 	 */
-	private function markAsSkippedForNoZipArchive() {
+	protected function markAsSkippedForNoZipArchive() {
 		try {
 			$this->subject->checkForZipArchive();
 		} catch (Exception $exception) {
@@ -222,7 +237,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function markTableAsDirtyWillCleanUpANonSystemTable() {
+	public function markTableAsDirtyWillCleanUpNonSystemTable() {
 		$uid = Tx_Oelib_Db::insert(
 			OELIB_TESTTABLE, array('is_dummy_record' => 1)
 		);
@@ -238,7 +253,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function markTableAsDirtyWillCleanUpASystemTable() {
+	public function markTableAsDirtyWillCleanUpSystemTable() {
 		$uid = Tx_Oelib_Db::insert (
 			'pages', array('tx_oelib_is_dummy_record' => 1)
 		);
@@ -328,9 +343,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createRecord()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createRecord()
+	 */
 
 	/**
 	 * @test
@@ -421,9 +436,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding changeRecord()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding changeRecord()
+	 */
 
 	/**
 	 * @test
@@ -628,9 +643,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding deleteRecord()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding deleteRecord()
+	 */
 
 	/**
 	 * @test
@@ -752,9 +767,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createRelation()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createRelation()
+	 */
 
 	/**
 	 * @test
@@ -912,9 +927,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createRelationFromTca()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createRelationFromTca()
+	 */
 
 	/**
 	 * @test
@@ -1074,9 +1089,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding removeRelation()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding removeRelation()
+	 */
 
 	/**
 	 * @test
@@ -1195,7 +1210,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function removeRelationOnRealRecordNotRemovesRelation() {
 		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);;
+		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
 
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
@@ -1240,9 +1255,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding cleanUp()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding cleanUp()
+	 */
 
 	/**
 	 * @test
@@ -1380,11 +1395,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createListOfAllowedTables()
-	//
-	// The method is called in the constructor of the subject.
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createListOfAllowedTables()
+	 *
+	 * The method is called in the constructor of the subject.
+	 */
 
 	/**
 	 * @test
@@ -1409,11 +1424,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createListOfAdditionalAllowedTables()
-	//
-	// (That method is called in the constructor of the subject.)
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createListOfAdditionalAllowedTables()
+	 *
+	 * (That method is called in the constructor of the subject.)
+	 */
 
 	/**
 	 * @test
@@ -1462,9 +1477,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding getAutoIncrement()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding getAutoIncrement()
+	 */
 
 	/**
 	 * @test
@@ -1575,9 +1590,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding countRecords()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding countRecords()
+	 */
 
 	/**
 	 * @test
@@ -1751,9 +1766,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding existsRecord()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding existsRecord()
+	 */
 
 	/**
 	 * @test
@@ -1858,9 +1873,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding existsRecordWithUid()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding existsRecordWithUid()
+	 */
 
 	/**
 	 * @test
@@ -1928,7 +1943,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function existsRecordWithUidForAMatchReturnsTrue() {
+	public function existsRecordWithUidForMatchReturnsTrue() {
 		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
 
 		$this->assertTrue(
@@ -1961,9 +1976,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding existsExactlyOneRecord()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding existsExactlyOneRecord()
+	 */
 
 	/**
 	 * @test
@@ -2072,9 +2087,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding resetAutoIncrement()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding resetAutoIncrement()
+	 */
 
 	/**
 	 * @test
@@ -2186,10 +2201,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding resetAutoIncrementLazily() and
-	// setResetAutoIncrementThreshold
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding resetAutoIncrementLazily() and
+	 * setResetAutoIncrementThreshold
+	 */
 
 	/**
 	 * @test
@@ -2365,9 +2380,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createFrontEndPage()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createFrontEndPage()
+	 */
 
 	/**
 	 * @test
@@ -2603,9 +2618,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createSystemFolder()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createSystemFolder()
+	 */
 
 	/**
 	 * @test
@@ -2841,9 +2856,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createContentElement()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createContentElement()
+	 */
 
 	/**
 	 * @test
@@ -3073,9 +3088,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createTemplate()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createTemplate()
+	 */
 
 	/**
 	 * @test
@@ -3287,7 +3302,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function templateMustNotHaveAZeroPid() {
+	public function templateMustNotHaveZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -3298,7 +3313,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function templateMustNotHaveANonZeroPid() {
+	public function templateMustNotHaveNonZeroPid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "pid" must not be set in $recordData.'
@@ -3320,7 +3335,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function templateMustNotHaveANonZeroUid() {
+	public function templateMustNotHaveNonZeroUid() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'The column "uid" must not be set in $recordData.'
@@ -3329,9 +3344,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createDummyFile()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createDummyFile()
+	 */
 
 	/**
 	 * @test
@@ -3385,9 +3400,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createDummyZipArchive()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createDummyZipArchive()
+	 */
 
 	/**
 	 * @test
@@ -3548,9 +3563,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding deleteDummyFile()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding deleteDummyFile()
+	 */
 
 	/**
 	 * @test
@@ -3605,9 +3620,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createDummyFolder()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createDummyFolder()
+	 */
 
 	/**
 	 * @test
@@ -3652,9 +3667,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding deleteDummyFolder()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding deleteDummyFolder()
+	 */
 
 	/**
 	 * @test
@@ -3773,9 +3788,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding set- and getUploadFolderPath()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding set- and getUploadFolderPath()
+	 */
 
 	/**
 	 * @test
@@ -3802,7 +3817,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function setUploadFolderPathAfterCreatingADummyFileThrowsException() {
+	public function setUploadFolderPathAfterCreatingDummyFileThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
 			'The upload folder path must not be changed if there are already dummy files or folders.'
@@ -3813,9 +3828,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding getPathRelativeToUploadDirectory()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding getPathRelativeToUploadDirectory()
+	 */
 
 	/**
 	 * @test
@@ -3830,9 +3845,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding getUniqueFileOrFolderPath()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding getUniqueFileOrFolderPath()
+	 */
 
 	/**
 	 * @test
@@ -3847,9 +3862,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createFrontEndUserGroup()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createFrontEndUserGroup()
+	 */
 
 	/**
 	 * @test
@@ -3930,7 +3945,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function frontEndUserGroupCanHaveATitle() {
+	public function frontEndUserGroupCanHaveTitle() {
 		$uid = $this->subject->createFrontEndUserGroup(
 			array('title' => 'Test title')
 		);
@@ -3972,9 +3987,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createFrontEndUser()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createFrontEndUser()
+	 */
 
 	/**
 	 * @test
@@ -4055,7 +4070,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function frontEndUserCanHaveAUserName() {
+	public function frontEndUserCanHaveUserName() {
 		$uid = $this->subject->createFrontEndUser(
 			'',
 			array('username' => 'Test name')
@@ -4205,9 +4220,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding createBackEndUser()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding createBackEndUser()
+	 */
 
 	/**
 	 * @test
@@ -4313,9 +4328,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests concerning fakeFrontend
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests concerning fakeFrontend
+	 */
 
 	/**
 	 * @test
@@ -4511,7 +4526,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function discardFakeFrontEndCanBeCalledTwoTimesInARow() {
+	public function discardFakeFrontEndCanBeCalledTwoTimes() {
 		$this->subject->discardFakeFrontEnd();
 		$this->subject->discardFakeFrontEnd();
 	}
@@ -4600,7 +4615,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	// Note: In the unit tests, the src attribute of the generated image tag
 	// will be empty because the IMAGE handles does not accept absolute paths
 	// and handles relative paths and EXT: paths inconsistently:
-	//
+
 	// It correctly resolves paths which are relative to the TYPO3 document
 	// root, but then calls t3lib_stdGraphic::getImageDimensions (which is
 	// inherited by tslib_gifBuilder) which again uses the relative path. So
@@ -4611,7 +4626,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function fakeFrontEndCObjImageCreatesImageTagForExistingImageFile() {
+	public function fakeFrontEndCobjImageCreatesImageTagForExistingImageFile() {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertContains(
@@ -4623,9 +4638,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding user login and logout
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding user login and logout
+	 */
 
 	/**
 	 * @test
@@ -4898,7 +4913,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function logoutFrontEndUserCanBeCalledTwoTimesInARow() {
+	public function logoutFrontEndUserCanBeCalledTwoTimes() {
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->logoutFrontEndUser();
@@ -4984,7 +4999,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateAFrontEndUserGroup() {
+	public function createAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateFrontEndUserGroup() {
 		$this->subject->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->subject->createFrontEndUserGroup();
 		$this->subject->createAndLogInFrontEndUser(
@@ -5011,9 +5026,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	// ---------------------------------------------------------------------
-	// Tests regarding increaseRelationCounter()
-	// ---------------------------------------------------------------------
+	/*
+	 * Tests regarding increaseRelationCounter()
+	 */
 
 	/**
 	 * @test
@@ -5118,6 +5133,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDummyColumnNameForThirdPartyExtensionTableReturnsPrefixedColumnName() {
+		$this->checkIfExtensionUserOelibtestIsLoaded();
+
 		$testingFramework = new Tx_Oelib_TestingFramework(
 			'user_oelibtest', array('user_oelibtest2')
 		);
@@ -5128,9 +5145,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////////
-	// Tests concerning createBackEndUserGroup
-	////////////////////////////////////////////
+	/*
+	 * Tests concerning createBackEndUserGroup
+	 */
 
 	/**
 	 * @test

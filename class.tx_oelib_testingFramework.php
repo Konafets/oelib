@@ -38,31 +38,31 @@ final class Tx_Oelib_TestingFramework {
 	 * @var string prefix of the extension for which this instance of the
 	 *             testing framework was instantiated (e.g. "tx_seminars")
 	 */
-	private $tablePrefix = '';
+	protected $tablePrefix = '';
 
 	/**
 	 * @var array prefixes of additional extensions to which this instance
 	 *            of the testing framework has access (e.g. "tx_seminars")
 	 */
-	private $additionalTablePrefixes = array();
+	protected $additionalTablePrefixes = array();
 
 	/**
 	 * @var array all own DB table names to which this instance of the
 	 *            testing framework has access
 	 */
-	private $ownAllowedTables = array();
+	protected $ownAllowedTables = array();
 
 	/**
 	 * @var array all additional DB table names to which this instance of
 	 *            the testing framework has access
 	 */
-	private $additionalAllowedTables = array();
+	protected $additionalAllowedTables = array();
 
 	/**
-	 * @var array all sytem table names to which this instance of the
+	 * @var array all system table names to which this instance of the
 	 *            testing framework has access
 	 */
-	private $allowedSystemTables = array(
+	protected $allowedSystemTables = array(
 		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
 		'tt_content', 'be_groups'
 	);
@@ -71,68 +71,68 @@ final class Tx_Oelib_TestingFramework {
 	 * @var array all "dirty" non-system tables (i.e. all tables that were
 	 * used for testing and need to be cleaned up)
 	 */
-	private $dirtyTables = array();
+	protected $dirtyTables = array();
 
 	/**
 	 * @var array all "dirty" system tables (i.e. all tables that were
 	 *            used for testing and need to be cleaned up)
 	 */
-	private $dirtySystemTables = array();
+	protected $dirtySystemTables = array();
 
 	/**
 	 * @var array sorting values of all relation tables
 	 */
-	private $relationSorting = array();
+	protected $relationSorting = array();
 
 	/**
 	 * @var integer the number of unusable UIDs after the maximum UID in a
 	 * table before the auto increment value will be reset by
 	 * resetAutoIncrementLazily
 	 */
-	private $resetAutoIncrementThreshold = 100;
+	protected $resetAutoIncrementThreshold = 100;
 
 	/**
 	 * @var array the names of the created dummy files relative to the upload
 	 *            folder of the extension to test
 	 */
-	private $dummyFiles = array();
+	protected $dummyFiles = array();
 
 	/**
 	 * @var array the names of the created dummy folders relative to the
 	 *            upload folder of the extension to test
 	 */
-	private $dummyFolders = array();
+	protected $dummyFolders = array();
 
 	/**
 	 * @var string the absolute path to the upload folder of the extension
 	 * to test
 	 */
-	private $uploadFolderPath = '';
+	protected $uploadFolderPath = '';
 
 	/**
 	 * @var t3lib_basicFileFunctions an instance of t3lib_basicFileFunctions
 	 *                               for retrieving a unique file name
 	 */
-	private static $fileNameProcessor = NULL;
+	protected static $fileNameProcessor = NULL;
 
 	/**
 	 * @var boolean whether a fake front end has been created
 	 */
-	private $hasFakeFrontEnd = FALSE;
+	protected $hasFakeFrontEnd = FALSE;
 
 	/**
 	 * hook objects for this class
 	 *
 	 * @var array
 	 */
-	static private $hooks = array();
+	protected static $hooks = array();
 
 	/**
 	 * whether the hooks in self::hooks have been retrieved
 	 *
 	 * @var boolean
 	 */
-	static private $hooksHaveBeenRetrieved = FALSE;
+	protected static $hooksHaveBeenRetrieved = FALSE;
 
 	/**
 	 * The constructor for this class.
@@ -180,6 +180,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new record, may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new record, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createRecord($table, array $recordData = array()) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -212,7 +214,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return integer the UID of the new record, will be > 0
 	 */
-	private function createRecordWithoutTableNameChecks(
+	protected function createRecordWithoutTableNameChecks(
 		$table, array $recordData
 	) {
 		$dummyColumnName = $this->getDummyColumnName($table);
@@ -279,8 +281,10 @@ final class Tx_Oelib_TestingFramework {
 	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
 	 * @return integer the UID of the new record, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
-	private function createGeneralPageRecord(
+	protected function createGeneralPageRecord(
 		$documentType, $parentId, array $recordData
 	) {
 		if (isset($recordData['uid'])) {
@@ -317,6 +321,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
 	 * @return integer the UID of the new content element, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createContentElement(
 		$pageId = 0, array $recordData = array()
@@ -350,6 +356,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
 	 * @return integer the UID of the new template, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createTemplate(
 		$pageId, array $recordData = array()
@@ -380,6 +388,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        may be empty, but must not contain the key "uid"
 	 *
 	 * @return integer the UID of the new user group, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createFrontEndUserGroup(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
@@ -402,6 +412,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        may be empty, but must not contain the keys "uid" or "usergroup"
 	 *
 	 * @return integer the UID of the new FE user, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createFrontEndUser(
 		$frontEndUserGroups = '', array $recordData = array()
@@ -510,6 +522,9 @@ final class Tx_Oelib_TestingFramework {
 	 *        must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws BadMethodCallException
 	 */
 	public function changeRecord($table, $uid, $recordData) {
 		$dummyColumnName = $this->getDummyColumnName($table);
@@ -557,6 +572,8 @@ final class Tx_Oelib_TestingFramework {
 	 * @param integer $uid UID of the record to delete, must be > 0
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function deleteRecord($table, $uid) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -582,6 +599,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        a value >= 0 overwrites the automatic sorting
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createRelation($table, $uidLocal, $uidForeign, $sorting = 0) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -625,6 +644,9 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $columnName name of the column in which the relation counter should be updated, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws BadMethodCallException
 	 */
 	public function createRelationAndUpdateCounter(
 		$tableName, $uidLocal, $uidForeign, $columnName
@@ -685,6 +707,8 @@ final class Tx_Oelib_TestingFramework {
 	 * @param integer $uidForeign UID on the foreign table, must be > 0
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function removeRelation($table, $uidLocal, $uidForeign) {
 		if (!$this->isNoneSystemTableNameAllowed($table)) {
@@ -743,7 +767,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
+	protected function cleanUpTableSet($useSystemTables, $performDeepCleanUp) {
 		if ($useSystemTables) {
 			$tablesToCleanUp = ($performDeepCleanUp)
 				? $this->allowedSystemTables
@@ -778,7 +802,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function deleteAllDummyFoldersAndFiles() {
+	protected function deleteAllDummyFoldersAndFiles() {
 		// If the upload folder was created by the testing framework, it can be
 		// removed at once.
 		if (isset($this->dummyFolders['uploadFolder'])) {
@@ -796,9 +820,9 @@ final class Tx_Oelib_TestingFramework {
 	}
 
 
-	// ----------------------------------------------------------------------
-	// File creation and deletion
-	// ----------------------------------------------------------------------
+	/*
+	 * File creation and deletion
+	 */
 
 	/**
 	 * Creates an empty dummy file with a unique file name in the calling
@@ -809,8 +833,9 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $content
 	 *        content for the file to create, may be empty
 	 *
-	 * @return string the absolute path of the created dummy file, will
-	 *                not be empty
+	 * @return string the absolute path of the created dummy file, will not be empty
+	 *
+	 * @throws RuntimeException
 	 */
 	public function createDummyFile($fileName = 'test.txt', $content = '') {
 		$this->createDummyUploadFolder();
@@ -841,6 +866,9 @@ final class Tx_Oelib_TestingFramework {
 	 *        to the archive then.
 	 *
 	 * @return string the absolute path of the created dummy ZIP archive, will not be empty
+	 *
+	 * @throws RuntimeException
+	 * @throws UnexpectedValueException
 	 */
 	public function createDummyZipArchive(
 		$fileName = 'test.zip', array $filesToAddToArchive = array()
@@ -849,7 +877,7 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->createDummyUploadFolder();
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
-		$zip = t3lib_div::makeInstance('ZipArchive');
+		$zip = new ZipArchive();
 
 		if ($zip->open($uniqueFileName, ZipArchive::CREATE) !== TRUE) {
 			throw new RuntimeException('The new ZIP archive "' . $fileName . '" could not be created.', 1331490501);
@@ -868,7 +896,7 @@ final class Tx_Oelib_TestingFramework {
 			$zip->addFile(
 				$pathToFile, $this->getPathRelativeToUploadDirectory($pathToFile)
 			);
-        }
+		}
 
 		$zip->close();
 		$this->addToDummyFileList($uniqueFileName);
@@ -883,7 +911,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function addToDummyFileList($uniqueFileName) {
+	protected function addToDummyFileList($uniqueFileName) {
 		$relativeFileName = $this->getPathRelativeToUploadDirectory(
 			$uniqueFileName
 		);
@@ -896,7 +924,8 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $fileName the path to the file to delete relative to $this->uploadFolderPath, must not be empty
 	 *
-	 * @return void
+	 * @throws RuntimeException
+	 * @throws InvalidArgumentException
 	 */
 	public function deleteDummyFile($fileName) {
 		$absolutePathToFile = $this->uploadFolderPath . $fileName;
@@ -924,8 +953,9 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $folderName name of the dummy folder to create relative to $this->uploadFolderPath, must not be empty
 	 *
-	 * @return string the absolute path of the created dummy folder, will
-	 *                not be empty
+	 * @return string the absolute path of the created dummy folder, will not be empty
+	 *
+	 * @throws RuntimeException
 	 */
 	public function createDummyFolder($folderName) {
 		$this->createDummyUploadFolder();
@@ -942,9 +972,7 @@ final class Tx_Oelib_TestingFramework {
 		// Adds the created dummy folder to the top of $this->dummyFolders so
 		// it gets deleted before previously created folders through
 		// $this->cleanUpFolders(). This is needed for nested dummy folders.
-		$this->dummyFolders = array(
-				$relativeUniqueFolderName => $relativeUniqueFolderName,
-			) + $this->dummyFolders;
+		$this->dummyFolders = array($relativeUniqueFolderName => $relativeUniqueFolderName) + $this->dummyFolders;
 
 		return $uniqueFolderName;
 	}
@@ -955,7 +983,8 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $folderName the path to the folder to delete relative to $this->uploadFolderPath, must not be empty
 	 *
-	 * @return void
+	 * @throws RuntimeException
+	 * @throws InvalidArgumentException
 	 */
 	public function deleteDummyFolder($folderName) {
 		$absolutePathToFolder = $this->uploadFolderPath . $folderName;
@@ -985,8 +1014,10 @@ final class Tx_Oelib_TestingFramework {
 	 * Creates the upload folder if it does not exist yet.
 	 *
 	 * @return void
+	 *
+	 * @throws RuntimeException
 	 */
-	private function createDummyUploadFolder() {
+	protected function createDummyUploadFolder() {
 		if (is_dir($this->getUploadFolderPath())) {
 			return;
 		}
@@ -1004,16 +1035,16 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Sets the upload folder path.
 	 *
-	 * @throws BadMethodCallException
-	 *         if there are dummy files within the current upload folder as these files could not be deleted if the
-	 *         upload folder path has changed
-	 *
 	 * @param string $absolutePath
 	 *        absolute path to the folder where to work on during the tests,can be either an existing folder which will be
 	 *        cleaned up after the tests or a path of a folder to be created as soon as it is needed and deleted during cleanUp,
 	 *        must end with a trailing slash
 	 *
 	 * @return void
+	 *
+	 * @throws BadMethodCallException
+	 *         if there are dummy files within the current upload folder as these files could not be deleted if the
+	 *         upload folder path has changed
 	 */
 	public function setUploadFolderPath($absolutePath) {
 		if (!empty($this->dummyFiles) || !empty($this->dummyFolders)) {
@@ -1046,6 +1077,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        the absolute path to process, must be within the calling extension's upload directory, must not be empty
 	 *
 	 * @return string the path relative to the calling extension's upload directory
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function getPathRelativeToUploadDirectory($absolutePath) {
 		if (!preg_match(
@@ -1063,11 +1096,13 @@ final class Tx_Oelib_TestingFramework {
 	}
 
 	/**
-	 * Returns a unique absolut path of a file or folder.
+	 * Returns a unique absolute path of a file or folder.
 	 *
 	 * @param string $path the path of a file or folder relative to the calling extension's upload directory, must not be empty
 	 *
-	 * @return string the unique absolut path of a file or folder
+	 * @return string the unique absolute path of a file or folder
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function getUniqueFileOrFolderPath($path) {
 		if (empty($path)) {
@@ -1087,9 +1122,9 @@ final class Tx_Oelib_TestingFramework {
 	}
 
 
-	// ----------------------------------------------------------------------
-	// Functions concerning a fake front end
-	// ----------------------------------------------------------------------
+	/*
+	 * Functions concerning a fake front end
+	 */
 
 	/**
 	 * Fakes a TYPO3 front end, using $pageUid as front-end page ID if provided.
@@ -1107,6 +1142,8 @@ final class Tx_Oelib_TestingFramework {
 	 * @param integer $pageUid UID of a page record to use, must be >= 0
 	 *
 	 * @return integer the UID of the used front-end page, will be > 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function createFakeFrontEnd($pageUid = 0) {
 		if ($pageUid < 0) {
@@ -1118,7 +1155,8 @@ final class Tx_Oelib_TestingFramework {
 
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
 
-		$frontEnd = Tx_Oelib_ObjectFactory::make(
+		/** @var $frontEnd tslib_fe */
+		$frontEnd = t3lib_div::makeInstance(
 			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
 		);
 
@@ -1203,16 +1241,16 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function suppressFrontEndCookies() {
-		$_POST['FE_SESSION_KEY'] = '';
-		$_GET['FE_SESSION_KEY'] = '';
+	protected function suppressFrontEndCookies() {
+		$GLOBALS['_POST']['FE_SESSION_KEY'] = '';
+		$GLOBALS['_GET']['FE_SESSION_KEY'] = '';
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
 	}
 
 
-	// ----------------------------------------------------------------------
-	// FE user activities
-	// ----------------------------------------------------------------------
+	/*
+	 * FE user activities
+	 */
 
 	/**
 	 * Fakes that a front-end user has logged in.
@@ -1223,11 +1261,12 @@ final class Tx_Oelib_TestingFramework {
 	 * Note: To set the logged-in users group data properly, the front-end user
 	 *       and his groups must actually exist in the database.
 	 *
-	 * @throws BadMethodCallException if no front end has been created
-	 *
 	 * @param integer $userId UID of the FE user, must not necessarily exist in the database, must be > 0
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws BadMethodCallException if no front end has been created
 	 */
 	public function loginFrontEndUser($userId) {
 		if (intval($userId) <= 0) {
@@ -1266,9 +1305,9 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * If no front-end user is logged in, this function does nothing.
 	 *
-	 * @throws BadMethodCallException if no front end has been created
-	 *
 	 * @return void
+	 *
+	 * @throws BadMethodCallException if no front end has been created
 	 */
 	public function logoutFrontEndUser() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1292,6 +1331,8 @@ final class Tx_Oelib_TestingFramework {
 	 * @throws BadMethodCallException if no front end has been created
 	 *
 	 * @return boolean TRUE if a FE user is logged in, FALSE otherwise
+	 *
+	 * @throws BadMethodCallException
 	 */
 	public function isLoggedIn() {
 		if (!$this->hasFakeFrontEnd()) {
@@ -1319,7 +1360,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function createListOfOwnAllowedTables() {
+	protected function createListOfOwnAllowedTables() {
 		$this->ownAllowedTables = array();
 		$allTables = Tx_Oelib_Db::getAllTableNames();
 		$length = strlen($this->tablePrefix);
@@ -1347,7 +1388,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return void
 	 */
-	private function createListOfAdditionalAllowedTables() {
+	protected function createListOfAdditionalAllowedTables() {
 		$allTables = implode(',', Tx_Oelib_Db::getAllTableNames());
 		$additionalTablePrefixes = implode('|', $this->additionalTablePrefixes);
 
@@ -1373,7 +1414,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed tables, FALSE otherwise
 	 */
-	private function isOwnTableNameAllowed($table) {
+	protected function isOwnTableNameAllowed($table) {
 		return in_array($table, $this->ownAllowedTables);
 	}
 
@@ -1386,7 +1427,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 additional allowed tables, FALSE otherwise
 	 */
-	private function isAdditionalTableNameAllowed($table) {
+	protected function isAdditionalTableNameAllowed($table) {
 		return in_array($table, $this->additionalAllowedTables);
 	}
 
@@ -1399,7 +1440,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @return boolean TRUE if the name of the table is in the list of
 	 *                 allowed system tables, FALSE otherwise
 	 */
-	private function isSystemTableNameAllowed($table) {
+	protected function isSystemTableNameAllowed($table) {
 		return in_array($table, $this->allowedSystemTables);
 	}
 
@@ -1413,7 +1454,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 allowed tables or additional allowed tables, FALSE
 	 *                 otherwise
 	 */
-	private function isNoneSystemTableNameAllowed($table) {
+	protected function isNoneSystemTableNameAllowed($table) {
 		return $this->isOwnTableNameAllowed($table)
 			|| $this->isAdditionalTableNameAllowed($table);
 	}
@@ -1428,7 +1469,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 allowed tables, additional allowed tables or allowed
 	 *                 system tables, FALSE otherwise
 	 */
-	private function isTableNameAllowed($table) {
+	protected function isTableNameAllowed($table) {
 		return $this->isNoneSystemTableNameAllowed($table)
 			|| $this->isSystemTableNameAllowed($table);
 	}
@@ -1467,6 +1508,8 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
 	 * @return integer the number of records that have been found, will be >= 0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function countRecords($table, $whereClause = '') {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1535,9 +1578,12 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
-	 * @see resetAutoIncrementLazily
-	 *
 	 * @return void
+	 *
+	 * @throws tx_oelib_Exception_Database
+	 * @throws InvalidArgumentException
+	 *
+	 * @see resetAutoIncrementLazily
 	 */
 	public function resetAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1574,14 +1620,14 @@ final class Tx_Oelib_TestingFramework {
 	 * UID + 1 if the current auto increment value is higher than a certain
 	 * threshold over the current maximum UID.
 	 *
-	 * The threshhold is 100 by default and can be set using
+	 * The threshold is 100 by default and can be set using
 	 * setResetAutoIncrementThreshold.
 	 *
 	 * @param string $table the name of the table on which we're going to reset the auto increment entry, must not be empty
 	 *
-	 * @see resetAutoIncrement
-	 *
 	 * @return void
+	 *
+	 * @see resetAutoIncrement
 	 */
 	public function resetAutoIncrementLazily($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1612,9 +1658,11 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param integer $threshold threshold, must be > 0
 	 *
-	 * @see resetAutoIncrementLazily
-	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 *
+	 * @see resetAutoIncrementLazily
 	 */
 	public function setResetAutoIncrementThreshold($threshold) {
 		if ($threshold <= 0) {
@@ -1635,7 +1683,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return integer the highest UID from this table, will be >= 0
 	 */
-	private function getMaximumUidFromTable($table) {
+	protected function getMaximumUidFromTable($table) {
 		$row = Tx_Oelib_Db::selectSingle(
 			'MAX(uid) AS uid', $table
 		);
@@ -1651,8 +1699,10 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table for which the auto increment value should be retrieved, must not be empty
 	 *
-	 * @return integer the current auto_increment value of table $table,
-	 *                 will be > 0
+	 * @return integer the current auto_increment value of table $table, will be > 0
+	 *
+	 * @throws tx_oelib_Exception_Database
+	 * @throws InvalidArgumentException
 	 */
 	public function getAutoIncrement($table) {
 		if (!$this->isTableNameAllowed($table)) {
@@ -1705,6 +1755,8 @@ final class Tx_Oelib_TestingFramework {
 	 *        the table name or a comma-separated list of table names to put on the list of dirty tables, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function markTableAsDirty($tableNames) {
 		foreach (t3lib_div::trimExplode(',', $tableNames) as $currentTable) {
@@ -1746,7 +1798,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Returns the next sorting value of the relation table which should be used.
 	 *
-	 * TODO: This function doesn't take already existing relations in the
+	 * Note: This function does not take already existing relations in the
 	 * database - which were created without using the testing framework - into
 	 * account. So you always should create new dummy records and create a
 	 * relation between these two dummy records, so you're sure there aren't
@@ -1795,6 +1847,10 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $fieldName the field name of the field to modify, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws tx_oelib_Exception_Database
+	 * @throws InvalidArgumentException
+	 * @throws BadMethodCallException
 	 */
 	public function increaseRelationCounter($tableName, $uid, $fieldName) {
 		if (!$this->isTableNameAllowed($tableName)) {
@@ -1832,9 +1888,9 @@ final class Tx_Oelib_TestingFramework {
 	 * Note: This function can be used to mark tests as skipped if this class is
 	 *       not available but required for a test to pass succesfully.
 	 *
-	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
-	 *
 	 * @return void
+	 *
+	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
 	 */
 	public function checkForZipArchive() {
 		if (!in_array('zip', get_loaded_extensions())) {
@@ -1847,10 +1903,9 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return array the hook objects, will be empty if no hooks have been set
 	 */
-	private function getHooks() {
+	protected function getHooks() {
 		if (!self::$hooksHaveBeenRetrieved) {
-			$hookClasses = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']
-				['oelib']['testingFrameworkCleanUp'];
+			$hookClasses = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['oelib']['testingFrameworkCleanUp'];
 			if (is_array($hookClasses)) {
 				foreach ($hookClasses as $hookClass) {
 					self::$hooks[] = t3lib_div::getUserObj($hookClass);
