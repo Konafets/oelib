@@ -25,12 +25,12 @@
 /**
  * This helper class can create class instances with and without parameters.
  *
+ * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
+ *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
- *
- * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
  */
 class Tx_Oelib_ObjectFactory {
 	/**
