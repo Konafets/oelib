@@ -343,7 +343,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 			throw new InvalidArgumentException('$length must be >= 0.');
 		}
 
-		$result = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$result = t3lib_div::makeInstance('Tx_Oelib_List');
 
 		$lastPosition = $start + $length - 1;
 		$currentIndex = 0;

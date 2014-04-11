@@ -130,11 +130,11 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements tx_oelib_Inte
 	 *                       empty if this user has no groups
 	 */
 	public function getAllGroups() {
-		$result = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$result = t3lib_div::makeInstance('Tx_Oelib_List');
 		$groupsToProcess = $this->getGroups();
 
 		do {
-			$groupsForNextStep = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+			$groupsForNextStep = t3lib_div::makeInstance('Tx_Oelib_List');
 			$result->append($groupsToProcess);
 			foreach ($groupsToProcess as $group) {
 				$subgroups = $group->getSubgroups();

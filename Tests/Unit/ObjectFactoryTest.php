@@ -72,6 +72,11 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function makeInstantiatesSubclassIfXclassIsAvailable() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+			$this->markTestSkipped('This test is skipped because the XCLASS handling has been changed in TYPO3 CMS 6.0');
+		}
+
+
 		$object = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
 
 		$this->assertSame(

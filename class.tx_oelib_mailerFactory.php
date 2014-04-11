@@ -91,7 +91,7 @@ class Tx_Oelib_MailerFactory {
 		if (!is_object($this->mailer)
 			|| (get_class($this->mailer) != $className)
 		) {
-			$this->mailer = Tx_Oelib_ObjectFactory::make($className);
+			$this->mailer = t3lib_div::makeInstance($className);
 		}
 
 		return $this->mailer;

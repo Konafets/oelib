@@ -182,7 +182,7 @@ class Tx_Oelib_MapperRegistry {
 				$this->mappers[$unifiedClassName] = new $testingClassName();
 				$this->mappers[$unifiedClassName]->setTestingFramework($this->testingFramework);
 			} else {
-				$this->mappers[$unifiedClassName] = Tx_Oelib_ObjectFactory::make($unifiedClassName);
+				$this->mappers[$unifiedClassName] = t3lib_div::makeInstance($unifiedClassName);
 			}
 		}
 

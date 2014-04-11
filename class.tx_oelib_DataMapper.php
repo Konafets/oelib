@@ -114,7 +114,7 @@ abstract class Tx_Oelib_DataMapper {
 			throw new InvalidArgumentException(get_class($this) . '::modelClassName must not be empty.', 1331319378);
 		}
 
-		$this->map = Tx_Oelib_ObjectFactory::make('Tx_Oelib_IdentityMap');
+		$this->map = t3lib_div::makeInstance('Tx_Oelib_IdentityMap');
 
 		foreach ($this->additionalKeys as $key) {
 			$this->cacheByKey[$key] = array();
@@ -203,7 +203,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @see getModel()
 	 */
 	public function getListOfModels(array $dataOfModels) {
-		$list = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 
 		foreach ($dataOfModels as $modelRecord) {
 			$list->add($this->getModel($modelRecord));
@@ -474,7 +474,7 @@ abstract class Tx_Oelib_DataMapper {
 	private function createCommaSeparatedRelation(
 		array &$data, $key, Tx_Oelib_Model $model
 	) {
-		$list = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
 		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
@@ -515,7 +515,7 @@ abstract class Tx_Oelib_DataMapper {
 	private function createMToNRelation(
 		array &$data, $key, Tx_Oelib_Model $model
 	) {
-		$list = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
 		if ($data[$key] > 0) {
@@ -612,7 +612,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return Tx_Oelib_Model a ghost model with the UID $uid
 	 */
 	protected function createGhost($uid) {
-		$model = Tx_Oelib_ObjectFactory::make($this->modelClassName);
+		$model = t3lib_div::makeInstance($this->modelClassName);
 		$model->setUid($uid);
 		$model->setLoadCallback(array($this, 'load'));
 		$this->map->add($model);

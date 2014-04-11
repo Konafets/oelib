@@ -142,7 +142,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 				$configurationCheckClassname
 					= 'tx_' . $this->extKey . '_configcheck';
 				if (Tx_Oelib_Autoloader::load($configurationCheckClassname)) {
-					$this->configurationCheck = Tx_Oelib_ObjectFactory::make(
+					$this->configurationCheck = t3lib_div::makeInstance(
 						$configurationCheckClassname, $this
 					);
 				}

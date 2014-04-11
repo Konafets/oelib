@@ -29,6 +29,8 @@
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
+ *
+ * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
  */
 class Tx_Oelib_ObjectFactory {
 	/**
@@ -40,8 +42,12 @@ class Tx_Oelib_ObjectFactory {
 	 * @param string $className the name of the existing class to create
 	 *
 	 * @return mixed an instance of $className
+	 *
+	 * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
 	 */
 	public static function make($className) {
+		t3lib_div::logDeprecatedFunction();
+
 		// Makes sure that the parent class is included so it can load any
 		// XCLASS subclasses.
 		Tx_Oelib_Autoloader::load($className);

@@ -250,7 +250,7 @@ class Tx_Oelib_TranslatorRegistry {
 				}
 			}
 
-			$this->translators[$extensionName] = Tx_Oelib_ObjectFactory::make(
+			$this->translators[$extensionName] = t3lib_div::makeInstance(
 				'Tx_Oelib_Translator',
 				$this->languageKey,
 				$this->alternativeLanguageKey,

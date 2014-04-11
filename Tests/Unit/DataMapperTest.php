@@ -3528,7 +3528,7 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			)
 		);
 
-		$ignoreList = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$ignoreList = new Tx_Oelib_List();
 		$ignoreList->add($ignoredRelatedModel);
 
 		$result = Tx_Oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingChildMapper')

@@ -85,7 +85,7 @@ class tx_oelib_headerProxyFactory {
 		if (!is_object($this->headerProxy)
 			|| (get_class($this->headerProxy) != $className)
 		) {
-			$this->headerProxy = Tx_Oelib_ObjectFactory::make($className);
+			$this->headerProxy = t3lib_div::makeInstance($className);
 		}
 
 		return $this->headerProxy;

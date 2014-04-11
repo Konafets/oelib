@@ -192,7 +192,7 @@ class Tx_Oelib_ConfigurationRegistry {
 			$data = $data[$namespacePart . '.'];
 		}
 
-		$configuration = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Configuration');
+		$configuration = t3lib_div::makeInstance('Tx_Oelib_Configuration');
 		$configuration->setData($data);
 		return $configuration;
 	}

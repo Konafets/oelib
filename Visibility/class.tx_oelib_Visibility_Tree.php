@@ -59,7 +59,7 @@ class tx_oelib_Visibility_Tree {
 	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
-		$this->rootNode = Tx_Oelib_ObjectFactory::make(
+		$this->rootNode = t3lib_div::makeInstance(
 			'tx_oelib_Visibility_Node'
 		);
 
@@ -94,7 +94,7 @@ class tx_oelib_Visibility_Tree {
 		array $treeStructure, tx_oelib_Visibility_Node $parentNode
 	) {
 		foreach ($treeStructure as $nodeKey => $nodeContents) {
-			$childNode = Tx_Oelib_ObjectFactory::make(
+			$childNode = t3lib_div::makeInstance(
 				'tx_oelib_Visibility_Node'
 			);
 			$parentNode->addChild($childNode);

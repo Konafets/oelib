@@ -105,7 +105,7 @@ class tx_oelib_Geocoding_Calculator {
 		Tx_Oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center,
 		$distance
 	) {
-		$objectsWithinDistance = Tx_Oelib_ObjectFactory::make('Tx_Oelib_List');
+		$objectsWithinDistance = t3lib_div::makeInstance('Tx_Oelib_List');
 
 		foreach ($unfilteredObjects as $object) {
 			if ($this->calculateDistanceInKilometers($center, $object)
