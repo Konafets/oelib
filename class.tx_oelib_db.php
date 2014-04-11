@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2014 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -35,38 +35,38 @@ class Tx_Oelib_Db {
 	 * @var t3lib_pageSelect page object which we will use to call
 	 *                       enableFields on
 	 */
-	private static $pageForEnableFields = NULL;
+	static private $pageForEnableFields = NULL;
 
 	/**
 	 * @var array cached results for the enableFields function
 	 */
-	private static $enableFieldsCache = array();
+	static private $enableFieldsCache = array();
 
 	/**
 	 * @var array cache for the results of existsTable with the table names
 	 *            as keys and the table SHOW STATUS information (in an array)
 	 *            as values
 	 */
-	private static $tableNameCache = array();
+	static private $tableNameCache = array();
 
 	/**
 	 * @var array cache for the results of hasTableColumn with the column names
 	 *            as keys and the SHOW COLUMNS field information (in an array)
 	 *            as values
 	 */
-	private static $tableColumnCache = array();
+	static private $tableColumnCache = array();
 
 	/**
 	 * @var array cache for all TCA arrays
 	 */
-	private static $tcaCache = array();
+	static private $tcaCache = array();
 
 	/**
 	 * Enables query logging in TYPO3's DB class.
 	 *
 	 * @return void
 	 */
-	public static function enableQueryLogging() {
+	static public function enableQueryLogging() {
 		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
 	}
 
@@ -97,7 +97,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return string the WHERE clause starting like " AND ...=... AND ...=..."
 	 */
-	public static function enableFields(
+	static public function enableFields(
 		$table, $showHidden = -1, array $ignoreArray = array(),
 		$noVersionPreview = FALSE
 	) {
@@ -110,12 +110,9 @@ class Tx_Oelib_Db {
 		$showHiddenKey = $showHidden + 1;
 		$ignoresKey = serialize($ignoreArray);
 		$previewKey = intval($noVersionPreview);
-		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-			[$previewKey])
-		) {
+		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey]) ) {
 			self::retrievePageForEnableFields();
-			self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-				[$previewKey]
+			self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey]
 				= self::$pageForEnableFields->enableFields(
 					$table,
 					$showHidden,
@@ -124,8 +121,7 @@ class Tx_Oelib_Db {
 				);
 		}
 
-		return self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey]
-			[$previewKey];
+		return self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey];
 	}
 
 	/**
@@ -133,7 +129,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return void
 	 */
-	private static function retrievePageForEnableFields() {
+	static private function retrievePageForEnableFields() {
 		if (!is_object(self::$pageForEnableFields)) {
 			if (isset($GLOBALS['TSFE'])
 				&& is_object($GLOBALS['TSFE']->sys_page)
@@ -165,8 +161,10 @@ class Tx_Oelib_Db {
 	 * @return string comma-separated list of subpage UIDs including the
 	 *                UIDs provided in $startPages, will be empty if
 	 *                $startPages is empty
+	 *
+	 * @throws InvalidArgumentException
 	 */
-	public static function createRecursivePageList(
+	static public function createRecursivePageList(
 		$startPages, $recursionDepth = 0
 	) {
 		if ($recursionDepth < 0) {
@@ -186,15 +184,13 @@ class Tx_Oelib_Db {
 		);
 
 		$subPages = array();
-		while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))) {
 			$subPages[] = $row['uid'];
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
 		if (!empty($subPages)) {
-			$result = $startPages . ',' . self::createRecursivePageList(
-				implode(',', $subPages), $recursionDepth - 1
-			);
+			$result = $startPages . ',' . self::createRecursivePageList(implode(',', $subPages), $recursionDepth - 1);
 		} else {
 			$result = $startPages;
 		}
@@ -203,14 +199,12 @@ class Tx_Oelib_Db {
 	}
 
 
-	////////////////////////////////
-	// Wrappers for common queries
-	////////////////////////////////
+	/*
+	 * Wrappers for common queries
+	 */
 
 	/**
 	 * Executes a DELETE query.
-	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
 	 *
 	 * @param string $tableName
 	 *        the name of the table from which to delete, must not be empty
@@ -218,8 +212,11 @@ class Tx_Oelib_Db {
 	 *        the WHERE clause to select the records, may be empty
 	 *
 	 * @return integer the number of affected rows, might be 0
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
-	public static function delete($tableName, $whereClause) {
+	static public function delete($tableName, $whereClause) {
 		if ($tableName == '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488193);
 		}
@@ -238,8 +235,6 @@ class Tx_Oelib_Db {
 	/**
 	 * Executes an UPDATE query.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 *
 	 * @param string $tableName
 	 *        the name of the table to change, must not be empty
 	 * @param string $whereClause
@@ -248,8 +243,11 @@ class Tx_Oelib_Db {
 	 *        key/value pairs of the fields to change, may be empty
 	 *
 	 * @return integer the number of affected rows, might be 0
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
-	public static function update($tableName, $whereClause, array $fields) {
+	static public function update($tableName, $whereClause, array $fields) {
 		if ($tableName == '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488204);
 		}
@@ -268,17 +266,17 @@ class Tx_Oelib_Db {
 	/**
 	 * Executes an INSERT query.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 *
 	 * @param string $tableName
 	 *        the name of the table in which the record should be created, must not be empty
 	 * @param array $recordData
 	 *        key/value pairs of the record to insert, must not be empty
 	 *
-	 * @return integer the UID of the created record, will be 0 if the table
-	 *                 has no UID column
+	 * @return integer the UID of the created record, will be 0 if the table has no UID column
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
-	public static function insert($tableName, array $recordData) {
+	static public function insert($tableName, array $recordData) {
 		if ($tableName == '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488220);
 		}
@@ -300,8 +298,6 @@ class Tx_Oelib_Db {
 	/**
 	 * Executes a SELECT query.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 *
 	 * @param string $fields list of fields to select, may be "*", must not be empty
 	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
@@ -309,9 +305,12 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return resource MySQL result pointer
+	 * @return mysqli_result|resource MySQL result pointer
+	 *
+	 * @throws InvalidArgumentException
+	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
-	public static function select(
+	static public function select(
 		$fields, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
 		$limit = ''
 	) {
@@ -339,10 +338,6 @@ class Tx_Oelib_Db {
 	 *
 	 * If there is more than one matching record, only one will be returned.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching
-	 *                                             record
-	 *
 	 * @param string $fields list of fields to select, may be "*", must not be empty
 	 * @param string $tableNames
 	 *        comma-separated list of tables from which to select, must not be empty
@@ -352,8 +347,10 @@ class Tx_Oelib_Db {
 	 * @param integer $offset the offset to start the result for, must be >= 0
 	 *
 	 * @return array the single result row, will not be empty
+	 *
+	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching record
 	 */
-	public static function selectSingle(
+	static public function selectSingle(
 		$fields,
 		$tableNames,
 		$whereClause = '',
@@ -376,8 +373,6 @@ class Tx_Oelib_Db {
 	 * Executes a SELECT query and returns the result rows as a two-dimensional
 	 * associative array.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 *
 	 * @param string $fieldNames list of fields to select, may be "*", must not be empty
 	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
@@ -388,7 +383,7 @@ class Tx_Oelib_Db {
 	 * @return array the query result rows, will be empty if there are no
 	 *               matching records
 	 */
-	public static function selectMultiple(
+	static public function selectMultiple(
 		$fieldNames, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
 		$limit = ''
 	) {
@@ -411,8 +406,6 @@ class Tx_Oelib_Db {
 	 *
 	 * If there is more than one matching record, only one will be returned.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
-	 *
 	 * @param string $fieldName name of the field to select, must not be empty
 	 * @param string $tableNames comma-separated list of tables from which to select, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
@@ -423,7 +416,7 @@ class Tx_Oelib_Db {
 	 * @return array one column from the the query result rows, will be empty if
 	 *               there are no matching records
 	 */
-	public static function selectColumnForMultiple(
+	static public function selectColumnForMultiple(
 		$fieldName, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
 		$limit = ''
 	) {
@@ -443,7 +436,7 @@ class Tx_Oelib_Db {
 	 * Counts the number of matching records in the database for a particular
 	 * WHERE clause.
 	 *
-	 * @throws tx_oelib_Exception_Database if an error has occured
+	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 *
 	 * @param string $tableNames
 	 *        comma-separated list of existing tables from which to count, can
@@ -452,7 +445,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return integer the number of matching records, will be >= 0
 	 */
-	public static function count($tableNames, $whereClause = '') {
+	static public function count($tableNames, $whereClause = '') {
 		$isOnlyOneTable = ((strpos($tableNames, ',') === FALSE)
 			&& (stripos(trim($tableNames), ' JOIN ') === FALSE));
 		if ($isOnlyOneTable && self::tableHasColumnUid($tableNames)) {
@@ -481,7 +474,7 @@ class Tx_Oelib_Db {
 	 * @return boolean TRUE if there is at least one matching record,
 	 *                 FALSE otherwise
 	 */
-	public static function existsRecord($table, $whereClause = '') {
+	static public function existsRecord($table, $whereClause = '') {
 		return (self::count($table, $whereClause) > 0);
 	}
 
@@ -497,7 +490,7 @@ class Tx_Oelib_Db {
 	 * @return boolean TRUE if there is exactly one matching record,
 	 *                 FALSE otherwise
 	 */
-	public static function existsExactlyOneRecord($table, $whereClause = '') {
+	static public function existsExactlyOneRecord($table, $whereClause = '') {
 		return (self::count($table, $whereClause) == 1);
 	}
 
@@ -516,7 +509,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return boolean TRUE if there is a matching record, FALSE otherwise
 	 */
-	public static function existsRecordWithUid(
+	static public function existsRecordWithUid(
 		$table, $uid, $additionalWhereClause = ''
 	) {
 		if ($uid <= 0) {
@@ -539,7 +532,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return array list of table names
 	 */
-	public static function getAllTableNames() {
+	static public function getAllTableNames() {
 		self::retrieveTableNames();
 
 		return array_keys(self::$tableNameCache);
@@ -554,7 +547,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return void
 	 */
-	private static function retrieveTableNames() {
+	static private function retrieveTableNames() {
 		if (!empty(self::$tableNameCache)) {
 			return;
 		}
@@ -569,7 +562,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return boolean TRUE if the table $tableName exists, FALSE otherwise
 	 */
-	public static function existsTable($tableName) {
+	static public function existsTable($tableName) {
 		if ($tableName == '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488301);
 		}
@@ -594,7 +587,7 @@ class Tx_Oelib_Db {
 	 *         the column data for the table $table with the column names as keys and the SHOW COLUMNS field information (in an
 	 *         array) as values
 	 */
-	public static function getColumnsInTable($table) {
+	static public function getColumnsInTable($table) {
 		self::retrieveColumnsForTable($table);
 
 		return self::$tableColumnCache[$table];
@@ -611,7 +604,7 @@ class Tx_Oelib_Db {
 	 * @return array the field definition for the field in $table, will not be
 	 *               empty
 	 */
-	public static function getColumnDefinition($table, $column) {
+	static public function getColumnDefinition($table, $column) {
 		self::retrieveColumnsForTable($table);
 
 		return self::$tableColumnCache[$table][$column];
@@ -628,7 +621,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return void
 	 */
-	private static function retrieveColumnsForTable($table) {
+	static private function retrieveColumnsForTable($table) {
 		if (!isset(self::$tableColumnCache[$table])) {
 			if (!self::existsTable($table)) {
 				throw new BadMethodCallException('The table "' . $table . '" does not exist.', 1331488327);
@@ -651,7 +644,7 @@ class Tx_Oelib_Db {
 	 * @return boolean TRUE if the column with the provided name exists, FALSE
 	 *                 otherwise
 	 */
-	public static function tableHasColumn($table, $column) {
+	static public function tableHasColumn($table, $column) {
 		if ($column == '') {
 			return FALSE;
 		}
@@ -668,7 +661,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return boolean TRUE if a valid column was found, FALSE otherwise
 	 */
-	public static function tableHasColumnUid($table) {
+	static public function tableHasColumnUid($table) {
 		return self::tableHasColumn($table, 'uid');
 	}
 
@@ -684,7 +677,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @return array associative array with the TCA description for this table
 	 */
-	public static function getTcaForTable($tableName) {
+	static public function getTcaForTable($tableName) {
 		if (isset(self::$tcaCache[$tableName])) {
 			return self::$tcaCache[$tableName];
 		}
@@ -693,7 +686,9 @@ class Tx_Oelib_Db {
 			throw new BadMethodCallException('The table "' . $tableName . '" does not exist.', 1331488344);
 		}
 
-		t3lib_div::loadTCA($tableName);
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
+			t3lib_div::loadTCA($tableName);
+		}
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new BadMethodCallException('The table "' . $tableName . '" has no TCA.', 1331488350);
 		}
