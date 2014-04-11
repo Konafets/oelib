@@ -1,4 +1,5 @@
 0.7.10 - currently working on
+- [#4650] Change: Deprecate the ObjectFactory
 - [#4905] Fix: Add the encoding for all mb_* functions
 
 0.7.9 - released 2013-12-31
