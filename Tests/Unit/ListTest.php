@@ -99,7 +99,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * Adds models with the given titles to the subject, one for each title
 	 * given in $titles.
 	 *
-	 * @param array<string> $titles
+	 * @param string[] $titles
 	 *        the titles for the models, must not be empty
 	 *
 	 * @return void

@@ -35,7 +35,7 @@ interface tx_oelib_Interface_MapPoint {
 	/**
 	 * Returns this object's coordinates.
 	 *
-	 * @return array<float>
+	 * @return float[]
 	 *         this object's geo coordinates using the keys "latitude" and
 	 *         "longitude", will be empty if this object has no coordinates
 	 */

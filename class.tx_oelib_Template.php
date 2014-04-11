@@ -47,14 +47,14 @@ class Tx_Oelib_Template {
 	 * associative array of all HTML template subparts, using the uppercase marker names without ### as keys,
 	 * for example "MY_MARKER"
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private $subparts = array();
 
 	/**
 	 * all uppercased marker names in the current template without the hashes, for example ("FOO", "BAR")
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private $markerNames = array();
 
@@ -62,7 +62,7 @@ class Tx_Oelib_Template {
 	 * associative array of *populated* markers and their contents
 	 * (with the keys being the marker names including the wrapping hash signs ###).
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private $markers = array();
 
@@ -70,7 +70,7 @@ class Tx_Oelib_Template {
 	 * Subpart names that shouldn't be displayed. Set a subpart key like "FIELD_DATE"
 	 * (the value does not matter) to remove that subpart.
 	 *
-	 * @var array<string>
+	 * @var string[]
 	 */
 	private $subpartsToHide = array();
 
@@ -173,7 +173,7 @@ class Tx_Oelib_Template {
 	 *
 	 * @param string $prefix case-insensitive prefix for the marker names to look for
 	 *
-	 * @return array<string> matching marker names, might be empty
+	 * @return string[] matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
 		$upperCasePrefix = strtoupper($prefix) . '_';
@@ -350,7 +350,7 @@ class Tx_Oelib_Template {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param array<string> $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
+	 * @param string[] $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return void
@@ -420,8 +420,8 @@ class Tx_Oelib_Template {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param array<string> $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
-	 * @param array<string> $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
+	 * @param string[] $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
+	 * @param string[] $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return void

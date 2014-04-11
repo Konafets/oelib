@@ -2845,6 +2845,7 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByPageUidWithoutPageUidAndWithoutLimitCallsFindByWhereClauseWithoutLimit() {
+		/** @var $subject tx_oelib_Tests_Unit_Fixtures_TestingMapper */
 		$subject = $this->getMock(
 			'tx_oelib_Tests_Unit_Fixtures_TestingMapper',
 			array('findByWhereClause')

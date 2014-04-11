@@ -1655,7 +1655,7 @@ class Tx_Oelib_ConfigCheck {
 	/**
 	 * Checks all values within .listView (including .listView itself).
 	 *
-	 * @param array<string> $allowedSortFields
+	 * @param string[] $allowedSortFields
 	 *        allowed sort keys for the list view, must not be empty
 	 *
 	 * @return void

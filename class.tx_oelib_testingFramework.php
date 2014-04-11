@@ -149,7 +149,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $tablePrefix
 	 *        the table name prefix of the extension for which this instance of the testing framework should be used
-	 * @param array<string> $additionalTablePrefixes
+	 * @param string[] $additionalTablePrefixes
 	 *        the additional table name prefixes of the extensions for which this instance of the testing framework should be
 	 *        used, may be empty
 	 */

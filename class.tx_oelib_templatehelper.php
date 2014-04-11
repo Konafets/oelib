@@ -544,7 +544,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $prefix case-insensitive prefix for the marker names to look for
 	 *
-	 * @return array<string> array of matching marker names, might be empty
+	 * @return string[] array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
 		try {
@@ -701,7 +701,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be hidden.
 	 *
-	 * @param array<string> $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
+	 * @param string[] $subparts subpart names to hide (may be empty, case-insensitive, will get uppercased)
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return void
@@ -760,8 +760,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * If the prefix is empty and the array has two elements "one" and "two",
 	 * the subparts "###ONE###" and "###TWO###" will be unhidden.
 	 *
-	 * @param array<string> $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
-	 * @param array<string> $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
+	 * @param string[] $subparts subpart names to unhide (may be empty, case-insensitive, will get uppercased)
+	 * @param string[] $permanentlyHiddenSubparts subpart names that shouldn't get unhidden
 	 * @param string $prefix prefix to the subpart names (may be empty, case-insensitive, will get uppercased)
 	 *
 	 * @return void
@@ -1040,7 +1040,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param array<string> $additionalPiVars
+	 * @param string[] $additionalPiVars
 	 *        keys for $this->piVars that will be ensured to exist intvaled in $this->piVars as well, may be empty
 	 *
 	 * @return void

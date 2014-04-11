@@ -33,7 +33,7 @@
  */
 class Tx_Oelib_List extends SplObjectStorage {
 	/**
-	 * @var array<integer> the UIDs in the list using the UIDs as both the keys and values
+	 * @var integer[] the UIDs in the list using the UIDs as both the keys and values
 	 */
 	private $uids = array();
 
@@ -377,7 +377,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	/**
 	 * Returns the elements of this list in an array.
 	 *
-	 * @return array<Tx_Oelib_Model>
+	 * @return Tx_Oelib_Model[]
 	 *         the elements of this list, might be empty
 	 */
 	public function toArray() {

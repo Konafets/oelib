@@ -67,16 +67,16 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	protected $compoundKeyParts = array('title', 'header');
 
 	/**
-	 * @var array<Tx_Oelib_Model>
+	 * @var Tx_Oelib_Model[]
 	 */
 	protected $cachedModels = array();
 
 	/**
 	 * Gets the cached models.
 	 *
-	 * This function is intented for testing whether models have been cached.
+	 * This function is intended for testing whether models have been cached.
 	 *
-	 * @return array<Tx_Oelib_Model>
+	 * @return Tx_Oelib_Model[]
 	 */
 	public function getCachedModels() {
 		return $this->cachedModels;
@@ -85,7 +85,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	/**
 	 * Sets the map for this mapper.
 	 *
-	 * This function is intendend to be used for testing purposes only.
+	 * This function is intended to be used for testing purposes only.
 	 *
 	 * @param Tx_Oelib_IdentityMap $map
 	 *        the map to set

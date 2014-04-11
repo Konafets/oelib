@@ -92,7 +92,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 * Renders a Google Map with $mapPoints on it and sets the corresponding
 	 * HTML HEAD data.
 	 *
-	 * @param array<tx_oelib_Interface_MapPoint> $mapPoints
+	 * @param tx_oelib_Interface_MapPoint[] $mapPoints
 	 *        the points to render, may be empty
 	 * @param string $width
 	 *        the CSS width of the Map element, e.g., "600px" or "100%",
@@ -147,7 +147,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 *
 	 * @param string $mapId
 	 *        HTML ID of the map, must not be empty
-	 * @param array<tx_oelib_Interface_MapPoint> $mapPoints
+	 * @param tx_oelib_Interface_MapPoint[] $mapPoints
 	 *        map points with coordinates, must not be empty
 	 * @param string $initializeFunctionName
 	 *        name of the JavaScript initialization function to create, must
@@ -181,10 +181,10 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	/**
 	 * Finds the map points within $mapPoints that have coordinates.
 	 *
-	 * @param array<tx_oelib_Interface_MapPoint> $mapPoints
+	 * @param tx_oelib_Interface_MapPoint[] $mapPoints
 	 *        the points to check for coordinates, may be empty
 	 *
-	 * @return array<tx_oelib_Interface_MapPoint>
+	 * @return tx_oelib_Interface_MapPoint[]
 	 *         the map points from $mapPoints that have coordinates, might be empty
 	 */
 	protected function findMapPointsWithCoordinates(array $mapPoints) {
@@ -208,7 +208,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	/**
 	 * Creates the JavaScript code for creating map markers for $mapPoints.
 	 *
-	 * @param array<tx_oelib_Interface_MapPoint> $mapPoints
+	 * @param tx_oelib_Interface_MapPoint[] $mapPoints
 	 *        the points to render, all must have geo coordinates, may be empty
 	 * @param string $mapId
 	 *        HTML ID of the map, must not be empty

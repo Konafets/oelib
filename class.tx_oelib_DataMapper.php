@@ -190,7 +190,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * Returns a list of models for the provided two-dimensional array with
 	 * model data.
 	 *
-	 * @param array<array> $dataOfModels
+	 * @param array[] $dataOfModels
 	 *        two-dimensional array, each inner array must at least contain the
 	 *        element "uid", may be empty
 	 *
