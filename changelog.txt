@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4650] Change: Deprecate the ObjectFactory
 - [#5000] Bugfix: Test failure in 6.1 due to changed XClass mechanism
 - [#4718] Bugfix: Backport the TestingFramework 6.x compatibility changes from PHPUnit
 - [#4717] Bugfix: 6.x compatibility: Backport the DbService changes from PHPUnit
