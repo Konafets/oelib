@@ -64,8 +64,6 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 			'de',
 			$object->getLanguageKey()
 		);
-
-		$object->__destruct();
 	}
 
 	/**

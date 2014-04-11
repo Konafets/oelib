@@ -145,7 +145,5 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$model->isReadOnly()
 		);
-
-		$model->__destruct();
 	}
 }

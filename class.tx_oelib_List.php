@@ -62,13 +62,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 */
 	public function __destruct() {
 		$this->rewind();
-
 		foreach ($this as $model) {
-			// Models without UIDs are not registered at a mapper and thus will
-			// not be destructed by the mapper.
-			if (!$model->hasUid()) {
-				$model->__destruct();
-			}
 			$this->detach($model);
 		}
 

@@ -448,8 +448,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			'foo',
 			$model->getTitle()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -467,8 +465,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$model->isLoaded()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -486,8 +482,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->assertFalse(
 			$model->isDirty()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -506,8 +500,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			12.5,
 			$model->getFloatFromFloatData()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -526,8 +518,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			12.5,
 			$model->getFloatFromDecimalData()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -546,8 +536,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 			12.5,
 			$model->getFloatFromStringData()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -624,8 +612,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$model->isLoaded()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -641,8 +627,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$model->isDead()
 		);
-
-		$model->__destruct();
 	}
 
 

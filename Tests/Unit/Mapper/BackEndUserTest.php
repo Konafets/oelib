@@ -50,7 +50,6 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->subject->__destruct();
 		unset($this->subject, $this->testingFramework);
 	}
 

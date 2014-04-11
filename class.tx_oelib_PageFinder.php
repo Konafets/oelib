@@ -86,10 +86,6 @@ class Tx_Oelib_PageFinder {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (is_object(self::$instance)) {
-			self::$instance->__destruct();
-		}
-
 		self::$instance = NULL;
 	}
 

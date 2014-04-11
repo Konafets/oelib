@@ -109,27 +109,12 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 */
 	public function __destruct() {
 		// avoids infinite loops for two models in a circle
-		if ($this->isDead()) {
-			return;
+		if (!$this->isDead()) {
+			$this->markAsDead();
 		}
 
-		$this->markAsDead();
-
-		foreach ($this->data as $key => $item) {
-			if ($item instanceof Tx_Oelib_List) {
-				$item->__destruct();
-			} elseif ($item instanceof Tx_Oelib_Model) {
-				// Models without UIDs are not registered at a mapper and thus
-				// will not be destructed by the mapper.
-				// Still, we need to avoid infinite loops if this model has a
-				// relation to itself.
-				if (!$item->hasUid() && ($item !== $this)) {
-					$item->__destruct();
-				}
-			}
-			unset($this->data[$key]);
-		}
 		$this->loadCallback = array();
+		unset($this->data);
 	}
 
 	/**

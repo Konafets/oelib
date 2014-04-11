@@ -395,10 +395,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			),
 			$this->subject->getLastEmail()
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -430,10 +426,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			CR,
 			$this->subject->getLastBody()
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -488,12 +480,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			),
 			$this->subject->getLastEmail()
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
-		$otherRecipient->__destruct();
-		$otherEmail->__destruct();
 	}
 
 	/**
@@ -560,12 +546,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			),
 			$this->subject->getAllEmail()
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
-		$otherRecipient->__destruct();
-		$otherEmail->__destruct();
 	}
 
 	/**
@@ -618,10 +598,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			),
 			$this->subject->getLastEmail()
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -883,10 +859,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'From: "John Doe" <any-sender@email-address.org>',
 			$rawMail['headers']
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -919,10 +891,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'From: "' . $encodedName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -952,10 +920,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'From: "' . $senderName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 	/**
@@ -994,10 +958,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 			'From: "' . $encodedName . '" <any-sender@email-address.org>',
 			$rawMail['headers']
 		);
-
-		$sender->__destruct();
-		$recipient->__destruct();
-		$eMail->__destruct();
 	}
 
 

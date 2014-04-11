@@ -39,7 +39,6 @@ class Tx_Oelib_Visibility_TreeTest extends Tx_Phpunit_TestCase {
 	protected function setUp() {}
 
 	protected function tearDown() {
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 

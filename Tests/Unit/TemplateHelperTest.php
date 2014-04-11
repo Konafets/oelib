@@ -56,7 +56,6 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		$this->subject->__destruct();
 		unset($this->subject, $this->testingFramework);
 	}
 
@@ -83,9 +82,6 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 			->setAsBoolean('enableConfigCheck', FALSE);
 		$subject = new Tx_Oelib_TestingTemplateHelper();
 		$result = $subject->getConfigurationCheck();
-
-		$subject->__destruct();
-		unset($subject);
 
 		$this->assertNull(
 			$result
@@ -162,8 +158,6 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 			'bar',
 			$subject->getConfValueString('foo')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -182,8 +176,6 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 			'',
 			$subject->getConfValueString('foo')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**

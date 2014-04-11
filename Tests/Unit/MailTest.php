@@ -41,7 +41,6 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 
@@ -73,8 +72,6 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			$sender,
 			$this->subject->getSender()
 		);
-
-		$sender->__destruct();
 	}
 
 	/**
@@ -99,8 +96,6 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->hasSender()
 		);
-
-		$sender->__destruct();
 	}
 
 
@@ -131,8 +126,6 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			array($recipient),
 			$this->subject->getRecipients()
 		);
-
-		$recipient->__destruct();
 	}
 
 	/**
@@ -152,9 +145,6 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 			array($recipient1, $recipient2),
 			$this->subject->getRecipients()
 		);
-
-		$recipient1->__destruct();
-		$recipient2->__destruct();
 	}
 
 

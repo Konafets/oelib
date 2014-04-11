@@ -53,12 +53,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		$this->subject->__destruct();
-		foreach($this->modelStorage as $key => $model ) {
-			$model->__destruct();
-			unset($this->modelStorage[$key]);
-		}
-
 		unset($this->subject, $this->modelStorage);
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
@@ -136,9 +130,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			-1,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 	/**
@@ -154,9 +145,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 	/**
@@ -172,9 +160,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			0,
 			$this->sortByTitleAscending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 
@@ -195,9 +180,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 	/**
@@ -213,9 +195,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			-1,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 	/**
@@ -231,9 +210,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			0,
 			$this->sortByTitleDescending($firstModel, $secondModel)
 		);
-
-		$firstModel->__destruct();
-		$secondModel->__destruct();
 	}
 
 
@@ -365,8 +341,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->count()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -393,8 +367,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->count()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -422,8 +394,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->current()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -439,9 +409,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model1,
 			$this->subject->current()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 
@@ -500,9 +467,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model2,
 			$this->subject->current()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 
@@ -537,8 +501,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->current()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -566,8 +528,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->first()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -583,9 +543,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model1,
 			$this->subject->first()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -603,9 +560,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model1,
 			$this->subject->first()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 
@@ -725,8 +679,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'1',
 			$this->subject->getUids()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -744,9 +696,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'1,42',
 			$this->subject->getUids()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -764,9 +713,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'42,1',
 			$this->subject->getUids()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -786,9 +732,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'1,2',
 			$this->subject->getUids()
 		);
-
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -803,8 +746,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'42',
 			$this->subject->getUids()
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -832,8 +773,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->hasUid(42)
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -847,8 +786,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->hasUid(42)
 		);
-
-		$model->__destruct();
 	}
 
 
@@ -920,8 +857,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->isEmpty()
 		);
-
-		$otherList->__destruct();
 	}
 
 	/**
@@ -940,10 +875,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			2,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -959,8 +890,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			2,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
 	}
 
 	/**
@@ -980,9 +909,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
-		$model->__destruct();
 	}
 
 	/**
@@ -1001,10 +927,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model1,
 			$this->subject->first()
 		);
-
-		$otherList->__destruct();
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -1024,10 +946,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->first()
 		);
-
-		$otherList->__destruct();
-		$model->__destruct();
-		$otherModel->__destruct();
 	}
 
 
@@ -1047,8 +965,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$this->subject->isEmpty()
 		);
-
-		$otherList->__destruct();
 	}
 
 	/**
@@ -1069,10 +985,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			2,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -1090,8 +1002,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			2,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
 	}
 
 	/**
@@ -1113,9 +1023,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->count()
 		);
-
-		$otherList->__destruct();
-		$model->__destruct();
 	}
 
 	/**
@@ -1136,10 +1043,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model1,
 			$this->subject->first()
 		);
-
-		$otherList->__destruct();
-		$model1->__destruct();
-		$model2->__destruct();
 	}
 
 	/**
@@ -1161,10 +1064,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->first()
 		);
-
-		$otherList->__destruct();
-		$model->__destruct();
-		$otherModel->__destruct();
 	}
 
 
@@ -1269,8 +1168,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			$model,
 			$this->subject->current()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -1374,8 +1271,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->count()
 		);
-
-		$clonedList->__destruct();
 	}
 
 	/**
@@ -1401,8 +1296,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 			'1',
 			$this->subject->getUids()
 		);
-
-		$clonedList->__destruct();
 	}
 
 

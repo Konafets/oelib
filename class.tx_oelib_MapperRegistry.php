@@ -70,11 +70,7 @@ class Tx_Oelib_MapperRegistry {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		foreach ($this->mappers as $key => $mapper) {
-			$mapper->__destruct();
-			unset($this->mappers[$key]);
-		}
-		unset($this->testingFramework);
+		unset($this->mappers, $this->testingFramework);
 	}
 
 	/**
@@ -97,9 +93,6 @@ class Tx_Oelib_MapperRegistry {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (self::$instance) {
-			self::$instance->__destruct();
-		}
 		self::$instance = NULL;
 	}
 

@@ -50,7 +50,6 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function tearDown() {
 		$GLOBALS['EXEC_TIME'] = $this->globalExecTimeBackup;
 
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 

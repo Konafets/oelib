@@ -70,14 +70,7 @@ class tx_oelib_Visibility_Tree {
 	 * Destructs the tree structure.
 	 */
 	public function __destruct() {
-		foreach (array_keys($this->nodes) as $nodeKey) {
-			unset($this->nodes[$nodeKey]);
-		}
-
-		if ($this->rootNode) {
-			$this->rootNode->__destruct();
-			unset($this->rootNode);
-		}
+		unset($this->rootNode, $this->nodes);
 	}
 
 	/**

@@ -55,7 +55,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	/**
 	 * @var integer the type of this session (::TYPE_USER or ::TYPE_TEMPORARY)
 	 */
-	private $type;
+	private $type = 0;
 
 	/**
 	 * @var array the instances, using the type as key
@@ -76,12 +76,6 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 
 		self::checkType($type);
 		$this->type = $type;
-	}
-
-	/**
-	 * Frees as much memory that has been used by this object as possible.
-	 */
-	public function __destruct() {
 	}
 
 	/**
@@ -139,11 +133,6 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 * @return void
 	 */
 	public static function purgeInstances() {
-		foreach (self::$instances as $key => $instance) {
-			$instance->__destruct();
-			unset(self::$instances[$key]);
-		}
-
 		self::$instances = array();
 	}
 

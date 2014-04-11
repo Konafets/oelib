@@ -103,9 +103,6 @@ class Tx_Oelib_MailerFactory {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (self::$instance) {
-			self::$instance->__destruct();
-		}
 		self::$instance = NULL;
 	}
 

@@ -118,10 +118,6 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (is_object(self::$instance)) {
-			self::$instance->__destruct();
-		}
-
 		self::$instance = NULL;
 	}
 

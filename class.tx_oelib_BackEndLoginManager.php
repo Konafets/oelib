@@ -74,9 +74,6 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (self::$instance) {
-			self::$instance->__destruct();
-		}
 		self::$instance = NULL;
 	}
 

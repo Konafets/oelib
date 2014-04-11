@@ -68,7 +68,6 @@ class Tx_Oelib_ConfigurationRegistry {
 	 * @return void
 	 */
 	private function dropConfiguration($namespace) {
-		$this->configurations[$namespace]->__destruct();
 		unset($this->configurations[$namespace]);
 	}
 
@@ -92,9 +91,6 @@ class Tx_Oelib_ConfigurationRegistry {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (self::$instance) {
-			self::$instance->__destruct();
-		}
 		self::$instance = NULL;
 	}
 

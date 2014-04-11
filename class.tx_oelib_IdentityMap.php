@@ -46,13 +46,7 @@ class Tx_Oelib_IdentityMap {
 	 */
 	public function __destruct() {
 		$this->highestUid = 0;
-
-		if (is_array($this->items)) {
-			foreach (($this->items) as $key => $item) {
-				$item->__destruct();
-				unset($this->items[$key]);
-			}
-		}
+		unset($this->items);
 	}
 
 	/**

@@ -74,12 +74,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		foreach ($this->attachments as $key => $attachment) {
-			$attachment->__destruct();
-			unset($this->attachments[$key]);
-		}
-
-		unset($this->data, $this->sender, $this->recipients);
+		unset($this->data, $this->sender, $this->recipients, $this->attachments);
 	}
 
 	/**

@@ -42,7 +42,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 
@@ -69,8 +68,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 		$subject->setData(
 			array('foo' => $subject)
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -86,9 +83,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 		$subject2->setData(
 			array('foo' => $subject1)
 		);
-
-		$subject1->__destruct();
-		$subject2->__destruct();
 	}
 
 	/**
@@ -315,8 +309,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			$otherModel,
 			$this->subject->getAsModel('foo')
 		);
-
-		$otherModel->__destruct();
 	}
 
 	/**
@@ -393,8 +385,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 			$list,
 			$this->subject->getAsList('foo')
 		);
-
-		$list->__destruct();
 	}
 
 
@@ -984,8 +974,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$model->isReadOnly()
 		);
-
-		$model->__destruct();
 	}
 
 	/**
@@ -994,8 +982,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	public function setDataOnReadOnlyModelDoesNotFail() {
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_ReadOnlyModel();
 		$model->setData(array());
-
-		$model->__destruct();
 	}
 
 	/**

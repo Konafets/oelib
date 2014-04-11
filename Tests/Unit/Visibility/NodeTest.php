@@ -41,7 +41,6 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	}
 
 	protected function tearDown() {
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 
@@ -59,8 +58,6 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$subject->isVisible()
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -72,8 +69,6 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$this->assertFalse(
 			$subject->isVisible()
 		);
-
-		$subject->__destruct();
 	}
 
 
@@ -197,8 +192,6 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$this->assertTrue(
 			$visibleNode->isVisible()
 		);
-
-		$visibleNode->__destruct();
 	}
 
 	/**

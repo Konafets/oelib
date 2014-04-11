@@ -125,12 +125,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		$this->cacheByKey = array();
-		if ($this->map) {
-			$this->map->__destruct();
-			unset($this->map);
-		}
-		$this->uidsOfMemoryOnlyDummyModels = array();
+		unset($this->cacheByKey, $this->map, $this->uidsOfMemoryOnlyDummyModels);
 	}
 
 	/**

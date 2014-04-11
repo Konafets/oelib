@@ -46,8 +46,6 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 			'label_test',
 			$subject->translate('label_test')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -71,8 +69,6 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 			'English',
 			$subject->translate('label_test')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -96,8 +92,6 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 			'Deutsch',
 			$subject->translate('label_test')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -119,8 +113,6 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 			'English',
 			$subject->translate('label_test')
 		);
-
-		$subject->__destruct();
 	}
 
 	/**
@@ -142,7 +134,5 @@ class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
 			'Deutsch',
 			$subject->translate('label_test')
 		);
-
-		$subject->__destruct();
 	}
 }

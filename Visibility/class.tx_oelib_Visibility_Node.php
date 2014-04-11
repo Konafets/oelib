@@ -61,14 +61,7 @@ class tx_oelib_Visibility_Node {
 	 * Destructor of this class. Tries to free as much memory as possible.
 	 */
 	public function __destruct() {
-		if ($this->parentNode) {
-			unset($this->parentNode);
-		}
-
-		foreach ($this->children as $key => $child) {
-			$child->__destruct();
-			unset($this->children[$key]);
-		}
+		unset($this->parentNode, $this->children);
 	}
 
 	/**

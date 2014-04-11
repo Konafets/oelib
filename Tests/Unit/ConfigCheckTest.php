@@ -55,9 +55,6 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	}
 
 	protected function tearDown() {
-		$this->subject->__destruct();
-		$this->objectToCheck->__destruct();
-
 		unset($this->subject, $this->objectToCheck);
 	}
 

@@ -53,7 +53,6 @@ class Tx_Oelib_FakeSession extends Tx_Oelib_Session {
 	 */
 	public function __destruct() {
 		unset($this->sessionData);
-		parent::__destruct();
 	}
 
 	/**

@@ -41,7 +41,6 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		$this->subject->__destruct();
 		unset($this->subject);
 	}
 

@@ -92,12 +92,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
-		foreach ($this->translators as $key => $translator) {
-			$translator->__destruct();
-			unset($this->translators[$key]);
-		}
-
-		unset($this->charsetConversion);
+		unset($this->charsetConversion, $this->translators);
 	}
 
 	/**
@@ -190,9 +185,6 @@ class Tx_Oelib_TranslatorRegistry {
 	 * @return void
 	 */
 	public static function purgeInstance() {
-		if (self::$instance) {
-			self::$instance->__destruct();
-		}
 		self::$instance = NULL;
 	}
 
