@@ -4,10 +4,12 @@
 
 $extensionPath = t3lib_extMgm::extPath('oelib');
 return array(
-	'tx_oelib_time' => $extensionPath . 'Time.php',
-	'tx_oelib_attachment' => $extensionPath . 'class.tx_oelib_Attachment.php',
+	'tx_oelib_abstractheaderproxy' => $extensionPath . 'Classes/AbstractHeaderProxy.php',
+	'tx_oelib_abstractmailer' => $extensionPath . 'Classes/AbstractMailer.php',
+	'tx_oelib_attachment' => $extensionPath . 'Classes/Attachment.php',
 	'tx_oelib_autoloader' => $extensionPath . 'class.tx_oelib_Autoloader.php',
 	'tx_oelib_backendloginmanager' => $extensionPath . 'class.tx_oelib_BackEndLoginManager.php',
+	'tx_oelib_time' => $extensionPath . 'Time.php',
 	'tx_oelib_configuration' => $extensionPath . 'class.tx_oelib_Configuration.php',
 	'tx_oelib_configurationregistry' => $extensionPath . 'class.tx_oelib_ConfigurationRegistry.php',
 	'tx_oelib_datamapper' => $extensionPath . 'class.tx_oelib_DataMapper.php',
@@ -36,8 +38,6 @@ return array(
 	'tx_oelib_timer' => $extensionPath . 'class.tx_oelib_Timer.php',
 	'tx_oelib_translator' => $extensionPath . 'class.tx_oelib_Translator.php',
 	'tx_oelib_translatorregistry' => $extensionPath . 'class.tx_oelib_TranslatorRegistry.php',
-	'tx_oelib_abstractheaderproxy' => $extensionPath . 'class.tx_oelib_abstractHeaderProxy.php',
-	'tx_oelib_abstractmailer' => $extensionPath . 'class.tx_oelib_abstractMailer.php',
 	'tx_oelib_configcheck' => $extensionPath . 'class.tx_oelib_configcheck.php',
 	'tx_oelib_configurationproxy' => $extensionPath . 'class.tx_oelib_configurationProxy.php',
 	'tx_oelib_db' => $extensionPath . 'class.tx_oelib_db.php',
