@@ -1,4 +1,5 @@
 0.7.10 - currently working on
+- [#4572] Fix: Add .htaccess to all folders with private resources
 - [#4650] Change: Deprecate the ObjectFactory
 - [#4905] Fix: Add the encoding for all mb_* functions
 
