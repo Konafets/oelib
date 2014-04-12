@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2013 Niels Pardon (mail@niels-pardon.de)
+* (c) 2009-2014 Niels Pardon (mail@niels-pardon.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -262,16 +262,15 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////
-	// Tests regarding the decimal digits.
-	////////////////////////////////////////
+	/*
+	 * Tests regarding the decimal digits.
+	 */
 
 	/**
 	 * @test
 	 */
-	public function getDecimalDigitsForSudaneseDinarReturnsZero() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->
-			find(130);
+	public function getDecimalDigitsForChileanPesoReturnsZero() {
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(33);
 
 		$this->assertSame(
 			0,

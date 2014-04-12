@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2013 Niels Pardon (mail@niels-pardon.de)
+* (c) 2009-2014 Niels Pardon (mail@niels-pardon.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -111,10 +111,10 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 */
 	public function renderForCurrencyWithoutDecimalDigitsReturnsPriceWithoutDecimalDigits() {
 		$this->subject->setValue(123.45);
-		$this->subject->setCurrencyFromIsoAlpha3Code('SDD');
+		$this->subject->setCurrencyFromIsoAlpha3Code('CLP');
 
 		$this->assertSame(
-			'sD 123',
+			'$ 123',
 			$this->subject->render()
 		);
 	}
