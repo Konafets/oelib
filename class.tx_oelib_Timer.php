@@ -25,6 +25,8 @@
 /**
  * This Singleton class provides functions for performance measurement.
  *
+ * @deprecated 2014-04-12
+ *
  * @package TYPO3
  * @subpackage tx_oelib
  *
