@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2005-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2005-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -95,93 +95,84 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
-	 * @param array $conf TypoScript configuration for the plugin, set to NULL to load the configuration from a BE page
+	 * @param array $configuration TypoScript configuration for the plugin, set to NULL to load the configuration from a BE page
 	 *
 	 * @return void
 	 */
-	public function init(array $conf = NULL) {
-		if (!$this->isInitialized) {
-			if ($GLOBALS['TSFE'] && !isset($GLOBALS['TSFE']->config['config'])) {
-				$GLOBALS['TSFE']->config['config'] = array();
-			}
-
-			// Calls the base class's constructor manually as this isn't done
-			// automatically.
-			parent::__construct();
-
-			if ($conf !== NULL) {
-				$this->conf = $conf;
-			} else {
-				$pageId = $this->getCurrentBePageId();
-				if (isset(self::$cachedConfigurations[$pageId])) {
-					$this->conf = self::$cachedConfigurations[$pageId];
-				} else {
-					// We need to create our own template setup if we are in the
-					// BE and we aren't currently creating a DirectMail page.
-					if ((TYPO3_MODE == 'BE') && !is_object($GLOBALS['TSFE'])) {
-						$this->conf = $this->retrievePageConfig($pageId);
-					} else {
-						// On the front end, we can use the provided template
-						// setup.
-						$this->conf = $GLOBALS['TSFE']->tmpl
-							->setup['plugin.']['tx_' . $this->extKey . '.'];
-					}
-
-					self::$cachedConfigurations[$pageId] = $this->conf;
-				}
-			}
-
-			$this->ensureContentObject();
-			$this->pi_setPiVarDefaults();
-			$this->pi_loadLL();
-
-			if ((isset($this->extKey) && ($this->extKey != ''))
-				&& Tx_Oelib_ConfigurationProxy::getInstance($this->extKey)->
-					getAsBoolean('enableConfigCheck')
-			) {
-				$configurationCheckClassname
-					= 'tx_' . $this->extKey . '_configcheck';
-				if (Tx_Oelib_Autoloader::load($configurationCheckClassname)) {
-					$this->configurationCheck = t3lib_div::makeInstance(
-						$configurationCheckClassname, $this
-					);
-				}
-			} else {
-				$this->configurationCheck = NULL;
-			}
-
-			$this->isInitialized = TRUE;
+	public function init(array $configuration = NULL) {
+		if ($this->isInitialized) {
+			return;
 		}
+
+		$frontEnd = $this->getFrontEnd();
+		if ($frontEnd && !isset($frontEnd->config['config'])) {
+			$frontEnd->config['config'] = array();
+		}
+
+		// Calls the base class's constructor manually as this isn't done automatically.
+		parent::__construct();
+
+		if ($configuration !== NULL) {
+			$this->conf = $configuration;
+		} else {
+			$pageId = $this->getCurrentBePageId();
+			if (isset(self::$cachedConfigurations[$pageId])) {
+				$this->conf = self::$cachedConfigurations[$pageId];
+			} else {
+				// We need to create our own template setup if we are in the
+				// BE and we aren't currently creating a DirectMail page.
+				if ((TYPO3_MODE === 'BE') && ($frontEnd === NULL)) {
+					$this->conf = $this->retrievePageConfig($pageId);
+				} else {
+					// On the front end, we can use the provided template setup.
+					$this->conf = $frontEnd->tmpl->setup['plugin.']['tx_' . $this->extKey . '.'];
+				}
+
+				self::$cachedConfigurations[$pageId] = $this->conf;
+			}
+		}
+
+		$this->ensureContentObject();
+		$this->pi_setPiVarDefaults();
+		$this->pi_loadLL();
+
+		if (($this->extKey !== '') && Tx_Oelib_ConfigurationProxy::getInstance($this->extKey)->getAsBoolean('enableConfigCheck')) {
+			$configurationCheckClassName = 'tx_' . $this->extKey . '_configcheck';
+			if (class_exists($configurationCheckClassName, TRUE)) {
+				$this->configurationCheck = t3lib_div::makeInstance($configurationCheckClassName, $this);
+			}
+		}
+
+		$this->isInitialized = TRUE;
 	}
 
 	/**
 	 * Ensures that $this->cObj points to a valid content object.
 	 *
-	 * If this object alread has a valid cObj, this function does nothing.
+	 * If this object already has a valid cObj, this function does nothing.
 	 *
-	 * If there is a front end and this object does not have a cObj yet, the
-	 * cObj from the front end is used.
+	 * If there is a front end and this object does not have a cObj yet, the cObj from the front end is used.
 	 *
-	 * If this object has no cObj and there is no front end, this function will
-	 * do nothing.
+	 * If this object has no cObj and there is no front end, this function will do nothing.
 	 *
 	 * @return void
 	 */
 	protected function ensureContentObject() {
-		if ($this->cObj instanceof tslib_cObj) {
+		if ($this->cObj !== NULL) {
 			return;
 		}
 
-		if ($GLOBALS['TSFE']->cObj instanceof tslib_cObj) {
-			$this->cObj = $GLOBALS['TSFE']->cObj;
+		// TSFE->cObj will be an empty string if not initialized, not NULL.
+		$frontEnd = $this->getFrontEnd();
+		if ($frontEnd->cObj instanceof tslib_cObj) {
+			$this->cObj = $frontEnd->cObj;
 		}
 	}
 
 	/**
 	 * Checks that this object is properly initialized.
 	 *
-	 * @return boolean TRUE if this object is properly initialized, FALSE
-	 *                 otherwise
+	 * @return boolean TRUE if this object is properly initialized, FALSE otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -210,10 +201,10 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 
 		// Gets the root line.
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
-		$rootline = $sys_page->getRootLine($pageId);
+		$rootLine = $sys_page->getRootLine($pageId);
 
 		// Generates the constants/config and hierarchy info for the template.
-		$template->runThroughTemplates($rootline, 0);
+		$template->runThroughTemplates($rootLine, 0);
 		$template->generateConfig();
 
 		if (isset($template->setup['plugin.']['tx_'.$this->extKey.'.'])) {
@@ -491,7 +482,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		);
 
 		if (!$ignoreFlexform) {
-			$templateFileName = $GLOBALS['TSFE']->tmpl->getFileName(
+			$templateFileName = $this->getFrontEnd()->tmpl->getFileName(
 				$templateFileName
 			);
 		}
@@ -983,7 +974,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 */
 	public function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
-			$GLOBALS['TSFE']->additionalHeaderData[$this->prefixId.'_js']
+			$this->getFrontEnd()->additionalHeaderData[$this->prefixId.'_js']
 				= '<script type="text/javascript" src="'
 				.$this->getConfValueString(
 					'jsFile',
@@ -1363,20 +1354,18 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	protected function setLocaleConvention() {
 		t3lib_div::logDeprecatedFunction();
 
-		setlocale(LC_ALL, $GLOBALS['TSFE']->config['config']['locale_all']);
+		setlocale(LC_ALL, $this->getFrontEnd()->config['config']['locale_all']);
 	}
 
 	/**
 	 * Returns the general record storage PID for the current page.
 	 *
-	 * This function must only be called in the front end or when a front end is
-	 * present.
+	 * This function must only be called in the front end or when a front end is present.
 	 *
-	 * @return integer the general record storage PID for the current page, will
-	 *                 be 0 if the page has no storage page set
+	 * @return integer the general record storage PID for the current page, will be 0 if the page has no storage page set
 	 */
 	public function getStoragePid() {
-		$pageData = $GLOBALS['TSFE']->getStorageSiterootPids();
+		$pageData = $this->getFrontEnd()->getStorageSiterootPids();
 
 		return $pageData['_STORAGE_PID'];
 	}
@@ -1384,10 +1373,22 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * Checks whether the current page has a general record storage PID set.
 	 *
-	 * @return boolean TRUE if the current page has a general record storage PID
-	 *                 set, FALSE otherwise
+	 * @return boolean TRUE if the current page has a general record storage PID set, FALSE otherwise
 	 */
 	public function hasStoragePid() {
 		return $this->getStoragePid() > 0;
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEnd() {
+		if (!isset($GLOBALS['TSFE'])) {
+			return NULL;
+		}
+
+		return $GLOBALS['TSFE'];
 	}
 }

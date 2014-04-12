@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2007-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -47,8 +47,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 			0, array('storage_pid' => 0)
 		);
 		$this->testingFramework->createFakeFrontEnd($pageUid);
-		Tx_Oelib_ConfigurationProxy::getInstance('oelib')
-			->setAsBoolean('enableConfigCheck', TRUE);
+		Tx_Oelib_ConfigurationProxy::getInstance('oelib')->setAsBoolean('enableConfigCheck', TRUE);
 
 		$this->subject = new Tx_Oelib_TestingTemplateHelper(array());
 	}
@@ -4415,9 +4414,9 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////
-	// Tests concerning getStoragePid
-	///////////////////////////////////
+	/*
+	 * Tests concerning getStoragePid
+	 */
 
 	/**
 	 * @test
