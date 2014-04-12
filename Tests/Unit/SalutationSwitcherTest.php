@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2007-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -99,45 +99,6 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	/**
-	 * @test
-	 */
-	public function initialFallbackLanguage() {
-		$this->assertSame(
-			'default', $this->subject->getFallbackLanguage()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setFallbackLanguageDefault() {
-		$this->subject->setFallbackLanguage('default');
-		$this->assertSame(
-			'default', $this->subject->getFallbackLanguage()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setFallbackLanguageDe() {
-		$this->subject->setFallbackLanguage('de');
-		$this->assertSame(
-			'de', $this->subject->getFallbackLanguage()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setFallbackLanguageEmpty() {
-		$this->subject->setFallbackLanguage('');
-		$this->assertSame(
-			'', $this->subject->getFallbackLanguage()
-		);
-	}
-
 
 	///////////////////////////////////////////
 	// Tests for setting the salutation modes.
@@ -199,9 +160,10 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function noLanguageAtAllWithKnownKey() {
 		$this->subject->setLanguage('');
-		$this->subject->setFallbackLanguage('');
+
 		$this->assertSame(
-			'in_both', $this->subject->translate('in_both')
+			'in_both',
+			$this->subject->translate('in_both')
 		);
 	}
 
@@ -210,22 +172,22 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function noLanguageAtAllWithUnknownKey() {
 		$this->subject->setLanguage('');
-		$this->subject->setFallbackLanguage('');
+
 		$this->assertSame(
-			'missing_key', $this->subject->translate('missing_key')
+			'missing_key',
+			$this->subject->translate('missing_key')
 		);
 	}
 
 	/**
 	 * @test
 	 */
-	public function translateForMissingLabelAndEmptyDefaultLanguageKeyReturnsLabelKey() {
+	public function translateForMissingLabelKeyReturnsLabelKey() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$this->markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
 		}
 
 		$this->subject->setLanguage('de');
-		$this->subject->setFallbackLanguage('');
 
 		$this->assertSame(
 			'only_in_default',
@@ -236,13 +198,12 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function translateForMissingLabelAndEmptyDefaultLanguageKeyStillUsesDefaultAsLanguageKey() {
+	public function translateForMissingLabelStillUsesDefaultAsLanguageKey() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
 			$this->markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
 		}
 
 		$this->subject->setLanguage('de');
-		$this->subject->setFallbackLanguage('');
 
 		$this->assertSame(
 			'only in default',
@@ -370,57 +331,6 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 		$this->assertSame(
 			'default_not_fallback default',
 			$this->subject->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForMissingLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$this->subject->setLanguage('xy');
-		$this->subject->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback de',
-			$this->subject->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function fallbackToDefaultFromEmptyLanguage() {
-		$this->subject->setLanguage('');
-		$this->subject->setFallbackLanguage('default');
-		$this->assertSame(
-			'default_not_fallback default',
-			$this->subject->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForEmptyLanguageAndGermanFallbackLanguageReturnsGermanTranslation() {
-		$this->subject->setLanguage('');
-		$this->subject->setFallbackLanguage('de');
-
-		$this->assertSame(
-			'default_not_fallback de',
-			$this->subject->translate('default_not_fallback')
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function translateForGermanLanguageAndFrenchFallbackLanguageReturnsFrenchTranslation() {
-		$this->subject->setLanguage('de');
-		$this->subject->setFallbackLanguage('fr');
-
-		$this->assertSame(
-			'only in french fr',
-			$this->subject->translate('only_in_french')
 		);
 	}
 

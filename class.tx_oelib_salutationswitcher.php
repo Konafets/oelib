@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2005-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2005-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,13 +31,6 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
-	/**
-	  * Pointer to alternative fall-back language to use. This is non-empty so
-	  * we always have a valid fallback language even if it hasn't been
-	  * explicitely set.
-	  */
-	public $altLLkey = 'default';
-
 	/**
 	 * A list of language keys for which the localizations have been loaded
 	 * (or NULL if the list has not been compiled yet).
@@ -172,9 +165,6 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 
 			if (!empty($this->LLkey)) {
 				$this->availableLanguages[] = $this->LLkey;
-			}
-			if (!empty($this->altLLkey)) {
-				$this->availableLanguages[] = $this->altLLkey;
 			}
 			// The key for English is "default", not "en".
 			$this->availableLanguages = preg_replace(

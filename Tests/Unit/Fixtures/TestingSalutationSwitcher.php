@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2007-2013 Oliver Klee (typo3-coding@oliverklee.de)
+* (c) 2007-2014 Oliver Klee (typo3-coding@oliverklee.de)
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -87,37 +87,6 @@ final class Tx_Oelib_TestingSalutationSwitcher extends Tx_Oelib_SalutationSwitch
 	 */
 	public function getLanguage() {
 		return $this->LLkey;
-	}
-
-	/**
-	 * Sets the current fallback language for this plugin and loads the language files.
-	 *
-	 * @param string $language
-	 *        two-letter lowercase fallback language like "en" or "de" or
-	 *        "default" (which is an alias for "en")
-	 *
-	 * @return void
-	 */
-	public function setFallbackLanguage($language) {
-		if ($this->getFallbackLanguage() != $language) {
-			// Make sure the language files are reloaded.
-			$this->LOCAL_LANG_loaded = FALSE;
-			$this->altLLkey = $language;
-		}
-
-		$this->pi_loadLL();
-	}
-
-	/**
-	 * Gets the current fallback language.
-	 *
-	 * @return string the two-letter key of the current fallback language like
-	 *                "en", "de" or "default" (which is the only non-two-letter
-	 *                code and an alias for "en"), will return an empty
-	 *                string if no language key has been set yet
-	 */
-	public function getFallbackLanguage() {
-		return $this->altLLkey;
 	}
 
 	/**

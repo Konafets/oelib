@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4338] Change: Drop tx_oelib_salutationswitcher->altLLkey
 - [#4748] Fix: Drop early __destruct calls
 - [#4650] Change: Deprecate the ObjectFactory
 - [#5000] Fix: Test failure in 6.1 due to changed XClass mechanism
