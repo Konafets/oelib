@@ -49,8 +49,6 @@ class tx_oelib_ObjectFactory {
 	 * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
 	 */
 	public static function make($className) {
-		t3lib_div::logDeprecatedFunction();
-
 		// Makes sure that the parent class is included so it can load any
 		// XCLASS subclasses.
 		tx_oelib_Autoloader::load($className);
