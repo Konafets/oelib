@@ -85,11 +85,18 @@ final class Tx_Oelib_TestingFramework {
 	protected $relationSorting = array();
 
 	/**
-	 * @var integer the number of unusable UIDs after the maximum UID in a
-	 * table before the auto increment value will be reset by
-	 * resetAutoIncrementLazily
+	 * The number of unusable UIDs after the maximum UID in a table before the auto increment value will be reset by
+	 * resetAutoIncrementLazily.
+	 *
+	 * This value needs to be high enough so that no two page UIDs will be the same within on request as the loca
+	 * root-line cache of TYPO3 CMS otherwise might create false cache hits, causing failures for unit tests relying on
+	 * the root line.
+	 *
+	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=5011
+	 *
+	 * @var integer
 	 */
-	protected $resetAutoIncrementThreshold = 100;
+	protected $resetAutoIncrementThreshold = 1000;
 
 	/**
 	 * @var array the names of the created dummy files relative to the upload

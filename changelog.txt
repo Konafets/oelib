@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5011] Fix: Test failure in Tx_Oelib_TemplateHelperTest in TYPO3 CMS 6.1
 - [#5009] Fix: Test failure in Tx_Oelib_Model_CurrencyTest and Tx_Oelib_ViewHelper_PriceTest with static_info_tables 6
 - [#5007] Change: Deprecate the Timer class
 - [#4572] Fix: Add .htaccess to all folders with private resources

@@ -2325,25 +2325,6 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function resetAutoIncrementLazilyCleansUpsAfter100NewRecordsByDefault() {
-		$oldAutoIncrement = $this->subject->getAutoIncrement(OELIB_TESTTABLE);
-
-		for ($i = 0; $i < 100; $i++) {
-			$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
-			$this->subject->deleteRecord(OELIB_TESTTABLE, $latestUid);
-		}
-
-		$this->subject->resetAutoIncrementLazily(OELIB_TESTTABLE);
-
-		$this->assertSame(
-			$oldAutoIncrement,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function setResetAutoIncrementThresholdForOneIsAllowed() {
 		$this->subject->setResetAutoIncrementThreshold(1);
 	}
