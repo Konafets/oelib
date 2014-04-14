@@ -1219,13 +1219,11 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->logoutFrontEndUser();
 
+		$frontEnd = $this->getFrontEnd();
 		unset(
-			$GLOBALS['TSFE']->tmpl, $GLOBALS['TSFE']->sys_page,
-			$GLOBALS['TSFE']->fe_user, $GLOBALS['TSFE']->TYPO3_CONF_VARS,
-			$GLOBALS['TSFE']->config, $GLOBALS['TSFE']->TCAcachedExtras,
-			$GLOBALS['TSFE']->imagesOnPage, $GLOBALS['TSFE']->cObj,
-			$GLOBALS['TSFE']->csConvObj, $GLOBALS['TSFE']->pagesection_lockObj,
-			$GLOBALS['TSFE']->pages_lockObj
+			$frontEnd->tmpl, $frontEnd->sys_page, $frontEnd->fe_user, $frontEnd->TYPO3_CONF_VARS, $frontEnd->config,
+			$frontEnd->TCAcachedExtras, $frontEnd->imagesOnPage, $frontEnd->cObj, $frontEnd->csConvObj,
+			$frontEnd->pagesection_lockObj, $frontEnd->pages_lockObj
 		);
 		$GLOBALS['TSFE'] = NULL;
 		$GLOBALS['TT'] = NULL;
@@ -1301,10 +1299,11 @@ final class Tx_Oelib_TestingFramework {
 		// Instead of passing the actual user data to createUserSession, we
 		// pass an empty array to improve performance (e.g. no session record
 		// will be written to the database).
-		$GLOBALS['TSFE']->fe_user->createUserSession(array());
-		$GLOBALS['TSFE']->fe_user->user = $dataToSet;
-		$GLOBALS['TSFE']->fe_user->fetchGroupData();
-		$GLOBALS['TSFE']->loginUser = 1;
+		$frontEnd = $this->getFrontEnd();
+		$frontEnd->fe_user->createUserSession(array('uid' => $userId, 'disableIPlock' => TRUE));
+		$frontEnd->fe_user->user = $dataToSet;
+		$frontEnd->fe_user->fetchGroupData();
+		$frontEnd->loginUser = 1;
 	}
 
 	/**
@@ -1326,8 +1325,8 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->suppressFrontEndCookies();
 
-		$GLOBALS['TSFE']->fe_user->logoff();
-		$GLOBALS['TSFE']->loginUser = 0;
+		$this->getFrontEnd()->fe_user->logoff();
+		$this->getFrontEnd()->loginUser = 0;
 
 		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
@@ -1933,5 +1932,16 @@ final class Tx_Oelib_TestingFramework {
 	public function purgeHooks() {
 		self::$hooks = array();
 		self::$hooksHaveBeenRetrieved = FALSE;
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * This method must only be called when there is a front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	protected function getFrontEnd() {
+		return $GLOBALS['TSFE'];
 	}
 }
