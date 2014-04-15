@@ -1633,23 +1633,12 @@ class Tx_Oelib_ConfigCheck {
 	}
 
 	/**
-	 * Checks whether CSS Styled Content is installed and active.
-	 *
-	 * TODO: Some of this can be simplified by asking the EM whether CSC is loaded.
+	 * This function does not do anything anymore. It used to check whether css_styled_content was installied,
+	 * but nowadays we can safely assume that it's always installed.
 	 *
 	 * @return void
 	 */
 	protected function checkCssStyledContent() {
-		if (isset($GLOBALS['TSFE'])) {
-			if (!isset($GLOBALS['TSFE']->tmpl->setup['includeLibs.']['tx_cssstyledcontent_pi1'])
-			|| ($GLOBALS['TSFE']->tmpl->setup['includeLibs.']['tx_cssstyledcontent_pi1']
-			!= 'EXT:css_styled_content/pi1/class.tx_cssstyledcontent_pi1.php')) {
-			$this->setErrorMessage('The extension CSS Styled Content is not '
-				.'loaded. This will break some output of this extension. '
-				.'Please install CSS Styled Content and include its '
-				.'configuration in your TS template.');
-			}
-		}
 	}
 
 	/**

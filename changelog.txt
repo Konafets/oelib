@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5020] Fix: Error massage: The extension CSS Styled Content is not loaded
 - [#5015] Change: Make oelib as compatible up to TYPO3 CMS 6.1.x
 - [#5010] Fix: TestingFramework::loginFrontEndUser is slow on TYPO3 CMS 6.1
 - [#5011] Fix: Test failure in Tx_Oelib_TemplateHelperTest in TYPO3 CMS 6.1
