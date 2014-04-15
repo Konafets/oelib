@@ -96,7 +96,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @var integer
 	 */
-	protected $resetAutoIncrementThreshold = 1000;
+	protected $resetAutoIncrementThreshold = 5000;
 
 	/**
 	 * @var array the names of the created dummy files relative to the upload
