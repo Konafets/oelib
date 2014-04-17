@@ -9,5 +9,4 @@ $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Tests/Unit/Fixtures
 $TYPO3_CONF_VARS['SC_OPTIONS']['tce']['formevals']['tx_oelib_Double3Validator'] = 'EXT:oelib/Classes/Double3Validator.php';
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['oelib']['testingFrameworkCleanUp'][]
-	= 'EXT:oelib/class.tx_oelib_TestingFrameworkCleanup.php:' .
-		'&tx_oelib_TestingFrameworkCleanup';
+	= 'EXT:oelib/Classes/TestingFrameworkCleanup.php:&tx_oelib_TestingFrameworkCleanup';
