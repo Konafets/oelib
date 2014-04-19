@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2009-2013 Oliver Klee <typo3-coding@oliverklee.de>
+* (c) 2008-2014 Saskia Metzler <saskia@merlin.owl.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,32 +23,12 @@
 ***************************************************************/
 
 /**
- * This class represents an exception that should be thrown when a database
- * error has occurred.
- *
- * The exception automatically will use an error message, the error message
- * from the DB and the last query.
+ * This exception can be used to indicate that a user has no access to a page.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
- * @author Oliver Klee <typo3-coding@oliverklee.de>
+ * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_Exception_Database extends Exception {
-	/**
-	 * The constructor.
-	 */
-	public function __construct() {
-		$message = 'There was an error with the database query.' . LF .
-			$GLOBALS['TYPO3_DB']->sql_error();
-
-		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery
-			|| $GLOBALS['TYPO3_DB']->debugOutput
-		) {
-			$message .= LF . 'The last built query:' . LF .
-				$GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
-		}
-
-		parent::__construct($message);
-	}
+class tx_oelib_Exception_AccessDenied extends Exception {
 }

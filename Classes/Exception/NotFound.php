@@ -2,7 +2,7 @@
 /***************************************************************
 * Copyright notice
 *
-* (c) 2008-2013 Saskia Metzler <saskia@merlin.owl.de>
+* (c) 2008-2014 Oliver Klee <typo3-coding@oliverklee.de>
 * All rights reserved
 *
 * This script is part of the TYPO3 project. The TYPO3 project is
@@ -23,12 +23,12 @@
 ***************************************************************/
 
 /**
- * This exception can be used to indicate that a user has no access to a page.
+ * This exception can be used to indicate that an element was not found in an identity map.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
- * @author Saskia Metzler <saskia@merlin.owl.de>
+ * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Exception_AccessDenied extends Exception {
+class tx_oelib_Exception_NotFound extends Exception {
 }
