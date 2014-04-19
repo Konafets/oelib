@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5041] Cleanup: Move the common constants file to Classes/
 - [#5028] Cleanup: Move the icon to Resources/Public
 - [#5020] Fix: Error message: The extension CSS Styled Content is not loaded
 - [#5015] Change: Make oelib as compatible up to TYPO3 CMS 6.1.x

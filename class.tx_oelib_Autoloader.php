@@ -22,7 +22,7 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-require_once(t3lib_extMgm::extPath('oelib') . 'tx_oelib_commonConstants.php');
+require_once(t3lib_extMgm::extPath('oelib') . 'Classes/CommonConstants.php');
 
 /**
  * This class implements the SPL autoloader.
