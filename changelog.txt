@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5032] Cleanup: Move Geocoding/ to Classes/Geocoding/
 - [#5031] Cleanup: Move Exception/ to Classes/Exception/
 - [#5029] Cleanup: Move the TCA to Configuration/TCA/
 - [#5030] Cleanup: Move locallang_db.xml to Resources/Private
