@@ -198,27 +198,6 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	/**
-	 * TODO: This test does not work until the full versioning feature is
-	 * implemented in oelib.
-	 *
-	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=2180
-	 *
-	 * @test
-	 */
-	public function enableFieldsCanBeDifferentForDifferentVersionParameters() {
-		$this->markTestSkipped('This test does not work until the full versioning feature is implemented in oelib.');
-
-		$this->assertNotSame(
-			Tx_Oelib_Db::enableFields(
-				OELIB_TESTTABLE, 0, array(), FALSE
-			),
-			Tx_Oelib_Db::enableFields(
-				OELIB_TESTTABLE, 0, array(), TRUE
-			)
-		);
-	}
-
 
 	/*
 	 * Tests concerning createRecursivePageList
