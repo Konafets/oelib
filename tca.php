@@ -47,7 +47,7 @@ $TCA['tx_oelib_test'] = array(
 		),
 		'title' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:oelib/locallang_db.xml:tx_oelib_test.title',
+			'label' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test.title',
 			'config' => array(
 				'type' => 'none',
 				'size' => '30',
@@ -168,7 +168,7 @@ $TCA['tx_oelib_testchild'] = array(
 	'columns' => array(
 		'title' => array(
 			'exclude' => 0,
-			'label' => 'LLL:EXT:oelib/locallang_db.xml:tx_oelib_test.title',
+			'label' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test.title',
 			'config' => array(
 				'type' => 'none',
 				'size' => '30',

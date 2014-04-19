@@ -7,7 +7,7 @@ t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'One is Enough
 
 $TCA['tx_oelib_test'] = array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:oelib/locallang_db.xml:tx_oelib_test',
+		'title' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test',
 		'readOnly' => 1,
 		'adminOnly' => 1,
 		'rootLevel' => 1,
@@ -30,7 +30,7 @@ $TCA['tx_oelib_test'] = array(
 
 $TCA['tx_oelib_testchild'] = array(
 	'ctrl' => array(
-		'title' => 'LLL:EXT:oelib/locallang_db.xml:tx_oelib_test',
+		'title' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test',
 		'readOnly' => 1,
 		'adminOnly' => 1,
 		'rootLevel' => 1,
