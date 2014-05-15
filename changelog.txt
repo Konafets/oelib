@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5058] Fix: Test errors in Tx_Oelib_FrontEndLoginManagerTest in 6.2
 - [#5040] Fix: Allow access to public resource files and the manual again
 - [#4840] Change: Drop workspace and localization fields from oelib
 - [#5032] Cleanup: Move Geocoding/ to Classes/Geocoding/

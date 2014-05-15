@@ -1250,6 +1250,10 @@ final class Tx_Oelib_TestingFramework {
 		$GLOBALS['_POST']['FE_SESSION_KEY'] = '';
 		$GLOBALS['_GET']['FE_SESSION_KEY'] = '';
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = array(
+			'className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies',
+		);
 	}
 
 
