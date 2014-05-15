@@ -1095,9 +1095,9 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTcaForTableCanLoadFieldsAddedByExtensions() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
 			$this->markTestSkipped(
-				'This test is only applicable if sr_feuser_register is loaded.'
+				'This test is only applicable if the FrontEndUser.gender field exists.'
 			);
 		}
 		$tca = Tx_Oelib_Db::getTcaForTable('fe_users');

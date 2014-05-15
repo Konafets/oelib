@@ -1049,8 +1049,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGenderForNotInstalledSrFeUserRegisterReturnsGenderUnknown() {
-		if (t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is not loaded.');
+		if (Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if no FrontEndUser.gender field exists.');
 		}
 
 		$this->assertSame(
@@ -1063,8 +1063,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGenderForGenderValueZeroReturnsGenderMale() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array('gender' => 0));
 
@@ -1078,8 +1078,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGenderForGenderValueOneReturnsGenderFemale() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array('gender' => 1));
 
@@ -1093,8 +1093,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setGenderCanSetGenderToMale() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array());
 		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_MALE);
@@ -1109,8 +1109,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setGenderCanSetGenderToFemale() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array());
 		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE);
@@ -1125,8 +1125,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setGenderCanSetGenderToUnknown() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array());
 		$this->subject->setGender(Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN);
@@ -1143,8 +1143,8 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setGenderForInvalidGenderKeyThrowsException() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
-			$this->markTestSkipped('This test is only applicable if sr_feuser_register is loaded.');
+		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
+			$this->markTestSkipped('This test is only applicable if the FrontEndUser.gender field exists.');
 		}
 		$this->subject->setData(array());
 		$this->subject->setGender(4);

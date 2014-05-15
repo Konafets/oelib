@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4649] Fix: Also recognize first/last name for current TYPO3 versions
 - [#5059] Fix: Test errors in Tx_Oelib_TestingFrameworkTest in 6.2
 - [#5058] Fix: Test errors in Tx_Oelib_FrontEndLoginManagerTest in 6.2
 - [#5040] Fix: Allow access to public resource files and the manual again

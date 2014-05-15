@@ -424,7 +424,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements tx_oelib_Int
 	/**
 	 * Gets this user's gender.
 	 *
-	 * Will return "unknown gender" if sr_feuser_register is not installed.
+	 * Will return "unknown gender" if there is no FrontEndUser.gender field.
 	 *
 	 * @return integer the gender of the user, will be
 	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE,
@@ -432,11 +432,20 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements tx_oelib_Int
 	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN
 	 */
 	public function getGender() {
-		if (!t3lib_extMgm::isLoaded('sr_feuser_register')) {
+		if (!self::hasGenderField()) {
 			return self::GENDER_UNKNOWN;
 		}
 
 		return $this->getAsInteger('gender');
+	}
+
+	/**
+	 * Checks whether FE users have a "gender" field at all.
+	 *
+	 * @return bool
+	 */
+	static public function hasGenderField() {
+		return t3lib_extMgm::isLoaded('sr_feuser_register') || t3lib_extMgm::isLoaded('sf_register');
 	}
 
 	/**
