@@ -1195,6 +1195,7 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->hasFakeFrontEnd = TRUE;
 		$this->logoutFrontEndUser();
+		$frontEnd->loginUser = (bool) $frontEnd->loginUser;
 
 		return $GLOBALS['TSFE']->id;
 	}
@@ -1307,7 +1308,7 @@ final class Tx_Oelib_TestingFramework {
 		$frontEnd->fe_user->createUserSession(array('uid' => $userId, 'disableIPlock' => TRUE));
 		$frontEnd->fe_user->user = $dataToSet;
 		$frontEnd->fe_user->fetchGroupData();
-		$frontEnd->loginUser = 1;
+		$frontEnd->loginUser = TRUE;
 	}
 
 	/**
@@ -1330,7 +1331,7 @@ final class Tx_Oelib_TestingFramework {
 		$this->suppressFrontEndCookies();
 
 		$this->getFrontEnd()->fe_user->logoff();
-		$this->getFrontEnd()->loginUser = 0;
+		$this->getFrontEnd()->loginUser = FALSE;
 
 		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}

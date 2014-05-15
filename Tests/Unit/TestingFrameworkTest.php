@@ -3739,7 +3739,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 *
-	 * @expectedException t3lib_exception
+	 * @expectedException RuntimeException
 	 */
 	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
@@ -4459,11 +4459,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function loginUserIsZeroAfterCreateFakeFrontEnd() {
+	public function loginUserIsFalseAfterCreateFakeFrontEnd() {
 		$this->subject->createFakeFrontEnd();
 
-		$this->assertSame(
-			0,
+		$this->assertFalse(
 			$GLOBALS['TSFE']->loginUser
 		);
 	}
@@ -4677,14 +4676,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function loginFrontEndUserSetsLoginUserToOne() {
+	public function loginFrontEndUserSetsLoginUserToTrue() {
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
 		$this->subject->loginFrontEndUser($feUserId);
 
-		$this->assertSame(
-			1,
+		$this->assertTrue(
 			$GLOBALS['TSFE']->loginUser
 		);
 	}
@@ -4784,13 +4782,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function logoutFrontEndUserSetsLoginUserToZero() {
+	public function logoutFrontEndUserSetsLoginUserToFalse() {
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->logoutFrontEndUser();
 
-		$this->assertSame(
-			0,
+		$this->assertFalse(
 			$GLOBALS['TSFE']->loginUser
 		);
 	}
@@ -4814,7 +4811,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function loginFrontEndUserNotInDatabaseSetsLoginUserToOne() {
+	public function loginFrontEndUserNotInDatabaseSetsLoginUserToTrue() {
 		$this->subject->createFakeFrontEnd();
 
 		$feUser = Tx_Oelib_MapperRegistry
@@ -4822,8 +4819,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUser->setData(array());
 		$this->subject->loginFrontEndUser($feUser->getUid());
 
-		$this->assertSame(
-			1,
+		$this->assertTrue(
 			$GLOBALS['TSFE']->loginUser
 		);
 	}
