@@ -35,6 +35,16 @@
  */
 final class Tx_Oelib_TestingFramework {
 	/**
+	 * @var int
+	 */
+	const AUTO_INCREMENT_THRESHOLD_WITHOUT_ROOTLINE_CACHE = 100;
+
+	/**
+	 * @var int
+	 */
+	const AUTO_INCREMENT_THRESHOLD_WITH_ROOTLINE_CACHE = 5000;
+
+	/**
 	 * @var string prefix of the extension for which this instance of the
 	 *             testing framework was instantiated (e.g. "tx_seminars")
 	 */
@@ -94,9 +104,9 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=5011
 	 *
-	 * @var integer
+	 * @var int
 	 */
-	protected $resetAutoIncrementThreshold = 5000;
+	protected $resetAutoIncrementThreshold = 0;
 
 	/**
 	 * @var array the names of the created dummy files relative to the upload
@@ -167,8 +177,21 @@ final class Tx_Oelib_TestingFramework {
 		$this->additionalTablePrefixes = $additionalTablePrefixes;
 		$this->createListOfOwnAllowedTables();
 		$this->createListOfAdditionalAllowedTables();
-		$this->uploadFolderPath
-			= PATH_site . 'uploads/' . $this->tablePrefix . '/';
+		$this->uploadFolderPath = PATH_site . 'uploads/' . $this->tablePrefix . '/';
+
+		$this->determineAndSetAutoIncrementThreshold();
+	}
+
+	/**
+	 * Determines a good value for the auto increment threshold and sets it.
+	 *
+	 * @return void
+	 */
+	protected function determineAndSetAutoIncrementThreshold() {
+		$resetAutoIncrementThreshold = ($this->hasRootlineCache() && !$this->hasRootlineCachePurgingFunction())
+			? self::AUTO_INCREMENT_THRESHOLD_WITH_ROOTLINE_CACHE : self::AUTO_INCREMENT_THRESHOLD_WITHOUT_ROOTLINE_CACHE;
+
+		$this->setResetAutoIncrementThreshold($resetAutoIncrementThreshold);
 	}
 
 	/**
@@ -754,6 +777,10 @@ final class Tx_Oelib_TestingFramework {
 			if (method_exists($hook, 'cleanUp')) {
 				$hook->cleanUp($this);
 			}
+		}
+
+		if ($this->hasRootlineCachePurgingFunction()) {
+			\TYPO3\CMS\Core\Utility\RootlineUtility::purgeCaches();
 		}
 	}
 
@@ -1948,5 +1975,23 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	protected function getFrontEnd() {
 		return $GLOBALS['TSFE'];
+	}
+
+	/**
+	 * Checks whether the TYPO3 CMS Core has a rootline cache.
+	 *
+	 * @return bool
+	 */
+	public function hasRootlineCache() {
+		return t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000;
+	}
+
+	/**
+	 * Checks whether the TYPO3 CMS core has a function for purging the rootline cache.
+	 *
+	 * @return bool
+	 */
+	public function hasRootlineCachePurgingFunction() {
+		return $this->hasRootlineCache() && method_exists('TYPO3\\CMS\\Core\\Utility\\RootlineUtility', 'purgeCaches');
 	}
 }
