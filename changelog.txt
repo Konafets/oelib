@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5079] Change: Add dependencies for the test extensions
 - [#5078] Fix: Don't use NULL as third parameter in mb_substr
 - [#4649] Fix: Also recognize first/last name for current TYPO3 versions
 - [#5059] Fix: Test errors in Tx_Oelib_TestingFrameworkTest in 6.2
