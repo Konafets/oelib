@@ -1192,9 +1192,8 @@ final class Tx_Oelib_TestingFramework {
 		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
 
 		/** @var $frontEnd tslib_fe */
-		$frontEnd = t3lib_div::makeInstance(
-			'tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0
-		);
+		$frontEnd = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		$GLOBALS['TSFE'] = $frontEnd;
 
 		// simulates a normal FE without any logged-in FE or BE user
 		$frontEnd->beUserLogin = FALSE;
@@ -1207,12 +1206,8 @@ final class Tx_Oelib_TestingFramework {
 
 		$frontEnd->tmpl->getFileName_backPath = PATH_site;
 
-		if (($pageUid > 0)
-			&& in_array('sys_template', $this->dirtySystemTables)
-		) {
-			$frontEnd->tmpl->runThroughTemplates(
-				$frontEnd->sys_page->getRootLine($pageUid), 0
-			);
+		if (($pageUid > 0) && in_array('sys_template', $this->dirtySystemTables, TRUE)) {
+			$frontEnd->tmpl->runThroughTemplates($frontEnd->sys_page->getRootLine($pageUid), 0);
 			$frontEnd->tmpl->generateConfig();
 			$frontEnd->tmpl->loaded = 1;
 			$frontEnd->settingLanguage();
@@ -1221,13 +1216,12 @@ final class Tx_Oelib_TestingFramework {
 
 		$frontEnd->newCObj();
 
-		$GLOBALS['TSFE'] = $frontEnd;
 
 		$this->hasFakeFrontEnd = TRUE;
 		$this->logoutFrontEndUser();
 		$frontEnd->loginUser = (bool) $frontEnd->loginUser;
 
-		return $GLOBALS['TSFE']->id;
+		return $frontEnd->id;
 	}
 
 	/**
