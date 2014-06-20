@@ -1125,8 +1125,10 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		$encoding = mb_detect_encoding($this->getUploadFolderPath());
+		$uploadFolderPathLength = mb_strlen($this->getUploadFolderPath(), $encoding);
+		$absolutePathLength = mb_strlen($absolutePath, $encoding);
 
-		return mb_substr($absolutePath, mb_strlen($this->getUploadFolderPath(), $encoding), NULL, $encoding);
+		return mb_substr($absolutePath, $uploadFolderPathLength, $absolutePathLength, $encoding);
 	}
 
 	/**
