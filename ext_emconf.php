@@ -43,7 +43,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'conflicts' => array(
 		),
 		'suggests' => array(
-			'extbase' => '1.3.0-6.1.99',
+			'extbase' => '1.3.0-6.2.99',
 		),
 	),
 	'suggests' => array(
