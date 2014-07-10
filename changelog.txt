@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4910] Change: Update Emogrifier to the latest version
 - [#5033] Cleanup: Move Interface/ to Classes/Interface/
 - [#5034] Cleanup: Move Mapper/ to Classes/Mapper/
 - [#5035] Cleanup: Move Model/ to Classes/Model/

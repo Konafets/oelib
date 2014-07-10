@@ -22,8 +22,8 @@
 * This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-if (!class_exists('emogrifier', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/emogrifier/emogrifier.php');
+if (!class_exists('Pelago\\Emogrifier', FALSE)) {
+	require_once(t3lib_extMgm::extPath('oelib') . 'vendor/autoload.php');
 }
 
 /**
@@ -225,6 +225,8 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @param string $message the HTML message of the e-mail, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function setHTMLMessage($message) {
 		if ($message == '') {
@@ -232,7 +234,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 		}
 
 		if ($this->hasCssFile()) {
-			$emogrifier = new Emogrifier($message, $this->getCssFile());
+			$emogrifier = new \Pelago\Emogrifier($message, $this->getCssFile());
 			$messageToStore = $emogrifier->emogrify();
 		} else {
 			$messageToStore = $message;
