@@ -82,7 +82,7 @@ return array(
 	'tx_oelib_model_frontenduser' => $extensionPath . 'Model/class.tx_oelib_Model_FrontEndUser.php',
 	'tx_oelib_model_frontendusergroup' => $extensionPath . 'Model/class.tx_oelib_Model_FrontEndUserGroup.php',
 	'tx_oelib_model_language' => $extensionPath . 'Model/class.tx_oelib_Model_Language.php',
-	'tx_oelib_viewhelper_price' => $extensionPath . 'ViewHelper/class.tx_oelib_ViewHelper_Price.php',
+	'tx_oelib_viewhelper_price' => $extensionPath . 'Classes/ViewHelper/Price.php',
 	'tx_oelib_viewhelpers_googlemapsviewhelper' => $extensionPath . 'Classes/ViewHelpers/GoogleMapsViewHelper.php',
 	'tx_oelib_viewhelpers_imagesourceviewhelper' => $extensionPath . 'Classes/ViewHelpers/ImageSourceViewHelper.php',
 	'tx_oelib_viewhelpers_uppercaseviewhelper' => $extensionPath . 'Classes/ViewHelpers/UppercaseViewHelper.php',

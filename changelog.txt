@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5036] Cleanup: Move ViewHelper/ to Classes/ViewHelper/
 - [#5037] Cleanup: Move Visibility/ to Classes/Visibility/
 - [#5081] Fix: Test crash in Tx_Oelib_TestingFrameworkTest in TYPO3 CMS 6.2 if activateContentAdapter is set
 - [#5082] Fix: Missing TSFE renderCharset leads to PHP warnings, thanks to Nicole Cordes
