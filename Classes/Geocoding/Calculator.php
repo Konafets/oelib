@@ -1,26 +1,16 @@
 <?php
-/***************************************************************
-* Copyright notice
-*
-* (c) 2010-2014 Oliver Klee <typo3-coding@oliverklee.de>
-* All rights reserved
-*
-* This script is part of the TYPO3 project. The TYPO3 project is
-* free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* The GNU General Public License can be found at
-* http://www.gnu.org/copyleft/gpl.html.
-*
-* This script is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+/**
+ * This file is part of the TYPO3 CMS project.
+ *
+ * It is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License, either version 2
+ * of the License, or any later version.
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ *
+ * The TYPO3 project - inspiring people to share!
+ */
 
 /**
  * This class provides functions for calculating the distance between geo objects.
@@ -30,13 +20,18 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Geocoding_Calculator {
+class tx_oelib_Geocoding_Calculator implements t3lib_Singleton {
 	/**
 	 * the earth radius in kilometers
 	 *
 	 * @var float
 	 */
 	const EARTH_RADIUS_IN_KILOMETERS = 6378.7;
+
+	/**
+	 * @var float
+	 */
+	const ONE_DEGREE_LATITUDE_IN_KILOMETERS = 111.2;
 
 	/**
 	 * Calculates the great-circle distance in kilometers between two geo
@@ -47,8 +42,9 @@ class tx_oelib_Geocoding_Calculator {
 	 * @param tx_oelib_Interface_Geo $object2
 	 *        the second object, must have geo coordinates
 	 *
-	 * @return float the distance between $object1 and $object2 in kilometers,
-	 *               will be >= 0.0
+	 * @return float the distance between $object1 and $object2 in kilometers, will be >= 0.0
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function calculateDistanceInKilometers(
 		tx_oelib_Interface_Geo $object1, tx_oelib_Interface_Geo $object2
@@ -116,5 +112,95 @@ class tx_oelib_Geocoding_Calculator {
 		}
 
 		return $objectsWithinDistance;
+	}
+
+	/**
+	 * Moves $object by $distance kilometers in the direction of $direction.
+	 *
+	 * Note: This move is not very accurate.
+	 *
+	 * @param tx_oelib_Interface_Geo $object
+	 * @param float $direction direction of the movement in degrees (0.0 is east)
+	 * @param float $distance distance to move in kilometers, may be positive, zero or negative
+	 *
+	 * @return void
+	 */
+	public function move(tx_oelib_Interface_Geo $object, $direction, $distance) {
+		$directionInRadians = deg2rad($direction);
+
+		$originalCoordinates = $object->getGeoCoordinates();
+		/** @var float $originalLatitude */
+		$originalLatitude = $originalCoordinates['latitude'];
+		/** @var float $originalLongitude */
+		$originalLongitude = $originalCoordinates['longitude'];
+
+		$xDeltaInKilometers = $distance * cos($directionInRadians);
+		$yDeltaInKilometers = $distance * sin($directionInRadians);
+
+		$oneDegreeLongitudeInKilometers = 2 * M_PI * self::EARTH_RADIUS_IN_KILOMETERS * cos($originalLongitude) / 360;
+
+		$latitudeDelta = $yDeltaInKilometers / self::ONE_DEGREE_LATITUDE_IN_KILOMETERS;
+		$longitudeDelta = $xDeltaInKilometers / $oneDegreeLongitudeInKilometers;
+
+		$object->setGeoCoordinates(
+			array(
+				'latitude' => $originalLatitude + $latitudeDelta,
+				'longitude' => $originalLongitude + $longitudeDelta,
+			)
+		);
+	}
+
+	/**
+	 * Moves $object at most by $maximumDistance kilometers in the direction of $direction.
+	 *
+	 * Note: This move is not very accurate.
+	 *
+	 * @param tx_oelib_Interface_Geo $object
+	 * @param float $direction direction of the movement in degrees (0.0 is east)
+	 * @param float $maximumDistance maximum distance to move in kilometers, may be positive, zero or negative
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	public function moveByRandomDistance(tx_oelib_Interface_Geo $object, $direction, $maximumDistance) {
+		if ($maximumDistance < 0) {
+			throw new InvalidArgumentException('$distance must be >= 0, but actually is: ' . $maximumDistance, 1407432668);
+		}
+
+		$distanceMultiplier = 10000;
+
+		$randomDistance = mt_rand(0, $maximumDistance * $distanceMultiplier) / $distanceMultiplier;
+		$this->move($object, $direction, $randomDistance);
+	}
+
+	/**
+	 * Moves $object by $distance kilometers in a random direction
+	 *
+	 * Note: This move is not very accurate.
+	 *
+	 * @param tx_oelib_Interface_Geo $object
+	 * @param float $distance distance to move in kilometers, may be positive, zero or negative
+	 *
+	 * @return void
+	 */
+	public function moveInRandomDirection(tx_oelib_Interface_Geo $object, $distance) {
+		$direction = mt_rand(0, 360);
+		$this->move($object, $direction, $distance);
+	}
+
+	/**
+	 * Moves $object by at most $maximumDistance kilometers in a random direction
+	 *
+	 * Note: This move is not very accurate.
+	 *
+	 * @param tx_oelib_Interface_Geo $object
+	 * @param float $maximumDistance maximum distance to move in kilometers, must not be negative
+	 *
+	 * @return void
+	 */
+	public function moveInRandomDirectionAndDistance(tx_oelib_Interface_Geo $object, $maximumDistance) {
+		$direction = mt_rand(0, 360);
+		$this->moveByRandomDistance($object, $direction, $maximumDistance);
 	}
 }
