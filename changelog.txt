@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4867] Cleanup: Use the new copyright headers
 - [#5092] Feature: Add functions for moving a Geo element
 - [#4910] Change: Update Emogrifier to the latest version
 - [#5033] Cleanup: Move Interface/ to Classes/Interface/
