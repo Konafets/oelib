@@ -13,7 +13,7 @@
  */
 
 if (!class_exists('Pelago\\Emogrifier', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'vendor/autoload.php');
+	require_once(t3lib_extMgm::extPath('oelib') . 'Packages/vendor/autoload.php');
 }
 
 /**
