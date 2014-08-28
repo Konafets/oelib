@@ -15,6 +15,8 @@
 /**
  * This class provides file functions.
  *
+ * @deprecated 2010-07-22 use t3lib_div::rmdir instead
+ *
  * @package TYPO3
  * @subpackage tx_oelib
  *
