@@ -23,7 +23,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
+class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Two-dimensional array of e-mail data.
 	 * Each e-mail is stored in one element. So the number of elements in the
@@ -34,7 +34,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	private $emailData = array();
 
 	/**
-	 * @var boolean whether sendEmail() should always return TRUE
+	 * @var bool whether sendEmail() should always return TRUE
 	 */
 	private $fakeSuccess = TRUE;
 
@@ -48,24 +48,18 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	 * @param string $encodingType encoding type: "quoted-printable" or "8bit"
 	 * @param string $charset
 	 *        charset to use for encoding headers (only if $encodingType is set to a valid value which produces such a header)
-	 * @param boolean $doNotEncodeHeader if set, the header content will not be encoded
+	 * @param bool $doNotEncodeHeader if set, the header content will not be encoded
 	 *
-	 * @return boolean depending on whether success should be faked or not
+	 * @return bool depending on whether success should be faked or not
 	 */
 	public function sendEmail(
-		$emailAddress,
-		$subject,
-		$message,
-		$headers = '',
-		$encodingType = '',
-		$charset = '',
-		$doNotEncodeHeader = FALSE
+		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
 	) {
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
 			'subject' => t3lib_div::encodeHeader($subject, 'quoted-printable'),
 			'message' => $this->formatEmailBody($message),
-			'headers' => $headers
+			'headers' => $headers,
 		);
 
 		return $this->fakeSuccess;
@@ -76,22 +70,16 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	 *
 	 * This function can handle plain-text and multi-part e-mails.
 	 *
-	 * @param string $emailAddress
-	 *        the recipient's e-mail address, will not be validated, must not be
-	 *        empty
+	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
 	 * @param string $subject e-mail subject, must not be empty
 	 * @param string $message message to send, must not be empty
 	 * @param string $headers headers, separated by linefeed, may be empty
 	 * @param string $additionalParameters
-	 *        additional parameters to pass to the mail program as command line
-	 *        arguments
+	 *        additional parameters to pass to the mail program as command line arguments
 	 *
-	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
+	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
-	public function mail(
-		$emailAddress, $subject, $message, $headers = '',
-		$additionalParameters = ''
-	) {
+	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
 		$this->checkParameters($emailAddress, $subject, $message);
 
 		return $this->sendEmail($emailAddress, $subject, $message, $headers);
@@ -100,7 +88,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Sets the return value for sendEmail().
 	 *
-	 * @param boolean $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
+	 * @param bool $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
 	 *
 	 * @return void
 	 */
@@ -111,8 +99,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail or an empty array if there is none.
 	 *
-	 * @return array e-mail address, subject, message and headers of the
-	 *               last e-mail in an array, will be empty if there is
+	 * @return array e-mail address, subject, message and headers of the last e-mail in an array, will be empty if there is
 	 *               no e-mail
 	 */
 	public function getLastEmail() {
@@ -124,13 +111,10 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	}
 
 	/**
-	 * Returns all e-mails sent with this instance or an empty array if there is
-	 * none.
+	 * Returns all e-mails sent with this instance or an empty array if there is none.
 	 *
-	 * @return array two-dimensional array with one element for each
-	 *               e-mail, each inner array has four elements
-	 *               'recipient', 'subject', 'message' and 'headers',
-	 *               will be empty if there are no e-mails
+	 * @return array two-dimensional array with one element for each e-mail, each inner array has four elements
+	 *               'recipient', 'subject', 'message' and 'headers', will be empty if there are no e-mails
 	 *
 	 * @see emailData
 	 */
@@ -141,8 +125,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's recipient.
 	 *
-	 * @return string recipient of the last sent e-mail or an empty string
-	 *                if there is none
+	 * @return string recipient of the last sent e-mail or an empty string if there is none
 	 */
 	public function getLastRecipient() {
 		return $this->getElementFromLastEmail('recipient');
@@ -151,8 +134,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's subject.
 	 *
-	 * @return string subject of the last sent e-mail or an empty string
-	 *                if there is none
+	 * @return string subject of the last sent e-mail or an empty string if there is none
 	 */
 	public function getLastSubject() {
 		return $this->getElementFromLastEmail('subject');
@@ -161,8 +143,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's body.
 	 *
-	 * @return string body of the last sent e-mail or an empty string if
-	 *                there is none
+	 * @return string body of the last sent e-mail or an empty string if there is none
 	 */
 	public function getLastBody() {
 		return $this->getElementFromLastEmail('message');
@@ -171,8 +152,7 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's additional headers.
 	 *
-	 * @return string headers of the last sent e-mail or an empty string
-	 *                if there are none
+	 * @return string headers of the last sent e-mail or an empty string if there are none
 	 */
 	public function getLastHeaders() {
 		return $this->getElementFromLastEmail('headers');
@@ -183,8 +163,9 @@ class tx_oelib_emailCollector extends Tx_Oelib_AbstractMailer {
 	 *
 	 * @param string $key key of the element to return, must be "recipient", "subject", "message" or "headers"
 	 *
-	 * @return string value of the element, will be an empty string if
-	 *                there was none
+	 * @return string value of the element, will be an empty string if there was none
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	private function getElementFromLastEmail($key) {
 		if (!in_array($key, array('recipient', 'subject', 'message', 'headers'))) {

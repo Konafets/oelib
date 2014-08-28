@@ -30,7 +30,7 @@ if (!class_exists('mail_mime', FALSE)) {
  */
 abstract class Tx_Oelib_AbstractMailer {
 	/**
-	 * @var boolean whether an e-mail should be formatted before it is sent
+	 * @var bool whether an e-mail should be formatted before it is sent
 	 */
 	protected $enableFormatting = TRUE;
 
@@ -52,10 +52,10 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @param string $charset
 	 *        charset to use for encoding headers (only if $encodingType is set
 	 *        to a valid value which produces such a header)
-	 * @param boolean $doNotEncodeHeader
+	 * @param bool $doNotEncodeHeader
 	 *        if set, the header content will not be encoded
 	 *
-	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
+	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public abstract function sendEmail(
 		$emailAddress,
@@ -73,8 +73,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * This function can handle plain-text and multi-part e-mails.
 	 *
 	 * @param string $emailAddress
-	 *        the recipient's e-mail address, will not be validated, must not be
-	 *        empty
+	 *        the recipient's e-mail address, will not be validated, must not be empty
 	 * @param string $subject
 	 *        e-mail subject, must not be empty
 	 * @param string $message
@@ -82,10 +81,9 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @param string $headers
 	 *        headers, separated by linefeed, may be empty
 	 * @param string $additionalParameters
-	 *        additional parameters to pass to the mail program as command line
-	 *        arguments
+	 *        additional parameters to pass to the mail program as command line arguments
 	 *
-	 * @return boolean TRUE if the e-mail was sent, FALSE otherwise
+	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public abstract function mail(
 		$emailAddress, $subject, $message, $headers = '',
@@ -98,6 +96,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @param Tx_Oelib_Mail $email the Tx_Oelib_Mail object to send
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function send(Tx_Oelib_Mail $email) {
 		if (!$email->hasSender()) {
@@ -168,12 +168,11 @@ abstract class Tx_Oelib_AbstractMailer {
 	}
 
 	/**
-	 * Sets whether the e-mail body should be formatted before sending the
-	 * e-mail.
+	 * Sets whether the e-mail body should be formatted before sending the e-mail.
 	 *
 	 * Formatting will replace CRLF and CR by LF and strip multiple blank lines.
 	 *
-	 * @param boolean $enableFormatting
+	 * @param bool $enableFormatting
 	 *        TRUE to enable formatting, FALSE to disable
 	 *
 	 * @return void
@@ -191,8 +190,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 *
 	 * @param string $rawEmailBody string raw e-mail body, must not be empty
 	 *
-	 * @return string e-mail body, formatted if formatting is enabled,
-	 *                will not be empty
+	 * @return string e-mail body, formatted if formatting is enabled, will not be empty
 	 */
 	protected function formatEmailBody($rawEmailBody) {
 		if (!$this->enableFormatting) {
@@ -212,9 +210,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @param tx_oelib_Interface_MailRole $mailRole
 	 *        the mail role to format
 	 *
-	 * @return string the mail role formatted as string, e.g.
-	 *                '"John Doe" <john@doe.com>' or just 'john@doe.com' if the
-	 *                name is empty
+	 * @return string
+	 *         the mail role formatted as string, e.g. '"John Doe" <john@doe.com>' or just 'john@doe.com' if the name is empty
 	 */
 	protected function formatMailRole(tx_oelib_Interface_MailRole $mailRole) {
 		if ($mailRole->getName() == '') {
@@ -225,13 +222,11 @@ abstract class Tx_Oelib_AbstractMailer {
 			$mailRole->getName(), 'quoted-printable', $this->getCharacterSet()
 		);
 
-		return '"'. $encodedName . '"' .
-			' <' . $mailRole->getEmailAddress() . '>';
+		return '"'. $encodedName . '"' . ' <' . $mailRole->getEmailAddress() . '>';
 	}
 
 	/**
-	 * Checks that none of the parameters is empty and throws an exception if
-	 * one of them is empty.
+	 * Checks that none of the parameters is empty and throws an exception if one of them is empty.
 	 *
 	 * @param string $emailAddress
 	 *        the recipient's e-mail address, will not be validated, must not be empty
@@ -241,6 +236,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 *        message to send, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
 		if ($emailAddress == '') {

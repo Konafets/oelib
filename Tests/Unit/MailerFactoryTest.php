@@ -29,19 +29,19 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_emailCollector
 	 */
-	private $subject;
+	private $subject = NULL;
 
 	private static $email = array(
 		'recipient' => 'any-recipient@email-address.org',
 		'subject' => 'any subject',
 		'message' => 'any message',
-		'headers' => ''
+		'headers' => '',
 	);
 	private static $otherEmail = array(
 		'recipient' => 'any-other-recipient@email-address.org',
 		'subject' => 'any other subject',
 		'message' => 'any other message',
-		'headers' => ''
+		'headers' => '',
 	);
 
 	protected function setUp() {
@@ -59,9 +59,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////
-	// Utility functions
-	/////////////////////
+	/*
+	 * Utility functions
+	 */
 
 	/**
 	 * Adds the headers to the static test e-mail as LF cannot be used when it
@@ -90,16 +90,16 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////
-	// Tests concerning the basic functionality
-	/////////////////////////////////////////////
+	/*
+	 * Tests concerning the basic functionality
+	 */
 
 	/**
 	 * @test
 	 */
 	public function getMailerInTestMode() {
 		$this->assertSame(
-			'tx_oelib_emailCollector',
+			'Tx_Oelib_EmailCollector',
 			get_class($this->subject)
 		);
 	}
@@ -719,14 +719,14 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////
-	// Tests concerning formatting the e-mail body.
-	/////////////////////////////////////////////////
+	/*
+	 * Tests concerning formatting the e-mail body.
+	 */
 
 	/**
 	 * @test
 	 */
-	public function oneLineFeedIsKeptIfFormatingIsEnabled() {
+	public function oneLineFeedIsKeptIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . LF . 'bar');
 
 		$this->assertSame(
@@ -738,7 +738,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function oneCarriageReturnIsReplacedByLfIfFormatingIsEnabled() {
+	public function oneCarriageReturnIsReplacedByLfIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . CR . 'bar');
 
 		$this->assertSame(
@@ -750,7 +750,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function twoLineFeedsAreKeptIfFormatingIsEnabled() {
+	public function twoLineFeedsAreKeptIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . LF . LF . 'bar');
 
 		$this->assertSame(
@@ -762,7 +762,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function twoCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
+	public function twoCarriageReturnsAreReplacedByTwoLfIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . CR . CR . 'bar');
 
 		$this->assertSame(
@@ -774,7 +774,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function severalLineFeedsAreReplacedByTwoLfIfFormatingIsEnabled() {
+	public function severalLineFeedsAreReplacedByTwoLfIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
 
 		$this->assertSame(
@@ -786,7 +786,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function severalCarriageReturnsAreReplacedByTwoLfIfFormatingIsEnabled() {
+	public function severalCarriageReturnsAreReplacedByTwoLfIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
 		$this->assertSame(
@@ -811,7 +811,7 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function oneCrLfPairIsReplacedByLfIfFormatingIsEnabled() {
+	public function oneCrLfPairIsReplacedByLfIfFormattingIsEnabled() {
 		$this->subject->sendEmail('', '', 'foo' . CRLF . 'bar');
 
 		$this->assertSame(
@@ -821,9 +821,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////
-	// Tests concerning the headers
-	/////////////////////////////////
+	/*
+	 * Tests concerning the headers
+	 */
 
 	/**
 	 * @test
@@ -952,9 +952,9 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////////////////////////////
-	// Tests concerning the additional headers in the e-mails
-	///////////////////////////////////////////////////////////
+	/*
+	 * Tests concerning the additional headers in the e-mails
+	 */
 
 	/**
 	 * @test

@@ -24,7 +24,7 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Mail
 	 */
-	private $subject;
+	private $subject = NULL;
 
 	public function setUp() {
 		$this->subject = new Tx_Oelib_Mail();
@@ -35,9 +35,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////////////////
-	// Tests regarding setting and getting the sender.
-	////////////////////////////////////////////////////
+	/*
+	 * Tests regarding setting and getting the sender.
+	 */
 
 	/**
 	 * @test
@@ -89,9 +89,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////////////////////
-	// Tests regarding adding and getting the recipients.
-	////////////////////////////////////////////////////////
+	/*
+	 * Tests regarding adding and getting the recipients.
+	 */
 
 	/**
 	 * @test
@@ -138,9 +138,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////////
-	// Tests regarding setting and getting the subject.
-	/////////////////////////////////////////////////////
+	/*
+	 * Tests regarding setting and getting the subject.
+	 */
 
 	/**
 	 * @test
@@ -213,9 +213,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////////
-	// Tests regarding setting and getting the message.
-	/////////////////////////////////////////////////////
+	/*
+	 * Tests regarding setting and getting the message.
+	 */
 
 	/**
 	 * @test
@@ -272,9 +272,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////////////////////////////////
-	// Tests regarding setting and getting the HTML message.
-	//////////////////////////////////////////////////////////
+	/*
+	 * Tests regarding setting and getting the HTML message.
+	 */
 
 	/**
 	 * @test
@@ -330,9 +330,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	////////////////////////////////////////////////////
-	// Tests regarding adding and getting attachments.
-	////////////////////////////////////////////////////
+	/*
+	 * Tests regarding adding and getting attachments.
+	 */
 
 	/**
 	 * @test
@@ -383,9 +383,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////////////////////////////
-	// Tests regarding setting and getting the CSS file.
-	//////////////////////////////////////////////////////
+	/*
+	 * Tests regarding setting and getting the CSS file.
+	 */
 
 	/**
 	 * @test
@@ -482,9 +482,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Tests concerning the mogrification of the HTML Messages and the CSS file
-	/////////////////////////////////////////////////////////////////////////////
+	/*
+	 * Tests concerning the mogrification of the HTML Messages and the CSS file
+	 */
 
 	/**
 	 * @test
@@ -528,9 +528,9 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////////
-	// Tests concerning the additional headers
-	////////////////////////////////////////////
+	/*
+	 * Tests concerning the additional headers
+	 */
 
 	/**
 	 * @test

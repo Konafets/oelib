@@ -30,7 +30,7 @@ class Tx_Oelib_MailerFactory {
 	private static $instance = NULL;
 
 	/**
-	 * @var boolean whether the test mode is set
+	 * @var bool whether the test mode is set
 	 */
 	private $isTestMode = FALSE;
 
@@ -73,7 +73,7 @@ class Tx_Oelib_MailerFactory {
 	 */
 	public function getMailer() {
 		if ($this->isTestMode) {
-			$className = 'tx_oelib_emailCollector';
+			$className = 'Tx_Oelib_EmailCollector';
 		} else {
 			$className = 'Tx_Oelib_RealMailer';
 		}
