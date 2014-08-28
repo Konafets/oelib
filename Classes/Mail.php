@@ -84,8 +84,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the data item to get, must not be empty
 	 *
-	 * @return mixed the data for the key $key, will be an empty string
-	 *               if the key has not been set yet
+	 * @return mixed the data for the key $key, will be an empty string if the key has not been set yet
 	 */
 	protected function get($key) {
 		if (!isset($this->data[$key])) {
@@ -152,9 +151,11 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @param string $subject the subject of the e-mail, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function setSubject($subject) {
-		if ($subject == '') {
+		if ($subject === '') {
 			throw new InvalidArgumentException('$subject must not be empty.', 1331488802);
 		}
 
@@ -168,8 +169,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the subject of the e-mail.
 	 *
-	 * @return string the subject of the e-mail, will be empty if the subject has
-	 *                not been set
+	 * @return string the subject of the e-mail, will be empty if the subject has not been set
 	 */
 	public function getSubject() {
 		return $this->getAsString('subject');
@@ -181,9 +181,11 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @param string $message the message of the e-mail, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function setMessage($message) {
-		if ($message == '') {
+		if ($message === '') {
 			throw new InvalidArgumentException('$message must not be empty.', 1331488834);
 		}
 
@@ -236,8 +238,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the HTML message of the e-mail.
 	 *
-	 * @return string the HTML message of the e-mail, will be empty if the
-	 *                message has not been set
+	 * @return string the HTML message of the e-mail, will be empty if the message has not been set
 	 */
 	public function getHTMLMessage() {
 		return $this->getAsString('html_message');
@@ -282,10 +283,9 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	public function setCssFile($cssFile) {
 		if (!$this->cssFileIsCached($cssFile)) {
 			$absoluteFileName = t3lib_div::getFileAbsFileName($cssFile);
-			if (($cssFile != '') && is_readable($absoluteFileName)
+			if (($cssFile !== '') && is_readable($absoluteFileName)
 			) {
-				self::$cssFileCache[$cssFile]
-					= file_get_contents($absoluteFileName);
+				self::$cssFileCache[$cssFile] = file_get_contents($absoluteFileName);
 			} else {
 				self::$cssFileCache[$cssFile] = '';
 			}
@@ -306,8 +306,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the stored content of the CSS file.
 	 *
-	 * @return string the file contents of the CSS file, will be empty if no CSS
-	 *                file was stored
+	 * @return string the file contents of the CSS file, will be empty if no CSS file was stored
 	 */
 	public function getCssFile() {
 		return $this->getAsString('cssFile');
@@ -328,8 +327,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * Sets the return path (and errors-to) of the e-mail.
 	 *
 	 * The return path is stored in a way that the MIME mail class can read it.
-	 * If a return path has already been set, it will be overridden by the new
-	 * value.
+	 * If a return path has already been set, it will be overridden by the new value.
 	 * If an empty string is given this function is a no-op.
 	 *
 	 * @param string $returnPath the e-mail address for the return path, may be empty
@@ -337,7 +335,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @return void
 	 */
 	public function setReturnPath($returnPath) {
-		if ($returnPath == '') {
+		if ($returnPath === '') {
 			return;
 		}
 
@@ -349,8 +347,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the return path set via setReturnPath
 	 *
-	 * @return string the return path, will be an empty string if nothing has
-	 *                been stored
+	 * @return string the return path, will be an empty string if nothing has been stored
 	 */
 	public function getReturnPath() {
 		return $this->returnPath;
@@ -359,8 +356,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the additional headers for this e-mail.
 	 *
-	 * @return array the additional headers for this e-mail, will be empty if no
-	 *               additional headers have been set
+	 * @return array the additional headers for this e-mail, will be empty if no additional headers have been set
 	 */
 	public function getAdditionalHeaders() {
 		return $this->additionalHeaders;
@@ -369,8 +365,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Checks whether this e-mail has any additional headers.
 	 *
-	 * @return boolean TRUE if this e-mail has any additional headers, FALSE
-	 *                 otherwise
+	 * @return boolean TRUE if this e-mail has any additional headers, FALSE otherwise
 	 */
 	public function hasAdditionalHeaders() {
 		return !empty($this->additionalHeaders);

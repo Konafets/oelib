@@ -58,13 +58,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public abstract function sendEmail(
-		$emailAddress,
-		$subject,
-		$message,
-		$headers = '',
-		$encodingType = '',
-		$charset = '',
-		$doNotEncodeHeader = FALSE
+		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
 	);
 
 	/**
@@ -85,10 +79,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 *
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
-	public abstract function mail(
-		$emailAddress, $subject, $message, $headers = '',
-		$additionalParameters = ''
-	);
+	public abstract function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '');
 
 	/**
 	 * Sends an Tx_Oelib_Mail object.
@@ -109,9 +100,7 @@ abstract class Tx_Oelib_AbstractMailer {
 
 		$mimeEmail = new Mail_mime(array('eol' => LF));
 		$mimeEmail->setHeaderCharset($characterSet);
-		$mimeEmail->setFrom(
-			$this->formatMailRole($email->getSender())
-		);
+		$mimeEmail->setFrom($this->formatMailRole($email->getSender()));
 		if ($email->hasAdditionalHeaders()) {
 			$additionalHeaders = $email->getAdditionalHeaders();
 
@@ -120,7 +109,7 @@ abstract class Tx_Oelib_AbstractMailer {
 			$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
 			$returnPath = $email->getReturnPath();
 
-			if ($forceReturnPath && ($returnPath != '')) {
+			if ($forceReturnPath && ($returnPath !== '')) {
 				$additionalParameters = '-f ' . escapeshellarg($returnPath);
 			}
 		}
@@ -135,11 +124,7 @@ abstract class Tx_Oelib_AbstractMailer {
 
 		foreach ($email->getAttachments() as $attachment) {
 			$mimeEmail->addAttachment(
-				$attachment->getContent(),
-				$attachment->getContentType(),
-				$attachment->getFileName(),
-				FALSE,
-				'base64'
+				$attachment->getContent(), $attachment->getContentType(), $attachment->getFileName(), FALSE, 'base64'
 			);
 		}
 
@@ -157,13 +142,7 @@ abstract class Tx_Oelib_AbstractMailer {
 		$headers = $mimeEmail->txtHeaders();
 
 		foreach ($email->getRecipients() as $recipient) {
-			$this->mail(
-				$recipient->getEmailAddress(),
-				$subject,
-				$body,
-				$headers,
-				$additionalParameters
-			);
+			$this->mail($recipient->getEmailAddress(), $subject, $body, $headers, $additionalParameters);
 		}
 	}
 
@@ -172,8 +151,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 *
 	 * Formatting will replace CRLF and CR by LF and strip multiple blank lines.
 	 *
-	 * @param bool $enableFormatting
-	 *        TRUE to enable formatting, FALSE to disable
+	 * @param bool $enableFormatting TRUE to enable formatting, FALSE to disable
 	 *
 	 * @return void
 	 */
@@ -185,7 +163,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * Formats the e-mail body if this is enabled.
 	 *
 	 * Replaces single carriage returns or carriage return plus linefeed
-	 * with linefeeds and strips surplus blank lines, so there are no more than
+	 * with line feeds and strips surplus blank lines, so there are no more than
 	 * two line breaks behind one another.
 	 *
 	 * @param string $rawEmailBody string raw e-mail body, must not be empty
@@ -207,20 +185,17 @@ abstract class Tx_Oelib_AbstractMailer {
 	/**
 	 * Formats and encodes an e-mail role for the e-mail sending process.
 	 *
-	 * @param tx_oelib_Interface_MailRole $mailRole
-	 *        the mail role to format
+	 * @param tx_oelib_Interface_MailRole $mailRole the mail role to format
 	 *
 	 * @return string
 	 *         the mail role formatted as string, e.g. '"John Doe" <john@doe.com>' or just 'john@doe.com' if the name is empty
 	 */
 	protected function formatMailRole(tx_oelib_Interface_MailRole $mailRole) {
-		if ($mailRole->getName() == '') {
+		if ($mailRole->getName() === '') {
 			return $mailRole->getEmailAddress();
 		}
 
-		$encodedName = t3lib_div::encodeHeader(
-			$mailRole->getName(), 'quoted-printable', $this->getCharacterSet()
-		);
+		$encodedName = t3lib_div::encodeHeader($mailRole->getName(), 'quoted-printable', $this->getCharacterSet());
 
 		return '"'. $encodedName . '"' . ' <' . $mailRole->getEmailAddress() . '>';
 	}
@@ -240,15 +215,15 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @throws InvalidArgumentException
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
-		if ($emailAddress == '') {
+		if ($emailAddress === '') {
 			throw new InvalidArgumentException('$emailAddress must not be empty.', 1331318731);
 		}
 
-		if ($subject == '') {
+		if ($subject === '') {
 			throw new InvalidArgumentException('$subject must not be empty.', 1331318747);
 		}
 
-		if ($message == '') {
+		if ($message === '') {
 			throw new InvalidArgumentException('$message must not be empty.', 1331318756);
 		}
 	}

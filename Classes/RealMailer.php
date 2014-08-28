@@ -58,8 +58,7 @@ class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 	 * @param string $message message to send, must not be empty
 	 * @param string $headers headers, separated by linefeed, may be empty
 	 * @param string $additionalParameters
-	 *        additional parameters to pass to the mail program as command line
-	 *        arguments
+	 *        additional parameters to pass to the mail program as command line arguments
 	 *
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
