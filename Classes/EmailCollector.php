@@ -231,4 +231,28 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	public function getSentEmails() {
 		return $this->sentEmails;
 	}
+
+	/**
+	 * Returns the number of e-mails that would have been sent via the send method.
+	 *
+	 * @return int the number of send e-mails, will be >= 0
+	 */
+	public function getNumberOfSentEmails() {
+		return count($this->getSentEmails());
+	}
+
+	/**
+	 * Returns the first sent-email or NULL if none has been sent.
+	 *
+	 * @return t3lib_mail_Message|NULL
+	 */
+	public function getFirstSentEmail() {
+		if ($this->getNumberOfSentEmails() === 0) {
+			return NULL;
+		}
+
+		$sendEmails = $this->getSentEmails();
+
+		return $sendEmails[0];
+	}
 }

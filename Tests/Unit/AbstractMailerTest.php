@@ -98,17 +98,6 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'utf-8';
 	}
 
-	/**
-	 * Returns the first sent-email or NULL if non has been sent.
-	 *
-	 * @return t3lib_mail_Message|NULL
-	 */
-	protected function getFirstSendEmail() {
-		$sendEmails = $this->subject->getSentEmails();
-
-		return empty($sendEmails) ? NULL : $sendEmails[0];
-	}
-
 
 	/*
 	 * Tests concerning sendEmail
@@ -369,6 +358,35 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
+	public function getSentEmailsWithoutAnyEmailReturnsEmptyArray() {
+		$this->assertSame(
+			array(),
+			$this->subject->getSentEmails()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getNumberOfSentEmailsWithoutAnyEmailReturnsZero() {
+		$this->assertSame(
+			0,
+			$this->subject->getNumberOfSentEmails()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getFirstSentEmailWithoutAnyEmailReturnsNull() {
+		$this->assertNull(
+			$this->subject->getFirstSentEmail()
+		);
+	}
+
+	/**
+	 * @test
+	 */
 	public function sendWithoutSenderThrowsException() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
@@ -394,7 +412,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertSame(
 			array($sender->getEmailAddress() => $sender->getName()),
 			$sentEmail->getFrom()
@@ -415,7 +433,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertSame(
 			array($recipient->getEmailAddress() => $recipient->getName()),
 			$sentEmail->getTo()
@@ -438,10 +456,9 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmails = $this->subject->getSentEmails();
 		$this->assertSame(
 			2,
-			count($sentEmails)
+			$this->subject->getNumberOfSentEmails()
 		);
 	}
 
@@ -459,7 +476,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertSame(
 			$this->email['subject'],
 			$sentEmail->getSubject()
@@ -482,7 +499,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$this->getCharacterSet(),
-			$this->getFirstSendEmail()->getCharset()
+			$this->subject->getFirstSentEmail()->getCharset()
 		);
 	}
 
@@ -500,7 +517,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertSame(
 			$this->email['message'],
 			$sentEmail->getBody()
@@ -523,7 +540,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'text/plain',
-			$this->getFirstSendEmail()->getContentType()
+			$this->subject->getFirstSentEmail()->getContentType()
 		);
 	}
 
@@ -548,7 +565,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertNotContains(
 			CR,
-			$this->getFirstSendEmail()->getBody()
+			$this->subject->getFirstSentEmail()->getBody()
 		);
 	}
 
@@ -575,7 +592,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertNotContains(
 			CR,
-			$this->getFirstSendEmail()->getBody()
+			$this->subject->getFirstSentEmail()->getBody()
 		);
 	}
 
@@ -602,7 +619,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->assertContains(
 			CR,
-			$this->getFirstSendEmail()->getBody()
+			$this->subject->getFirstSentEmail()->getBody()
 		);
 	}
 
@@ -621,7 +638,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$children = $this->getFirstSendEmail()->getChildren();
+		$children = $this->subject->getFirstSentEmail()->getChildren();
 		/** @var Swift_Mime_MimeEntity $firstChild */
 		$firstChild = $children[0];
 		$this->assertSame(
@@ -645,7 +662,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$children = $this->getFirstSendEmail()->getChildren();
+		$children = $this->subject->getFirstSentEmail()->getChildren();
 		/** @var Swift_Mime_MimeEntity $firstChild */
 		$firstChild = $children[0];
 		$this->assertSame(
@@ -672,7 +689,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertSame(
 			$returnPath,
 			$sentEmail->getReturnPath()
@@ -697,7 +714,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertNull(
 			$sentEmail->getReturnPath()
 		);
@@ -719,7 +736,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 
-		$sentEmail = $this->getFirstSendEmail();
+		$sentEmail = $this->subject->getFirstSentEmail();
 		$this->assertNull(
 			$sentEmail->getReturnPath()
 		);
@@ -744,7 +761,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->addAttachment($attachment);
 
 		$this->subject->send($eMail);
-		$children = $this->getFirstSendEmail()->getChildren();
+		$children = $this->subject->getFirstSentEmail()->getChildren();
 		/** @var Swift_Mime_MimeEntity $firstChild */
 		$firstChild = $children[0];
 
@@ -778,7 +795,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->addAttachment($attachment);
 
 		$this->subject->send($eMail);
-		$children = $this->getFirstSendEmail()->getChildren();
+		$children = $this->subject->getFirstSentEmail()->getChildren();
 		/** @var Swift_Mime_MimeEntity $firstChild */
 		$firstChild = $children[0];
 
@@ -814,7 +831,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->addAttachment($attachment2);
 
 		$this->subject->send($eMail);
-		$children = $this->getFirstSendEmail()->getChildren();
+		$children = $this->subject->getFirstSentEmail()->getChildren();
 
 		$this->assertSame(
 			2,
