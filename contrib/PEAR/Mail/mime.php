@@ -57,28 +57,6 @@
  *            and Sascha Schumann <sascha@schumann.cx>
  */
 
-
-/**
- * require PEAR
- *
- * This package depends on PEAR to raise errors.
- */
-if (!class_exists('pear', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/PEAR.php');
-}
-
-/**
- * require Mail_mimePart
- *
- * Mail_mimePart contains the code required to
- * create all the different parts a mail can
- * consist of.
- */
-if (!class_exists('mail_mimePart', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mimePart.php');
-}
-
-
 /**
  * The Mail_Mime class provides an OO interface to create MIME
  * enabled email messages. This way you can create emails that
@@ -194,6 +172,13 @@ class Mail_mime
      */
     function Mail_mime($params = array())
     {
+		if (!class_exists('pear', TRUE)) {
+			require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/PEAR.php');
+		}
+		if (!class_exists('mail_mimePart', TRUE)) {
+			require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mimePart.php');
+		}
+
         // Backward-compatible EOL setting
         if (is_string($params)) {
             $this->_build_params['eol'] = $params;

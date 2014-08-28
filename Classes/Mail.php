@@ -12,10 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-if (!class_exists('Pelago\\Emogrifier', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'Packages/vendor/autoload.php');
-}
-
 /**
  * This class represents an e-mail.
  *
@@ -226,6 +222,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 		}
 
 		if ($this->hasCssFile()) {
+			$this->loadEmogrifierClass();
 			$emogrifier = new \Pelago\Emogrifier($message, $this->getCssFile());
 			$messageToStore = $emogrifier->emogrify();
 		} else {
@@ -233,6 +230,17 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 		}
 
 		$this->setAsString('html_message', $messageToStore);
+	}
+
+	/**
+	 * Makes the Emogrifier class loadable via the autoloader.
+	 *
+	 * @return void
+	 */
+	protected function loadEmogrifierClass() {
+		if (!class_exists('Pelago\\Emogrifier', TRUE)) {
+			require_once(t3lib_extMgm::extPath('oelib') . 'Packages/vendor/autoload.php');
+		}
 	}
 
 	/**

@@ -12,10 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-if (!class_exists('mail_mime', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
-}
-
 /**
  * Test case.
  *

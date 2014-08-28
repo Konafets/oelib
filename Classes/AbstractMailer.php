@@ -12,10 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-if (!class_exists('mail_mime', FALSE)) {
-	require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
-}
-
 /**
  * This class declares the function sendEmail() for its inheritants. So they
  * need to implement the concrete behavior.
@@ -98,6 +94,7 @@ abstract class Tx_Oelib_AbstractMailer {
 		$additionalParameters = '';
 		$characterSet = $this->getCharacterSet();
 
+		$this->loadPearMimeClass();
 		$mimeEmail = new Mail_mime(array('eol' => LF));
 		$mimeEmail->setHeaderCharset($characterSet);
 		$mimeEmail->setFrom($this->formatMailRole($email->getSender()));
@@ -143,6 +140,17 @@ abstract class Tx_Oelib_AbstractMailer {
 
 		foreach ($email->getRecipients() as $recipient) {
 			$this->mail($recipient->getEmailAddress(), $subject, $body, $headers, $additionalParameters);
+		}
+	}
+
+	/**
+	 * Loads the PEAR Mail MIME class (if it has not been loaded yet).
+	 *
+	 * @return void
+	 */
+	protected function loadPearMimeClass() {
+		if (!class_exists('mail_mime', TRUE)) {
+			require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
 		}
 	}
 
