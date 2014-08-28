@@ -28,6 +28,14 @@ abstract class Tx_Oelib_AbstractMailer {
 	protected $enableFormatting = TRUE;
 
 	/**
+	 * Cleans up (if necessary).
+	 *
+	 * @return void
+	 */
+	public function cleanUp() {
+	}
+
+	/**
 	 * Sends a plain-text e-mail.
 	 *
 	 * Note: This function cannot handle multi-part e-mails.

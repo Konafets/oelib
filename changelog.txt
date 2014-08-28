@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5103] Bugfix: TestingFramework::cleanUp needs to discard stored e-mails
 - [#5100] Feature: Add convenience function for accessing sent SwiftMails
 - [#4283] Feature: Delegate to SwiftMailer
 - [#5099] Cleanup: Move the require calls to inside methods

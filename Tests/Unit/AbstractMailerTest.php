@@ -73,6 +73,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	}
 
 	protected function tearDown() {
+		$this->subject->cleanUp();
 		t3lib_div::purgeInstances();
 		unset($this->subject, $this->message1, $this->message2);
 

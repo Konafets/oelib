@@ -38,7 +38,20 @@ class Tx_Oelib_MailerFactory implements t3lib_Singleton {
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->cleanUp();
+
 		unset($this->mailer);
+	}
+
+	/**
+	 * Cleans up (if necessary).
+	 *
+	 * @return void
+	 */
+	public function cleanUp() {
+		if ($this->mailer !== NULL) {
+			$this->mailer->cleanUp();
+		}
 	}
 
 	/**
