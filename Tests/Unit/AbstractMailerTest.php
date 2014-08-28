@@ -763,7 +763,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 		$children = $this->subject->getFirstSentEmail()->getChildren();
-		/** @var Swift_Mime_MimeEntity $firstChild */
+		/** @var Swift_Mime_Attachment $firstChild */
 		$firstChild = $children[0];
 
 		$this->assertSame(
@@ -797,12 +797,52 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->send($eMail);
 		$children = $this->subject->getFirstSentEmail()->getChildren();
-		/** @var Swift_Mime_MimeEntity $firstChild */
+		/** @var Swift_Mime_Attachment $firstChild */
 		$firstChild = $children[0];
 
 		$this->assertSame(
 			$content,
 			$firstChild->getBody()
+		);
+		$this->assertSame(
+			'text/html',
+			$firstChild->getContentType()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendCanAddOneAttachmentWithFilenameFromContent() {
+		$content = '<p>Hello world!</p>';
+		$fileName = 'greetings.html';
+		$attachment = new Tx_Oelib_Attachment();
+		$attachment->setContent($content);
+		$attachment->setFileName($fileName);
+		$attachment->setContentType('text/html');
+
+		$sender = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('', 'any-sender@email-address.org');
+		$recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', $this->email['recipient']);
+		$eMail = new Tx_Oelib_Mail();
+		$eMail->setSender($sender);
+		$eMail->addRecipient($recipient);
+		$eMail->setSubject($this->email['subject']);
+		$eMail->setMessage($this->email['message']);
+
+		$eMail->addAttachment($attachment);
+
+		$this->subject->send($eMail);
+		$children = $this->subject->getFirstSentEmail()->getChildren();
+		/** @var Swift_Mime_Attachment $firstChild */
+		$firstChild = $children[0];
+
+		$this->assertSame(
+			$content,
+			$firstChild->getBody()
+		);
+		$this->assertSame(
+			$fileName,
+			$firstChild->getFilename()
 		);
 		$this->assertSame(
 			'text/html',
