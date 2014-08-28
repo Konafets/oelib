@@ -21,7 +21,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements tx_oelib_Interface_MailRole {
+class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Interface_MailRole {
 	/**
 	 * @var array the user's configuration unserialized
 	 */

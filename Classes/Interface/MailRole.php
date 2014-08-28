@@ -20,7 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-interface tx_oelib_Interface_MailRole {
+interface Tx_Oelib_Interface_MailRole {
 	/**
 	 * Returns the real name of the e-mail role.
 	 *

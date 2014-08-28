@@ -13,10 +13,7 @@
  */
 
 /**
- * This class declares the function sendEmail() for its inheritants. So they
- * need to implement the concrete behavior.
- *
- * Regarding the Strategy pattern, sendEmail() represents the abstract strategy.
+ * Abstract class for sending e-mails (or faking it) using the Straegy pattern.
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -34,6 +31,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * Sends a plain-text e-mail.
 	 *
 	 * Note: This function cannot handle multi-part e-mails.
+	 *
+	 * @deprecated 2014-08-28 use send instead
 	 *
 	 * @param string $emailAddress
 	 *        the recipient's e-mail address, will not be validated, must not be empty
@@ -61,6 +60,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * Sends an e-mail.
 	 *
 	 * This function can handle plain-text and multi-part e-mails.
+	 *
+	 * @deprecated 2014-08-28 use send instead
 	 *
 	 * @param string $emailAddress
 	 *        the recipient's e-mail address, will not be validated, must not be empty
@@ -91,68 +92,52 @@ abstract class Tx_Oelib_AbstractMailer {
 			throw new InvalidArgumentException('$email must have a sender set.', 1331318718);
 		}
 
-		$additionalParameters = '';
-		$characterSet = $this->getCharacterSet();
+		/** @var t3lib_mail_Message $swiftMail */
+		$swiftMail = t3lib_div::makeInstance('t3lib_mail_Message');
+		$swiftMail->setSubject($email->getSubject());
 
-		$this->loadPearMimeClass();
-		$mimeEmail = new Mail_mime(array('eol' => LF));
-		$mimeEmail->setHeaderCharset($characterSet);
-		$mimeEmail->setFrom($this->formatMailRole($email->getSender()));
-		if ($email->hasAdditionalHeaders()) {
-			$additionalHeaders = $email->getAdditionalHeaders();
+		$sender = $email->getSender();
+		$swiftMail->setFrom(array($sender->getEmailAddress() => $sender->getName()));
+		$swiftMail->setCharset($this->getCharacterSet());
 
-			$mimeEmail->headers($additionalHeaders);
-
-			$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
-			$returnPath = $email->getReturnPath();
-
-			if ($forceReturnPath && ($returnPath !== '')) {
-				$additionalParameters = '-f ' . escapeshellarg($returnPath);
-			}
+		$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
+		$returnPath = $email->getReturnPath();
+		if ($forceReturnPath && ($returnPath !== '')) {
+			$swiftMail->setReturnPath($returnPath);
 		}
 
 		if ($email->hasMessage()) {
-			$mimeEmail->setTXTBody($this->formatEmailBody($email->getMessage()));
+			$swiftMail->setBody($this->formatEmailBody($email->getMessage()));
 		}
-
 		if ($email->hasHTMLMessage()) {
-			$mimeEmail->setHTMLBody($email->getHTMLMessage());
+			$swiftMail->addPart($email->getHTMLMessage(), 'text/html');
 		}
 
+		/** @var Tx_Oelib_Attachment $attachment */
 		foreach ($email->getAttachments() as $attachment) {
-			$mimeEmail->addAttachment(
-				$attachment->getContent(), $attachment->getContentType(), $attachment->getFileName(), FALSE, 'base64'
-			);
+			if ($attachment->getFileName() !== '') {
+				$swiftAttachment = Swift_Attachment::fromPath($attachment->getFileName(), $attachment->getContentType());
+			} else {
+				$swiftAttachment = Swift_Attachment::newInstance($attachment->getContent(), null, $attachment->getContentType());
+			}
+
+			$swiftMail->attach($swiftAttachment);
 		}
-
-		$buildParameter = array(
-			'text_encoding' => 'quoted-printable',
-			'head_charset' => $characterSet,
-			'text_charset' => $characterSet,
-			'html_charset' => $characterSet,
-		);
-		$subject = t3lib_div::encodeHeader(
-			$email->getSubject(), 'quoted-printable', $characterSet
-		);
-
-		$body = $mimeEmail->get($buildParameter);
-		$headers = $mimeEmail->txtHeaders();
 
 		foreach ($email->getRecipients() as $recipient) {
-			$this->mail($recipient->getEmailAddress(), $subject, $body, $headers, $additionalParameters);
+			$swiftMail->setTo(array($recipient->getEmailAddress() => $recipient->getName()));
+			$this->sendSwiftMail($swiftMail);
 		}
 	}
 
 	/**
-	 * Loads the PEAR Mail MIME class (if it has not been loaded yet).
+	 * Sends a Swift e-mail.
+	 *
+	 * @param t3lib_mail_Message $email the e-mail to send.
 	 *
 	 * @return void
 	 */
-	protected function loadPearMimeClass() {
-		if (!class_exists('mail_mime', TRUE)) {
-			require_once(t3lib_extMgm::extPath('oelib') . 'contrib/PEAR/Mail/mime.php');
-		}
-	}
+	protected abstract function sendSwiftMail(t3lib_mail_Message $email);
 
 	/**
 	 * Sets whether the e-mail body should be formatted before sending the e-mail.
@@ -188,24 +173,6 @@ abstract class Tx_Oelib_AbstractMailer {
 		$body = preg_replace('/\n{2,}/', LF . LF, $body);
 
 		return trim($body);
-	}
-
-	/**
-	 * Formats and encodes an e-mail role for the e-mail sending process.
-	 *
-	 * @param tx_oelib_Interface_MailRole $mailRole the mail role to format
-	 *
-	 * @return string
-	 *         the mail role formatted as string, e.g. '"John Doe" <john@doe.com>' or just 'john@doe.com' if the name is empty
-	 */
-	protected function formatMailRole(tx_oelib_Interface_MailRole $mailRole) {
-		if ($mailRole->getName() === '') {
-			return $mailRole->getEmailAddress();
-		}
-
-		$encodedName = t3lib_div::encodeHeader($mailRole->getName(), 'quoted-printable', $this->getCharacterSet());
-
-		return '"'. $encodedName . '"' . ' <' . $mailRole->getEmailAddress() . '>';
 	}
 
 	/**

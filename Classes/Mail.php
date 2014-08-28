@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
-	 * @var tx_oelib_Interface_MailRole the sender of the e-mail
+	 * @var Tx_Oelib_Interface_MailRole the sender of the e-mail
 	 */
 	private $sender = NULL;
 
@@ -37,7 +37,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	private $data = array();
 
 	/**
-	 * @var array attachments of the e-mail
+	 * @var Tx_Oelib_Attachment[] attachments of the e-mail
 	 */
 	private $attachments = array();
 
@@ -93,19 +93,18 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Sets the sender of the e-mail.
 	 *
-	 * @param tx_oelib_Interface_MailRole $sender the sender of the e-mail
+	 * @param Tx_Oelib_Interface_MailRole $sender the sender of the e-mail
 	 *
 	 * @return void
 	 */
-	public function setSender(tx_oelib_Interface_MailRole $sender) {
+	public function setSender(Tx_Oelib_Interface_MailRole $sender) {
 		$this->sender = $sender;
 	}
 
 	/**
 	 * Returns the sender of the e-mail.
 	 *
-	 * @return tx_oelib_Interface_MailRole the sender of the e-mail, will be
-	 *                                     NULL if the sender has not been set
+	 * @return Tx_Oelib_Interface_MailRole the sender of the e-mail, will be NULL if the sender has not been set
 	 */
 	public function getSender() {
 		return $this->sender;
@@ -123,19 +122,18 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Adds a recipient for the e-mail.
 	 *
-	 * @param tx_oelib_Interface_MailRole $recipient a recipient for the e-mail, must not be empty
+	 * @param Tx_Oelib_Interface_MailRole $recipient a recipient for the e-mail, must not be empty
 	 *
 	 * @return void
 	 */
-	public function addRecipient(tx_oelib_Interface_MailRole $recipient) {
+	public function addRecipient(Tx_Oelib_Interface_MailRole $recipient) {
 		$this->recipients[] = $recipient;
 	}
 
 	/**
 	 * Returns the recipients of the e-mail.
 	 *
-	 * @return array the recipients of the e-mail, will be empty if no
-	 *               recipients have been set
+	 * @return Tx_Oelib_Interface_MailRole[] the recipients of the e-mail, will be empty if no recipients have been set
 	 */
 	public function getRecipients() {
 		return $this->recipients;
@@ -191,8 +189,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the message of the e-mail.
 	 *
-	 * @return string the message of the e-mail, will be empty if the message has
-	 *                not been set
+	 * @return string the message of the e-mail, will be empty if the message has not been set
 	 */
 	public function getMessage() {
 		return $this->getAsString('message');
@@ -275,7 +272,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns the attachments of the e-mail.
 	 *
-	 * @return array the attachments of the e-mail, might be empty
+	 * @return Tx_Oelib_Attachment[] the attachments of the e-mail, might be empty
 	 */
 	public function getAttachments() {
 		return $this->attachments;
@@ -343,13 +340,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @return void
 	 */
 	public function setReturnPath($returnPath) {
-		if ($returnPath === '') {
-			return;
-		}
-
 		$this->returnPath = $returnPath;
-		$this->additionalHeaders['Return-Path'] = '<' . $returnPath . '>';
-		$this->additionalHeaders['Errors-To'] = $returnPath;
 	}
 
 	/**
@@ -359,23 +350,5 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 */
 	public function getReturnPath() {
 		return $this->returnPath;
-	}
-
-	/**
-	 * Returns the additional headers for this e-mail.
-	 *
-	 * @return array the additional headers for this e-mail, will be empty if no additional headers have been set
-	 */
-	public function getAdditionalHeaders() {
-		return $this->additionalHeaders;
-	}
-
-	/**
-	 * Checks whether this e-mail has any additional headers.
-	 *
-	 * @return boolean TRUE if this e-mail has any additional headers, FALSE otherwise
-	 */
-	public function hasAdditionalHeaders() {
-		return !empty($this->additionalHeaders);
 	}
 }

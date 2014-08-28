@@ -39,7 +39,21 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	private $fakeSuccess = TRUE;
 
 	/**
+	 * @var t3lib_mail_Message[]
+	 */
+	protected $sentEmails = array();
+
+	/**
+	 * The destructor.
+	 */
+	public function __destruct() {
+		$this->sentEmails = array();
+	}
+
+	/**
 	 * Stores the contents which were meant to be sent as an e-mail.
+	 *
+	 * @deprecated 2014-08-28 use send instead
 	 *
 	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
 	 * @param string $subject e-mail subject, must not be empty
@@ -70,6 +84,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 *
 	 * This function can handle plain-text and multi-part e-mails.
 	 *
+	 * @deprecated 2014-08-28 use send instead
+	 *
 	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
 	 * @param string $subject e-mail subject, must not be empty
 	 * @param string $message message to send, must not be empty
@@ -86,6 +102,17 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	}
 
 	/**
+	 * Sends a Swift e-mail.
+	 *
+	 * @param t3lib_mail_Message $email the e-mail to send.
+	 *
+	 * @return void
+	 */
+	protected function sendSwiftMail(t3lib_mail_Message $email) {
+		$this->sentEmails[] = $email;
+	}
+
+	/**
 	 * Sets the return value for sendEmail().
 	 *
 	 * @param bool $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
@@ -98,6 +125,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 
 	/**
 	 * Returns the last e-mail or an empty array if there is none.
+	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
 	 *
 	 * @return array e-mail address, subject, message and headers of the last e-mail in an array, will be empty if there is
 	 *               no e-mail
@@ -113,6 +142,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns all e-mails sent with this instance or an empty array if there is none.
 	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
+	 *
 	 * @return array two-dimensional array with one element for each e-mail, each inner array has four elements
 	 *               'recipient', 'subject', 'message' and 'headers', will be empty if there are no e-mails
 	 *
@@ -125,6 +156,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's recipient.
 	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
+	 *
 	 * @return string recipient of the last sent e-mail or an empty string if there is none
 	 */
 	public function getLastRecipient() {
@@ -133,6 +166,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 
 	/**
 	 * Returns the last e-mail's subject.
+	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
 	 *
 	 * @return string subject of the last sent e-mail or an empty string if there is none
 	 */
@@ -143,6 +178,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's body.
 	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
+	 *
 	 * @return string body of the last sent e-mail or an empty string if there is none
 	 */
 	public function getLastBody() {
@@ -152,6 +189,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the last e-mail's additional headers.
 	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
+	 *
 	 * @return string headers of the last sent e-mail or an empty string if there are none
 	 */
 	public function getLastHeaders() {
@@ -160,6 +199,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 
 	/**
 	 * Returns an element from the array with the last e-mail.
+	 *
+	 * @deprecated 2014-08-28 use getSentEmails instead
 	 *
 	 * @param string $key key of the element to return, must be "recipient", "subject", "message" or "headers"
 	 *
@@ -180,5 +221,14 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 		$lastEmail = $this->getLastEmail();
 
 		return $lastEmail[$key];
+	}
+
+	/**
+	 * Returns the e-mails that would have been sent via the send method.
+	 *
+	 * @return t3lib_mail_Message[]
+	 */
+	public function getSentEmails() {
+		return $this->sentEmails;
 	}
 }

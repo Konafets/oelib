@@ -529,89 +529,8 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 
 
 	/*
-	 * Tests concerning the additional headers
+	 * Tests concerning the return path
 	 */
-
-	/**
-	 * @test
-	 */
-	public function getAdditionalHeadersForNoAdditionalHeadersReturnsEmptyArray() {
-		$this->assertSame(
-			array(),
-			$this->subject->getAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setReturnPathForNoReturnPathSetSetsGivenReturnPath() {
-		$this->subject->setReturnPath('foo@bar.com');
-
-		$this->assertSame(
-			array(
-				'Return-Path' => '<foo@bar.com>',
-				'Errors-To' => 'foo@bar.com',
-			),
-			$this->subject->getAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setReturnPathForAlreadySetReturnPathOverridesOldReturnPath() {
-		$this->subject->setReturnPath('old@mail.com');
-		$this->subject->setReturnPath('foo@bar.com');
-
-		$this->assertSame(
-			array(
-				'Return-Path' => '<foo@bar.com>',
-				'Errors-To' => 'foo@bar.com',
-			),
-			$this->subject->getAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setReturnPathForNoSetReturnPathAndEmptyStringGivenDoesNotSetAnyReturnPath() {
-		$this->subject->setReturnPath('');
-
-		$this->assertSame(
-			array(),
-			$this->subject->getAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setReturnPathForSetReturnPathAndEmptyStringGivenDoesNotUnsetReturnPath() {
-		$this->subject->setReturnPath('foo@bar.com');
-		$this->subject->setReturnPath('');
-
-		$this->assertSame(
-			array(
-				'Return-Path' => '<foo@bar.com>',
-				'Errors-To' => 'foo@bar.com',
-			),
-			$this->subject->getAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setReturnPathSetsMemberVariableReturnPath() {
-		$this->subject->setReturnPath('foo@bar.com');
-
-		$this->assertSame(
-			'foo@bar.com',
-			$this->subject->getReturnPath()
-		);
-	}
 
 	/**
 	 * @test
@@ -626,45 +545,12 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function setReturnPathForAlreadySetReturnPathAndNoStringGivenDoesNotOverrideTheReturnPath() {
-		$this->subject->setReturnPath('foo@bar.com');
-		$this->subject->setReturnPath('');
-
-		$this->assertSame(
-			'foo@bar.com',
-			$this->subject->getReturnPath()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getReturnPathForStringSetInReturnPathReturnsThisString() {
+	public function setReturnPathSetsMemberVariableReturnPath() {
 		$this->subject->setReturnPath('foo@bar.com');
 
 		$this->assertSame(
 			'foo@bar.com',
 			$this->subject->getReturnPath()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function hasAdditionalHeadersForNoAdditionalHeadersSetReturnsFalse() {
-		$this->assertFalse(
-			$this->subject->hasAdditionalHeaders()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function hasAdditionalHeadersForAdditionalHeadersSetReturnsTrue() {
-		$this->subject->setReturnPath('foo@bar.com');
-
-		$this->assertTrue(
-			$this->subject->hasAdditionalHeaders()
 		);
 	}
 }

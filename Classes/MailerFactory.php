@@ -14,7 +14,7 @@
 
 /**
  * This class returns either an instance of the Tx_Oelib_RealMailer which sends
- * e-mails or an instance of the tx_oelib_emailCollector. The collector stores
+ * e-mails or an instance of the Tx_Oelib_EmailCollector. The collector stores
  * the data provided to sendEmail() and does not send it. This mode is for
  * testing purposes.
  *
@@ -23,12 +23,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class Tx_Oelib_MailerFactory {
-	/**
-	 * @var Tx_Oelib_MailerFactory the singleton factory
-	 */
-	private static $instance = NULL;
-
+class Tx_Oelib_MailerFactory implements t3lib_Singleton {
 	/**
 	 * @var bool whether the test mode is set
 	 */
@@ -40,12 +35,6 @@ class Tx_Oelib_MailerFactory {
 	private $mailer = NULL;
 
 	/**
-	 * Don't call this constructor; use getInstance() instead.
-	 */
-	private function __construct() {
-	}
-
-	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
@@ -55,21 +44,19 @@ class Tx_Oelib_MailerFactory {
 	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
+	 * @deprecated 2014-08-28 Use t3lib_div::makeInstance instead
+	 *
 	 * @return Tx_Oelib_MailerFactory the singleton factory
 	 */
 	public static function getInstance() {
-		if (!is_object(self::$instance)) {
-			self::$instance = new Tx_Oelib_MailerFactory();
-		}
-
-		return self::$instance;
+		return t3lib_div::makeInstance('Tx_Oelib_MailerFactory');
 	}
 
 	/**
 	 * Retrieves the singleton mailer instance. Depending on the mode, this
 	 * instance is either an e-mail collector or a real mailer.
 	 *
-	 * @return Tx_Oelib_AbstractMailer|Tx_Oelib_RealMailer|tx_oelib_emailCollector the singleton mailer object
+	 * @return Tx_Oelib_AbstractMailer|Tx_Oelib_RealMailer|Tx_Oelib_EmailCollector the singleton mailer object
 	 */
 	public function getMailer() {
 		if ($this->isTestMode) {
@@ -78,22 +65,11 @@ class Tx_Oelib_MailerFactory {
 			$className = 'Tx_Oelib_RealMailer';
 		}
 
-		if (!is_object($this->mailer)
-			|| (get_class($this->mailer) != $className)
-		) {
+		if (!is_object($this->mailer) || (get_class($this->mailer) !== $className)) {
 			$this->mailer = t3lib_div::makeInstance($className);
 		}
 
 		return $this->mailer;
-	}
-
-	/**
-	 * Purges the current instance so that getInstance will create a new instance.
-	 *
-	 * @return void
-	 */
-	public static function purgeInstance() {
-		self::$instance = NULL;
 	}
 
 	/**

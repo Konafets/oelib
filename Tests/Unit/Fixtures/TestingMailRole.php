@@ -20,7 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole extends Tx_Oelib_Object implements tx_oelib_Interface_MailRole {
+class Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole extends Tx_Oelib_Object implements Tx_Oelib_Interface_MailRole {
 	/**
 	 * @var array the data of this object
 	 */
