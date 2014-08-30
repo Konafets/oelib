@@ -56,14 +56,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		'headers' => '',
 	);
 
-	/**
-	 * @var bool
-	 */
-	private $forceReturnPathBackup = FALSE;
-
 	protected function setUp() {
-		$this->forceReturnPathBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
-
 		$this->subject = new Tx_Oelib_EmailCollector();
 
 		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
@@ -76,8 +69,6 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$this->subject->cleanUp();
 		t3lib_div::purgeInstances();
 		unset($this->subject, $this->message1, $this->message2);
-
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'] = $this->forceReturnPathBackup;
 	}
 
 
@@ -731,9 +722,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function sendWithForceReturnPathSetsReturnPath() {
+	public function sendWithReturnPathSetsReturnPath() {
 		$returnPath = 'return@example.com';
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'] = TRUE;
 
 		$sender = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('', 'any-sender@email-address.org');
 		$recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', $this->email['recipient']);
@@ -756,33 +746,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function sendWithReturnPathWithoutForceReturnPathNotSetsReturnPath() {
-		$returnPath = 'return@example.com';
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'] = FALSE;
-
-		$sender = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('', 'any-sender@email-address.org');
-		$recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', $this->email['recipient']);
-		$eMail = new Tx_Oelib_Mail();
-		$eMail->setSender($sender);
-		$eMail->addRecipient($recipient);
-		$eMail->setSubject($this->email['subject']);
-		$eMail->setMessage($this->email['message']);
-		$eMail->setReturnPath($returnPath);
-
-		$this->subject->send($eMail);
-
-		$sentEmail = $this->subject->getFirstSentEmail();
-		$this->assertNull(
-			$sentEmail->getReturnPath()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function sendWithoutReturnPathWithForceReturnPathNotSetsReturnPath() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'] = TRUE;
-
+	public function sendWithoutReturnPathNotSetsReturnPath() {
 		$sender = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('', 'any-sender@email-address.org');
 		$recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', $this->email['recipient']);
 		$eMail = new Tx_Oelib_Mail();

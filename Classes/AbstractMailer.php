@@ -117,9 +117,8 @@ abstract class Tx_Oelib_AbstractMailer {
 		$swiftMail->setFrom(array($sender->getEmailAddress() => $sender->getName()));
 		$swiftMail->setCharset($this->getCharacterSet());
 
-		$forceReturnPath = $GLOBALS['TYPO3_CONF_VARS']['SYS']['forceReturnPath'];
 		$returnPath = $email->getReturnPath();
-		if ($forceReturnPath && ($returnPath !== '')) {
+		if ($returnPath !== '') {
 			$swiftMail->setReturnPath($returnPath);
 		}
 
