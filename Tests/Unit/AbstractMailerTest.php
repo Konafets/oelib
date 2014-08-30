@@ -387,16 +387,70 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 	/**
 	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage $email must have a sender set.
 	 */
 	public function sendWithoutSenderThrowsException() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$email must have a sender set.'
-		);
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
 
-		$eMail = new Tx_Oelib_Mail();
+		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->addRecipient($emailRole);
 
-		$this->subject->send($eMail);
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage The e-mail must have at least one recipient.
+	 */
+	public function sendWithoutRecipientThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage The e-mail subject must not be empty.
+	 */
+	public function sendWithoutSubjectThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+		$email->addRecipient($emailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @expectedExceptionMessage The e-mail message must not be empty.
+	 */
+	public function sendWithoutMessageThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+
+		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+		$email->addRecipient($emailRole);
+
+		$this->subject->send($email);
 	}
 
 	/**
@@ -635,6 +689,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject($this->email['subject']);
+		$eMail->setMessage('This is the plain text message.');
 		$eMail->setHTMLMessage($htmlMessage);
 
 		$this->subject->send($eMail);
@@ -659,6 +714,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->setSender($sender);
 		$eMail->addRecipient($recipient);
 		$eMail->setSubject($this->email['subject']);
+		$eMail->setMessage('This is the plain text message.');
 		$eMail->setHTMLMessage($htmlMessage);
 
 		$this->subject->send($eMail);

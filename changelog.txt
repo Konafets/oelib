@@ -1,5 +1,6 @@
 0.8.0 - currently working on
-- [#5104] Bufix: E-Mail attachments with file name with content from memory are read from disk
+- [#5106] Change: Add more specific exceptions to Tx_Oelib_AbstractMailer::send
+- [#5104] Bugfix: E-Mail attachments with file name with content from memory are read from disk
 - [#5103] Bugfix: TestingFramework::cleanUp needs to discard stored e-mails
 - [#5100] Feature: Add convenience function for accessing sent SwiftMails
 - [#4283] Feature: Delegate to SwiftMailer

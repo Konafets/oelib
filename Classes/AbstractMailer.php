@@ -87,7 +87,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	public abstract function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '');
 
 	/**
-	 * Sends an Tx_Oelib_Mail object.
+	 * Sends an Tx_Oelib_Mail object (one separate message per recipient).
 	 *
 	 * @param Tx_Oelib_Mail $email the Tx_Oelib_Mail object to send
 	 *
@@ -98,6 +98,15 @@ abstract class Tx_Oelib_AbstractMailer {
 	public function send(Tx_Oelib_Mail $email) {
 		if (!$email->hasSender()) {
 			throw new InvalidArgumentException('$email must have a sender set.', 1331318718);
+		}
+		if ($email->getSubject() === '') {
+			throw new InvalidArgumentException('The e-mail subject must not be empty.', 1409410879);
+		}
+		if (!$email->hasMessage()) {
+			throw new InvalidArgumentException('The e-mail message must not be empty.', 1409410886);
+		}
+		if (empty($email->getRecipients())) {
+			throw new InvalidArgumentException('The e-mail must have at least one recipient.', 1409410886);
 		}
 
 		/** @var t3lib_mail_Message $swiftMail */
