@@ -387,7 +387,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$email->setSubject('Everybody is happy!');
 		$email->setMessage('That is the way it is.');
 
-		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
 		$email->addRecipient($emailRole);
 
 		$this->subject->send($email);
@@ -404,7 +404,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$email->setSubject('Everybody is happy!');
 		$email->setMessage('That is the way it is.');
 
-		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
 		$email->setSender($emailRole);
 
 		$this->subject->send($email);
@@ -420,7 +420,7 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$email = new Tx_Oelib_Mail();
 		$email->setMessage('That is the way it is.');
 
-		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
 		$email->setSender($emailRole);
 		$email->addRecipient($emailRole);
 
@@ -437,9 +437,115 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$email = new Tx_Oelib_Mail();
 		$email->setSubject('Everybody is happy!');
 
-		$emailRole = $recipient = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
 		$email->setSender($emailRole);
 		$email->addRecipient($emailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendWithAllValidEmailAddressesNotThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+		$email->addRecipient($emailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 */
+	public function sendWithAllValidLocalhostEmailAddressesNotThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@localhost');
+		$email->setSender($emailRole);
+		$email->addRecipient($emailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function sendWithEmptyFromAddressThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->addRecipient($emailRole);
+
+		$emptyEmailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', '');
+		$email->setSender($emptyEmailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function sendWithInvalidFromAddressThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->addRecipient($emailRole);
+
+		$invalidEmailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'hkqwbeqwbasgrfa asdfa');
+		$email->setSender($invalidEmailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function sendWithEmptyToAddressThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+
+		$emptyEmailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', '');
+		$email->addRecipient($emptyEmailRole);
+
+		$this->subject->send($email);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function sendWithInvalidToAddressThrowsException() {
+		$email = new Tx_Oelib_Mail();
+		$email->setSubject('Everybody is happy!');
+		$email->setMessage('That is the way it is.');
+
+		$emailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'john@example.com');
+		$email->setSender($emailRole);
+
+		$invalidEmailRole = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('John Doe', 'hkqwbeqwbasgrfa asdfa');
+		$email->addRecipient($invalidEmailRole);
 
 		$this->subject->send($email);
 	}

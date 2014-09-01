@@ -99,6 +99,7 @@ abstract class Tx_Oelib_AbstractMailer {
 		if (!$email->hasSender()) {
 			throw new InvalidArgumentException('$email must have a sender set.', 1331318718);
 		}
+		$this->validateEmailAddress($email->getSender()->getEmailAddress(), 'From:');
 		if ($email->getSubject() === '') {
 			throw new InvalidArgumentException('The e-mail subject must not be empty.', 1409410879);
 		}
@@ -107,6 +108,9 @@ abstract class Tx_Oelib_AbstractMailer {
 		}
 		if (empty($email->getRecipients())) {
 			throw new InvalidArgumentException('The e-mail must have at least one recipient.', 1409410886);
+		}
+		foreach ($email->getRecipients() as $recipient) {
+			$this->validateEmailAddress($recipient->getEmailAddress(), 'To:');
 		}
 
 		/** @var t3lib_mail_Message $swiftMail */
@@ -147,6 +151,40 @@ abstract class Tx_Oelib_AbstractMailer {
 			$swiftMail->setTo(array($recipient->getEmailAddress() => $recipient->getName()));
 			$this->sendSwiftMail($swiftMail);
 		}
+	}
+
+	/**
+	 * Validates that $emailAddress is non-empty and valid. If it is not, this method throws an exception.
+	 *
+	 * @param string $emailAddress the supposed e-mail address to check
+	 * @param string $roleDescription e.g., "To:" or "From:", must not be empty
+	 *
+	 * @return void
+	 *
+	 * @throws InvalidArgumentException
+	 */
+	protected function validateEmailAddress($emailAddress, $roleDescription) {
+		if ($emailAddress === '') {
+			throw new InvalidArgumentException(
+				'The ' . $roleDescription . ' e-mail address "' . $emailAddress . '" was empty.', 1409601561
+			);
+		}
+		if (!$this->isLocalhostAddress($emailAddress) && !t3lib_div::validEmail($emailAddress)) {
+			throw new InvalidArgumentException(
+				'The ' . $roleDescription . ' e-mail address "' . $emailAddress . '" was not valid.', 1409601561
+			);
+		}
+	}
+
+	/**
+	 * Checks $emailAddress is a simple localhost address.
+	 *
+	 * @param string $emailAddress
+	 *
+	 * @return bool
+	 */
+	protected function isLocalhostAddress($emailAddress) {
+		return (bool)preg_match('/[\-_\.a-zA-Z0-9]+@localhost/', $emailAddress);
 	}
 
 	/**
