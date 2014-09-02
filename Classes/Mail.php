@@ -47,11 +47,6 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	private static $cssFileCache = array();
 
 	/**
-	 * @var array additional headers which should be added to the e-mail headers
-	 */
-	private $additionalHeaders = array();
-
-	/**
 	 * @var string the return path for the e-mails
 	 */
 	private $returnPath = '';
