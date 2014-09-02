@@ -1206,10 +1206,13 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * Returns the UID of the currently logged-in FE user
 	 * or 0 if no FE user is logged in.
 	 *
-	 * @return integer the UID of the logged-in FE user or 0 if no FE user is
-	 *                 logged in
+	 * @deprecated 2013-02-09 use Tx_Oelib_FrontEndLoginManager::getLoggedInUser instead
+	 *
+	 * @return integer the UID of the logged-in FE user or 0 if no FE user is logged in
 	 */
 	public function getFeUserUid() {
+		t3lib_div::logDeprecatedFunction();
+
 		$loginManager = Tx_Oelib_FrontEndLoginManager::getInstance();
 		if (!$loginManager->isLoggedIn()) {
 			return 0;
