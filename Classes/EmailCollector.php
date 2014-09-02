@@ -78,6 +78,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	public function sendEmail(
 		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
 	) {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
 			'subject' => t3lib_div::encodeHeader($subject, 'quoted-printable'),
@@ -105,6 +107,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
+		t3lib_div::logDeprecatedFunction();
+
 		$this->checkParameters($emailAddress, $subject, $message);
 
 		return $this->sendEmail($emailAddress, $subject, $message, $headers);

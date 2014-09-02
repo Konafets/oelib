@@ -62,6 +62,8 @@ class Tx_Oelib_MailerFactory implements t3lib_Singleton {
 	 * @return Tx_Oelib_MailerFactory the singleton factory
 	 */
 	public static function getInstance() {
+		t3lib_div::logDeprecatedFunction();
+
 		return t3lib_div::makeInstance('Tx_Oelib_MailerFactory');
 	}
 

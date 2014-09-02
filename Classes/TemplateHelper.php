@@ -1085,6 +1085,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * In the FE, the src attribute is correctly filled with the URI of the
 	 * resized image.
 	 *
+	 * @deprecated 2014-09-02 use the TYPO3 image functions instead
+	 *
 	 * @throws InvalidArgumentException if $path is empty
 	 *
 	 * @param string $path path to of the original image, must be relative to the TYPO3 root or start with EXT:, must not be empty
@@ -1100,6 +1102,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	public function createRestrictedImage(
 		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '', $id = ''
 	) {
+		t3lib_div::logDeprecatedFunction();
+
 		if ($path === '') {
 			throw new InvalidArgumentException('$path must not be empty.', 1331489502);
 		}

@@ -235,6 +235,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	/**
 	 * Checks that none of the parameters is empty and throws an exception if one of them is empty.
 	 *
+	 * @deprecated 2014-08-28
+	 *
 	 * @param string $emailAddress
 	 *        the recipient's e-mail address, will not be validated, must not be empty
 	 * @param string $subject
@@ -247,6 +249,8 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @throws InvalidArgumentException
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
+		t3lib_div::logDeprecatedFunction();
+
 		if ($emailAddress === '') {
 			throw new InvalidArgumentException('$emailAddress must not be empty.', 1331318731);
 		}
