@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5114] Bugfix: Crash in AbstractMailer in PHP 5.3
 - [#4155] Cleanup: Deprecate templatehelper::getFeUserUid
 - [#5052] Cleanup: Deprecate TemplateHelper::createRestrictedImage
 - [#5111] Feature: Check for empty or invalid e-mail addresses when sending e-mails

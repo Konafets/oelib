@@ -106,10 +106,11 @@ abstract class Tx_Oelib_AbstractMailer {
 		if (!$email->hasMessage()) {
 			throw new InvalidArgumentException('The e-mail message must not be empty.', 1409410886);
 		}
-		if (empty($email->getRecipients())) {
+		$recipients = $email->getRecipients();
+		if (empty($recipients)) {
 			throw new InvalidArgumentException('The e-mail must have at least one recipient.', 1409410886);
 		}
-		foreach ($email->getRecipients() as $recipient) {
+		foreach ($recipients as $recipient) {
 			$this->validateEmailAddress($recipient->getEmailAddress(), 'To:');
 		}
 
