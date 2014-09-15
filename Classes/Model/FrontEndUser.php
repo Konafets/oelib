@@ -388,6 +388,17 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	}
 
 	/**
+	 * Adds $group to this user's direct groups.
+	 *
+	 * @param Tx_Oelib_Model_FrontEndUserGroup $group
+	 *
+	 * @return void
+	 */
+	public function addUserGroup(Tx_Oelib_Model_FrontEndUserGroup $group) {
+		$this->getUserGroups()->add($group);
+	}
+
+	/**
 	 * Checks whether this user is a member of at least one of the user groups
 	 * provided as comma-separated UID list.
 	 *

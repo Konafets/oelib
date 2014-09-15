@@ -976,6 +976,21 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function addUserGroupAddsUserGroup() {
+		$userGroups = new Tx_Oelib_List();
+		$this->subject->setUserGroups($userGroups);
+
+		$userGroup = new Tx_Oelib_Model_FrontEndUserGroup();
+		$this->subject->addUserGroup($userGroup);
+
+		$this->assertTrue(
+			$this->subject->getUserGroups()->contains($userGroup)
+		);
+	}
+
 
 	/*
 	 * Test concerning hasGroupMembership
