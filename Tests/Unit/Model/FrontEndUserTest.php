@@ -24,29 +24,29 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Model_FrontEndUser
 	 */
-	private $subject;
+	protected $subject = NULL;
 
 	/**
-	 * @var integer a backup of $GLOBALS['EXEC_TIME']
+	 * @var int a backup of $GLOBALS['EXEC_TIME']
 	 */
-	private $globalExecTimeBackup;
+	protected $globalExecTimeBackup = 0;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new Tx_Oelib_Model_FrontEndUser();
 
 		$this->globalExecTimeBackup = $GLOBALS['EXEC_TIME'];
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$GLOBALS['EXEC_TIME'] = $this->globalExecTimeBackup;
 
 		unset($this->subject);
 	}
 
 
-	///////////////////////////////////
-	// Tests concerning the user name
-	///////////////////////////////////
+	/*
+	 * Tests concerning the user name
+	 */
 
 	/**
 	 * @test
@@ -94,9 +94,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////////
-	// Tests concerning the password
-	//////////////////////////////////
+	/*
+	 * Tests concerning the password
+	 */
 
 	/**
 	 * @test
@@ -144,9 +144,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////
-	// Tests concerning the name
-	//////////////////////////////
+	/*
+	 * Tests concerning the name
+	 */
 
 	/**
 	 * @test
@@ -344,9 +344,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////
-	// Tests concerning getting the company
-	/////////////////////////////////////////
+	/*
+	 * Tests concerning getting the company
+	 */
 
 	/**
 	 * @test
@@ -405,7 +405,6 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->subject->getCompany()
 		);
 	}
-
 
 
 	/*
@@ -742,9 +741,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////
-	// Tests concerning the e-mail address
-	////////////////////////////////////////
+	/*
+	 * Tests concerning the e-mail address
+	 */
 
 	/**
 	 * @test
@@ -805,9 +804,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	//////////////////////////////////////////
-	// Tests concerning getting the homepage
-	//////////////////////////////////////////
+	/*
+	 * Tests concerning getting the homepage
+	 */
 
 	/**
 	 * @test
@@ -856,9 +855,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////
-	// Tests concerning getting the picture
-	/////////////////////////////////////////
+	/*
+	 * Tests concerning getting the picture
+	 */
 
 	/**
 	 * @test
@@ -907,9 +906,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////
-	// Tests concerning wantsHtmlEmail
-	////////////////////////////////////
+	/*
+	 * Tests concerning wantsHtmlEmail
+	 */
 
 	/**
 	 * @test
@@ -945,19 +944,48 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////////
-	// Test concerning hasGroupMembership
-	///////////////////////////////////////
+	/*
+	 * Tests concerning the user groups
+	 */
 
 	/**
 	 * @test
 	 */
-	public function hasGroupMembershipWithEmptyUidListThrowsException() {
-		$this->setExpectedException(
-			'InvalidArgumentException',
-			'$uidList must not be empty.'
-		);
+	public function getUserGroupsForReturnsUserGroups() {
+		$userGroups = new Tx_Oelib_List();
 
+		$this->subject->setData(array('usergroup' => $userGroups));
+
+		$this->assertSame(
+			$userGroups,
+			$this->subject->getUserGroups()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function setUserGroupsSetsUserGroups() {
+		$userGroups = new Tx_Oelib_List();
+
+		$this->subject->setUserGroups($userGroups);
+
+		$this->assertSame(
+			$userGroups,
+			$this->subject->getUserGroups()
+		);
+	}
+
+
+	/*
+	 * Test concerning hasGroupMembership
+	 */
+
+	/**
+	 * @test
+	 * @expectedException InvalidArgumentException
+	 */
+	public function hasGroupMembershipWithEmptyUidListThrowsException() {
 		$this->subject->hasGroupMembership('');
 	}
 
@@ -1141,9 +1169,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////
-	// Tests concerning the first name
-	////////////////////////////////////
+	/*
+	 * Tests concerning the first name
+	 */
 
 	/**
 	 * @test
@@ -1230,9 +1258,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////
-	// Tests concerning the last name
-	///////////////////////////////////
+	/*
+	 * Tests concerning the last name
+	 */
 
 	/**
 	 * @test
@@ -1319,9 +1347,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////////
-	// Tests concerning the date of birth
-	///////////////////////////////////////
+	/*
+	 * Tests concerning the date of birth
+	 */
 
 	/**
 	 * @test
@@ -1374,9 +1402,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////
-	// Tests concerning getAge
-	////////////////////////////
+	/*
+	 * Tests concerning getAge
+	 */
 
 	/**
 	 * @test
@@ -1456,9 +1484,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////////////
-	// Tests concerning the date of the last login
-	////////////////////////////////////////////////
+	/*
+	 * Tests concerning the date of the last login
+	 */
 
 	/**
 	 * @test
@@ -1511,9 +1539,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////
-	// Tests regarding the country
-	////////////////////////////////
+	/*
+	 * Tests regarding the country
+	 */
 
 	/**
 	 * @test
@@ -1614,9 +1642,9 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////
-	// Tests concerning the job title
-	///////////////////////////////////
+	/*
+	 * Tests concerning the job title
+	 */
 
 	/**
 	 * @test
@@ -1673,39 +1701,6 @@ class Tx_Oelib_Model_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->assertSame(
 			'foo bar',
 			$this->subject->getJobTitle()
-		);
-	}
-
-
-	/////////////////////////////////////
-	// Tests concerning the user groups
-	/////////////////////////////////////
-
-	/**
-	 * @test
-	 */
-	public function getUserGroupsForReturnsUserGroups() {
-		$userGroups = new Tx_Oelib_List();
-
-		$this->subject->setData(array('usergroup' => $userGroups));
-
-		$this->assertSame(
-			$userGroups,
-			$this->subject->getUserGroups()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function setUserGroupsSetsUserGroups() {
-		$userGroups = new Tx_Oelib_List();
-
-		$this->subject->setUserGroups($userGroups);
-
-		$this->assertSame(
-			$userGroups,
-			$this->subject->getUserGroups()
 		);
 	}
 }

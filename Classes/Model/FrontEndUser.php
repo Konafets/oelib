@@ -22,17 +22,17 @@
  */
 class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Interface_MailRole, tx_oelib_Interface_Address {
 	/**
-	 * @var integer represents the male gender for this user
+	 * @var int represents the male gender for this user
 	 */
 	const GENDER_MALE = 0;
 
 	/**
-	 * @var integer represents the female gender for this user
+	 * @var int represents the female gender for this user
 	 */
 	const GENDER_FEMALE = 1;
 
 	/**
-	 * @var integer represents an unknown gender for this user
+	 * @var int represents an unknown gender for this user
 	 */
 	const GENDER_UNKNOWN = 99;
 
@@ -52,6 +52,8 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 *        the user name to set, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function setUserName($userName) {
 		if ($userName == '') {
@@ -76,6 +78,8 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * @param string $password the password to set, must not be empty
 	 *
 	 * @return void
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function setPassword($password) {
 		if ($password == '') {
@@ -109,7 +113,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty name.
 	 *
-	 * @return boolean TRUE if this user has a non-empty name, FALSE otherwise
+	 * @return bool TRUE if this user has a non-empty name, FALSE otherwise
 	 */
 	public function hasName() {
 		return ($this->hasString('name') || $this->hasFirstName()
@@ -139,7 +143,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty company set.
 	 *
-	 * @return boolean TRUE if this user has a company set, FALSE otherwise
+	 * @return bool TRUE if this user has a company set, FALSE otherwise
 	 */
 	public function hasCompany() {
 		return $this->hasString('company');
@@ -168,7 +172,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty street set.
 	 *
-	 * @return boolean TRUE if this user has a street set, FALSE otherwise
+	 * @return bool TRUE if this user has a street set, FALSE otherwise
 	 */
 	public function hasStreet() {
 		return $this->hasString('address');
@@ -197,7 +201,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty ZIP code set.
 	 *
-	 * @return boolean TRUE if this user has a ZIP code set, FALSE otherwise
+	 * @return bool TRUE if this user has a ZIP code set, FALSE otherwise
 	 */
 	public function hasZip() {
 		return $this->hasString('zip');
@@ -226,7 +230,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty city set.
 	 *
-	 * @return boolean TRUE if this user has a city set, FALSE otherwise
+	 * @return bool TRUE if this user has a city set, FALSE otherwise
 	 */
 	public function hasCity() {
 		return $this->hasString('city');
@@ -269,7 +273,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty phone number set.
 	 *
-	 * @return boolean TRUE if this user has a phone number set, FALSE otherwise
+	 * @return bool TRUE if this user has a phone number set, FALSE otherwise
 	 */
 	public function hasPhoneNumber() {
 		return $this->hasString('telephone');
@@ -298,7 +302,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty e-mail address set.
 	 *
-	 * @return boolean TRUE if this user has an e-mail address set, FALSE
+	 * @return bool TRUE if this user has an e-mail address set, FALSE
 	 *                 otherwise
 	 */
 	public function hasEmailAddress() {
@@ -328,7 +332,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty homepage set.
 	 *
-	 * @return boolean TRUE if this user has a homepage set, FALSE otherwise
+	 * @return bool TRUE if this user has a homepage set, FALSE otherwise
 	 */
 	public function hasHomepage() {
 		return $this->hasString('www');
@@ -346,7 +350,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has an image set.
 	 *
-	 * @return boolean TRUE if this user has an image set, FALSE otherwise
+	 * @return bool TRUE if this user has an image set, FALSE otherwise
 	 */
 	public function hasImage() {
 		return $this->hasString('image');
@@ -355,7 +359,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has agreed to receive HTML e-mails.
 	 *
-	 * @return boolean TRUE if the user agreed to receive HTML e-mails, FALSE
+	 * @return bool TRUE if the user agreed to receive HTML e-mails, FALSE
 	 *                 otherwise
 	 */
 	public function wantsHtmlEmail() {
@@ -391,8 +395,9 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 *        comma-separated list of user group UIDs, can also consist of only
 	 *        one UID, but must not be empty
 	 *
-	 * @return boolean TRUE if the user is member of at least one of the user
-	 *                 groups provided, FALSE otherwise
+	 * @return bool TRUE if the user is member of at least one of the user groups provided, FALSE otherwise
+	 *
+	 * @throws InvalidArgumentException
 	 */
 	public function hasGroupMembership($uidList) {
 		if ($uidList == '') {
@@ -416,7 +421,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 *
 	 * Will return "unknown gender" if there is no FrontEndUser.gender field.
 	 *
-	 * @return integer the gender of the user, will be
+	 * @return int the gender of the user, will be
 	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_FEMALE,
 	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_MALE or
 	 *                 Tx_Oelib_Model_FrontEndUser::GENDER_UNKNOWN
@@ -441,7 +446,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Sets the gender.
 	 *
-	 * @param integer $genderKey one of the predefined gender constants
+	 * @param int $genderKey one of the predefined gender constants
 	 *
 	 * @return void
 	 *
@@ -461,7 +466,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a first name.
 	 *
-	 * @return boolean TRUE if the user has a first name, FALSE otherwise
+	 * @return bool TRUE if the user has a first name, FALSE otherwise
 	 */
 	public function hasFirstName() {
 		return $this->hasString('first_name');
@@ -491,7 +496,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a last name.
 	 *
-	 * @return boolean TRUE if the user has a last name, FALSE otherwise
+	 * @return bool TRUE if the user has a last name, FALSE otherwise
 	 */
 	public function hasLastName() {
 		return $this->hasString('last_name');
@@ -547,7 +552,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Gets this user's date of birth as a UNIX timestamp.
 	 *
-	 * @return integer the user's date of birth, will be zero if no date has
+	 * @return int the user's date of birth, will be zero if no date has
 	 *                 been set
 	 */
 	public function getDateOfBirth() {
@@ -557,8 +562,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a date of birth set.
 	 *
-	 * @return boolean TRUE if this user has a non-zero date of birth, FALSE
-	 *                 otherwise
+	 * @return bool TRUE if this user has a non-zero date of birth, FALSE otherwise
 	 */
 	public function hasDateOfBirth() {
 		return $this->hasInteger('date_of_birth');
@@ -570,7 +574,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * Note: This function only works correctly for users that were born after
 	 * 1970-01-01 and that were not born in the future.
 	 *
-	 * @return integer this user's age in years, will be 0 if this user has no birth date set
+	 * @return int this user's age in years, will be 0 if this user has no birth date set
 	 */
 	public function getAge() {
 		if (!$this->hasDateOfBirth()) {
@@ -578,14 +582,14 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 		}
 
 		$currentTimestamp = $GLOBALS['EXEC_TIME'];
-		$birthTimestmap = $this->getDateOfBirth();
+		$birthTimestamp = $this->getDateOfBirth();
 
 		$currentYear = intval(strftime('%Y', $currentTimestamp));
 		$currentMonth = intval(strftime('%m', $currentTimestamp));
 		$currentDay = intval(strftime('%d', $currentTimestamp));
-		$birthYear = intval(strftime('%Y', $birthTimestmap));
-		$birthMonth = intval(strftime('%m', $birthTimestmap));
-		$birthDay = intval(strftime('%d', $birthTimestmap));
+		$birthYear = intval(strftime('%Y', $birthTimestamp));
+		$birthMonth = intval(strftime('%m', $birthTimestamp));
+		$birthDay = intval(strftime('%d', $birthTimestamp));
 
 		$age = $currentYear - $birthYear;
 
@@ -603,8 +607,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Gets this user's last login date and time as a UNIX timestamp.
 	 *
-	 * @return integer the user's last login date and time, will be zero if the
-	 *                 user has never logged in
+	 * @return int the user's last login date and time, will be zero if the user has never logged in
 	 */
 	public function getLastLoginAsUnixTimestamp() {
 		return $this->getAsInteger('lastlogin');
@@ -613,8 +616,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a last login date set.
 	 *
-	 * @return boolean TRUE if this user has a non-zero last login date, FALSE
-	 *                 otherwise
+	 * @return bool TRUE if this user has a non-zero last login date, FALSE
 	 */
 	public function hasLastLogin() {
 		return $this->hasInteger('lastlogin');
@@ -661,7 +663,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Returns whether this user has a country.
 	 *
-	 * @return boolean TRUE if this user has a country, FALSE otherwise
+	 * @return bool TRUE if this user has a country, FALSE otherwise
 	 */
 	public function hasCountry() {
 		return $this->getCountry() !== NULL;
@@ -679,7 +681,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Checks whether this user has a non-empty job title set.
 	 *
-	 * @return boolean TRUE if this user has an job title set, FALSE otherwise
+	 * @return bool TRUE if this user has an job title set, FALSE otherwise
 	 */
 	public function hasJobTitle() {
 		return $this->hasString('title');
