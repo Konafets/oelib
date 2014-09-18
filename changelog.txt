@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5135] Feature: Enhance the error message about missing setData
 - [#5132] Feature: Add FrontEndUser.addUserGroup
 - [#5114] Bugfix: Crash in AbstractMailer in PHP 5.3
 - [#4155] Cleanup: Deprecate templatehelper::getFeUserUid

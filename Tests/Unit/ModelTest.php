@@ -81,7 +81,8 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	public function getWithNoDataThrowsException() {
 		$this->setExpectedException(
 			'BadMethodCallException',
-			'Please call setData() directly after instantiation first.'
+			get_class($this->subject) . '#' . $this->subject->getUid()
+				. ': Please call setData() directly after instantiation first.'
 		);
 
 		$this->subject->getTitle();

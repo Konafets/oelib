@@ -326,7 +326,10 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 */
 	private function load() {
 		if ($this->isVirgin()) {
-			throw new BadMethodCallException('Please call setData() directly after instantiation first.', 1331489395);
+			throw new BadMethodCallException(
+				get_class($this) . '#' . $this->getUid() . ': Please call setData() directly after instantiation first.',
+				1331489395
+			);
 		}
 
 		if ($this->isGhost()) {
