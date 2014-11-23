@@ -45,8 +45,8 @@ class Tx_Oelib_Timer {
 	private $buckets = array();
 
 	/**
-     * @var float the sum of all measured time
-     */
+	 * @var float the sum of all measured time
+	 */
 	private $allTime = 0.00;
 
 	/**

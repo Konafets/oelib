@@ -37,9 +37,9 @@
  */
 class Tx_Oelib_ConfigCheck {
 	/**
-     * @var Tx_Oelib_TemplateHelper the object whose configuration should
-     *                              be checked
-     */
+	 * @var Tx_Oelib_TemplateHelper the object whose configuration should
+	 *                              be checked
+	 */
 	protected $objectToCheck = NULL;
 	/** @var string the (cached) class name of $this->objectToCheck */
 	private $className = '';

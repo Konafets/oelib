@@ -22,8 +22,8 @@
  */
 class Tx_Oelib_SessionTest extends Tx_Phpunit_TestCase {
 	/**
-     * @var Tx_Oelib_TestingFramework for creating a fake front end
-     */
+	 * @var Tx_Oelib_TestingFramework for creating a fake front end
+	 */
 	private $testingFramework;
 
 	public function setUp() {
