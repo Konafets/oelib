@@ -125,7 +125,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$row = Tx_Oelib_Db::selectSingle(
 			'sorting',
 			OELIB_TESTTABLE_MM,
-			'uid_local = ' . $uidLocal.' AND uid_foreign = ' . $uidForeign
+			'uid_local = ' . $uidLocal .' AND uid_foreign = ' . $uidForeign
 		);
 
 		return intval($row['sorting']);
@@ -501,7 +501,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->subject->countRecords('pages', 'uid='.$pid.' AND title="bar"')
+			$this->subject->countRecords('pages', 'uid=' . $pid . ' AND title="bar"')
 		);
 	}
 
@@ -523,7 +523,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->subject->countRecords('tt_content', 'uid=' . $uid.' AND titleText="bar"')
+			$this->subject->countRecords('tt_content', 'uid=' . $uid .' AND titleText="bar"')
 		);
 	}
 
@@ -777,7 +777,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			1,
 			$this->subject->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
+				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
 	}
@@ -1103,7 +1103,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			0,
 			$this->subject->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
+				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
 	}
@@ -1139,7 +1139,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			0,
 			$this->subject->countRecords(
 				OELIB_TESTTABLE_MM,
-				'uid_local=' . $uidLocal.' AND uid_foreign=' . $uidForeign
+				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
 
@@ -1309,7 +1309,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$this->assertSame(
 				0,
 				$this->subject->countRecords($currentTable),
-				'Some test records were not deleted from table "'.$currentTable.'"'
+				'Some test records were not deleted from table "' . $currentTable . '"'
 			);
 		}
 	}
@@ -2085,6 +2085,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForTestTableSucceeds() {
+		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+
 		$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
 		$this->subject->deleteRecord(OELIB_TESTTABLE, $latestUid);
 		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
@@ -2283,6 +2285,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyDoesNothingAfterOneNewRecordByDefault() {
+		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+
 		$oldAutoIncrement = $this->subject->getAutoIncrement(OELIB_TESTTABLE);
 
 		$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
@@ -2298,7 +2302,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function resetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThreshholdOfOne() {
+	public function resetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThresholdOfOne() {
+		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+
 		$oldAutoIncrement = $this->subject->getAutoIncrement(OELIB_TESTTABLE);
 		$this->subject->setResetAutoIncrementThreshold(1);
 
@@ -4067,7 +4073,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUidTwo = $this->subject->createFrontEndUserGroup();
 		$feUserGroupUidThree = $this->subject->createFrontEndUserGroup();
 		$uid = $this->subject->createFrontEndUser(
-			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', '.$feUserGroupUidThree
+			$feUserGroupUidOne .', '.$feUserGroupUidTwo .', '.$feUserGroupUidThree
 		);
 
 		$this->assertNotSame(
@@ -4170,7 +4176,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUidThree = $this->subject->createFrontEndUserGroup();
 
 		$this->subject->createFrontEndUser(
-			$feUserGroupUidOne.', '.$feUserGroupUidTwo.', 0, '.$feUserGroupUidThree
+			$feUserGroupUidOne .', '.$feUserGroupUidTwo .', 0, '.$feUserGroupUidThree
 		);
 	}
 
@@ -4186,7 +4192,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUid = $this->subject->createFrontEndUserGroup();
 
 		$this->subject->createFrontEndUser(
-			$feUserGroupUid.', abc'
+			$feUserGroupUid . ', abc'
 		);
 	}
 
@@ -4449,10 +4455,31 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function loginUserIsFalseAfterCreateFakeFrontEnd() {
+	public function loginUserIsZeroAfterCreateFakeFrontEnd() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 below version 6.2.');
+		}
+
 		$this->subject->createFakeFrontEnd();
 
-		$this->assertFalse(
+		$this->assertSame(
+			0,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function loginUserIsFalseAfterCreateFakeFrontEnd() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 in version 6.2 and above.');
+		}
+
+		$this->subject->createFakeFrontEnd();
+
+		$this->assertSame(
+			FALSE,
 			$GLOBALS['TSFE']->loginUser
 		);
 	}
@@ -4772,12 +4799,33 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function logoutFrontEndUserSetsLoginUserToFalse() {
+	public function logoutFrontEndUserSetsLoginUserToZero() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 below version 6.2.');
+		}
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->logoutFrontEndUser();
 
-		$this->assertFalse(
+		$this->assertSame(
+			0,
+			$GLOBALS['TSFE']->loginUser
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function logoutFrontEndUserSetsLoginUserToFalse() {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+			$this->markTestSkipped('This test is available in TYPO3 in version 6.2 and above.');
+		}
+		$this->subject->createFakeFrontEnd();
+
+		$this->subject->logoutFrontEndUser();
+
+		$this->assertSame(
+			FALSE,
 			$GLOBALS['TSFE']->loginUser
 		);
 	}

@@ -88,7 +88,7 @@ final class Tx_Oelib_TestingFramework {
 	 * The number of unusable UIDs after the maximum UID in a table before the auto increment value will be reset by
 	 * resetAutoIncrementLazily.
 	 *
-	 * This value needs to be high enough so that no two page UIDs will be the same within on request as the loca
+	 * This value needs to be high enough so that no two page UIDs will be the same within on request as the local
 	 * root-line cache of TYPO3 CMS otherwise might create false cache hits, causing failures for unit tests relying on
 	 * the root line.
 	 *
@@ -1042,18 +1042,19 @@ final class Tx_Oelib_TestingFramework {
 	 * @throws RuntimeException
 	 */
 	protected function createDummyUploadFolder() {
-		if (is_dir($this->getUploadFolderPath())) {
+		$uploadFolderPath = $this->getUploadFolderPath();
+		if (is_dir($uploadFolderPath)) {
 			return;
 		}
 
-		if (t3lib_div::mkdir($this->getUploadFolderPath())) {
-			// registers the upload folder as dummy folder
-			$this->dummyFolders['uploadFolder'] = '';
-		} else {
+		$creationSuccessful = t3lib_div::mkdir($uploadFolderPath);
+		if (!$creationSuccessful) {
 			throw new RuntimeException(
-				'The upload folder ' . $this->getUploadFolderPath() . ' could not be created.', 1331490723
+				'The upload folder ' . $uploadFolderPath . ' could not be created.', 1331490723
 			);
 		}
+
+		$this->dummyFolders['uploadFolder'] = $uploadFolderPath;
 	}
 
 	/**
@@ -1106,7 +1107,7 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	public function getPathRelativeToUploadDirectory($absolutePath) {
 		if (!preg_match(
-				'/^' . str_replace('/', '\/', $this->getUploadFolderPath()) . '.*$/',
+				'/^' . str_replace('/', '\\/', $this->getUploadFolderPath()) . '.*$/',
 				$absolutePath
 		)) {
 			throw new InvalidArgumentException(
@@ -1266,9 +1267,10 @@ final class Tx_Oelib_TestingFramework {
 		$GLOBALS['_GET']['FE_SESSION_KEY'] = '';
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
 
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication'] = array(
-			'className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies',
-		);
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication']
+				= array('className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies');
+		}
 	}
 
 
@@ -1420,7 +1422,7 @@ final class Tx_Oelib_TestingFramework {
 		$matches = array();
 
 		preg_match_all(
-			'/(('.$additionalTablePrefixes.')_[a-z0-9]+[a-z0-9_]*)(,|$)/',
+			'/((' . $additionalTablePrefixes . ')_[a-z0-9]+[a-z0-9_]*)(,|$)/',
 			$allTables,
 			$matches
 		);
