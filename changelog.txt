@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5168] Fix: Use a NullCacheBackend for the RootlineCach
 - [#5167] Fix: Code indented with spaces
 - [#5166] Fix: Port TestingFramework changes from the PHPUnit extension
 - [#5135] Feature: Enhance the error message about missing setData
