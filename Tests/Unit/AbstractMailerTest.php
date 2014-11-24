@@ -56,19 +56,24 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		'headers' => '',
 	);
 
+	/**
+	 * @var string
+	 */
+	protected $finalMailMessageClassName = '';
+
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_EmailCollector();
 
+		$this->finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('t3lib_mail_Message', $this->message1);
-		$this->message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance('t3lib_mail_Message', $this->message2);
+		t3lib_div::addInstance($this->finalMailMessageClassName, $this->message1);
 	}
 
 	protected function tearDown() {
 		$this->subject->cleanUp();
-		t3lib_div::purgeInstances();
-		unset($this->subject, $this->message1, $this->message2);
+		// Get any surplus instances added via t3lib_div::addInstance.
+		t3lib_div::makeInstance('t3lib_mail_Message');
 	}
 
 
@@ -126,6 +131,9 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetTheLastEmail() {
+		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -147,6 +155,9 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetBothEmails() {
+		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],

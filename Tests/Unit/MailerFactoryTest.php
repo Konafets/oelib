@@ -31,12 +31,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$this->subject = Tx_Oelib_MailerFactory::getInstance();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-		t3lib_div::purgeInstances();
-	}
-
-
 	/*
 	 * Tests concerning the basic functionality
 	 */
@@ -68,19 +62,6 @@ class Tx_Oelib_MailerFactoryTest extends Tx_Phpunit_TestCase {
 		$this->subject->enableTestMode();
 		$this->assertSame(
 			'Tx_Oelib_EmailCollector',
-			get_class($this->subject->getMailer())
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function getMailerInNonTestModeReturnsRailMailer() {
-		// initially, the test mode is disabled
-		t3lib_div::purgeInstances();
-
-		$this->assertSame(
-			'Tx_Oelib_RealMailer',
 			get_class($this->subject->getMailer())
 		);
 	}

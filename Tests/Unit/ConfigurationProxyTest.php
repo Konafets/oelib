@@ -42,20 +42,17 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		'testValueFalse' => 0
 	);
 
-	public function setUp() {
-		$this->subject
-			= Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY);
+	protected function setUp() {
+		$this->subject = Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY);
 		// ensures the same configuration at the beginning of each test
 		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
 			= serialize($this->testConfiguration);
 		$this->subject->retrieveConfiguration();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		Tx_Oelib_ConfigurationProxy::purgeInstances();
-		unset($this->subject);
 	}
-
 
 	/**
 	 * @test

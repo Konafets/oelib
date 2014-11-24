@@ -1128,17 +1128,17 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			$imageConfiguration['params'] = 'id="' . $id . '"';
 		}
 
-		if (class_exists('t3lib_file_exception_FileDoesNotExistException', TRUE)) {
+		if (class_exists('TYPO3\\CMS\\Core\\Resource\\Exception\\FileDoesNotExistException', TRUE)) {
 			try {
 				$result = $this->cObj->IMAGE($imageConfiguration);
-			} catch (t3lib_file_exception_FileDoesNotExistException $exception) {
+			} catch (\TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException $exception) {
 				$result = NULL;
 			}
 		} else {
 			$result = $this->cObj->IMAGE($imageConfiguration);
 		}
 
-		if (($result === NULL) || (is_string($result) && (strpos($result, 'src=""') !== FALSE))) {
+		if (($result === NULL) || ($result === '') || (strpos($result, 'src=""') !== FALSE)) {
 			$result = htmlspecialchars($altText);
 		}
 

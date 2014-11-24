@@ -4272,7 +4272,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRestrictedImageForExceptionReturnsHtmlSpecialcharedAltText() {
-		if (!class_exists('t3lib_file_exception_FileDoesNotExistException', TRUE)) {
+		if (!class_exists('TYPO3\\CMS\\Core\\Resource\\Exception\\FileDoesNotExistException', TRUE)) {
 			$this->markTestSkipped('This tests needs the FileDoesNotExistException class introduced in TYPO3 6.0.');
 		}
 
@@ -4282,7 +4282,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		$content = $this->getMock('tslib_cObj');
 		$content->expects($this->once())->method('IMAGE')
 			->with(array('file' => 'foo.jpg', 'file.' => array(), 'altText' => $altText, 'titleText' => ''))
-			->will($this->throwException(new t3lib_file_exception_FileDoesNotExistException()));
+			->will($this->throwException(new \TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException()));
 		$this->subject->cObj = $content;
 
 		$this->assertSame(

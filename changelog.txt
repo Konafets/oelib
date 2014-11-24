@@ -1,5 +1,6 @@
 0.8.0 - currently working on
-- [#5168] Fix: Use a NullCacheBackend for the RootlineCach
+- [#5169] Fix: Get the unit tests to green in TYPO3 CMS 6.2 again
+- [#5168] Fix: Use a NullCacheBackend for the RootlineCache
 - [#5167] Fix: Code indented with spaces
 - [#5166] Fix: Port TestingFramework changes from the PHPUnit extension
 - [#5135] Feature: Enhance the error message about missing setData

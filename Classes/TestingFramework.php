@@ -1218,7 +1218,6 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->hasFakeFrontEnd = TRUE;
 		$this->logoutFrontEndUser();
-		$frontEnd->loginUser = (bool) $frontEnd->loginUser;
 
 		return $frontEnd->id;
 	}
