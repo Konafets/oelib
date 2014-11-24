@@ -132,3 +132,47 @@ CREATE TABLE tt_content (
 	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	KEY dummy (tx_oelib_is_dummy_record)
 );
+
+#
+# Table structure for table 'sys_file'
+#
+CREATE TABLE sys_file (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record)
+);
+
+
+#
+# Table structure for table 'sys_file_collection'
+#
+CREATE TABLE sys_file_collection (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record)
+);
+
+
+#
+# Table structure for table 'sys_file_reference'
+#
+CREATE TABLE sys_file_reference (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record)
+);
+
+
+#
+# Table structure for table 'sys_category'
+#
+CREATE TABLE sys_category (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record)
+);
+
+
+#
+# Table structure for table 'sys_category_record_mm'
+#
+CREATE TABLE sys_category_record_mm (
+	tx_oelib_is_dummy_record tinyint(1) unsigned DEFAULT '0' NOT NULL,
+	KEY dummy (tx_oelib_is_dummy_record)
+);

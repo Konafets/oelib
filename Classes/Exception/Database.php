@@ -27,18 +27,16 @@
 class tx_oelib_Exception_Database extends Exception {
 	/**
 	 * The constructor.
+	 *
+	 * @param int $code error code, must be >= 0
 	 */
-	public function __construct() {
-		$message = 'There was an error with the database query.' . LF .
-			$GLOBALS['TYPO3_DB']->sql_error();
+	public function __construct($code = 0) {
+		$message = 'There was an error with the database query.' . LF . $GLOBALS['TYPO3_DB']->sql_error();
 
-		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery
-			|| $GLOBALS['TYPO3_DB']->debugOutput
-		) {
-			$message .= LF . 'The last built query:' . LF .
-				$GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery || $GLOBALS['TYPO3_DB']->debugOutput) {
+			$message .= LF . 'The last built query:' . LF . $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
 		}
 
-		parent::__construct($message);
+		parent::__construct($message, $code);
 	}
 }

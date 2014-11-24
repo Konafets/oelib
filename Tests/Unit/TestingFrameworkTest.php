@@ -1538,6 +1538,53 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
+	public function getAutoIncrementForSysFileIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->getAutoIncrement('sys_file');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForSysFileCollectionIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->getAutoIncrement('sys_file_collection');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForSysFileReferenceIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->getAutoIncrement('sys_file_reference');
+	}
+
+	/**
+	 * @test
+	 */
+	public function getAutoIncrementForSysCategoryIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->getAutoIncrement('sys_category');
+	}
+
+	/**
+	 * @test
+	 *
+	 * @expectedException InvalidArgumentException
+	 */
+	public function getAutoIncrementForSysCategoryRecordMmFails() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->getAutoIncrement('sys_category_record_mm');
+	}
+
+	/**
+	 * @test
+	 */
 	public function getAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
@@ -1653,6 +1700,51 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function countRecordsWithTtContentTableIsAllowed() {
 		$table = 'tt_content';
 		$this->subject->countRecords($table);
+	}
+
+	/**
+	 * @test
+	 */
+	public function countRecordsWithSysFileTableTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->countRecords('sys_file');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countRecordsWithSysFileCollectionTableTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->countRecords('sys_file_collection');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countRecordsWithSysFileReferenceTableTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->countRecords('sys_file_reference');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countRecordsWithSysCategoryTableTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->countRecords('sys_category');
+	}
+
+	/**
+	 * @test
+	 */
+	public function countRecordsWithSysCategoryRecordMmTableTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->countRecords('sys_category_record_mm');
 	}
 
 	/**
@@ -2159,6 +2251,54 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
+	public function resetAutoIncrementForSysFileTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrement('sys_file');
+	}
+
+	/**
+	 * @test
+	 *
+	 */
+	public function resetAutoIncrementForSysFileCollectionTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrement('sys_file_collection');
+	}
+
+	/**
+	 * @test
+	 *
+	 */
+	public function resetAutoIncrementForSysFileReferenceTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrement('sys_file_reference');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementForSysCategoryTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrement('sys_category');
+	}
+
+	/**
+	 * @test
+	 *
+	 */
+	public function resetAutoIncrementForSysCategoryRecordMmTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrement('sys_category_record_mm');
+	}
+
+	/**
+	 * @test
+	 */
 	public function resetAutoIncrementWithEmptyTableNameFails() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
@@ -2243,6 +2383,51 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		);
 
 		$this->subject->resetAutoIncrementLazily('sys_domains');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForSysFileTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrementLazily('sys_file');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForSysFileCollectionTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrementLazily('sys_file_collection');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForSysFileReferenceTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrementLazily('sys_file_reference');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForSysCategoryTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrementLazily('sys_category');
+	}
+
+	/**
+	 * @test
+	 */
+	public function resetAutoIncrementLazilyForSysCategoryRecordMmTableIsAllowed() {
+		$this->checkForTypo3SixOrHigher();
+
+		$this->subject->resetAutoIncrementLazily('sys_category_record_mm');
 	}
 
 	/**

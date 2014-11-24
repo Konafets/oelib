@@ -1177,7 +1177,7 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	protected function findOneByKeyFromCache($key, $value) {
 		if ($key === '') {
-			throw new InvalidArgumentException('$key must not be empty.');
+			throw new InvalidArgumentException('$key must not be empty.', 1416847364);
 		}
 		if (!isset($this->cacheByKey[$key])) {
 			throw new InvalidArgumentException('"' . $key . '" is not a valid key for this mapper.', 1331319882);

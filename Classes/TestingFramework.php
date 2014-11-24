@@ -171,6 +171,13 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->determineAndSetAutoIncrementThreshold();
 
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
+			$this->allowedSystemTables = array_merge(
+				$this->allowedSystemTables,
+				array('sys_file', 'sys_file_collection', 'sys_file_reference', 'sys_category', 'sys_category_record_mm')
+			);
+		}
+
 		/** @var array $rootLineCacheConfiguration */
 		$rootLineCacheConfiguration = (array) $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_rootline'];
 		$rootLineCacheConfiguration['backend'] = 't3lib_cache_backend_NullBackend';
@@ -1751,13 +1758,21 @@ final class Tx_Oelib_TestingFramework {
 			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
 		);
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
+			throw new tx_oelib_Exception_Database(1416848924);
 		}
 
 		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
 		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
 
-		return intval($row['Auto_increment']);
+		$autoIncrement = $row['Auto_increment'];
+		if ($autoIncrement === NULL) {
+			throw new InvalidArgumentException(
+				'The given table name is invalid. This means it is either empty or not in the list of allowed tables.',
+				1416849363
+			);
+		}
+
+		return intval($autoIncrement);
 	}
 
 	/**
