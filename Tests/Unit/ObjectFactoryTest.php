@@ -21,20 +21,27 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
-	public function setUp() {
+	/**
+	 * @var bool
+	 */
+	protected $deprecationLogEnabledBackup = FALSE;
+
+	protected function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
-
 
 	/**
 	 * @test
 	 */
 	public function canCreateInstanceOfClassWithConstructorWithoutParameters() {
-		$this->assertTrue(
+		$this->assertInstanceOf(
+			'Tx_Oelib_Tests_Unit_Fixtures_TestingModel',
 			Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_TestingModel')
-				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 		);
 	}
 
@@ -63,7 +70,6 @@ class Tx_Oelib_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 			$this->markTestSkipped('This test is skipped because the XCLASS handling has been changed in TYPO3 CMS 6.0');
 		}
-
 
 		$object = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
 

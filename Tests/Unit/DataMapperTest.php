@@ -24,14 +24,14 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */
-	protected $testingFramework = NUIL;
+	protected $testingFramework = NULL;
 	/**
 	 * @var tx_oelib_Tests_Unit_Fixtures_TestingMapper
 	 */
-	protected $subject = NUIL;
+	protected $subject = NULL;
 
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $deprecationLogEnabledBackup = FALSE;
 

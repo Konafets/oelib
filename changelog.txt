@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#5171] Fix: Fix warnings in the deprecation log
 - [#5170] Feature: Port more TestingFramework changes from PHPUnit
 - [#5169] Fix: Get the unit tests to green in TYPO3 CMS 6.2 again
 - [#5168] Fix: Use a NullCacheBackend for the RootlineCache

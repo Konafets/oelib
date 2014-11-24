@@ -32,11 +32,6 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	private $message1 = NULL;
 
 	/**
-	 * @var t3lib_mail_Message
-	 */
-	private $message2 = NULL;
-
-	/**
 	 * @var string[]
 	 */
 	private $email = array(
@@ -61,7 +56,14 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $finalMailMessageClassName = '';
 
+	/**
+	 * @var bool
+	 */
+	protected $deprecationLogEnabledBackup = FALSE;
+
 	protected function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
 		$this->subject = new Tx_Oelib_EmailCollector();
 
 		$this->finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
@@ -71,11 +73,13 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	}
 
 	protected function tearDown() {
-		$this->subject->cleanUp();
 		// Get any surplus instances added via t3lib_div::addInstance.
 		t3lib_div::makeInstance('t3lib_mail_Message');
-	}
 
+		$this->subject->cleanUp();
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
+	}
 
 	/*
 	 * Utility functions
@@ -114,6 +118,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeAnEmailAndGetIt() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -131,6 +137,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetTheLastEmail() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
 		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
 
@@ -155,6 +163,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function storeTwoEmailsAndGetBothEmails() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
 		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
 
@@ -183,6 +193,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sendEmailReturnsTrueIfTheReturnValueIsSetToTrue() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->setFakedReturnValue(TRUE);
 
 		$this->assertTrue(
@@ -194,6 +206,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sendEmailReturnsFalseIfTheReturnValueIsSetToFalse() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->setFakedReturnValue(FALSE);
 
 		$this->assertFalse(
@@ -205,6 +219,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastRecipientReturnsTheRecipientOfTheLastEmail() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -231,6 +247,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastSubjectReturnsTheSubjectOfTheLastEmail() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -257,6 +275,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastBodyReturnsTheBodyOfTheLastEmail() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -283,6 +303,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastHeadersIfTheEmailDoesNotHaveAny() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->otherEmail['recipient'],
 			$this->otherEmail['subject'],
@@ -299,6 +321,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLastHeadersReturnsTheLastHeaders() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail(
 			$this->email['recipient'],
 			$this->email['subject'],
@@ -321,6 +345,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function mailWithEmptySenderThrowsException() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$emailAddress must not be empty.'
@@ -333,6 +359,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function mailWithEmptySubjectThrowsException() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$subject must not be empty.'
@@ -345,6 +373,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function mailWithEmptyMessageThrowsException() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->setExpectedException(
 			'InvalidArgumentException',
 			'$message must not be empty.'
@@ -1026,6 +1056,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneLineFeedIsKeptIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . LF . 'bar');
 
 		$this->assertSame(
@@ -1038,6 +1070,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneCarriageReturnIsReplacedByLfIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . CR . 'bar');
 
 		$this->assertSame(
@@ -1050,6 +1084,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function twoLineFeedsAreKeptIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . LF . LF . 'bar');
 
 		$this->assertSame(
@@ -1062,6 +1098,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function twoCarriageReturnsAreReplacedByTwoLfIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . CR . CR . 'bar');
 
 		$this->assertSame(
@@ -1074,6 +1112,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function severalLineFeedsAreReplacedByTwoLfIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . LF . LF . LF . LF . LF . 'bar');
 
 		$this->assertSame(
@@ -1086,6 +1126,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function severalCarriageReturnsAreReplacedByTwoLfIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
 		$this->assertSame(
@@ -1098,6 +1140,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function emailBodyIsNotChangesWhenFormattingIsDisabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendFormattedEmails(FALSE);
 		$this->subject->sendEmail('', '', 'foo' . CR . CR . CR . CR . CR . 'bar');
 
@@ -1111,6 +1155,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function oneCrLfPairIsReplacedByLfIfFormattingIsEnabled() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->sendEmail('', '', 'foo' . CRLF . 'bar');
 
 		$this->assertSame(

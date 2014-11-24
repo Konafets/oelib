@@ -25,27 +25,32 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingTemplateHelper
 	 */
-	private $subject;
+	protected $subject = NULL;
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	protected $testingFramework = NULL;
 
-	public function setUp() {
+	/**
+	 * @var bool
+	 */
+	protected $deprecationLogEnabledBackup = FALSE;
+
+	protected function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
-		$pageUid = $this->testingFramework->createFrontEndPage(
-			0, array('storage_pid' => 0)
-		);
+		$pageUid = $this->testingFramework->createFrontEndPage(0, array('storage_pid' => 0));
 		$this->testingFramework->createFakeFrontEnd($pageUid);
 		Tx_Oelib_ConfigurationProxy::getInstance('oelib')->setAsBoolean('enableConfigCheck', TRUE);
 
 		$this->subject = new Tx_Oelib_TestingTemplateHelper(array());
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
-		unset($this->subject, $this->testingFramework);
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 
@@ -4183,6 +4188,8 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function createRestrictedImageForEmptyPathThrowsException() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->createRestrictedImage('');
 	}
 
@@ -4191,21 +4198,20 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function createRestrictedImageForNonZeroMaxAreaThrowsException() {
-		$this->subject->createRestrictedImage(
-			'typo3conf/ext/oelib/Tests/Unit/Fixtures/test.png', '', 0, 0, 1
-		);
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
+		$this->subject->createRestrictedImage('typo3conf/ext/oelib/Tests/Unit/Fixtures/test.png', '', 0, 0, 1);
 	}
 
 	/**
 	 * @test
 	 */
 	public function createRestrictedImageForInexistentFileReturnsHtmlspecialchardAltText() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->assertContains(
 			'foo &amp; bar',
-			$this->subject->createRestrictedImage(
-				'typo3conf/ext/oelib/Tests/Unit/Fixtures/nothing.png',
-				'foo & bar'
-			)
+			$this->subject->createRestrictedImage('typo3conf/ext/oelib/Tests/Unit/Fixtures/nothing.png', 'foo & bar')
 		);
 	}
 
@@ -4213,6 +4219,8 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRestrictedImageForSuccessReturnsGeneratedImageTag() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$imageTag = '<img src="typo3temp/foo.jpg" alt="foo" title="bar" id="id-42"/>';
 
 		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
@@ -4234,6 +4242,8 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRestrictedImageForGeneratedImageTagWithEmptySrcReturnsHtmlSpecialcharedAltText() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$altText = 'foo & bar';
 
 		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
@@ -4253,6 +4263,8 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRestrictedImageForGeneratedNullImageTagReturnsHtmlSpecialcharedAltText() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$altText = 'foo & bar';
 
 		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
@@ -4275,6 +4287,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		if (!class_exists('TYPO3\\CMS\\Core\\Resource\\Exception\\FileDoesNotExistException', TRUE)) {
 			$this->markTestSkipped('This tests needs the FileDoesNotExistException class introduced in TYPO3 6.0.');
 		}
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$altText = 'foo & bar';
 
