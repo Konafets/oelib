@@ -12,8 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-define('OELIB_EXTENSION_KEY', 'oelib');
-
 /**
  * Test case.
  *
@@ -43,9 +41,9 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	);
 
 	protected function setUp() {
-		$this->subject = Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY);
+		$this->subject = Tx_Oelib_ConfigurationProxy::getInstance('oelib');
 		// ensures the same configuration at the beginning of each test
-		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]
+		$GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['oelib']
 			= serialize($this->testConfiguration);
 		$this->subject->retrieveConfiguration();
 	}
@@ -80,7 +78,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	public function getInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
 		$this->assertSame(
 			$this->subject,
-			Tx_Oelib_ConfigurationProxy::getInstance(OELIB_EXTENSION_KEY)
+			Tx_Oelib_ConfigurationProxy::getInstance('oelib')
 		);
 	}
 
@@ -119,7 +117,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function retrieveConfigurationIfThereIsNone() {
-		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
+		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['oelib']);
 		$this->subject->retrieveConfiguration();
 
 		$this->assertFalse(
@@ -131,7 +129,7 @@ class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function retrieveConfigurationIfThereIsNoneAndSetNewConfigurationValue() {
-		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][OELIB_EXTENSION_KEY]);
+		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['oelib']);
 		$this->subject->retrieveConfiguration();
 		$this->subject->setAsString('testValue', 'foo');
 

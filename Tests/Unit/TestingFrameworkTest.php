@@ -12,19 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-if (!defined('OELIB_TESTTABLE')) {
-	/**
-	 * @var string
-	 */
-	define('OELIB_TESTTABLE', 'tx_oelib_test');
-}
-if (!defined('OELIB_TESTTABLE_MM')) {
-	/**
-	 * @var string
-	 */
-	define('OELIB_TESTTABLE_MM', 'tx_oelib_test_article_mm');
-}
-
 /**
  * Test case.
  *
@@ -124,7 +111,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	protected function getSortingOfRelation($uidLocal, $uidForeign) {
 		$row = Tx_Oelib_Db::selectSingle(
 			'sorting',
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			'uid_local = ' . $uidLocal .' AND uid_foreign = ' . $uidForeign
 		);
 
@@ -215,10 +202,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			$this->subject->getListOfDirtyTables()
 		);
 
-		$this->subject->createRecord(OELIB_TESTTABLE, array());
+		$this->subject->createRecord('tx_oelib_test', array());
 		$this->assertSame(
 			array(
-				OELIB_TESTTABLE => OELIB_TESTTABLE
+				'tx_oelib_test' => 'tx_oelib_test'
 			),
 			$this->subject->getListOfDirtyTables()
 		);
@@ -229,14 +216,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function markTableAsDirtyWillCleanUpNonSystemTable() {
 		$uid = Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE, array('is_dummy_record' => 1)
+			'tx_oelib_test', array('is_dummy_record' => 1)
 		);
 
-		$this->subject->markTableAsDirty(OELIB_TESTTABLE);
+		$this->subject->markTableAsDirty('tx_oelib_test');
 		$this->subject->cleanUp();
 		$this->assertSame(
 			0,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
+			$this->subject->countRecords('tx_oelib_test', 'uid=' . $uid)
 		);
 	}
 
@@ -322,11 +309,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function markTableAsDirtyAcceptsCommaSeparatedListOfTableNames() {
-		$this->subject->markTableAsDirty(OELIB_TESTTABLE.','.OELIB_TESTTABLE_MM);
+		$this->subject->markTableAsDirty('tx_oelib_test'.','.'tx_oelib_test_article_mm');
 		$this->assertSame(
 			array(
-				OELIB_TESTTABLE => OELIB_TESTTABLE,
-				OELIB_TESTTABLE_MM => OELIB_TESTTABLE_MM
+				'tx_oelib_test' => 'tx_oelib_test',
+				'tx_oelib_test_article_mm' => 'tx_oelib_test_article_mm'
 			),
 			$this->subject->getListOfDirtyTables()
 		);
@@ -343,7 +330,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function createRecordOnValidTableWithNoData() {
 		$this->assertNotSame(
 			0,
-			$this->subject->createRecord(OELIB_TESTTABLE, array())
+			$this->subject->createRecord('tx_oelib_test', array())
 		);
 	}
 
@@ -353,7 +340,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function createRecordWithValidData() {
 		$title = 'TEST record';
 		$uid = $this->subject->createRecord(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			array(
 				'title' => $title
 			)
@@ -365,7 +352,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'title',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $uid
 		);
 
@@ -406,7 +393,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'The column "uid" must not be set in $recordData.'
 		);
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('uid' => 99999)
+			'tx_oelib_test', array('uid' => 99999)
 		);
 	}
 
@@ -435,19 +422,19 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function changeRecordWithExistingRecord() {
 		$uid = $this->subject->createRecord(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			array('title' => 'foo')
 		);
 
 		$this->subject->changeRecord(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$uid,
 			array('title' => 'bar')
 		);
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'title',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $uid
 		);
 
@@ -568,7 +555,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'The parameter $uid must not be zero.'
 		);
-		$this->subject->changeRecord(OELIB_TESTTABLE, 0, array('title' => 'foo'));
+		$this->subject->changeRecord('tx_oelib_test', 0, array('title' => 'foo'));
 	}
 
 	/**
@@ -579,10 +566,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'The array with the new record data must not be empty.'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE, array());
+		$uid = $this->subject->createRecord('tx_oelib_test', array());
 
 		$this->subject->changeRecord(
-			OELIB_TESTTABLE, $uid, array()
+			'tx_oelib_test', $uid, array()
 		);
 	}
 
@@ -594,10 +581,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'The parameter $recordData must not contain changes to the UID of a record.'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE, array());
+		$uid = $this->subject->createRecord('tx_oelib_test', array());
 
 		$this->subject->changeRecord(
-			OELIB_TESTTABLE, $uid, array('uid' => '55742')
+			'tx_oelib_test', $uid, array('uid' => '55742')
 		);
 	}
 
@@ -610,10 +597,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'The parameter $recordData must not contain changes to the field ' .
 				'"is_dummy_record". It is impossible to convert a dummy record into a regular record.'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE, array());
+		$uid = $this->subject->createRecord('tx_oelib_test', array());
 
 		$this->subject->changeRecord(
-			OELIB_TESTTABLE, $uid, array('is_dummy_record' => 0)
+			'tx_oelib_test', $uid, array('is_dummy_record' => 0)
 		);
 	}
 
@@ -621,14 +608,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function changeRecordFailsOnInexistentRecord() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE, array());
+		$uid = $this->subject->createRecord('tx_oelib_test', array());
 		$this->setExpectedException(
 			'BadMethodCallException',
-			'There is no record with UID ' . ($uid + 1) . ' on table "' . OELIB_TESTTABLE . '".'
+			'There is no record with UID ' . ($uid + 1) . ' on table "tx_oelib_test".'
 		);
 
 		$this->subject->changeRecord(
-			OELIB_TESTTABLE, $uid + 1, array('title' => 'foo')
+			'tx_oelib_test', $uid + 1, array('title' => 'foo')
 		);
 	}
 
@@ -642,13 +629,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function deleteRecordOnValidDummyRecord() {
 		// Creates and directly destroys a dummy record.
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE, array());
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $uid);
+		$uid = $this->subject->createRecord('tx_oelib_test', array());
+		$this->subject->deleteRecord('tx_oelib_test', $uid);
 
 		// Checks whether the record really was removed from the database.
 		$this->assertSame(
 			0,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
+			$this->subject->countRecords('tx_oelib_test', 'uid=' . $uid)
 		);
 	}
 
@@ -672,12 +659,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// Checks that the record is inexistent before testing on it.
 		$this->assertSame(
 			0,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'uid=' . $uid)
+			$this->subject->countRecords('tx_oelib_test', 'uid=' . $uid)
 		);
 
 		// Runs our delete function - it should run through even when it can't
 		// delete a record.
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $uid);
+		$this->subject->deleteRecord('tx_oelib_test', $uid);
 	}
 
 	/**
@@ -729,7 +716,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
 		$uid = Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			array(
 				'title' => 'TEST',
 				'is_dummy_record' => 0
@@ -738,14 +725,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		// Runs our delete method which should NOT affect the record created
 		// above.
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $uid);
+		$this->subject->deleteRecord('tx_oelib_test', $uid);
 
 		// Remembers whether the record still exists.
-		$counter = Tx_Oelib_Db::count(OELIB_TESTTABLE, 'uid = ' . $uid);
+		$counter = Tx_Oelib_Db::count('tx_oelib_test', 'uid = ' . $uid);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $uid . ' AND is_dummy_record = 0'
 		);
 
@@ -765,18 +752,18 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationWithValidData() {
-		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $this->subject->createRecord('tx_oelib_test');
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 
 		// Checks whether the record really exists.
 		$this->assertSame(
 			1,
 			$this->subject->countRecords(
-				OELIB_TESTTABLE_MM,
+				'tx_oelib_test_article_mm',
 				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
@@ -830,8 +817,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'$uidLocal must be an integer > 0, but actually is "0"'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->createRelation(OELIB_TESTTABLE_MM, 0, $uid);
+		$uid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->createRelation('tx_oelib_test_article_mm', 0, $uid);
 	}
 
 	/**
@@ -842,8 +829,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'$uidForeign must be an integer > 0, but actually is "0"'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->createRelation(OELIB_TESTTABLE_MM, $uid, 0);
+		$uid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->createRelation('tx_oelib_test_article_mm', $uid, 0);
 	}
 
 	/**
@@ -854,8 +841,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'$uidLocal must be an integer > 0, but actually is "-1"'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->createRelation(OELIB_TESTTABLE_MM, -1, $uid);
+		$uid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->createRelation('tx_oelib_test_article_mm', -1, $uid);
 	}
 
 	/**
@@ -866,8 +853,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'$uidForeign must be an integer > 0, but actually is "-1"'
 		);
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->createRelation(OELIB_TESTTABLE_MM, $uid, -1);
+		$uid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->createRelation('tx_oelib_test_article_mm', $uid, -1);
 	}
 
 
@@ -875,10 +862,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationWithAutomaticSorting() {
-		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $this->subject->createRecord('tx_oelib_test');
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 		$this->subject->createRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 		$previousSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
 		$this->assertGreaterThan(
@@ -887,9 +874,9 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		);
 
 
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 		$this->subject->createRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 		$nextSorting = $this->getSortingOfRelation($uidLocal, $uidForeign);
 		$this->assertSame(
@@ -902,12 +889,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationWithManualSorting() {
-		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $this->subject->createRecord('tx_oelib_test');
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 		$sorting = 99999;
 
 		$this->subject->createRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign, $sorting
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign, $sorting
 		);
 
 		$this->assertSame(
@@ -925,11 +912,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationAndUpdateCounterIncreasesZeroValueCounterByOne() {
-		$firstRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$firstRecordUid = $this->subject->createRecord('tx_oelib_test');
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'related_records'
@@ -937,7 +924,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $firstRecordUid
 		);
 
@@ -952,13 +939,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createRelationAndUpdateCounterIncreasesNonZeroValueCounterToOne() {
 		$firstRecordUid = $this->subject->createRecord(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			array('related_records' => 1)
 		);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'related_records'
@@ -966,7 +953,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $firstRecordUid
 		);
 
@@ -980,18 +967,18 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationAndUpdateCounterCreatesRecordInRelationTable() {
-		$firstRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$firstRecordUid = $this->subject->createRecord('tx_oelib_test');
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'related_records'
 		);
 
 		$count = $this->subject->countRecords(
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			'uid_local=' . $firstRecordUid
 		);
 		$this->assertSame(
@@ -1005,11 +992,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationAndUpdateCounterWithBidirectionalRelationIncreasesCounter() {
-		$firstRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$firstRecordUid = $this->subject->createRecord('tx_oelib_test');
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'bidirectional'
@@ -1017,7 +1004,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'bidirectional',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $firstRecordUid
 		);
 
@@ -1031,11 +1018,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationAndUpdateCounterWithBidirectionalRelationIncreasesOppositeFieldCounterInForeignTable() {
-		$firstRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$firstRecordUid = $this->subject->createRecord('tx_oelib_test');
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'bidirectional'
@@ -1043,7 +1030,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $secondRecordUid
 		);
 
@@ -1057,18 +1044,18 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRelationAndUpdateCounterWithBidirectionalRelationCreatesRecordInRelationTable() {
-		$firstRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$secondRecordUid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$firstRecordUid = $this->subject->createRecord('tx_oelib_test');
+		$secondRecordUid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->subject->createRelationAndUpdateCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$firstRecordUid,
 			$secondRecordUid,
 			'bidirectional'
 		);
 
 		$count = $this->subject->countRecords(
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			'uid_local=' . $secondRecordUid . ' AND uid_foreign=' .
 				$firstRecordUid
 		);
@@ -1087,22 +1074,22 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function removeRelationOnValidDummyRecord() {
-		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $this->subject->createRecord('tx_oelib_test');
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 
 		// Creates and directly destroys a dummy record.
 		$this->subject->createRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 		$this->subject->removeRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 
 		// Checks whether the record really was removed from the database.
 		$this->assertSame(
 			0,
 			$this->subject->countRecords(
-				OELIB_TESTTABLE_MM,
+				'tx_oelib_test_article_mm',
 				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
@@ -1130,7 +1117,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function removeRelationOnInexistentRecord() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 		$uidLocal = $uid + 1;
 		$uidForeign = $uid + 2;
 
@@ -1138,7 +1125,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->assertSame(
 			0,
 			$this->subject->countRecords(
-				OELIB_TESTTABLE_MM,
+				'tx_oelib_test_article_mm',
 				'uid_local=' . $uidLocal .' AND uid_foreign=' . $uidForeign
 			)
 		);
@@ -1146,7 +1133,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// Runs our delete function - it should run through even when it can't
 		// delete a record.
 		$this->subject->removeRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 	}
 
@@ -1199,13 +1186,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function removeRelationOnRealRecordNotRemovesRelation() {
-		$uidLocal = $this->subject->createRecord(OELIB_TESTTABLE);
-		$uidForeign = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uidLocal = $this->subject->createRecord('tx_oelib_test');
+		$uidForeign = $this->subject->createRecord('tx_oelib_test');
 
 		// Create a new record that looks like a real record, i.e. the
 		// is_dummy_record flag is set to 0.
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			array(
 				'uid_local' => $uidLocal,
 				'uid_foreign' => $uidForeign,
@@ -1216,7 +1203,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// Runs our delete method which should NOT affect the record created
 		// above.
 		$this->subject->removeRelation(
-			OELIB_TESTTABLE_MM, $uidLocal, $uidForeign
+			'tx_oelib_test_article_mm', $uidLocal, $uidForeign
 		);
 
 		// Caches the value that will be tested for later. We need to use the
@@ -1226,13 +1213,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// 2. deletes the test record
 		// 3. tests the previously read value (and possibly fails)
 		$numberOfCreatedRelations = Tx_Oelib_Db::count(
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
 		);
 
 		// Deletes the record as it will not be caught by the clean up function.
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE_MM,
+			'tx_oelib_test_article_mm',
 			'uid_local = ' . $uidLocal . ' AND uid_foreign = ' . $uidForeign
 				.' AND is_dummy_record = 0'
 		);
@@ -1254,12 +1241,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function cleanUpWithRegularCleanUp() {
 		// Creates a dummy record (and marks that table as dirty).
-		$this->subject->createRecord(OELIB_TESTTABLE);
+		$this->subject->createRecord('tx_oelib_test');
 
 		// Creates a dummy record directly in the database, without putting this
 		// table name to the list of dirty tables.
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
+			'tx_oelib_test_article_mm', array('is_dummy_record' => 1)
 		);
 
 		// Runs a regular clean up. This should now delete only the first record
@@ -1272,14 +1259,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		// Checks whether the first dummy record is deleted.
 		$this->assertSame(
 			0,
-			$this->subject->countRecords(OELIB_TESTTABLE),
+			$this->subject->countRecords('tx_oelib_test'),
 			'Some test records were not deleted from table "tx_oelib_test"'
 		);
 
 		// Checks whether the second dummy record still exists.
 		$this->assertSame(
 			1,
-			$this->subject->countRecords(OELIB_TESTTABLE_MM)
+			$this->subject->countRecords('tx_oelib_test_article_mm')
 		);
 
 		// Runs a deep clean up to delete all dummy records.
@@ -1291,12 +1278,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function cleanUpWithDeepCleanup() {
 		// Creates a dummy record (and marks that table as dirty).
-		$this->subject->createRecord(OELIB_TESTTABLE);
+		$this->subject->createRecord('tx_oelib_test');
 
 		// Creates a dummy record directly in the database without putting this
 		// table name to the list of dirty tables.
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE_MM, array('is_dummy_record' => 1)
+			'tx_oelib_test_article_mm', array('is_dummy_record' => 1)
 		);
 
 		// Deletes all dummy records.
@@ -1397,7 +1384,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function createListOfAllowedTablesContainsOurTestTable() {
 		$allowedTables = $this->subject->getListOfOwnAllowedTableNames();
 		$this->assertContains(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$allowedTables
 		);
 	}
@@ -1477,7 +1464,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function getAutoIncrementReturnsOneForTruncatedTable() {
 		Tx_Oelib_Db::enableQueryLogging();
 		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'TRUNCATE TABLE ' . OELIB_TESTTABLE . ';'
+			'TRUNCATE TABLE tx_oelib_test;'
 		);
 		if (!$dbResult) {
 			throw new tx_oelib_Exception_Database();
@@ -1485,7 +1472,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
+			$this->subject->getAutoIncrement('tx_oelib_test')
 		);
 	}
 
@@ -1493,13 +1480,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementGetsCurrentAutoIncrement() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 
 		// $uid will equals be the previous auto increment value, so $uid + 1
 		// should be equal to the current auto inrement value.
 		$this->assertSame(
 			$uid + 1,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
+			$this->subject->getAutoIncrement('tx_oelib_test')
 		);
 	}
 
@@ -1623,7 +1610,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'InvalidArgumentException',
 			'The given table name is invalid. This means it is either empty or not in the list of allowed tables.'
 		);
-		$this->subject->getAutoIncrement('OELIB_TESTTABLE_MM');
+		$this->subject->getAutoIncrement('tx_oelib_test_article_mm');
 	}
 
 
@@ -1635,14 +1622,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithEmptyWhereClauseIsAllowed() {
-		$this->subject->countRecords(OELIB_TESTTABLE, '');
+		$this->subject->countRecords('tx_oelib_test', '');
 	}
 
 	/**
 	 * @test
 	 */
 	public function countRecordsWithMissingWhereClauseIsAllowed() {
-		$this->subject->countRecords(OELIB_TESTTABLE);
+		$this->subject->countRecords('tx_oelib_test');
 	}
 
 	/**
@@ -1765,7 +1752,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function countRecordsReturnsZeroForNoMatches() {
 		$this->assertSame(
 			0,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->countRecords('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1774,12 +1761,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function countRecordsReturnsOneForOneDummyRecordMatch() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertSame(
 			1,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->countRecords('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1788,12 +1775,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function countRecordsWithMissingWhereClauseReturnsOneForOneDummyRecordMatch() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertSame(
 			1,
-			$this->subject->countRecords(OELIB_TESTTABLE)
+			$this->subject->countRecords('tx_oelib_test')
 		);
 	}
 
@@ -1802,15 +1789,15 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function countRecordsReturnsTwoForTwoMatches() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertSame(
 			2,
-			$this->subject->countRecords(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->countRecords('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1826,20 +1813,20 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function countRecordsIgnoresNonDummyRecords() {
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$testResult = $this->subject->countRecords(
-			OELIB_TESTTABLE, 'title = "foo"'
+			'tx_oelib_test', 'title = "foo"'
 		);
 
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'title = "foo"'
 		);
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
 		$this->assertSame(
 			0,
@@ -1856,14 +1843,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsRecordWithEmptyWhereClauseIsAllowed() {
-		$this->subject->existsRecord(OELIB_TESTTABLE, '');
+		$this->subject->existsRecord('tx_oelib_test', '');
 	}
 
 	/**
 	 * @test
 	 */
 	public function existsRecordWithMissingWhereClauseIsAllowed() {
-		$this->subject->existsRecord(OELIB_TESTTABLE);
+		$this->subject->existsRecord('tx_oelib_test');
 	}
 
 	/**
@@ -1896,7 +1883,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsRecordForNoMatchesReturnsFalse() {
 		$this->assertFalse(
-			$this->subject->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->existsRecord('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1905,11 +1892,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsRecordForOneMatchReturnsTrue() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertTrue(
-			$this->subject->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->existsRecord('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1918,14 +1905,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsRecordForTwoMatchesReturnsTrue() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertTrue(
-			$this->subject->existsRecord(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->existsRecord('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -1934,20 +1921,20 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsRecordIgnoresNonDummyRecords() {
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$testResult = $this->subject->existsRecord(
-			OELIB_TESTTABLE, 'title = "foo"'
+			'tx_oelib_test', 'title = "foo"'
 		);
 
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'title = "foo"'
 		);
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
 		$this->assertFalse(
 			$testResult
@@ -1968,7 +1955,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'$uid must be > 0.'
 		);
 
-		$this->subject->existsRecordWithUid(OELIB_TESTTABLE, 0);
+		$this->subject->existsRecordWithUid('tx_oelib_test', 0);
 	}
 
 	/**
@@ -1980,7 +1967,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'$uid must be > 0.'
 		);
 
-		$this->subject->existsRecordWithUid(OELIB_TESTTABLE, -1);
+		$this->subject->existsRecordWithUid('tx_oelib_test', -1);
 	}
 
 	/**
@@ -2012,12 +1999,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsRecordWithUidForNoMatcheReturnsFalse() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $uid);
+		$uid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->deleteRecord('tx_oelib_test', $uid);
 
 		$this->assertFalse(
 			$this->subject->existsRecordWithUid(
-				OELIB_TESTTABLE, $uid
+				'tx_oelib_test', $uid
 			)
 		);
 	}
@@ -2026,10 +2013,10 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsRecordWithUidForMatchReturnsTrue() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->assertTrue(
-			$this->subject->existsRecordWithUid(OELIB_TESTTABLE, $uid)
+			$this->subject->existsRecordWithUid('tx_oelib_test', $uid)
 		);
 	}
 
@@ -2038,19 +2025,19 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsRecordWithUidIgnoresNonDummyRecords() {
 		$uid = Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$testResult = $this->subject->existsRecordWithUid(
-			OELIB_TESTTABLE, $uid
+			'tx_oelib_test', $uid
 		);
 
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE, 'uid = ' . $uid
+			'tx_oelib_test', 'uid = ' . $uid
 		);
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
 		$this->assertFalse(
 			$testResult
@@ -2066,14 +2053,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function existsExactlyOneRecordWithEmptyWhereClauseIsAllowed() {
-		$this->subject->existsExactlyOneRecord(OELIB_TESTTABLE, '');
+		$this->subject->existsExactlyOneRecord('tx_oelib_test', '');
 	}
 
 	/**
 	 * @test
 	 */
 	public function existsExactlyOneRecordWithMissingWhereClauseIsAllowed() {
-		$this->subject->existsExactlyOneRecord(OELIB_TESTTABLE);
+		$this->subject->existsExactlyOneRecord('tx_oelib_test');
 	}
 
 	/**
@@ -2107,7 +2094,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function existsExactlyOneRecordForNoMatchesReturnsFalse() {
 		$this->assertFalse(
 			$this->subject->existsExactlyOneRecord(
-				OELIB_TESTTABLE, 'title = "foo"'
+				'tx_oelib_test', 'title = "foo"'
 			)
 		);
 	}
@@ -2117,12 +2104,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsExactlyOneRecordForOneMatchReturnsTrue() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertTrue(
 			$this->subject->existsExactlyOneRecord(
-				OELIB_TESTTABLE, 'title = "foo"'
+				'tx_oelib_test', 'title = "foo"'
 			)
 		);
 	}
@@ -2132,14 +2119,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsExactlyOneRecordForTwoMatchesReturnsFalse() {
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 		$this->subject->createRecord(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$this->assertFalse(
-			$this->subject->existsExactlyOneRecord(OELIB_TESTTABLE, 'title = "foo"')
+			$this->subject->existsExactlyOneRecord('tx_oelib_test', 'title = "foo"')
 		);
 	}
 
@@ -2148,20 +2135,20 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function existsExactlyOneRecordIgnoresNonDummyRecords() {
 		Tx_Oelib_Db::insert(
-			OELIB_TESTTABLE, array('title' => 'foo')
+			'tx_oelib_test', array('title' => 'foo')
 		);
 
 		$testResult = $this->subject->existsExactlyOneRecord(
-			OELIB_TESTTABLE, 'title = "foo"'
+			'tx_oelib_test', 'title = "foo"'
 		);
 
 		Tx_Oelib_Db::delete(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'title = "foo"'
 		);
 		// We need to do this manually to not confuse the auto_increment counter
 		// of the testing framework.
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
 		$this->assertFalse(
 			$testResult
@@ -2177,15 +2164,15 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForTestTableSucceeds() {
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
-		$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $latestUid);
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$latestUid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->deleteRecord('tx_oelib_test', $latestUid);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
 		$this->assertSame(
 			$latestUid,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
+			$this->subject->getAutoIncrement('tx_oelib_test')
 		);
 	}
 
@@ -2193,7 +2180,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForUnchangedTestTableCanBeRun() {
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 	}
 
 	/**
@@ -2212,7 +2199,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForTableWithoutUidIsAllowed() {
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE_MM);
+		$this->subject->resetAutoIncrement('tx_oelib_test_article_mm');
 	}
 
 	/**
@@ -2342,14 +2329,14 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForTestTableIsAllowed() {
-		$this->subject->resetAutoIncrementLazily(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrementLazily('tx_oelib_test');
 	}
 
 	/**
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForTableWithoutUidIsAllowed() {
-		$this->subject->resetAutoIncrementLazily(OELIB_TESTTABLE_MM);
+		$this->subject->resetAutoIncrementLazily('tx_oelib_test_article_mm');
 	}
 
 	/**
@@ -2470,17 +2457,17 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyDoesNothingAfterOneNewRecordByDefault() {
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
-		$oldAutoIncrement = $this->subject->getAutoIncrement(OELIB_TESTTABLE);
+		$oldAutoIncrement = $this->subject->getAutoIncrement('tx_oelib_test');
 
-		$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $latestUid);
-		$this->subject->resetAutoIncrementLazily(OELIB_TESTTABLE);
+		$latestUid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->deleteRecord('tx_oelib_test', $latestUid);
+		$this->subject->resetAutoIncrementLazily('tx_oelib_test');
 
 		$this->assertNotSame(
 			$oldAutoIncrement,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
+			$this->subject->getAutoIncrement('tx_oelib_test')
 		);
 	}
 
@@ -2488,18 +2475,18 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyCleansUpsAfterOneNewRecordWithThresholdOfOne() {
-		$this->subject->resetAutoIncrement(OELIB_TESTTABLE);
+		$this->subject->resetAutoIncrement('tx_oelib_test');
 
-		$oldAutoIncrement = $this->subject->getAutoIncrement(OELIB_TESTTABLE);
+		$oldAutoIncrement = $this->subject->getAutoIncrement('tx_oelib_test');
 		$this->subject->setResetAutoIncrementThreshold(1);
 
-		$latestUid = $this->subject->createRecord(OELIB_TESTTABLE);
-		$this->subject->deleteRecord(OELIB_TESTTABLE, $latestUid);
-		$this->subject->resetAutoIncrementLazily(OELIB_TESTTABLE);
+		$latestUid = $this->subject->createRecord('tx_oelib_test');
+		$this->subject->deleteRecord('tx_oelib_test', $latestUid);
+		$this->subject->resetAutoIncrementLazily('tx_oelib_test');
 
 		$this->assertSame(
 			$oldAutoIncrement,
-			$this->subject->getAutoIncrement(OELIB_TESTTABLE)
+			$this->subject->getAutoIncrement('tx_oelib_test')
 		);
 	}
 
@@ -5235,19 +5222,19 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function increaseRelationCounterIncreasesNonZeroFieldValueByOne() {
 		$uid = $this->subject->createRecord(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			array('related_records' => 41)
 		);
 
 		$this->subject->increaseRelationCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$uid,
 			'related_records'
 		);
 
 		$row = Tx_Oelib_Db::selectSingle(
 			'related_records',
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			'uid = ' . $uid
 		);
 
@@ -5261,15 +5248,15 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function increaseRelationCounterThrowsExceptionOnInvalidUid() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 		$invalidUid = $uid + 1;
 
 		$this->setExpectedException(
 			'BadMethodCallException',
-			'The table ' . OELIB_TESTTABLE . ' does not contain a record with UID ' . $invalidUid . '.'
+			'The table tx_oelib_test does not contain a record with UID ' . $invalidUid . '.'
 		);
 		$this->subject->increaseRelationCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$invalidUid,
 			'related_records'
 		);
@@ -5279,7 +5266,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function increaseRelationCounterThrowsExceptionOnInvalidTableName() {
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 
 		$this->setExpectedException(
 			'InvalidArgumentException',
@@ -5298,12 +5285,12 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	public function increaseRelationCounterThrowsExceptionOnInexistentFieldName() {
 		$this->setExpectedException(
 			'InvalidArgumentException',
-			'The table ' . OELIB_TESTTABLE . ' has no column inexistent_column.'
+			'The table tx_oelib_test has no column inexistent_column.'
 		);
 
-		$uid = $this->subject->createRecord(OELIB_TESTTABLE);
+		$uid = $this->subject->createRecord('tx_oelib_test');
 		$this->subject->increaseRelationCounter(
-			OELIB_TESTTABLE,
+			'tx_oelib_test',
 			$uid,
 			'inexistent_column'
 		);
