@@ -3898,13 +3898,13 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 	/**
 	 * @test
-	 *
-	 * @expectedException PHPUnit_Framework_Error_Warning
 	 */
 	public function deleteDummyFolderWithNonEmptyDummyFolderRaisesWarning() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			$this->markTestSkipped('This test is available in TYPO3 below version 6.2.');
 		}
+
+		$this->setExpectedException('PHPUnit_Framework_Error_Warning');
 
 		$dummyFolder = $this->subject->createDummyFolder('test_folder');
 		$this->subject->createDummyFile(
