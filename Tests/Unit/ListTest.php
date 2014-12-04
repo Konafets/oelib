@@ -1169,7 +1169,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$completedIterations = 0;
 
 		foreach ($this->subject as $model) {
-			if ($completedIterations == 1) {
+			if ($completedIterations === 1) {
 				$this->subject->purgeCurrent();
 			}
 
@@ -1191,7 +1191,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$completedIterations = 0;
 
 		while ($this->subject->valid()) {
-			if ($completedIterations == 1) {
+			if ($completedIterations === 1) {
 				$this->subject->purgeCurrent();
 			}
 

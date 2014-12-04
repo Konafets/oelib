@@ -106,7 +106,7 @@ class Tx_Oelib_Timer {
 	 * @return void
 	 */
 	public function openBucket($bucketName = 'default') {
-		if ($bucketName != $this->currentBucketName) {
+		if ($bucketName !== $this->currentBucketName) {
 			$this->closeCurrentBucket();
 			$this->previousBucketNames[] = $this->currentBucketName;
 			$this->currentBucketName = $bucketName;

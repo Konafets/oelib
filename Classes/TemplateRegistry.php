@@ -100,7 +100,7 @@ class Tx_Oelib_TemplateRegistry {
 		if (!isset($this->templates[$fileName])) {
 			$template = t3lib_div::makeInstance('Tx_Oelib_Template');
 
-			if ($fileName != '') {
+			if ($fileName !== '') {
 				$template->processTemplateFromFile($fileName);
 			}
 			$this->templates[$fileName] = $template;

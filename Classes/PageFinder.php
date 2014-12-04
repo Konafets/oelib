@@ -144,7 +144,7 @@ class Tx_Oelib_PageFinder {
 	 *                 will be NO_SOURCE_FOUND if no source could be detected
 	 */
 	public function getCurrentSource() {
-		if ($this->manualPageUidSource != self::SOURCE_AUTO) {
+		if ($this->manualPageUidSource !== self::SOURCE_AUTO) {
 			$result = $this->manualPageUidSource;
 		} elseif ($this->hasManualPageUid()) {
 			$result = self::SOURCE_MANUAL;

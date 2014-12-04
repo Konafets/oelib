@@ -71,7 +71,7 @@ class Tx_Oelib_Configuration extends Tx_Oelib_PublicObject {
 	 * @return void
 	 */
 	public function set($key, $value) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty.', 1331318809);
 		}
 
@@ -119,7 +119,7 @@ class Tx_Oelib_Configuration extends Tx_Oelib_PublicObject {
 	 * @return string[] the array keys of the data item for the key $key, may be empty
 	 */
 	public function getArrayKeys($key = '') {
-		if ($key == '') {
+		if ($key === '') {
 			return array_keys($this->data);
 		}
 

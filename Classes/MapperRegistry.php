@@ -113,7 +113,7 @@ class Tx_Oelib_MapperRegistry {
 	 * @throws InvalidArgumentException
 	 */
 	private function getByClassName($className) {
-		if ($className == '') {
+		if ($className === '') {
 			throw new InvalidArgumentException('$className must not be empty.', 1331488868);
 		}
 		if (!preg_match('/^[tT]x_[A-Za-z0-9]+_[a-zA-Z_]+/', $className)) {

@@ -62,15 +62,13 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	 */
 	public function getLanguage() {
 		$configuration = $this->getConfiguration();
-		if (isset($configuration['lang']) &&
-			($configuration['lang'] != '')
-		) {
+		if (isset($configuration['lang']) && ($configuration['lang'] !== '')) {
 			$result = $configuration['lang'];
 		} else {
 			$result = $this->getDefaultLanguage();
 		}
 
-		return ($result != '') ? $result : 'default';
+		return ($result !== '') ? $result : 'default';
 	}
 
 	/**
@@ -83,13 +81,13 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	 * @return void
 	 */
 	public function setDefaultLanguage($language) {
-		if ($language == '') {
+		if ($language === '') {
 			throw new InvalidArgumentException('$language must not be empty.', 1331488621);
 		}
 
 		$this->setAsString(
 			'lang',
-			($language != 'default') ? $language : ''
+			($language !== 'default') ? $language : ''
 		);
 	}
 
@@ -100,7 +98,7 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	 *                 otherwise
 	 */
 	public function hasLanguage() {
-		return ($this->getLanguage() != 'default');
+		return ($this->getLanguage() !== 'default');
 	}
 
 	/**

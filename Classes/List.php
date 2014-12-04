@@ -81,7 +81,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 		}
 
 		// Initializes the Iterator.
-		if ($this->count() == 1) {
+		if ($this->count() === 1) {
 			$this->rewind();
 		}
 
@@ -94,7 +94,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * @return boolean TRUE if this list is empty, FALSE otherwise
 	 */
 	public function isEmpty() {
-		return ($this->count() == 0);
+		return ($this->count() === 0);
 	}
 
 	/**

@@ -74,7 +74,7 @@ class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 	 *                                     proxy object
 	 */
 	public static function getInstance($extensionKey) {
-		if ($extensionKey == '') {
+		if ($extensionKey === '') {
 			throw new InvalidArgumentException('The extension key was not set.', 1331318826);
 		}
 

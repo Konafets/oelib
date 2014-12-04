@@ -448,7 +448,7 @@ final class Tx_Oelib_TestingFramework {
 	) {
 		$frontEndUserGroupsWithoutSpaces = str_replace(' ', '', $frontEndUserGroups);
 
-		if ($frontEndUserGroupsWithoutSpaces == '') {
+		if ($frontEndUserGroupsWithoutSpaces === '') {
 			$frontEndUserGroupsWithoutSpaces = $this->createFrontEndUserGroup();
 		}
 		if (!preg_match('/^(?:[1-9]+[0-9]*,?)+$/', $frontEndUserGroupsWithoutSpaces)
@@ -560,7 +560,7 @@ final class Tx_Oelib_TestingFramework {
 		if (!$this->isTableNameAllowed($table)) {
 			throw new InvalidArgumentException('The table "' . $table . '" is not on the lists with allowed tables.', 1331489997);
 		}
-		if ($uid == 0) {
+		if ($uid === 0) {
 			throw new InvalidArgumentException('The parameter $uid must not be zero.', 1331490003);
 		}
 		if (empty($recordData)) {
@@ -693,9 +693,7 @@ final class Tx_Oelib_TestingFramework {
 		$tca = Tx_Oelib_Db::getTcaForTable($tableName);
 		$relationConfiguration = $tca['columns'][$columnName];
 
-		if (!isset($relationConfiguration['config']['MM'])
-			|| ($relationConfiguration['config']['MM'] == '')
-		) {
+		if (!isset($relationConfiguration['config']['MM']) || ($relationConfiguration['config']['MM'] === '')) {
 			throw new BadMethodCallException(
 				'The column ' . $columnName . ' in the table ' . $tableName .
 					' is not configured to contain m:n relations using a m:n table.',
@@ -1400,10 +1398,7 @@ final class Tx_Oelib_TestingFramework {
 		$length = strlen($this->tablePrefix);
 
 		foreach ($allTables as $currentTable) {
-			if (substr_compare(
-					$this->tablePrefix, $currentTable, 0, $length
-				) == 0
-			) {
+			if (substr_compare($this->tablePrefix, $currentTable, 0, $length) === 0) {
 				$this->ownAllowedTables[] = $currentTable;
 			}
 		}
@@ -1449,7 +1444,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 allowed tables, FALSE otherwise
 	 */
 	protected function isOwnTableNameAllowed($table) {
-		return in_array($table, $this->ownAllowedTables);
+		return in_array($table, $this->ownAllowedTables, TRUE);
 	}
 
 	/**
@@ -1462,7 +1457,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 additional allowed tables, FALSE otherwise
 	 */
 	protected function isAdditionalTableNameAllowed($table) {
-		return in_array($table, $this->additionalAllowedTables);
+		return in_array($table, $this->additionalAllowedTables, TRUE);
 	}
 
 	/**
@@ -1475,7 +1470,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 allowed system tables, FALSE otherwise
 	 */
 	protected function isSystemTableNameAllowed($table) {
-		return in_array($table, $this->allowedSystemTables);
+		return in_array($table, $this->allowedSystemTables, TRUE);
 	}
 
 	/**
@@ -1554,7 +1549,7 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		$whereForDummyColumn = $this->getDummyColumnName($table) . ' = 1';
-		$compoundWhereClause = ($whereClause != '')
+		$compoundWhereClause = ($whereClause !== '')
 			? '(' . $whereClause . ') AND ' . $whereForDummyColumn
 			: $whereForDummyColumn;
 
@@ -1603,7 +1598,7 @@ final class Tx_Oelib_TestingFramework {
 	 *                 FALSE otherwise
 	 */
 	public function existsExactlyOneRecord($table, $whereClause = '') {
-		return ($this->countRecords($table, $whereClause) == 1);
+		return ($this->countRecords($table, $whereClause) === 1);
 	}
 
 	/**
@@ -1911,7 +1906,7 @@ final class Tx_Oelib_TestingFramework {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() == 0) {
+		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() === 0) {
 			throw new BadMethodCallException(
 				'The table ' . $tableName . ' does not contain a record with UID ' . $uid . '.', 1331491003
 			);
@@ -1931,7 +1926,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @throws RuntimeException if the PHP installation does not provide ZIPArchive
 	 */
 	public function checkForZipArchive() {
-		if (!in_array('zip', get_loaded_extensions())) {
+		if (!in_array('zip', get_loaded_extensions(), TRUE)) {
 			throw new RuntimeException('This PHP installation does not provide the ZIPArchive class.', 1331491040);
 		}
 	}

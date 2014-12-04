@@ -210,7 +210,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return void
 	 */
 	protected function set($key, $value) {
-		if ($key == 'deleted') {
+		if ($key === 'deleted') {
 			throw new InvalidArgumentException('$key must not be "deleted". Please use setToDeleted() instead.', 1331489276);
 		}
 		if ($this->isReadOnly()) {
@@ -240,7 +240,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
-		if ($key == 'uid') {
+		if ($key === 'uid') {
 			throw new InvalidArgumentException('The UID column needs to be accessed using the getUid function.', 1331489310);
 		}
 
@@ -369,7 +369,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return boolean TRUE if this is a virgin model, FALSE otherwise
 	 */
 	public function isVirgin() {
-		return ($this->loadStatus == self::STATUS_VIRGIN);
+		return ($this->loadStatus === self::STATUS_VIRGIN);
 	}
 
 	/**
@@ -379,7 +379,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return boolean TRUE if this model is a ghost, FALSE otherwise
 	 */
 	public function isGhost() {
-		return ($this->loadStatus == self::STATUS_GHOST);
+		return ($this->loadStatus === self::STATUS_GHOST);
 	}
 
 	/**
@@ -388,7 +388,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return boolean TRUE if this model is fully loaded, FALSE otherwise
 	 */
 	public function isLoaded() {
-		return ($this->loadStatus == self::STATUS_LOADED);
+		return ($this->loadStatus === self::STATUS_LOADED);
 	}
 
 	/**
@@ -398,7 +398,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return boolean TRUE if this model is dead, FALSE otherwise
 	 */
 	public function isDead() {
-		return ($this->loadStatus == self::STATUS_DEAD);
+		return ($this->loadStatus === self::STATUS_DEAD);
 	}
 
 	/**

@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4400] Cleanup: Use strict comparisons
 - [#4035] Cleanup: Use the Foo[]/tx_oelib_List<Foo> notation for @param and @var
 - [#1535] Cleanup: Stop defining constants in unit tests
 - [#5177] Fix: Test failure in PHPUnit 4.3

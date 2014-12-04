@@ -112,7 +112,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 * @return void
 	 */
 	protected static function checkType($type) {
-		if (($type != self::TYPE_USER) && ($type != self::TYPE_TEMPORARY)) {
+		if (($type !== self::TYPE_USER) && ($type !== self::TYPE_TEMPORARY)) {
 			throw new InvalidArgumentException('Only the types ::TYPE_USER and ::TYPE_TEMPORARY are allowed.', 1331489067);
 		}
 	}

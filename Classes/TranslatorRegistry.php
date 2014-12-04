@@ -153,9 +153,9 @@ class Tx_Oelib_TranslatorRegistry {
 			);
 		}
 
-		$charset = $this->charsetConversion->charSetArray[$languageCode];
+		$charset = (string)$this->charsetConversion->charSetArray[$languageCode];
 
-		return ($charset != '') ? $charset : self::DEFAULT_CHARSET;
+		return ($charset !== '') ? $charset : self::DEFAULT_CHARSET;
 	}
 
 	/**
@@ -206,7 +206,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 *                             name
 	 */
 	private function getByExtensionName($extensionName) {
-		if ($extensionName == '') {
+		if ($extensionName === '') {
 			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489578);
 		}
 
@@ -255,7 +255,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 * @return string[] the localized labels from an extension's language file, will be empty if there are none
 	 */
 	private function getLocalizedLabelsFromFile($extensionName) {
-		if ($extensionName == '') {
+		if ($extensionName === '') {
 			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489618);
 		}
 
@@ -293,7 +293,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 * @return string[] the localized labels from the extension's TypoScript setup, will be empty if there are none
 	 */
 	private function getLocalizedLabelsFromTypoScript($extensionName) {
-		if ($extensionName == '') {
+		if ($extensionName === '') {
 			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489630);
 		}
 
@@ -325,7 +325,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 * @return void
 	 */
 	public function setLanguageKey($languageKey) {
-		if ($languageKey == '') {
+		if ($languageKey === '') {
 			throw new InvalidArgumentException('The given language key must not be empty.', 1331489643);
 		}
 

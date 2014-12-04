@@ -150,7 +150,7 @@ class Tx_Oelib_ConfigurationRegistry {
 	 * @return void
 	 */
 	private function checkForNonEmptyNamespace($namespace) {
-		if ($namespace == '') {
+		if ($namespace === '') {
 			throw new InvalidArgumentException('$namespace must not be empty.', 1331318549);
 		}
 	}
@@ -192,7 +192,7 @@ class Tx_Oelib_ConfigurationRegistry {
 	 */
 	private function getCompleteTypoScriptSetup() {
 		$pageUid = Tx_Oelib_PageFinder::getInstance()->getPageUid();
-		if ($pageUid == 0) {
+		if ($pageUid === 0) {
 			return array();
 		}
 

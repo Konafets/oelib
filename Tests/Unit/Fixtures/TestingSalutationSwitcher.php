@@ -58,7 +58,7 @@ final class Tx_Oelib_TestingSalutationSwitcher extends Tx_Oelib_SalutationSwitch
 	 * @return void
 	 */
 	public function setLanguage($language) {
-		if ($this->getLanguage() != $language) {
+		if ($this->getLanguage() !== $language) {
 			// Make sure the language file are reloaded.
 			$this->LOCAL_LANG_loaded = FALSE;
 			$this->LLkey = $language;

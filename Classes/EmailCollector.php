@@ -222,7 +222,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 * @throws InvalidArgumentException
 	 */
 	private function getElementFromLastEmail($key) {
-		if (!in_array($key, array('recipient', 'subject', 'message', 'headers'))) {
+		if (!in_array($key, array('recipient', 'subject', 'message', 'headers'), TRUE)) {
 			throw new InvalidArgumentException(
 				'The key "' . $key . '" is invalid. It must be "recipient", "subject", "message" or "headers".', 1331488710
 			);

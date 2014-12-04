@@ -51,7 +51,7 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	 * @return int[] the separate values, sorted numerically, may be empty
 	 */
 	private function sortExplode($valueList) {
-		if ($valueList == '') {
+		if ($valueList === '') {
 			return array();
 		}
 
@@ -413,8 +413,9 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	public function getColumnDefinitionReturnsArrayThatContainsFieldName() {
 		$definition = Tx_Oelib_Db::getColumnDefinition('tx_oelib_test', 'title');
 
-		$this->assertTrue(
-			$definition['Field'] == 'title'
+		$this->assertSame(
+			'title',
+			$definition['Field']
 		);
 	}
 
@@ -984,7 +985,7 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAllTableNamesContainsExistingTable() {
 		$this->assertTrue(
-			in_array('tx_oelib_test', Tx_Oelib_Db::getAllTableNames())
+			in_array('tx_oelib_test', Tx_Oelib_Db::getAllTableNames(), TRUE)
 		);
 	}
 
@@ -993,7 +994,7 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAllTableNamesNotContainsInexistentTable() {
 		$this->assertFalse(
-			in_array('tx_oelib_doesnotexist', Tx_Oelib_Db::getAllTableNames())
+			in_array('tx_oelib_doesnotexist', Tx_Oelib_Db::getAllTableNames(), TRUE)
 		);
 	}
 

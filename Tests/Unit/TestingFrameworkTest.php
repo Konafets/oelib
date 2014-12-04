@@ -152,7 +152,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	protected function deleteForeignFile() {
-		if ($this->foreignFileToDelete == '') {
+		if ($this->foreignFileToDelete === '') {
 			return;
 		}
 
@@ -166,7 +166,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	protected function deleteForeignFolder() {
-		if ($this->foreignFolderToDelete == '') {
+		if ($this->foreignFolderToDelete === '') {
 			return;
 		}
 

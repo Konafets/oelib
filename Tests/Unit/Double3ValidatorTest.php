@@ -39,7 +39,7 @@ class Tx_Oelib_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 */
 	public function returnFieldJSReturnsNonEmptyString() {
 		$this->assertTrue(
-			$this->subject->returnFieldJS() != ''
+			$this->subject->returnFieldJS() !== ''
 		);
 	}
 

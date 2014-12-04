@@ -69,7 +69,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	public function translate(
 		$key, $useHtmlSpecialChars = FALSE
 	) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty.', 1331489025);
 		}
 
@@ -187,7 +187,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 			$this->suffixesToTry = array();
 
 			if (isset($this->conf['salutation'])
-				&& ($this->conf['salutation'] == 'informal')) {
+				&& ($this->conf['salutation'] === 'informal')) {
 				$this->suffixesToTry[] = '_informal';
 			}
 			$this->suffixesToTry[] = '_formal';

@@ -72,7 +72,7 @@ class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 	 *                       no users were found for the given groups
 	 */
 	public function getGroupMembers($groupUids) {
-		if ($groupUids == '') {
+		if ($groupUids === '') {
 			throw new InvalidArgumentException('$groupUids must not be an empty string.', 1331488505);
 		}
 

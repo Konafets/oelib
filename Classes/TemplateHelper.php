@@ -318,7 +318,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			$fieldName,
 			$sheet,
 			FALSE,
-			$ignoreFlexform) != ''
+			$ignoreFlexform) !== ''
 		);
 	}
 
@@ -381,7 +381,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return void
 	 */
 	public function setConfigurationValue($key, $value) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty', 1331489491);
 		}
 
@@ -460,7 +460,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		// As flexforms can be used in FE mode only, $ignoreFlexform is set TRUE
 		// if we are in the BE mode. By this, $this->cObj->fileResource can be
 		// sheltered from being called.
-		if (TYPO3_MODE == 'BE') {
+		if (TYPO3_MODE === 'BE') {
 			$ignoreFlexform = TRUE;
 		}
 
@@ -1065,7 +1065,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			foreach ($this->piVars[$key] as $innerKey => $value) {
 				$integerValue = intval($value);
 
-				if ($integerValue == 0) {
+				if ($integerValue === 0) {
 					unset($this->piVars[$key][$innerKey]);
 				} else {
 					$this->piVars[$key][$innerKey] = $integerValue;

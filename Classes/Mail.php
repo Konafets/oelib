@@ -209,7 +209,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 * @throws InvalidArgumentException
 	 */
 	public function setHTMLMessage($message) {
-		if ($message == '') {
+		if ($message === '') {
 			throw new InvalidArgumentException('$message must not be empty.', 1331488845);
 		}
 

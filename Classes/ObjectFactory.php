@@ -42,7 +42,7 @@ class Tx_Oelib_ObjectFactory {
 		// XCLASS subclasses.
 		Tx_Oelib_Autoloader::load($className);
 
-		if (func_num_args() == 1) {
+		if (func_num_args() === 1) {
 			return t3lib_div::makeInstance($className);
 		}
 

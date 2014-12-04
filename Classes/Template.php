@@ -260,7 +260,7 @@ class Tx_Oelib_Template {
 	 * @see setMarkerIfNotEmpty
 	 */
 	public function setMarkerIfNotZero($markerName, $content, $markerPrefix = '') {
-		$condition = (intval($content) != 0);
+		$condition = ((int)$content) !== 0;
 		if ($condition) {
 			$this->setMarker($markerName, ((string) $content), $markerPrefix);
 		}
@@ -299,7 +299,7 @@ class Tx_Oelib_Template {
 	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
 	 */
 	public function isSubpartVisible($subpartName) {
-		if ($subpartName == '') {
+		if ($subpartName === '') {
 			return FALSE;
 		}
 
@@ -422,7 +422,7 @@ class Tx_Oelib_Template {
 		foreach ($subparts as $currentSubpartName) {
 			// Only unhide the current subpart if it is not on the list of
 			// permanently hidden subparts (e.g. by configuration).
-			if (!in_array($currentSubpartName, $permanentlyHiddenSubparts)) {
+			if (!in_array($currentSubpartName, $permanentlyHiddenSubparts, TRUE)) {
 				$currentMarkerName = $this->createMarkerNameWithoutHashes(
 					$currentSubpartName, $prefix
 				);
@@ -498,8 +498,8 @@ class Tx_Oelib_Template {
 	) {
 		return $this->setOrDeleteMarker(
 			$markerName,
-			(intval($content) != 0),
-			((string) $content),
+			((int)$content) !== 0,
+			((string)$content),
 			$markerPrefix,
 			$wrapperPrefix
 		);

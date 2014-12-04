@@ -89,13 +89,14 @@ class Tx_Oelib_Db {
 		$table, $showHidden = -1, array $ignoreArray = array(),
 		$noVersionPreview = FALSE
 	) {
-		if (!in_array($showHidden, array(-1, 0, 1))) {
-			throw new InvalidArgumentException('$showHidden may only be -1, 0 or 1, but actually is ' . $showHidden, 1331319963
-			);
+		$intShowHidden = (int)$showHidden;
+
+		if (!in_array($intShowHidden, array(-1, 0, 1), TRUE)) {
+			throw new InvalidArgumentException('$showHidden may only be -1, 0 or 1, but actually is ' . $showHidden, 1331319963);
 		}
 
 		// maps $showHidden (-1..1) to (0..2) which ensures valid array keys
-		$showHiddenKey = $showHidden + 1;
+		$showHiddenKey = (string)($intShowHidden + 1);
 		$ignoresKey = serialize($ignoreArray);
 		$previewKey = intval($noVersionPreview);
 		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey]) ) {
@@ -158,10 +159,10 @@ class Tx_Oelib_Db {
 		if ($recursionDepth < 0) {
 			throw new InvalidArgumentException('$recursionDepth must be >= 0.', 1331319974);
 		}
-		if ($recursionDepth == 0) {
+		if ($recursionDepth === 0) {
 			return (string) $startPages;
 		}
-		if ($startPages == '') {
+		if ($startPages === '') {
 			return '';
 		}
 
@@ -205,7 +206,7 @@ class Tx_Oelib_Db {
 	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
 	static public function delete($tableName, $whereClause) {
-		if ($tableName == '') {
+		if ($tableName === '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488193);
 		}
 
@@ -236,7 +237,7 @@ class Tx_Oelib_Db {
 	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
 	static public function update($tableName, $whereClause, array $fields) {
-		if ($tableName == '') {
+		if ($tableName === '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488204);
 		}
 
@@ -265,7 +266,7 @@ class Tx_Oelib_Db {
 	 * @throws tx_oelib_Exception_Database if an error has occurred
 	 */
 	static public function insert($tableName, array $recordData) {
-		if ($tableName == '') {
+		if ($tableName === '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488220);
 		}
 		if (empty($recordData)) {
@@ -302,10 +303,10 @@ class Tx_Oelib_Db {
 		$fields, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
 		$limit = ''
 	) {
-		if ($tableNames == '') {
+		if ($tableNames === '') {
 			throw new InvalidArgumentException('The table names must not be empty.', 1331488261);
 		}
-		if ($fields == '') {
+		if ($fields === '') {
 			throw new InvalidArgumentException('$fields must not be empty.', 1331488270);
 		}
 
@@ -477,7 +478,7 @@ class Tx_Oelib_Db {
 	 *                 FALSE otherwise
 	 */
 	static public function existsExactlyOneRecord($table, $whereClause = '') {
-		return (self::count($table, $whereClause) == 1);
+		return (self::count($table, $whereClause) === 1);
 	}
 
 	/**
@@ -549,7 +550,7 @@ class Tx_Oelib_Db {
 	 * @return boolean TRUE if the table $tableName exists, FALSE otherwise
 	 */
 	static public function existsTable($tableName) {
-		if ($tableName == '') {
+		if ($tableName === '') {
 			throw new InvalidArgumentException('The table name must not be empty.', 1331488301);
 		}
 
@@ -630,7 +631,7 @@ class Tx_Oelib_Db {
 	 *                 otherwise
 	 */
 	static public function tableHasColumn($table, $column) {
-		if ($column == '') {
+		if ($column === '') {
 			return FALSE;
 		}
 

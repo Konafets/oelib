@@ -57,7 +57,7 @@ class Tx_Oelib_Double3Validator {
 	 */
 	public function evaluateFieldValue($value) {
 		$cleanValue = preg_replace('/[^0-9,\.-]/', '', $value);
-		$isNegative = (substr($cleanValue, 0, 1) == '-');
+		$isNegative = $cleanValue{0} === '-';
 		$veryCleanValue = strtr($cleanValue, array(',' => '.', '-' => ''));
 		if (strpos($veryCleanValue, '.') === FALSE) {
 			$veryCleanValue .= '.0';

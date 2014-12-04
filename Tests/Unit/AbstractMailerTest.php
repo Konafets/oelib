@@ -95,8 +95,8 @@ class Tx_Oelib_AbstractMailerTest extends Tx_Phpunit_TestCase {
 			return 'utf-8';
 		}
 
-		return ($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] != '') ?
-			$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'] : 'utf-8';
+		$charset = (string) $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
+		return ($charset !== '') ? $charset : 'utf-8';
 	}
 
 

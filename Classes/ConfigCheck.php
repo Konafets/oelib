@@ -304,7 +304,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @return void
 	 */
 	protected function checkTemplateFile($canUseFlexforms = FALSE) {
-		if (TYPO3_MODE == 'BE') {
+		if (TYPO3_MODE === 'BE') {
 			return;
 		}
 
@@ -1396,7 +1396,7 @@ class Tx_Oelib_ConfigCheck {
 
 		// Uses the plural if the configuration value is empty or contains a
 		// comma.
-		if (($pids == '') || (strrpos($pids, ',') !== FALSE )) {
+		if (($pids === '') || (strrpos($pids, ',') !== FALSE )) {
 			$message = 'All the selected pages need to be front-end pages so '
 				.'that links to them work correctly. '.$explanation;
 		} else {
@@ -1542,7 +1542,7 @@ class Tx_Oelib_ConfigCheck {
 
 		// Uses the plural if the configuration value is empty or contains a
 		// comma.
-		if (($pids == '') || (strrpos($pids, ',') !== FALSE )) {
+		if (($pids === '') || (strrpos($pids, ',') !== FALSE )) {
 			$message = 'All the selected pages need to be system folders so '
 				.'that data records are tidily separated from front-end '
 				.'content. '.$explanation;
@@ -1753,7 +1753,7 @@ class Tx_Oelib_ConfigCheck {
 	public function checkLocale() {
 		// Skip this check if Windows is used to avoid a crash of the
 		// TYPO3-Winstaller.
-		if (TYPO3_OS == 'WIN') {
+		if (TYPO3_OS === 'WIN') {
 			return;
 		}
 
@@ -1779,7 +1779,7 @@ class Tx_Oelib_ConfigCheck {
 					.'main template. ';
 			}
 
-			if ($message != '') {
+			if ($message !== '') {
 				$message .= 'Locales which are installed and therefore available '
 					.'are <strong>'.implode(', ', $installedLocales).'</strong>. '
 					.'If you intend to set another locale, you need to install '
@@ -1809,7 +1809,7 @@ class Tx_Oelib_ConfigCheck {
 			$allowedLocales[] = str_replace('-', '', strtolower($key));
 		}
 
-		return in_array($unifiedLocaleKey, $allowedLocales);
+		return in_array($unifiedLocaleKey, $allowedLocales, TRUE);
 	}
 
 	/**
@@ -1854,7 +1854,7 @@ class Tx_Oelib_ConfigCheck {
 		$fieldName, $canUseFlexforms, $sheet, $unused, $explanation
 	) {
 		$value = $this->objectToCheck->getConfValueString($fieldName, $sheet);
-		if ($value == '') {
+		if ($value === '') {
 			return;
 		}
 

@@ -56,7 +56,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * @throws InvalidArgumentException
 	 */
 	public function setUserName($userName) {
-		if ($userName == '') {
+		if ($userName === '') {
 			throw new InvalidArgumentException('$userName must not be empty.');
 		}
 
@@ -82,7 +82,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * @throws InvalidArgumentException
 	 */
 	public function setPassword($password) {
-		if ($password == '') {
+		if ($password === '') {
 			throw new InvalidArgumentException('$password must not be empty.');
 		}
 
@@ -411,7 +411,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * @throws InvalidArgumentException
 	 */
 	public function hasGroupMembership($uidList) {
-		if ($uidList == '') {
+		if ($uidList === '') {
 			throw new InvalidArgumentException('$uidList must not be empty.', 1331488635);
 		}
 
@@ -606,7 +606,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 
 		if ($currentMonth < $birthMonth) {
 			$age--;
-		} elseif ($currentMonth == $birthMonth) {
+		} elseif ($currentMonth === $birthMonth) {
 			if ($currentDay < $birthDay) {
 				$age--;
 			}

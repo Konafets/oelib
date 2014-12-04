@@ -96,10 +96,10 @@ abstract class Tx_Oelib_DataMapper {
 		if ($this->getTableName() === '') {
 			throw new InvalidArgumentException(get_class($this) . '::tableName must not be empty.', 1331319361);
 		}
-		if ($this->columns == '') {
+		if ($this->columns === '') {
 			throw new InvalidArgumentException(get_class($this) . '::columns must not be empty.', 1331319374);
 		}
-		if ($this->modelClassName == '') {
+		if ($this->modelClassName === '') {
 			throw new InvalidArgumentException(get_class($this) . '::modelClassName must not be empty.', 1331319378);
 		}
 
@@ -368,7 +368,7 @@ abstract class Tx_Oelib_DataMapper {
 		$cardinality = (isset($relationConfiguration['maxitems']))
 			? intval($relationConfiguration['maxitems']) : 1;
 
-		return ($cardinality == 1);
+		return ($cardinality === 1);
 	}
 
 	/**
@@ -462,14 +462,14 @@ abstract class Tx_Oelib_DataMapper {
 		$list->setParentModel($model);
 
 		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
-		if ($uidList != '') {
+		if ($uidList !== '') {
 			$mapper = Tx_Oelib_MapperRegistry::get($this->relations[$key]);
 			$uids = t3lib_div::intExplode(',', $uidList);
 
 			foreach ($uids as $uid) {
 				// Some relations might have a junk 0 in it. We ignore it to
 				// avoid crashing.
-				if ($uid == 0) {
+				if ($uid === 0) {
 					continue;
 				}
 
@@ -1107,7 +1107,7 @@ abstract class Tx_Oelib_DataMapper {
 		$orderBy = '';
 
 		$tca = Tx_Oelib_Db::getTcaForTable($this->getTableName());
-		if ($sorting != '') {
+		if ($sorting !== '') {
 			$orderBy = $sorting;
 		} elseif (isset($tca['ctrl']['default_sortby'])) {
 			$matches = array();
@@ -1119,7 +1119,7 @@ abstract class Tx_Oelib_DataMapper {
 			}
 		}
 
-		$completeWhereClause = ($whereClause == '')
+		$completeWhereClause = ($whereClause === '')
 			? ''
 			: $whereClause . ' AND ';
 
@@ -1150,7 +1150,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *                       empty if no records have been found
 	 */
 	public function findByPageUid($pageUids, $sorting = '', $limit = '') {
-		if (($pageUids == '') || ($pageUids == '0')) {
+		if (($pageUids === '') || ($pageUids === '0') || ($pageUids === 0)) {
 			return $this->findByWhereClause('', $sorting, $limit);
 		}
 
@@ -1229,7 +1229,7 @@ abstract class Tx_Oelib_DataMapper {
 		foreach ($this->additionalKeys as $key) {
 			if (isset($data[$key])) {
 				$value = $data[$key];
-				if ($value != '') {
+				if ($value !== '') {
 					$this->cacheByKey[$key][$value] = $model;
 				}
 			}
@@ -1389,7 +1389,7 @@ abstract class Tx_Oelib_DataMapper {
 		if (!$model->hasUid()) {
 			throw new InvalidArgumentException('$model must have a UID.', 1331319915);
 		}
-		if ($relationKey == '') {
+		if ($relationKey === '') {
 			throw new InvalidArgumentException('$key must not be empty.', 1331319921);
 		}
 
@@ -1397,7 +1397,7 @@ abstract class Tx_Oelib_DataMapper {
 		if (($ignoreList !== NULL) && !$ignoreList->isEmpty()) {
 			$ignoreUids = $ignoreList->getUids();
 			// deals with the case of $ignoreList having only models without UIDs
-			if ($ignoreUids != '') {
+			if ((string) $ignoreUids !== '') {
 				$ignoreClause = ' AND uid NOT IN(' . $ignoreUids . ')';
 			}
 		}
@@ -1417,7 +1417,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return integer the number of records matching the given WHERE clause
 	 */
 	public function countByWhereClause($whereClause = '') {
-		$completeWhereClause = ($whereClause == '')
+		$completeWhereClause = ($whereClause === '')
 			? ''
 			: $whereClause . ' AND ';
 
@@ -1434,7 +1434,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return integer the number of records located on the given pages
 	 */
 	public function countByPageUid($pageUids) {
-		if (($pageUids == '') || ($pageUids == '0')) {
+		if (($pageUids === '') || ($pageUids === '0')) {
 			return $this->countByWhereClause('');
 		}
 

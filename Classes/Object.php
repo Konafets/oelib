@@ -52,7 +52,7 @@ abstract class Tx_Oelib_Object {
 	 * @return void
 	 */
 	protected function checkForNonEmptyKey($key) {
-		if ($key == '') {
+		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty.', 1331488963);
 		}
 	}
@@ -79,7 +79,7 @@ abstract class Tx_Oelib_Object {
 	 *                 FALSE otherwise
 	 */
 	protected function hasString($key) {
-		return ($this->getAsString($key) != '');
+		return ($this->getAsString($key) !== '');
 	}
 
 	/**
@@ -119,7 +119,7 @@ abstract class Tx_Oelib_Object {
 	 *                 FALSE otherwise
 	 */
 	protected function hasInteger($key) {
-		return ($this->getAsInteger($key) != 0);
+		return ($this->getAsInteger($key) !== 0);
 	}
 
 	/**
@@ -159,7 +159,7 @@ abstract class Tx_Oelib_Object {
 	protected function getAsIntegerArray($key) {
 		$stringValue = $this->getAsString($key);
 
-		if ($stringValue == '') {
+		if ($stringValue === '') {
 			return array();
 		}
 
@@ -236,7 +236,7 @@ abstract class Tx_Oelib_Object {
 	 *                 FALSE otherwise
 	 */
 	protected function hasFloat($key) {
-		return ($this->getAsFloat($key) != 0.00);
+		return ($this->getAsFloat($key) !== 0.00);
 	}
 
 	/**
