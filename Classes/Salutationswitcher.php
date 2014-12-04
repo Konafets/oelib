@@ -147,7 +147,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	/**
 	 * Compiles a list of language keys for which localizations have been loaded.
 	 *
-	 * @return array a list of language keys (may be empty)
+	 * @return string[] a list of language keys (may be empty)
 	 */
 	private function getAvailableLanguages() {
 		if ($this->availableLanguages === NULL) {
@@ -180,7 +180,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * Gets an ordered list of language label suffixes that should be tried to
 	 * get localizations in the preferred order of formality.
 	 *
-	 * @return array ordered list of suffixes from "", "_formal" and "_informal", will not be empty
+	 * @return string[] ordered list of suffixes from "", "_formal" and "_informal", will not be empty
 	 */
 	private function getSuffixesToTry() {
 		if ($this->suffixesToTry === NULL) {

@@ -157,7 +157,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 *
 	 * @deprecated 2014-08-28 use getSentEmails instead
 	 *
-	 * @return array two-dimensional array with one element for each e-mail, each inner array has four elements
+	 * @return array[] two-dimensional array with one element for each e-mail, each inner array has four elements
 	 *               'recipient', 'subject', 'message' and 'headers', will be empty if there are no e-mails
 	 *
 	 * @see emailData

@@ -489,7 +489,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -527,7 +527,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -563,7 +563,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -876,7 +876,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -914,7 +914,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -1125,7 +1125,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $tableName
 	 *        the name of a existing DB table (must not be empty, must exist)
 	 *
-	 * @return array array with the column names as values
+	 * @return string[] column names as values
 	 */
 	protected function getDbColumnNames($tableName) {
 		return array_keys(Tx_Oelib_Db::getColumnsInTable($tableName));
@@ -1695,7 +1695,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
-	 * @param array $allowedValues
+	 * @param string[] $allowedValues
 	 *        allowed values (must not be empty)
 	 *
 	 * @return void
@@ -1815,8 +1815,7 @@ class Tx_Oelib_ConfigCheck {
 	/**
 	 * Returns the keys of the locales installed on this web server.
 	 *
-	 * @return array locales installed on this web server, will be empty
-	 *               if there are none
+	 * @return string[] locales installed on this web server, will be empty if there are none
 	 */
 	public function getInstalledLocales() {
 		$result = array();

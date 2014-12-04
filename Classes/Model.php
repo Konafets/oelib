@@ -306,7 +306,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return Tx_Oelib_List the data item for the given key
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the data item for the given key
 	 */
 	public function getAsList($key) {
 		$this->checkForNonEmptyKey($key);

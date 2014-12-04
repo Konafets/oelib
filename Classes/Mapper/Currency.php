@@ -33,7 +33,7 @@ class tx_oelib_Mapper_Currency extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_Currency';
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array('cu_iso_3');
 

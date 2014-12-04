@@ -151,7 +151,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Gets the "children" data item.
 	 *
-	 * @return Tx_Oelib_List the "children" data item, will be empty (but not
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "children" data item, will be empty (but not
 	 *                       NULL) if this model has no children
 	 */
 	public function getChildren() {
@@ -161,7 +161,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Gets the "related_records" data item.
 	 *
-	 * @return Tx_Oelib_List the "related_records" data item, will be empty (but
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "related_records" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
 	 */
 	public function getRelatedRecords() {
@@ -171,7 +171,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Gets the "bidirectional" data item.
 	 *
-	 * @return Tx_Oelib_List the "bidirectional" data item, will be empty (but
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "bidirectional" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
 	 */
 	public function getBidirectional() {
@@ -181,7 +181,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Gets the "composition" data item.
 	 *
-	 * @return Tx_Oelib_List the "composition" data item, will be empty (but not
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "composition" data item, will be empty (but not
 	 *                       NULL) if this model has no composition
 	 */
 	public function getComposition() {
@@ -191,7 +191,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Sets the "composition" data item.
 	 *
-	 * @param Tx_Oelib_List $components
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $components
 	 *        the "composition" data to set
 	 *
 	 * @return void
@@ -203,7 +203,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Gets the "composition2" data item.
 	 *
-	 * @return Tx_Oelib_List the "composition2" data item, will be empty (but
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "composition2" data item, will be empty (but
 	 *                       not NULL) if this model has no composition2
 	 */
 	public function getComposition2() {
@@ -213,7 +213,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	/**
 	 * Sets the "composition2" data item.
 	 *
-	 * @param Tx_Oelib_List $components
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $components
 	 *        the "composition2" data to set
 	 *
 	 * @return void

@@ -38,7 +38,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingGeo extends Tx_Oelib_Model implements 
 	/**
 	 * the geo coordinates of this object
 	 *
-	 * @var array
+	 * @var float[]
 	 */
 	private $coordinates = array();
 

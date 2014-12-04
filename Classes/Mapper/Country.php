@@ -33,7 +33,7 @@ class tx_oelib_Mapper_Country extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_Country';
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array('cn_iso_2', 'cn_iso_3');
 

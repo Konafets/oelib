@@ -55,7 +55,7 @@ class Tx_Oelib_HeaderCollector extends Tx_Oelib_AbstractHeaderProxy {
 	 * Returns all headers added with this instance or an empty array if there
 	 * is none.
 	 *
-	 * @return array all added headers, will be empty if there is none
+	 * @return string[] all added headers, will be empty if there is none
 	 */
 	public function getAllAddedHeaders() {
 		return $this->headers;

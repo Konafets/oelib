@@ -23,10 +23,9 @@
  */
 class tx_oelib_Geocoding_Dummy implements tx_oelib_Interface_GeocodingLookup {
 	/**
-	 * faked coordinates with the keys "latitude" and "longitude" or empty if
-	 * there are none
+	 * faked coordinates with the keys "latitude" and "longitude" or empty if there are none
 	 *
-	 * @var array
+	 * @var float[]
 	 */
 	private $coordinates = array();
 

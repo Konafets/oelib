@@ -33,8 +33,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'tx_oelib_Tests_Unit_Fixtures_TestingModel';
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array(
 		'friend' => 'tx_oelib_Tests_Unit_Fixtures_TestingMapper',
@@ -47,12 +46,12 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	);
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array('title');
 
 	/**
-	 * @var array the column names of an additional compound key
+	 * @var string[] the column names of an additional compound key
 	 */
 	protected $compoundKeyParts = array('title', 'header');
 
@@ -93,7 +92,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     which matches the WHERE clause
 	 *
-	 * @param array $whereClauseParts
+	 * @param string[] $whereClauseParts
 	 *        WHERE clause parts for the record to retrieve, each element must
 	 *        consist of a column name as key and a value to search for as value
 	 *        (will automatically get quoted), must not be empty
@@ -143,7 +142,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	 *        optionally followed by "ASC" or "DESC", may be empty
 	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return Tx_Oelib_List all models found in DB for the given where clause,
+	 * @return Tx_Oelib_List<<Tx_Oelib_Model>> all models found in DB for the given where clause,
 	 *                       will be an empty list if no models were found
 	 */
 	public function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
@@ -175,7 +174,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	 * instead. So this method primarily is here for backwards compatibility.
 	 *
 	 * @param Tx_Oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, may be empty
+	 * @param string[] $data the data of the model as it is in the DB, may be empty
 	 *
 	 * @return void
 	 *

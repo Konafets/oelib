@@ -34,13 +34,12 @@ class Tx_Oelib_Timer {
 	private $currentBucketName = '';
 
 	/**
-	 * @var array a stack of previously used buckets, starting with the first
-	 *            bucket
+	 * @var string[] array a stack of previously used buckets, starting with the first bucket
 	 */
 	private $previousBucketNames = array();
 
 	/**
-	 * @var array the time buckets with their names as keys
+	 * @var float[] the time buckets with their names as keys
 	 */
 	private $buckets = array();
 
@@ -152,8 +151,7 @@ class Tx_Oelib_Timer {
 	 * - absoluteTime (float, in seconds)
 	 * - relativeTime (float, in percent)
 	 *
-	 * @return array two-dimensional array with the times of all buckets,
-	 *               will be empty if there are no buckets
+	 * @return array[] two-dimensional array with the times of all buckets, will be empty if there are no buckets
 	 */
 	public function getStatisticsAsRawData() {
 		$this->stopTimer();

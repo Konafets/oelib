@@ -85,7 +85,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * If the parameter is omitted, the configuration for plugin.tx_[extkey] is
 	 * used instead, e.g. plugin.tx_seminars.
 	 *
-	 * @param array $configuration TypoScript configuration for the plugin, set to NULL to load the configuration from a BE page
+	 * @param array|NULL $configuration TypoScript configuration for the plugin, set to NULL to load the configuration from a BE page
 	 *
 	 * @return void
 	 */
@@ -1046,7 +1046,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * Ensures that all values in the given array are intvaled and removes empty
 	 * or invalid values.
 	 *
-	 * @param array $keys the keys of the piVars to check, may be empty
+	 * @param string[] $keys the keys of the piVars to check, may be empty
 	 *
 	 * @return void
 	 */

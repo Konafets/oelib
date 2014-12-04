@@ -175,7 +175,7 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * A data provider used for the front end configuration namespaces
 	 *
-	 * @return array
+	 * @return array[]
 	 */
 	public function frontEndConfigurationDataProvider() {
 		return array(

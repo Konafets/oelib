@@ -24,7 +24,7 @@
  */
 class tx_oelib_Visibility_Node {
 	/**
-	 * @var array numeric array with all direct children of this node
+	 * @var tx_oelib_Visibility_Node[] numeric array with all direct children of this node
 	 */
 	private $children = array();
 
@@ -108,7 +108,7 @@ class tx_oelib_Visibility_Node {
 	/**
 	 * Returns the children set for the current node.
 	 *
-	 * @return array this node's children, will be empty if no children are set
+	 * @return tx_oelib_Visibility_Node[] this node's children, will be empty if no children are set
 	 */
 	public function getChildren() {
 		return $this->children;

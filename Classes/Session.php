@@ -28,14 +28,14 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 */
 	const TYPE_USER = 1;
 
-	/*
+	/**
 	 * @var integer session type for volatile data that will be deleted when
 	 *              the session cookie is dropped (when the browser is closed)
 	 */
 	const TYPE_TEMPORARY = 2;
 
 	/**
-	 * @var array available type codes for the FE session functions
+	 * @var string[] available type codes for the FE session functions
 	 */
 	private static $types = array(
 		self::TYPE_USER => 'user',
@@ -48,7 +48,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	private $type = 0;
 
 	/**
-	 * @var array the instances, using the type as key
+	 * @var Tx_Oelib_Session[] the instances, using the type as key
 	 */
 	private static $instances = array();
 

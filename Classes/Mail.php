@@ -27,7 +27,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	private $sender = NULL;
 
 	/**
-	 * @var array the recipients of the e-mail
+	 * @var Tx_Oelib_Interface_MailRole[] the recipients of the e-mail
 	 */
 	private $recipients = array();
 
@@ -42,7 +42,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	private $attachments = array();
 
 	/**
-	 * @var array contains the CSS files which already have been read
+	 * @var string[] the CSS files which already have been read
 	 */
 	private static $cssFileCache = array();
 

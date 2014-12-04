@@ -142,7 +142,7 @@ abstract class Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return array the array value of the given key, may be empty
+	 * @return string[] the array value of the given key, may be empty
 	 */
 	protected function getAsTrimmedArray($key) {
 		return t3lib_div::trimExplode(',', $this->getAsString($key), TRUE);
@@ -154,7 +154,7 @@ abstract class Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return array the array value of the given key, may be empty
+	 * @return int[] the array value of the given key, may be empty
 	 */
 	protected function getAsIntegerArray($key) {
 		$stringValue = $this->getAsString($key);

@@ -46,19 +46,18 @@ abstract class Tx_Oelib_DataMapper {
 	protected $map = NULL;
 
 	/**
-	 * @var array UIDs of models that are memory-only models that must not be
+	 * @var int[] UIDs of models that are memory-only models that must not be
 	 *            saved, using the UIDs as keys and TRUE as value
 	 */
 	protected $uidsOfMemoryOnlyDummyModels = array();
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array();
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array();
 
@@ -66,12 +65,12 @@ abstract class Tx_Oelib_DataMapper {
 	 * The column names of an additional compound key.
 	 * There can only be one compound key per data mapper.
 	 *
-	 * @var array
+	 * @var string[]
 	 */
 	protected $compoundKeyParts = array();
 
 	/**
-	 * @var array two-dimensional cache for the objects by key:
+	 * @var array[] two-dimensional cache for the objects by key:
 	 *            [key name][key value] => model
 	 */
 	private $cacheByKey = array();
@@ -81,7 +80,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * [compound key value] => model
 	 * The column values are concatenated via a dot as compound key value.
 	 *
-	 * @var array
+	 * @var Tx_Oelib_Model[]
 	 */
 	protected $cacheByCompoundKey = array();
 
@@ -204,7 +203,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     which matches the WHERE clause
 	 *
-	 * @param array $whereClauseParts
+	 * @param string[] $whereClauseParts
 	 *        WHERE clause parts for the record to retrieve, each element must
 	 *        consist of a column name as key and a value to search for as value
 	 *        (will automatically get quoted), must not be empty
@@ -537,11 +536,11 @@ abstract class Tx_Oelib_DataMapper {
 	 *                                     which matches the WHERE clause
 	 * @throws tx_oelib_Exception_NotFound if database access is disabled
 	 *
-	 * @param array $whereClauseParts
+	 * @param string[] $whereClauseParts
 	 *        WHERE clause parts for the record to retrieve, each element must consist of a column name as key and a value to
 	 *        search for as value (will automatically get quoted), must not be empty
 	 *
-	 * @return array the record from the database, will not be empty
+	 * @return string[] the record from the database, will not be empty
 	 */
 	protected function retrieveRecord(array $whereClauseParts) {
 		if (!$this->hasDatabaseAccess()) {
@@ -583,7 +582,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @param integer $uid the UID of the record to retrieve, must be > 0
 	 *
-	 * @return array the record from the database, will not be empty
+	 * @return string[] the record from the database, will not be empty
 	 */
 	protected function retrieveRecordByUid($uid) {
 		return $this->retrieveRecord(array('uid' => $uid));
@@ -643,8 +642,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * Important: As this model's UID has nothing to do with the real UIDs in
 	 * the database, this model must not be saved.
 	 *
-	 * @param array $data
-	 *        the data as it would come from the database, may be empty
+	 * @param string[] $data the data as it would come from the database, may be empty
 	 *
 	 * @return Tx_Oelib_Model a new model loaded with $data
 	 */
@@ -730,8 +728,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @param Tx_Oelib_Model $model the model to write to the database
 	 *
-	 * @return array the model's data prepared for the database, will not be
-	 *               empty
+	 * @return array the model's data prepared for the database, will not be empty
 	 */
 	private function getPreparedModelData(Tx_Oelib_Model $model) {
 		if (!$model->hasUid()) {
@@ -800,7 +797,7 @@ abstract class Tx_Oelib_DataMapper {
 	/**
 	 * Saves the related models of a comma-separated and a regular m:n relation.
 	 *
-	 * @param Tx_Oelib_List $list the list of models to save
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $list the list of models to save
 	 * @param Tx_Oelib_DataMapper $mapper the mapper to use for saving
 	 *
 	 * @return void
@@ -966,7 +963,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param integer $uidForeign the UID of the foreign record
 	 * @param integer $sorting the sorting of the intermediate m:n-relation record
 	 *
-	 * @return array the record data for an intermediate m:n-relation record
+	 * @return int[] the record data for an intermediate m:n-relation record
 	 */
 	protected function getManyToManyRelationIntermediateRecordData($mnTable, $uidLocal, $uidForeign, $sorting) {
 		return array(
@@ -1043,7 +1040,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *        optionally followed by "ASC" or "DESC" or may
 	 *        be empty
 	 *
-	 * @return Tx_Oelib_List all models from the DB, already loaded
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> all models from the DB, already loaded
 	 */
 	public function findAll($sorting = '') {
 		return $this->findByWhereClause('', $sorting);
@@ -1103,7 +1100,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *        optionally followed by "ASC" or "DESC", may be empty
 	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return Tx_Oelib_List all models found in DB for the given where clause,
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> all models found in DB for the given where clause,
 	 *                       will be an empty list if no models were found
 	 */
 	protected function findByWhereClause($whereClause = '', $sorting = '', $limit = '') {
@@ -1149,7 +1146,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *        optionally followed by "ASC" or "DESC", may be empty
 	 * @param string $limit the LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return Tx_Oelib_List all records with the matching page UIDs, will be
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> all records with the matching page UIDs, will be
 	 *                       empty if no records have been found
 	 */
 	public function findByPageUid($pageUids, $sorting = '', $limit = '') {
@@ -1224,7 +1221,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * additional keys).
 	 *
 	 * @param Tx_Oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, may be empty
+	 * @param string[] $data the data of the model as it is in the DB, may be empty
 	 *
 	 * @return void
 	 */
@@ -1251,7 +1248,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * instead. So this method primarily is here for backwards compatibility.
 	 *
 	 * @param Tx_Oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, may be empty
+	 * @param string[] $data the data of the model as it is in the DB, may be empty
 	 *
 	 * @return void
 	 *
@@ -1267,7 +1264,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * This method works automatically; it is not necessary to overwrite it.
 	 *
 	 * @param Tx_Oelib_Model $model the model to cache
-	 * @param array $data the data of the model as it is in the DB, may be empty
+	 * @param string[] $data the data of the model as it is in the DB, may be empty
 	 *
 	 * @throws BadMethodCallException
 	 *
@@ -1324,7 +1321,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * This function will first check the cache-by-key and, if there is no match,
 	 * will try to find the model in the database.
 	 *
-	 * @param array $compoundKeyValues
+	 * @param string[] $compoundKeyValues
 	 *        existing key value pairs, must not be empty
 	 *        The array must have all the keys that are set in the additionalCompoundKey array.
 	 *        The array values contain the model data with which to look up.
@@ -1351,7 +1348,7 @@ abstract class Tx_Oelib_DataMapper {
 	/**
 	 * Extracting the key value from model data.
 	 *
-	 * @param array $compoundKeyValues
+	 * @param string[] $compoundKeyValues
 	 *        existing key value pairs, must not be empty
 	 *        The array must have all the keys that are set in the additionalCompoundKey array.
 	 *        The array values contain the model data with which to look up.
@@ -1381,11 +1378,10 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param string $relationKey
 	 *        the key of the field in the matches that should contain the UID
 	 *        of $model
-	 * @param Tx_Oelib_List $ignoreList
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $ignoreList
 	 *        related records that should _not_ be returned
 	 *
-	 * @return Tx_Oelib_List the related models, will be empty if there are no
-	 *                       matches
+	 * @return Tx_Oelib_List<Tx_Oelib_Model> the related models, will be empty if there are no matches
 	 */
 	public function findAllByRelation(
 		Tx_Oelib_Model $model, $relationKey, Tx_Oelib_List $ignoreList = NULL

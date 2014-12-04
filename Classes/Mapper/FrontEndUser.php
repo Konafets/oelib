@@ -32,15 +32,14 @@ class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_FrontEndUser';
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array(
 		'usergroup' => 'tx_oelib_Mapper_FrontEndUserGroup',
 	);
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array('username');
 
@@ -69,7 +68,7 @@ class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 	 *        the UIDs of the user groups from which to get the users, must be a
 	 *        comma-separated list of group UIDs, must not be empty
 	 *
-	 * @return Tx_Oelib_List the found user models, will be empty if
+	 * @return Tx_Oelib_List<Tx_Oelib_Model_FrontEndUser> the found user models, will be empty if
 	 *                       no users were found for the given groups
 	 */
 	public function getGroupMembers($groupUids) {

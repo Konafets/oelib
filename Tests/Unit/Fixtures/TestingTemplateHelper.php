@@ -110,7 +110,7 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param array $additionalPiVars
+	 * @param string[] $additionalPiVars
 	 *        keys for $this->piVars that will be intvaled as well
 	 *
 	 * @return void
@@ -126,7 +126,7 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * If some piVars are not set or no piVars array is defined yet, this
 	 * function will set the not yet existing piVars to zero.
 	 *
-	 * @param array $additionalPiVars
+	 * @param string[] $additionalPiVars
 	 *        keys for $this->piVars that will be ensured to exist intvaled in
 	 *        $this->piVars as well
 	 *
@@ -140,7 +140,7 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * Ensures that all values in the given array are intvaled and removes empty
 	 * or invalid values.
 	 *
-	 * @param array $keys the keys of the piVars to check, may be empty
+	 * @param string[] $keys the keys of the piVars to check, may be empty
 	 *
 	 * @return void
 	 */

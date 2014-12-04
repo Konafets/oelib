@@ -27,7 +27,7 @@ class Tx_Oelib_TemplateRegistry {
 	private static $instance = NULL;
 
 	/**
-	 * @var array already created templates (by file name)
+	 * @var Tx_Oelib_Template[] already created templates (by file name)
 	 */
 	private $templates = array();
 

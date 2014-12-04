@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_IdentityMap {
 	/**
-	 * @var array the items in this map with their UIDs as keys
+	 * @var Tx_Oelib_Model[] the items in this map with their UIDs as keys
 	 */
 	protected $items = array();
 

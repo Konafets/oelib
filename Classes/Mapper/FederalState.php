@@ -32,7 +32,7 @@ class tx_oelib_Mapper_FederalState extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_FederalState';
 
 	/**
-	 * @var array the column names of additional combined keys
+	 * @var string[] the column names of additional combined keys
 	 */
 	protected $compoundKeyParts = array('zn_country_iso_2', 'zn_code');
 

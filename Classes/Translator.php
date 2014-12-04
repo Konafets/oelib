@@ -47,7 +47,7 @@ class Tx_Oelib_Translator {
 	 *
 	 * @param string $languageKey the key of the language to load the translations for, may be empty
 	 * @param string $alternativeLanguageKey the key of the alternative language to load the translations for, may be empty
-	 * @param array $localizedLabels the localized labels in a nested associative array:
+	 * @param array[] $localizedLabels the localized labels in a nested associative array:
 	 *        'languageKey' => array('labelkey' => 'label'),
 	 *        may be empty
 	 */

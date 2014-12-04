@@ -85,7 +85,7 @@ class tx_oelib_Geocoding_Calculator implements t3lib_Singleton {
 	 * $center, including objects that are located at a distance of exactly
 	 * $distance.
 	 *
-	 * @param Tx_Oelib_List $unfilteredObjects
+	 * @param Tx_Oelib_List<tx_oelib_Interface_Geo> $unfilteredObjects
 	 *        the list to filter, may be empty
 	 * @param tx_oelib_Interface_Geo $center
 	 *        the center to which $distance related

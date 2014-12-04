@@ -23,7 +23,7 @@
  */
 class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 	/**
-	 * @var array the singleton configuration proxy objects
+	 * @var Tx_Oelib_ConfigurationProxy[] the singleton configuration proxy objects
 	 */
 	private static $instances = array();
 

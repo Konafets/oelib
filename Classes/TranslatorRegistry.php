@@ -29,7 +29,9 @@ class Tx_Oelib_TranslatorRegistry {
 	private static $instance = NULL;
 
 	/**
-	 * @var array holds the extension name => Translator entries
+	 * extension name => Translator entries
+	 *
+	 * @var Tx_Oelib_Translator[]
 	 */
 	private $translators = array();
 
@@ -250,8 +252,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 *        the extension name to get the localized labels from file for,
 	 *        must not be empty, the corresponding extension must be loaded
 	 *
-	 * @return array the localized labels from an extension's language file,
-	 *               will be empty if there are none
+	 * @return string[] the localized labels from an extension's language file, will be empty if there are none
 	 */
 	private function getLocalizedLabelsFromFile($extensionName) {
 		if ($extensionName == '') {
@@ -289,8 +290,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 *        the extension name to get the localized labels from TypoScript setup for,
 	 *        must not be empty, the corresponding extension must be loaded
 	 *
-	 * @return array the localized labels from the extension's TypoScript setup,
-	 *               will be empty if there are none
+	 * @return string[] the localized labels from the extension's TypoScript setup, will be empty if there are none
 	 */
 	private function getLocalizedLabelsFromTypoScript($extensionName) {
 		if ($extensionName == '') {

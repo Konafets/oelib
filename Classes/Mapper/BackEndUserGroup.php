@@ -32,8 +32,7 @@ class tx_oelib_Mapper_BackEndUserGroup extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_BackEndUserGroup';
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array(
 		'subgroup' => 'tx_oelib_Mapper_BackEndUserGroup',

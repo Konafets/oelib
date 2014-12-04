@@ -28,26 +28,24 @@ class Tx_Oelib_Db {
 	static private $pageForEnableFields = NULL;
 
 	/**
-	 * @var array cached results for the enableFields function
+	 * @var array[] cached results for the enableFields function
 	 */
 	static private $enableFieldsCache = array();
 
 	/**
-	 * @var array cache for the results of existsTable with the table names
-	 *            as keys and the table SHOW STATUS information (in an array)
-	 *            as values
+	 * @var array[] cache for the results of existsTable with the table names
+	 *              as keys and the table SHOW STATUS information (in an array) as values
 	 */
 	static private $tableNameCache = array();
 
 	/**
-	 * @var array cache for the results of hasTableColumn with the column names
-	 *            as keys and the SHOW COLUMNS field information (in an array)
-	 *            as values
+	 * @var array[] cache for the results of hasTableColumn with the column names
+	 *              as keys and the SHOW COLUMNS field information (in an array) as values
 	 */
 	static private $tableColumnCache = array();
 
 	/**
-	 * @var array cache for all TCA arrays
+	 * @var array[] cache for all TCA arrays
 	 */
 	static private $tcaCache = array();
 
@@ -336,7 +334,7 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param integer $offset the offset to start the result for, must be >= 0
 	 *
-	 * @return array the single result row, will not be empty
+	 * @return string[] the single result row, will not be empty
 	 *
 	 * @throws tx_oelib_Exception_EmptyQueryResult if there is no matching record
 	 */
@@ -370,8 +368,7 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return array the query result rows, will be empty if there are no
-	 *               matching records
+	 * @return array[] the query result rows, will be empty if there are no matching records
 	 */
 	static public function selectMultiple(
 		$fieldNames, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
@@ -403,8 +400,7 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return array one column from the the query result rows, will be empty if
-	 *               there are no matching records
+	 * @return string[] one column from the the query result rows, will be empty if there are no matching records
 	 */
 	static public function selectColumnForMultiple(
 		$fieldName, $tableNames, $whereClause = '', $groupBy = '', $orderBy = '',
@@ -520,7 +516,7 @@ class Tx_Oelib_Db {
 	 * Returns a list of all table names that are available in the current
 	 * database.
 	 *
-	 * @return array list of table names
+	 * @return string[] table names
 	 */
 	static public function getAllTableNames() {
 		self::retrieveTableNames();
@@ -591,8 +587,7 @@ class Tx_Oelib_Db {
 	 * @param string $column
 	 *        the name of the field of which to retrieve the definition, must not be empty
 	 *
-	 * @return array the field definition for the field in $table, will not be
-	 *               empty
+	 * @return array the field definition for the field in $table, will not be empty
 	 */
 	static public function getColumnDefinition($table, $column) {
 		self::retrieveColumnsForTable($table);
@@ -665,7 +660,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @param string $tableName the table name to look up, must not be empty
 	 *
-	 * @return array associative array with the TCA description for this table
+	 * @return array[] associative array with the TCA description for this table
 	 */
 	static public function getTcaForTable($tableName) {
 		if (isset(self::$tcaCache[$tableName])) {

@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole extends Tx_Oelib_Object implements Tx_Oelib_Interface_MailRole {
 	/**
-	 * @var array the data of this object
+	 * @var string[] the data of this object
 	 */
 	private $data = array();
 

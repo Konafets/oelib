@@ -22,7 +22,7 @@
  */
 class tx_oelib_Visibility_Tree {
 	/**
-	 * @var array all nodes within the tree referenced by their keys
+	 * @var tx_oelib_Visibility_Node[] all nodes within the tree referenced by their keys
 	 */
 	private $nodes = array();
 
@@ -100,8 +100,7 @@ class tx_oelib_Visibility_Tree {
 	 * The output of this function can be used for
 	 * Tx_Oelib_Template::hideSubpartsArray.
 	 *
-	 * @return array the subparts which are hidden, will be empty if no elements
-	 *               are hidden
+	 * @return string[] the key of the subparts which are hidden, will be empty if no elements are hidden
 	 */
 	public function getKeysOfHiddenSubparts() {
 		$keysToHide = array();
@@ -127,7 +126,7 @@ class tx_oelib_Visibility_Tree {
 	/**
 	 * Makes nodes in the tree visible.
 	 *
-	 * @param array $nodeKeys
+	 * @param string[] $nodeKeys
 	 *        the keys of the visible nodes, may be empty
 	 *
 	 * @return void

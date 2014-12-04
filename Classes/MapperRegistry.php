@@ -31,7 +31,7 @@ class Tx_Oelib_MapperRegistry {
 	private static $instance = NULL;
 
 	/**
-	 * @var array already created mappers (by class name)
+	 * @var Tx_Oelib_DataMapper[] already created mappers (by class name)
 	 */
 	private $mappers = array();
 

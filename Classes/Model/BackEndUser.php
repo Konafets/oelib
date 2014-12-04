@@ -23,7 +23,7 @@
  */
 class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Interface_MailRole {
 	/**
-	 * @var array the user's configuration unserialized
+	 * @var string[] the user's configuration (unserialized)
 	 */
 	private $configuration = array();
 
@@ -106,7 +106,7 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	/**
 	 * Returns the direct user groups of this user.
 	 *
-	 * @return Tx_Oelib_List the user's direct groups, will be empty if this
+	 * @return Tx_Oelib_List<Tx_Oelib_Model_BackEndUserGroup> the user's direct groups, will be empty if this
 	 *                       user has no groups
 	 */
 	public function getGroups() {
@@ -116,7 +116,7 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	/**
 	 * Recursively gets all groups and subgroups of this user.
 	 *
-	 * @return Tx_Oelib_List all groups and subgroups of this user, will be
+	 * @return Tx_Oelib_List<Tx_Oelib_Model_BackEndUserGroup> all groups and subgroups of this user, will be
 	 *                       empty if this user has no groups
 	 */
 	public function getAllGroups() {
@@ -142,8 +142,7 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	/**
 	 * Retrieves the user's configuration, and unserializes it.
 	 *
-	 * @return array the user's configuration, will be empty if the user has no
-	 *               configuration set
+	 * @return string[] the user's configuration, will be empty if the user has no configuration set
 	 */
 	private function getConfiguration() {
 		if (empty($this->configuration)) {

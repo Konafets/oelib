@@ -28,7 +28,7 @@ class Tx_Oelib_ConfigurationRegistry {
 	private static $instance = NULL;
 
 	/**
-	 * @var array already created configurations (by namespace)
+	 * @var Tx_Oelib_ConfigurationRegistry[] already created configurations (by namespace)
 	 */
 	private $configurations = array();
 

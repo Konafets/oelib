@@ -22,12 +22,12 @@
  */
 class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_List
+	 * @var Tx_Oelib_List<Tx_Oelib_Model>
 	 */
 	private $subject;
 
 	/**
-	 * @var array models that need to be cleaned up during tearDown.
+	 * @var Tx_Oelib_Model[] models that need to be cleaned up during tearDown.
 	 */
 	private $modelStorage = array();
 

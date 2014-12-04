@@ -196,7 +196,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * cases an synonym to appendUnique() as SplObjectStorage makes sure that
 	 * no object is added more than once to it.
 	 *
-	 * @param Tx_Oelib_List $list the list to append, may be empty
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $list the list to append, may be empty
 	 *
 	 * @return void
 	 */
@@ -210,7 +210,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * Appends the contents of $list to this list. If an item with specific UID
 	 * already exists in the list, the new item to append will be igored.
 	 *
-	 * @param Tx_Oelib_List $list the list to append, may be empty
+	 * @param Tx_Oelib_List<Tx_Oelib_Model> $list the list to append, may be empty
 	 *
 	 * @deprecated 2010-05-27 use append() instead
 	 *

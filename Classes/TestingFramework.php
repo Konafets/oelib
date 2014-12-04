@@ -41,26 +41,23 @@ final class Tx_Oelib_TestingFramework {
 	protected $tablePrefix = '';
 
 	/**
-	 * @var array prefixes of additional extensions to which this instance
-	 *            of the testing framework has access (e.g. "tx_seminars")
+	 * @var string[] prefixes of additional extensions to which this instance
+	 *      of the testing framework has access (e.g. "tx_seminars")
 	 */
 	protected $additionalTablePrefixes = array();
 
 	/**
-	 * @var array all own DB table names to which this instance of the
-	 *            testing framework has access
+	 * @var string[] all own DB table names to which this instance of the testing framework has access
 	 */
 	protected $ownAllowedTables = array();
 
 	/**
-	 * @var array all additional DB table names to which this instance of
-	 *            the testing framework has access
+	 * @var string[] all additional DB table names to which this instance of the testing framework has access
 	 */
 	protected $additionalAllowedTables = array();
 
 	/**
-	 * @var array all system table names to which this instance of the
-	 *            testing framework has access
+	 * @var string[] all system table names to which this instance of the testing framework has access
 	 */
 	protected $allowedSystemTables = array(
 		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
@@ -68,19 +65,17 @@ final class Tx_Oelib_TestingFramework {
 	);
 
 	/**
-	 * @var array all "dirty" non-system tables (i.e. all tables that were
-	 * used for testing and need to be cleaned up)
+	 * @var string[] all "dirty" non-system tables (i.e. all tables that were used for testing and need to be cleaned up)
 	 */
 	protected $dirtyTables = array();
 
 	/**
-	 * @var array all "dirty" system tables (i.e. all tables that were
-	 *            used for testing and need to be cleaned up)
+	 * @var string[] all "dirty" system tables (i.e. all tables that were used for testing and need to be cleaned up)
 	 */
 	protected $dirtySystemTables = array();
 
 	/**
-	 * @var array sorting values of all relation tables
+	 * @var array[] sorting values of all relation tables
 	 */
 	protected $relationSorting = array();
 
@@ -99,14 +94,12 @@ final class Tx_Oelib_TestingFramework {
 	protected $resetAutoIncrementThreshold = 0;
 
 	/**
-	 * @var array the names of the created dummy files relative to the upload
-	 *            folder of the extension to test
+	 * @var string[] the names of the created dummy files relative to the upload folder of the extension to test
 	 */
 	protected $dummyFiles = array();
 
 	/**
-	 * @var array the names of the created dummy folders relative to the
-	 *            upload folder of the extension to test
+	 * @var string[] the names of the created dummy folders relative to the upload folder of the extension to test
 	 */
 	protected $dummyFolders = array();
 
@@ -897,7 +890,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $fileName
 	 *        path of the dummy ZIP archive to create, relative to the calling extension's upload directory, must not be empty
-	 * @param array $filesToAddToArchive
+	 * @param string[] $filesToAddToArchive
 	 *        Absolute paths of the files to add to the ZIP archive.
 	 *        Note that the archives directory structure will be relative to the upload folder path, so only files within this
 	 *        folder or in sub-folders of this folder can be added.
@@ -1778,8 +1771,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Returns the list of allowed table names.
 	 *
-	 * @return array all allowed table names for this instance of the
-	 *               testing framework
+	 * @return string[] all allowed table names for this instance of the testing framework
 	 */
 	public function getListOfOwnAllowedTableNames() {
 		return $this->ownAllowedTables;
@@ -1788,8 +1780,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Returns the list of additional allowed table names.
 	 *
-	 * @return array all additional allowed table names for this instance
-	 *               of the testing framework, may be empty
+	 * @return string[] all additional allowed table names for this instance of the testing framework, may be empty
 	 */
 	public function getListOfAdditionalAllowedTableNames() {
 		return $this->additionalAllowedTables;
@@ -1825,8 +1816,7 @@ final class Tx_Oelib_TestingFramework {
 	 * Returns the list of tables that contain dummy records from testing. These
 	 * tables are called "dirty tables" as they need to be cleaned up.
 	 *
-	 * @return array associative array containing names of database tables
-	 *               that need to be cleaned up
+	 * @return string[] associative array containing names of database tables that need to be cleaned up
 	 */
 	public function getListOfDirtyTables() {
 		return $this->dirtyTables;
@@ -1837,8 +1827,7 @@ final class Tx_Oelib_TestingFramework {
 	 * testing. These tables are called "dirty tables" as they need to be
 	 * cleaned up.
 	 *
-	 * @return array associative array containing names of system
-	 *               database tables that need to be cleaned up
+	 * @return string[] associative array containing names of system database tables that need to be cleaned up
 	 */
 	public function getListOfDirtySystemTables() {
 		return $this->dirtySystemTables;
@@ -1875,7 +1864,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $tableName the table name to look up, must not be empty
 	 *
-	 * @return array associative array with the TCA description for this table
+	 * @return array[] associative array with the TCA description for this table
 	 *
 	 * @deprecated 2009-02-12 use Tx_Oelib_Db::getTcaForTable instead
 	 */

@@ -369,7 +369,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Gets this user's user groups.
 	 *
-	 * @return Tx_Oelib_List this user's FE user groups, will not be empty if
+	 * @return Tx_Oelib_List<Tx_Oelib_Model_BackEndUserGroup> this user's FE user groups, will not be empty if
 	 *                       the user data is valid
 	 */
 	public function getUserGroups() {
@@ -379,7 +379,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	/**
 	 * Sets this user's direct user groups.
 	 *
-	 * @param Tx_Oelib_List $userGroups the user groups to set, may be empty
+	 * @param Tx_Oelib_List<Tx_Oelib_Model_BackEndUserGroup> $userGroups the user groups to set, may be empty
 	 *
 	 * @return void
 	 */

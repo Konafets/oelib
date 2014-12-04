@@ -98,7 +98,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return array the array value of the given key, may be empty
+	 * @return string[] the array value of the given key, may be empty
 	 */
 	public function getAsTrimmedArray($key) {
 		return parent::getAsTrimmedArray($key);
@@ -110,7 +110,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return array the array value of the given key, may be empty
+	 * @return int[] the array value of the given key, may be empty
 	 */
 	public function getAsIntegerArray($key) {
 		return parent::getAsIntegerArray($key);

@@ -33,15 +33,14 @@ class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 	protected $modelClassName = 'Tx_Oelib_Model_BackEndUser';
 
 	/**
-	 * @var array the (possible) relations of the created models in the format
-	 *            DB column name => mapper name
+	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
 	 */
 	protected $relations = array(
 		'usergroup' => 'tx_oelib_Mapper_BackEndUserGroup',
 	);
 
 	/**
-	 * @var array the column names of additional string keys
+	 * @var string[] the column names of additional string keys
 	 */
 	protected $additionalKeys = array('username');
 
