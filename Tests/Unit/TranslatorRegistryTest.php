@@ -22,7 +22,24 @@
  * @author Benjamin Schulte <benj@minschulte.de>
  */
 class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
+	/**
+	 * @var Tx_Oelib_TestingFramework
+	 */
+	protected $testingFramework = NULL;
+
+	/**
+	 * @var t3lib_beUserAuth
+	 */
+	protected $backEndUserBackup = NULL;
+
 	public function setUp() {
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
+
+		$this->backEndUserBackup = $GLOBALS['BE_USER'];
+		$backEndUser = new t3lib_beUserAuth();
+		$backEndUser->user = array('uid' => $this->testingFramework->createBackEndUser());
+		$GLOBALS['BE_USER'] = $backEndUser;
+
 		$configurationRegistry = Tx_Oelib_ConfigurationRegistry::getInstance();
 		$configurationRegistry->set('config', new Tx_Oelib_Configuration());
 		$configurationRegistry->set('page.config', new Tx_Oelib_Configuration());
@@ -33,8 +50,9 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	}
 
 	public function tearDown() {
-		Tx_Oelib_TranslatorRegistry::purgeInstance();
-		Tx_Oelib_ConfigurationRegistry::purgeInstance();
+		$this->testingFramework->cleanUp();
+
+		$GLOBALS['BE_USER'] = $this->backEndUserBackup;
 	}
 
 
