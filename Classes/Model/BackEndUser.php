@@ -118,17 +118,22 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	 *                       empty if this user has no groups
 	 */
 	public function getAllGroups() {
+		/** @var Tx_Oelib_List $result */
 		$result = t3lib_div::makeInstance('Tx_Oelib_List');
 		$groupsToProcess = $this->getGroups();
 
 		do {
+			/** @var Tx_Oelib_List $groupsForNextStep */
 			$groupsForNextStep = t3lib_div::makeInstance('Tx_Oelib_List');
 			$result->append($groupsToProcess);
+			/** @var Tx_Oelib_Model_BackEndUserGroup $group */
 			foreach ($groupsToProcess as $group) {
 				$subgroups = $group->getSubgroups();
-				foreach ($subgroups as $subgroup)
-				if (!$result->hasUid($subgroup->getUid())) {
-					$groupsForNextStep->add($subgroup);
+				/** @var Tx_Oelib_Model_BackEndUserGroup $subgroup */
+				foreach ($subgroups as $subgroup) {
+					if (!$result->hasUid($subgroup->getUid())) {
+						$groupsForNextStep->add($subgroup);
+					}
 				}
 			}
 			$groupsToProcess = $groupsForNextStep;

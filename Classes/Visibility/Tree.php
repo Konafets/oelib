@@ -27,7 +27,7 @@ class tx_oelib_Visibility_Tree {
 	private $nodes = array();
 
 	/**
-	 * @var tx_oelib_Visibility_Node the root node of the tree
+	 * @var tx_oelib_Visibility_Node
 	 */
 	private $rootNode = NULL;
 
@@ -49,9 +49,7 @@ class tx_oelib_Visibility_Tree {
 	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
-		$this->rootNode = t3lib_div::makeInstance(
-			'tx_oelib_Visibility_Node'
-		);
+		$this->rootNode = t3lib_div::makeInstance('tx_oelib_Visibility_Node');
 
 		$this->buildTreeFromArray($treeStructure, $this->rootNode);
 	}
@@ -77,15 +75,12 @@ class tx_oelib_Visibility_Tree {
 		array $treeStructure, tx_oelib_Visibility_Node $parentNode
 	) {
 		foreach ($treeStructure as $nodeKey => $nodeContents) {
-			$childNode = t3lib_div::makeInstance(
-				'tx_oelib_Visibility_Node'
-			);
+			/** @var tx_oelib_Visibility_Node $childNode */
+			$childNode = t3lib_div::makeInstance('tx_oelib_Visibility_Node');
 			$parentNode->addChild($childNode);
 
 			if (is_array($nodeContents)) {
-				$this->buildTreeFromArray(
-					$nodeContents, $childNode
-				);
+				$this->buildTreeFromArray($nodeContents, $childNode);
 			} elseif ($nodeContents === TRUE) {
 				$childNode->markAsVisible();
 			}

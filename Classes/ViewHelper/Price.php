@@ -60,8 +60,9 @@ class tx_oelib_ViewHelper_Price {
 	 */
 	public function setCurrencyFromIsoAlpha3Code($isoAlpha3Code) {
 		try {
-			$this->currency = Tx_Oelib_MapperRegistry::
-				get('tx_oelib_Mapper_Currency')->findByIsoAlpha3Code($isoAlpha3Code);
+			/** @var tx_oelib_Mapper_Currency $mapper */
+			$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency');
+			$this->currency = $mapper->findByIsoAlpha3Code($isoAlpha3Code);
 		} catch (Exception $exception) {
 			$this->currency = NULL;
 		}

@@ -52,6 +52,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 */
 	public function __destruct() {
 		$this->rewind();
+		/** @var Tx_Oelib_Model $model */
 		foreach ($this as $model) {
 			$this->detach($model);
 		}
@@ -155,6 +156,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	private function rebuildUidCache() {
 		$this->hasItemWithoutUid = FALSE;
 
+		/** @var Tx_Oelib_Model $item */
 		foreach ($this as $item) {
 			if ($item->hasUid()) {
 				$uid = $item->getUid();
@@ -181,6 +183,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 		$items = iterator_to_array($this, FALSE);
 		usort($items, $callbackFunction);
 
+		/** @var Tx_Oelib_Model $item */
 		foreach ($items as $item) {
 			$this->detach($item);
 			$this->attach($item);
@@ -201,6 +204,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * @return void
 	 */
 	public function append(Tx_Oelib_List $list) {
+		/** @var Tx_Oelib_Model $item */
 		foreach ($list as $item) {
 			$this->add($item);
 		}
@@ -219,6 +223,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	public function appendUnique(Tx_Oelib_List $list) {
 		t3lib_div::logDeprecatedFunction();
 
+		/** @var Tx_Oelib_Model $item */
 		foreach ($list as $item) {
 			if (!$this->hasUid($item->getUid())) {
 				$this->add($item);
@@ -327,10 +332,12 @@ class Tx_Oelib_List extends SplObjectStorage {
 			throw new InvalidArgumentException('$length must be >= 0.');
 		}
 
+		/** @var Tx_Oelib_List $result */
 		$result = t3lib_div::makeInstance('Tx_Oelib_List');
 
 		$lastPosition = $start + $length - 1;
 		$currentIndex = 0;
+		/** @var Tx_Oelib_Model $item */
 		foreach ($this as $item) {
 			if ($currentIndex > $lastPosition) {
 				 break;
@@ -366,6 +373,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 */
 	public function toArray() {
 		$elements = array();
+		/** @var Tx_Oelib_Model $model */
 		foreach ($this as $model) {
 			$elements[] = $model;
 		}

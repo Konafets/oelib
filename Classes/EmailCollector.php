@@ -30,6 +30,8 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 * first dimension depends on how many e-mails are currently stored. One
 	 * stored e-mail is always an associative array with four elements named
 	 * 'recipient', 'subject', 'message' and 'headers'.
+	 *
+	 * @var array[]
 	 */
 	private $emailData = array();
 

@@ -92,9 +92,7 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 *                                     be NULL if no user is logged in or
 	 *                                     if there is no front end
 	 */
-	public function getLoggedInUser(
-		$mapperName = 'tx_oelib_Mapper_FrontEndUser'
-	) {
+	public function getLoggedInUser($mapperName = 'tx_oelib_Mapper_FrontEndUser') {
 		if ($mapperName === '') {
 			throw new InvalidArgumentException('$mapperName must not be empty.', 1331488730);
 		}
@@ -105,8 +103,10 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 		if ($this->loggedInUser !== NULL) {
 			$user = $this->loggedInUser;
 		} else {
-			$user = Tx_Oelib_MapperRegistry::get($mapperName)
-				->find($GLOBALS['TSFE']->fe_user->user['uid']);
+			/** @var Tx_Oelib_Mapper_FrontEndUser $mapper */
+			$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
+			/** @var Tx_Oelib_Model_FrontEndUser $user */
+			$user = $mapper->find($GLOBALS['TSFE']->fe_user->user['uid']);
 		}
 
 		return $user;

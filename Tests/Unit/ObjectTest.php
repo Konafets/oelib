@@ -22,12 +22,12 @@
  */
 class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var tx_oelib_testingObject the object to test
+	 * @var Tx_Oelib_testingObject
 	 */
 	private $subject;
 
 	public function setUp() {
-		$this->subject = new tx_oelib_testingObject();
+		$this->subject = new Tx_Oelib_testingObject();
 	}
 
 	public function tearDown() {

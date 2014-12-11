@@ -44,8 +44,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	protected $isInitialized = FALSE;
 
 	/**
-	 * @var Tx_Oelib_ConfigCheck the configuration check object that will
-	 *                           check this object
+	 * @var Tx_Oelib_ConfigCheck
 	 */
 	protected $configurationCheck = NULL;
 
@@ -60,8 +59,9 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	private $template = NULL;
 
 	/**
-	 * @var array TS Setup for plugin.tx_extensionkey, using the current page
-	 *            UID as key
+	 * TS Setup for plugin.tx_extensionkey, using the current page UID as key
+	 *
+	 * @var array[]
 	 */
 	static private $cachedConfigurations = array();
 
@@ -182,16 +182,18 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *               current extension key
 	 */
 	protected function retrievePageConfig($pageId) {
+		/** @var t3lib_TStemplate $template */
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
 		$template->init();
 
-		$sys_page = t3lib_div::makeInstance('t3lib_pageSelect');
+		/** @var t3lib_pageSelect $page */
+		$page = t3lib_div::makeInstance('t3lib_pageSelect');
 
 		// Gets the root line.
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
-		$rootLine = $sys_page->getRootLine($pageId);
+		$rootLine = $page->getRootLine($pageId);
 
 		// Generates the constants/config and hierarchy info for the template.
 		$template->runThroughTemplates($rootLine, 0);

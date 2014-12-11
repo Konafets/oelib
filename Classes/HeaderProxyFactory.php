@@ -24,13 +24,19 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class tx_oelib_headerProxyFactory {
-	/** the singleton factory */
+	/**
+	 * @var tx_oelib_headerProxyFactory
+	 */
 	private static $instance = NULL;
 
-	/** whether the test mode is set */
+	/**
+	 * @var bool
+	 */
 	private $isTestMode = FALSE;
 
-	/** the header proxy object */
+	/**
+	 * @var Tx_Oelib_AbstractHeaderProxy
+	 */
 	private $headerProxy = NULL;
 
 	/**
@@ -72,9 +78,7 @@ class tx_oelib_headerProxyFactory {
 			$className = 'Tx_Oelib_RealHeaderProxy';
 		}
 
-		if (!is_object($this->headerProxy)
-			|| (get_class($this->headerProxy) !== $className)
-		) {
+		if (!is_object($this->headerProxy) || (get_class($this->headerProxy) !== $className)) {
 			$this->headerProxy = t3lib_div::makeInstance($className);
 		}
 

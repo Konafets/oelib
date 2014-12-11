@@ -28,7 +28,7 @@ class Tx_Oelib_ConfigurationRegistry {
 	private static $instance = NULL;
 
 	/**
-	 * @var Tx_Oelib_ConfigurationRegistry[] already created configurations (by namespace)
+	 * @var Tx_Oelib_Configuration[] already created configurations (by namespace)
 	 */
 	private $configurations = array();
 
@@ -178,6 +178,7 @@ class Tx_Oelib_ConfigurationRegistry {
 			$data = $data[$namespacePart . '.'];
 		}
 
+		/** @var Tx_Oelib_Configuration $configuration */
 		$configuration = t3lib_div::makeInstance('Tx_Oelib_Configuration');
 		$configuration->setData($data);
 		return $configuration;
@@ -200,10 +201,12 @@ class Tx_Oelib_ConfigurationRegistry {
 			return $GLOBALS['TSFE']->tmpl->setup;
 		}
 
+		/** @var t3lib_TStemplate $template */
 		$template = t3lib_div::makeInstance('t3lib_TStemplate');
 		$template->tt_track = 0;
 		$template->init();
 
+		/** @var t3lib_pageSelect $page */
 		$page = t3lib_div::makeInstance('t3lib_pageSelect');
 		$rootline = $page->getRootLine($pageUid);
 		$template->runThroughTemplates($rootline, 0);

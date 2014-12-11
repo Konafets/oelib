@@ -24,6 +24,8 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	/**
 	 * A list of language keys for which the localizations have been loaded
 	 * (or NULL if the list has not been compiled yet).
+	 *
+	 * @var string[]
 	 */
 	private $availableLanguages = NULL;
 
@@ -31,6 +33,8 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * An ordered list of language label suffixes that should be tried to get
 	 * localizations in the preferred order of formality (or NULL if the list
 	 * has not been compiled yet).
+	 *
+	 * @var string[]
 	 */
 	private $suffixesToTry = NULL;
 

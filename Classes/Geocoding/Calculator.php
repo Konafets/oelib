@@ -97,12 +97,11 @@ class tx_oelib_Geocoding_Calculator implements t3lib_Singleton {
 	 *         a copy of $unfilteredObjects with only those objects that are
 	 *         located within $distance kilometers of $center
 	 */
-	public function filterByDistance(
-		Tx_Oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center,
-		$distance
-	) {
+	public function filterByDistance(Tx_Oelib_List $unfilteredObjects, tx_oelib_Interface_Geo $center, $distance) {
+		/** @var Tx_Oelib_List $objectsWithinDistance */
 		$objectsWithinDistance = t3lib_div::makeInstance('Tx_Oelib_List');
 
+		/** @var tx_oelib_Interface_Geo|Tx_Oelib_Model $object */
 		foreach ($unfilteredObjects as $object) {
 			if ($this->calculateDistanceInKilometers($center, $object)
 				<= $distance

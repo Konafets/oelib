@@ -41,8 +41,7 @@ class Tx_Oelib_TranslatorRegistry {
 	private $languageKey = 'default';
 
 	/**
-	 * @var string the key of the alternative language to load the translations
-	 *             for
+	 * @var string the key of the alternative language to load the translations for
 	 */
 	private $alternativeLanguageKey = '';
 
@@ -234,12 +233,14 @@ class Tx_Oelib_TranslatorRegistry {
 				}
 			}
 
-			$this->translators[$extensionName] = t3lib_div::makeInstance(
+			/** @var Tx_Oelib_Translator $translator */
+			$translator = t3lib_div::makeInstance(
 				'Tx_Oelib_Translator',
 				$this->languageKey,
 				$this->alternativeLanguageKey,
 				$localizedLabels
 			);
+			$this->translators[$extensionName] = $translator;
 		}
 
 		return $this->translators[$extensionName];

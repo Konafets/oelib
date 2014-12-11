@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_IdentityMap the indentity map to test
+	 * @var Tx_Oelib_IdentityMap
 	 */
 	private $subject;
 

@@ -41,6 +41,7 @@ class Tx_Oelib_ConfigCheck {
 	 *                              be checked
 	 */
 	protected $objectToCheck = NULL;
+
 	/** @var string the (cached) class name of $this->objectToCheck */
 	private $className = '';
 

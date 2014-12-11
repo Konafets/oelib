@@ -29,8 +29,7 @@ class Tx_Oelib_Translator {
 	private $languageKey = '';
 
 	/**
-	 * @var string the key of the alternative language to load the translations
-	 *             for
+	 * @var string the key of the alternative language to load the translations for
 	 */
 	private $alternativeLanguageKey = '';
 

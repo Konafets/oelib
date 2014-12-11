@@ -24,7 +24,11 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
 class Tx_Oelib_HeaderCollector extends Tx_Oelib_AbstractHeaderProxy {
-	/** headers which were meant to be sent */
+	/**
+	 * headers which were meant to be sent
+	 *
+	 * @var string[]
+	 */
 	private $headers = array();
 
 	/**

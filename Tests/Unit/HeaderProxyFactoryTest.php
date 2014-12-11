@@ -22,7 +22,9 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
-	/** instance of the object to test */
+	/**
+	 * @var Tx_Oelib_HeaderCollector
+	 */
 	private $subject;
 
 	protected function setUp() {

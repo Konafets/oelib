@@ -125,8 +125,7 @@ class Tx_Oelib_Db {
 			) {
 				self::$pageForEnableFields = $GLOBALS['TSFE']->sys_page;
 			} else {
-				self::$pageForEnableFields
-					= t3lib_div::makeInstance('t3lib_pageSelect');
+				self::$pageForEnableFields = t3lib_div::makeInstance('t3lib_pageSelect');
 			}
 		}
 	}

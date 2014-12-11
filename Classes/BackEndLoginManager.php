@@ -100,8 +100,10 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 			return $this->loggedInUser;
 		}
 
-		return Tx_Oelib_MapperRegistry::get($mapperName)
-			->find($GLOBALS['BE_USER']->user['uid']);
+		/** @var tx_oelib_Mapper_BackEndUser $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
+
+		return $mapper->find($GLOBALS['BE_USER']->user['uid']);
 	}
 
 	/**

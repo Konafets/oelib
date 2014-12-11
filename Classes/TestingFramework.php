@@ -104,14 +104,14 @@ final class Tx_Oelib_TestingFramework {
 	protected $dummyFolders = array();
 
 	/**
-	 * @var string the absolute path to the upload folder of the extension
-	 * to test
+	 * the absolute path to the upload folder of the extension to test
+	 *
+	 * @var string
 	 */
 	protected $uploadFolderPath = '';
 
 	/**
-	 * @var t3lib_basicFileFunctions an instance of t3lib_basicFileFunctions
-	 *                               for retrieving a unique file name
+	 * @var t3lib_basicFileFunctions
 	 */
 	protected static $fileNameProcessor = NULL;
 
@@ -1143,9 +1143,7 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		if (!self::$fileNameProcessor) {
-			self::$fileNameProcessor = t3lib_div::makeInstance(
-				't3lib_basicFileFunctions'
-			);
+			self::$fileNameProcessor = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 		}
 
 		return self::$fileNameProcessor->getUniqueName(
@@ -1186,9 +1184,11 @@ final class Tx_Oelib_TestingFramework {
 		$this->suppressFrontEndCookies();
 		$this->discardFakeFrontEnd();
 
-		$GLOBALS['TT'] = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+		/** @var t3lib_TimeTrackNull $timeTrack */
+		$timeTrack = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+		$GLOBALS['TT'] = $timeTrack;
 
-		/** @var $frontEnd tslib_fe */
+		/** @var tslib_fe $frontEnd */
 		$frontEnd = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 		$GLOBALS['TSFE'] = $frontEnd;
 
@@ -1311,6 +1311,7 @@ final class Tx_Oelib_TestingFramework {
 			$this->logoutFrontEndUser();
 		}
 
+		/** @var tx_oelib_Mapper_FrontEndUser $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
 		// loads the model from database if it is a ghost
 		$mapper->existsModel($userId);

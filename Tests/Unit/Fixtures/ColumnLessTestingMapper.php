@@ -27,8 +27,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_ColumnLessTestingMapper extends Tx_Oelib_Data
 	protected $tableName = 'tx_oelib_test';
 
 	/**
-	 * @var string a comma-separated list of DB column names to retrieve
-	 *             or "*" for all columns
+	 * @var string a comma-separated list of DB column names to retrieve or "*" for all columns
 	 */
 	protected $columns = '';
 

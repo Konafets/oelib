@@ -187,6 +187,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @see getModel()
 	 */
 	public function getListOfModels(array $dataOfModels) {
+		/** @var Tx_Oelib_List $list */
 		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 
 		foreach ($dataOfModels as $modelRecord) {
@@ -455,9 +456,8 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @return void
 	 */
-	private function createCommaSeparatedRelation(
-		array &$data, $key, Tx_Oelib_Model $model
-	) {
+	private function createCommaSeparatedRelation(array &$data, $key, Tx_Oelib_Model $model) {
+		/** @var Tx_Oelib_List $list */
 		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
@@ -496,9 +496,8 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @return void
 	 */
-	private function createMToNRelation(
-		array &$data, $key, Tx_Oelib_Model $model
-	) {
+	private function createMToNRelation(array &$data, $key, Tx_Oelib_Model $model) {
+		/** @var Tx_Oelib_List $list */
 		$list = t3lib_div::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
@@ -596,6 +595,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return Tx_Oelib_Model a ghost model with the UID $uid
 	 */
 	protected function createGhost($uid) {
+		/** @var Tx_Oelib_Model $model */
 		$model = t3lib_div::makeInstance($this->modelClassName);
 		$model->setUid($uid);
 		$model->setLoadCallback(array($this, 'load'));
@@ -802,9 +802,8 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @return void
 	 */
-	private function saveManyToManyAndCommaSeparatedRelatedModels(
-		Tx_Oelib_List $list, Tx_Oelib_DataMapper $mapper
-	) {
+	private function saveManyToManyAndCommaSeparatedRelatedModels(Tx_Oelib_List $list, Tx_Oelib_DataMapper $mapper) {
+		/** @var Tx_Oelib_Model $model */
 		foreach ($list as $model) {
 			$mapper->save($model);
 		}
@@ -862,6 +861,7 @@ abstract class Tx_Oelib_DataMapper {
 					$this->getRelationConfigurationFromTca($key);
 				$mnTable = $relationConfiguration['MM'];
 
+				/** @var Tx_Oelib_Model $relatedModel */
 				foreach ($data[$key] as $relatedModel) {
 					if (isset($relationConfiguration['MM_opposite_field'])) {
 						$uidLocal = $relatedModel->getUid();
@@ -921,6 +921,7 @@ abstract class Tx_Oelib_DataMapper {
 			$getter = 'get' . $foreignKey;
 			$setter = 'set' . $foreignKey;
 
+			/** @var Tx_Oelib_Model $relatedModel */
 			foreach ($relatedModels->toArray() as $relatedModel) {
 				if (!method_exists($relatedModel, $getter)) {
 					throw new BadMethodCallException(
@@ -946,6 +947,7 @@ abstract class Tx_Oelib_DataMapper {
 				$unconnectedModels = $relatedMapper->findAllByRelation(
 					$model, $foreignField, $relatedModels
 				);
+				/** @var Tx_Oelib_Model $unconnectedModel */
 				foreach ($unconnectedModels as $unconnectedModel) {
 					$relatedMapper->delete($unconnectedModel);
 				}
@@ -1023,6 +1025,7 @@ abstract class Tx_Oelib_DataMapper {
 				}
 
 				$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
+				/** @var Tx_Oelib_Model $relatedModel */
 				foreach ($relatedModels as $relatedModel) {
 					$mapper->delete($relatedModel);
 				}
