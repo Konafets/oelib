@@ -3,7 +3,7 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$TCA['user_oelibtest_test'] = array (
+$GLOBALS['TCA']['user_oelibtest_test'] = array (
 	'ctrl' => array (
 		'title'     => 'LLL:EXT:user_oelibtest/locallang_db.xml:user_oelibtest_test',
 		'label'     => 'title',

@@ -5,7 +5,7 @@ if (!defined ('TYPO3_MODE')) {
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'One is Enough Library');
 
-$TCA['tx_oelib_test'] = array(
+$GLOBALS['TCA']['tx_oelib_test'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test',
 		'readOnly' => 1,
@@ -28,7 +28,7 @@ $TCA['tx_oelib_test'] = array(
 	),
 );
 
-$TCA['tx_oelib_testchild'] = array(
+$GLOBALS['TCA']['tx_oelib_testchild'] = array(
 	'ctrl' => array(
 		'title' => 'LLL:EXT:oelib/Resources/Private/Language/locallang_db.xml:tx_oelib_test',
 		'readOnly' => 1,

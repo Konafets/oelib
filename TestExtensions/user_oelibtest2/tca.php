@@ -3,8 +3,8 @@ if (!defined('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$TCA['user_oelibtest2_test'] = array(
-	'ctrl' => $TCA['user_oelibtest2_test']['ctrl'],
+$GLOBALS['TCA']['user_oelibtest2_test'] = array(
+	'ctrl' => $GLOBALS['TCA']['user_oelibtest2_test']['ctrl'],
 	'columns' => array(
 		'hidden' => array(
 			'exclude' => 1,

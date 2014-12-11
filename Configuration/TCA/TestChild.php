@@ -3,8 +3,8 @@ if (!defined ('TYPO3_MODE')) {
 	die('Access denied.');
 }
 
-$TCA['tx_oelib_testchild'] = array(
-	'ctrl' => $TCA['tx_oelib_testchild']['ctrl'],
+$GLOBALS['TCA']['tx_oelib_testchild'] = array(
+	'ctrl' => $GLOBALS['TCA']['tx_oelib_testchild']['ctrl'],
 	'interface' => array(
 		'showRecordFieldList' => 'title',
 	),
