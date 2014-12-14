@@ -353,7 +353,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *                 corresponding flexforms or TS setup entry
 	 */
 	public function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
-		return (boolean) $this->getConfValueInteger($fieldName, $sheet);
+		return (bool)$this->getConfValueInteger($fieldName, $sheet);
 	}
 
 	/**
@@ -369,7 +369,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *                 TS setup entry
 	 */
 	public function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
-		return (boolean) $this->getConfValue($fieldName, $sheet);
+		return (bool)$this->getConfValue($fieldName, $sheet);
 	}
 
 	/**
@@ -602,7 +602,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
-	 * Sets a marker based on whether the (integer) content is non-zero.
+	 * Sets a marker based on whether the int content is non-zero.
+	 *
 	 * If (int)$content is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
@@ -790,8 +791,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
-	 * Sets or hides a marker based on whether the (integer) content is
-	 * non-zero.
+	 * Sets or hides a marker based on whether the int content is non-zero.
+	 *
 	 * If (int)$content is non-zero, this function sets the marker's content,
 	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
@@ -1201,7 +1202,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *                 FALSE if no value was set
 	 */
 	public function getListViewConfValueBoolean($fieldName) {
-		return (boolean) $this->getListViewConfigurationValue($fieldName);
+		return (bool)$this->getListViewConfigurationValue($fieldName);
 	}
 
 	/**

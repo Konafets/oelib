@@ -196,7 +196,7 @@ abstract class Tx_Oelib_Object {
 	protected function getAsBoolean($key) {
 		$this->checkForNonEmptyKey($key);
 
-		return (boolean) $this->get($key);
+		return (bool)$this->get($key);
 	}
 
 	/**
@@ -210,7 +210,7 @@ abstract class Tx_Oelib_Object {
 	protected function setAsBoolean($key, $value) {
 		$this->checkForNonEmptyKey($key);
 
-		$this->set($key, (boolean) $value);
+		$this->set($key, (bool)$value);
 	}
 
 	/**

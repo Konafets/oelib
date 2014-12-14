@@ -247,7 +247,8 @@ class Tx_Oelib_Template {
 	}
 
 	/**
-	 * Sets a marker based on whether the (integer) content is non-zero.
+	 * Sets a marker based on whether the int content is non-zero.
+	 *
 	 * If (int)$content is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
@@ -468,8 +469,8 @@ class Tx_Oelib_Template {
 	}
 
 	/**
-	 * Sets or hides a marker based on whether the (integer) content is
-	 * non-zero.
+	 * Sets or hides a marker based on whether the int content is non-zero.
+	 *
 	 * If (int)$content is non-zero, this function sets the marker's content,
 	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
@@ -684,9 +685,7 @@ class Tx_Oelib_Template {
 	 * @return bool TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
-		return (boolean) preg_match(
-			'/^###[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName
-		);
+		return (bool)preg_match('/^###[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName);
 	}
 
 	/**
