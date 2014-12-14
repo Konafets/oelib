@@ -32,19 +32,17 @@ class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 	 */
 	private $savedStoreLastBuildQuery;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->savedDebugOutput = $GLOBALS['TYPO3_DB']->debugOutput;
-		$this->savedStoreLastBuildQuery
-			= $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
+		$this->savedStoreLastBuildQuery = $GLOBALS['TYPO3_DB']->store_lastBuiltQuery;
 
 		$GLOBALS['TYPO3_DB']->debugOutput = FALSE;
 		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$GLOBALS['TYPO3_DB']->debugOutput = $this->savedDebugOutput;
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery
-			= $this->savedStoreLastBuildQuery;
+		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = $this->savedStoreLastBuildQuery;
 	}
 
 	/**

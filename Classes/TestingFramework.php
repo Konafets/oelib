@@ -35,29 +35,42 @@ final class Tx_Oelib_TestingFramework {
 	const AUTO_INCREMENT_THRESHOLD_WITH_ROOTLINE_CACHE = 5000;
 
 	/**
-	 * @var string prefix of the extension for which this instance of the
-	 *             testing framework was instantiated (e.g. "tx_seminars")
+	 * prefix of the extension for which this instance of the testing framework
+	 * was instantiated (e.g. "tx_seminars")
+	 *
+	 * @var string
 	 */
 	protected $tablePrefix = '';
 
 	/**
-	 * @var string[] prefixes of additional extensions to which this instance
-	 *      of the testing framework has access (e.g. "tx_seminars")
+	 * prefixes of additional extensions to which this instance of the testing
+	 * framework has access (e.g. "tx_seminars")
+	 *
+	 * @var string[]
 	 */
 	protected $additionalTablePrefixes = array();
 
 	/**
-	 * @var string[] all own DB table names to which this instance of the testing framework has access
+	 * all own DB table names to which this instance of the testing framework
+	 * has access
+	 *
+	 * @var string[]
 	 */
 	protected $ownAllowedTables = array();
 
 	/**
-	 * @var string[] all additional DB table names to which this instance of the testing framework has access
+	 * all additional DB table names to which this instance of the testing
+	 * framework has access
+	 *
+	 * @var string[]
 	 */
 	protected $additionalAllowedTables = array();
 
 	/**
-	 * @var string[] all system table names to which this instance of the testing framework has access
+	 * all system table names to which this instance of the testing framework
+	 * has access
+	 *
+	 * @var string[]
 	 */
 	protected $allowedSystemTables = array(
 		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
@@ -65,17 +78,25 @@ final class Tx_Oelib_TestingFramework {
 	);
 
 	/**
-	 * @var string[] all "dirty" non-system tables (i.e. all tables that were used for testing and need to be cleaned up)
+	 * all "dirty" non-system tables (i.e. all tables that were used for testing
+	 * and need to be cleaned up)
+	 *
+	 * @var string[]
 	 */
 	protected $dirtyTables = array();
 
 	/**
-	 * @var string[] all "dirty" system tables (i.e. all tables that were used for testing and need to be cleaned up)
+	 * all "dirty" system tables (i.e. all tables that were used for testing and
+	 * need to be cleaned up)
+	 *
+	 * @var string[]
 	 */
 	protected $dirtySystemTables = array();
 
 	/**
-	 * @var array[] sorting values of all relation tables
+	 * sorting values of all relation tables
+	 *
+	 * @var array[]
 	 */
 	protected $relationSorting = array();
 
@@ -94,12 +115,18 @@ final class Tx_Oelib_TestingFramework {
 	protected $resetAutoIncrementThreshold = 0;
 
 	/**
-	 * @var string[] the names of the created dummy files relative to the upload folder of the extension to test
+	 * the names of the created dummy files relative to the upload folder of the
+	 * extension to test
+	 *
+	 * @var string[]
 	 */
 	protected $dummyFiles = array();
 
 	/**
-	 * @var string[] the names of the created dummy folders relative to the upload folder of the extension to test
+	 * the names of the created dummy folders relative to the upload folder of
+	 * the extension to test
+	 *
+	 * @var string[]
 	 */
 	protected $dummyFolders = array();
 
@@ -111,12 +138,16 @@ final class Tx_Oelib_TestingFramework {
 	protected $uploadFolderPath = '';
 
 	/**
+	 * an instance used for retrieving a unique file name
+	 *
 	 * @var t3lib_basicFileFunctions
 	 */
 	protected static $fileNameProcessor = NULL;
 
 	/**
-	 * @var bool whether a fake front end has been created
+	 * whether a fake front end has been created
+	 *
+	 * @var bool
 	 */
 	protected $hasFakeFrontEnd = FALSE;
 
@@ -1636,12 +1667,12 @@ final class Tx_Oelib_TestingFramework {
 		Tx_Oelib_Db::enableQueryLogging();
 		// Updates the auto increment index for this table. The index will be
 		// set to one UID above the highest existing UID.
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+		$dbResult = $this->getDatabaseConnection()->sql_query(
 			'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' .
 				$newAutoIncrementValue . ';'
 		);
-		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
+		if ($dbResult === FALSE) {
+			throw new tx_oelib_Exception_Database(1418586244);
 		}
 	}
 
@@ -1743,15 +1774,15 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		Tx_Oelib_Db::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+		$dbResult = $this->getDatabaseConnection()->sql_query(
 			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
 		);
-		if (!$dbResult) {
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database(1416848924);
 		}
 
-		$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult);
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		$row = $this->getDatabaseConnection()->sql_fetch_assoc($dbResult);
+		$this->getDatabaseConnection()->sql_free_result($dbResult);
 
 		$autoIncrement = $row['Auto_increment'];
 		if ($autoIncrement === NULL) {
@@ -1899,15 +1930,15 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		Tx_Oelib_Db::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
+		$dbResult = $this->getDatabaseConnection()->sql_query(
 			'UPDATE ' . $tableName . ' SET ' . $fieldName . '=' .
 			$fieldName . '+1 WHERE uid=' . $uid
 		);
-		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
+		if ($dbResult === FALSE) {
+			throw new tx_oelib_Exception_Database(1418586263);
 		}
 
-		if ($GLOBALS['TYPO3_DB']->sql_affected_rows() === 0) {
+		if ($this->getDatabaseConnection()->sql_affected_rows() === 0) {
 			throw new BadMethodCallException(
 				'The table ' . $tableName . ' does not contain a record with UID ' . $uid . '.', 1331491003
 			);
@@ -1989,5 +2020,14 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	public function hasRootlineCachePurgingFunction() {
 		return $this->hasRootlineCache() && method_exists('TYPO3\\CMS\\Core\\Utility\\RootlineUtility', 'purgeCaches');
+	}
+
+	/**
+	 * Returns $GLOBALS['TYPO3_DB'].
+	 *
+	 * @return t3lib_DB
+	 */
+	protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

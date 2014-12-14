@@ -22,30 +22,38 @@
  */
 class Tx_Oelib_Db {
 	/**
-	 * @var t3lib_pageSelect page object which we will use to call
-	 *                       enableFields on
+	 * page object which we will use to call enableFields on
+	 *
+	 * @var t3lib_pageSelect
 	 */
 	static private $pageForEnableFields = NULL;
 
 	/**
-	 * @var array[] cached results for the enableFields function
+	 * cached results for the enableFields function
+	 *
+	 * @var array[]
 	 */
 	static private $enableFieldsCache = array();
 
 	/**
 	 * @var array[] cache for the results of existsTable with the table names
-	 *              as keys and the table SHOW STATUS information (in an array) as values
+	 *            as keys and the table SHOW STATUS information (in an array)
+	 *            as values
 	 */
 	static private $tableNameCache = array();
 
 	/**
-	 * @var array[] cache for the results of hasTableColumn with the column names
-	 *              as keys and the SHOW COLUMNS field information (in an array) as values
+	 * cache for the results of hasTableColumn with the column names as keys and
+	 * the SHOW COLUMNS field information (in an array) as values
+	 *
+	 * @var array[]
 	 */
 	static private $tableColumnCache = array();
 
 	/**
-	 * @var array[] cache for all TCA arrays
+	 * cache for all TCA arrays
+	 *
+	 * @var array[]
 	 */
 	static private $tcaCache = array();
 
@@ -55,7 +63,7 @@ class Tx_Oelib_Db {
 	 * @return void
 	 */
 	static public function enableQueryLogging() {
-		$GLOBALS['TYPO3_DB']->store_lastBuiltQuery = TRUE;
+		self::getDatabaseConnection()->store_lastBuiltQuery = TRUE;
 	}
 
 	/**
@@ -172,10 +180,10 @@ class Tx_Oelib_Db {
 		);
 
 		$subPages = array();
-		while (($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult))) {
+		while (($row = self::getDatabaseConnection()->sql_fetch_assoc($dbResult))) {
 			$subPages[] = $row['uid'];
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		self::getDatabaseConnection()->sql_free_result($dbResult);
 
 		if (!empty($subPages)) {
 			$result = $startPages . ',' . self::createRecursivePageList(implode(',', $subPages), $recursionDepth - 1);
@@ -210,14 +218,14 @@ class Tx_Oelib_Db {
 		}
 
 		self::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_DELETEquery(
+		$dbResult = self::getDatabaseConnection()->exec_DELETEquery(
 			$tableName, $whereClause
 		);
 		if (!$dbResult) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		return $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		return self::getDatabaseConnection()->sql_affected_rows();
 	}
 
 	/**
@@ -241,14 +249,14 @@ class Tx_Oelib_Db {
 		}
 
 		self::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+		$dbResult = self::getDatabaseConnection()->exec_UPDATEquery(
 			$tableName, $whereClause, $fields
 		);
 		if (!$dbResult) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		return $GLOBALS['TYPO3_DB']->sql_affected_rows();
+		return self::getDatabaseConnection()->sql_affected_rows();
 	}
 
 	/**
@@ -273,14 +281,14 @@ class Tx_Oelib_Db {
 		}
 
 		self::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_INSERTquery(
+		$dbResult = self::getDatabaseConnection()->exec_INSERTquery(
 			$tableName, $recordData
 		);
 		if (!$dbResult) {
 			throw new tx_oelib_Exception_Database();
 		}
 
-		return $GLOBALS['TYPO3_DB']->sql_insert_id();
+		return self::getDatabaseConnection()->sql_insert_id();
 	}
 
 	/**
@@ -310,7 +318,7 @@ class Tx_Oelib_Db {
 		}
 
 		self::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+		$dbResult = self::getDatabaseConnection()->exec_SELECTquery(
 			$fields, $tableNames, $whereClause, $groupBy, $orderBy, $limit
 		);
 		if (!$dbResult) {
@@ -379,10 +387,10 @@ class Tx_Oelib_Db {
 			$fieldNames, $tableNames, $whereClause, $groupBy, $orderBy, $limit
 		);
 
-		while ($recordData = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($dbResult)) {
+		while ($recordData = self::getDatabaseConnection()->sql_fetch_assoc($dbResult)) {
 			$result[] = $recordData;
 		}
-		$GLOBALS['TYPO3_DB']->sql_free_result($dbResult);
+		self::getDatabaseConnection()->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -538,7 +546,7 @@ class Tx_Oelib_Db {
 			return;
 		}
 
-		self::$tableNameCache = $GLOBALS['TYPO3_DB']->admin_get_tables();
+		self::$tableNameCache = self::getDatabaseConnection()->admin_get_tables();
 	}
 
 	/**
@@ -612,8 +620,7 @@ class Tx_Oelib_Db {
 				throw new BadMethodCallException('The table "' . $table . '" does not exist.', 1331488327);
 			}
 
-			self::$tableColumnCache[$table] =
-				$GLOBALS['TYPO3_DB']->admin_get_fields($table);
+			self::$tableColumnCache[$table] = self::getDatabaseConnection()->admin_get_fields($table);
 		}
 	}
 
@@ -680,5 +687,14 @@ class Tx_Oelib_Db {
 		self::$tcaCache[$tableName] = $GLOBALS['TCA'][$tableName];
 
 		return self::$tcaCache[$tableName];
+	}
+
+	/**
+	 * Returns $GLOBALS['TYPO3_DB'].
+	 *
+	 * @return t3lib_DB
+	 */
+	static protected function getDatabaseConnection() {
+		return $GLOBALS['TYPO3_DB'];
 	}
 }

@@ -27,7 +27,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */
-	protected $subject;
+	protected $subject = NULL;
 
 	/**
 	 * @var string absolute path to a "foreign" file which was created for test
@@ -58,23 +58,19 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $t3VarBackup = array();
 
-	public function setUp() {
+	protected function setUp() {
 		$this->extConfBackup = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'];
 		$this->t3VarBackup = $GLOBALS['T3_VAR']['getUserObj'];
 
-		$this->subject = new Tx_Oelib_TestingFramework(
-			'tx_oelib', array('user_oelibtest')
-		);
+		$this->subject = new Tx_Oelib_TestingFramework('tx_oelib', array('user_oelibtest'));
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->subject->setResetAutoIncrementThreshold(1);
 		$this->subject->cleanUp();
 		$this->subject->purgeHooks();
 		$this->deleteForeignFile();
 		$this->deleteForeignFolder();
-
-		unset($this->subject);
 
 		$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'] = $this->extConfBackup;
 		$GLOBALS['T3_VAR']['getUserObj'] = $this->t3VarBackup;
@@ -1463,11 +1459,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAutoIncrementReturnsOneForTruncatedTable() {
 		Tx_Oelib_Db::enableQueryLogging();
-		$dbResult = $GLOBALS['TYPO3_DB']->sql_query(
-			'TRUNCATE TABLE tx_oelib_test;'
-		);
+		/** @var t3lib_DB $databaseConnection */
+		$databaseConnection = $GLOBALS['TYPO3_DB'];
+		$dbResult = $databaseConnection->sql_query('TRUNCATE TABLE tx_oelib_test;');
 		if (!$dbResult) {
-			throw new tx_oelib_Exception_Database();
+			throw new tx_oelib_Exception_Database(1418586819);
 		}
 
 		$this->assertSame(

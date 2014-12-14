@@ -31,10 +31,13 @@ class tx_oelib_Exception_Database extends Exception {
 	 * @param int $code error code, must be >= 0
 	 */
 	public function __construct($code = 0) {
-		$message = 'There was an error with the database query.' . LF . $GLOBALS['TYPO3_DB']->sql_error();
+		/** @var t3lib_DB $databaseConnection */
+		$databaseConnection = $GLOBALS['TYPO3_DB'];
 
-		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery || $GLOBALS['TYPO3_DB']->debugOutput) {
-			$message .= LF . 'The last built query:' . LF . $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+		$message = 'There was an error with the database query.' . LF . $databaseConnection->sql_error();
+
+		if ($databaseConnection->store_lastBuiltQuery || $databaseConnection->debugOutput) {
+			$message .= LF . 'The last built query:' . LF . $databaseConnection->debug_lastBuiltQuery;
 		}
 
 		parent::__construct($message, $code);
