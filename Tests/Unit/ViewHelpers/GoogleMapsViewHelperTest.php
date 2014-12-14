@@ -31,7 +31,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 	 */
 	private $mapPointWithCoordinates = NULL;
 
-	public function setUp() {
+	protected function setUp() {
 		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array('dummy'), array(), '', FALSE);
 		$this->mapPointWithCoordinates = $this->getMock('tx_oelib_Interface_MapPoint');
 		$this->mapPointWithCoordinates->expects($this->any())->method('hasGeoCoordinates')->will($this->returnValue(TRUE));
@@ -41,7 +41,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->subject = new Tx_Oelib_ViewHelpers_GoogleMapsViewHelper();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject, $GLOBALS['TSFE'], $this->mapPointWithCoordinates);
 	}
 

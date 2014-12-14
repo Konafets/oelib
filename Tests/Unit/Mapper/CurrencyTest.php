@@ -26,11 +26,11 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new tx_oelib_Mapper_Currency();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

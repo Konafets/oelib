@@ -32,14 +32,14 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	private $testingFramework;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
 		$this->subject = new Tx_Oelib_TestingSalutationSwitcher(array());
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->subject, $this->testingFramework);

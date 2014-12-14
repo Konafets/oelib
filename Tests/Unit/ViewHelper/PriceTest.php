@@ -27,11 +27,11 @@ class Tx_Oelib_ViewHelper_PriceTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new tx_oelib_ViewHelper_Price();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

@@ -35,7 +35,7 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $deprecationLogEnabledBackup = FALSE;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
@@ -45,7 +45,7 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Tests_Unit_Fixtures_TestingMapper');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		Tx_Oelib_MapperRegistry::purgeInstance();

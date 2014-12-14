@@ -27,11 +27,11 @@ class Tx_Oelib_TemplateTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $subject = NULL;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new Tx_Oelib_Template();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

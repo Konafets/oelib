@@ -31,13 +31,13 @@ class Tx_Oelib_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		$this->subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->subject, $this->testingFramework);

@@ -21,10 +21,10 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
 class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
-	public function setUp() {
+	protected function setUp() {
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		Tx_Oelib_MapperRegistry::purgeInstance();
 	}
 

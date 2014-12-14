@@ -36,13 +36,13 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	private $deprecationLogEnabledBackup = FALSE;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
 		$this->subject = new Tx_Oelib_List();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject, $this->modelStorage);
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;

@@ -26,11 +26,11 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = tx_oelib_Geocoding_Google::getInstance();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		tx_oelib_Geocoding_Google::purgeInstance();
 		unset($this->subject);
 	}

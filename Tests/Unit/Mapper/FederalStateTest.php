@@ -26,11 +26,11 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject = NULL;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new tx_oelib_Mapper_FederalState();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

@@ -26,11 +26,11 @@ class Tx_Oelib_ConfigurationRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	private $testingFramework;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		unset($this->testingFramework);

@@ -21,10 +21,10 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
-	public function setUp() {
+	protected function setUp() {
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 	}
 
 

@@ -26,11 +26,11 @@ class Tx_Oelib_MailTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject = NULL;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new Tx_Oelib_Mail();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

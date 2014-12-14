@@ -21,9 +21,9 @@
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class Tx_Oelib_PhpMyAdminTest extends Tx_Phpunit_TestCase {
-	public function setUp() {}
+	protected function setUp() {}
 
-	public function tearDown() {}
+	protected function tearDown() {}
 
 
 	///////////////////////////////////////////////////////

@@ -27,11 +27,11 @@ class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new Tx_Oelib_Model_BackEndUserGroup();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 

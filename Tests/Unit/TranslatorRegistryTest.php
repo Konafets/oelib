@@ -32,7 +32,7 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $backEndUserBackup = NULL;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		$this->backEndUserBackup = $GLOBALS['BE_USER'];
@@ -49,7 +49,7 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$configurationRegistry->set('plugin.tx_oelib._LOCAL_LANG.fr', new Tx_Oelib_Configuration());
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		$this->testingFramework->cleanUp();
 
 		$GLOBALS['BE_USER'] = $this->backEndUserBackup;

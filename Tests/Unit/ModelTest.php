@@ -27,11 +27,11 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	public function setUp() {
+	protected function setUp() {
 		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 	}
 
-	public function tearDown() {
+	protected function tearDown() {
 		unset($this->subject);
 	}
 
