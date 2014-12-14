@@ -248,7 +248,7 @@ class Tx_Oelib_Template {
 
 	/**
 	 * Sets a marker based on whether the (integer) content is non-zero.
-	 * If intval($content) is non-zero, this function sets the marker's content, working
+	 * If (int)$content is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
 	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
@@ -470,10 +470,10 @@ class Tx_Oelib_Template {
 	/**
 	 * Sets or hides a marker based on whether the (integer) content is
 	 * non-zero.
-	 * If intval($content) is non-zero, this function sets the marker's content,
+	 * If (int)$content is non-zero, this function sets the marker's content,
 	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
-	 * If intval($condition) is zero, this function removes the wrapping
+	 * If (int)$condition is zero, this function removes the wrapping
 	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
 	 * @param string $markerName

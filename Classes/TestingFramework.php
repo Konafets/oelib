@@ -636,12 +636,12 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		// Checks that the two given UIDs are valid.
-		if (intval($uidLocal) <= 0) {
+		if ((int)$uidLocal <= 0) {
 			throw new InvalidArgumentException(
 				'$uidLocal must be an integer > 0, but actually is "' . $uidLocal . '"', 1331490370
 			);
 		}
-		if  (intval($uidForeign) <= 0) {
+		if  ((int)$uidForeign <= 0) {
 			throw new InvalidArgumentException(
 				'$uidForeign must be an integer > 0, but actually is "' . $uidForeign . '"', 1331490378
 			);
@@ -1300,7 +1300,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @throws BadMethodCallException if no front end has been created
 	 */
 	public function loginFrontEndUser($userId) {
-		if (intval($userId) <= 0) {
+		if ((int)$userId <= 0) {
 			throw new InvalidArgumentException('The user ID must be > 0.', 1331490798);
 		}
 		if (!$this->hasFakeFrontEnd()) {
@@ -1761,7 +1761,7 @@ final class Tx_Oelib_TestingFramework {
 			);
 		}
 
-		return intval($autoIncrement);
+		return (int)$autoIncrement;
 	}
 
 	/**

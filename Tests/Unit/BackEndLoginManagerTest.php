@@ -149,7 +149,7 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
 		$this->assertSame(
-			intval($GLOBALS['BE_USER']->user['uid']),
+			(int)$GLOBALS['BE_USER']->user['uid'],
 			$this->subject->getLoggedInUser()->getUid()
 		);
 	}

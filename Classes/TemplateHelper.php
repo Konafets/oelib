@@ -333,11 +333,11 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
 	 *
-	 * @return int the intvaled value of the corresponding flexforms or
+	 * @return int the int value of the corresponding flexforms or
 	 *                 TS setup entry
 	 */
 	public function getConfValueInteger($fieldName, $sheet = 'sDEF') {
-		return intval($this->getConfValue($fieldName, $sheet));
+		return (int)$this->getConfValue($fieldName, $sheet);
 	}
 
 	/**
@@ -603,7 +603,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 
 	/**
 	 * Sets a marker based on whether the (integer) content is non-zero.
-	 * If intval($content) is non-zero, this function sets the marker's content, working
+	 * If (int)$content is non-zero, this function sets the marker's content, working
 	 * exactly like setMarker($markerName, $content, $markerPrefix).
 	 *
 	 * @param string $markerName the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
@@ -792,10 +792,10 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * Sets or hides a marker based on whether the (integer) content is
 	 * non-zero.
-	 * If intval($content) is non-zero, this function sets the marker's content,
+	 * If (int)$content is non-zero, this function sets the marker's content,
 	 * working exactly like setMarker($markerName, $content,
 	 * $markerPrefix).
-	 * If intval($condition) is zero, this function removes the wrapping
+	 * If (int)$condition is zero, this function removes the wrapping
 	 * subpart, working exactly like hideSubparts($markerName, $wrapperPrefix).
 	 *
 	 * @param string $markerName
@@ -1024,7 +1024,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * function will set the not yet existing piVars to zero.
 	 *
 	 * @param string[] $additionalPiVars
-	 *        keys for $this->piVars that will be ensured to exist intvaled in $this->piVars as well, may be empty
+	 *        keys for $this->piVars that will be ensured to exist as ints in $this->piVars as well, may be empty
 	 *
 	 * @return void
 	 */
@@ -1037,7 +1037,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			array('showUid', 'pointer', 'mode'), $additionalPiVars
 		) as $key) {
 			if (isset($this->piVars[$key])) {
-				$this->piVars[$key] = intval($this->piVars[$key]);
+				$this->piVars[$key] = (int)$this->piVars[$key];
 			} else {
 				$this->piVars[$key] = 0;
 			}
@@ -1045,7 +1045,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
-	 * Ensures that all values in the given array are intvaled and removes empty
+	 * Ensures that all values in the given array are cast to ints and removes empty
 	 * or invalid values.
 	 *
 	 * @param string[] $keys the keys of the piVars to check, may be empty
@@ -1065,7 +1065,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			}
 
 			foreach ($this->piVars[$key] as $innerKey => $value) {
-				$integerValue = intval($value);
+				$integerValue = (int)$value;
 
 				if ($integerValue === 0) {
 					unset($this->piVars[$key][$innerKey]);
@@ -1189,7 +1189,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *                 zero if the value was not set
 	 */
 	public function getListViewConfValueInteger($fieldName) {
-		return intval($this->getListViewConfigurationValue($fieldName));
+		return (int)$this->getListViewConfigurationValue($fieldName);
 	}
 
 	/**

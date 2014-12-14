@@ -366,8 +366,7 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	private function isManyToOneRelationConfigured($key) {
 		$relationConfiguration = $this->getRelationConfigurationFromTca($key);
-		$cardinality = (isset($relationConfiguration['maxitems']))
-			? intval($relationConfiguration['maxitems']) : 1;
+		$cardinality = (isset($relationConfiguration['maxitems'])) ? (int)$relationConfiguration['maxitems'] : 1;
 
 		return ($cardinality === 1);
 	}
@@ -438,7 +437,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return void
 	 */
 	private function createManyToOneRelation(array &$data, $key) {
-		$uid = isset($data[$key]) ? intval($data[$key]) : 0;
+		$uid = isset($data[$key]) ? (int)$data[$key] : 0;
 
 		$data[$key] = ($uid > 0)
 			? Tx_Oelib_MapperRegistry::get($this->relations[$key])->find($uid)

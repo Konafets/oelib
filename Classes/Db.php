@@ -98,7 +98,7 @@ class Tx_Oelib_Db {
 		// maps $showHidden (-1..1) to (0..2) which ensures valid array keys
 		$showHiddenKey = (string)($intShowHidden + 1);
 		$ignoresKey = serialize($ignoreArray);
-		$previewKey = intval($noVersionPreview);
+		$previewKey = (int)$noVersionPreview;
 		if (!isset(self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey]) ) {
 			self::retrievePageForEnableFields();
 			self::$enableFieldsCache[$table][$showHiddenKey][$ignoresKey][$previewKey]
@@ -445,7 +445,7 @@ class Tx_Oelib_Db {
 			'COUNT(' . $columns . ') AS oelib_counter', $tableNames, $whereClause
 		);
 
-		return intval($result['oelib_counter']);
+		return (int)$result['oelib_counter'];
 	}
 
 	/**

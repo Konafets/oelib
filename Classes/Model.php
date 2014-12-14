@@ -351,7 +351,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 *                 not have a UID yet
 	 */
 	public function getUid() {
-		return intval($this->uid);
+		return (int)$this->uid;
 	}
 
 	/**

@@ -595,12 +595,12 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 		$currentTimestamp = $GLOBALS['EXEC_TIME'];
 		$birthTimestamp = $this->getDateOfBirth();
 
-		$currentYear = intval(strftime('%Y', $currentTimestamp));
-		$currentMonth = intval(strftime('%m', $currentTimestamp));
-		$currentDay = intval(strftime('%d', $currentTimestamp));
-		$birthYear = intval(strftime('%Y', $birthTimestamp));
-		$birthMonth = intval(strftime('%m', $birthTimestamp));
-		$birthDay = intval(strftime('%d', $birthTimestamp));
+		$currentYear = (int)strftime('%Y', $currentTimestamp);
+		$currentMonth = (int)strftime('%m', $currentTimestamp);
+		$currentDay = (int)strftime('%d', $currentTimestamp);
+		$birthYear = (int)strftime('%Y', $birthTimestamp);
+		$birthMonth = (int)strftime('%m', $birthTimestamp);
+		$birthDay = (int)strftime('%d', $birthTimestamp);
 
 		$age = $currentYear - $birthYear;
 

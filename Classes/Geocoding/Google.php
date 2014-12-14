@@ -144,8 +144,8 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 			$coordinates = $resultParts['results'][0]['geometry']['location'];
 			$geoObject->setGeoCoordinates(
 				array(
-					'latitude' => floatval($coordinates['lat']),
-					'longitude' => floatval($coordinates['lng']),
+					'latitude' => (float)$coordinates['lat'],
+					'longitude' => (float)$coordinates['lng'],
 				)
 			);
 		} else {

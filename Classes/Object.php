@@ -107,7 +107,7 @@ abstract class Tx_Oelib_Object {
 	protected function getAsInteger($key) {
 		$this->checkForNonEmptyKey($key);
 
-		return intval($this->get($key));
+		return (int)$this->get($key);
 	}
 
 	/**
@@ -133,7 +133,7 @@ abstract class Tx_Oelib_Object {
 	protected function setAsInteger($key, $value) {
 		$this->checkForNonEmptyKey($key);
 
-		$this->set($key, intval($value));
+		$this->set($key, (int)$value);
 	}
 
 	/**

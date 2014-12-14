@@ -96,10 +96,10 @@ class Tx_Oelib_PageFinder {
 				$result = $this->storedPageUid;
 				break;
 			case self::SOURCE_FRONT_END:
-				$result = intval($GLOBALS['TSFE']->id);
+				$result = (int)$GLOBALS['TSFE']->id;
 				break;
 			case self::SOURCE_BACK_END:
-				$result = intval(t3lib_div::_GP('id'));
+				$result = (int)t3lib_div::_GP('id');
 				break;
 			default:
 				$result = 0;
@@ -175,7 +175,7 @@ class Tx_Oelib_PageFinder {
 	 * @return bool TRUE if a back-end page UID has been set, FALSE otherwise
 	 */
 	private function hasBackEnd() {
-		return (intval(t3lib_div::_GP('id')) > 0);
+		return (int)t3lib_div::_GP('id') > 0;
 	}
 
 	/**
