@@ -1,7 +1,5 @@
 <?php
-if (!defined('TYPO3_MODE')) {
-	die('Access denied.');
-}
+defined('TYPO3_MODE') or die('Access denied.');
 
 $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/oelib/Tests/Unit/Fixtures/Empty.php']
 	= t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/Xclass/Empty.php';
