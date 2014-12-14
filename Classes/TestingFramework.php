@@ -116,7 +116,7 @@ final class Tx_Oelib_TestingFramework {
 	protected static $fileNameProcessor = NULL;
 
 	/**
-	 * @var boolean whether a fake front end has been created
+	 * @var bool whether a fake front end has been created
 	 */
 	protected $hasFakeFrontEnd = FALSE;
 
@@ -130,7 +130,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * whether the hooks in self::hooks have been retrieved
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	protected static $hooksHaveBeenRetrieved = FALSE;
 
@@ -207,7 +207,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the new record, may be empty, but must not contain the key "uid"
 	 *
-	 * @return integer the UID of the new record, will be > 0
+	 * @return int the UID of the new record, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -240,7 +240,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the new record, may be empty, but must not contain the key "uid"
 	 *
-	 * @return integer the UID of the new record, will be > 0
+	 * @return int the UID of the new record, will be > 0
 	 */
 	protected function createRecordWithoutTableNameChecks(
 		$table, array $recordData
@@ -261,13 +261,13 @@ final class Tx_Oelib_TestingFramework {
 	 * Creates a front-end page on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param integer $parentId
+	 * @param int $parentId
 	 *        UID of the page on which the page should be created
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the new page,
 	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
-	 * @return integer the UID of the new page, will be > 0
+	 * @return int the UID of the new page, will be > 0
 	 */
 	public function createFrontEndPage(
 		$parentId = 0, array $recordData = array()
@@ -279,13 +279,13 @@ final class Tx_Oelib_TestingFramework {
 	 * Creates a system folder on the page with the UID given by the first
 	 * parameter $parentId.
 	 *
-	 * @param integer $parentId
+	 * @param int $parentId
 	 *        UID of the page on which the system folder should be created
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the new page,
 	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
-	 * @return integer the UID of the new system folder, will be > 0
+	 * @return int the UID of the new system folder, will be > 0
 	 */
 	public function createSystemFolder(
 		$parentId = 0, array $recordData = array()
@@ -300,15 +300,15 @@ final class Tx_Oelib_TestingFramework {
 	 * The record will be created on the page with the UID given by the second
 	 * parameter $parentId.
 	 *
-	 * @param integer $documentType
+	 * @param int $documentType
 	 *        document type of the record to create, must be > 0
-	 * @param integer $parentId
+	 * @param int $parentId
 	 *        UID of the page on which the record should be created
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the record,
 	 *        may be empty, but must not contain the keys "uid", "pid" or "doktype"
 	 *
-	 * @return integer the UID of the new record, will be > 0
+	 * @return int the UID of the new record, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -342,13 +342,13 @@ final class Tx_Oelib_TestingFramework {
 	 * element's type can be overwritten by setting the key 'CType' in the
 	 * parameter $recordData.
 	 *
-	 * @param integer $pageId
+	 * @param int $pageId
 	 *        UID of the page on which the content element should be created
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the content element,
 	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
-	 * @return integer the UID of the new content element, will be > 0
+	 * @return int the UID of the new content element, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -377,13 +377,13 @@ final class Tx_Oelib_TestingFramework {
 	 * Creates a template on the page with the UID given by the first parameter
 	 * $pageId.
 	 *
-	 * @param integer $pageId
+	 * @param int $pageId
 	 *        UID of the page on which the template should be created, must be > 0
 	 * @param array $recordData
 	 *        associative array that contains the data to save in the new template,
 	 *        may be empty, but must not contain the keys "uid" or "pid"
 	 *
-	 * @return integer the UID of the new template, will be > 0
+	 * @return int the UID of the new template, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -415,7 +415,7 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new user group record,
 	 *        may be empty, but must not contain the key "uid"
 	 *
-	 * @return integer the UID of the new user group, will be > 0
+	 * @return int the UID of the new user group, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -439,7 +439,7 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new user record,
 	 *        may be empty, but must not contain the keys "uid" or "usergroup"
 	 *
-	 * @return integer the UID of the new FE user, will be > 0
+	 * @return int the UID of the new FE user, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -482,7 +482,7 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new user record,
 	 *        may be empty, but must not contain the keys "uid" or "usergroup"
 	 *
-	 * @return integer the UID of the new FE user, will be > 0
+	 * @return int the UID of the new FE user, will be > 0
 	 */
 	public function createAndLoginFrontEndUser(
 		$frontEndUserGroups = '', array $recordData = array()
@@ -503,7 +503,7 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new user record,
 	 *        may be empty, but must not contain the key "uid"
 	 *
-	 * @return integer the UID of the new BE user, will be > 0
+	 * @return int the UID of the new BE user, will be > 0
 	 */
 	public function createBackEndUser(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
@@ -522,7 +522,7 @@ final class Tx_Oelib_TestingFramework {
 	 *        associative array that contains the data to save in the new user
 	 *        group record, may be empty, but must not contain the key "uid"
 	 *
-	 * @return integer the UID of the new user group, will be > 0
+	 * @return int the UID of the new user group, will be > 0
 	 */
 	public function createBackEndUserGroup(array $recordData = array()) {
 		if (isset($recordData['uid'])) {
@@ -544,7 +544,7 @@ final class Tx_Oelib_TestingFramework {
 	 * you have to create a new record!
 	 *
 	 * @param string $table the name of the table, must not be empty
-	 * @param integer $uid the UID of the record to change, must not be empty
+	 * @param int $uid the UID of the record to change, must not be empty
 	 * @param array $recordData
 	 *        associative array containing key => value pairs for those fields of the record that need to be changed,
 	 *        must not be empty
@@ -597,7 +597,7 @@ final class Tx_Oelib_TestingFramework {
 	 * UID, it won't be deleted.
 	 *
 	 * @param string $table name of the table from which the record should be deleted, must not be empty
-	 * @param integer $uid UID of the record to delete, must be > 0
+	 * @param int $uid UID of the record to delete, must be > 0
 	 *
 	 * @return void
 	 *
@@ -620,9 +620,9 @@ final class Tx_Oelib_TestingFramework {
 	 * m:n relation).
 	 *
 	 * @param string $table name of the m:n table to which the record should be added, must not be empty
-	 * @param integer $uidLocal UID of the local table, must be > 0
-	 * @param integer $uidForeign UID of the foreign table, must be > 0
-	 * @param integer $sorting
+	 * @param int $uidLocal UID of the local table, must be > 0
+	 * @param int $uidForeign UID of the foreign table, must be > 0
+	 * @param int $sorting
 	 *        sorting value of the relation, the default value is 0, which enables automatic sorting,
 	 *        a value >= 0 overwrites the automatic sorting
 	 *
@@ -667,8 +667,8 @@ final class Tx_Oelib_TestingFramework {
 	 * regarding the relation.
 	 *
 	 * @param string $tableName name of the table from which a relation should be created, must not be empty
-	 * @param integer $uidLocal UID of the record in the local table, must be > 0
-	 * @param integer $uidForeign UID of the record in the foreign table, must be > 0
+	 * @param int $uidLocal UID of the record in the local table, must be > 0
+	 * @param int $uidForeign UID of the record in the foreign table, must be > 0
 	 * @param string $columnName name of the column in which the relation counter should be updated, must not be empty
 	 *
 	 * @return void
@@ -729,8 +729,8 @@ final class Tx_Oelib_TestingFramework {
 	 * foreign UID, it won't be deleted!
 	 *
 	 * @param string $table name of the table from which the record should be deleted, must not be empty
-	 * @param integer $uidLocal UID on the local table, must be > 0
-	 * @param integer $uidForeign UID on the foreign table, must be > 0
+	 * @param int $uidLocal UID on the local table, must be > 0
+	 * @param int $uidForeign UID on the foreign table, must be > 0
 	 *
 	 * @return void
 	 *
@@ -759,7 +759,7 @@ final class Tx_Oelib_TestingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
+	 * @param bool $performDeepCleanUp whether a deep clean up should be performed, may be empty
 	 *
 	 * @return void
 	 */
@@ -792,8 +792,8 @@ final class Tx_Oelib_TestingFramework {
 	 * consider well, whether you want to do this as it's a huge performance
 	 * issue.
 	 *
-	 * @param boolean $useSystemTables whether to clean up the system tables (TRUE) or the non-system test tables (FALSE)
-	 * @param boolean $performDeepCleanUp whether a deep clean up should be performed, may be empty
+	 * @param bool $useSystemTables whether to clean up the system tables (TRUE) or the non-system test tables (FALSE)
+	 * @param bool $performDeepCleanUp whether a deep clean up should be performed, may be empty
 	 *
 	 * @return void
 	 */
@@ -1170,9 +1170,9 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @throws InvalidArgumentException if $pageUid is < 0
 	 *
-	 * @param integer $pageUid UID of a page record to use, must be >= 0
+	 * @param int $pageUid UID of a page record to use, must be >= 0
 	 *
-	 * @return integer the UID of the used front-end page, will be > 0
+	 * @return int the UID of the used front-end page, will be > 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -1255,7 +1255,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Returns whether this testing framework instance has a fake front end.
 	 *
-	 * @return boolean TRUE if this instance has a fake front end, FALSE
+	 * @return bool TRUE if this instance has a fake front end, FALSE
 	 *                 otherwise
 	 */
 	public function hasFakeFrontEnd() {
@@ -1292,7 +1292,7 @@ final class Tx_Oelib_TestingFramework {
 	 * Note: To set the logged-in users group data properly, the front-end user
 	 *       and his groups must actually exist in the database.
 	 *
-	 * @param integer $userId UID of the FE user, must not necessarily exist in the database, must be > 0
+	 * @param int $userId UID of the FE user, must not necessarily exist in the database, must be > 0
 	 *
 	 * @return void
 	 *
@@ -1363,7 +1363,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @throws BadMethodCallException if no front end has been created
 	 *
-	 * @return boolean TRUE if a FE user is logged in, FALSE otherwise
+	 * @return bool TRUE if a FE user is logged in, FALSE otherwise
 	 *
 	 * @throws BadMethodCallException
 	 */
@@ -1441,7 +1441,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if the name of the table is in the list of
+	 * @return bool TRUE if the name of the table is in the list of
 	 *                 allowed tables, FALSE otherwise
 	 */
 	protected function isOwnTableNameAllowed($table) {
@@ -1454,7 +1454,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if the name of the table is in the list of
+	 * @return bool TRUE if the name of the table is in the list of
 	 *                 additional allowed tables, FALSE otherwise
 	 */
 	protected function isAdditionalTableNameAllowed($table) {
@@ -1467,7 +1467,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if the name of the table is in the list of
+	 * @return bool TRUE if the name of the table is in the list of
 	 *                 allowed system tables, FALSE otherwise
 	 */
 	protected function isSystemTableNameAllowed($table) {
@@ -1480,7 +1480,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if the name of the table is in the list of
+	 * @return bool TRUE if the name of the table is in the list of
 	 *                 allowed tables or additional allowed tables, FALSE
 	 *                 otherwise
 	 */
@@ -1495,7 +1495,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if the name of the table is in the list of
+	 * @return bool TRUE if the name of the table is in the list of
 	 *                 allowed tables, additional allowed tables or allowed
 	 *                 system tables, FALSE otherwise
 	 */
@@ -1537,7 +1537,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $table the name of the table to query, must not be empty
 	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
-	 * @return integer the number of records that have been found, will be >= 0
+	 * @return int the number of records that have been found, will be >= 0
 	 *
 	 * @throws InvalidArgumentException
 	 */
@@ -1564,7 +1564,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $table the name of the table to query, must not be empty
 	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
-	 * @return boolean TRUE if there is at least one matching record,
+	 * @return bool TRUE if there is at least one matching record,
 	 *                 FALSE otherwise
 	 */
 	public function existsRecord($table, $whereClause = '') {
@@ -1576,9 +1576,9 @@ final class Tx_Oelib_TestingFramework {
 	 * parameter $table that has the given UID.
 	 *
 	 * @param string $table the name of the table to query, must not be empty
-	 * @param integer $uid the UID of the record to look up, must be > 0
+	 * @param int $uid the UID of the record to look up, must be > 0
 	 *
-	 * @return boolean TRUE if there is a matching record, FALSE otherwise
+	 * @return bool TRUE if there is a matching record, FALSE otherwise
 	 */
 	public function existsRecordWithUid($table, $uid) {
 		if ($uid <= 0) {
@@ -1595,7 +1595,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @param string $table the name of the table to query, must not be empty
 	 * @param string $whereClause the WHERE part of the query, may be empty (all records will be counted in that case)
 	 *
-	 * @return boolean TRUE if there is exactly one matching record,
+	 * @return bool TRUE if there is exactly one matching record,
 	 *                 FALSE otherwise
 	 */
 	public function existsExactlyOneRecord($table, $whereClause = '') {
@@ -1686,7 +1686,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * Sets the threshold for resetAutoIncrementLazily.
 	 *
-	 * @param integer $threshold threshold, must be > 0
+	 * @param int $threshold threshold, must be > 0
 	 *
 	 * @return void
 	 *
@@ -1711,7 +1711,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of an existing table that has the "uid" column
 	 *
-	 * @return integer the highest UID from this table, will be >= 0
+	 * @return int the highest UID from this table, will be >= 0
 	 */
 	protected function getMaximumUidFromTable($table) {
 		$row = Tx_Oelib_Db::selectSingle(
@@ -1729,7 +1729,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @param string $table the name of the table for which the auto increment value should be retrieved, must not be empty
 	 *
-	 * @return integer the current auto_increment value of table $table, will be > 0
+	 * @return int the current auto_increment value of table $table, will be > 0
 	 *
 	 * @throws tx_oelib_Exception_Database
 	 * @throws InvalidArgumentException
@@ -1841,9 +1841,9 @@ final class Tx_Oelib_TestingFramework {
 	 * @see https://bugs.oliverklee.com/show_bug.cgi?id=1423
 	 *
 	 * @param string $table the relation table, must not be empty
-	 * @param integer $uidLocal UID of the local table, must be > 0
+	 * @param int $uidLocal UID of the local table, must be > 0
 	 *
-	 * @return integer the next sorting value to use (> 0)
+	 * @return int the next sorting value to use (> 0)
 	 */
 	public function getRelationSorting($table, $uidLocal) {
 		if (!$this->relationSorting[$table][$uidLocal]) {
@@ -1877,7 +1877,7 @@ final class Tx_Oelib_TestingFramework {
 	 * The field to update must be of type integer.
 	 *
 	 * @param string $tableName name of the table, must not be empty
-	 * @param integer $uid the UID of the record to modify, must be > 0
+	 * @param int $uid the UID of the record to modify, must be > 0
 	 * @param string $fieldName the field name of the field to modify, must not be empty
 	 *
 	 * @return void

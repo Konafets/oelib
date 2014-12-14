@@ -72,7 +72,7 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * Checks whether any front-end user is logged in (and whether a front end
 	 * exists at all).
 	 *
-	 * @return boolean TRUE if a front end exists and a front-end user is logged
+	 * @return bool TRUE if a front end exists and a front-end user is logged
 	 *                 in, FALSE otherwise
 	 */
 	public function isLoggedIn() {

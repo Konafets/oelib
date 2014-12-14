@@ -24,7 +24,7 @@ interface tx_oelib_Interface_Identity {
 	/**
 	 * Gets this object's UID.
 	 *
-	 * @return integer
+	 * @return int
 	 *         this object's UID, will be zero if this object does not have a UID yet
 	 */
 	public function getUid();
@@ -32,7 +32,7 @@ interface tx_oelib_Interface_Identity {
 	/**
 	 * Checks whether this object has a UID.
 	 *
-	 * @return boolean TRUE if this object has a non-zero UID, FALSE otherwise
+	 * @return bool TRUE if this object has a non-zero UID, FALSE otherwise
 	 */
 	public function hasUid();
 
@@ -41,7 +41,7 @@ interface tx_oelib_Interface_Identity {
 	 *
 	 * This function may only be called on objects that do not have a UID yet.
 	 *
-	 * @param integer $uid the UID to set, must be > 0
+	 * @param int $uid the UID to set, must be > 0
 	 *
 	 * @return void
 	 */

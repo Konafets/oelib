@@ -71,7 +71,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @param string $table
 	 *        table name found in the $TCA array
-	 * @param integer $showHidden
+	 * @param int $showHidden
 	 *        If $showHidden is set (0/1), any hidden-fields in records are ignored.
 	 *        NOTICE: If you call this function, consider what to do with the show_hidden parameter.
 	 *        Maybe it should be set? See tslib_cObj->enableFields where it's implemented correctly.
@@ -79,7 +79,7 @@ class Tx_Oelib_Db {
 	 *        Array you can pass where keys can be "disabled", "starttime", "endtime", "fe_group" (keys from "enablefields" in
 	 *        TCA) and if set they will make sure that part of the clause is not added. Thus disables the specific part of the
 	 *        clause. For previewing etc.
-	 * @param boolean $noVersionPreview
+	 * @param bool $noVersionPreview
 	 *        If set, enableFields will be applied regardless of any versioning preview settings which might otherwise disable
 	 *        enableFields.
 	 *
@@ -143,7 +143,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @param string $startPages
 	 *        comma-separated list of page UIDs to start from, must only contain numbers and commas, may be empty
-	 * @param integer $recursionDepth
+	 * @param int $recursionDepth
 	 *        maximum depth of recursion, must be >= 0
 	 *
 	 * @return string comma-separated list of subpage UIDs including the
@@ -199,7 +199,7 @@ class Tx_Oelib_Db {
 	 * @param string $whereClause
 	 *        the WHERE clause to select the records, may be empty
 	 *
-	 * @return integer the number of affected rows, might be 0
+	 * @return int the number of affected rows, might be 0
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws tx_oelib_Exception_Database if an error has occurred
@@ -230,7 +230,7 @@ class Tx_Oelib_Db {
 	 * @param array $fields
 	 *        key/value pairs of the fields to change, may be empty
 	 *
-	 * @return integer the number of affected rows, might be 0
+	 * @return int the number of affected rows, might be 0
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws tx_oelib_Exception_Database if an error has occurred
@@ -259,7 +259,7 @@ class Tx_Oelib_Db {
 	 * @param array $recordData
 	 *        key/value pairs of the record to insert, must not be empty
 	 *
-	 * @return integer the UID of the created record, will be 0 if the table has no UID column
+	 * @return int the UID of the created record, will be 0 if the table has no UID column
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws tx_oelib_Exception_Database if an error has occurred
@@ -332,7 +332,7 @@ class Tx_Oelib_Db {
 	 * @param string $whereClause WHERE clause, may be empty
 	 * @param string $groupBy GROUP BY field(s), may be empty
 	 * @param string $orderBy ORDER BY field(s), may be empty
-	 * @param integer $offset the offset to start the result for, must be >= 0
+	 * @param int $offset the offset to start the result for, must be >= 0
 	 *
 	 * @return string[] the single result row, will not be empty
 	 *
@@ -429,7 +429,7 @@ class Tx_Oelib_Db {
 	 *        also be a JOIN, must not be empty
 	 * @param string $whereClause WHERE clause, may be empty
 	 *
-	 * @return integer the number of matching records, will be >= 0
+	 * @return int the number of matching records, will be >= 0
 	 */
 	static public function count($tableNames, $whereClause = '') {
 		$isOnlyOneTable = ((strpos($tableNames, ',') === FALSE)
@@ -457,7 +457,7 @@ class Tx_Oelib_Db {
 	 *        the WHERE part of the query, may be empty (all records will be
 	 *        counted in that case)
 	 *
-	 * @return boolean TRUE if there is at least one matching record,
+	 * @return bool TRUE if there is at least one matching record,
 	 *                 FALSE otherwise
 	 */
 	static public function existsRecord($table, $whereClause = '') {
@@ -473,7 +473,7 @@ class Tx_Oelib_Db {
 	 *        the WHERE part of the query, may be empty (all records will be
 	 *        counted in that case)
 	 *
-	 * @return boolean TRUE if there is exactly one matching record,
+	 * @return bool TRUE if there is exactly one matching record,
 	 *                 FALSE otherwise
 	 */
 	static public function existsExactlyOneRecord($table, $whereClause = '') {
@@ -488,12 +488,12 @@ class Tx_Oelib_Db {
 	 * hidden record with that particular UID.
 	 *
 	 * @param string $table the name of the table to query, must not be empty
-	 * @param integer $uid the UID of the record to look up, must be > 0
+	 * @param int $uid the UID of the record to look up, must be > 0
 	 * @param string $additionalWhereClause
 	 *        additional WHERE clause to append, must either start with " AND"
 	 *        or be completely empty
 	 *
-	 * @return boolean TRUE if there is a matching record, FALSE otherwise
+	 * @return bool TRUE if there is a matching record, FALSE otherwise
 	 */
 	static public function existsRecordWithUid(
 		$table, $uid, $additionalWhereClause = ''
@@ -546,7 +546,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @param string $tableName the name of the table to check for, must not be empty
 	 *
-	 * @return boolean TRUE if the table $tableName exists, FALSE otherwise
+	 * @return bool TRUE if the table $tableName exists, FALSE otherwise
 	 */
 	static public function existsTable($tableName) {
 		if ($tableName === '') {
@@ -626,7 +626,7 @@ class Tx_Oelib_Db {
 	 * @param string $table the name of the table to check, must not be empty
 	 * @param string $column the column name to check, must not be empty
 	 *
-	 * @return boolean TRUE if the column with the provided name exists, FALSE
+	 * @return bool TRUE if the column with the provided name exists, FALSE
 	 *                 otherwise
 	 */
 	static public function tableHasColumn($table, $column) {
@@ -644,7 +644,7 @@ class Tx_Oelib_Db {
 	 *
 	 * @param string $table the name of the table to check, must not be empty
 	 *
-	 * @return boolean TRUE if a valid column was found, FALSE otherwise
+	 * @return bool TRUE if a valid column was found, FALSE otherwise
 	 */
 	static public function tableHasColumnUid($table) {
 		return self::tableHasColumn($table, 'uid');

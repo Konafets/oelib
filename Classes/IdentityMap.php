@@ -27,7 +27,7 @@ class Tx_Oelib_IdentityMap {
 	protected $items = array();
 
 	/**
-	 * @var integer the highest used UID
+	 * @var int the highest used UID
 	 */
 	private $highestUid = 0;
 
@@ -61,7 +61,7 @@ class Tx_Oelib_IdentityMap {
 	 * @throws tx_oelib_Exception_NotFound if this map does not have a model
 	 *                                     with that particular UID
 	 *
-	 * @param integer $uid the UID of the model to retrieve, must be > 0
+	 * @param int $uid the UID of the model to retrieve, must be > 0
 	 *
 	 * @return Tx_Oelib_Model the stored model with the UID $uid
 	 */
@@ -84,7 +84,7 @@ class Tx_Oelib_IdentityMap {
 	 * Gets a UID that has not been used in the map before and that is greater
 	 * than the greatest used UID.
 	 *
-	 * @return integer a new UID, will be > 0
+	 * @return int a new UID, will be > 0
 	 */
 	public function getNewUid() {
 		return $this->highestUid + 1;

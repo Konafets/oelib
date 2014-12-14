@@ -22,12 +22,12 @@
  */
 class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var boolean the saved content of $GLOBALS['TYPO3_DB']->debugOutput
+	 * @var bool the saved content of $GLOBALS['TYPO3_DB']->debugOutput
 	 */
 	private $savedDebugOutput;
 
 	/**
-	 * @var boolean the saved content of
+	 * @var bool the saved content of
 	 *              $GLOBALS['TYPO3_DB']->store_lastBuiltQuery
 	 */
 	private $savedStoreLastBuildQuery;

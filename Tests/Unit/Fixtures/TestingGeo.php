@@ -24,7 +24,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingGeo extends Tx_Oelib_Model implements 
 	/**
 	 * whether this object has a geo error
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $hasGeoError = FALSE;
 
@@ -71,7 +71,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingGeo extends Tx_Oelib_Model implements 
 	 * Checks whether this object has a non-empty address suitable for a geo
 	 * lookup.
 	 *
-	 * @return boolean TRUE if this object has a non-empty address, FALSE
+	 * @return bool TRUE if this object has a non-empty address, FALSE
 	 *                 otherwise
 	 */
 	public function hasGeoAddress() {
@@ -105,7 +105,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingGeo extends Tx_Oelib_Model implements 
 	/**
 	 * Checks whether this object has non-empty coordinates.
 	 *
-	 * @return boolean TRUE if this object has both a non-empty longitude and
+	 * @return bool TRUE if this object has both a non-empty longitude and
 	 *                 a non-empty latitude, FALSE otherwise
 	 */
 	public function hasGeoCoordinates() {
@@ -131,7 +131,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingGeo extends Tx_Oelib_Model implements 
 	 * Note: This function only checks whether there has been an error with the
 	 * coordinates, not whether this object actually has coordinates.
 	 *
-	 * @return boolean TRUE if there has been an error, FALSE otherwise
+	 * @return bool TRUE if there has been an error, FALSE otherwise
 	 */
 	public function hasGeoError() {
 		return $this->hasGeoError;

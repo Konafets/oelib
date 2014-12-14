@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_PageFinder {
 	/**
-	 * @var integer the sources the page can come from
+	 * @var int the sources the page can come from
 	 */
 	const SOURCE_AUTO = 0,
 		SOURCE_FRONT_END = 1,
@@ -36,12 +36,12 @@ class Tx_Oelib_PageFinder {
 	private static $instance = NULL;
 
 	/**
-	 * @var integer the manually set page UID
+	 * @var int the manually set page UID
 	 */
 	private $storedPageUid = 0;
 
 	/**
-	 * @var integer the source the page is retrieved from
+	 * @var int the source the page is retrieved from
 	 */
 	private $manualPageUidSource = self::SOURCE_AUTO;
 
@@ -87,7 +87,7 @@ class Tx_Oelib_PageFinder {
 	 * into the manually set page UID, then if a FE page UID is present
 	 * and finally if a BE page UID is present.
 	 *
-	 * @return integer the ID of the current page, will be zero if no page is
+	 * @return int the ID of the current page, will be zero if no page is
 	 *                 present or no page source could be found
 	 */
 	public function getPageUid() {
@@ -111,7 +111,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Manually sets a page UID which always will be returned by getPageUid.
 	 *
-	 * @param integer $uidToStore the page UID to store manually, must be > 0
+	 * @param int $uidToStore the page UID to store manually, must be > 0
 	 *
 	 * @return void
 	 */
@@ -129,7 +129,7 @@ class Tx_Oelib_PageFinder {
 	 * Forces the getPageUid function to get the page UID from a specific
 	 * source, ignoring an empty value or the original precedence.
 	 *
-	 * @param integer $modeToForce SOURCE_BACK_END or SOURCE_FRONT_END
+	 * @param int $modeToForce SOURCE_BACK_END or SOURCE_FRONT_END
 	 *
 	 * @return void
 	 */
@@ -140,7 +140,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Returns the current source for the page UID.
 	 *
-	 * @return integer either SOURCE_BACK_END, SOURCE_FRONT_END or SOURCE_MANUAL,
+	 * @return int either SOURCE_BACK_END, SOURCE_FRONT_END or SOURCE_MANUAL,
 	 *                 will be NO_SOURCE_FOUND if no source could be detected
 	 */
 	public function getCurrentSource() {
@@ -162,7 +162,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Checks whether a front end (with a non-zero page UID) is present.
 	 *
-	 * @return boolean TRUE if there is a front end with a non-zero page UID,
+	 * @return bool TRUE if there is a front end with a non-zero page UID,
 	 *                 FALSE otherwise
 	 */
 	private function hasFrontEnd() {
@@ -172,7 +172,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Checks whether a back-end page UID has been set.
 	 *
-	 * @return boolean TRUE if a back-end page UID has been set, FALSE otherwise
+	 * @return bool TRUE if a back-end page UID has been set, FALSE otherwise
 	 */
 	private function hasBackEnd() {
 		return (intval(t3lib_div::_GP('id')) > 0);
@@ -181,7 +181,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Checks whether a manual page UID has been set.
 	 *
-	 * @return boolean TRUE if a page UID has been set manually, FALSE otherwise
+	 * @return bool TRUE if a page UID has been set manually, FALSE otherwise
 	 */
 	private function hasManualPageUid() {
 		return ($this->storedPageUid > 0);

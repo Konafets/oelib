@@ -93,7 +93,7 @@ class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the record to retrieve, must be > 0
 	 *
 	 * @return array the record from the database, will not be empty

@@ -37,7 +37,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to check, must not be empty
 	 *
-	 * @return boolean TRUE if the value for the given key is non-empty,
+	 * @return bool TRUE if the value for the given key is non-empty,
 	 *                 FALSE otherwise
 	 */
 	public function hasString($key) {
@@ -61,7 +61,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return integer the integer value of the given key, may be positive,
+	 * @return int the integer value of the given key, may be positive,
 	 *                 negative or zero
 	 */
 	public function getAsInteger($key) {
@@ -73,7 +73,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to check, must not be empty
 	 *
-	 * @return boolean TRUE if the value for the given key is non-zero,
+	 * @return bool TRUE if the value for the given key is non-zero,
 	 *                 FALSE otherwise
 	 */
 	public function hasInteger($key) {
@@ -141,7 +141,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to retrieve, must not be empty
 	 *
-	 * @return boolean the boolean value of the given key
+	 * @return bool the boolean value of the given key
 	 */
 	public function getAsBoolean($key) {
 		return parent::getAsBoolean($key);
@@ -176,7 +176,7 @@ abstract class Tx_Oelib_PublicObject extends Tx_Oelib_Object {
 	 *
 	 * @param string $key the key of the element to check, must not be empty
 	 *
-	 * @return boolean TRUE if the value for the given key is non-zero,
+	 * @return bool TRUE if the value for the given key is non-zero,
 	 *                 FALSE otherwise
 	 */
 	public function hasFloat($key) {

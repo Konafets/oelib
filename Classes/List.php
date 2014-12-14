@@ -23,7 +23,7 @@
  */
 class Tx_Oelib_List extends SplObjectStorage {
 	/**
-	 * @var integer[] the UIDs in the list using the UIDs as both the keys and values
+	 * @var int[] the UIDs in the list using the UIDs as both the keys and values
 	 */
 	private $uids = array();
 
@@ -40,7 +40,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	/**
 	 * whether there is at least one item without a UID
 	 *
-	 * @var boolean
+	 * @var bool
 	 */
 	private $hasItemWithoutUid = FALSE;
 
@@ -92,7 +92,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	/**
 	 * Checks whether this list is empty.
 	 *
-	 * @return boolean TRUE if this list is empty, FALSE otherwise
+	 * @return bool TRUE if this list is empty, FALSE otherwise
 	 */
 	public function isEmpty() {
 		return ($this->count() === 0);
@@ -127,9 +127,9 @@ class Tx_Oelib_List extends SplObjectStorage {
 	/**
 	 * Checks whether a model with a certain UID exists in this list
 	 *
-	 * @param integer $uid UID to test, must be > 0
+	 * @param int $uid UID to test, must be > 0
 	 *
-	 * @return boolean TRUE if a model with the UID $uid exists in this list, FALSE otherwise
+	 * @return bool TRUE if a model with the UID $uid exists in this list, FALSE otherwise
 	 */
 	public function hasUid($uid) {
 		$this->checkUidCache();
@@ -299,7 +299,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * @param tx_oelib_Interface_Sortable $object1 the first object
 	 * @param tx_oelib_Interface_Sortable $object2 the second object
 	 *
-	 * @return integer a negative number if $model1 should be before $model2,
+	 * @return int a negative number if $model1 should be before $model2,
 	 *                 a positive number if $model1 should be after $model2,
 	 *                 zero if both are equal for sorting
 	 */
@@ -318,8 +318,8 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * If this list's end lies within the requested range, all elements up to
 	 * the list's end will be returned.
 	 *
-	 * @param integer $start the zero-based start position, must be >= 0
-	 * @param integer $length the number of elements to return, must be >= 0
+	 * @param int $start the zero-based start position, must be >= 0
+	 * @param int $length the number of elements to return, must be >= 0
 	 *
 	 * @return Tx_Oelib_List<Tx_Oelib_Model>
 	 *         the selected elements starting at $start
@@ -354,7 +354,7 @@ class Tx_Oelib_List extends SplObjectStorage {
 	/**
 	 * Returns the model at position $position.
 	 *
-	 * @param integer $position
+	 * @param int $position
 	 *        the zero-based position of the model to retrieve, must be >= 0
 	 *
 	 * @return Tx_Oelib_Model

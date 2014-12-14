@@ -94,7 +94,7 @@ class Tx_Oelib_Model_BackEndUser extends Tx_Oelib_Model implements Tx_Oelib_Inte
 	/**
 	 * Checks whether this user has a non-default language set.
 	 *
-	 * @return boolean TRUE if this user has a non-default language set, FALSE
+	 * @return bool TRUE if this user has a non-default language set, FALSE
 	 *                 otherwise
 	 */
 	public function hasLanguage() {

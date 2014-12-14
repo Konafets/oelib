@@ -66,7 +66,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * 'greeting'.
 	 *
 	 * @param string $key the local language key for which to return the value, must not be empty
-	 * @param boolean $useHtmlSpecialChars whether the output should be passed through htmlspecialchars()
+	 * @param bool $useHtmlSpecialChars whether the output should be passed through htmlspecialchars()
 	 *
 	 * @return string the requested local language key, might be empty
 	 */

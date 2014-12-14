@@ -25,38 +25,38 @@
  */
 abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interface_Identity {
 	/**
-	 * @var integer a status indicating that this model has neither data nor UID
+	 * @var int a status indicating that this model has neither data nor UID
 	 *              yet
 	 */
 	const STATUS_VIRGIN = 0;
 	/**
-	 * @var integer a status indicating that this model's data has not been
+	 * @var int a status indicating that this model's data has not been
 	 *              loaded yet (lazily), but that the model already has a UID
 	 */
 	const STATUS_GHOST = 1;
 	/**
-	 * @var integer a status indicating that this model's data currently is
+	 * @var int a status indicating that this model's data currently is
 	 *              being loaded
 	 */
 	const STATUS_LOADING = 2;
 	/**
-	 * @var integer a status indicating that this model's data has already been
+	 * @var int a status indicating that this model's data has already been
 	 *              loaded (with or without UID)
 	 */
 	const STATUS_LOADED = 3;
 	/**
-	 * @var integer a status indicating that this model's data could not be
+	 * @var int a status indicating that this model's data could not be
 	 *              retrieved from the DB
 	 */
 	const STATUS_DEAD = 4;
 
 	/**
-	 * @var boolean whether this model is read-only
+	 * @var bool whether this model is read-only
 	 */
 	protected $readOnly = FALSE;
 
 	/**
-	 * @var integer this model's UID, will be 0 if this model has been created
+	 * @var int this model's UID, will be 0 if this model has been created
 	 *              in memory
 	 */
 	private $uid = 0;
@@ -67,13 +67,13 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	private $data = array();
 
 	/**
-	 * @var integer this model's load status, will be STATUS_VIRGIN,
+	 * @var int this model's load status, will be STATUS_VIRGIN,
 	 *              STATUS_GHOST, STATUS_DEAD, STATUS_LOADING or STATUS_LOADED
 	 */
 	private $loadStatus = self::STATUS_VIRGIN;
 
 	/**
-	 * @var boolean whether this model's initial data has changed
+	 * @var bool whether this model's initial data has changed
 	 */
 	private $isDirty = FALSE;
 
@@ -186,7 +186,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * If this function is called on an empty model, the model state is changed
 	 * to ghost.
 	 *
-	 * @param integer $uid the UID to set, must be > 0
+	 * @param int $uid the UID to set, must be > 0
 	 *
 	 * @return void
 	 */
@@ -265,7 +265,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 *
 	 * @param string $key the key of the data item to check, must not be empty
 	 *
-	 * @return boolean TRUE if a data item with the key $key exists, FALSE
+	 * @return bool TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
 	 */
 	protected function existsKey($key) {
@@ -347,7 +347,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Gets this model's UID.
 	 *
-	 * @return integer this model's UID, will be zero if this model does
+	 * @return int this model's UID, will be zero if this model does
 	 *                 not have a UID yet
 	 */
 	public function getUid() {
@@ -357,7 +357,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model has a UID.
 	 *
-	 * @return boolean TRUE if this model has a non-zero UID, FALSE otherwise
+	 * @return bool TRUE if this model has a non-zero UID, FALSE otherwise
 	 */
 	public function hasUid() {
 		return ($this->uid > 0);
@@ -366,7 +366,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this is a virgin model (which has neither data nor UID).
 	 *
-	 * @return boolean TRUE if this is a virgin model, FALSE otherwise
+	 * @return bool TRUE if this is a virgin model, FALSE otherwise
 	 */
 	public function isVirgin() {
 		return ($this->loadStatus === self::STATUS_VIRGIN);
@@ -376,7 +376,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * Checks whether this model is a ghost (has a UID, but is not fully loaded
 	 * yet).
 	 *
-	 * @return boolean TRUE if this model is a ghost, FALSE otherwise
+	 * @return bool TRUE if this model is a ghost, FALSE otherwise
 	 */
 	public function isGhost() {
 		return ($this->loadStatus === self::STATUS_GHOST);
@@ -385,7 +385,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model is fully loaded (has data).
 	 *
-	 * @return boolean TRUE if this model is fully loaded, FALSE otherwise
+	 * @return bool TRUE if this model is fully loaded, FALSE otherwise
 	 */
 	public function isLoaded() {
 		return ($this->loadStatus === self::STATUS_LOADED);
@@ -395,7 +395,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * Checks whether this model is dead (retrieving its data from the DB has
 	 * failed).
 	 *
-	 * @return boolean TRUE if this model is dead, FALSE otherwise
+	 * @return bool TRUE if this model is dead, FALSE otherwise
 	 */
 	public function isDead() {
 		return ($this->loadStatus === self::STATUS_DEAD);
@@ -404,7 +404,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model is hidden.
 	 *
-	 * @return boolean TRUE if this model is hidden, FALSE otherwise
+	 * @return bool TRUE if this model is hidden, FALSE otherwise
 	 */
 	public function isHidden() {
 		return $this->getAsBoolean('hidden');
@@ -443,7 +443,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * Checks whether this model has a callback function set for loading its
 	 * data.
 	 *
-	 * @return boolean TRUE if this model has a loading callback function set,
+	 * @return bool TRUE if this model has a loading callback function set,
 	 *                 FALSE otherwise
 	 */
 	private function hasLoadCallBack() {
@@ -472,7 +472,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * Checks whether this model has been marked as dirty which means that this
 	 * model's data has changed compared to the initial state.
 	 *
-	 * @return boolean TRUE if this model has been marked as dirty
+	 * @return bool TRUE if this model has been marked as dirty
 	 */
 	public function isDirty() {
 		return $this->isDirty;
@@ -497,7 +497,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model is set to deleted.
 	 *
-	 * @return boolean TRUE if this model is set to deleted, FALSE otherwise
+	 * @return bool TRUE if this model is set to deleted, FALSE otherwise
 	 */
 	public function isDeleted() {
 		return $this->getAsBoolean('deleted');
@@ -506,7 +506,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model is read-only.
 	 *
-	 * @return boolean TRUE if this model is read-only, FALSE if it is writable
+	 * @return bool TRUE if this model is read-only, FALSE if it is writable
 	 */
 	public function isReadOnly() {
 		return $this->readOnly;
@@ -537,7 +537,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Returns the page UID of this model.
 	 *
-	 * @return integer the page UID of this model, will be >= 0
+	 * @return int the page UID of this model, will be >= 0
 	 */
 	public function getPageUid() {
 		return $this->getAsInteger('pid');
@@ -546,7 +546,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Sets this model's page UID.
 	 *
-	 * @param integer $pageUid
+	 * @param int $pageUid
 	 *        the page to set, must be >= 0
 	 *
 	 * @return void
@@ -562,7 +562,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Checks whether this model is empty.
 	 *
-	 * @return boolean TRUE if this model is empty, FALSE if it is writable
+	 * @return bool TRUE if this model is empty, FALSE if it is writable
 	 */
 	public function isEmpty() {
 		if ($this->isGhost()) {

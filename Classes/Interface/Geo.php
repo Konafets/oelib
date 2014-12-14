@@ -35,7 +35,7 @@ interface tx_oelib_Interface_Geo {
 	 * Checks whether this object has a non-empty address suitable for a geo
 	 * lookup.
 	 *
-	 * @return boolean TRUE if this object has a non-empty address, FALSE
+	 * @return bool TRUE if this object has a non-empty address, FALSE
 	 *                 otherwise
 	 */
 	public function hasGeoAddress();
@@ -63,7 +63,7 @@ interface tx_oelib_Interface_Geo {
 	/**
 	 * Checks whether this object has non-empty coordinates.
 	 *
-	 * @return boolean TRUE if this object has both a non-empty longitude and
+	 * @return bool TRUE if this object has both a non-empty longitude and
 	 *                 a non-empty latitude, FALSE otherwise
 	 */
 	public function hasGeoCoordinates();
@@ -85,7 +85,7 @@ interface tx_oelib_Interface_Geo {
 	 * Note: This function only checks whether there has been an error with the
 	 * coordinates, not whether this object actually has coordinates.
 	 *
-	 * @return boolean TRUE if there has been an error, FALSE otherwise
+	 * @return bool TRUE if there has been an error, FALSE otherwise
 	 */
 	public function hasGeoError();
 

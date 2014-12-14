@@ -38,7 +38,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	public $extKey = '';
 
 	/**
-	 * @var boolean whether init() already has been called (in order to
+	 * @var bool whether init() already has been called (in order to
 	 *              avoid double calls)
 	 */
 	protected $isInitialized = FALSE;
@@ -162,7 +162,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * Checks that this object is properly initialized.
 	 *
-	 * @return boolean TRUE if this object is properly initialized, FALSE otherwise
+	 * @return bool TRUE if this object is properly initialized, FALSE otherwise
 	 */
 	public function isInitialized() {
 		return $this->isInitialized;
@@ -176,7 +176,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * For example, if the extension key is "foo", the TS setup for plugin.
 	 * tx_foo will be retrieved.
 	 *
-	 * @param integer $pageId UID of the page for which the configuration should be retrieved, must be > 0
+	 * @param int $pageId UID of the page for which the configuration should be retrieved, must be > 0
 	 *
 	 * @return array configuration array of the requested page for the
 	 *               current extension key
@@ -216,8 +216,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
-	 * @param boolean $isFileName whether this is a filename, which has to be combined with a path
-	 * @param boolean $ignoreFlexform
+	 * @param bool $isFileName whether this is a filename, which has to be combined with a path
+	 * @param bool $ignoreFlexform
 	 *        whether to ignore the flexform values and just get the settings from TypoScript, may be empty
 	 *
 	 * @return string the value of the corresponding flexforms or TS setup
@@ -281,8 +281,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
-	 * @param boolean $isFileName whether this is a filename, which has to be combined with a path
-	 * @param boolean $ignoreFlexform
+	 * @param bool $isFileName whether this is a filename, which has to be combined with a path
+	 * @param bool $ignoreFlexform
 	 *        whether to ignore the flexform values and just get the settings from TypoScript, may be empty
 	 *
 	 * @return string the trimmed value of the corresponding flexforms or
@@ -307,10 +307,10 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
-	 * @param boolean $ignoreFlexform
+	 * @param bool $ignoreFlexform
 	 *        whether to ignore the flexform values and just get the settings from TypoScript, may be empty
 	 *
-	 * @return boolean whether there is a non-empty value in the
+	 * @return bool whether there is a non-empty value in the
 	 *                 corresponding flexforms or TS setup entry
 	 */
 	public function hasConfValueString(
@@ -333,7 +333,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
 	 *
-	 * @return integer the intvaled value of the corresponding flexforms or
+	 * @return int the intvaled value of the corresponding flexforms or
 	 *                 TS setup entry
 	 */
 	public function getConfValueInteger($fieldName, $sheet = 'sDEF') {
@@ -349,7 +349,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
 	 *
-	 * @return boolean whether there is a non-zero value in the
+	 * @return bool whether there is a non-zero value in the
 	 *                 corresponding flexforms or TS setup entry
 	 */
 	public function hasConfValueInteger($fieldName, $sheet = 'sDEF') {
@@ -365,7 +365,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $fieldName field name to extract
 	 * @param string $sheet sheet pointer, eg. "sDEF"
 	 *
-	 * @return boolean the boolean value of the corresponding flexforms or
+	 * @return bool the boolean value of the corresponding flexforms or
 	 *                 TS setup entry
 	 */
 	public function getConfValueBoolean($fieldName, $sheet = 'sDEF') {
@@ -451,7 +451,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * also via flexforms if TYPO3 mode is FE) and writes it to
 	 * $this->templateCode. The subparts will be written to $this->templateCache.
 	 *
-	 * @param boolean $ignoreFlexform whether the settings in the Flexform should be ignored
+	 * @param bool $ignoreFlexform whether the settings in the Flexform should be ignored
 	 *
 	 * @return void
 	 */
@@ -610,7 +610,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param mixed $content content with which the marker will be filled, may be empty
 	 * @param string $markerPrefix  to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
+	 * @return bool TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotEmpty
 	 */
@@ -629,7 +629,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $content content with which the marker will be filled, may be empty
 	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
+	 * @return bool TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotZero
 	 */
@@ -647,7 +647,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $subpartName name of the subpart to check (without the ###), must not be empty
 	 *
-	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
+	 * @return bool TRUE if the subpart is visible, FALSE otherwise
 	 */
 	public function isSubpartVisible($subpartName) {
 		return $this->getTemplate()->isSubpartVisible($subpartName);
@@ -766,7 +766,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $markerName
 	 *        the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param boolean $condition
+	 * @param bool $condition
 	 *        if this is TRUE, the marker will be filled, otherwise the wrapped marker will be hidden
 	 * @param string $content
 	 *        content with which the marker will be filled, may be empty
@@ -775,7 +775,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $wrapperPrefix
 	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if
+	 * @return bool TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setMarkerContent
@@ -807,7 +807,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $wrapperPrefix
 	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if
+	 * @return bool TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -837,7 +837,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 * @param string $wrapperPrefix prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if the subpart has been hidden
+	 * @return bool TRUE if the marker content has been set, FALSE if the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
 	 * @see setOrDeleteMarkerIfNotZero
@@ -1003,7 +1003,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $startPages
 	 *        comma-separated list of page UIDs to start from, must only contain numbers and commas, may be empty
-	 * @param integer $recursionDepth
+	 * @param int $recursionDepth
 	 *        maximum depth of recursion, must be >= 0
 	 *
 	 * @return string comma-separated list of subpage UIDs including the
@@ -1093,9 +1093,9 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $path path to of the original image, must be relative to the TYPO3 root or start with EXT:, must not be empty
 	 * @param string $altText alt text, may be empty
-	 * @param integer $maxWidth max width in pixels, set to zero to set no limit
-	 * @param integer $maxHeight max height in pixels, set to zero to set no limit
-	 * @param integer $maxArea (unused, must be zero)
+	 * @param int $maxWidth max width in pixels, set to zero to set no limit
+	 * @param int $maxHeight max height in pixels, set to zero to set no limit
+	 * @param int $maxArea (unused, must be zero)
 	 * @param string $titleText title text, may be empty
 	 * @param string $id HTML ID for the image, may be empty
 	 *
@@ -1185,7 +1185,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $fieldName TS setup field name to extract (within listView.), must not be empty
 	 *
-	 * @return integer the integer value of that field within listView. or
+	 * @return int the integer value of that field within listView. or
 	 *                 zero if the value was not set
 	 */
 	public function getListViewConfValueInteger($fieldName) {
@@ -1197,7 +1197,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @param string $fieldName TS setup field name to extract (within listView.), must not be empty
 	 *
-	 * @return boolean the boolean value of that field within listView.,
+	 * @return bool the boolean value of that field within listView.,
 	 *                 FALSE if no value was set
 	 */
 	public function getListViewConfValueBoolean($fieldName) {
@@ -1210,7 +1210,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @deprecated 2013-02-09 use Tx_Oelib_FrontEndLoginManager::getLoggedInUser instead
 	 *
-	 * @return integer the UID of the logged-in FE user or 0 if no FE user is logged in
+	 * @return int the UID of the logged-in FE user or 0 if no FE user is logged in
 	 */
 	public function getFeUserUid() {
 		t3lib_div::logDeprecatedFunction();
@@ -1272,7 +1272,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * (if any). If there are several objects of this class, still only one
 	 * error message is created (in order to prevent duplicate messages).
 	 *
-	 * @param boolean $useRawMessage whether to use the raw message instead of the wrapped message
+	 * @param bool $useRawMessage whether to use the raw message instead of the wrapped message
 	 * @param string $temporaryFlavor flavor to use temporarily for this call (leave empty to not change the flavor)
 	 *
 	 * @return string a formatted error message (if there are errors) or an
@@ -1333,7 +1333,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * Gets the ID of the currently selected back-end page.
 	 *
-	 * @return integer the current back-end page ID (or 0 if there is an
+	 * @return int the current back-end page ID (or 0 if there is an
 	 *                 error)
 	 */
 	public function getCurrentBePageId() {
@@ -1361,7 +1361,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * This function must only be called in the front end or when a front end is present.
 	 *
-	 * @return integer the general record storage PID for the current page, will be 0 if the page has no storage page set
+	 * @return int the general record storage PID for the current page, will be 0 if the page has no storage page set
 	 */
 	public function getStoragePid() {
 		$pageData = $this->getFrontEnd()->getStorageSiterootPids();
@@ -1372,7 +1372,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	/**
 	 * Checks whether the current page has a general record storage PID set.
 	 *
-	 * @return boolean TRUE if the current page has a general record storage PID set, FALSE otherwise
+	 * @return bool TRUE if the current page has a general record storage PID set, FALSE otherwise
 	 */
 	public function hasStoragePid() {
 		return $this->getStoragePid() > 0;

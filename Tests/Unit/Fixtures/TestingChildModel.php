@@ -103,7 +103,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel extends Tx_Oelib_Model impl
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @return integer the sorting value of this object, will be >= 0
+	 * @return int the sorting value of this object, will be >= 0
 	 */
 	public function getSorting() {
 		return $this->getAsInteger('sorting');
@@ -114,7 +114,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel extends Tx_Oelib_Model impl
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @param integer $sorting the sorting value of this object, must be >= 0
+	 * @param int $sorting the sorting value of this object, must be >= 0
 	 *
 	 * @return void
 	 */

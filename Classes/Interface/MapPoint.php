@@ -34,7 +34,7 @@ interface tx_oelib_Interface_MapPoint {
 	/**
 	 * Checks whether this object has non-empty coordinates.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this object has both a non-empty longitude and a
 	 *         non-empty latitude, FALSE otherwise
 	 */
@@ -50,7 +50,7 @@ interface tx_oelib_Interface_MapPoint {
 	/**
 	 * Checks whether this object has a non-empty tooltip title.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this object has a non-empty tooltip title, FALSE otherwise
 	 */
 	public function hasTooltipTitle();
@@ -65,7 +65,7 @@ interface tx_oelib_Interface_MapPoint {
 	/**
 	 * Checks whether this object has a non-empty info window content.
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if this object has a non-empty info window content, FALSE otherwise
 	 */
 	public function hasInfoWindowContent();

@@ -221,7 +221,7 @@ class Tx_Oelib_ConfigurationRegistry {
 	 * Note: This function can return TRUE even in the BE if there is a front
 	 * end.
 	 *
-	 * @return boolean TRUE if there is an initialized front end, FALSE
+	 * @return bool TRUE if there is an initialized front end, FALSE
 	 *                 otherwise
 	 */
 	private function existsFrontEnd() {

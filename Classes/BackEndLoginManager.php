@@ -70,7 +70,7 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Checks whether a back-end user is logged in.
 	 *
-	 * @return boolean TRUE if a back-end user is logged in, FALSE otherwise
+	 * @return bool TRUE if a back-end user is logged in, FALSE otherwise
 	 */
 	public function isLoggedIn() {
 		if($this->loggedInUser) {

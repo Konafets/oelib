@@ -67,7 +67,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	 * @param string $key
 	 *        the key of the data item to check, must not be empty
 	 *
-	 * @return boolean TRUE if a data item with the key $key exists, FALSE
+	 * @return bool TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
 	 */
 	public function existsKey($key) {
@@ -96,7 +96,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	 * @param string $key
 	 *        the key of the element to retrieve, must not be empty
 	 *
-	 * @return boolean the boolean value of the given key
+	 * @return bool the boolean value of the given key
 	 */
 	public function getAsBoolean($key) {
 		return parent::getAsBoolean($key);
@@ -108,7 +108,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	 * @param string $key
 	 *        the key of the element to retrieve, must not be empty
 	 *
-	 * @return integer the integer value of the given key, may be positive,
+	 * @return int the integer value of the given key, may be positive,
 	 *                 negative or zero
 	 */
 	public function getAsInteger($key) {

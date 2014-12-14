@@ -26,7 +26,7 @@ interface tx_oelib_Interface_Sortable {
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @return integer the sorting value of this object, will be >= 0
+	 * @return int the sorting value of this object, will be >= 0
 	 */
 	public function getSorting();
 
@@ -35,7 +35,7 @@ interface tx_oelib_Interface_Sortable {
 	 *
 	 * This is the sorting as used in the back end.
 	 *
-	 * @param integer $sorting the sorting value of this object, must be >= 0
+	 * @param int $sorting the sorting value of this object, must be >= 0
 	 *
 	 * @return void
 	 */

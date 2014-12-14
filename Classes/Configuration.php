@@ -101,7 +101,7 @@ class Tx_Oelib_Configuration extends Tx_Oelib_PublicObject {
 	 * @param string $key
 	 *        the key of the data item to check, must not be empty
 	 *
-	 * @return boolean TRUE if a data item with the key $key exists, FALSE
+	 * @return bool TRUE if a data item with the key $key exists, FALSE
 	 *                 otherwise
 	 */
 	protected function existsKey($key) {

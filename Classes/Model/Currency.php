@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_Model_Currency extends Tx_Oelib_Model {
 	/**
-	 * @var boolean whether this model is read-only
+	 * @var bool whether this model is read-only
 	 */
 	protected $readOnly = TRUE;
 
@@ -39,7 +39,7 @@ class Tx_Oelib_Model_Currency extends Tx_Oelib_Model {
 	/**
 	 * Returns whether this currency has a left symbol.
 	 *
-	 * @return boolean TRUE if this currency has a left symbol, FALSE otherwise
+	 * @return bool TRUE if this currency has a left symbol, FALSE otherwise
 	 */
 	public function hasLeftSymbol() {
 		return $this->hasString('cu_symbol_left');
@@ -58,7 +58,7 @@ class Tx_Oelib_Model_Currency extends Tx_Oelib_Model {
 	/**
 	 * Returns whether this currency has a right symbol.
 	 *
-	 * @return boolean TRUE if this currency has a right symbol, FALSE otherwise
+	 * @return bool TRUE if this currency has a right symbol, FALSE otherwise
 	 */
 	public function hasRightSymbol() {
 		return $this->hasString('cu_symbol_right');
@@ -95,7 +95,7 @@ class Tx_Oelib_Model_Currency extends Tx_Oelib_Model {
 	/**
 	 * Returns the number of decimal digits.
 	 *
-	 * @return integer the number of decimal digits, will be >= 0
+	 * @return int the number of decimal digits, will be >= 0
 	 */
 	public function getDecimalDigits() {
 		return $this->getAsInteger('cu_decimal_digits');

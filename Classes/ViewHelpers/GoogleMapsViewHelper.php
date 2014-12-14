@@ -59,14 +59,14 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 * coordinates (otherwise the map will automatically be zoomed so that all
 	 * map points are visible)
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	const DEFAULT_ZOOM_LEVEL = 8;
 
 	/**
 	 * counter of the rendered map instances
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected static $mapCounter = 0;
 
@@ -74,7 +74,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 * current number of the map instance (used for the HTML ID) to make sure
 	 * that several instances of the ViewHelper on a page will still work
 	 *
-	 * @var integer
+	 * @var int
 	 */
 	protected $mapNumber = 0;
 
@@ -260,7 +260,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 *        the map point for which to create the info window
 	 * @param string $markerVariableName
 	 *        valid name of the marker JavaScript variable, must not be empty
-	 * @param integer $index
+	 * @param int $index
 	 *        the zero-based index of the map marker, must be >= 0
 	 *
 	 * @return string

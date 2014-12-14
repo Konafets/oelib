@@ -72,7 +72,7 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * @param string $alternativeString
 	 *        alternative string to return if no value is found for the key,
 	 *        neither for the local language nor the default.
-	 * @param boolean $useHtmlSpecialChars
+	 * @param bool $useHtmlSpecialChars
 	 *        If TRUE, the output label is passed through htmlspecialchars().
 	 *
 	 * @return string the value from LOCAL_LANG
@@ -93,7 +93,7 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * For example, if the extension key is "foo", the TS setup for plugin.
 	 * tx_foo will be retrieved.
 	 *
-	 * @param integer $pageId
+	 * @param int $pageId
 	 *        page ID of the page for which the configuration should be retrieved, must be > 0
 	 *
 	 * @return array configuration array of the requested page for the current

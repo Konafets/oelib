@@ -85,7 +85,7 @@ abstract class Tx_Oelib_DataMapper {
 	protected $cacheByCompoundKey = array();
 
 	/**
-	 * @var boolean whether database access is denied for this mapper
+	 * @var bool whether database access is denied for this mapper
 	 */
 	private $denyDatabaseAccess = FALSE;
 
@@ -127,7 +127,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * Note: This function does not check that a record with the UID $uid
 	 * actually exists in the database.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the record to retrieve, must be > 0
 	 *
 	 * @return Tx_Oelib_Model the model with the UID $uid
@@ -223,12 +223,12 @@ abstract class Tx_Oelib_DataMapper {
 	 * Checks whether a model with a certain UID actually exists in the database
 	 * and could be loaded.
 	 *
-	 * @param integer $uid
+	 * @param int $uid
 	 *        the UID of the record to retrieve, must be > 0
-	 * @param boolean $allowHidden
+	 * @param bool $allowHidden
 	 *        whether hidden records should be allowed to be retrieved
 	 *
-	 * @return boolean TRUE if a model with the UID $uid exists in the database,
+	 * @return bool TRUE if a model with the UID $uid exists in the database,
 	 *                 FALSE otherwise
 	 */
 	public function existsModel($uid, $allowHidden = FALSE) {
@@ -344,7 +344,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param string $key
 	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if the relation is an 1:n relation, FALSE otherwise
 	 */
 	private function isOneToManyRelationConfigured($key) {
@@ -361,7 +361,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param string $key
 	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if the relation is an n:1 relation, FALSE otherwise
 	 */
 	private function isManyToOneRelationConfigured($key) {
@@ -379,7 +379,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @param string $key
 	 *        key of the relation, must not be empty
 	 *
-	 * @return boolean
+	 * @return bool
 	 *         TRUE if the relation's configuration provides an m:n table,
 	 *         FALSE otherwise
 	 */
@@ -579,7 +579,7 @@ abstract class Tx_Oelib_DataMapper {
 	 * @throws tx_oelib_Exception_NotFound if there is no record in the DB
 	 *                                     with the UID $uid
 	 *
-	 * @param integer $uid the UID of the record to retrieve, must be > 0
+	 * @param int $uid the UID of the record to retrieve, must be > 0
 	 *
 	 * @return string[] the record from the database, will not be empty
 	 */
@@ -590,7 +590,7 @@ abstract class Tx_Oelib_DataMapper {
 	/**
 	 * Creates a new ghost model with the UID $uid and registers it.
 	 *
-	 * @param integer $uid the UID of the to-create ghost
+	 * @param int $uid the UID of the to-create ghost
 	 *
 	 * @return Tx_Oelib_Model a ghost model with the UID $uid
 	 */
@@ -669,7 +669,7 @@ abstract class Tx_Oelib_DataMapper {
 	/**
 	 * Checks whether the database may be accessed.
 	 *
-	 * @return boolean TRUE is database access is granted, FALSE otherwise
+	 * @return bool TRUE is database access is granted, FALSE otherwise
 	 */
 	public function hasDatabaseAccess() {
 		return !$this->denyDatabaseAccess;
@@ -961,9 +961,9 @@ abstract class Tx_Oelib_DataMapper {
 	 * Note: The $mnTable parameter is used for testing mappers in the mapper registry and must not be removed.
 	 *
 	 * @param string $mnTable the name of the intermediate m:n-relation table
-	 * @param integer $uidLocal the UID of the local record
-	 * @param integer $uidForeign the UID of the foreign record
-	 * @param integer $sorting the sorting of the intermediate m:n-relation record
+	 * @param int $uidLocal the UID of the local record
+	 * @param int $uidForeign the UID of the foreign record
+	 * @param int $sorting the sorting of the intermediate m:n-relation record
 	 *
 	 * @return int[] the record data for an intermediate m:n-relation record
 	 */
@@ -1052,7 +1052,7 @@ abstract class Tx_Oelib_DataMapper {
 	/**
 	 * Returns the WHERE clause that selects all visible records from the DB.
 	 *
-	 * @param boolean $allowHiddenRecords whether hidden records should be found
+	 * @param bool $allowHiddenRecords whether hidden records should be found
 	 *
 	 * @return string the WHERE clause that selects all visible records in the,
 	 *                DB, will not be empty
@@ -1081,7 +1081,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *
 	 * @param Tx_Oelib_Model $model the model to check
 	 *
-	 * @return boolean TRUE if $model is a memory-only dummy, FALSE otherwise
+	 * @return bool TRUE if $model is a memory-only dummy, FALSE otherwise
 	 */
 	private function isModelAMemoryOnlyDummy(Tx_Oelib_Model $model) {
 		if (!$model->hasUid()) {
@@ -1417,7 +1417,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *        WHERE clause for the number of records to retrieve, must be quoted
 	 *        and SQL safe, may be empty
 	 *
-	 * @return integer the number of records matching the given WHERE clause
+	 * @return int the number of records matching the given WHERE clause
 	 */
 	public function countByWhereClause($whereClause = '') {
 		$completeWhereClause = ($whereClause === '')
@@ -1434,7 +1434,7 @@ abstract class Tx_Oelib_DataMapper {
 	 *        comma-separated UIDs of the pages on which the records should be
 	 *        found, may be empty
 	 *
-	 * @return integer the number of records located on the given pages
+	 * @return int the number of records located on the given pages
 	 */
 	public function countByPageUid($pageUids) {
 		if (($pageUids === '') || ($pageUids === '0')) {

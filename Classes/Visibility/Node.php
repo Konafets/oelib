@@ -34,14 +34,14 @@ class tx_oelib_Visibility_Node {
 	private $parentNode = NULL;
 
 	/**
-	 * @var boolean whether this node is visible
+	 * @var bool whether this node is visible
 	 */
 	private $isVisible;
 
 	/**
 	 * Constructor of this class.
 	 *
-	 * @param boolean $isVisible whether this node should be initially visible
+	 * @param bool $isVisible whether this node should be initially visible
 	 */
 	public function __construct($isVisible = FALSE) {
 		$this->isVisible = $isVisible;
@@ -86,7 +86,7 @@ class tx_oelib_Visibility_Node {
 	/**
 	 * Returns the visibility status of this node.
 	 *
-	 * @return boolean TRUE if this node is visible, FALSE otherwise
+	 * @return bool TRUE if this node is visible, FALSE otherwise
 	 */
 	public function isVisible() {
 		return $this->isVisible;

@@ -22,14 +22,14 @@
  */
 class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	/**
-	 * @var integer session type for persistent data that is stored for the
+	 * @var int session type for persistent data that is stored for the
 	 *              logged-in front-end user and will be available when the
 	 *              user logs in again
 	 */
 	const TYPE_USER = 1;
 
 	/**
-	 * @var integer session type for volatile data that will be deleted when
+	 * @var int session type for volatile data that will be deleted when
 	 *              the session cookie is dropped (when the browser is closed)
 	 */
 	const TYPE_TEMPORARY = 2;
@@ -43,7 +43,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	);
 
 	/**
-	 * @var integer the type of this session (::TYPE_USER or ::TYPE_TEMPORARY)
+	 * @var int the type of this session (::TYPE_USER or ::TYPE_TEMPORARY)
 	 */
 	private $type = 0;
 
@@ -57,7 +57,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 *
 	 * @throws BadMethodCallException if there is no front end
 	 *
-	 * @param integer $type the type of the session to use; either TYPE_USER or TYPE_TEMPORARY
+	 * @param int $type the type of the session to use; either TYPE_USER or TYPE_TEMPORARY
 	 */
 	protected function __construct($type) {
 		if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
@@ -71,7 +71,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	/**
 	 * Returns an instance of this class.
 	 *
-	 * @param integer $type
+	 * @param int $type
 	 *        the type of the session to use; either TYPE_USER (persistent)
 	 *        or TYPE_TEMPORARY (only for the lifetime of the session cookie)
 	 *
@@ -91,7 +91,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	/**
 	 * Sets the instance for the given type.
 	 *
-	 * @param integer $type the type to set, must be either TYPE_USER or TYPE_TEMPORARY
+	 * @param int $type the type to set, must be either TYPE_USER or TYPE_TEMPORARY
 	 * @param Tx_Oelib_Session $instance the instance to set
 	 *
 	 * @return void
@@ -107,7 +107,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 *
 	 * @throws InvalidArgumentException if $type is neither ::TYPE_USER nor ::TYPE_TEMPORARY
 	 *
-	 * @param integer $type the type ID to check
+	 * @param int $type the type ID to check
 	 *
 	 * @return void
 	 */

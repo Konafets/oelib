@@ -36,12 +36,12 @@ class Tx_Oelib_MapperRegistry {
 	private $mappers = array();
 
 	/**
-	 * @var boolean whether database access should be denied for mappers
+	 * @var bool whether database access should be denied for mappers
 	 */
 	private $denyDatabaseAccess = FALSE;
 
 	/**
-	 * @var boolean whether this MapperRegistry is used in testing mode
+	 * @var bool whether this MapperRegistry is used in testing mode
 	 */
 	private $testingMode = FALSE;
 

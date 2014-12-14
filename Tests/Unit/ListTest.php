@@ -57,7 +57,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstModel
 	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $secondModel
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function sortByTitleAscending(
 		Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstModel,
@@ -70,7 +70,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstModel
 	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $secondModel
 	 *
-	 * @return integer
+	 * @return int
 	 */
 	public function sortByTitleDescending(
 		Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstModel,

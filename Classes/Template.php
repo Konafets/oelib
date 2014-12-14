@@ -255,7 +255,7 @@ class Tx_Oelib_Template {
 	 * @param mixed $content content with which the marker will be filled, may be empty
 	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
+	 * @return bool TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotEmpty
 	 */
@@ -276,7 +276,7 @@ class Tx_Oelib_Template {
 	 * @param string $content content with which the marker will be filled, may be empty
 	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE otherwise
+	 * @return bool TRUE if the marker content has been set, FALSE otherwise
 	 *
 	 * @see setMarkerIfNotZero
 	 */
@@ -296,7 +296,7 @@ class Tx_Oelib_Template {
 	 *
 	 * @param string $subpartName name of the subpart to check (without the ###), must not be empty
 	 *
-	 * @return boolean TRUE if the subpart is visible, FALSE otherwise
+	 * @return bool TRUE if the subpart is visible, FALSE otherwise
 	 */
 	public function isSubpartVisible($subpartName) {
 		if ($subpartName === '') {
@@ -440,7 +440,7 @@ class Tx_Oelib_Template {
 	 *
 	 * @param string $markerName
 	 *        the marker's name without the ### signs, case-insensitive, will get uppercased, must not be empty
-	 * @param boolean $condition
+	 * @param bool $condition
 	 *        if this is TRUE, the marker will be filled, otherwise the wrapped marker will be hidden
 	 * @param string $content
 	 *        content with which the marker will be filled, may be empty
@@ -449,7 +449,7 @@ class Tx_Oelib_Template {
 	 * @param string $wrapperPrefix
 	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if
+	 * @return bool TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setMarkerContent
@@ -485,7 +485,7 @@ class Tx_Oelib_Template {
 	 * @param string $wrapperPrefix
 	 *        prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if
+	 * @return bool TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -519,7 +519,7 @@ class Tx_Oelib_Template {
 	 * @param string $markerPrefix prefix to the marker name for setting (may be empty, case-insensitive, will get uppercased)
 	 * @param string $wrapperPrefix prefix to the subpart name for hiding (may be empty, case-insensitive, will get uppercased)
 	 *
-	 * @return boolean TRUE if the marker content has been set, FALSE if
+	 * @return bool TRUE if the marker content has been set, FALSE if
 	 *                 the subpart has been hidden
 	 *
 	 * @see setOrDeleteMarker
@@ -681,7 +681,7 @@ class Tx_Oelib_Template {
 	 *
 	 * @param string $markerName marker name to check (with the hashes), may be empty
 	 *
-	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
+	 * @return bool TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
 		return (boolean) preg_match(
@@ -700,7 +700,7 @@ class Tx_Oelib_Template {
 	 *
 	 * @param string $markerName marker name to check (without the hashes), may be empty
 	 *
-	 * @return boolean TRUE if the marker name is valid, FALSE otherwise
+	 * @return bool TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithoutHashes($markerName) {
 		return $this->isMarkerNameValidWithHashes('###' . $markerName . '###');

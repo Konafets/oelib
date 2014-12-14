@@ -28,9 +28,9 @@ class Tx_Oelib_FileFunctions {
 	 * files.
 	 *
 	 * @param string $path Absolute path to folder, see PHP rmdir() function. Removes trailing slash internally.
-	 * @param boolean $removeNonEmpty whether to allow deletion of non-empty directories
+	 * @param bool $removeNonEmpty whether to allow deletion of non-empty directories
 	 *
-	 * @return boolean TRUE if @rmdir went well, FALSE otherwise
+	 * @return bool TRUE if @rmdir went well, FALSE otherwise
 	 *
 	 * @see t3lib_div::rmdir()
 	 *

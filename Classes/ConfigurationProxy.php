@@ -39,7 +39,7 @@ class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 	private $extensionKey = '';
 
 	/**
-	 * @var boolean whether the configuration is already loaded
+	 * @var bool whether the configuration is already loaded
 	 */
 	private $isConfigurationLoaded = FALSE;
 
@@ -129,7 +129,7 @@ class Tx_Oelib_ConfigurationProxy extends Tx_Oelib_PublicObject {
 	 * @param string $key
 	 *        key to check, must not be empty
 	 *
-	 * @return boolean whether $key occurs in the configuration array of
+	 * @return bool whether $key occurs in the configuration array of
 	 *                 the extension named $this->extensionKey
 	 */
 	private function hasConfigurationValue($key) {

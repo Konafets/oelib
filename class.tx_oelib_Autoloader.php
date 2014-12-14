@@ -33,7 +33,7 @@ class Tx_Oelib_Autoloader {
 	 * @param string $className
 	 *        the name of the class to load, may be empty
 	 *
-	 * @return boolean TRUE if the class could be loaded, FALSE otherwise
+	 * @return bool TRUE if the class could be loaded, FALSE otherwise
 	 */
 	public static function load($className) {
 		// This is necessary so the XCLASS statements at the bottom of the

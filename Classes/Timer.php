@@ -24,7 +24,7 @@
  */
 class Tx_Oelib_Timer {
 	/**
-	 * @var boolean whether the timer currently is running
+	 * @var bool whether the timer currently is running
 	 */
 	private $isRunning = FALSE;
 

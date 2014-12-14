@@ -196,7 +196,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $explanation
@@ -299,7 +299,7 @@ class Tx_Oelib_ConfigCheck {
 	/**
 	 * Checks whether the HTML template is provided and the file exists.
 	 *
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the template can also be selected via flexforms
 	 *
 	 * @return void
@@ -417,7 +417,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -451,7 +451,7 @@ class Tx_Oelib_ConfigCheck {
 	 *        the value to check
 	 * @param string $fieldName
 	 *        TS setup field name to mention in the warning, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $explanation
@@ -481,7 +481,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -519,7 +519,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -558,7 +558,7 @@ class Tx_Oelib_ConfigCheck {
 	 *        the value to check
 	 * @param string $fieldName
 	 *        TS setup field name to mention in the warning, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $explanation
@@ -594,7 +594,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -621,7 +621,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -657,11 +657,11 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param integer $minValue
+	 * @param int $minValue
 	 *        the first value of the range which is allowed
-	 * @param integer $maxValue
+	 * @param int $maxValue
 	 *        the last value of the range which is allowed
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -716,7 +716,7 @@ class Tx_Oelib_ConfigCheck {
 	 *        the value to check
 	 * @param string $fieldName
 	 *        TS setup field name to mention in the warning, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $explanation
@@ -755,7 +755,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -785,7 +785,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, may be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -822,7 +822,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -868,7 +868,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -906,7 +906,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -956,7 +956,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -988,7 +988,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1020,7 +1020,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1052,7 +1052,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1081,7 +1081,7 @@ class Tx_Oelib_ConfigCheck {
 	/**
 	 * Checks whether the salutation mode is set correctly.
 	 *
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 *
@@ -1137,7 +1137,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1175,7 +1175,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1213,7 +1213,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1243,7 +1243,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1278,7 +1278,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1313,7 +1313,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1348,7 +1348,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1378,7 +1378,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1419,7 +1419,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1454,7 +1454,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1489,7 +1489,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1524,7 +1524,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1567,7 +1567,7 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to extract, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
@@ -1798,7 +1798,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @param string $localeKey
 	 *        key of a locale, must not be empty
 	 *
-	 * @return boolean whether the locale key is the key of an installed locale
+	 * @return bool whether the locale key is the key of an installed locale
 	 */
 	private function isAllowedLocale($localeKey) {
 		// "UTF-8" is interpreted equally to "utf8". Therefore "-" need to be
@@ -1838,13 +1838,13 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to mention in the warning, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
 	 *        flexforms sheet pointer, eg. "sDEF", will be ignored if
 	 *        $canUseFlexforms is set to FALSE
-	 * @param boolean $unused unused
+	 * @param bool $unused unused
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,
 	 *        must not be empty
@@ -1875,13 +1875,13 @@ class Tx_Oelib_ConfigCheck {
 	 *
 	 * @param string $fieldName
 	 *        TS setup field name to mention in the warning, must not be empty
-	 * @param boolean $canUseFlexforms
+	 * @param bool $canUseFlexforms
 	 *        whether the value can also be set via flexforms (this will be
 	 *        mentioned in the error message)
 	 * @param string $sheet
 	 *        flexforms sheet pointer, eg. "sDEF", will be ignored if
 	 *        $canUseFlexforms is set to FALSE
-	 * @param boolean $allowInternalAddresses
+	 * @param bool $allowInternalAddresses
 	 *        whether internal addresses ("user@servername") are considered valid
 	 * @param string $explanation
 	 *        a sentence explaining what that configuration value is needed for,

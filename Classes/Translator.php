@@ -68,7 +68,7 @@ class Tx_Oelib_Translator {
 	 *
 	 * @param string $key
 	 *        the key of the label to get the localization for, must not be empty
-	 * @param boolean $useHtmlSpecialChars
+	 * @param bool $useHtmlSpecialChars
 	 *        whether the localized label should be processes with htmlspecialchars prior to returning it
 	 *
 	 * @return string the localized label, might be empty

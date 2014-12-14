@@ -108,7 +108,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns whether the e-mail has a sender.
 	 *
-	 * @return boolean TRUE if the e-mail has a sender, FALSE otherwise
+	 * @return bool TRUE if the e-mail has a sender, FALSE otherwise
 	 */
 	public function hasSender() {
 		return is_object($this->sender);
@@ -193,7 +193,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns whether the e-mail has a message.
 	 *
-	 * @return boolean TRUE if the e-mail has a message, FALSE otherwise
+	 * @return bool TRUE if the e-mail has a message, FALSE otherwise
 	 */
 	public function hasMessage() {
 		return $this->hasString('message');
@@ -297,7 +297,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	/**
 	 * Returns whether e-mail has a CSS file.
 	 *
-	 * @return boolean TRUE if a CSS file has been set, FALSE otherwise
+	 * @return bool TRUE if a CSS file has been set, FALSE otherwise
 	 */
 	public function hasCssFile() {
 		return $this->hasString('cssFile');
@@ -317,7 +317,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 *
 	 * @param string $cssFile the absolute path to the CSS file, must not be empty
 	 *
-	 * @return boolean TRUE when the CSS file was read earlier, FALSE otherwise
+	 * @return bool TRUE when the CSS file was read earlier, FALSE otherwise
 	 */
 	private function cssFileIsCached($cssFile) {
 		return isset(self::$cssFileCache[$cssFile]);

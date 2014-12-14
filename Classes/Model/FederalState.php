@@ -22,7 +22,7 @@
  */
 class Tx_Oelib_Model_FederalState extends Tx_Oelib_Model {
 	/**
-	 * @var boolean
+	 * @var bool
 	 */
 	protected $readOnly = TRUE;
 
