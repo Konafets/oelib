@@ -32,7 +32,6 @@ class Tx_Oelib_TimerTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		$this->subject->destroyAllBuckets();
-		unset($this->subject);
 	}
 
 	/**

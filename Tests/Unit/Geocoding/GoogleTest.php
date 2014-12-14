@@ -32,7 +32,6 @@ class Tx_Oelib_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		tx_oelib_Geocoding_Google::purgeInstance();
-		unset($this->subject);
 	}
 
 

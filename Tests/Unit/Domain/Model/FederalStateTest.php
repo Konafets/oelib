@@ -24,14 +24,10 @@ class Tx_Oelib_Domain_Model_FederalStateTest extends Tx_Extbase_Tests_Unit_BaseT
 	/**
 	 * @var Tx_Oelib_Domain_Model_FederalState
 	 */
-	private $subject = NULL;
+	protected $subject = NULL;
 
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_Domain_Model_FederalState();
-	}
-
-	protected function tearDown() {
-		unset($this->subject);
 	}
 
 	/**

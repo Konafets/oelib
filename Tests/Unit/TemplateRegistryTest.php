@@ -21,13 +21,6 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  */
 class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
-	protected function setUp() {
-	}
-
-	protected function tearDown() {
-	}
-
-
 	////////////////////////////////////////////
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////

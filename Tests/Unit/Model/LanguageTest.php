@@ -30,11 +30,6 @@ class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_Model_Language();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	////////////////////////////////////////////
 	// Tests regarding getting the local name.
 	////////////////////////////////////////////

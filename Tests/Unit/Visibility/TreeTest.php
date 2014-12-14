@@ -26,13 +26,6 @@ class Tx_Oelib_Visibility_TreeTest extends Tx_Phpunit_TestCase {
 	 */
 	private $subject;
 
-	protected function setUp() {}
-
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	////////////////////////////////////////////////////////
 	// Tests concerning the building of the tree structure
 	////////////////////////////////////////////////////////

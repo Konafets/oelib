@@ -36,7 +36,6 @@ class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		tx_oelib_headerProxyFactory::purgeInstance();
-		unset($this->subject);
 	}
 
 	/**

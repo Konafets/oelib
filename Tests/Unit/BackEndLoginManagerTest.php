@@ -39,8 +39,6 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->subject, $this->testingFramework);
 	}
 
 

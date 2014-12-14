@@ -24,16 +24,12 @@ class Tx_Oelib_Domain_Repository_FederalStateRepositoryTest extends Tx_Extbase_T
 	/**
 	 * @var Tx_Oelib_Domain_Repository_FederalStateRepository
 	 */
-	private $subject = NULL;
+	protected $subject = NULL;
 
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_Domain_Repository_FederalStateRepository(
 			$this->getMock('Tx_Extbase_Object_ObjectManagerInterface')
 		);
-	}
-
-	protected function tearDown() {
-		unset($this->subject);
 	}
 
 	/**

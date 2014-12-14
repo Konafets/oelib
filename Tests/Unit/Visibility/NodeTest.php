@@ -30,11 +30,6 @@ class Tx_Oelib_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$this->subject = new tx_oelib_Visibility_Node();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	//////////////////////////////
 	// Tests for the constructor
 	//////////////////////////////

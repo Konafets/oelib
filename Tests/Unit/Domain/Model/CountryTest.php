@@ -24,14 +24,10 @@ class Tx_Oelib_Domain_Model_CountryTest extends Tx_Extbase_Tests_Unit_BaseTestCa
 	/**
 	 * @var Tx_Oelib_Domain_Model_Country
 	 */
-	private $subject = NULL;
+	protected $subject = NULL;
 
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_Domain_Model_Country();
-	}
-
-	protected function tearDown() {
-		unset($this->subject);
 	}
 
 	/**

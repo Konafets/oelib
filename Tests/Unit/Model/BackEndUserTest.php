@@ -31,11 +31,6 @@ class Tx_Oelib_Model_BackEndUserTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_Model_BackEndUser();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	///////////////////////////////////////////
 	// Tests concerning getting the user name
 	///////////////////////////////////////////

@@ -30,10 +30,6 @@ class Tx_Oelib_AttachmentTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_Attachment();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
 
 	///////////////////////////////////////////////////////
 	// Tests regarding setting and getting the file name.

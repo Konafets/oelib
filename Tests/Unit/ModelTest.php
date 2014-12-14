@@ -31,10 +31,6 @@ class Tx_Oelib_ModelTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
 	/**
 	 * Loading function stub.
 	 *

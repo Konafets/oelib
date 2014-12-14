@@ -21,11 +21,6 @@
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
 class Tx_Oelib_PhpMyAdminTest extends Tx_Phpunit_TestCase {
-	protected function setUp() {}
-
-	protected function tearDown() {}
-
-
 	///////////////////////////////////////////////////////
 	// Test if phpMyAdmin is installed
 	///////////////////////////////////////////////////////

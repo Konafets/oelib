@@ -32,8 +32,6 @@ class Tx_Oelib_SessionTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->testingFramework);
 	}
 
 

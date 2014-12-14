@@ -30,11 +30,6 @@ class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 		$this->subject = new tx_oelib_Mapper_Currency();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	///////////////////////////
 	// Tests concerning find.
 	///////////////////////////

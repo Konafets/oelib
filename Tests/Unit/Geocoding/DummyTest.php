@@ -30,11 +30,6 @@ class Tx_Oelib_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 		$this->subject = new tx_oelib_Geocoding_Dummy();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	/////////////////////
 	// Tests for lookUp
 	/////////////////////

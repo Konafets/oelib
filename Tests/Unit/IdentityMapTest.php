@@ -30,11 +30,6 @@ class Tx_Oelib_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_IdentityMap();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	//////////////////////////
 	// Tests for get and add
 	//////////////////////////

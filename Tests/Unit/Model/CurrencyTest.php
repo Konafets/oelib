@@ -30,11 +30,6 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_Model_Currency();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	////////////////////////////////
 	// Tests concerning isReadOnly
 	////////////////////////////////

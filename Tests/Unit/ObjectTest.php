@@ -30,11 +30,6 @@ class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_testingObject();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	//////////////////////////////////
 	// Tests for checkForNonEmptyKey
 	//////////////////////////////////

@@ -42,7 +42,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 	}
 
 	protected function tearDown() {
-		unset($this->subject, $GLOBALS['TSFE'], $this->mapPointWithCoordinates);
+		unset($GLOBALS['TSFE']);
 	}
 
 	/**

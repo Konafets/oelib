@@ -43,8 +43,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	}
 
 	protected function tearDown() {
-		unset($this->subject, $this->modelStorage);
-
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 

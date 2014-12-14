@@ -38,11 +38,6 @@ class Tx_Oelib_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$this->geoObject->setGeoCoordinates(array('latitude' => 50.733585499999997, 'longitude' => 7.1012733999999993));
 	}
 
-	protected function tearDown() {
-		unset($this->subject, $this->geoObject);
-	}
-
-
 	/**
 	 * @test
 	 */

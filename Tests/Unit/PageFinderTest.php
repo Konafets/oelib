@@ -38,8 +38,6 @@ class Tx_Oelib_PageFinderTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
-
-		unset($this->testingFramework, $this->subject);
 	}
 
 

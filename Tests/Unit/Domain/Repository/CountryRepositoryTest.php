@@ -24,16 +24,12 @@ class Tx_Oelib_Domain_Repository_CountryRepositoryTest extends Tx_Extbase_Tests_
 	/**
 	 * @var Tx_Oelib_Domain_Repository_CountryRepository
 	 */
-	private $subject = NULL;
+	protected $subject = NULL;
 
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_Domain_Repository_CountryRepository(
 			$this->getMock('Tx_Extbase_Object_ObjectManagerInterface')
 		);
-	}
-
-	protected function tearDown() {
-		unset($this->subject);
 	}
 
 	/**

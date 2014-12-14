@@ -49,7 +49,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->cleanUp();
 
 		Tx_Oelib_MapperRegistry::purgeInstance();
-		unset($this->subject, $this->testingFramework);
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}

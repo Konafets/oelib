@@ -30,11 +30,6 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 		$this->subject = new tx_oelib_Mapper_Country();
 	}
 
-	protected function tearDown() {
-		unset($this->subject);
-	}
-
-
 	///////////////////////////
 	// Tests concerning find.
 	///////////////////////////
