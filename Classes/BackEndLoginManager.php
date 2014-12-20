@@ -86,8 +86,7 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * @param string $mapperName
 	 *        the name of the mapper to use for getting the back-end user model, must not be empty
 	 *
-	 * @return Tx_Oelib_Model_BackEndUser the logged-in back-end user, will
-	 *                                    be NULL if no user is logged in
+	 * @return Tx_Oelib_Model_BackEndUser the logged-in back-end user, will be NULL if no user is logged in
 	 */
 	public function getLoggedInUser($mapperName = 'tx_oelib_Mapper_BackEndUser') {
 		if ($mapperName === '') {
@@ -103,7 +102,9 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 		/** @var tx_oelib_Mapper_BackEndUser $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
 
-		return $mapper->find($GLOBALS['BE_USER']->user['uid']);
+		/** @var Tx_Oelib_Model_BackEndUser $user */
+		$user = $mapper->find($GLOBALS['BE_USER']->user['uid']);
+		return $user;
 	}
 
 	/**

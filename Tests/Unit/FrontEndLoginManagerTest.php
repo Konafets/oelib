@@ -199,7 +199,10 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	public function getLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 		$uid = $this->testingFramework->createAndLoginFrontEndUser();
-		$user = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')->find($uid);
+		/** @var tx_oelib_Mapper_FrontEndUser $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
+		/** @var tx_oelib_Model_FrontEndUser $user */
+		$user = $mapper->find($uid);
 
 		$this->assertSame(
 			$user,

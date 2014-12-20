@@ -5071,9 +5071,11 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUid = $this->subject->createFrontEndUserGroup(
 			array('title' => 'foo')
 		);
-		$feUser = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser')
-			->find($this->subject->createFrontEndUser($feUserGroupUid));
-		$this->subject->loginFrontEndUser($feUser->getUid());
+		/** @var tx_oelib_Mapper_FrontEndUser $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
+		/** @var tx_oelib_Model_FrontEndUser $user */
+		$user = $mapper->find($this->subject->createFrontEndUser($feUserGroupUid));
+		$this->subject->loginFrontEndUser($user->getUid());
 
 		$this->assertSame(
 			array($feUserGroupUid => 'foo'),

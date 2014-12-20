@@ -34,7 +34,10 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalNameReturnsLocalNameOfNorthRhineWestphalia() {
-		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		/** @var tx_oelib_Mapper_FederalState $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState');
+		/** @var Tx_Oelib_Model_FederalState $subject */
+		$model = $mapper->find(88);
 
 		$this->assertSame(
 			'Nordrhein-Westfalen',
@@ -51,7 +54,10 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getEnglishNameReturnsLocalNameOfNorthRhineWestphalia() {
-		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		/** @var tx_oelib_Mapper_FederalState $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState');
+		/** @var Tx_Oelib_Model_FederalState $subject */
+		$model = $mapper->find(88);
 
 		$this->assertSame(
 			'North Rhine-Westphalia',
@@ -68,7 +74,10 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfNorthRhineWestphalia() {
-		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		/** @var tx_oelib_Mapper_FederalState $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState');
+		/** @var Tx_Oelib_Model_FederalState $subject */
+		$model = $mapper->find(88);
 
 		$this->assertSame(
 			'DE',
@@ -80,7 +89,10 @@ class Tx_Oelib_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2ZoneCodeReturnsIsoAlpha2ZoneCodeOfNorthRhineWestphalia() {
-		$model = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState')->find(88);
+		/** @var tx_oelib_Mapper_FederalState $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FederalState');
+		/** @var Tx_Oelib_Model_FederalState $subject */
+		$model = $mapper->find(88);
 
 		$this->assertSame(
 			'NW',

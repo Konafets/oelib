@@ -156,8 +156,10 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLoggedInUserWithAlreadyCreatedUserModelReturnsThatInstance() {
-		$user = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')
-			->find($GLOBALS['BE_USER']->user['uid']);
+		/** @var tx_oelib_Mapper_BackEndUser $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser');
+		/** @var tx_oelib_Model_BackEndUser $user */
+		$user = $mapper->find($GLOBALS['BE_USER']->user['uid']);
 
 		$this->assertSame(
 			$user,

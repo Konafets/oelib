@@ -255,7 +255,10 @@ class Tx_Oelib_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getDecimalDigitsForChileanPesoReturnsZero() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(33);
+		/** @var tx_oelib_Mapper_Currency $mapper */
+		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency');
+		/** @var tx_oelib_Model_Currency $subject */
+		$subject = $mapper->find(33);
 
 		$this->assertSame(
 			0,
