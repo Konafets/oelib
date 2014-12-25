@@ -73,11 +73,11 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 * @return bool TRUE if a back-end user is logged in, FALSE otherwise
 	 */
 	public function isLoggedIn() {
-		if($this->loggedInUser) {
+		if ($this->loggedInUser) {
 			return TRUE;
 		}
 
-		return isset($GLOBALS['BE_USER']) && is_object($GLOBALS['BE_USER']);
+		return $this->getBackEndUserAuthentication() !== NULL;
 	}
 
 	/**
@@ -103,7 +103,7 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 		$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
 
 		/** @var Tx_Oelib_Model_BackEndUser $user */
-		$user = $mapper->find($GLOBALS['BE_USER']->user['uid']);
+		$user = $mapper->find($this->getBackEndUserAuthentication()->user['uid']);
 		return $user;
 	}
 
@@ -119,5 +119,14 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 */
 	public function setLoggedInUser(Tx_Oelib_Model_BackEndUser $loggedInUser) {
 		$this->loggedInUser = $loggedInUser;
+	}
+
+	/**
+	 * Returns $GLOBALS['BE_USER'].
+	 *
+	 * @return t3lib_beUserAuth|NULL
+	 */
+	protected function getBackEndUserAuthentication() {
+		return isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER'] : NULL;
 	}
 }

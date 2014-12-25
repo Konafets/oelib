@@ -77,8 +77,7 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 */
 	public function isLoggedIn() {
 		$isSimulatedLoggedIn = ($this->loggedInUser !== NULL);
-		$isReallyLoggedIn = isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE']) &&
-			is_array($GLOBALS['TSFE']->fe_user->user);
+		$isReallyLoggedIn = ($this->getFrontEndController() !== NULL) && is_array($this->getFrontEndController()->fe_user->user);
 
 		return ($isSimulatedLoggedIn || $isReallyLoggedIn);
 	}
@@ -106,7 +105,7 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 			/** @var Tx_Oelib_Mapper_FrontEndUser $mapper */
 			$mapper = Tx_Oelib_MapperRegistry::get($mapperName);
 			/** @var Tx_Oelib_Model_FrontEndUser $user */
-			$user = $mapper->find($GLOBALS['TSFE']->fe_user->user['uid']);
+			$user = $mapper->find($this->getFrontEndController()->fe_user->user['uid']);
 		}
 
 		return $user;
@@ -123,5 +122,14 @@ class Tx_Oelib_FrontEndLoginManager implements tx_oelib_Interface_LoginManager {
 	 */
 	public function logInUser(Tx_Oelib_Model_FrontEndUser $user = NULL) {
 		$this->loggedInUser = $user;
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

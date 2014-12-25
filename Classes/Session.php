@@ -60,7 +60,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 * @param int $type the type of the session to use; either TYPE_USER or TYPE_TEMPORARY
 	 */
 	protected function __construct($type) {
-		if (!($GLOBALS['TSFE'] instanceof tslib_fe)) {
+		if ($this->getFrontEndController() === NULL) {
 			throw new BadMethodCallException('This class must not be instantiated when there is no front end.', 1331489053);
 		}
 
@@ -135,10 +135,7 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 *               if the key has not been set yet
 	 */
 	protected function get($key) {
-		return $GLOBALS['TSFE']->fe_user->getKey(
-			self::$types[$this->type],
-			$key
-		);
+		return $this->getFrontEndController()->fe_user->getKey(self::$types[$this->type], $key);
 	}
 
 	/**
@@ -150,11 +147,16 @@ class Tx_Oelib_Session extends Tx_Oelib_PublicObject {
 	 * @return void
 	 */
 	protected function set($key, $value) {
-		$GLOBALS['TSFE']->fe_user->setKey(
-			self::$types[$this->type],
-			$key,
-			$value
-		);
-		$GLOBALS['TSFE']->fe_user->storeSessionData();
+		$this->getFrontEndController()->fe_user->setKey(self::$types[$this->type], $key, $value);
+		$this->getFrontEndController()->fe_user->storeSessionData();
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

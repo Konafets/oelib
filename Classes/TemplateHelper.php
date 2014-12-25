@@ -94,7 +94,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 			return;
 		}
 
-		$frontEnd = $this->getFrontEnd();
+		$frontEnd = $this->getFrontEndController();
 		if ($frontEnd && !isset($frontEnd->config['config'])) {
 			$frontEnd->config['config'] = array();
 		}
@@ -153,7 +153,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		}
 
 		// TSFE->cObj will be an empty string if not initialized, not NULL.
-		$frontEnd = $this->getFrontEnd();
+		$frontEnd = $this->getFrontEndController();
 		if ($frontEnd->cObj instanceof tslib_cObj) {
 			$this->cObj = $frontEnd->cObj;
 		}
@@ -474,7 +474,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		);
 
 		if (!$ignoreFlexform) {
-			$templateFileName = $this->getFrontEnd()->tmpl->getFileName(
+			$templateFileName = $this->getFrontEndController()->tmpl->getFileName(
 				$templateFileName
 			);
 		}
@@ -967,7 +967,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 */
 	public function addJavaScriptToPageHeader() {
 		if ($this->hasConfValueString('jsFile', 's_template_special')) {
-			$this->getFrontEnd()->additionalHeaderData[$this->prefixId.'_js']
+			$this->getFrontEndController()->additionalHeaderData[$this->prefixId.'_js']
 				= '<script type="text/javascript" src="'
 				.$this->getConfValueString(
 					'jsFile',
@@ -1354,7 +1354,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	protected function setLocaleConvention() {
 		t3lib_div::logDeprecatedFunction();
 
-		setlocale(LC_ALL, $this->getFrontEnd()->config['config']['locale_all']);
+		setlocale(LC_ALL, $this->getFrontEndController()->config['config']['locale_all']);
 	}
 
 	/**
@@ -1365,7 +1365,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return int the general record storage PID for the current page, will be 0 if the page has no storage page set
 	 */
 	public function getStoragePid() {
-		$pageData = $this->getFrontEnd()->getStorageSiterootPids();
+		$pageData = $this->getFrontEndController()->getStorageSiterootPids();
 
 		return $pageData['_STORAGE_PID'];
 	}
@@ -1384,11 +1384,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * @return tslib_fe|NULL
 	 */
-	protected function getFrontEnd() {
-		if (!isset($GLOBALS['TSFE'])) {
-			return NULL;
-		}
-
-		return $GLOBALS['TSFE'];
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

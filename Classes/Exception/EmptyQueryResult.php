@@ -32,8 +32,10 @@ class tx_oelib_Exception_EmptyQueryResult extends Exception {
 	public function __construct($code = 0) {
 		$message = 'The database query returned an empty result, but should  have returned a non-empty result.';
 
-		if ($GLOBALS['TYPO3_DB']->store_lastBuiltQuery || $GLOBALS['TYPO3_DB']->debugOutput) {
-			$message .= LF . 'The last built query:' . LF . $GLOBALS['TYPO3_DB']->debug_lastBuiltQuery;
+		/** @var t3lib_DB $databaseConnection */
+		$databaseConnection = $GLOBALS['TYPO3_DB'];
+		if ($databaseConnection->store_lastBuiltQuery || $databaseConnection->debugOutput) {
+			$message .= LF . 'The last built query:' . LF . $databaseConnection->debug_lastBuiltQuery;
 		}
 
 		parent::__construct($message, $code);

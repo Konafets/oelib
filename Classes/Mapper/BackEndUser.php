@@ -99,12 +99,22 @@ class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 	 * @return array the record from the database, will not be empty
 	 */
 	protected function retrieveRecordByUid($uid) {
-		if (Tx_Oelib_BackEndLoginManager::getInstance()->isLoggedIn() && ((int)$GLOBALS['BE_USER']->user['uid'] === $uid)) {
-			$data = $GLOBALS['BE_USER']->user;
+		$authentication = $this->getBackEndUserAuthentication();
+		if (Tx_Oelib_BackEndLoginManager::getInstance()->isLoggedIn() && ((int)$authentication->user['uid'] === $uid)) {
+			$data = $authentication->user;
 		} else {
 			$data = parent::retrieveRecordByUid($uid);
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Returns $GLOBALS['BE_USER'].
+	 *
+	 * @return t3lib_beUserAuth
+	 */
+	protected function getBackEndUserAuthentication() {
+		return $GLOBALS['BE_USER'];
 	}
 }

@@ -548,6 +548,7 @@ abstract class Tx_Oelib_DataMapper {
 			);
 		}
 
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
 		$whereClauses = array($this->getUniversalWhereClause(TRUE));
 		foreach ($whereClauseParts as $key => $value) {
 			$columnDefinition = Tx_Oelib_Db::getColumnDefinition($this->getTableName(), $key);
@@ -555,7 +556,7 @@ abstract class Tx_Oelib_DataMapper {
 			$whereClauses[] = $key . ' = ' . (
 				(strpos($columnDefinition['Type'], 'int') !== FALSE)
 					? $value
-					: $GLOBALS['TYPO3_DB']->fullQuoteStr($value, $this->getTableName())
+					: $databaseConnection->fullQuoteStr($value, $this->getTableName())
 			);
 		}
 		$whereClause = implode(' AND ', $whereClauses);

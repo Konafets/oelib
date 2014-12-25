@@ -96,7 +96,7 @@ class Tx_Oelib_PageFinder {
 				$result = $this->storedPageUid;
 				break;
 			case self::SOURCE_FRONT_END:
-				$result = (int)$GLOBALS['TSFE']->id;
+				$result = (int)$this->getFrontEndController()->id;
 				break;
 			case self::SOURCE_BACK_END:
 				$result = (int)t3lib_div::_GP('id');
@@ -166,7 +166,7 @@ class Tx_Oelib_PageFinder {
 	 *                 FALSE otherwise
 	 */
 	private function hasFrontEnd() {
-		return (is_object($GLOBALS['TSFE']) && ($GLOBALS['TSFE']->id > 0));
+		return ($this->getFrontEndController() !== NULL) && ($this->getFrontEndController()->id > 0);
 	}
 
 	/**
@@ -185,5 +185,14 @@ class Tx_Oelib_PageFinder {
 	 */
 	private function hasManualPageUid() {
 		return ($this->storedPageUid > 0);
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

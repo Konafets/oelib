@@ -118,11 +118,11 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 
 		// pageRenderer->addJsLibrary() would not work here if this ViewHelper
 		// is used in an uncached plugin on a cached page.
-		$GLOBALS['TSFE']->additionalHeaderData[self::LIBRARY_JAVASCRIPT_HEADER_KEY]
+		$this->getFrontEndController()->additionalHeaderData[self::LIBRARY_JAVASCRIPT_HEADER_KEY]
 			= '<script src="' . self::GOOGLE_MAPS_LIBRARY_URL . '" type="text/javascript"></script>';
 
 		$initializeFunctionName = 'initializeGoogleMap_' . $this->mapNumber;
-		$GLOBALS['TSFE']->additionalJavaScript[$mapId]
+		$this->getFrontEndController()->additionalJavaScript[$mapId]
 			= $this->generateJavaScript($mapId, $mapPointsWithCoordinates, $initializeFunctionName);
 
 		// We use the inline JavaScript because adding body onload handlers does not work
@@ -299,5 +299,14 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	 */
 	public function getMapId() {
 		return self::MAP_HTML_ID_PREFIX . '_' . $this->mapNumber;
+	}
+
+	/**
+	 * Returns $GLOBALS['TSFE'].
+	 *
+	 * @return tslib_fe
+	 */
+	protected function getFrontEndController() {
+		return $GLOBALS['TSFE'];
 	}
 }

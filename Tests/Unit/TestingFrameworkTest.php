@@ -93,6 +93,15 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	}
 
 	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
+
+	/**
 	 * Returns the sorting value of the relation between the local UID given by
 	 * the first parameter $uidLocal and the foreign UID given by the second
 	 * parameter $uidForeign.
@@ -1459,10 +1468,8 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getAutoIncrementReturnsOneForTruncatedTable() {
 		Tx_Oelib_Db::enableQueryLogging();
-		/** @var t3lib_DB $databaseConnection */
-		$databaseConnection = $GLOBALS['TYPO3_DB'];
-		$dbResult = $databaseConnection->sql_query('TRUNCATE TABLE tx_oelib_test;');
-		if (!$dbResult) {
+		$dbResult = Tx_Oelib_Db::getDatabaseConnection()->sql_query('TRUNCATE TABLE tx_oelib_test;');
+		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database(1418586819);
 		}
 
@@ -4507,7 +4514,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$result = $this->subject->createFakeFrontEnd();
 
 		$this->assertSame(
-			$GLOBALS['TSFE']->id,
+			$this->getFrontEndController()->id,
 			$result
 		);
 	}
@@ -4532,7 +4539,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->sys_page instanceof t3lib_pageSelect
+			$this->getFrontEndController()->sys_page instanceof t3lib_pageSelect
 		);
 	}
 
@@ -4544,7 +4551,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->fe_user instanceof tslib_feUserAuth
+			$this->getFrontEndController()->fe_user instanceof tslib_feUserAuth
 		);
 	}
 
@@ -4556,7 +4563,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->cObj instanceof tslib_cObj
+			$this->getFrontEndController()->cObj instanceof tslib_cObj
 		);
 	}
 
@@ -4568,7 +4575,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->tmpl instanceof t3lib_TStemplate
+			$this->getFrontEndController()->tmpl instanceof t3lib_TStemplate
 		);
 	}
 
@@ -4586,7 +4593,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'bar',
-			$GLOBALS['TSFE']->tmpl->setup['foo']
+			$this->getFrontEndController()->tmpl->setup['foo']
 		);
 	}
 
@@ -4604,7 +4611,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			1,
-			$GLOBALS['TSFE']->tmpl->loaded
+			$this->getFrontEndController()->tmpl->loaded
 		);
 	}
 
@@ -4616,7 +4623,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		$this->assertTrue(
-			is_array($GLOBALS['TSFE']->config)
+			is_array($this->getFrontEndController()->config)
 		);
 	}
 
@@ -4632,7 +4639,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			0,
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -4648,7 +4655,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			FALSE,
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -4660,7 +4667,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'0,-1',
-			$GLOBALS['TSFE']->gr_list
+			$this->getFrontEndController()->gr_list
 		);
 	}
 
@@ -4672,7 +4679,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->discardFakeFrontEnd();
 
 		$this->assertNull(
-			$GLOBALS['TSFE']
+			$this->getFrontEndController()
 		);
 	}
 
@@ -4761,7 +4768,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			$pageUid,
-			$GLOBALS['TSFE']->id
+			$this->getFrontEndController()->id
 		);
 	}
 
@@ -4796,7 +4803,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertContains(
 			'<img ',
-			$GLOBALS['TSFE']->cObj->IMAGE(
+			$this->getFrontEndController()->cObj->IMAGE(
 				array('file' => 'typo3conf/ext/oelib/Tests/Unit/Fixtures/test.png')
 			)
 		);
@@ -4868,7 +4875,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->loginFrontEndUser($feUserId);
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -4885,7 +4892,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'John Doe',
-			$GLOBALS['TSFE']->fe_user->user['name']
+			$this->getFrontEndController()->fe_user->user['name']
 		);
 	}
 
@@ -4930,7 +4937,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			array($feUserGroupUid => 'foo'),
-			$GLOBALS['TSFE']->fe_user->groupData['title']
+			$this->getFrontEndController()->fe_user->groupData['title']
 		);
 	}
 
@@ -4977,7 +4984,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			0,
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -4994,7 +5001,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			FALSE,
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -5026,7 +5033,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->loginFrontEndUser($feUser->getUid());
 
 		$this->assertTrue(
-			$GLOBALS['TSFE']->loginUser
+			$this->getFrontEndController()->loginUser
 		);
 	}
 
@@ -5043,7 +5050,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'John Doe',
-			$GLOBALS['TSFE']->fe_user->user['name']
+			$this->getFrontEndController()->fe_user->user['name']
 		);
 	}
 
@@ -5079,7 +5086,7 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			array($feUserGroupUid => 'foo'),
-			$GLOBALS['TSFE']->fe_user->groupData['title']
+			$this->getFrontEndController()->fe_user->groupData['title']
 		);
 	}
 

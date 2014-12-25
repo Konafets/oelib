@@ -55,6 +55,14 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['BE_USER'] = $this->backEndUserBackup;
 	}
 
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	////////////////////////////////////////////
 	// Tests regarding the Singleton property.
@@ -369,7 +377,7 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	public function getByExtensionNameInFrontEndOverridesLabelsFromFileWithLabelsFromTypoScript() {
 		$testingFramework = new Tx_Oelib_TestingFramework('oelib');
 		$testingFramework->createFakeFrontEnd();
-		$GLOBALS['TSFE']->initLLvars();
+		$this->getFrontEndController()->initLLvars();
 		Tx_Oelib_ConfigurationRegistry::get('config')->set('language', 'default');
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->
 			setData(array('default.' => array()));
@@ -403,7 +411,7 @@ class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	public function getByExtensionNameDoesNotDeleteLanguageLabelsNotAffectedByTypoScript() {
 		$testingFramework = new Tx_Oelib_TestingFramework('oelib');
 		$testingFramework->createFakeFrontEnd();
-		$GLOBALS['TSFE']->initLLvars();
+		$this->getFrontEndController()->initLLvars();
 		Tx_Oelib_ConfigurationRegistry::get('config')->set('language', 'default');
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->setData(array('default.' => array()));
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG.default')->set('label_test_2', 'I am from TypoScript.');

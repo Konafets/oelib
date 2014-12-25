@@ -33,37 +33,30 @@ class Tx_Oelib_Exception_EmptyQueryResultTest extends Tx_Phpunit_TestCase {
 	private $savedStoreLastBuildQuery;
 
 	protected function setUp() {
-		$this->savedDebugOutput = $this->getDatabaseConnection()->debugOutput;
-		$this->savedStoreLastBuildQuery = $this->getDatabaseConnection()->store_lastBuiltQuery;
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$this->savedDebugOutput = $databaseConnection->debugOutput;
+		$this->savedStoreLastBuildQuery = $databaseConnection->store_lastBuiltQuery;
 
-		$this->getDatabaseConnection()->debugOutput = FALSE;
-		$this->getDatabaseConnection()->store_lastBuiltQuery = TRUE;
+		$databaseConnection->debugOutput = FALSE;
+		$databaseConnection->store_lastBuiltQuery = TRUE;
 	}
 
 	protected function tearDown() {
-		$this->getDatabaseConnection()->debugOutput = $this->savedDebugOutput;
-		$this->getDatabaseConnection()->store_lastBuiltQuery = $this->savedStoreLastBuildQuery;
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$databaseConnection->debugOutput = $this->savedDebugOutput;
+		$databaseConnection->store_lastBuiltQuery = $this->savedStoreLastBuildQuery;
 	}
 
 	/**
 	 * @test
 	 */
 	public function messageAfterQueryWithLastQueryEnabledContainsLastQuery() {
-		$this->getDatabaseConnection()->exec_SELECTquery('title', 'tx_oelib_test', '');
+		Tx_Oelib_Db::getDatabaseConnection()->exec_SELECTquery('title', 'tx_oelib_test', '');
 		$subject = new tx_oelib_Exception_EmptyQueryResult();
 
 		$this->assertContains(
 			'SELECT',
 			$subject->getMessage()
 		);
-	}
-
-	/**
-	 * Returns $GLOBALS['TYPO3_DB'].
-	 *
-	 * @return t3lib_DB
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
 	}
 }

@@ -242,10 +242,12 @@ class Tx_Oelib_ConfigurationRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_PageFinder::getInstance()->forceSource(
 			Tx_Oelib_PageFinder::SOURCE_FRONT_END
 		);
-		$GLOBALS['TSFE']->tmpl->rootId = 0;
-		$GLOBALS['TSFE']->tmpl->rootLine = FALSE;
-		$GLOBALS['TSFE']->tmpl->setup = array();
-		$GLOBALS['TSFE']->tmpl->loaded = 0;
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
+		$frontEndController->tmpl->rootId = 0;
+		$frontEndController->tmpl->rootLine = FALSE;
+		$frontEndController->tmpl->setup = array();
+		$frontEndController->tmpl->loaded = 0;
 
 		$this->assertSame(
 			42,

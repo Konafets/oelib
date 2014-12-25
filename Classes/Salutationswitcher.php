@@ -77,9 +77,9 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 			throw new InvalidArgumentException('$key must not be empty.', 1331489025);
 		}
 
-		if (is_object($GLOBALS['TSFE']) && is_array($this->LOCAL_LANG)) {
+		if (($this->getFrontEndController() !== NULL) && is_array($this->LOCAL_LANG)) {
 			$result = $this->translateInFrontEnd($key);
-		} elseif (is_object($GLOBALS['LANG'])) {
+		} elseif ($this->getLanguageService() !== NULL) {
 			$result = $this->translateInBackEnd($key);
 		} else {
 			$result = $key;
@@ -101,7 +101,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * @return string the requested local language key, might be empty
 	 */
 	private function translateInBackEnd($key) {
-		return $GLOBALS['LANG']->getLL($key);
+		return $this->getLanguageService()->getLL($key);
 	}
 
 	/**
@@ -199,5 +199,23 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 		}
 
 		return $this->suffixesToTry;
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
+	}
+
+	/**
+	 * Returns $GLOBALS['LANG'].
+	 *
+	 * @return language|NULL
+	 */
+	protected function getLanguageService() {
+		return isset($GLOBALS['LANG']) ? $GLOBALS['LANG'] : NULL;
 	}
 }

@@ -1431,4 +1431,14 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 			)
 		);
 	}
+
+	/**
+	 * @test
+	 */
+	public function getDatabaseConnectionReturnsGlobalsDatabaseConnection() {
+		$this->assertSame(
+			$GLOBALS['TYPO3_DB'],
+			Tx_Oelib_Db::getDatabaseConnection()
+		);
+	}
 }

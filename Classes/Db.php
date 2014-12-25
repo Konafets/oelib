@@ -128,10 +128,8 @@ class Tx_Oelib_Db {
 	 */
 	static private function retrievePageForEnableFields() {
 		if (!is_object(self::$pageForEnableFields)) {
-			if (isset($GLOBALS['TSFE'])
-				&& is_object($GLOBALS['TSFE']->sys_page)
-			) {
-				self::$pageForEnableFields = $GLOBALS['TSFE']->sys_page;
+			if ((self::getFrontEndController() !== NULL) && is_object(self::getFrontEndController()->sys_page)) {
+				self::$pageForEnableFields = self::getFrontEndController()->sys_page;
 			} else {
 				self::$pageForEnableFields = t3lib_div::makeInstance('t3lib_pageSelect');
 			}
@@ -180,10 +178,11 @@ class Tx_Oelib_Db {
 		);
 
 		$subPages = array();
-		while (($row = self::getDatabaseConnection()->sql_fetch_assoc($dbResult))) {
+		$databaseConnection = self::getDatabaseConnection();
+		while (($row = $databaseConnection->sql_fetch_assoc($dbResult))) {
 			$subPages[] = $row['uid'];
 		}
-		self::getDatabaseConnection()->sql_free_result($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		if (!empty($subPages)) {
 			$result = $startPages . ',' . self::createRecursivePageList(implode(',', $subPages), $recursionDepth - 1);
@@ -387,10 +386,11 @@ class Tx_Oelib_Db {
 			$fieldNames, $tableNames, $whereClause, $groupBy, $orderBy, $limit
 		);
 
-		while ($recordData = self::getDatabaseConnection()->sql_fetch_assoc($dbResult)) {
+		$databaseConnection = self::getDatabaseConnection();
+		while ($recordData = $databaseConnection->sql_fetch_assoc($dbResult)) {
 			$result[] = $recordData;
 		}
-		self::getDatabaseConnection()->sql_free_result($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		return $result;
 	}
@@ -694,7 +694,16 @@ class Tx_Oelib_Db {
 	 *
 	 * @return t3lib_DB
 	 */
-	static protected function getDatabaseConnection() {
+	static public function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	static protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

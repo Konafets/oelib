@@ -198,7 +198,7 @@ class Tx_Oelib_ConfigurationRegistry {
 		}
 
 		if ($this->existsFrontEnd()) {
-			return $GLOBALS['TSFE']->tmpl->setup;
+			return $this->getFrontEndController()->tmpl->setup;
 		}
 
 		/** @var t3lib_TStemplate $template */
@@ -225,8 +225,16 @@ class Tx_Oelib_ConfigurationRegistry {
 	 *                 otherwise
 	 */
 	private function existsFrontEnd() {
-		return isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE'])
-			&& is_object($GLOBALS['TSFE']->tmpl)
-			&& $GLOBALS['TSFE']->tmpl->loaded;
+		$frontEndController = $this->getFrontEndController();
+		return ($frontEndController !== NULL) && is_object($frontEndController->tmpl) && $frontEndController->tmpl->loaded;
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

@@ -234,7 +234,9 @@ class Tx_Oelib_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 			'', array('name' => 'John Doe')
 		);
 
-		$GLOBALS['TSFE']->fe_user->user['name'] = 'Jane Doe';
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
+		$frontEndController->fe_user->user['name'] = 'Jane Doe';
 		$this->testingFramework->changeRecord(
 			'fe_users', $feUserUid, array('name' => 'James Doe')
 		);

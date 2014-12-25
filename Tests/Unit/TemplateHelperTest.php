@@ -4410,8 +4410,10 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->ensureContentObject();
 
+		/** @var tslib_fe $frontEndController */
+		$frontEndController = $GLOBALS['TSFE'];
 		$this->assertSame(
-			$GLOBALS['TSFE']->cObj,
+			$frontEndController->cObj,
 			$this->subject->cObj
 		);
 	}

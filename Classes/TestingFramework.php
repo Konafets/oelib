@@ -1271,7 +1271,7 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->logoutFrontEndUser();
 
-		$frontEnd = $this->getFrontEnd();
+		$frontEnd = $this->getFrontEndController();
 		unset(
 			$frontEnd->tmpl, $frontEnd->sys_page, $frontEnd->fe_user, $frontEnd->TYPO3_CONF_VARS, $frontEnd->config,
 			$frontEnd->TCAcachedExtras, $frontEnd->imagesOnPage, $frontEnd->cObj, $frontEnd->csConvObj,
@@ -1357,7 +1357,7 @@ final class Tx_Oelib_TestingFramework {
 		// Instead of passing the actual user data to createUserSession, we
 		// pass an empty array to improve performance (e.g. no session record
 		// will be written to the database).
-		$frontEnd = $this->getFrontEnd();
+		$frontEnd = $this->getFrontEndController();
 		$frontEnd->fe_user->createUserSession(array('uid' => $userId, 'disableIPlock' => TRUE));
 		$frontEnd->fe_user->user = $dataToSet;
 		$frontEnd->fe_user->fetchGroupData();
@@ -1383,8 +1383,8 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->suppressFrontEndCookies();
 
-		$this->getFrontEnd()->fe_user->logoff();
-		$this->getFrontEnd()->loginUser = FALSE;
+		$this->getFrontEndController()->fe_user->logoff();
+		$this->getFrontEndController()->loginUser = FALSE;
 
 		Tx_Oelib_FrontEndLoginManager::getInstance()->logInUser(NULL);
 	}
@@ -1667,9 +1667,8 @@ final class Tx_Oelib_TestingFramework {
 		Tx_Oelib_Db::enableQueryLogging();
 		// Updates the auto increment index for this table. The index will be
 		// set to one UID above the highest existing UID.
-		$dbResult = $this->getDatabaseConnection()->sql_query(
-			'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' .
-				$newAutoIncrementValue . ';'
+		$dbResult = Tx_Oelib_Db::getDatabaseConnection()->sql_query(
+			'ALTER TABLE ' . $table . ' AUTO_INCREMENT=' . $newAutoIncrementValue . ';'
 		);
 		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database(1418586244);
@@ -1774,15 +1773,15 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		Tx_Oelib_Db::enableQueryLogging();
-		$dbResult = $this->getDatabaseConnection()->sql_query(
-			'SHOW TABLE STATUS WHERE Name = \'' . $table . '\';'
-		);
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+
+		$dbResult = $databaseConnection->sql_query('SHOW TABLE STATUS WHERE Name = \'' . $table . '\';');
 		if ($dbResult === FALSE) {
 			throw new tx_oelib_Exception_Database(1416848924);
 		}
 
-		$row = $this->getDatabaseConnection()->sql_fetch_assoc($dbResult);
-		$this->getDatabaseConnection()->sql_free_result($dbResult);
+		$row = $databaseConnection->sql_fetch_assoc($dbResult);
+		$databaseConnection->sql_free_result($dbResult);
 
 		$autoIncrement = $row['Auto_increment'];
 		if ($autoIncrement === NULL) {
@@ -1930,7 +1929,8 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		Tx_Oelib_Db::enableQueryLogging();
-		$dbResult = $this->getDatabaseConnection()->sql_query(
+		$databaseConnection = Tx_Oelib_Db::getDatabaseConnection();
+		$dbResult = $databaseConnection->sql_query(
 			'UPDATE ' . $tableName . ' SET ' . $fieldName . '=' .
 			$fieldName . '+1 WHERE uid=' . $uid
 		);
@@ -1938,7 +1938,7 @@ final class Tx_Oelib_TestingFramework {
 			throw new tx_oelib_Exception_Database(1418586263);
 		}
 
-		if ($this->getDatabaseConnection()->sql_affected_rows() === 0) {
+		if ($databaseConnection->sql_affected_rows() === 0) {
 			throw new BadMethodCallException(
 				'The table ' . $tableName . ' does not contain a record with UID ' . $uid . '.', 1331491003
 			);
@@ -2000,7 +2000,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * @return tslib_fe
 	 */
-	protected function getFrontEnd() {
+	protected function getFrontEndController() {
 		return $GLOBALS['TSFE'];
 	}
 
@@ -2020,14 +2020,5 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	public function hasRootlineCachePurgingFunction() {
 		return $this->hasRootlineCache() && method_exists('TYPO3\\CMS\\Core\\Utility\\RootlineUtility', 'purgeCaches');
-	}
-
-	/**
-	 * Returns $GLOBALS['TYPO3_DB'].
-	 *
-	 * @return t3lib_DB
-	 */
-	protected function getDatabaseConnection() {
-		return $GLOBALS['TYPO3_DB'];
 	}
 }

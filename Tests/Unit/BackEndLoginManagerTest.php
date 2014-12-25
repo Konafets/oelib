@@ -41,6 +41,14 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->cleanUp();
 	}
 
+	/**
+	 * Returns $GLOBALS['BE_USER'].
+	 *
+	 * @return t3lib_beUserAuth
+	 */
+	private function getBackEndUserAuthentication() {
+		return $GLOBALS['BE_USER'];
+	}
 
 	////////////////////////////////////////////
 	// Tests concerning the Singleton property
@@ -147,7 +155,7 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
 		$this->assertSame(
-			(int)$GLOBALS['BE_USER']->user['uid'],
+			(int)$this->getBackEndUserAuthentication()->user['uid'],
 			$this->subject->getLoggedInUser()->getUid()
 		);
 	}
@@ -159,7 +167,7 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		/** @var tx_oelib_Mapper_BackEndUser $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser');
 		/** @var tx_oelib_Model_BackEndUser $user */
-		$user = $mapper->find($GLOBALS['BE_USER']->user['uid']);
+		$user = $mapper->find($this->getBackEndUserAuthentication()->user['uid']);
 
 		$this->assertSame(
 			$user,
@@ -171,15 +179,15 @@ class Tx_Oelib_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLoggedInUserUsesMappedUserDataFromMemory() {
-		$backedUpName = $GLOBALS['BE_USER']->user['realName'];
-		$GLOBALS['BE_USER']->user['realName'] = 'John Doe';
+		$backedUpName = $this->getBackEndUserAuthentication()->user['realName'];
+		$this->getBackEndUserAuthentication()->user['realName'] = 'John Doe';
 
 		$this->assertSame(
 			'John Doe',
 			$this->subject->getLoggedInUser()->getName()
 		);
 
-		$GLOBALS['BE_USER']->user['realName'] = $backedUpName;
+		$this->getBackEndUserAuthentication()->user['realName'] = $backedUpName;
 	}
 
 

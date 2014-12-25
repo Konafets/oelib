@@ -70,9 +70,9 @@ class Tx_Oelib_TranslatorRegistry {
 	 * The constructor.
 	 */
 	private function __construct() {
-		if (isset($GLOBALS['TSFE'])) {
+		if ($this->getFrontEndController() !== NULL) {
 			$this->initializeFrontEnd();
-		} elseif (isset($GLOBALS['LANG'])) {
+		} elseif ($this->getLanguageService() !== NULL) {
 			$this->initializeBackEnd();
 		} else {
 			throw new BadMethodCallException('There was neither a front end nor a back end detected.', 1331489564);
@@ -95,8 +95,8 @@ class Tx_Oelib_TranslatorRegistry {
 		$this->setLanguageKeyFromConfiguration(Tx_Oelib_ConfigurationRegistry::get('config'));
 		$this->setLanguageKeyFromConfiguration(Tx_Oelib_ConfigurationRegistry::get('page.config'));
 
-		$this->renderCharset = $GLOBALS['TSFE']->renderCharset;
-		$this->charsetConversion = $GLOBALS['TSFE']->csConvObj;
+		$this->renderCharset = $this->getFrontEndController()->renderCharset;
+		$this->charsetConversion = $this->getFrontEndController()->csConvObj;
 	}
 
 	/**
@@ -130,8 +130,8 @@ class Tx_Oelib_TranslatorRegistry {
 		$backEndUser = Tx_Oelib_BackEndLoginManager::getInstance()->
 			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
 		$this->languageKey = $backEndUser->getLanguage();
-		$this->renderCharset = $GLOBALS['LANG']->charset;
-		$this->charsetConversion = $GLOBALS['LANG']->csConvObj;
+		$this->renderCharset = $this->getLanguageService()->charset;
+		$this->charsetConversion = $this->getLanguageService()->csConvObj;
 	}
 
 	/**
@@ -147,9 +147,7 @@ class Tx_Oelib_TranslatorRegistry {
 		}
 
 		if (isset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
-			return $this->charsetConversion->parse_charset(
-				$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']
-			);
+			return $this->charsetConversion->parse_charset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']);
 		}
 
 		$charset = (string)$this->charsetConversion->charSetArray[$languageCode];
@@ -218,7 +216,7 @@ class Tx_Oelib_TranslatorRegistry {
 			// Overrides the localized labels with labels from TypoScript only
 			// in the front end.
 
-			if (isset($GLOBALS['TSFE'])
+			if (($this->getFrontEndController() !== NULL)
 				&& isset($localizedLabels[$this->languageKey]) && is_array($localizedLabels[$this->languageKey])
 			) {
 				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
@@ -341,5 +339,23 @@ class Tx_Oelib_TranslatorRegistry {
 	 */
 	public function getLanguageKey() {
 		return $this->languageKey;
+	}
+
+	/**
+	 * Returns $GLOBALS['TSFE'].
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
+	}
+
+	/**
+	 * Returns $GLOBALS['LANG'].
+	 *
+	 * @return language|NULL
+	 */
+	protected function getLanguageService() {
+		return isset($GLOBALS['LANG']) ? $GLOBALS['LANG'] : NULL;
 	}
 }

@@ -31,8 +31,14 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 	 */
 	private $mapPointWithCoordinates = NULL;
 
+	/**
+	 * @var tslib_fe
+	 */
+	private $mockFrontEnd = NULL;
+
 	protected function setUp() {
-		$GLOBALS['TSFE'] = $this->getMock('tslib_fe', array('dummy'), array(), '', FALSE);
+		$this->mockFrontEnd = $this->getMock('tslib_fe', array('dummy'), array(), '', FALSE);
+		$GLOBALS['TSFE'] = $this->mockFrontEnd;
 		$this->mapPointWithCoordinates = $this->getMock('tx_oelib_Interface_MapPoint');
 		$this->mapPointWithCoordinates->expects($this->any())->method('hasGeoCoordinates')->will($this->returnValue(TRUE));
 		$this->mapPointWithCoordinates->expects($this->any())->method('getGeoCoordinates')
@@ -94,7 +100,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertSame(
 			array(),
-			$GLOBALS['TSFE']->additionalHeaderData
+			$this->mockFrontEnd->additionalHeaderData
 		);
 	}
 
@@ -218,7 +224,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>',
-			$GLOBALS['TSFE']->additionalHeaderData[Tx_Oelib_ViewHelpers_GoogleMapsViewHelper::LIBRARY_JAVASCRIPT_HEADER_KEY]
+			$this->mockFrontEnd->additionalHeaderData[Tx_Oelib_ViewHelpers_GoogleMapsViewHelper::LIBRARY_JAVASCRIPT_HEADER_KEY]
 		);
 	}
 
@@ -229,7 +235,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->subject->render(array($this->mapPointWithCoordinates));
 
 		$this->assertTrue(
-			isset($GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()])
+			isset($this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()])
 		);
 	}
 
@@ -241,7 +247,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'new google.maps.Map(',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -274,7 +280,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'new google.maps.Marker(',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -286,7 +292,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'new google.maps.LatLng(1.200000, 3.400000)',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -298,7 +304,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'uid:',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -312,7 +318,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'uid:',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -327,7 +333,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'uid: ' . $uid,
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -339,7 +345,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'mapMarkersByUid.' . $this->subject->getMapId() . '[',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -353,7 +359,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'mapMarkersByUid.' . $this->subject->getMapId() . '[',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -368,7 +374,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'mapMarkersByUid.' . $this->subject->getMapId() . '[' . $uid . '] = marker_',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -380,7 +386,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'var center = new google.maps.LatLng(1.200000, 3.400000);',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -401,7 +407,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'var center = new google.maps.LatLng(1.200000, 3.400000);',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -423,7 +429,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->assertSame(
 			2,
 			substr_count(
-				$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()],
+				$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()],
 				'new google.maps.Marker('
 			)
 		);
@@ -446,7 +452,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 		$this->assertSame(
 			2,
 			substr_count(
-				$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()],
+				$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()],
 				'bounds.extend('
 			)
 		);
@@ -468,7 +474,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'map.fitBounds(',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -486,7 +492,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'title: "Hello world!"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -504,7 +510,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'title: "The \\"B\\" side"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -522,7 +528,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'title: "Here\\nThere"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -540,7 +546,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'title: "Here\\rThere"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -558,7 +564,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'title: "Here\\\\There"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -575,7 +581,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'title: ',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -593,7 +599,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'new google.maps.InfoWindow',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -611,7 +617,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'"The \\"B\\" side"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -629,7 +635,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'"Here\\nThere"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -647,7 +653,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'"Here\\rThere"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -665,7 +671,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertContains(
 			'"Here\\\\There"',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 
@@ -682,7 +688,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpunit_TestCase 
 
 		$this->assertNotContains(
 			'new google.maps.InfoWindow',
-			$GLOBALS['TSFE']->additionalJavaScript[$this->subject->getMapId()]
+			$this->mockFrontEnd->additionalJavaScript[$this->subject->getMapId()]
 		);
 	}
 }

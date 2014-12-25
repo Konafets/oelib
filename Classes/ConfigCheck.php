@@ -315,18 +315,15 @@ class Tx_Oelib_ConfigCheck {
 				'creating any output from this extension.'
 		);
 
-		if ($GLOBALS['TSFE']
-			&& $this->objectToCheck->hasConfValueString(
-				'templateFile',
-				's_template_special'
-			)
+		if (($this->getFrontEndController() !== NULL)
+			&& $this->objectToCheck->hasConfValueString('templateFile', 's_template_special')
 		) {
 			$rawFileName = $this->objectToCheck->getConfValueString(
 				'templateFile',
 				's_template_special',
 				TRUE
 			);
-			if (!is_file($GLOBALS['TSFE']->tmpl->getFileName($rawFileName))) {
+			if (!is_file($this->getFrontEndController()->tmpl->getFileName($rawFileName))) {
 				$message = 'The specified HTML template file <strong>'
 					.htmlspecialchars($rawFileName)
 					.'</strong> cannot be read. '
@@ -363,10 +360,11 @@ class Tx_Oelib_ConfigCheck {
 			$message = '';
 		}
 
-		$typoScriptSetupPage =& $GLOBALS['TSFE']->tmpl->setup['page.'];
+		$frontEndController = $this->getFrontEndController();
+		$typoScriptSetupPage =& $frontEndController->tmpl->setup['page.'];
 		$fileName = $typoScriptSetupPage['includeCSS.'][$this->objectToCheck->prefixId];
 		if (!empty($fileName)) {
-			$fileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
+			$fileName = $frontEndController->tmpl->getFileName($fileName);
 			if (!is_file($fileName)) {
 				$message .= 'The specified CSS file <strong>'
 					.htmlspecialchars($fileName)
@@ -1760,8 +1758,9 @@ class Tx_Oelib_ConfigCheck {
 
 		$message = '';
 		$installedLocales = $this->getInstalledLocales();
-		$valueToCheck = isset($GLOBALS['TSFE']->config['config']['locale_all'])
-			? $GLOBALS['TSFE']->config['config']['locale_all'] : '';
+		$frontEndController = $this->getFrontEndController();
+		$valueToCheck = isset($frontEndController->config['config']['locale_all'])
+			? $frontEndController->config['config']['locale_all'] : '';
 
 		if (empty($installedLocales)) {
 			$message = 'There are no locales installed on this web server. Please '
@@ -1898,5 +1897,14 @@ class Tx_Oelib_ConfigCheck {
 		$this->checkIsValidEmailOrEmpty(
 			$fieldName, $canUseFlexforms, $sheet, $allowInternalAddresses, $explanation
 		);
+	}
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe|NULL
+	 */
+	protected function getFrontEndController() {
+		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;
 	}
 }

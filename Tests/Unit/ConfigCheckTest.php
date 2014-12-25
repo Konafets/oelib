@@ -24,15 +24,22 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_ConfigCheck configuration check object to be tested
 	 */
-	private $subject;
+	private $subject = NULL;
 
 	/**
-	 * @var tx_oelib_dummyObjectToCheck dummy object to be checked by the
-	 *                                  configuration check object
+	 * @var tx_oelib_dummyObjectToCheck dummy object to be checked by the configuration check object
 	 */
-	private $objectToCheck;
+	private $objectToCheck = NULL;
+
+	/**
+	 * @var Tx_Oelib_TestingFramework
+	 */
+	private $testingFramework = NULL;
 
 	protected function setUp() {
+		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
+		$this->testingFramework->createFakeFrontEnd();
+
 		$this->objectToCheck = new tx_oelib_dummyObjectToCheck(
 			array(
 				'emptyString' => '',
@@ -45,9 +52,22 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_ConfigCheck($this->objectToCheck);
 	}
 
+	protected function tearDown() {
+		$this->testingFramework->cleanUp();
+	}
+
 	///////////////////////
 	// Utility functions.
 	///////////////////////
+
+	/**
+	 * Returns the current front-end instance.
+	 *
+	 * @return tslib_fe
+	 */
+	private function getFrontEndController() {
+		return $GLOBALS['TSFE'];
+	}
 
 	/**
 	 * Sets the configuration value for the locale to $localeKey.
@@ -59,7 +79,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	private function setConfigurationForLocale($localeKey) {
-		$GLOBALS['TSFE']->config['config']['locale_all'] = $localeKey;
+		$this->getFrontEndController()->config['config']['locale_all'] = $localeKey;
 	}
 
 	/**
@@ -98,7 +118,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'foo',
-			$GLOBALS['TSFE']->config['config']['locale_all']
+			$this->getFrontEndController()->config['config']['locale_all']
 		);
 	}
 
@@ -110,7 +130,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->assertSame(
 			'',
-			$GLOBALS['TSFE']->config['config']['locale_all']
+			$this->getFrontEndController()->config['config']['locale_all']
 		);
 	}
 
