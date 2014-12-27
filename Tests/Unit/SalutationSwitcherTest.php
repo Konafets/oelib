@@ -24,13 +24,13 @@
  */
 class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_SalutationSwitcherchild
+	 * @var Tx_Oelib_TestingSalutationSwitcher
 	 */
-	private $subject;
+	private $subject = NULL;
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */
-	private $testingFramework;
+	private $testingFramework = NULL;
 
 	protected function setUp() {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');

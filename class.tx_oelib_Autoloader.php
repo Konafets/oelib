@@ -52,7 +52,7 @@ class Tx_Oelib_Autoloader {
 
 		$path = self::createPath($className);
 		if (($path !== '') && (is_readable($path))) {
-			include_once($path);
+			require_once($path);
 			$result = TRUE;
 		} else {
 			$result = FALSE;

@@ -203,14 +203,12 @@ class Tx_Oelib_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAfterInstanceWithActivatedTestingModeWasPurgedReturnsMapperWithoutTestingLayer() {
-		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode(
-			new Tx_Oelib_TestingFramework('tx_oelib')
-		);
+		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode(new Tx_Oelib_TestingFramework('tx_oelib'));
 		Tx_Oelib_MapperRegistry::purgeInstance();
 
-		$this->assertFalse(
+		$this->assertNotInstanceOf(
+			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapperTesting',
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
-				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapperTesting
 		);
 	}
 

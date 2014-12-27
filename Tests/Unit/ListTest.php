@@ -223,9 +223,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function addModelsToFixtureForOneGivenTitleAddsModelWithTitleGiven() {
 		$this->addModelsToFixture(array('foo'));
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstItem */
+		$firstItem = $this->subject->first();
 		$this->assertSame(
 			'foo',
-			$this->subject->first()->getTitle()
+			$firstItem->getTitle()
 		);
 	}
 
@@ -247,9 +249,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	public function addModelsToFixtureForTwoGivenTitlesAddsFirstTitleToFirstModelFixture() {
 		$this->addModelsToFixture(array('bar', 'foo'));
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstItem */
+		$firstItem = $this->subject->first();
 		$this->assertSame(
 			'bar',
-			$this->subject->first()->getTitle()
+			$firstItem->getTitle()
 		);
 	}
 
@@ -616,18 +620,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
-	/**
-	 * @test
-	 */
-	public function iteratingOverOneItemDoesNotFail() {
-		$this->addModelsToFixture();
-
-		$this->subject->next();
-		$this->subject->rewind();
-
-		foreach ($this->subject as $value);
-	}
-
 
 	/////////////////////////////
 	// Tests concerning getUids
@@ -788,9 +780,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture(array('Beta', 'Alpha'));
 		$this->subject->sort(array($this, 'sortByTitleAscending'));
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstItem */
+		$firstItem = $this->subject->first();
 		$this->assertSame(
 			'Alpha',
-			$this->subject->first()->getTitle()
+			$firstItem->getTitle()
 		);
 	}
 
@@ -801,9 +795,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture(array('Zeta', 'Beta', 'Alpha'));
 		$this->subject->sort(array($this, 'sortByTitleAscending'));
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstItem */
+		$firstItem = $this->subject->first();
 		$this->assertSame(
 			'Alpha',
-			$this->subject->first()->getTitle()
+			$firstItem->getTitle()
 		);
 	}
 
@@ -814,9 +810,11 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->addModelsToFixture(array('Alpha', 'Beta'));
 		$this->subject->sort(array($this, 'sortByTitleDescending'));
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstItem */
+		$firstItem = $this->subject->first();
 		$this->assertSame(
 			'Beta',
-			$this->subject->first()->getTitle()
+			$firstItem->getTitle()
 		);
 	}
 
@@ -824,6 +822,7 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function sortMakesListDirty() {
+		/** @var Tx_Oelib_List|PHPUnit_Framework_MockObject_MockObject $subject */
 		$subject = $this->getMock('Tx_Oelib_List', array('markAsDirty'));
 		$subject->expects($this->once())->method('markAsDirty');
 
@@ -1155,28 +1154,6 @@ class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
 		$this->assertSame(
 			$model,
 			$this->subject->current()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function purgeCurrentForSecondOfTwoElementsInForeachLoopDoesNotChangeNumberOfIterations() {
-		$this->addModelsToFixture(array('', ''));
-
-		$completedIterations = 0;
-
-		foreach ($this->subject as $model) {
-			if ($completedIterations === 1) {
-				$this->subject->purgeCurrent();
-			}
-
-			$completedIterations++;
-		}
-
-		$this->assertSame(
-			2,
-			$completedIterations
 		);
 	}
 

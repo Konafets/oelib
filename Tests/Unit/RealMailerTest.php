@@ -27,7 +27,7 @@ class Tx_Oelib_RealMailerTest extends Tx_Phpunit_TestCase {
 	private $subject = NULL;
 
 	/**
-	 * @var t3lib_mail_Message
+	 * @var t3lib_mail_Message|PHPUnit_Framework_MockObject_MockObject
 	 */
 	private $message = NULL;
 

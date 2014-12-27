@@ -61,10 +61,9 @@ class Tx_Oelib_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadForExistingUserGroupCanLoadUserGroupData() {
+		/** @var Tx_Oelib_Model_FrontEndUserGroup $userGroup */
 		$userGroup = $this->subject->find(
-			$this->testingFramework->createFrontEndUserGroup(
-				array('title' => 'foo')
-			)
+			$this->testingFramework->createFrontEndUserGroup(array('title' => 'foo'))
 		);
 
 		$this->subject->load($userGroup);

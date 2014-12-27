@@ -4305,9 +4305,9 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	///////////////////////////////////////////////////
-	// Tests for securePiVars and ensureIntegerPiVars
-	///////////////////////////////////////////////////
+	/*
+	 * Tests for ensureIntegerPiVars
+	 */
 
 	/**
 	 * @test

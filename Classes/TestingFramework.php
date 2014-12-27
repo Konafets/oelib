@@ -1349,7 +1349,9 @@ final class Tx_Oelib_TestingFramework {
 		$dataToSet = $mapper->find($userId)->getData();
 		$dataToSet['uid'] = $userId;
 		if (isset($dataToSet['usergroup'])) {
-			$dataToSet['usergroup'] = $dataToSet['usergroup']->getUids();
+			/** @var Tx_Oelib_List $userGroups */
+			$userGroups = $dataToSet['usergroup'];
+			$dataToSet['usergroup'] = $userGroups->getUids();
 		}
 
 		$this->suppressFrontEndCookies();

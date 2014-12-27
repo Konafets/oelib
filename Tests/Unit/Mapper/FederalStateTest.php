@@ -48,9 +48,11 @@ class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
+		/** @var Tx_Oelib_Model_FederalState $model */
+		$model = $this->subject->find(88);
 		$this->assertSame(
 			'NW',
-			$this->subject->find(88)->getIsoAlpha2ZoneCode()
+			$model->getIsoAlpha2ZoneCode()
 		);
 	}
 

@@ -421,9 +421,10 @@ abstract class Tx_Oelib_DataMapper {
 			);
 		}
 
-		$data[$key] = Tx_Oelib_MapperRegistry::get($this->relations[$key])
-			->getListOfModels($relationUids);
-		$data[$key]->setParentModel($model);
+		/** @var Tx_Oelib_List $models */
+		$models = Tx_Oelib_MapperRegistry::get($this->relations[$key])->getListOfModels($relationUids);
+		$models->setParentModel($model);
+		$data[$key] = $models;
 	}
 
 	/**

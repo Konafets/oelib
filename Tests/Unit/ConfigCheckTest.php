@@ -421,6 +421,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			);
 		}
 
+		/** @var Tx_Oelib_ConfigCheck|PHPUnit_Framework_MockObject_MockObject $configCheckMock */
 		$configCheckMock = $this->getMock(
 			'Tx_Oelib_ConfigCheck',
 			array('getInstalledLocales'),

@@ -47,9 +47,11 @@ class Tx_Oelib_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
+		/** @var Tx_Oelib_Model_Country $model */
+		$model = $this->subject->find(54);
 		$this->assertSame(
 			'DE',
-			$this->subject->find(54)->getIsoAlpha2Code()
+			$model->getIsoAlpha2Code()
 		);
 	}
 

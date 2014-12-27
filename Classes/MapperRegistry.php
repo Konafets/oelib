@@ -162,20 +162,24 @@ class Tx_Oelib_MapperRegistry {
 							'}'
 					);
 				}
-				$this->mappers[$unifiedClassName] = new $testingClassName();
-				$this->mappers[$unifiedClassName]->setTestingFramework($this->testingFramework);
+				/** @var Tx_Oelib_DataMapper $mapper */
+				$mapper = new $testingClassName();
+				$mapper->setTestingFramework($this->testingFramework);
 			} else {
 				/** @var Tx_Oelib_DataMapper $mapper */
 				$mapper = t3lib_div::makeInstance($unifiedClassName);;
-				$this->mappers[$unifiedClassName] = $mapper;
 			}
+			$this->mappers[$unifiedClassName] = $mapper;
+		} else {
+			/** @var Tx_Oelib_DataMapper $mapper */
+			$mapper = $this->mappers[$unifiedClassName];
 		}
 
 		if ($this->denyDatabaseAccess) {
-			$this->mappers[$unifiedClassName]->disableDatabaseAccess();
+			$mapper->disableDatabaseAccess();
 		}
 
-		return $this->mappers[$unifiedClassName];
+		return $mapper;
 	}
 
 	/**

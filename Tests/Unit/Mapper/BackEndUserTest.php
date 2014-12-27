@@ -160,7 +160,11 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	 */
 	public function findByCliKeyForCliKeyDefinedReturnsBackEndUserInstance() {
 		$this->testingFramework->createBackEndUser(array('username' => 'foo'));
-		// fakes the CLI definition
+		/**
+		 * fakes the CLI definition
+		 *
+		 * @var string
+		 */
 		define('TYPO3_cliKey', 'oelib_mapper_test');
 		$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']
 			['cliKeys'][TYPO3_cliKey][1] = 'foo';
@@ -178,16 +182,17 @@ class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function usergroupRelationIsUserGroupList() {
-		$groupUid = Tx_Oelib_MapperRegistry::
-			get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost()->getUid();
-		$userUid = $this->subject->getLoadedTestingModel(
-			array('usergroup' => $groupUid)
-		)->getUid();
+	public function userGroupRelationIsUserGroupList() {
+		/** @var Tx_Oelib_Model_BackEndUserGroup $group */
+		$group = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUserGroup')->getNewGhost();
+		$groupUid = $group->getUid();
+		$userUid = $this->subject->getLoadedTestingModel(array('usergroup' => $groupUid))->getUid();
 
-		$this->assertTrue(
-			$this->subject->find($userUid)->getGroups()->first()
-				instanceof Tx_Oelib_Model_BackEndUserGroup
+		/** @var Tx_Oelib_Model_BackEndUser $user */
+		$user = $this->subject->find($userUid);
+		$this->assertInstanceOf(
+			'Tx_Oelib_Model_BackEndUserGroup',
+			$user->getGroups()->first()
 		);
 	}
 }

@@ -44,6 +44,7 @@ class Tx_Oelib_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 		);
 		$geo->expects($this->once())->method('setGeoError');
 
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingGeo $geo */
 		$this->subject->lookUp($geo);
 	}
 

@@ -18,13 +18,33 @@
  * @deprecated 2010-09-25
  */
 
-// the UTF-8 representation of an en dash
+/**
+ * the UTF-8 representation of an en dash
+ *
+ * @var string
+ */
 define('UTF8_EN_DASH', chr(0xE2) . chr(0x80) . chr(0x93));
-// one day in seconds
+
+/**
+ * one day in seconds
+ *
+ * @var int
+ */
 define('ONE_DAY', 86400);
-// one week in seconds
+
+/**
+ * one week in seconds
+ *
+ * @var int
+ */
 define('ONE_WEEK', 604800);
 
-// error messages
+/**
+ * @var string
+ */
 define('DATABASE_QUERY_ERROR', 'There was an error with the database query.');
+
+/**
+ * @var string
+ */
 define('DATABASE_RESULT_ERROR', 'There was an error with the result of the database query.');

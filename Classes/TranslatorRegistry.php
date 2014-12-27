@@ -130,7 +130,7 @@ class Tx_Oelib_TranslatorRegistry {
 		$backEndUser = Tx_Oelib_BackEndLoginManager::getInstance()->
 			getLoggedInUser('tx_oelib_Mapper_BackEndUser');
 		$this->languageKey = $backEndUser->getLanguage();
-		$this->renderCharset = $this->getLanguageService()->charset;
+		$this->renderCharset = $this->getLanguageService()->charSet;
 		$this->charsetConversion = $this->getLanguageService()->csConvObj;
 	}
 

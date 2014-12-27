@@ -37,8 +37,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalShortNameReturnsLocalShortNameOfGermany() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(54);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
 		$this->assertSame(
 			'Deutschland',
@@ -50,8 +50,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLocalShortNameReturnsLocalShortNameOfUnitedKingdomOfGreatBritain() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(74);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
 		$this->assertSame(
 			'United Kingdom',
@@ -68,8 +68,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfGermany() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(54);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
 		$this->assertSame(
 			'DE',
@@ -81,8 +81,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfUnitedKingdomOfGreatBritain() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(74);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
 		$this->assertSame(
 			'GB',
@@ -99,8 +99,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha3CodeReturnsIsoAlpha3CodeOfGermany() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(54);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
 		$this->assertSame(
 			'DEU',
@@ -112,8 +112,8 @@ class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getIsoAlpha3CodeReturnsIsoAlpha3CodeOfUnitedKingdomOfGreatBritain() {
-		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->
-			find(74);
+		/** @var Tx_Oelib_Model_Country $subject */
+		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
 		$this->assertSame(
 			'GBR',

@@ -27,19 +27,19 @@ class Tx_Oelib_Domain_Repository_FederalStateRepositoryTest extends Tx_Extbase_T
 	protected $subject = NULL;
 
 	protected function setUp() {
-		$this->subject = new Tx_Oelib_Domain_Repository_FederalStateRepository(
-			$this->getMock('Tx_Extbase_Object_ObjectManagerInterface')
-		);
+		/** @var Tx_Extbase_Object_ObjectManagerInterface $objectManager */
+		$objectManager = $this->getMock('Tx_Extbase_Object_ObjectManagerInterface');
+		$this->subject = new Tx_Oelib_Domain_Repository_FederalStateRepository($objectManager);
 	}
 
 	/**
 	 * @test
 	 */
 	public function classCanBeInstantiated() {
+		/** @var Tx_Extbase_Object_ObjectManagerInterface $objectManager */
+		$objectManager = $this->getMock('Tx_Extbase_Object_ObjectManagerInterface');
 		$this->assertNotNull(
-			new Tx_Oelib_Domain_Repository_FederalStateRepository(
-				$this->getMock('Tx_Extbase_Object_ObjectManagerInterface')
-			)
+			new Tx_Oelib_Domain_Repository_FederalStateRepository($objectManager)
 		);
 	}
 
@@ -47,6 +47,7 @@ class Tx_Oelib_Domain_Repository_FederalStateRepositoryTest extends Tx_Extbase_T
 	 * @test
 	 */
 	public function initializeObjectSetsRespectStoragePidToFalse() {
+		/** @var Tx_Extbase_Object_ObjectManagerInterface|PHPUnit_Framework_MockObject_MockObject $objectManager */
 		$objectManager = $this->getMock('Tx_Extbase_Object_ObjectManagerInterface');
 		$subject = new Tx_Oelib_Domain_Repository_FederalStateRepository($objectManager);
 
@@ -74,6 +75,7 @@ class Tx_Oelib_Domain_Repository_FederalStateRepositoryTest extends Tx_Extbase_T
 
 		$subject->expects($this->once())->method('setDefaultQuerySettings')->with($querySettings);
 
+		/** @var Tx_Oelib_Domain_Repository_FederalStateRepository $subject */
 		$subject->initializeObject();
 	}
 

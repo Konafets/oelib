@@ -111,22 +111,6 @@ final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	 * function will set the not yet existing piVars to zero.
 	 *
 	 * @param string[] $additionalPiVars
-	 *        keys for $this->piVars that will be cast to int int as well
-	 *
-	 * @return void
-	 */
-	public function securePiVars(array $additionalPiVars = array()) {
-		parent::securePiVars($additionalPiVars);
-	}
-
-	/**
-	 * Intvals all piVars that are supposed to be integers:
-	 * showUid, pointer, mode
-	 *
-	 * If some piVars are not set or no piVars array is defined yet, this
-	 * function will set the not yet existing piVars to zero.
-	 *
-	 * @param string[] $additionalPiVars
 	 *        keys for $this->piVars that will be ensured to exist as ints in
 	 *        $this->piVars as well
 	 *

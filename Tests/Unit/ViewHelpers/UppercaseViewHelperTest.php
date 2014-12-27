@@ -28,6 +28,7 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
 		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('foo bar'));
 
+		/** @var Tx_Oelib_ViewHelpers_UppercaseViewHelper $subject */
 		$this->assertSame(
 			'FOO BAR',
 			$subject->render()
@@ -41,6 +42,7 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
 		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('äöü'));
 
+		/** @var Tx_Oelib_ViewHelpers_UppercaseViewHelper $subject */
 		$this->assertSame(
 			'ÄÖÜ',
 			$subject->render()
@@ -54,6 +56,7 @@ class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit
 		$subject = $this->getMock('Tx_Oelib_ViewHelpers_UppercaseViewHelper', array('renderChildren'));
 		$subject->expects($this->once())->method('renderChildren')->will($this->returnValue('áàéè'));
 
+		/** @var Tx_Oelib_ViewHelpers_UppercaseViewHelper $subject */
 		$this->assertSame(
 			'ÁÀÉÈ',
 			$subject->render()
