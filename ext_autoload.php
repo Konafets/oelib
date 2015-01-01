@@ -84,7 +84,6 @@ return array(
 	'tx_oelib_model_language' => $extensionPath . 'Classes/Model/Language.php',
 	'tx_oelib_viewhelper_price' => $extensionPath . 'Classes/ViewHelper/Price.php',
 	'tx_oelib_viewhelpers_googlemapsviewhelper' => $extensionPath . 'Classes/ViewHelpers/GoogleMapsViewHelper.php',
-	'tx_oelib_viewhelpers_imagesourceviewhelper' => $extensionPath . 'Classes/ViewHelpers/ImageSourceViewHelper.php',
 	'tx_oelib_viewhelpers_uppercaseviewhelper' => $extensionPath . 'Classes/ViewHelpers/UppercaseViewHelper.php',
 	'tx_oelib_visibility_node' => $extensionPath . 'Classes/Visibility/Node.php',
 	'tx_oelib_visibility_tree' => $extensionPath . 'Classes/Visibility/Tree.php',
