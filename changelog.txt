@@ -1,4 +1,5 @@
 0.8.0 - currently working on
+- [#4790] Change: Move the static tables extbase models to the static_info_tables extension
 - [#5191] Fix: Fix code inspection warnings
 - [#5212] Change: Drop the ImageSourceViewHelper
 - [#5202] Change: Update Emogrifier
