@@ -1,5 +1,5 @@
 0.8.0 - currently working on
-- [#5191] Bugfix: Fix code inspection warnings
+- [#5191] Fix: Fix code inspection warnings
 - [#5212] Change: Drop the ImageSourceViewHelper
 - [#5202] Change: Update Emogrifier
 - [#5205] Cleanup: Add wrappers for the GLOBALS
