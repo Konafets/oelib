@@ -3,7 +3,7 @@
 /***************************************************************
  * Extension Manager/Repository config file for ext "user_oelibtest".
  *
- * Auto generated 12-04-2014 08:22
+ * Auto generated 06-01-2015 19:55
  *
  * Manual updates:
  * Only the data in the array - everything else is removed by next
@@ -17,7 +17,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Niels Pardon',
 	'author_email' => 'mail@niels-pardon.de',
 	'shy' => '',
-	'dependencies' => '',
+	'dependencies' => 'oelib',
 	'conflicts' => '',
 	'priority' => '',
 	'module' => '',
@@ -41,9 +41,7 @@ $EM_CONF[$_EXTKEY] = array(
 		'suggests' => array(
 		),
 	),
-	'_md5_values_when_last_written' => 'a:6:{s:12:"ext_icon.gif";s:4:"b4bf";s:14:"ext_tables.php";s:4:"c99e";s:14:"ext_tables.sql";s:4:"a0a5";s:28:"icon_user_oelibtest_test.gif";s:4:"475a";s:16:"locallang_db.xml";s:4:"32f9";s:7:"tca.php";s:4:"eccc";}',
+	'_md5_values_when_last_written' => '',
 	'suggests' => array(
 	),
 );
-
-?>
