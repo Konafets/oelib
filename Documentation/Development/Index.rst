@@ -27,5 +27,4 @@ Development
    CodeStyleGuidelines/Index
    WorkflowDescription/Index
    StrategyWhenACheckinCausesARegression/Index
-   ChangesTo3SuprdPartyLibraries/Index
 
