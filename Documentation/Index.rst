@@ -19,7 +19,7 @@
 One is Enough Library (oelib)
 =============================
 
-:Extension Key: phpunit
+:Extension Key: oelib
 :Language:      en
 :Copyright:     `2005-2015, Oliver Klee, typo3-coding@oliverklee.de`
 :Maintainer:    `Oliver Klee, typo3-coding@oliverklee.de`

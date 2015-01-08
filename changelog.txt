@@ -2,6 +2,7 @@
 Features:
 
 Bug fixes:
+- [#5185] Change the extension name in the manual from "phpunit" to "oelib"
 
 Cleanup:
 
