@@ -1,4 +1,5 @@
 0.9.0 - currently working on
+
 Features:
 
 Bug fixes:
@@ -9,6 +10,7 @@ Cleanup:
 Changes:
 - [#5223] Remove the reference to 3rd party libraries from the manual
 - [#5216] Mark the extension as stable
+
 
 0.8.0 - released 2015-01-06
 - [#5185] Feature: Convert the manual to ReST
