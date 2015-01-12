@@ -1747,9 +1747,13 @@ class Tx_Oelib_ConfigCheck {
 	/**
 	 * Checks whether the locale is set correctly.
 	 *
+	 * @deprecated 2015-01-12
+	 *
 	 * @return void
 	 */
 	public function checkLocale() {
+		t3lib_div::logDeprecatedFunction();
+
 		// Skip this check if Windows is used to avoid a crash of the
 		// TYPO3-Winstaller.
 		if (TYPO3_OS === 'WIN') {

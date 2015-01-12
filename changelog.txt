@@ -8,6 +8,7 @@ Bug fixes:
 Cleanup:
 
 Changes:
+- [#5229] Deprecate ConfigCheck::checkLocale
 - [#5223] Remove the reference to 3rd party libraries from the manual
 - [#5216] Mark the extension as stable
 
