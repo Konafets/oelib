@@ -109,10 +109,10 @@ and indent the description to align with the type:
                    contain any aliens with smelly feet
 
 - Sentences in comments (including @param and @return) should either be
-  
+
   - incomplete sentences that start lowercase and don’t have a full stop
     at the end, or
-  
+
   - complete sentences that have a capital letter at the start and a full
     stop at the end.
 
@@ -146,15 +146,15 @@ Naming
   with an underscore.
 
 - **Testing classes:**
-  
+
   - Testing classes that are basically a fully-fledged subclass of another
     class should be prefixed “testing”. Example: A testing subclass of
     *foo* should be named *testingFoo* .
-  
+
   - Testing classes that fake some of their behavior to reduce
     dependencies or API calls should be prefixed with “fake”. Example:
     Such a testing subclass of *foo* should be named *fakeFoo* .
-  
+
   - Test case classes should be suffixed with \*Test. Example: A testcase
     for the *seminar* class should be named *seminarTest* (if there is
     only one testcase for that class).
@@ -177,4 +177,3 @@ Language features
   So please use type hinting, exceptions and access modifiers like
   *public* or *private* and don't use @access anymore. Also use
   *public/private/protected* instead of *var* for member variables.
-

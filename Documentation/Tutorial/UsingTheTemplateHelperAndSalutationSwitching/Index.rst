@@ -49,15 +49,15 @@ extension, this is what to do:
 
 #. In your TS Setup, set the following option for your extension ( *not*
    the  *oelib* extension!):
-   
+
    ::
-   
+
       salutation = formal
-   
+
    or
-   
+
    ::
-   
+
       salutation = informal
 
 #. Add this configuration to your extension's documentation.
@@ -103,4 +103,3 @@ reasons:
    anyway). If the user choses to have the informal language for a
    change, you newly added strings with the “\_informal” suffix to their
    keys get used.
-

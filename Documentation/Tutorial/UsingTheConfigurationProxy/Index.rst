@@ -79,4 +79,3 @@ For debugging, it might be useful to get the complete configuration:
 ::
 
    $proxyInstance->getCompleteConfiguration();
-

@@ -37,4 +37,3 @@ tests. We have agreed on the following strategy for this:
 
 #. If all else fails, we will just do our best to fix the problem as fast
    as possible.
-

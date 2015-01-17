@@ -39,4 +39,3 @@ or
    :glob:
 
    ConfiguringCss/Index
-

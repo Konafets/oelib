@@ -54,12 +54,12 @@ and what might an e-mail test look like:
      tx_oelib_mailerFactory::getInstance()->enableTestMode();
      $this->fixture = new classToTest();
    }
-   
+
    public function tearDown() {
      tx_oelib_mailerFactory::getInstance()->discardInstance();
      unset($this->fixture);
    }
-   
+
    public function testSendAnEmail() {
      $this->fixture->sendAnEmail(
                   'recipient@valid-email-address.org',
@@ -99,4 +99,3 @@ return value can be faked in test mode:
 
 tx\_oelib\_mailerFactory::getInstance()->getMailer()->setFakedReturnVa
 lue( **true** );
-

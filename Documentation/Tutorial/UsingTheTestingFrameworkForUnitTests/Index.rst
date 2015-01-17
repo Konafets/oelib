@@ -44,9 +44,9 @@ The testing framework enables you to easily
 - Create a fake front end for testing front-end plugins
 
 - Clean up all the dummy records
-  
+
   - automatically deletes all the dummy records from all allowed tables
-  
+
   - automatically resets the auto\_increment index for each table
 
 - Count records
@@ -112,14 +112,14 @@ of the many good documentations regarding this topic.
 
    <?php
    require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-   
+
    class tx_seminars_categoryTest extends tx_phpunit_testcase {
      private $fixture;
      private $testingFramework;
-   
+
      /** UID of the fixture's data in the DB */
      private $fixtureUid = 0;
-   
+
      public function setUp() {
              $this->testingFramework = new tx_oelib_testingFramework('tx_seminars');
              $this->fixtureUid = $this->testingFramework->createRecord(
@@ -127,15 +127,15 @@ of the many good documentations regarding this topic.
                      array('title' => 'Test category')
                    );
            }
-   
+
      public function tearDown() {
              $this->testingFramework->cleanUp();
              unset($this->fixture, $this->testingFramework);
            }
-   
+
      public function testGetTitle() {
              $this->fixture = new tx_seminars_category($this->fixtureUid);
-   
+
              $this->assertEquals(
                      'Test category',
                      $this->fixture->getTitle()
@@ -172,4 +172,3 @@ Known problems with unit testing
   **user\_oelibtest\_test\_article\_mm** tables (using phpMyAdmin)
   before installing the two test extensions. Otherwise, the test
   extensions will not be installed correctly.
-

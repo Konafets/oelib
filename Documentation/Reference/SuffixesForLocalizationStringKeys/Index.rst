@@ -24,4 +24,3 @@ separator.
 - \_formal
 
 - \_informal
-

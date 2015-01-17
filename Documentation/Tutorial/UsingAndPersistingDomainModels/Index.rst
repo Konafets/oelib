@@ -56,7 +56,7 @@ model in oelib as an example:
          public function getUserName() {
                  return $this->getAsString('username');
        }
-   
+
          /**
         * Gets this user's user groups.
         *
@@ -92,12 +92,12 @@ for examples:
         * @var string the name of the database table for this mapper
         */
          protected $tableName = 'fe_users';
-   
+
          /**
         * @var string the model class name for this mapper, must not be empty
         */
          protected $modelClassName = 'tx_oelib_Model_FrontEndUser';
-   
+
          /**
         * @var array the (possible) relations of the created models in the format
         *            DB column name => mapper name
@@ -186,7 +186,7 @@ modified looks like this:
 ::
 
    tx_oelib_MapperRegistry::get('tx_realty_Mapper_RealtyObject')->save($model);
-   
+
 
 Creating a new model in memory and saving it looks like this:
 
@@ -221,4 +221,3 @@ tx\_oelib\_MapperRegistry::get('tx\_geotenders\_Mapper\_Tender')->save
 
 Related records are automatically saved recursively. Unmodified record
 are not saved.
-

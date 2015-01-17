@@ -28,4 +28,3 @@ Introduction
    SystemRequirements/Index
    Examples/Index
    Credits/Index
-

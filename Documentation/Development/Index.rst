@@ -27,4 +27,3 @@ Development
    CodeStyleGuidelines/Index
    WorkflowDescription/Index
    StrategyWhenACheckinCausesARegression/Index
-
