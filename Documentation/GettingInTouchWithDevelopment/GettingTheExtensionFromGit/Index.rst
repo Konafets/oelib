@@ -20,4 +20,3 @@ Getting the extension from GIT
 
 The extension is hosted on the TYPO3 GIT repository:
 git://git.typo3.org/TYPO3CMS/Extensions/oelib.git
-

@@ -53,4 +53,3 @@ facilitating learning from other coders.
    require a new review).
 
 #. Resolve the bug report as FIXED.
-

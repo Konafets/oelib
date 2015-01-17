@@ -40,7 +40,7 @@ measuring performance.
 
 ::
 
-        tx_oelib_Timer::getInstance()->openBucket('Initialization process'); 
+        tx_oelib_Timer::getInstance()->openBucket('Initialization process');
 
 This will start the timer and pour its time into the bucket named
 “Initialization process”.
@@ -49,7 +49,7 @@ You can also use the shortcut:
 
 ::
 
-        tx_oelib_Timer::oB('Initialization process'); 
+        tx_oelib_Timer::oB('Initialization process');
 
 #. When you want to measure something different, simply open another
    bucket. This will close the previous bucket:
@@ -63,13 +63,13 @@ You can also use the shortcut:
 
 ::
 
-        tx_oelib_Timer::getInstance()->returnToPreviousBucket(); 
+        tx_oelib_Timer::getInstance()->returnToPreviousBucket();
 
 You can also use the shortcut:
 
 ::
 
-        tx_oelib_Timer::rB(); 
+        tx_oelib_Timer::rB();
 
 #. You can also stop the timer for some time in order to not measure some
    parts of your code. This will automatically close the current bucket.
@@ -107,4 +107,3 @@ seconds),‘relativeTime => ... (float in percent)
 ::
 
                 $this->content .= $timer->destroyAllBuckets();
-

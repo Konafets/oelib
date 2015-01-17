@@ -36,4 +36,3 @@ Tutorial
    UsingTheSessionAbstraction/Index
    UsingTheVisibilityTreeForShowingAndHidingNestedSubparts/Index
    UsingThePriceViewHelper/Index
-

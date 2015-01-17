@@ -71,4 +71,3 @@ template:
 ::
 
    $template->hideSubpartsArray($tree->getKeysOfHiddenSubparts());
-

@@ -608,5 +608,3 @@ as bold.
 
 
 .. ###### END~OF~TABLE ######
-
-

@@ -44,21 +44,21 @@ session:
 ::
 
    require_once(t3lib_extMgm::extPath('oelib') . 'class.tx_oelib_Autoloader.php');
-   
+
    public function setUp() {
            $this->session = new tx_oelib_FakeSession();
            tx_oelib_session::setInstance(
            tx_oelib_Session::TYPE_TEMPORARY, $this->session
            );
    }
-   
+
    public function testAddToFavoritesWithNewItemCanAddItemToNonEmptySession() {
            $this->session->setAsInteger(
                    tx_realty_pi1::FAVORITES_SESSION_KEY, $this->firstRealtyUid
            );
-   
+
            $this->fixture->addToFavorites(array($this->secondRealtyUid));
-   
+
            $this->assertEquals(
                    array($this->firstRealtyUid, $this->secondRealtyUid),
                    $this->session->getAsIntegerArray(
@@ -66,4 +66,3 @@ session:
                    )
            );
    }
-

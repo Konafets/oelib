@@ -53,12 +53,12 @@ The following lines show what a test might look like:
      tx_oelib_headerProxyFactory::getInstance()->enableTestMode();
      $this->fixture = new classToTest();
    }
-   
+
    public function tearDown() {
      tx_oelib_headerProxyFactory::getInstance()->discardInstance();
      unset($this->fixture);
    }
-   
+
    public function testHeaderWasSentWhenTheUserHasNoAccess() {
      $this->fixture->showPageIfUserHasAccess();
      $this->assertEquals(
@@ -88,4 +88,3 @@ Add CSS to these HTML e-mails
 
 To add CSS to these HTML e-mails simply user the addCssFile function
 of the oelib mailer.
-

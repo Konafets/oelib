@@ -42,4 +42,3 @@ doing code reviews:
 This extension also uses code from other sources:
 
 - Emogrifier by the Pelago Corporation
-

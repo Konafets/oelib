@@ -21,4 +21,3 @@ System requirements
 - **TYPO3:** You need at least TYPO3 4.5.0.
 
 - **PHP:** You need at least PHP 5.3.
-

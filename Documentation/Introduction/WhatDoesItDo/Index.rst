@@ -25,4 +25,3 @@ extension author.
 
 This extension includes the functionality of the  *salutationswitcher*
 extension and thus obsoletes that extension.
-

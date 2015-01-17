@@ -28,4 +28,3 @@ include it in the corresponding class like this:
    if ((TYPO3_MODE == 'BE') && is_object($LANG)) {
        $LANG->includeLLFile('EXT:seminars/locallang.xml');
    }
-

@@ -25,4 +25,3 @@ Reference
    :glob:
 
    SuffixesForLocalizationStringKeys/Index
-

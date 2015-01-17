@@ -54,4 +54,3 @@ Then you can add a rule like this to your CSS file:
    .tx-seminars-pi1-organizers {
     ...;
    }
-

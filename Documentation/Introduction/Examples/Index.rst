@@ -29,4 +29,3 @@ These are some of the extensions that make use of these libraries:
 - Realty Manager
 
 - Seminar Manager
-

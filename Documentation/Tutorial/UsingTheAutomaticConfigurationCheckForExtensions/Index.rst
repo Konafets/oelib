@@ -34,4 +34,3 @@ iguration_Checking.pdf>`_ , you can find some slides take explain how
 to use the automatic configuration checking. These are the slides from
 a presentation that took place at the `TYPO3 Developer Days 2008
 <http://t3dd08.typo3.org/>`_ .
-
