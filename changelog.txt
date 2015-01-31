@@ -10,6 +10,7 @@ Bug fixes:
 Cleanup:
 
 Changes:
+- [#5248] Do not rely on sr_feuser_register for tests
 - [#5229] Deprecate ConfigCheck::checkLocale
 - [#5223] Remove the reference to 3rd party libraries from the manual
 - [#5216] Mark the extension as stable

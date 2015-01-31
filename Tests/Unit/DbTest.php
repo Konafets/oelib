@@ -1076,14 +1076,11 @@ class Tx_Oelib_DbTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTcaForTableCanLoadFieldsAddedByExtensions() {
-		if (!Tx_Oelib_Model_FrontEndUser::hasGenderField()) {
-			$this->markTestSkipped(
-				'This test is only applicable if the FrontEndUser.gender field exists.'
-			);
-		}
 		$tca = Tx_Oelib_Db::getTcaForTable('fe_users');
 
-		$this->assertTrue(isset($tca['columns']['gender']));
+		$this->assertTrue(
+			isset($tca['columns']['tx_oelib_is_dummy_record'])
+		);
 	}
 
 
