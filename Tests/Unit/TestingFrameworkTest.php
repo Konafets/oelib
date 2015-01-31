@@ -4784,31 +4784,6 @@ class Tx_Oelib_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd(-1);
 	}
 
-	// Note: In the unit tests, the src attribute of the generated image tag
-	// will be empty because the IMAGE handles does not accept absolute paths
-	// and handles relative paths and EXT: paths inconsistently:
-
-	// It correctly resolves paths which are relative to the TYPO3 document
-	// root, but then calls t3lib_stdGraphic::getImageDimensions (which is
-	// inherited by tslib_gifBuilder) which again uses the relative path. So
-	// IMAGE will use the path to the TYPO3 root (which is the same as relative
-	// to the FE index.php), but getImageDimensions use the path relative to the
-	// executed script which is the FE index.php or the PHPUnit BE module
-	// index.php. This results getImageDimensions not returning anything useful.
-	/**
-	 * @test
-	 */
-	public function fakeFrontEndCobjImageCreatesImageTagForExistingImageFile() {
-		$this->subject->createFakeFrontEnd();
-
-		$this->assertContains(
-			'<img ',
-			$this->getFrontEndController()->cObj->IMAGE(
-				array('file' => 'typo3conf/ext/oelib/Tests/Unit/Fixtures/test.png')
-			)
-		);
-	}
-
 
 	/*
 	 * Tests regarding user login and logout
