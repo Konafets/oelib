@@ -402,9 +402,9 @@ abstract class Tx_Oelib_DataMapper {
 	 * @return void
 	 */
 	private function createOneToManyRelation(array &$data, $key, Tx_Oelib_Model $model) {
-		$relationUids = array();
+		$modelData = array();
 
-		if ($data[$key] > 0) {
+		if ((int)$data[$key] > 0) {
 			if ($this->isModelAMemoryOnlyDummy($model)) {
 				throw new InvalidArgumentException(
 					'This is a memory-only dummy which must not load any one-to-many relations from the database.', 1331319658
@@ -415,14 +415,13 @@ abstract class Tx_Oelib_DataMapper {
 			$foreignTable = $relationConfiguration['foreign_table'];
 			$foreignField = $relationConfiguration['foreign_field'];
 			$foreignSortBy = $relationConfiguration['foreign_sortby'];
-			$relationUids = Tx_Oelib_Db::selectMultiple(
-				'*', $foreignTable, $foreignField . ' = ' . $data['uid'], '',
-				$foreignSortBy
+			$modelData = Tx_Oelib_Db::selectMultiple(
+				'*', $foreignTable, $foreignField . ' = ' . (int)$data['uid'], '', $foreignSortBy
 			);
 		}
 
 		/** @var Tx_Oelib_List $models */
-		$models = Tx_Oelib_MapperRegistry::get($this->relations[$key])->getListOfModels($relationUids);
+		$models = Tx_Oelib_MapperRegistry::get($this->relations[$key])->getListOfModels($modelData);
 		$models->setParentModel($model);
 		$data[$key] = $models;
 	}
