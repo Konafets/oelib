@@ -1,4 +1,4 @@
-0.8.1 - currently working on
+0.8.1 - released 2015-02-23
 
 Features:
 - [#5250] Allow setting the namespace for the configuration check
@@ -10,8 +10,6 @@ Bug fixes:
 - [#5244] Allow PHP up to 5.6.99
 - [#5247] Drop bogus test fakeFrontEndCobjImageCreatesImageTagForExistingImageFile
 - [#5185] Change the extension name in the manual from "phpunit" to "oelib"
-
-Cleanup:
 
 Changes:
 - [#5248] Do not rely on sr_feuser_register for tests
