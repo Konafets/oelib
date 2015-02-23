@@ -4,6 +4,7 @@ Features:
 - [#5250] Allow setting the namespace for the configuration check
 
 Bug fixes:
+- [#5251] 1:n associations are loaded with empty data
 - [#5244] Allow PHP up to 5.6.99
 - [#5247] Drop bogus test fakeFrontEndCobjImageCreatesImageTagForExistingImageFile
 - [#5185] Change the extension name in the manual from "phpunit" to "oelib"
