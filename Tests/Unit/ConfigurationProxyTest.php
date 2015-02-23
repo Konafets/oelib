@@ -21,7 +21,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_ConfigurationProxy
 	 */

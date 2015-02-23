@@ -22,9 +22,9 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Benjamin Schulte <benj@minschulte.de>
  */
-class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_TestingSalutationSwitcher
+	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingSalutationSwitcher
 	 */
 	private $subject = NULL;
 	/**
@@ -36,7 +36,7 @@ class Tx_Oelib_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->subject = new Tx_Oelib_TestingSalutationSwitcher(array());
+		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingSalutationSwitcher(array());
 	}
 
 	protected function tearDown() {

@@ -20,10 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_Model_CountryTest extends Tx_Phpunit_TestCase {
-	protected function setUp() {
-	}
-
+class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 	protected function tearDown() {
 		Tx_Oelib_MapperRegistry::purgeInstance();
 	}

@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var bool the saved content of $GLOBALS['TYPO3_DB']->debugOutput
 	 */

@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_ListTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_ListTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_List
 	 */

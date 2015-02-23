@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class Tx_Oelib_Visibility_TreeTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Visibility_TreeTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Visibility_Tree
 	 */

@@ -20,14 +20,14 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_ConfigCheck configuration check object to be tested
 	 */
 	private $subject = NULL;
 
 	/**
-	 * @var tx_oelib_dummyObjectToCheck dummy object to be checked by the configuration check object
+	 * @var Tx_Oelib_Tests_Unit_Fixtures_DummyObjectToCheck dummy object to be checked by the configuration check object
 	 */
 	private $objectToCheck = NULL;
 
@@ -40,7 +40,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->objectToCheck = new Tx_Oelib_DummyObjectToCheck(
+		$this->objectToCheck = new Tx_Oelib_Tests_Unit_Fixtures_DummyObjectToCheck(
 			array(
 				'emptyString' => '',
 				'nonEmptyString' => 'foo',

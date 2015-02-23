@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class Tx_Oelib_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
+final class Tx_Oelib_Tests_Unit_Fixtures_TestingTemplateHelper extends Tx_Oelib_TemplateHelper {
 	/**
 	 * @var string the path of this file relative to the extension directory
 	 */

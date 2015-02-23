@@ -21,7 +21,7 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Benjamin Schulte <benj@minschulte.de>
  */
-class Tx_Oelib_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */

@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-final class Tx_Oelib_testingObject extends Tx_Oelib_PublicObject {
+final class Tx_Oelib_Tests_Unit_Fixtures_TestingObject extends Tx_Oelib_PublicObject {
 	/**
 	 * @var array the data for this object
 	 */

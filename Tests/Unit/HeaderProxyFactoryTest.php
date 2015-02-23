@@ -21,7 +21,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_HeaderCollector
 	 */

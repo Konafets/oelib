@@ -10,6 +10,7 @@ Bug fixes:
 - [#5185] Change the extension name in the manual from "phpunit" to "oelib"
 
 Cleanup:
+- [#5252] Rename the unit test classes
 
 Changes:
 - [#5248] Do not rely on sr_feuser_register for tests

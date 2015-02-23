@@ -20,7 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_Model_LanguageTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Model_Language
 	 */

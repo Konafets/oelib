@@ -21,7 +21,7 @@
  * @author Niels Pardon <mail@niels-pardon.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_TranslatorTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	/////////////////////////////////
 	// Tests regarding translate().
 	/////////////////////////////////

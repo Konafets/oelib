@@ -13,14 +13,14 @@
  */
 
 /**
- * Testcase for the tx_oelib_Mapper_FederalState class.
+ * Test case.
  *
  * @package TYPO3
  * @subpackage tx_oelib
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_FederalState
 	 */

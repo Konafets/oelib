@@ -20,14 +20,14 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_ObjectTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_testingObject
+	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingObject
 	 */
 	private $subject;
 
 	protected function setUp() {
-		$this->subject = new Tx_Oelib_testingObject();
+		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingObject();
 	}
 
 	//////////////////////////////////

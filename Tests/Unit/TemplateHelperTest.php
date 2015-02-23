@@ -21,9 +21,9 @@
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_TestingTemplateHelper
+	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingTemplateHelper
 	 */
 	protected $subject = NULL;
 	/**
@@ -44,7 +44,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFakeFrontEnd($pageUid);
 		Tx_Oelib_ConfigurationProxy::getInstance('oelib')->setAsBoolean('enableConfigCheck', TRUE);
 
-		$this->subject = new Tx_Oelib_TestingTemplateHelper(array());
+		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingTemplateHelper(array());
 	}
 
 	protected function tearDown() {
@@ -74,7 +74,7 @@ class Tx_Oelib_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function configurationCheckCreationForDisabledConfigurationCeck() {
 		Tx_Oelib_ConfigurationProxy::getInstance('oelib')
 			->setAsBoolean('enableConfigCheck', FALSE);
-		$subject = new Tx_Oelib_TestingTemplateHelper();
+		$subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingTemplateHelper();
 		$result = $subject->getConfigurationCheck();
 
 		$this->assertNull(

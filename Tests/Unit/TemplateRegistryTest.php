@@ -20,7 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_TemplateRegistryTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_TemplateRegistryTest extends Tx_Phpunit_TestCase {
 	////////////////////////////////////////////
 	// Tests concerning the Singleton property
 	////////////////////////////////////////////

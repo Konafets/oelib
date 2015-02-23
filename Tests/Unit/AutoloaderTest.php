@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_AutoloaderTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
@@ -60,7 +60,7 @@ class Tx_Oelib_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 */
 	public function loadWithNameOfLoadedClassReturnsTrue() {
 		$this->assertTrue(
-			Tx_Oelib_Autoloader::load('tx_oelib_AutoloaderTest')
+			Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_AutoloaderTest')
 		);
 	}
 

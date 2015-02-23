@@ -20,7 +20,7 @@
  *
  * @author Bernd Schönbach <bernd@oliverklee.de>
  */
-class Tx_Oelib_PhpMyAdminTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_PhpMyAdminTest extends Tx_Phpunit_TestCase {
 	///////////////////////////////////////////////////////
 	// Test if phpMyAdmin is installed
 	///////////////////////////////////////////////////////

@@ -21,7 +21,7 @@
  * @author Saskia Metzler <saskia@merlin.owl.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Mapper_BackEndUserTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingFramework for creating dummy records
 	 */

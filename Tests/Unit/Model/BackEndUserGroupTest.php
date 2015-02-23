@@ -21,7 +21,7 @@
  * @author Bernd Schönbach <bernd@oliverklee.de>
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Model_BackEndUserGroupTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_Model_BackEndUserGroup
 	 */

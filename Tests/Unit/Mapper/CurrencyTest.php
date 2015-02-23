@@ -20,7 +20,7 @@
  *
  * @author Niels Pardon <mail@niels-pardon.de>
  */
-class Tx_Oelib_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_Mapper_CurrencyTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var tx_oelib_Mapper_Currency
 	 */
