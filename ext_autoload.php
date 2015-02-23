@@ -54,6 +54,7 @@ return array(
 	'tx_oelib_geocoding_dummy' => $extensionPath . 'Classes/Geocoding/Dummy.php',
 	'tx_oelib_geocoding_google' => $extensionPath . 'Classes/Geocoding/Google.php',
 	'tx_oelib_interface_address' => $extensionPath . 'Classes/Interface/Address.php',
+	'tx_oelib_interface_configurationcheckable' => $extensionPath . 'Classes/Interface/ConfigurationCheckable.php',
 	'tx_oelib_interface_geo' => $extensionPath . 'Classes/Interface/Geo.php',
 	'tx_oelib_interface_geocodinglookup' => $extensionPath . 'Classes/Interface/GeocodingLookup.php',
 	'tx_oelib_interface_identity' => $extensionPath . 'Classes/Interface/Identity.php',

@@ -1,6 +1,7 @@
 0.8.1 - currently working on
 
 Features:
+- [#5250] Allow setting the namespace for the configuration check
 
 Bug fixes:
 - [#5244] Allow PHP up to 5.6.99

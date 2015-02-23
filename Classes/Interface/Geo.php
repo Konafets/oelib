@@ -13,7 +13,7 @@
  */
 
 /**
- * This class represents an object that can have geo coordinates.
+ * This interface represents an object that can have geo coordinates.
  *
  * @package TYPO3
  * @subpackage tx_oelib
