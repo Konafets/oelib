@@ -40,7 +40,7 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->objectToCheck = new tx_oelib_dummyObjectToCheck(
+		$this->objectToCheck = new Tx_Oelib_DummyObjectToCheck(
 			array(
 				'emptyString' => '',
 				'nonEmptyString' => 'foo',
@@ -149,6 +149,31 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/*
+	 * Tests concerning the basics
+	 */
+
+	/**
+	 * @test
+	 */
+	public function objectToCheckIsCheckable() {
+		$this->assertInstanceOf(
+			'Tx_Oelib_Interface_ConfigurationCheckable',
+			$this->objectToCheck
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function checkContainsNamespaceInErrorMessage() {
+		$this->subject->checkForNonEmptyString('', FALSE, '', '');
+
+		$this->assertContains(
+			'plugin.tx_oelib_test.',
+			$this->subject->getRawMessage()
+		);
+	}
 
 	/////////////////////////////////
 	// Tests concerning the flavor.

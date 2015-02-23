@@ -37,8 +37,9 @@
  */
 class Tx_Oelib_ConfigCheck {
 	/**
-	 * @var Tx_Oelib_TemplateHelper the object whose configuration should
-	 *                              be checked
+	 * the object whose configuration should be checked
+	 *
+	 * @var Tx_Oelib_TemplateHelper|Tx_Oelib_Interface_ConfigurationCheckable
 	 */
 	protected $objectToCheck = NULL;
 
@@ -255,7 +256,7 @@ class Tx_Oelib_ConfigCheck {
 
 	/**
 	 * Wraps $message in (in this case) <p></p>, styled nicely alarming,
-	 * with the lang attribe set to "en".
+	 * with the lang attribute set to "en".
 	 * In addition, the message is prepended by "Configuration check warning: "
 	 * and followed by "When that is done, please empty the FE cache and
 	 * reload this page."
@@ -1106,8 +1107,11 @@ class Tx_Oelib_ConfigCheck {
 	 *                trailing dot, e.g. "plugin.tx_seminars_pi1."
 	 */
 	protected function getTSSetupPath() {
-		$result = 'plugin.tx_'.$this->objectToCheck->extKey;
+		if ($this->objectToCheck instanceof Tx_Oelib_Interface_ConfigurationCheckable) {
+			return $this->objectToCheck->getTypoScriptNamespace();
+		}
 
+		$result = 'plugin.tx_' . $this->objectToCheck->extKey;
 		$matches = array();
 		if (preg_match('/_pi[0-9]+$/', $this->className, $matches)) {
 			$result .= $matches[0];

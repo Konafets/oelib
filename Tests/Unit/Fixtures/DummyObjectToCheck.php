@@ -20,7 +20,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-final class Tx_Oelib_dummyObjectToCheck extends Tx_Oelib_TemplateHelper {
+final class Tx_Oelib_DummyObjectToCheck extends Tx_Oelib_TemplateHelper implements Tx_Oelib_Interface_ConfigurationCheckable {
 	/**
 	 * The constructor.
 	 *
@@ -29,5 +29,14 @@ final class Tx_Oelib_dummyObjectToCheck extends Tx_Oelib_TemplateHelper {
 	 */
 	public function __construct(array $configuration) {
 		$this->init($configuration);
+	}
+
+	/**
+	 * Returns the prefix for the configuration to check, e.g. "plugin.tx_seminars_pi1.".
+	 *
+	 * @return string the namespace prefix, will end with a dot
+	 */
+	public function getTypoScriptNamespace() {
+		return 'plugin.tx_oelib_test.';
 	}
 }
