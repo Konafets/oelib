@@ -4538,8 +4538,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$this->assertTrue(
-			$this->getFrontEndController()->sys_page instanceof t3lib_pageSelect
+		$pageClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+			? 't3lib_pageSelect' : 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
+		$this->assertInstanceOf(
+			$pageClassName,
+			$this->getFrontEndController()->sys_page
 		);
 	}
 
@@ -4550,8 +4553,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$this->assertTrue(
-			$this->getFrontEndController()->fe_user instanceof tslib_feUserAuth
+		$frontEndUserClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+			? 'tslib_feUserAuth' : 'TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication';
+		$this->assertInstanceOf(
+			$frontEndUserClassName,
+			$this->getFrontEndController()->fe_user
 		);
 	}
 
@@ -4562,8 +4568,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$this->assertTrue(
-			$this->getFrontEndController()->cObj instanceof tslib_cObj
+		$contentObjectClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+			? 'tslib_cObj' : 'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer';
+		$this->assertInstanceOf(
+			$contentObjectClassName,
+			$this->getFrontEndController()->cObj
 		);
 	}
 
