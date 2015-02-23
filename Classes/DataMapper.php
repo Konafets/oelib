@@ -416,7 +416,7 @@ abstract class Tx_Oelib_DataMapper {
 			$foreignField = $relationConfiguration['foreign_field'];
 			$foreignSortBy = $relationConfiguration['foreign_sortby'];
 			$relationUids = Tx_Oelib_Db::selectMultiple(
-				'uid', $foreignTable, $foreignField . ' = ' . $data['uid'], '',
+				'*', $foreignTable, $foreignField . ' = ' . $data['uid'], '',
 				$foreignSortBy
 			);
 		}

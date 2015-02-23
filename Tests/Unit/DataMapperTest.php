@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
+class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_TestingFramework
 	 */
@@ -401,7 +401,7 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function getListOfModelsReturnsListOfModelWithProvidedTitel() {
+	public function getListOfModelsReturnsListOfModelWithProvidedTitle() {
 		$this->assertSame(
 			'foo',
 			$this->subject->getListOfModels(array(array('uid' => 1, 'title' => 'foo')))
@@ -425,24 +425,6 @@ class Tx_Oelib_DataMapperTest extends Tx_Phpunit_TestCase {
 
 		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
 		$this->subject->load($model);
-	}
-
-	/**
-	 * @test
-	 */
-	public function loadWithModelWithExistingUidFillsModelWithData() {
-		$uid = $this->testingFramework->createRecord(
-			'tx_oelib_test', array('title' => 'foo')
-		);
-
-		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$model->setUid($uid);
-		$this->subject->load($model);
-
-		$this->assertSame(
-			'foo',
-			$model->getTitle()
-		);
 	}
 
 	/**
