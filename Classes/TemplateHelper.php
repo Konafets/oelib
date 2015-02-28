@@ -921,9 +921,13 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * Classes are set only if they are set via TS, else the marker will be an
 	 * empty string.
 	 *
+	 * @deprecated 2015-02-28
+	 *
 	 * @return void
 	 */
 	public function setCss() {
+		t3lib_div::logDeprecatedFunction();
+
 		try {
 			$cssEntries = $this->getTemplate()->getPrefixedMarkers('class');
 		} catch (Exception $exception) {

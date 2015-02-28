@@ -5,6 +5,7 @@ Features:
 Bug fixes:
 
 Changes:
+- [#5258] Deprecate TemplateHelper::setCss
 
 Cleanup:
 
