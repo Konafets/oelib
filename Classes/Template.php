@@ -49,6 +49,13 @@ class Tx_Oelib_Template {
 	private $markerNames = array();
 
 	/**
+	 * all lowercased label marker names in the current template without the hashes, for example ("label_foo", "label_bar")
+	 *
+	 * @var string[]
+	 */
+	private $labelMarkerNames = array();
+
+	/**
 	 * associative array of *populated* markers and their contents
 	 * (with the keys being the marker names including the wrapping hash signs ###).
 	 *
@@ -128,8 +135,8 @@ class Tx_Oelib_Template {
 		);
 		foreach ($matches as $match) {
 			$subpartName = $match[1];
-			$subpartContent = $match[2];
 			if (!isset($this->subparts[$subpartName])) {
+				$subpartContent = $match[2];
 				$this->subparts[$subpartName] = $subpartContent;
 				$this->extractSubparts($subpartContent);
 			}
@@ -139,6 +146,8 @@ class Tx_Oelib_Template {
 	/**
 	 * Finds all markers within the current HTML template and writes their names
 	 * to $this->markerNames.
+	 *
+	 * In addition, it stores the lowercased label marker names in $this->labelMarkerNames.
 	 *
 	 * @return void
 	 */
@@ -152,6 +161,11 @@ class Tx_Oelib_Template {
 		);
 
 		$this->markerNames = array_unique($matches[1]);
+		foreach ($this->markerNames as $markerName) {
+			if (substr($markerName, 0, 6) === 'LABEL_') {
+				$this->labelMarkerNames[] = strtolower($markerName);
+			}
+		}
 	}
 
 	/**
@@ -176,6 +190,17 @@ class Tx_Oelib_Template {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Gets a list of marker names with the "LABEL" prefix.
+	 *
+	 * If there are no matches, an empty array is returned.
+	 *
+	 * @return string[] matching marker names (lowercased), might be empty
+	 */
+	public function getLabelMarkerNames() {
+		return $this->labelMarkerNames;
 	}
 
 	/**
@@ -575,9 +600,8 @@ class Tx_Oelib_Template {
 	 * @return string the created marker name (without the hashes), will not be empty
 	 */
 	private function createMarkerNameWithoutHashes($markerName, $prefix = '') {
-		// If a prefix is provided, uppercases it and separates it with an
-		// underscore.
-		if (!empty($prefix)) {
+		// If a prefix is provided, uppercases it and separates it with an underscore.
+		if ($prefix !== '') {
 			$prefix .= '_';
 		}
 
@@ -685,7 +709,8 @@ class Tx_Oelib_Template {
 	 * @return bool TRUE if the marker name is valid, FALSE otherwise
 	 */
 	private function isMarkerNameValidWithHashes($markerName) {
-		return (bool)preg_match('/^###[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName);
+		return isset($this->markers[$markerName])
+			|| (bool)preg_match('/^###[a-zA-Z](?:[a-zA-Z0-9_]*[a-zA-Z0-9])?###$/', $markerName);
 	}
 
 	/**

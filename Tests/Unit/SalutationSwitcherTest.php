@@ -334,9 +334,9 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////////////////////////////
-	// Tests for translating with salutation modes in the default language.
-	/////////////////////////////////////////////////////////////////////////
+	/*
+	 * Tests for translating with salutation modes in the default language.
+	 */
 
 	/**
 	 * @test
@@ -387,7 +387,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function formalWithNormalTryingNothing() {
 		$this->assertSame(
-			'formal with normal, formal',
+			'formal with normal, normal',
 			$this->subject->translate('formal_string_with_normal')
 		);
 	}
@@ -473,7 +473,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	 */
 	public function bothWithoutNormalTryingNothing() {
 		$this->assertSame(
-			'both without normal, formal',
+			'both without normal',
 			$this->subject->translate('both_without_normal')
 		);
 	}
@@ -550,7 +550,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function formalWithNormalTryingNothingNoGermanLabels() {
 		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'formal with normal, formal',
+			'formal with normal, normal',
 			$this->subject->translate('formal_string_with_normal')
 		);
 	}
@@ -620,7 +620,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function bothWithoutNormalTryingNothingNoGermanLabels() {
 		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'both without normal, formal',
+			'both without normal',
 			$this->subject->translate('both_without_normal')
 		);
 	}
@@ -685,7 +685,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function formalWithNormalTryingNothingWithGermanLabels() {
 		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'de formal with normal, formal',
+			'de formal with normal, normal',
 			$this->subject->translate('de_formal_string_with_normal')
 		);
 	}
@@ -779,7 +779,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	public function bothWithoutNormalTryingNothingWithGermanLabels() {
 		$this->subject->setLanguage('de');
 		$this->assertSame(
-			'de both without normal, formal',
+			'de_both_without_normal',
 			$this->subject->translate('de_both_without_normal')
 		);
 	}

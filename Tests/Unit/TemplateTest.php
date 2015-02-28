@@ -3602,9 +3602,9 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	////////////////////////////////////////
-	// Tests concerning getPrefixedMarkers
-	////////////////////////////////////////
+	/*
+	 * Tests concerning getPrefixedMarkers
+	 */
 
 	/**
 	 * @test
@@ -3651,6 +3651,58 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->assertSame(
 			array('FOO_BAR', 'FOO_BAZ'),
 			$this->subject->getPrefixedMarkers('foo')
+		);
+	}
+
+	/*
+	 * Tests concerning getLabelMarkers
+	 */
+
+	/**
+	 * @test
+	 */
+	public function getLabelMarkersForNoMatchesReturnsEmptyArray() {
+		$this->subject->processTemplate('###BLA###');
+
+		$this->assertSame(
+			array(),
+			$this->subject->getLabelMarkerNames()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLabelMarkersForOneMatchReturnsArrayWithCompleteMarkerName() {
+		$this->subject->processTemplate('###LABEL_BAR###');
+
+		$this->assertSame(
+			array('label_bar'),
+			$this->subject->getLabelMarkerNames()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLabelMarkersForTwoIdenticalMatchesReturnsArrayWithCompleteMarkerNameOnce() {
+		$this->subject->processTemplate('###LABEL_BAR### ###LABEL_BAR###');
+
+		$this->assertSame(
+			array('label_bar'),
+			$this->subject->getLabelMarkerNames()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getLabelMarkersForTwoMatchesReturnsArrayWithCompleteMarkerNames() {
+		$this->subject->processTemplate('###LABEL_BAR### ###LABEL_BAZ###');
+
+		$this->assertSame(
+			array('label_bar', 'label_baz'),
+			$this->subject->getLabelMarkerNames()
 		);
 	}
 }

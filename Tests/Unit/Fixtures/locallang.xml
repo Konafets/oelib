@@ -18,6 +18,7 @@
 			<label index="formal_string_with_normal_formal">formal with normal, formal</label>
 			<label index="informal_string_with_normal">informal with normal, normal</label>
 			<label index="informal_string_with_normal_informal">informal with normal, informal</label>
+			<label index="both_without_normal">both without normal</label>
 			<label index="both_without_normal_formal">both without normal, formal</label>
 			<label index="both_without_normal_informal">both without normal, informal</label>
 			<label index="de_formal_string_only_formal">only formal</label>

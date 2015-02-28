@@ -901,16 +901,15 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return void
 	 */
 	public function setLabels() {
+		$template = $this->getTemplate();
 		try {
-			$labels = $this->getTemplate()->getPrefixedMarkers('label');
+			$labels = $template->getLabelMarkerNames();
 		} catch (Exception $exception) {
 			$labels = array();
 		}
 
-		foreach ($labels as $currentLabel) {
-			$this->getTemplate()->setMarker(
-				$currentLabel, $this->translate(strtolower($currentLabel))
-			);
+		foreach ($labels as $label) {
+			$template->setMarker($label, $this->translate($label));
 		}
 	}
 

@@ -25,7 +25,7 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * A list of language keys for which the localizations have been loaded
 	 * (or NULL if the list has not been compiled yet).
 	 *
-	 * @var string[]
+	 * @var string[]|NULL
 	 */
 	private $availableLanguages = NULL;
 
@@ -34,14 +34,21 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 * localizations in the preferred order of formality (or NULL if the list
 	 * has not been compiled yet).
 	 *
-	 * @var string[]
+	 * @var string[]|NULL
 	 */
 	private $suffixesToTry = NULL;
+
+	/**
+	 * @var string[]
+	 */
+	protected $translationCache = array();
 
 	/**
 	 * Frees as much memory that has been used by this object as possible.
 	 */
 	public function __destruct() {
+		$this->translationCache = array();
+
 		unset(
 			$this->availableLanguages, $this->suffixesToTry, $this->conf,
 			$this->pi_EPtemp_cObj, $this->cObj, $this->LOCAL_LANG
@@ -70,26 +77,26 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 	 *
 	 * @return string the requested local language key, might be empty
 	 */
-	public function translate(
-		$key, $useHtmlSpecialChars = FALSE
-	) {
+	public function translate($key, $useHtmlSpecialChars = FALSE) {
 		if ($key === '') {
 			throw new InvalidArgumentException('$key must not be empty.', 1331489025);
 		}
 
-		if (($this->getFrontEndController() !== NULL) && is_array($this->LOCAL_LANG)) {
-			$result = $this->translateInFrontEnd($key);
-		} elseif ($this->getLanguageService() !== NULL) {
-			$result = $this->translateInBackEnd($key);
+		if (isset($this->translationCache[$key])) {
+			$result = $this->translationCache[$key];
 		} else {
-			$result = $key;
+			if (($this->getFrontEndController() !== NULL) && is_array($this->LOCAL_LANG)) {
+				$result = $this->translateInFrontEnd($key);
+			} elseif ($this->getLanguageService() !== NULL) {
+				$result = $this->translateInBackEnd($key);
+			} else {
+				$result = $key;
+			}
+
+			$this->translationCache[$key] = $result;
 		}
 
-		if ($useHtmlSpecialChars) {
-			$result = htmlspecialchars($result);
-		}
-
-		return $result;
+		return $useHtmlSpecialChars ? htmlspecialchars($result) : $result;
 	}
 
 	/**
@@ -128,11 +135,9 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 		$result = '';
 
 		$availableLanguages = $this->getAvailableLanguages();
-		$suffixesToTry = $this->getSuffixesToTry();
-
-		foreach ($availableLanguages as $language) {
-			foreach ($suffixesToTry as $suffix) {
-				$completeKey = $key.$suffix;
+		foreach ($this->getSuffixesToTry() as $suffix) {
+			foreach ($availableLanguages as $language) {
+				$completeKey = $key . $suffix;
 				if (isset($this->LOCAL_LANG[$language][$completeKey])) {
 					$result = parent::pi_getLL($completeKey);
 					$hasFoundATranslation = TRUE;
@@ -161,11 +166,10 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 				$this->availableLanguages[] = $this->LLkey;
 			}
 			// The key for English is "default", not "en".
-			$this->availableLanguages = preg_replace(
-				'/en/', 'default', $this->availableLanguages
+			$this->availableLanguages = str_replace(
+				'en', 'default', $this->availableLanguages
 			);
-			// Remove duplicates in case the default language is the same as the
-			// fall-back language.
+			// Remove duplicates in case the default language is the same as the fall-back language.
 			$this->availableLanguages = array_unique($this->availableLanguages);
 
 			// Now check that we only keep languages for which we have
@@ -190,11 +194,12 @@ abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
 		if ($this->suffixesToTry === NULL) {
 			$this->suffixesToTry = array();
 
-			if (isset($this->conf['salutation'])
-				&& ($this->conf['salutation'] === 'informal')) {
-				$this->suffixesToTry[] = '_informal';
+			if (isset($this->conf['salutation'])) {
+				if ($this->conf['salutation'] === 'informal') {
+					$this->suffixesToTry[] = '_informal';
+				}
+				$this->suffixesToTry[] = '_formal';
 			}
-			$this->suffixesToTry[] = '_formal';
 			$this->suffixesToTry[] = '';
 		}
 
