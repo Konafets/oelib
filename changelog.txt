@@ -4,6 +4,7 @@ Features:
 - [#5250] Allow setting the namespace for the configuration check
 
 Bug fixes:
+- [#5265] Deprecation log message in the unit tests for checkLocale
 - [#5255] Test failures and crashes about TSFE->cObj
 - [#5245] Test extension icons not visible in EM
 - [#5251] 1:n associations are loaded with empty data
