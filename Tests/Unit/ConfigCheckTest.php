@@ -36,7 +36,14 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	private $testingFramework = NULL;
 
+	/**
+	 * @var bool
+	 */
+	protected $deprecationLogEnabledBackup = FALSE;
+
 	protected function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 		$this->testingFramework->createFakeFrontEnd();
 
@@ -54,6 +61,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 	protected function tearDown() {
 		$this->testingFramework->cleanUp();
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 	///////////////////////
@@ -342,6 +351,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
 
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$locales = $this->subject->getInstalledLocales();
 		$this->setConfigurationForLocale($locales[0]);
 
@@ -360,6 +371,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		if (TYPO3_OS === 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$this->setConfigurationForLocale(
 			str_ireplace('f8', 'f-8', $this->getInstalledUtfLocale())
@@ -380,6 +393,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		if (TYPO3_OS === 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$this->setConfigurationForLocale(
 			str_ireplace('f-8', 'f8', $this->getInstalledUtfLocale())
@@ -402,6 +417,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
 
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->setConfigurationForLocale('');
 		$this->subject->checkLocale();
 
@@ -422,6 +439,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		if (TYPO3_OS === 'WIN') {
 			$this->markTestSkipped('This test does not run properly on Windows.');
 		}
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$this->setConfigurationForLocale('xy_XY');
 		$this->subject->checkLocale();
@@ -445,6 +464,8 @@ class Tx_Oelib_ConfigCheckTest extends Tx_Phpunit_TestCase {
 				'This test does not run properly on non Windows systems.'
 			);
 		}
+
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		/** @var Tx_Oelib_ConfigCheck|PHPUnit_Framework_MockObject_MockObject $configCheckMock */
 		$configCheckMock = $this->getMock(

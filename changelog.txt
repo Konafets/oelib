@@ -3,6 +3,7 @@
 Features:
 
 Bug fixes:
+- [#5265] Deprecation log message in the unit tests for checkLocale
 
 Changes:
 - [#5258] Deprecate TemplateHelper::setCss
