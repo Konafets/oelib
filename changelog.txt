@@ -15,6 +15,7 @@ Cleanup:
 - [#5252] Rename the unit test classes
 
 Changes:
+- [#5258] Deprecate TemplateHelper::setCss
 - [#5248] Do not rely on sr_feuser_register for tests
 - [#5229] Deprecate ConfigCheck::checkLocale
 - [#5223] Remove the reference to 3rd party libraries from the manual

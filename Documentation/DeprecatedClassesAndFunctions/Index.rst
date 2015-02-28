@@ -606,5 +606,17 @@ as bold.
    Removed
          0.8.0 + 3
 
+.. container:: table-row
+
+   Classmethod
+         Tx\_Oelib\_TemplateHelper::checkCss
+
+   Successor
+
+   Deprecated
+         2015-02-28
+
+   Removed
+         0.8.0 + 2
 
 .. ###### END~OF~TABLE ######
