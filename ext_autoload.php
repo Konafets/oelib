@@ -35,7 +35,7 @@ return array(
 	'tx_oelib_publicobject' => $extensionPath . 'Classes/PublicObject.php',
 	'tx_oelib_realheaderproxy' => $extensionPath . 'Classes/RealHeaderProxy.php',
 	'tx_oelib_realmailer' => $extensionPath . 'Classes/RealMailer.php',
-	'tx_oelib_salutationswitcher' => $extensionPath . 'Classes/Salutationswitcher.php',
+	'tx_oelib_salutationswitcher' => $extensionPath . 'Classes/SalutationSwitcher.php',
 	'tx_oelib_session' => $extensionPath . 'Classes/Session.php',
 	'tx_oelib_template' => $extensionPath . 'Classes/Template.php',
 	'tx_oelib_templatehelper' => $extensionPath . 'Classes/TemplateHelper.php',

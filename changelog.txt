@@ -13,6 +13,7 @@ Bug fixes:
 - [#5185] Change the extension name in the manual from "phpunit" to "oelib"
 
 Cleanup:
+- [#5267] Rename "Salutationswitcher" to "SalutationSwitcher"
 - [#5252] Rename the unit test classes
 
 Changes:
