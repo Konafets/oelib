@@ -387,9 +387,13 @@ class Tx_Oelib_ConfigCheck {
 	 * Checks the CSS class names provided in the TS setup for validity.
 	 * Empty values are considered as valid.
 	 *
+	 * @deprecated 2015-03-01
+	 *
 	 * @return void
 	 */
 	protected function checkCssClassNames() {
+		t3lib_div::logDeprecatedFunction();
+
 		$cssEntries = $this->objectToCheck->getPrefixedMarkers('class');
 
 		foreach ($cssEntries as $currentCssEntry) {

@@ -175,11 +175,15 @@ class Tx_Oelib_Template {
 	 *
 	 * If there are no matches, an empty array is returned.
 	 *
+	 * @deprecated 2015-03-01
+	 *
 	 * @param string $prefix case-insensitive prefix for the marker names to look for
 	 *
 	 * @return string[] matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
+		t3lib_div::logDeprecatedFunction();
+
 		$upperCasePrefix = strtoupper($prefix) . '_';
 
 		$result = array();

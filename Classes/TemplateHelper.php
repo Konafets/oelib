@@ -527,11 +527,15 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *
 	 * If there are no matches, an empty array is returned.
 	 *
+	 * @deprecated 2015-03-01
+	 *
 	 * @param string $prefix case-insensitive prefix for the marker names to look for
 	 *
 	 * @return string[] array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
+		t3lib_div::logDeprecatedFunction();
+
 		try {
 			return $this->getTemplate()->getPrefixedMarkers($prefix);
 		} catch (Exception $exception) {

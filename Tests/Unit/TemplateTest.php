@@ -27,8 +27,19 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $subject = NULL;
 
+	/**
+	 * @var bool
+	 */
+	protected $deprecationLogEnabledBackup = FALSE;
+
 	protected function setUp() {
+		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
+
 		$this->subject = new Tx_Oelib_Template();
+	}
+
+	protected function tearDown() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 	/*
@@ -3610,6 +3621,8 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPrefixedMarkersForNoMatchesReturnsEmptyArray() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->processTemplate('');
 
 		$this->assertSame(
@@ -3622,6 +3635,8 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPrefixedMarkersForOneMatchReturnsArrayWithCompleteMarkerName() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->processTemplate('###FOO_BAR###');
 
 		$this->assertSame(
@@ -3634,6 +3649,8 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPrefixedMarkersForTwoIdenticalMatchesReturnsArrayWithCompleteMarkerNameOnce() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->processTemplate('###FOO_BAR### ###FOO_BAR###');
 
 		$this->assertSame(
@@ -3646,6 +3663,8 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getPrefixedMarkersForTwoMatchesReturnsArrayWithCompleteMarkerNames() {
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
+
 		$this->subject->processTemplate('###FOO_BAR### ###FOO_BAZ###');
 
 		$this->assertSame(
