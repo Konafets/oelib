@@ -3357,7 +3357,7 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		);
 		$this->subject->setLabels();
 		$this->assertSame(
-			'a bar (formal) b',
+			'a bar (no salutation) b',
 			$this->subject->getSubpart()
 		);
 	}
