@@ -18,7 +18,6 @@ return array(
 	'tx_oelib_double3validator' => $extensionPath . 'Classes/Double3Validator.php',
 	'tx_oelib_emailcollector' => $extensionPath . 'Classes/EmailCollector.php',
 	'tx_oelib_fakesession' => $extensionPath . 'Classes/FakeSession.php',
-	'tx_oelib_filefunctions' => $extensionPath . 'Classes/FileFunctions.php',
 	'tx_oelib_frontend_userwithoutcookies' => $extensionPath . 'Classes/FrontEnd/UserWithoutCookies.php',
 	'tx_oelib_frontendloginmanager' => $extensionPath . 'Classes/FrontEndLoginManager.php',
 	'tx_oelib_headercollector' => $extensionPath . 'Classes/HeaderCollector.php',

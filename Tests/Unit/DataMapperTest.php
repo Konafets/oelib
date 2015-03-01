@@ -30,14 +30,7 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 	 */
 	protected $subject = NULL;
 
-	/**
-	 * @var bool
-	 */
-	protected $deprecationLogEnabledBackup = FALSE;
-
 	protected function setUp() {
-		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
-
 		$this->testingFramework = new Tx_Oelib_TestingFramework('tx_oelib');
 
 		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode($this->testingFramework);
@@ -49,8 +42,6 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->cleanUp();
 
 		Tx_Oelib_MapperRegistry::purgeInstance();
-
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
 
 
@@ -2241,27 +2232,6 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		$list->add($child);
 
 		$parent->getChildren()->append($list);
-
-		$this->assertTrue(
-			$parent->isDirty()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueMarksParentModelAsDirty() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$parentUid = $this->testingFramework->createRecord('tx_oelib_test');
-
-		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $parent */
-		$parent = $this->subject->find($parentUid);
-		$child = $this->subject->getNewGhost();
-		$list = new Tx_Oelib_List();
-		$list->add($child);
-
-		$parent->getChildren()->appendUnique($list);
 
 		$this->assertTrue(
 			$parent->isDirty()

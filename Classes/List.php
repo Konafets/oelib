@@ -211,27 +211,6 @@ class Tx_Oelib_List extends SplObjectStorage {
 	}
 
 	/**
-	 * Appends the contents of $list to this list. If an item with specific UID
-	 * already exists in the list, the new item to append will be igored.
-	 *
-	 * @param Tx_Oelib_List<Tx_Oelib_Model> $list the list to append, may be empty
-	 *
-	 * @deprecated 2010-05-27 use append() instead
-	 *
-	 * @return void
-	 */
-	public function appendUnique(Tx_Oelib_List $list) {
-		t3lib_div::logDeprecatedFunction();
-
-		/** @var Tx_Oelib_Model $item */
-		foreach ($list as $item) {
-			if (!$this->hasUid($item->getUid())) {
-				$this->add($item);
-			}
-		}
-	}
-
-	/**
 	 * Drops the current element from the list and sets the pointer to the
 	 * next element.
 	 *

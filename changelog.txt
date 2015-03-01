@@ -17,6 +17,7 @@ Cleanup:
 - [#5252] Rename the unit test classes
 
 Changes:
+- [#5270] Remove deprecated functions
 - [#5268] Deprecate getPrefixedMarkers and checkCssClassNames
 - [#5266] Improve the performance of TemplateHelper::setLabels
 - [#5258] Deprecate TemplateHelper::setCss

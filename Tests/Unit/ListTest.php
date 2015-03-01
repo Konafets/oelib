@@ -31,21 +31,9 @@ class Tx_Oelib_Tests_Unit_ListTest extends Tx_Phpunit_TestCase {
 	 */
 	private $modelStorage = array();
 
-	/**
-	 * @var bool
-	 */
-	private $deprecationLogEnabledBackup = FALSE;
-
 	protected function setUp() {
-		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
-
 		$this->subject = new Tx_Oelib_List();
 	}
-
-	protected function tearDown() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
-	}
-
 
 	///////////////////////
 	// Utility functions
@@ -934,125 +922,6 @@ class Tx_Oelib_Tests_Unit_ListTest extends Tx_Phpunit_TestCase {
 			$this->subject->first()
 		);
 	}
-
-
-	//////////////////////////////////
-	// Tests concerning appendUnique
-	//////////////////////////////////
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueForEmptyListToEmptyListMakesEmptyList() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$otherList = new Tx_Oelib_List();
-		$this->subject->appendUnique($otherList);
-
-		$this->assertTrue(
-			$this->subject->isEmpty()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueForTwoItemListToEmptyListMakesTwoItemList() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$otherList = new Tx_Oelib_List();
-		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$otherList->add($model1);
-		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$otherList->add($model2);
-
-		$this->subject->appendUnique($otherList);
-
-		$this->assertSame(
-			2,
-			$this->subject->count()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueForEmptyListToTwoItemListMakesTwoItemList() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$this->addModelsToFixture(array('First', 'Second'));
-
-		$otherList = new Tx_Oelib_List();
-		$this->subject->appendUnique($otherList);
-
-		$this->assertSame(
-			2,
-			$this->subject->count()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueForOneItemListToOneItemListWithTheSameItemMakesOneItemList() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$model->setUid(42);
-		$this->subject->add($model);
-
-		$otherList = new Tx_Oelib_List();
-		$otherList->add($model);
-
-		$this->subject->appendUnique($otherList);
-
-		$this->assertSame(
-			1,
-			$this->subject->count()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueForTwoItemListKeepsOrderOfAppendedItems() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$otherList = new Tx_Oelib_List();
-		$model1 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$otherList->add($model1);
-		$model2 = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$otherList->add($model2);
-
-		$this->subject->appendUnique($otherList);
-
-		$this->assertSame(
-			$model1,
-			$this->subject->first()
-		);
-	}
-
-	/**
-	 * @test
-	 */
-	public function appendUniqueAppendsItemAfterExistingItems() {
-		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
-
-		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$this->subject->add($model);
-
-		$otherList = new Tx_Oelib_List();
-		$otherModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
-		$otherList->add($otherModel);
-
-		$this->subject->appendUnique($otherList);
-
-		$this->assertSame(
-			$model,
-			$this->subject->first()
-		);
-	}
-
 
 	//////////////////////////////////
 	// Tests concerning purgeCurrent

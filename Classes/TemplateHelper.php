@@ -996,37 +996,6 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
-	 * Wrapper function for createRecursivePageList to avoid the page tree cache
-	 * from the original pi_getPidList in TYPO3 >= 4.3.
-	 *
-	 * Recursively creates a comma-separated list of subpage UIDs from
-	 * a list of pages. The result also includes the original pages.
-	 * The maximum level of recursion can be limited:
-	 * 0 = no recursion (the default value, will return $startPages),
-	 * 1 = only direct child pages,
-	 * ...,
-	 * 250 = all descendants for all sane cases
-	 *
-	 * Note: The returned page list is _not_ sorted.
-	 *
-	 * @deprecated 2013-02-09
-	 *
-	 * @param string $startPages
-	 *        comma-separated list of page UIDs to start from, must only contain numbers and commas, may be empty
-	 * @param int $recursionDepth
-	 *        maximum depth of recursion, must be >= 0
-	 *
-	 * @return string comma-separated list of subpage UIDs including the
-	 *                UIDs provided in $startPages, will be empty if
-	 *                $startPages is empty
-	 */
-	public function pi_getPidList($startPages, $recursionDepth = 0) {
-		t3lib_div::logDeprecatedFunction();
-
-		return Tx_Oelib_Db::createRecursivePageList($startPages, $recursionDepth);
-	}
-
-	/**
 	 * Intvals all piVars that are supposed to be integers. These are the keys
 	 * showUid, pointer and mode and the keys provided in $additionalPiVars.
 	 *
@@ -1348,22 +1317,6 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 */
 	public function getCurrentBePageId() {
 		return Tx_Oelib_PageFinder::getInstance()->getPageUid();
-	}
-
-	/**
-	 * Sets the PHP LC_ALL locale (as set in config.locale_all).
-	 *
-	 * Note: Using this function affects string/float conversion. It is highly
-	 * recommend to not use this function anymore.
-	 *
-	 * @deprecated 2010-09-23
-	 *
-	 * @return void
-	 */
-	protected function setLocaleConvention() {
-		t3lib_div::logDeprecatedFunction();
-
-		setlocale(LC_ALL, $this->getFrontEndController()->config['config']['locale_all']);
 	}
 
 	/**

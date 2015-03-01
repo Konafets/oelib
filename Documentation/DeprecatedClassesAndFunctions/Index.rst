@@ -461,21 +461,6 @@ as bold.
 .. container:: table-row
 
    Classmethod
-         tx\_oelib\_templatehelper::getFeUserUid
-
-   Successor
-         tx\_oelib\_FrontEndLoginManager::getLoggedInUser
-
-   Deprecated
-         2010-10-11
-
-   Removed
-         0.8.0 + 1
-
-
-.. container:: table-row
-
-   Classmethod
          tx\_oelib\_templatehelper::pi\_getPidList
 
    Successor
@@ -486,6 +471,21 @@ as bold.
 
    Removed
          0.8.0 + 1
+
+
+.. container:: table-row
+
+   Classmethod
+         tx\_oelib\_templatehelper::getFeUserUid
+
+   Successor
+         tx\_oelib\_FrontEndLoginManager::getLoggedInUser
+
+   Deprecated
+         2010-10-11
+
+   Removed
+         0.8.0 + 2
 
 
 .. container:: table-row
