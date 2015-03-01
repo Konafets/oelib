@@ -6,6 +6,7 @@ Bug fixes:
 - [#5265] Deprecation log message in the unit tests for checkLocale
 
 Changes:
+- [#5268] Deprecate checkCssClassNames
 - [#5258] Deprecate TemplateHelper::setCss
 
 Cleanup:
