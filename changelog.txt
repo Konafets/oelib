@@ -3,6 +3,7 @@
 Features:
 
 Bug fixes:
+- [#5279] Removed multiple Composer autoloaders for loading Emogrifier
 - [#5265] Deprecation log message in the unit tests for checkLocale
 
 Changes:
