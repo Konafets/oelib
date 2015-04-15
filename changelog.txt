@@ -4,6 +4,7 @@ Features:
 - [#5250] Allow setting the namespace for the configuration check
 
 Bug fixes:
+- [#5306] PHP strict error in DataMapper
 - [#5279] Removed multiple Composer autoloaders for loading Emogrifier
 - [#5265] Deprecation log message in the unit tests for checkLocale
 - [#5255] Test failures and crashes about TSFE->cObj
