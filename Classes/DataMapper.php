@@ -262,9 +262,8 @@ abstract class Tx_Oelib_DataMapper {
 		}
 
 		try {
-			$this->fillModel(
-				$model, $this->retrieveRecordByUid($model->getUid())
-			);
+			$data = $this->retrieveRecordByUid($model->getUid());
+			$this->fillModel($model, $data);
 		} catch (tx_oelib_Exception_NotFound $exception) {
 			$model->markAsDead();
 		}
