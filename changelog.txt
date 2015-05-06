@@ -1,6 +1,4 @@
-0.8.2 - currently working on
-
-Features:
+0.8.2 - released 2015-05-06
 
 Bug fixes:
 - [#5306] PHP strict error in DataMapper
@@ -10,8 +8,6 @@ Bug fixes:
 Changes:
 - [#5268] Deprecate checkCssClassNames
 - [#5258] Deprecate TemplateHelper::setCss
-
-Cleanup:
 
 
 0.8.1 - released 2015-02-23
