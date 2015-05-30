@@ -153,11 +153,6 @@ can be used for your own unit tests.
 Known problems with unit testing
 """"""""""""""""""""""""""""""""
 
-- The current version of the phpMyAdmin extension sends cookies, which
-  breaks the createFakeFrontEnd function in the testing framework. We’re
-  aware of this problem and will try to fix it. As a workaround, please
-  temporarily  **uninstall phpMyAdmin** for running the tests.
-
 - Currently, the createFakeFrontEnd function in the testing framework
   uses huge amounts of memory. We’re working on reducing this. As a
   workaround, please set the PHP memory limit to at least 256 MB on you
@@ -166,9 +161,4 @@ Known problems with unit testing
 
 - If you want to run the oelib test suite itself, you need to install
   the two test extensions which are provided as T3X files in the
-  tests/fixtures/ directory in the oelib extension.Important: If you
-  have already had oelib create the dummy record columns in the test
-  tables, you need to remove the **user\_oelibtest\_test** and
-  **user\_oelibtest\_test\_article\_mm** tables (using phpMyAdmin)
-  before installing the two test extensions. Otherwise, the test
-  extensions will not be installed correctly.
+  TestExtensions/ directory in the oelib extension.
