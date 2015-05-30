@@ -4,6 +4,7 @@ Features:
 - [#5250] Allow setting the namespace for the configuration check
 
 Bug fixes:
+- [#5331] Crash in the BE module: extbase base test class not found
 - [#5330] Avoid login cookies from the phpMyAdmin cookies
 - [#5306] PHP strict error in DataMapper
 - [#5279] Removed multiple Composer autoloaders for loading Emogrifier
