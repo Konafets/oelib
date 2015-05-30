@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Extbase_Tests_Unit_BaseTestCase {
+class Tx_Oelib_ViewHelpers_UppercaseViewHelperTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */

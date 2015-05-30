@@ -3,6 +3,7 @@
 Features:
 
 Bug fixes:
+- [#5331] Crash in the BE module: extbase base test class not found
 - [#5330] Avoid login cookies from the phpMyAdmin cookies
 
 Cleanup:
