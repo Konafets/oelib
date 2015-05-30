@@ -3,6 +3,7 @@
 Features:
 
 Bug fixes:
+- [#5330] Avoid login cookies from the phpMyAdmin cookies
 
 Cleanup:
 
