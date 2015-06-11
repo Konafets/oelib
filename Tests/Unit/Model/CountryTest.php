@@ -37,7 +37,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
-		$this->assertSame(
+		self::assertSame(
 			'Deutschland',
 			$subject->getLocalShortName()
 		);
@@ -50,7 +50,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
-		$this->assertSame(
+		self::assertSame(
 			'United Kingdom',
 			$subject->getLocalShortName()
 		);
@@ -68,7 +68,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$subject->getIsoAlpha2Code()
 		);
@@ -81,7 +81,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
-		$this->assertSame(
+		self::assertSame(
 			'GB',
 			$subject->getIsoAlpha2Code()
 		);
@@ -99,7 +99,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(54);
 
-		$this->assertSame(
+		self::assertSame(
 			'DEU',
 			$subject->getIsoAlpha3Code()
 		);
@@ -112,7 +112,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Country $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Country')->find(74);
 
-		$this->assertSame(
+		self::assertSame(
 			'GBR',
 			$subject->getIsoAlpha3Code()
 		);
@@ -129,7 +129,7 @@ class Tx_Oelib_Tests_Unit_Model_CountryTest extends Tx_Phpunit_TestCase {
 	public function isReadOnlyIsTrue() {
 		$model = new Tx_Oelib_Model_Country();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$model->isReadOnly()
 		);
 	}

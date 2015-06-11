@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsFrontEndUserInstance() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->find($uid) instanceof Tx_Oelib_Model_FrontEndUser
 		);
 	}
@@ -62,7 +62,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsModelWithThatUid() {
 		$uid = $this->testingFramework->createFrontEndUser();
 
-		$this->assertSame(
+		self::assertSame(
 			$uid,
 			$this->subject->find($uid)->getUid()
 		);
@@ -89,7 +89,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 
 		/** @var Tx_Oelib_Model_FrontEndUser $user */
 		$user = $this->subject->find($uid);
-		$this->assertSame(
+		self::assertSame(
 			$groupUids,
 			$user->getUserGroups()->getUids()
 		);
@@ -116,7 +116,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGroupMembersForNonExistingGroupUidReturnsEmptyList() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers(
 				$this->testingFramework->getAutoIncrement('fe_groups')
 			)->isEmpty()
@@ -127,7 +127,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGroupMembersForGroupWithNoMembersReturnsInstanceOfOelibList() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
 			) instanceof Tx_Oelib_List
@@ -138,7 +138,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getGroupMembersForGroupWithNoMembersReturnsEmptyList() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers(
 				$this->testingFramework->createFrontEndUserGroup()
 			)->isEmpty()
@@ -152,7 +152,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -168,7 +168,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('deleted' => 1)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers($feUserGroupUid)->isEmpty()
 		);
 	}
@@ -183,7 +183,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			array('disable' => 1)
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers($feUserGroupUid)->isEmpty()
 		);
 	}
@@ -197,7 +197,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -212,7 +212,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$feUserGroupUid;
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -228,7 +228,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -241,7 +241,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$feUserGroupUid = $this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getGroupMembers($feUserGroupUid)->first()
 				instanceof Tx_Oelib_Model_FrontEndUser
 		);
@@ -255,7 +255,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 		$this->testingFramework->createFrontEndUser($feUserGroupUid);
 
-		$this->assertSame(
+		self::assertSame(
 			2,
 			$this->subject->getGroupMembers($feUserGroupUid)->count()
 		);
@@ -271,7 +271,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUserGroup()
 		);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->subject->getGroupMembers($firstGroupUid)->hasUid(
 				$secondUserUid
 			)
@@ -287,7 +287,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser($firstGroupUid);
 		$this->testingFramework->createFrontEndUser($secondGroupUid);
 
-		$this->assertSame(
+		self::assertSame(
 			2,
 			$this->subject->getGroupMembers(
 				$firstGroupUid . ',' . $secondGroupUid
@@ -303,7 +303,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			$this->testingFramework->createFrontEndUserGroup();
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getGroupMembers($userGroups)->count()
 		);
@@ -320,7 +320,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 		$this->testingFramework->createFrontEndUser($secondGroupUid);
 		$this->testingFramework->createFrontEndUser($userGroups);
 
-		$this->assertSame(
+		self::assertSame(
 			3,
 			$this->subject->getGroupMembers($userGroups)->count()
 		);
@@ -351,7 +351,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 			'', array('username' => 'foo')
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->findByUserName('foo')
 				instanceof Tx_Oelib_Model_FrontEndUser
 		);
@@ -361,7 +361,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByUserNameWithNameOfExistingUserReturnsModelWithThatUid() {
-		$this->assertSame(
+		self::assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
@@ -373,7 +373,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByUserNameWithUppercasedNameOfExistingLowercasedUserReturnsModelWithThatUid() {
-		$this->assertSame(
+		self::assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'foo')
 			),
@@ -385,7 +385,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByUserNameWithUppercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertSame(
+		self::assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),
@@ -397,7 +397,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByUserNameWithLowercasedNameOfExistingUppercasedUserReturnsModelWithThatUid() {
-		$this->assertSame(
+		self::assertSame(
 			$this->testingFramework->createFrontEndUser(
 				'', array('username' => 'FOO')
 			),

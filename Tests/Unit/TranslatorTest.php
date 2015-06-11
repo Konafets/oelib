@@ -32,7 +32,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	public function translateForInexistentLabelReturnsLabelKey() {
 		$subject = new Tx_Oelib_Translator('default', '', array());
 
-		$this->assertSame(
+		self::assertSame(
 			'label_test',
 			$subject->translate('label_test')
 		);
@@ -55,7 +55,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 		}
 		$subject = new Tx_Oelib_Translator('default', '', $localizedLabels);
 
-		$this->assertSame(
+		self::assertSame(
 			'English',
 			$subject->translate('label_test')
 		);
@@ -78,7 +78,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 		}
 		$subject = new Tx_Oelib_Translator('de', '', $localizedLabels);
 
-		$this->assertSame(
+		self::assertSame(
 			'Deutsch',
 			$subject->translate('label_test')
 		);
@@ -99,7 +99,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 		}
 		$subject = new Tx_Oelib_Translator('de', '', $localizedLabels);
 
-		$this->assertSame(
+		self::assertSame(
 			'English',
 			$subject->translate('label_test')
 		);
@@ -120,7 +120,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 		}
 		$subject = new Tx_Oelib_Translator('default', 'de', $localizedLabels);
 
-		$this->assertSame(
+		self::assertSame(
 			'Deutsch',
 			$subject->translate('label_test')
 		);

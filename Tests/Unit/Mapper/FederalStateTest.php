@@ -38,7 +38,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidOfExistingRecordReturnsFederalStateInstance() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'Tx_Oelib_Model_FederalState',
 			$this->subject->find(88)
 		);
@@ -50,7 +50,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		/** @var Tx_Oelib_Model_FederalState $model */
 		$model = $this->subject->find(88);
-		$this->assertSame(
+		self::assertSame(
 			'NW',
 			$model->getIsoAlpha2ZoneCode()
 		);
@@ -65,7 +65,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsFederalStateInstance() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'Tx_Oelib_Model_FederalState',
 			$this->subject->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')
 		);
@@ -75,7 +75,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FederalStateTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertSame(
+		self::assertSame(
 			'NW',
 			$this->subject->findByIsoAlpha2CountryCodeAndIsoAlpha2ZoneCode('DE', 'NW')->getIsoAlpha2ZoneCode()
 		);

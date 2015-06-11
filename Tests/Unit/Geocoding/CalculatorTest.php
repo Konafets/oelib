@@ -42,7 +42,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function classIsSingleton() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			't3lib_Singleton',
 			$this->subject
 		);
@@ -131,7 +131,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.72254683, 'longitude' => 7.07519531)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			0.0,
 			$this->subject->calculateDistanceInKilometers($bonn, $bonn)
 		);
@@ -150,7 +150,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$this->assertEquals(
+		self::assertEquals(
 			26.0,
 			$this->subject->calculateDistanceInKilometers($bonn, $cologne),
 			'',
@@ -171,7 +171,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			array('latitude' => 50.94458443, 'longitude' => 6.9543457)
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$this->subject->calculateDistanceInKilometers($bonn, $cologne),
 			$this->subject->calculateDistanceInKilometers($cologne, $bonn)
 		);
@@ -202,11 +202,11 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			$list, $cologne, 27.0
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$filteredList->count()
 		);
-		$this->assertSame(
+		self::assertSame(
 			$bonn,
 			$filteredList->first()
 		);
@@ -232,7 +232,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			$list, $cologne, 25.0
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$filteredList->isEmpty()
 		);
 	}
@@ -258,7 +258,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 			$list, $cologne, 27.0
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			2,
 			$filteredList->count()
 		);
@@ -275,7 +275,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$originalCoordinates = $this->geoObject->getGeoCoordinates();
 		$changedCoordinates = $otherGeoObject->getGeoCoordinates();
 
-		$this->assertSame(
+		self::assertSame(
 			$originalCoordinates['latitude'],
 			$changedCoordinates['latitude']
 		);
@@ -292,7 +292,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$originalCoordinates = $this->geoObject->getGeoCoordinates();
 		$changedCoordinates = $otherGeoObject->getGeoCoordinates();
 
-		$this->assertSame(
+		self::assertSame(
 			$originalCoordinates['latitude'],
 			$changedCoordinates['latitude']
 		);
@@ -309,7 +309,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$originalCoordinates = $this->geoObject->getGeoCoordinates();
 		$changedCoordinates = $otherGeoObject->getGeoCoordinates();
 
-		$this->assertSame(
+		self::assertSame(
 			$originalCoordinates['longitude'],
 			$changedCoordinates['longitude']
 		);
@@ -326,7 +326,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$originalCoordinates = $this->geoObject->getGeoCoordinates();
 		$changedCoordinates = $otherGeoObject->getGeoCoordinates();
 
-		$this->assertSame(
+		self::assertSame(
 			$originalCoordinates['longitude'],
 			$changedCoordinates['longitude']
 		);
@@ -359,7 +359,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$otherGeoObject = clone $this->geoObject;
 		$this->subject->move($otherGeoObject, $direction, $distance);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$distance,
 			$this->subject->calculateDistanceInKilometers($this->geoObject, $otherGeoObject),
 			'The distance is not as expected.',
@@ -378,7 +378,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$otherGeoObject = clone $this->geoObject;
 		$this->subject->move($otherGeoObject, $direction, $distance);
 
-		$this->assertEquals(
+		self::assertEquals(
 			abs($distance),
 			$this->subject->calculateDistanceInKilometers($this->geoObject, $otherGeoObject),
 			'The distance is not as expected.',
@@ -414,7 +414,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$maximumDistance = 100.0;
 		$this->subject->moveByRandomDistance($this->geoObject, $direction, $maximumDistance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$originalCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -431,7 +431,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$otherGeoObject = clone $this->geoObject;
 		$this->subject->moveByRandomDistance($otherGeoObject, $direction, $maximumDistance);
 
-		$this->assertLessThanOrEqual(
+		self::assertLessThanOrEqual(
 			$maximumDistance,
 			$this->subject->calculateDistanceInKilometers($this->geoObject, $otherGeoObject)
 		);
@@ -447,7 +447,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->moveByRandomDistance($this->geoObject, 0, $maximumDistance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -462,7 +462,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$distance = 100.0;
 		$this->subject->moveInRandomDirection($this->geoObject, $distance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$originalCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -479,7 +479,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->moveInRandomDirection($this->geoObject, $distance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -493,7 +493,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$otherGeoObject = clone $this->geoObject;
 		$this->subject->moveInRandomDirection($otherGeoObject, $distance);
 
-		$this->assertEquals(
+		self::assertEquals(
 			$distance,
 			$this->subject->calculateDistanceInKilometers($this->geoObject, $otherGeoObject),
 			'The distance is not as expected.',
@@ -526,7 +526,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$maximumDistance = 100.0;
 		$this->subject->moveInRandomDirectionAndDistance($this->geoObject, $maximumDistance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$originalCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -543,7 +543,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->moveInRandomDirectionAndDistance($this->geoObject, $maximumDistance);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstCoordinates,
 			$this->geoObject->getGeoCoordinates()
 		);
@@ -557,7 +557,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 		$otherGeoObject = clone $this->geoObject;
 		$this->subject->moveInRandomDirectionAndDistance($otherGeoObject, $maximumDistance);
 
-		$this->assertLessThanOrEqual(
+		self::assertLessThanOrEqual(
 			$maximumDistance,
 			$this->subject->calculateDistanceInKilometers($this->geoObject, $otherGeoObject)
 		);

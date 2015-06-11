@@ -38,7 +38,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isReadOnlyIsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isReadOnly()
 		);
 	}
@@ -55,7 +55,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			'EUR',
 			$subject->getIsoAlpha3Code()
 		);
@@ -68,7 +68,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(155);
 
-		$this->assertSame(
+		self::assertSame(
 			'USD',
 			$subject->getIsoAlpha3Code()
 		);
@@ -86,7 +86,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$subject->hasLeftSymbol()
 		);
 	}
@@ -98,7 +98,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(40);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$subject->hasLeftSymbol()
 		);
 	}
@@ -110,7 +110,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			'€',
 			$subject->getLeftSymbol()
 		);
@@ -123,7 +123,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(40);
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$subject->getLeftSymbol()
 		);
@@ -141,7 +141,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(40);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$subject->hasRightSymbol()
 		);
 	}
@@ -153,7 +153,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$subject->hasRightSymbol()
 		);
 	}
@@ -165,7 +165,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(40);
 
-		$this->assertSame(
+		self::assertSame(
 			'Kč',
 			$subject->getRightSymbol()
 		);
@@ -178,7 +178,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$subject->getRightSymbol()
 		);
@@ -196,7 +196,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			'.',
 			$subject->getThousandsSeparator()
 		);
@@ -209,7 +209,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(155);
 
-		$this->assertSame(
+		self::assertSame(
 			',',
 			$subject->getThousandsSeparator()
 		);
@@ -227,7 +227,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			',',
 			$subject->getDecimalSeparator()
 		);
@@ -240,7 +240,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(155);
 
-		$this->assertSame(
+		self::assertSame(
 			'.',
 			$subject->getDecimalSeparator()
 		);
@@ -260,7 +260,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = $mapper->find(33);
 
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$subject->getDecimalDigits()
 		);
@@ -273,7 +273,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(173);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$subject->getDecimalDigits()
 		);
@@ -286,7 +286,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(49);
 
-		$this->assertSame(
+		self::assertSame(
 			2,
 			$subject->getDecimalDigits()
 		);
@@ -299,7 +299,7 @@ class Tx_Oelib_Tests_Unit_Model_CurrencyTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_Currency $subject */
 		$subject = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_Currency')->find(81);
 
-		$this->assertSame(
+		self::assertSame(
 			3,
 			$subject->getDecimalDigits()
 		);

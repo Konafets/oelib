@@ -54,7 +54,7 @@ class Tx_Oelib_Tests_Unit_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 		$databaseAdapter->exec_SELECTquery('asdf', 'tx_oelib_test', '');
 		$subject = new tx_oelib_Exception_Database();
 
-		$this->assertContains(
+		self::assertContains(
 			'asdf',
 			$subject->getMessage()
 		);
@@ -69,7 +69,7 @@ class Tx_Oelib_Tests_Unit_Exception_DatabaseTest extends Tx_Phpunit_TestCase {
 		$databaseAdapter->exec_SELECTquery('asdf', 'tx_oelib_test', '');
 		$subject = new tx_oelib_Exception_Database();
 
-		$this->assertContains(
+		self::assertContains(
 			'SELECT',
 			$subject->getMessage()
 		);

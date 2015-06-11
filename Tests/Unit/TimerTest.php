@@ -38,14 +38,14 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstance() {
-		$this->assertTrue(is_object($this->subject));
+		self::assertTrue(is_object($this->subject));
 	}
 
 	/**
 	 * @test
 	 */
 	public function singleton() {
-		$this->assertSame($this->subject, Tx_Oelib_Timer::getInstance());
+		self::assertSame($this->subject, Tx_Oelib_Timer::getInstance());
 	}
 
 	/**
@@ -53,13 +53,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function statisticsWithoutBuckets() {
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertTrue(
+		self::assertTrue(
 			is_array($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			0, count($statistics)
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<td>', $this->subject->getStatistics()
 		);
 	}
@@ -70,7 +70,7 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 	public function statisticsTableContainsTableHeadersWithScope() {
 		$this->subject->openBucket();
 		$statisticsAsHtml = $this->subject->getStatistics();
-		$this->assertContains(
+		self::assertContains(
 			'<th scope="col">', $statisticsAsHtml
 		);
 	}
@@ -84,16 +84,16 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->subject->getStatistics();
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'default', $statistics[0]['bucketName']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertContains(
+		self::assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
@@ -107,16 +107,16 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->subject->getStatistics();
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'default', $statistics[0]['bucketName']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertContains(
+		self::assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
@@ -130,13 +130,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->subject->getStatistics();
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertContains(
+		self::assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
@@ -150,13 +150,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
 		$statisticsAsHtml = $this->subject->getStatistics();
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertContains(
+		self::assertContains(
 			(string) $statistics[0]['absoluteTime'], $statisticsAsHtml
 		);
 	}
@@ -167,10 +167,10 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 	public function statisticsForOneBucketWithoutDelay() {
 		$this->subject->openBucket('test');
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'test', $statistics[0]['bucketName']
 		);
 	}
@@ -184,7 +184,7 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertEquals(
+		self::assertEquals(
 			0, $statistics[0]['absoluteTime'], '', .05
 		);
 	}
@@ -197,7 +197,7 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		$statistics = $this->subject->getStatistics();
 		// Sleeps 10000 microseconds (= 1/100 second).
 		usleep(10000);
-		$this->assertSame(
+		self::assertSame(
 			$statistics, $this->subject->getStatistics()
 		);
 	}
@@ -211,13 +211,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		// Sleeps 10000 microseconds (= 1/100 second).
 		usleep(10000);
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertSame(
+		self::assertSame(
 			2, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'test_2', $statistics[0]['bucketName']
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			$statistics[0]['absoluteTime'] > $statistics[1]['absoluteTime']
 		);
 	}
@@ -232,13 +232,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		// Sleeps 100000 microseconds (= 1/10 second).
 		usleep(100000);
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertSame(
+		self::assertSame(
 			2, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'test_1', $statistics[0]['bucketName']
 		);
-		$this->assertTrue(
+		self::assertTrue(
 			$statistics[0]['absoluteTime'] > $statistics[1]['absoluteTime']
 		);
 	}
@@ -249,10 +249,10 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 	public function htmlSpecialCharsForBucketName() {
 		$this->subject->openBucket('foo&bar');
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertSame(
+		self::assertSame(
 			'foo&bar', $statistics[0]['bucketName']
 		);
-		$this->assertContains(
+		self::assertContains(
 			'foo&amp;bar', $this->subject->getStatistics()
 		);
 	}
@@ -264,13 +264,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		$this->subject->openBucket('test');
 		$this->subject->destroyAllBuckets();
 		$statistics = $this->subject->getStatisticsAsRawData();
-		$this->assertTrue(
+		self::assertTrue(
 			is_array($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			0, count($statistics)
 		);
-		$this->assertNotContains(
+		self::assertNotContains(
 			'<td>', $this->subject->getStatistics()
 		);
 	}
@@ -282,10 +282,10 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 		$this->subject->returnToPreviousBucket();
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertTrue(
+		self::assertTrue(
 			is_array($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			0, count($statistics)
 		);
 	}
@@ -301,10 +301,10 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			0, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
@@ -323,16 +323,16 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
-		$this->assertSame(
+		self::assertSame(
 			'bucket_2', $statistics[1]['bucketName']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
@@ -351,16 +351,16 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
-		$this->assertSame(
+		self::assertSame(
 			'bucket_2', $statistics[1]['bucketName']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
@@ -381,13 +381,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			3, count($statistics)
 		);
-		$this->assertSame(
+		self::assertSame(
 			'bucket_1', $statistics[0]['bucketName']
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 	}
@@ -407,13 +407,13 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			2, count($statistics)
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.1, $statistics[0]['absoluteTime'], '', .04
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			0, $statistics[1]['absoluteTime'], '', .04
 		);
 	}
@@ -435,10 +435,10 @@ class Tx_Oelib_Tests_Unit_TimerTest extends Tx_Phpunit_TestCase {
 
 		$statistics = $this->subject->getStatisticsAsRawData();
 
-		$this->assertSame(
+		self::assertSame(
 			1, count($statistics)
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			.2, $statistics[0]['absoluteTime'], '', .04
 		);
 	}

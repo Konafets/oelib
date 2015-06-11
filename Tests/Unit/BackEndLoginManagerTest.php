@@ -58,7 +58,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsBackEndLoginManagerInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject instanceof Tx_Oelib_BackEndLoginManager
 		);
 	}
@@ -67,7 +67,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			Tx_Oelib_BackEndLoginManager::getInstance()
 		);
@@ -79,7 +79,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	public function getInstanceAfterPurgeInstanceReturnsNewInstance() {
 		Tx_Oelib_BackEndLoginManager::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$this->subject,
 			Tx_Oelib_BackEndLoginManager::getInstance()
 		);
@@ -95,7 +95,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function isLoggedInWithLoggedInBackEndUserReturnsTrue() {
 		// We assume that the tests are run when logged in in the BE.
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isLoggedIn()
 		);
 	}
@@ -108,7 +108,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$ghostUser = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')->getNewGhost();
 		$this->subject->setLoggedInUser($ghostUser);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isLoggedIn()
 		);
 	}
@@ -134,7 +134,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getLoggedInUser()
 				instanceof Tx_Oelib_Model_BackEndUser
 		);
@@ -144,7 +144,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLoggedInUserWithOtherMapperNameAndLoggedInUserReturnsCorrespondingModel() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->getLoggedInUser('tx_oelib_Tests_Unit_Fixtures_TestingMapper')
 				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 		);
@@ -154,7 +154,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getLoggedInUserWithLoggedInUserReturnsBackEndUserWithUidOfLoggedInUser() {
-		$this->assertSame(
+		self::assertSame(
 			(int)$this->getBackEndUserAuthentication()->user['uid'],
 			$this->subject->getLoggedInUser()->getUid()
 		);
@@ -169,7 +169,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		/** @var tx_oelib_Model_BackEndUser $user */
 		$user = $mapper->find($this->getBackEndUserAuthentication()->user['uid']);
 
-		$this->assertSame(
+		self::assertSame(
 			$user,
 			$this->subject->getLoggedInUser()
 		);
@@ -182,7 +182,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$backedUpName = $this->getBackEndUserAuthentication()->user['realName'];
 		$this->getBackEndUserAuthentication()->user['realName'] = 'John Doe';
 
-		$this->assertSame(
+		self::assertSame(
 			'John Doe',
 			$this->subject->getLoggedInUser()->getName()
 		);
@@ -203,7 +203,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$backEndUser = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')->getNewGhost();
 		$this->subject->setLoggedInUser($backEndUser);
 
-		$this->assertSame(
+		self::assertSame(
 			$backEndUser,
 			$this->subject->getLoggedInUser()
 		);
@@ -220,7 +220,7 @@ class Tx_Oelib_Tests_Unit_BackEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$newBackEndUser = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_BackEndUser')->getNewGhost();
 		$this->subject->setLoggedInUser($newBackEndUser);
 
-		$this->assertSame(
+		self::assertSame(
 			$newBackEndUser,
 			$this->subject->getLoggedInUser()
 		);

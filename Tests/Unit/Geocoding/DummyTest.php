@@ -42,7 +42,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingGeo',
 			array('setGeoError')
 		);
-		$geo->expects($this->once())->method('setGeoError');
+		$geo->expects(self::once())->method('setGeoError');
 
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingGeo $geo */
 		$this->subject->lookUp($geo);
@@ -62,7 +62,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertSame(
+		self::assertSame(
 			$coordinates,
 			$geo->getGeoCoordinates()
 		);
@@ -77,7 +77,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$geo->hasGeoCoordinates()
 		);
 	}
@@ -91,7 +91,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$geo->hasGeoCoordinates()
 		);
 	}
@@ -105,7 +105,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$geo->hasGeoError()
 		);
 	}
@@ -123,7 +123,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertSame(
+		self::assertSame(
 			$coordinates,
 			$geo->getGeoCoordinates()
 		);
@@ -141,7 +141,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_DummyTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->lookUp($geo);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$geo->hasGeoCoordinates()
 		);
 	}

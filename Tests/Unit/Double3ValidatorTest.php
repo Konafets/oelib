@@ -34,7 +34,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function returnFieldJSReturnsNonEmptyString() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->returnFieldJS() !== ''
 		);
 	}
@@ -43,7 +43,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForIntegerReturnsFloatWithThreeDecimals() {
-		$this->assertSame(
+		self::assertSame(
 			'42.000',
 			$this->subject->evaluateFieldValue('42')
 		);
@@ -53,7 +53,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithCommaReturnsFloatWithPoint() {
-		$this->assertSame(
+		self::assertSame(
 			'42.123',
 			$this->subject->evaluateFieldValue('42,123')
 		);
@@ -63,7 +63,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithOneDecimalDigitReturnsFloatWithThreeDecimalDigits() {
-		$this->assertSame(
+		self::assertSame(
 			'42.100',
 			$this->subject->evaluateFieldValue('42.1')
 		);
@@ -73,7 +73,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithTwoDecimalDigitsReturnsFloatWithThreeDecimalDigits() {
-		$this->assertSame(
+		self::assertSame(
 			'42.120',
 			$this->subject->evaluateFieldValue('42.12')
 		);
@@ -83,7 +83,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForFloatWithThreeDecimalsReturnsFloatWithThreeDecimals() {
-		$this->assertSame(
+		self::assertSame(
 			'42.123',
 			$this->subject->evaluateFieldValue('42.123')
 		);
@@ -93,7 +93,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueWithNegativeValueReturnsNegativeValue() {
-		$this->assertSame(
+		self::assertSame(
 			'-42.123',
 			$this->subject->evaluateFieldValue('-42.123')
 		);
@@ -103,7 +103,7 @@ class Tx_Oelib_Tests_Unit_Double3ValidatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function evaluateFieldValueForStringReturnsZeroWithThreeDecimalDigits() {
-		$this->assertSame(
+		self::assertSame(
 			'0.000',
 			$this->subject->evaluateFieldValue('foo bar')
 		);

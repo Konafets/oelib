@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function factoryIsSingleton() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			't3lib_Singleton',
 			$this->subject
 		);
@@ -61,7 +61,7 @@ class Tx_Oelib_Tests_Unit_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function callingGetInstanceTwoTimesReturnsTheSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			Tx_Oelib_MailerFactory::getInstance()
 		);
@@ -72,7 +72,7 @@ class Tx_Oelib_Tests_Unit_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getMailerInTestModeReturnsEmailCollector() {
 		$this->subject->enableTestMode();
-		$this->assertSame(
+		self::assertSame(
 			'Tx_Oelib_EmailCollector',
 			get_class($this->subject->getMailer())
 		);
@@ -82,7 +82,7 @@ class Tx_Oelib_Tests_Unit_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getMailerReturnsTheSameObjectWhenTheInstanceWasNotDiscarded() {
-		$this->assertSame(
+		self::assertSame(
 			$this->subject->getMailer(),
 			$this->subject->getMailer()
 		);

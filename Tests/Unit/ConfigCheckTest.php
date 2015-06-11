@@ -100,7 +100,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	private function getInstalledUtfLocale() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$result = '';
@@ -125,7 +125,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function setConfigurationForLocaleToANonEmptyValue() {
 		$this->setConfigurationForLocale('foo');
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$this->getFrontEndController()->config['config']['locale_all']
 		);
@@ -137,7 +137,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function setConfigurationForLocaleToAnEmptyString() {
 		$this->setConfigurationForLocale('');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->getFrontEndController()->config['config']['locale_all']
 		);
@@ -149,10 +149,10 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function getInstalledLocalesForInstalledUtf8LocaleReturnsUtf8Locale() {
 		$locale = $this->getInstalledUtfLocale();
 
-		$this->assertTrue(
+		self::assertTrue(
 			in_array($locale, $this->subject->getInstalledLocales(), TRUE)
 		);
-		$this->assertContains(
+		self::assertContains(
 			'utf',
 			strtolower($locale)
 		);
@@ -166,7 +166,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function objectToCheckIsCheckable() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'Tx_Oelib_Interface_ConfigurationCheckable',
 			$this->objectToCheck
 		);
@@ -178,7 +178,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkContainsNamespaceInErrorMessage() {
 		$this->subject->checkForNonEmptyString('', FALSE, '', '');
 
-		$this->assertContains(
+		self::assertContains(
 			'plugin.tx_oelib_test.',
 			$this->subject->getRawMessage()
 		);
@@ -194,7 +194,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function setFlavorReturnsFlavor() {
 		$this->subject->setFlavor('foo');
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$this->subject->getFlavor()
 		);
@@ -211,7 +211,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkForNonEmptyStringWithNonEmptyString() {
 		$this->subject->checkForNonEmptyString('nonEmptyString', FALSE, '', '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -223,7 +223,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkForNonEmptyStringWithEmptyString() {
 		$this->subject->checkForNonEmptyString('emptyString', FALSE, '', '');
 
-		$this->assertContains(
+		self::assertContains(
 			'emptyString',
 			$this->subject->getRawMessage()
 		);
@@ -237,7 +237,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			'inexistentColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
-		$this->assertContains(
+		self::assertContains(
 			'inexistentColumn',
 			$this->subject->getRawMessage()
 		);
@@ -251,7 +251,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			'existingColumn', FALSE, '', '', 'tx_oelib_test'
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -268,7 +268,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkIsValidEmailOrEmptyWithEmptyString() {
 		$this->subject->checkIsValidEmailOrEmpty('emptyString', FALSE, '', FALSE, '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -280,7 +280,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkIsValidEmailOrEmptyWithValidEmail() {
 		$this->subject->checkIsValidEmailOrEmpty('validEmail', FALSE, '', FALSE, '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -292,7 +292,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkIsValidEmailOrEmptyWithInvalidEmail() {
 		$this->subject->checkIsValidEmailOrEmpty('nonEmptyString', FALSE, '', FALSE, '');
 
-		$this->assertContains(
+		self::assertContains(
 			'nonEmptyString',
 			$this->subject->getRawMessage()
 		);
@@ -304,7 +304,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkIsValidEmailNotEmptyWithEmptyString() {
 		$this->subject->checkIsValidEmailNotEmpty('emptyString', FALSE, '', FALSE, '');
 
-		$this->assertContains(
+		self::assertContains(
 			'emptyString',
 			$this->subject->getRawMessage()
 		);
@@ -316,7 +316,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	public function checkIsValidEmailNotEmptyWithValidEmail() {
 		$this->subject->checkIsValidEmailNotEmpty('validEmail', FALSE, '', FALSE, '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -332,10 +332,10 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function getInstalledLocalesReturnsAtLeastOneLocale() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
-		$this->assertGreaterThan(
+		self::assertGreaterThan(
 			0,
 			count($this->subject->getInstalledLocales()),
 			'Tests concerning the locale will not proceed successfully because '
@@ -348,7 +348,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleIfLocaleIsSetCorrectly() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
@@ -358,7 +358,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->checkLocale();
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -369,7 +369,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleIfLocaleIsSetCorrectlyAndContainsAHyphen() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
@@ -380,7 +380,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->checkLocale();
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -391,7 +391,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleIfLocaleIsSetCorrectlyAndContainsNoHyphen() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
@@ -402,7 +402,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->checkLocale();
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getRawMessage()
 		);
@@ -414,7 +414,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleIfLocaleIsNotSet() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
@@ -422,11 +422,11 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$this->setConfigurationForLocale('');
 		$this->subject->checkLocale();
 
-		$this->assertContains(
+		self::assertContains(
 			'locale',
 			$this->subject->getRawMessage()
 		);
-		$this->assertContains(
+		self::assertContains(
 			'not configured',
 			$this->subject->getRawMessage()
 		);
@@ -437,7 +437,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleIfLocaleIsSetToANonInstalledLocale() {
 		if (TYPO3_OS === 'WIN') {
-			$this->markTestSkipped('This test does not run properly on Windows.');
+			self::markTestSkipped('This test does not run properly on Windows.');
 		}
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
@@ -445,11 +445,11 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 		$this->setConfigurationForLocale('xy_XY');
 		$this->subject->checkLocale();
 
-		$this->assertContains(
+		self::assertContains(
 			'locale',
 			$this->subject->getRawMessage()
 		);
-		$this->assertContains(
+		self::assertContains(
 			'not installed',
 			$this->subject->getRawMessage()
 		);
@@ -460,7 +460,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	 */
 	public function checkLocaleDoesNotCheckLocalesOnWindows() {
 		if (TYPO3_OS !== 'WIN') {
-			$this->markTestSkipped(
+			self::markTestSkipped(
 				'This test does not run properly on non Windows systems.'
 			);
 		}
@@ -474,7 +474,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 			array($this->objectToCheck)
 		);
 
-		$configCheckMock->expects($this->never())->method('getInstalledLocales');
+		$configCheckMock->expects(self::never())->method('getInstalledLocales');
 
 		$configCheckMock->checkLocale();
 	}

@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCa
 	public function findWithUidOfExistingRecordReturnsFrontEndUserGroupInstance() {
 		$uid = $this->testingFramework->createFrontEndUserGroup();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->find($uid)
 				instanceof Tx_Oelib_Model_FrontEndUserGroup
 		);
@@ -68,7 +68,7 @@ class Tx_Oelib_Tests_Unit_Mapper_FrontEndUserGroupTest extends Tx_Phpunit_TestCa
 
 		$this->subject->load($userGroup);
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$userGroup->getTitle()
 		);

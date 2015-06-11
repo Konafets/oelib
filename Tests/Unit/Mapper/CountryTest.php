@@ -38,7 +38,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findWithUidOfExistingRecordReturnsCountryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->find(54) instanceof Tx_Oelib_Model_Country
 		);
 	}
@@ -49,7 +49,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	public function findWithUidOfExistingRecordReturnsRecordAsModel() {
 		/** @var Tx_Oelib_Model_Country $model */
 		$model = $this->subject->find(54);
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$model->getIsoAlpha2Code()
 		);
@@ -64,7 +64,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsCountryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->findByIsoAlpha2Code('DE')
 				instanceof Tx_Oelib_Model_Country
 		);
@@ -74,7 +74,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha2CodeWithIsoAlpha2CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$this->subject->findByIsoAlpha2Code('DE')->getIsoAlpha2Code()
 		);
@@ -89,7 +89,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsCountryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->findByIsoAlpha3Code('DEU')
 				instanceof Tx_Oelib_Model_Country
 		);
@@ -99,7 +99,7 @@ class Tx_Oelib_Tests_Unit_Mapper_CountryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function findByIsoAlpha3CodeWithIsoAlpha3CodeOfExistingRecordReturnsRecordAsModel() {
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$this->subject->findByIsoAlpha3Code('DEU')->getIsoAlpha2Code()
 		);

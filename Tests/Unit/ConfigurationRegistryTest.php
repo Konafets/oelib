@@ -43,7 +43,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 	 * @test
 	 */
 	public function getInstanceReturnsConfigurationRegistryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_ConfigurationRegistry::getInstance()
 				instanceof Tx_Oelib_ConfigurationRegistry
 		);
@@ -53,7 +53,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 	 * @test
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_ConfigurationRegistry::getInstance(),
 			Tx_Oelib_ConfigurationRegistry::getInstance()
 		);
@@ -66,7 +66,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 		$firstInstance = Tx_Oelib_ConfigurationRegistry::getInstance();
 		Tx_Oelib_ConfigurationRegistry::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstInstance,
 			Tx_Oelib_ConfigurationRegistry::getInstance()
 		);
@@ -97,7 +97,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 			$this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				instanceof Tx_Oelib_Configuration
 		);
@@ -111,7 +111,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 			$this->testingFramework->createFrontEndPage()
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib'),
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 		);
@@ -140,7 +140,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 		Tx_Oelib_ConfigurationRegistry::getInstance()
 			->set('foo', $configuration);
 
-		$this->assertSame(
+		self::assertSame(
 			$configuration,
 			Tx_Oelib_ConfigurationRegistry::get('foo')
 		);
@@ -175,7 +175,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 
 		Tx_Oelib_PageFinder::getInstance()->setPageUid($pageUid);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -197,7 +197,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 			Tx_Oelib_PageFinder::SOURCE_BACK_END
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -221,7 +221,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 			Tx_Oelib_PageFinder::SOURCE_FRONT_END
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -249,7 +249,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 		$frontEndController->tmpl->setup = array();
 		$frontEndController->tmpl->loaded = 0;
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 				->getAsInteger('test')
@@ -271,7 +271,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationRegistryTest extends Tx_Phpunit_TestCase 
 		Tx_Oelib_ConfigurationRegistry::getInstance()
 			->set('plugin.tx_oelib', $configuration);
 
-		$this->assertSame(
+		self::assertSame(
 			$configuration,
 			Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib')
 		);

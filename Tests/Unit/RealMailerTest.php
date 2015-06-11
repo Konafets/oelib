@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_RealMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->setSubject('Hello world!');
 		$eMail->setMessage('Welcome!');
 
-		$this->message->expects($this->once())->method('send');
+		$this->message->expects(self::once())->method('send');
 
 		$this->subject->send($eMail);
 	}

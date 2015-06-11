@@ -81,7 +81,7 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model->setUid(42);
 		$this->subject->add($model);
 
-		$this->assertSame(
+		self::assertSame(
 			$model,
 			$this->subject->get(42)
 		);
@@ -99,11 +99,11 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model2->setUid(4);
 		$this->subject->add($model2);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->get(1)->getUid()
 		);
-		$this->assertSame(
+		self::assertSame(
 			4,
 			$this->subject->get(4)->getUid()
 		);
@@ -121,7 +121,7 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model2->setUid(1);
 		$this->subject->add($model2);
 
-		$this->assertSame(
+		self::assertSame(
 			$model2,
 			$this->subject->get(1)
 		);
@@ -148,7 +148,7 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getNewUidForEmptyMapReturnsOne() {
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getNewUid()
 		);
@@ -179,7 +179,7 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model->setUid(42);
 		$this->subject->add($model);
 
-		$this->assertGreaterThan(
+		self::assertGreaterThan(
 			42,
 			$this->subject->getNewUid()
 		);
@@ -197,7 +197,7 @@ class Tx_Oelib_Tests_Unit_IdentityMapTest extends Tx_Phpunit_TestCase {
 		$model1->setUid(1);
 		$this->subject->add($model1);
 
-		$this->assertGreaterThan(
+		self::assertGreaterThan(
 			2,
 			$this->subject->getNewUid()
 		);

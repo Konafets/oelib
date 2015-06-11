@@ -73,7 +73,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 	public function getInstanceWithUserTypeReturnsSessionInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER)
 				instanceof Tx_Oelib_Session
 		);
@@ -85,7 +85,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 	public function getInstanceWithTemporaryTypeReturnsSessionInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 				instanceof Tx_Oelib_Session
 		);
@@ -97,7 +97,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 	public function getInstanceWithSameTypeReturnsSameInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER),
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER)
 		);
@@ -109,7 +109,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 	public function getInstanceWithDifferentTypesReturnsDifferentInstance() {
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER),
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 		);
@@ -123,7 +123,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 		$firstInstance = Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER);
 		Tx_Oelib_Session::purgeInstances();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstInstance,
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER)
 		);
@@ -148,7 +148,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 		$instance = new Tx_Oelib_FakeSession();
 		Tx_Oelib_Session::setInstance(Tx_Oelib_Session::TYPE_USER, $instance);
 
-		$this->assertSame(
+		self::assertSame(
 			$instance,
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER)
 		);
@@ -163,7 +163,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 			Tx_Oelib_Session::TYPE_TEMPORARY, $instance
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$instance,
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 		);
@@ -182,7 +182,7 @@ class Tx_Oelib_Tests_Unit_SessionTest extends Tx_Phpunit_TestCase {
 			new Tx_Oelib_FakeSession()
 		);
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_USER),
 			Tx_Oelib_Session::getInstance(Tx_Oelib_Session::TYPE_TEMPORARY)
 		);

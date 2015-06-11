@@ -38,7 +38,7 @@ class Tx_Oelib_Tests_Unit_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_FederalState $model */
 		$model = $mapper->find(88);
 
-		$this->assertSame(
+		self::assertSame(
 			'Nordrhein-Westfalen',
 			$model->getLocalName()
 		);
@@ -58,7 +58,7 @@ class Tx_Oelib_Tests_Unit_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_FederalState $model */
 		$model = $mapper->find(88);
 
-		$this->assertSame(
+		self::assertSame(
 			'North Rhine-Westphalia',
 			$model->getEnglishName()
 		);
@@ -78,7 +78,7 @@ class Tx_Oelib_Tests_Unit_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_FederalState $model */
 		$model = $mapper->find(88);
 
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$model->getIsoAlpha2Code()
 		);
@@ -93,7 +93,7 @@ class Tx_Oelib_Tests_Unit_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 		/** @var Tx_Oelib_Model_FederalState $model */
 		$model = $mapper->find(88);
 
-		$this->assertSame(
+		self::assertSame(
 			'NW',
 			$model->getIsoAlpha2ZoneCode()
 		);
@@ -110,7 +110,7 @@ class Tx_Oelib_Tests_Unit_Model_FederalStateTest extends Tx_Phpunit_TestCase {
 	public function isReadOnlyIsTrue() {
 		$model = new Tx_Oelib_Model_FederalState();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$model->isReadOnly()
 		);
 	}

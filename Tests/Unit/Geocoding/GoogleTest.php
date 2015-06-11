@@ -43,7 +43,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceCreatesGoogleMapsLookupInstance() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'tx_oelib_Geocoding_Google',
 			tx_oelib_Geocoding_Google::getInstance()
 		);
@@ -58,7 +58,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$instance = new tx_oelib_Geocoding_Dummy();
 		tx_oelib_Geocoding_Google::setInstance($instance);
 
-		$this->assertSame(
+		self::assertSame(
 			$instance,
 			tx_oelib_Geocoding_Google::getInstance()
 		);
@@ -77,7 +77,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingGeo',
 			array('setGeoError')
 		);
-		$geo->expects($this->once())->method('setGeoError');
+		$geo->expects(self::once())->method('setGeoError');
 
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingGeo $geo */
 		$this->subject->lookUp($geo);
@@ -98,7 +98,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->never())->method('sendRequest');
+		$subject->expects(self::never())->method('sendRequest');
 
 		$subject->lookUp($geo);
 	}
@@ -113,12 +113,12 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$this->subject->lookUp($geo);
 		$coordinates = $geo->getGeoCoordinates();
 
-		$this->assertEquals(
+		self::assertEquals(
 			50.7335500,
 			$coordinates['latitude'],
 			'', 0.1
 		);
-		$this->assertEquals(
+		self::assertEquals(
 			7.1014300,
 			$coordinates['longitude'],
 			'', 0.1
@@ -143,7 +143,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->never())->method('sendRequest');
+		$subject->expects(self::never())->method('sendRequest');
 
 		$subject->lookUp($geo);
 	}
@@ -164,7 +164,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->never())->method('sendRequest');
+		$subject->expects(self::never())->method('sendRequest');
 
 		$subject->lookUp($geo);
 	}
@@ -186,11 +186,11 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
+		$subject->expects(self::any())->method('sendRequest')->will(self::returnValue($jsonResult));
 
 		$subject->lookUp($geo);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$geo->hasGeoError()
 		);
 	}
@@ -212,7 +212,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue(FALSE));
+		$subject->expects(self::any())->method('sendRequest')->will(self::returnValue(FALSE));
 
 		$subject->lookUp($geo);
 	}
@@ -247,11 +247,11 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->any())->method('sendRequest')->will($this->returnValue($jsonResult));
+		$subject->expects(self::any())->method('sendRequest')->will(self::returnValue($jsonResult));
 
 		$subject->lookUp($geo);
 
-		$this->assertSame(
+		self::assertSame(
 			array(
 				'latitude' => 50.7335500,
 				'longitude' => 7.1014300,
@@ -264,7 +264,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function lookUpThrottlesRequestsByAtLeast35Seconds() {
-		$this->markTestSkipped('This test usually is not executed because it takes more than 30 seconds to execute.');
+		self::markTestSkipped('This test usually is not executed because it takes more than 30 seconds to execute.');
 
 		$jsonResult = '{ "results" : [ { "address_components" : [ { "long_name" : "1", "short_name" : "1", ' .
 			'"types" : [ "street_number" ] }, { "long_name" : "Am Hof", "short_name" : "Am Hof", ' .
@@ -294,8 +294,8 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 			'',
 			FALSE
 		);
-		$subject->expects($this->any())->method('sendRequest')
-			->will($this->returnValue($jsonResult));
+		$subject->expects(self::any())->method('sendRequest')
+			->will(self::returnValue($jsonResult));
 
 		$startTime = microtime(TRUE);
 		$subject->lookUp($geo1);
@@ -303,7 +303,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_GoogleTest extends Tx_Phpunit_TestCase {
 		$endTime = microtime(TRUE);
 
 		$timePassed = $endTime - $startTime;
-		$this->assertGreaterThan(
+		self::assertGreaterThan(
 			35.0,
 			$timePassed
 		);

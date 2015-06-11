@@ -49,7 +49,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsPageFinderInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_PageFinder::getInstance()
 				instanceof Tx_Oelib_PageFinder
 		);
@@ -59,7 +59,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::getInstance(),
 			Tx_Oelib_PageFinder::getInstance()
 		);
@@ -72,7 +72,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 		$firstInstance = Tx_Oelib_PageFinder::getInstance();
 		Tx_Oelib_PageFinder::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstInstance,
 			Tx_Oelib_PageFinder::getInstance()
 		);
@@ -89,7 +89,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getPageUidWithFrontEndPageUidReturnsFrontEndPageUid() {
 		$pageUid = $this->testingFramework->createFakeFrontEnd();
 
-		$this->assertSame(
+		self::assertSame(
 			$pageUid,
 			$this->subject->getPageUid()
 		);
@@ -104,7 +104,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 		$pageUid = $this->subject->getPageUid();
 		unset($_POST['id']);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			$pageUid
 		);
@@ -122,7 +122,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 
 		unset($_POST['id']);
 
-		$this->assertSame(
+		self::assertSame(
 			$frontEndPageUid,
 			$pageUid
 		);
@@ -135,7 +135,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 		$frontEndPageUid = $this->testingFramework->createFakeFrontEnd();
 		$this->subject->setPageUid($frontEndPageUid + 1);
 
-		$this->assertSame(
+		self::assertSame(
 			$frontEndPageUid + 1,
 			$this->subject->getPageUid()
 		);
@@ -152,7 +152,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getPageUidWithSetPageUidViaSetPageUidReturnsSetPageUid() {
 		$this->subject->setPageUid(42);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			$this->subject->getPageUid()
 		);
@@ -196,7 +196,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->setPageUid($frontEndPageUid + 1);
 
-		$this->assertSame(
+		self::assertSame(
 			$frontEndPageUid,
 			$this->subject->getPageUid()
 		);
@@ -213,7 +213,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 		$pageUid = $this->subject->getPageUid();
 		unset($_POST['id']);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			$pageUid
 		);
@@ -227,7 +227,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->setPageUid(15);
 
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$this->subject->getPageUid()
 		);
@@ -242,7 +242,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCurrentSourceForNoSourceForcedAndNoPageUidSetReturnsNoSourceFound() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::NO_SOURCE_FOUND,
 			$this->subject->getCurrentSource()
 		);
@@ -254,7 +254,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getCurrentSourceForSourceForcedToFrontEndReturnsSourceFrontEnd() {
 		$this->subject->forceSource(Tx_Oelib_PageFinder::SOURCE_FRONT_END);
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::SOURCE_FRONT_END,
 			$this->subject->getCurrentSource()
 		);
@@ -266,7 +266,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getCurrentSourceForSourceForcedToBackEndReturnsSourceBackEnd() {
 		$this->subject->forceSource(Tx_Oelib_PageFinder::SOURCE_BACK_END);
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::SOURCE_BACK_END,
 			$this->subject->getCurrentSource()
 		);
@@ -278,7 +278,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getCurrentSourceForManuallySetPageIdReturnsSourceManual() {
 		$this->subject->setPageUid(42);
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::SOURCE_MANUAL,
 			$this->subject->getCurrentSource()
 		);
@@ -290,7 +290,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 	public function getCurrentSourceForSetFrontEndPageUidReturnsSourceFrontEnd() {
 		$this->testingFramework->createFakeFrontEnd();
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::SOURCE_FRONT_END,
 			$this->subject->getCurrentSource()
 		);
@@ -304,7 +304,7 @@ class Tx_Oelib_Tests_Unit_PageFinderTest extends Tx_Phpunit_TestCase {
 		$pageSource = $this->subject->getCurrentSource();
 		unset($_POST['id']);
 
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_PageFinder::SOURCE_BACK_END,
 			$pageSource
 		);

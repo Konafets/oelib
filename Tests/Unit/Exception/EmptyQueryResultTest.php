@@ -54,7 +54,7 @@ class Tx_Oelib_Tests_Unit_Exception_EmptyQueryResultTest extends Tx_Phpunit_Test
 		Tx_Oelib_Db::getDatabaseConnection()->exec_SELECTquery('title', 'tx_oelib_test', '');
 		$subject = new tx_oelib_Exception_EmptyQueryResult();
 
-		$this->assertContains(
+		self::assertContains(
 			'SELECT',
 			$subject->getMessage()
 		);

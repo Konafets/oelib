@@ -72,7 +72,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsTranslatorRegistryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_TranslatorRegistry::getInstance() instanceof
 				Tx_Oelib_TranslatorRegistry
 		);
@@ -82,7 +82,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_TranslatorRegistry::getInstance(),
 			Tx_Oelib_TranslatorRegistry::getInstance()
 		);
@@ -95,7 +95,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$firstInstance = Tx_Oelib_TranslatorRegistry::getInstance();
 		Tx_Oelib_TranslatorRegistry::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstInstance,
 			Tx_Oelib_TranslatorRegistry::getInstance()
 		);
@@ -134,7 +134,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getWithLoadedExtensionNameReturnsTranslatorInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_TranslatorRegistry::get('oelib') instanceof
 				Tx_Oelib_Translator
 		);
@@ -144,7 +144,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getTwoTimesWithSameExtensionNameReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_TranslatorRegistry::get('oelib'),
 			Tx_Oelib_TranslatorRegistry::get('oelib')
 		);
@@ -163,7 +163,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$backEndUser->setDefaultLanguage('default');
 		Tx_Oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
-		$this->assertSame(
+		self::assertSame(
 			'default',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -177,7 +177,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$backEndUser->setDefaultLanguage('de');
 		Tx_Oelib_BackEndLoginManager::getInstance()->setLoggedInUser($backEndUser);
 
-		$this->assertSame(
+		self::assertSame(
 			'de',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -187,7 +187,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function initializeBackEndDoesNotSetAlternativeLanguage() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -222,7 +222,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array());
 
-		$this->assertSame(
+		self::assertSame(
 			'default',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -241,7 +241,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array('language' => 'default'));
 
-		$this->assertSame(
+		self::assertSame(
 			'default',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -260,7 +260,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array('language' => 'de'));
 
-		$this->assertSame(
+		self::assertSame(
 			'de',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -279,7 +279,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array());
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -298,7 +298,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array('language' => 'de', 'language_alt' => 'default'));
 
-		$this->assertSame(
+		self::assertSame(
 			'default',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -317,7 +317,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		$testingFramework->createFakeFrontEnd();
 		Tx_Oelib_ConfigurationRegistry::get($namespace)->setData(array('language' => 'default', 'language_alt' => 'de'));
 
-		$this->assertSame(
+		self::assertSame(
 			'de',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -333,7 +333,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_ConfigurationRegistry::get('config')->setData(array('language' => 'de'));
 		Tx_Oelib_ConfigurationRegistry::get('page.config')->setData(array('language' => 'fr'));
 
-		$this->assertSame(
+		self::assertSame(
 			'fr',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getLanguageKey()
 		);
@@ -349,7 +349,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_ConfigurationRegistry::get('config')->setData(array('language' => 'de', 'language_alt' => 'cz'));
 		Tx_Oelib_ConfigurationRegistry::get('page.config')->setData(array('language' => 'fr', 'language_alt' => 'ja'));
 
-		$this->assertSame(
+		self::assertSame(
 			'ja',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->getAlternativeLanguageKey()
 		);
@@ -365,7 +365,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getByExtensionNameLoadsLabelsFromFile() {
-		$this->assertSame(
+		self::assertSame(
 			'I am from file.',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -385,7 +385,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 			get('plugin.tx_oelib._LOCAL_LANG.default')->
 				set('label_test', 'I am from TypoScript.');
 
-		$this->assertSame(
+		self::assertSame(
 			'I am from TypoScript.',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -399,7 +399,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->setData(array('default.' => array()));
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG.default')->set('label_test', 'I am from TypoScript.');
 
-		$this->assertSame(
+		self::assertSame(
 			'I am from file.',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -416,7 +416,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG')->setData(array('default.' => array()));
 		Tx_Oelib_ConfigurationRegistry::get('plugin.tx_oelib._LOCAL_LANG.default')->set('label_test_2', 'I am from TypoScript.');
 
-		$this->assertSame(
+		self::assertSame(
 			'I am from file.',
 			Tx_Oelib_TranslatorRegistry::get('oelib')->translate('label_test')
 		);
@@ -434,7 +434,7 @@ class Tx_Oelib_Tests_Unit_TranslatorRegistryTest extends Tx_Phpunit_TestCase {
 	public function getLanguageKeyForSetKeyReturnsSetKey() {
 		Tx_Oelib_TranslatorRegistry::getInstance()->setLanguageKey('de');
 
-		$this->assertSame(
+		self::assertSame(
 			'de',
 			Tx_Oelib_TranslatorRegistry::getInstance()->getLanguageKey('de')
 		);

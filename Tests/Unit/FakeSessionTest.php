@@ -50,7 +50,7 @@ class Tx_Oelib_Tests_Unit_FakeSessionTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringWithInexistentKeyReturnsEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getAsString('foo')
 		);
@@ -62,7 +62,7 @@ class Tx_Oelib_Tests_Unit_FakeSessionTest extends Tx_Phpunit_TestCase {
 	public function getAsStringReturnsNonEmptyStringSetViaSetAsString() {
 		$this->subject->setAsString('foo', 'bar');
 
-		$this->assertSame(
+		self::assertSame(
 			'bar',
 			$this->subject->getAsString('foo')
 		);
@@ -74,7 +74,7 @@ class Tx_Oelib_Tests_Unit_FakeSessionTest extends Tx_Phpunit_TestCase {
 	public function getAsStringReturnsEmptyStringSetViaSetAsString() {
 		$this->subject->setAsString('foo', '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getAsString('foo')
 		);

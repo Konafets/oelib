@@ -56,7 +56,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsObject() {
-		$this->assertTrue(
+		self::assertTrue(
 			is_object($this->subject)
 		);
 	}
@@ -76,7 +76,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsTheSameObjectWhenCalledInTheSameClass() {
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			Tx_Oelib_ConfigurationProxy::getInstance('oelib')
 		);
@@ -88,7 +88,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	public function instantiateOfAnotherProxyCreatesNewObject() {
 		$otherConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('other_extension');
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$this->subject,
 			$otherConfiguration
 		);
@@ -98,7 +98,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function extendsPublicObject() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject instanceof Tx_Oelib_PublicObject
 		);
 	}
@@ -107,7 +107,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getCompleteConfigurationReturnsAllTestConfigurationData() {
-		$this->assertSame(
+		self::assertSame(
 			$this->testConfiguration,
 			$this->subject->getCompleteConfiguration()
 		);
@@ -120,7 +120,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		unset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['oelib']);
 		$this->subject->retrieveConfiguration();
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->subject->getCompleteConfiguration()
 		);
 	}
@@ -133,7 +133,7 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		$this->subject->retrieveConfiguration();
 		$this->subject->setAsString('testValue', 'foo');
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$this->subject->getAsString('testValue')
 		);
@@ -146,12 +146,12 @@ class Tx_Oelib_Tests_Unit_ConfigurationProxyTest extends Tx_Phpunit_TestCase {
 		$otherConfiguration = Tx_Oelib_ConfigurationProxy::getInstance('other_extension');
 		$otherConfiguration->setAsString('testValue', 'foo');
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$otherConfiguration->getAsString('testValue')
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$this->testConfiguration,
 			$this->subject->getCompleteConfiguration()
 		);

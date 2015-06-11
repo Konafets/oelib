@@ -52,7 +52,7 @@ class Tx_Oelib_Tests_Unit_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCas
 	public function findReturnsBackEndUserGroupInstance() {
 		$uid = $this->subject->getNewGhost()->getUid();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->find($uid)
 				instanceof Tx_Oelib_Model_BackEndUserGroup
 		);
@@ -69,7 +69,7 @@ class Tx_Oelib_Tests_Unit_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCas
 
 		$this->subject->load($userGroup);
 
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$userGroup->getTitle()
 		);
@@ -91,7 +91,7 @@ class Tx_Oelib_Tests_Unit_Mapper_BackEndUserGroupTest extends Tx_Phpunit_TestCas
 
 		/** @var Tx_Oelib_Model_BackEndUserGroup $group */
 		$group = $this->subject->find($group->getUid());
-		$this->assertTrue(
+		self::assertTrue(
 			$group->getSubgroups()->first()
 				instanceof Tx_Oelib_Model_BackEndUserGroup
 		);

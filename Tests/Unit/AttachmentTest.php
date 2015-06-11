@@ -39,7 +39,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getFileNameInitiallyReturnsAnEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getFileName()
 		);
@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getFileNameWithFileNameSetReturnsFileName() {
 		$this->subject->setFileName('test.txt');
 
-		$this->assertSame(
+		self::assertSame(
 			'test.txt',
 			$this->subject->getFileName()
 		);
@@ -78,7 +78,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getContentTypeInitiallyReturnsAnEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getContentType()
 		);
@@ -90,7 +90,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getContentTypeWithContentTypeSetReturnsContentType() {
 		$this->subject->setContentType('text/plain');
 
-		$this->assertSame(
+		self::assertSame(
 			'text/plain',
 			$this->subject->getContentType()
 		);
@@ -117,7 +117,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getContentInitiallyReturnsAnEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getContent()
 		);
@@ -129,7 +129,7 @@ class Tx_Oelib_Tests_Unit_AttachmentTest extends Tx_Phpunit_TestCase {
 	public function getContentWithContentSetReturnsContent() {
 		$this->subject->setContent('test content');
 
-		$this->assertSame(
+		self::assertSame(
 			'test content',
 			$this->subject->getContent()
 		);

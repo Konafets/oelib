@@ -34,7 +34,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceReturnsMapperRegistryInstance() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::getInstance()
 				instanceof Tx_Oelib_MapperRegistry
 		);
@@ -44,7 +44,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getInstanceTwoTimesReturnsSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_MapperRegistry::getInstance(),
 			Tx_Oelib_MapperRegistry::getInstance()
 		);
@@ -57,7 +57,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		$firstInstance = Tx_Oelib_MapperRegistry::getInstance();
 		Tx_Oelib_MapperRegistry::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$firstInstance,
 			Tx_Oelib_MapperRegistry::getInstance()
 		);
@@ -105,7 +105,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getForExistingClassReturnsObjectOfRequestedClass() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 				instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
 		);
@@ -115,7 +115,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getForExistingClassWithExtbaseCapitalizationReturnsObjectOfRequestedClass() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
 		);
@@ -125,7 +125,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getForExistingClassWithAllLowercaseReturnsObjectOfRequestedClass() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('tx_oelib_tests_unit_fixtures_testingmapper')
 			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
 		);
@@ -135,7 +135,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getForExistingClassCalledTwoTimesReturnsTheSameInstance() {
-		$this->assertSame(
+		self::assertSame(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper'),
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 		);
@@ -152,7 +152,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function getAfterDenyDatabaseAccessReturnsNewMapperInstanceWithDatabaseAccessDisabled() {
 		Tx_Oelib_MapperRegistry::denyDatabaseAccess();
 
-		$this->assertFalse(
+		self::assertFalse(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
@@ -164,7 +164,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper');
 		Tx_Oelib_MapperRegistry::denyDatabaseAccess();
 
-		$this->assertFalse(
+		self::assertFalse(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
@@ -177,7 +177,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_MapperRegistry::denyDatabaseAccess();
 		Tx_Oelib_MapperRegistry::purgeInstance();
 
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')->hasDatabaseAccess()
 		);
 	}
@@ -190,7 +190,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 			new Tx_Oelib_TestingFramework('tx_oelib')
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapper
 		);
@@ -203,7 +203,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		Tx_Oelib_MapperRegistry::getInstance()->activateTestingMode(new Tx_Oelib_TestingFramework('tx_oelib'));
 		Tx_Oelib_MapperRegistry::purgeInstance();
 
-		$this->assertNotInstanceOf(
+		self::assertNotInstanceOf(
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapperTesting',
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 		);
@@ -223,7 +223,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			$mapper,
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
 		);
@@ -239,7 +239,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		$mapper = $this->getMock('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', array(), array(), $className);
 		Tx_Oelib_MapperRegistry::set($className, $mapper);
 
-		$this->assertSame(
+		self::assertSame(
 			$mapper,
 			Tx_Oelib_MapperRegistry::get(strtolower($className))
 		);
@@ -255,7 +255,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 		$mapper = $this->getMock('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', array(), array(), $className);
 		Tx_Oelib_MapperRegistry::set(strtolower($className), $mapper);
 
-		$this->assertSame(
+		self::assertSame(
 			$mapper,
 			Tx_Oelib_MapperRegistry::get($className)
 		);

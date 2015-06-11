@@ -39,7 +39,7 @@ class Tx_Oelib_Tests_Unit_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function canCreateInstanceOfClassWithConstructorWithoutParameters() {
-		$this->assertInstanceOf(
+		self::assertInstanceOf(
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingModel',
 			Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_TestingModel')
 		);
@@ -53,11 +53,11 @@ class Tx_Oelib_Tests_Unit_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 			'Tx_Oelib_Translator', 'de', '', array()
 		);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$object instanceof Tx_Oelib_Translator
 		);
 
-		$this->assertSame(
+		self::assertSame(
 			'de',
 			$object->getLanguageKey()
 		);
@@ -68,12 +68,12 @@ class Tx_Oelib_Tests_Unit_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function makeInstantiatesSubclassIfXclassIsAvailable() {
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			$this->markTestSkipped('This test is skipped because the XCLASS handling has been changed in TYPO3 CMS 6.0');
+			self::markTestSkipped('This test is skipped because the XCLASS handling has been changed in TYPO3 CMS 6.0');
 		}
 
 		$object = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
 
-		$this->assertSame(
+		self::assertSame(
 			'ux_Tx_Oelib_Tests_Unit_Fixtures_Empty',
 			get_class($object)
 		);

@@ -32,7 +32,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameInOtherFormatReturnsFalse() {
-		$this->assertFalse(
+		self::assertFalse(
 			Tx_Oelib_Autoloader::load('asdfkj12k_jh234')
 		);
 	}
@@ -41,7 +41,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfInexistentExtensionReturnsFalse() {
-		$this->assertFalse(
+		self::assertFalse(
 			Tx_Oelib_Autoloader::load('tx_foo_Nothing')
 		);
 	}
@@ -50,7 +50,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfInexistentClassReturnsFalse() {
-		$this->assertFalse(
+		self::assertFalse(
 			Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_Fixtures_CatchMe')
 		);
 	}
@@ -59,7 +59,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfLoadedClassReturnsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_AutoloaderTest')
 		);
 	}
@@ -68,7 +68,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfExistingNotLoadedClassReturnsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Autoloader::load('tx_oelib_Tests_Unit_Fixtures_NotIncluded')
 		);
 	}
@@ -77,7 +77,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfExistingNotLoadedClassWithUppercaseTxReturnsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Autoloader::load('Tx_oelib_Tests_Unit_Fixtures_NotIncludedFirstUppercase')
 		);
 	}
@@ -86,7 +86,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfExistingNotLoadedClassWithUppercaseExtensionKeyReturnsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_Fixtures_NotIncludedUppercaseExtensionKey')
 		);
 	}
@@ -95,7 +95,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loadWithNameOfExistingClassWithDigitsInPathReturnsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_Fixtures_pi1_NotIncluded1')
 		);
 	}
@@ -106,7 +106,7 @@ class Tx_Oelib_Tests_Unit_AutoloaderTest extends Tx_Phpunit_TestCase {
 	public function loadWithNameOfExistingNotLoadedClassLoadsClass() {
 		Tx_Oelib_Autoloader::load('Tx_Oelib_Tests_Unit_Fixtures_NotIncluded');
 
-		$this->assertTrue(
+		self::assertTrue(
 			class_exists('Tx_Oelib_Tests_Unit_Fixtures_NotIncluded', FALSE)
 		);
 	}

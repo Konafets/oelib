@@ -61,7 +61,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 		$model->setUid($uid);
 		$this->subject->load($model);
 
-		$this->assertSame(
+		self::assertSame(
 			$title,
 			$model->getTitle()
 		);
@@ -81,7 +81,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
 		$model = $this->subject->find($uid);
-		$this->assertSame(
+		self::assertSame(
 			'foo',
 			$model->getTitle()
 		);
@@ -103,7 +103,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
 		$model = $this->subject->find($uid);
-		$this->assertSame(
+		self::assertSame(
 			$friendTitle,
 			$model->getFriend()->getTitle()
 		);
@@ -127,7 +127,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 		$model = $this->subject->find($uid);
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstChild */
 		$firstChild = $model->getChildren()->first();
-		$this->assertSame(
+		self::assertSame(
 			$childTitle,
 			$firstChild->getTitle()
 		);
@@ -152,7 +152,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 		$model = $this->subject->find($uid);
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstRelatedModel */
 		$firstRelatedModel = $model->getRelatedRecords()->first();
-		$this->assertSame(
+		self::assertSame(
 			$relatedTitle,
 			$firstRelatedModel->getTitle()
 		);
@@ -174,7 +174,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
 		$model = $this->subject->find($relatedUid);
-		$this->assertSame(
+		self::assertSame(
 			(string) $uid,
 			$model->getBidirectional()->getUids()
 		);
@@ -200,7 +200,7 @@ class Tx_Oelib_Tests_Functional_DataMapperTest extends Tx_Phpunit_TestCase {
 		$model = $this->subject->find($uid);
 		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $firstChildModel */
 		$firstChildModel = $model->getComposition()->first();
-		$this->assertSame(
+		self::assertSame(
 			$relatedTitle,
 			$firstChildModel->getTitle()
 		);

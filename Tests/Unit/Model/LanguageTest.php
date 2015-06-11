@@ -40,7 +40,7 @@ class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	public function getLocalNameReturnsLocalNameOfGerman() {
 		$this->subject->setData(array('lg_name_local' => 'Deutsch'));
 
-		$this->assertSame(
+		self::assertSame(
 			'Deutsch',
 			$this->subject->getLocalName()
 		);
@@ -52,7 +52,7 @@ class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	public function getLocalNameReturnsLocalNameOfEnglish() {
 		$this->subject->setData(array('lg_name_local' => 'English'));
 
-		$this->assertSame(
+		self::assertSame(
 			'English',
 			$this->subject->getLocalName()
 		);
@@ -69,7 +69,7 @@ class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfGerman() {
 		$this->subject->setData(array('lg_iso_2' => 'DE'));
 
-		$this->assertSame(
+		self::assertSame(
 			'DE',
 			$this->subject->getIsoAlpha2Code()
 		);
@@ -81,7 +81,7 @@ class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	public function getIsoAlpha2CodeReturnsIsoAlpha2CodeOfEnglish() {
 		$this->subject->setData(array('lg_iso_2' => 'EN'));
 
-		$this->assertSame(
+		self::assertSame(
 			'EN',
 			$this->subject->getIsoAlpha2Code()
 		);
@@ -96,7 +96,7 @@ class Tx_Oelib_Tests_Unit_Model_LanguageTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isReadOnlyIsTrue() {
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isReadOnly()
 		);
 	}

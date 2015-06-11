@@ -40,7 +40,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	public function isVisibleIfSetToVisibleConstructionReturnsVisibilityFromConstruction() {
 		$subject = new tx_oelib_Visibility_Node(TRUE);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$subject->isVisible()
 		);
 	}
@@ -51,7 +51,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	public function isVisibleIfSetToHiddenConstructionReturnsVisibilityFromConstruction() {
 		$subject = new tx_oelib_Visibility_Node(FALSE);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$subject->isVisible()
 		);
 	}
@@ -65,7 +65,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getChildrenWithoutChildrenSetReturnsEmptyArray() {
-		$this->assertSame(
+		self::assertSame(
 			array(),
 			$this->subject->getChildren()
 		);
@@ -78,7 +78,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$childNode = new tx_oelib_Visibility_Node();
 		$this->subject->addChild($childNode);
 
-		$this->assertSame(
+		self::assertSame(
 			array($childNode),
 			$this->subject->getChildren()
 		);
@@ -91,7 +91,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$this->subject->addChild(new tx_oelib_Visibility_Node());
 		$this->subject->addChild(new tx_oelib_Visibility_Node());
 
-		$this->assertSame(
+		self::assertSame(
 			2,
 			count($this->subject->getChildren())
 		);
@@ -104,7 +104,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$childNode = new tx_oelib_Visibility_Node();
 		$this->subject->addChild($childNode);
 
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			$childNode->getParent()
 		);
@@ -119,7 +119,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getParentForNodeWithoutParentReturnsNull() {
-		$this->assertNull(
+		self::assertNull(
 			$this->subject->getParent()
 		);
 	}
@@ -131,7 +131,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$childNode = new tx_oelib_Visibility_Node();
 		$childNode->setParent($this->subject);
 
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			$childNode->getParent()
 		);
@@ -162,7 +162,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 	public function markAsVisibleForInvisibleNodeSetsVisibilityTrue() {
 		$this->subject->markAsVisible();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isVisible()
 		);
 	}
@@ -174,7 +174,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$visibleNode = new tx_oelib_Visibility_Node(TRUE);
 		$visibleNode->markAsVisible();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$visibleNode->isVisible()
 		);
 	}
@@ -187,7 +187,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$childNode->setParent($this->subject);
 		$childNode->markAsVisible();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isVisible()
 		);
 	}
@@ -202,7 +202,7 @@ class Tx_Oelib_Tests_Unit_Visibility_NodeTest extends Tx_Phpunit_TestCase {
 		$grandChildNode->setParent($childNode);
 		$grandChildNode->markAsVisible();
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->isVisible()
 		);
 	}

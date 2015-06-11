@@ -42,7 +42,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getHeaderProxyInTestMode() {
-		$this->assertSame(
+		self::assertSame(
 			'Tx_Oelib_HeaderCollector',
 			get_class($this->subject)
 		);
@@ -55,7 +55,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		// new instances always have a disabled test mode
 		tx_oelib_headerProxyFactory::purgeInstance();
 
-		$this->assertSame(
+		self::assertSame(
 			'Tx_Oelib_RealHeaderProxy',
 			get_class(tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy())
 		);
@@ -69,7 +69,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		$instance = tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy();
 		tx_oelib_headerProxyFactory::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$instance,
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 		);
@@ -79,7 +79,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getHeaderProxyReturnsTheSameObjectWhenCalledInTheSameClassInTheSameMode() {
-		$this->assertSame(
+		self::assertSame(
 			$this->subject,
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 		);
@@ -92,7 +92,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		// new instances always have a disabled test mode
 		tx_oelib_headerProxyFactory::purgeInstance();
 
-		$this->assertNotSame(
+		self::assertNotSame(
 			$this->subject,
 			tx_oelib_headerProxyFactory::getInstance()->getHeaderProxy()
 		);
@@ -104,7 +104,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 	public function addHeaderAndGetIt() {
 		$this->subject->addHeader('123: foo.');
 
-		$this->assertSame(
+		self::assertSame(
 			'123: foo.',
 			$this->subject->getLastAddedHeader()
 		);
@@ -117,7 +117,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		$this->subject->addHeader('123: foo.');
 		$this->subject->addHeader('123: bar.');
 
-		$this->assertSame(
+		self::assertSame(
 			'123: bar.',
 			$this->subject->getLastAddedHeader()
 		);
@@ -130,7 +130,7 @@ class Tx_Oelib_Tests_Unit_HeaderProxyFactoryTest extends Tx_Phpunit_TestCase {
 		$this->subject->addHeader('123: foo.');
 		$this->subject->addHeader('123: bar.');
 
-		$this->assertSame(
+		self::assertSame(
 			array('123: foo.', '123: bar.'),
 			$this->subject->getAllAddedHeaders()
 		);

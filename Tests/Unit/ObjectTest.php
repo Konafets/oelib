@@ -86,7 +86,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsStringWithInexistentKeyReturnsEmptyString() {
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getAsString('foo')
 		);
@@ -98,7 +98,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsStringReturnsNonEmptyStringSetViaSetAsString() {
 		$this->subject->setAsString('foo', 'bar');
 
-		$this->assertSame(
+		self::assertSame(
 			'bar',
 			$this->subject->getAsString('foo')
 		);
@@ -110,7 +110,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsStringReturnsTrimmedValue() {
 		$this->subject->setAsString('foo', ' bar ');
 
-		$this->assertSame(
+		self::assertSame(
 			'bar',
 			$this->subject->getAsString('foo')
 		);
@@ -122,7 +122,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsStringReturnsEmptyStringSetViaSetAsString() {
 		$this->subject->setAsString('foo', '');
 
-		$this->assertSame(
+		self::assertSame(
 			'',
 			$this->subject->getAsString('foo')
 		);
@@ -161,7 +161,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerWithInexistentKeyReturnsZero() {
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$this->subject->getAsInteger('foo')
 		);
@@ -173,7 +173,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsPositiveIntegerSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 42);
 
-		$this->assertSame(
+		self::assertSame(
 			42,
 			$this->subject->getAsInteger('foo')
 		);
@@ -185,7 +185,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsNegativeIntegerSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', -42);
 
-		$this->assertSame(
+		self::assertSame(
 			-42,
 			$this->subject->getAsInteger('foo')
 		);
@@ -197,7 +197,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsZeroSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 0);
 
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$this->subject->getAsInteger('foo')
 		);
@@ -209,7 +209,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsZeroForStringSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 'bar');
 
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$this->subject->getAsInteger('foo')
 		);
@@ -221,7 +221,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsRoundedValueForFloatSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 12.34);
 
-		$this->assertSame(
+		self::assertSame(
 			12,
 			$this->subject->getAsInteger('foo')
 		);
@@ -272,7 +272,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsTrimmedArrayWithInexistentKeyReturnsEmptyArray() {
-		$this->assertSame(
+		self::assertSame(
 			array(),
 			$this->subject->getAsTrimmedArray('foo')
 		);
@@ -282,7 +282,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsIntegerArrayWithInexistentKeyReturnsEmptyArray() {
-		$this->assertSame(
+		self::assertSame(
 			array(),
 			$this->subject->getAsIntegerArray('foo')
 		);
@@ -294,7 +294,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsTrimmedArrayReturnsNonEmptyArraySetViaSetAsArray() {
 		$this->subject->setAsArray('foo', array('foo', 'bar'));
 
-		$this->assertSame(
+		self::assertSame(
 			array('foo', 'bar'),
 			$this->subject->getAsTrimmedArray('foo')
 		);
@@ -306,7 +306,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerArrayReturnsNonEmptyArraySetViaSetAsArray() {
 		$this->subject->setAsArray('foo', array(1, -2));
 
-		$this->assertSame(
+		self::assertSame(
 			array(1, -2),
 			$this->subject->getAsIntegerArray('foo')
 		);
@@ -318,7 +318,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsTrimmedArrayReturnsEmptyArraySetViaSetAsArray() {
 		$this->subject->setAsArray('foo', array());
 
-		$this->assertSame(
+		self::assertSame(
 			array(),
 			$this->subject->getAsTrimmedArray('foo')
 		);
@@ -330,7 +330,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerArrayReturnsEmptyArraySetViaSetAsArray() {
 		$this->subject->setAsArray('foo', array());
 
-		$this->assertSame(
+		self::assertSame(
 			array(),
 			$this->subject->getAsIntegerArray('foo')
 		);
@@ -342,7 +342,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsTrimmedArrayReturnsTrimmedValues() {
 		$this->subject->setAsArray('foo', array(' foo '));
 
-		$this->assertSame(
+		self::assertSame(
 			array('foo'),
 			$this->subject->getAsTrimmedArray('foo')
 		);
@@ -354,7 +354,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerArrayReturnsIntvaledValues() {
 		$this->subject->setAsArray('foo', array('asdf'));
 
-		$this->assertSame(
+		self::assertSame(
 			array(0),
 			$this->subject->getAsIntegerArray('foo')
 		);
@@ -393,7 +393,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsBooleanWithInexistentKeyReturnsFalse() {
-		$this->assertSame(
+		self::assertSame(
 			FALSE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -405,7 +405,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsTrueSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', TRUE);
 
-		$this->assertSame(
+		self::assertSame(
 			TRUE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -417,7 +417,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsFalseSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', FALSE);
 
-		$this->assertSame(
+		self::assertSame(
 			FALSE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -429,7 +429,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsTrueForNonEmptyStringSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', 'bar');
 
-		$this->assertSame(
+		self::assertSame(
 			TRUE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -441,7 +441,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsFalseForEmptyStringSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', '');
 
-		$this->assertSame(
+		self::assertSame(
 			FALSE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -453,7 +453,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsOneForTrueSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', TRUE);
 
-		$this->assertSame(
+		self::assertSame(
 			1,
 			$this->subject->getAsInteger('foo')
 		);
@@ -465,7 +465,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsIntegerReturnsZeroForFalseSetViaSetAsBoolean() {
 		$this->subject->setAsBoolean('foo', FALSE);
 
-		$this->assertSame(
+		self::assertSame(
 			0,
 			$this->subject->getAsInteger('foo')
 		);
@@ -477,7 +477,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsTrueForPositiveIntegerSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 42);
 
-		$this->assertSame(
+		self::assertSame(
 			TRUE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -489,7 +489,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsTrueForNegativeIntegerSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', -42);
 
-		$this->assertSame(
+		self::assertSame(
 			TRUE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -501,7 +501,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsBooleanReturnsFalseForZeroSetViaSetAsInteger() {
 		$this->subject->setAsInteger('foo', 0);
 
-		$this->assertSame(
+		self::assertSame(
 			FALSE,
 			$this->subject->getAsBoolean('foo')
 		);
@@ -540,7 +540,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAsFloatWithInexistentKeyReturnsZero() {
-		$this->assertSame(
+		self::assertSame(
 			0.0,
 			$this->subject->getAsFloat('foo')
 		);
@@ -552,7 +552,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatCanReturnPositiveFloatFromFloat() {
 		$this->subject->setData(array('foo' => 42.5));
 
-		$this->assertSame(
+		self::assertSame(
 			42.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -564,7 +564,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatReturnsPositiveFloatSetViaSetAsFloat() {
 		$this->subject->setAsFloat('foo', 42.5);
 
-		$this->assertSame(
+		self::assertSame(
 			42.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -576,7 +576,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatReturnsPositiveFloatSetAsStringViaSetAsFloat() {
 		$this->subject->setAsFloat('foo', '42.5');
 
-		$this->assertSame(
+		self::assertSame(
 			42.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -588,7 +588,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatReturnsNegativeFloatSetViaSetAsFloat() {
 		$this->subject->setAsFloat('foo', -42.5);
 
-		$this->assertSame(
+		self::assertSame(
 			-42.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -600,7 +600,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatReturnsZeroSetViaSetAsFloat() {
 		$this->subject->setAsFloat('foo', 0.5);
 
-		$this->assertSame(
+		self::assertSame(
 			0.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -612,7 +612,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatReturnsZeroForStringSetViaSetAsFloat() {
 		$this->subject->setAsFloat('foo', 'bar');
 
-		$this->assertSame(
+		self::assertSame(
 			0.0,
 			$this->subject->getAsFloat('foo')
 		);
@@ -624,7 +624,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function getAsFloatCanReturnPositiveFloatFromString() {
 		$this->subject->setData(array('foo' => '42.5'));
 
-		$this->assertSame(
+		self::assertSame(
 			42.5,
 			$this->subject->getAsFloat('foo')
 		);
@@ -642,7 +642,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasStringForNonEmptyStringReturnsTrue() {
 		$this->subject->setAsString('foo', 'bar');
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->hasString('foo')
 		);
 	}
@@ -653,7 +653,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasStringForEmptyStringReturnsFalse() {
 		$this->subject->setAsString('foo', '');
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->subject->hasString('foo')
 		);
 	}
@@ -664,7 +664,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasIntegerForPositiveIntegerReturnsTrue() {
 		$this->subject->setAsInteger('foo', 42);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->hasInteger('foo')
 		);
 	}
@@ -675,7 +675,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasIntegerForNegativeIntegerReturnsTrue() {
 		$this->subject->setAsInteger('foo', -42);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->hasInteger('foo')
 		);
 	}
@@ -686,7 +686,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasIntegerForZeroReturnsFalse() {
 		$this->subject->setAsInteger('foo', 0);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->subject->hasInteger('foo')
 		);
 	}
@@ -697,7 +697,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasFloatForPositiveFloatReturnsTrue() {
 		$this->subject->setAsFloat('foo', 42.00);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->hasFloat('foo')
 		);
 	}
@@ -708,7 +708,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasFloatForNegativeFloatReturnsTrue() {
 		$this->subject->setAsFloat('foo', -42.00);
 
-		$this->assertTrue(
+		self::assertTrue(
 			$this->subject->hasFloat('foo')
 		);
 	}
@@ -719,7 +719,7 @@ class Tx_Oelib_Tests_Unit_ObjectTest extends Tx_Phpunit_TestCase {
 	public function hasFloatForZeroReturnsFalse() {
 		$this->subject->setAsFloat('foo', 0.00);
 
-		$this->assertFalse(
+		self::assertFalse(
 			$this->subject->hasFloat('foo')
 		);
 	}
