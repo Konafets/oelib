@@ -847,9 +847,9 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 	}
 
 
-	/////////////////////////////////////////////////////////////////////////
-	// Tests concerning the m:n mapping with a comma-separated list of UIDs
-	/////////////////////////////////////////////////////////////////////////
+	/*
+	 * Tests concerning the m:n mapping with a comma-separated list of UIDs
+	 */
 
 	/**
 	 * @test
@@ -913,6 +913,35 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		self::assertSame(
 			(string) $childUid1,
 			$model->getChildren()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationHasParentModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertSame(
+			$model,
+			$model->getChildren()->getParentModel()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function commaSeparatedRelationIsNotOwnedByParent() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertFalse(
+			$model->getChildren()->isRelationOwnedByParent()
 		);
 	}
 
@@ -996,6 +1025,36 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function mnRelationHasParentModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertSame(
+			$model,
+			$model->getRelatedRecords()->getParentModel()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function mnRelationIsNotOwnedByParent() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertFalse(
+			$model->getRelatedRecords()->isRelationOwnedByParent()
+		);
+	}
+
+
 
 	///////////////////////////////////////////////////////////////////////
 	// Tests concerning the bidirectional m:n mapping using an m:n table.
@@ -1073,6 +1132,35 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		self::assertSame(
 			$uid2 . ',' . $uid1,
 			$model->getBidirectional()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMnRelationHasParentModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertSame(
+			$model,
+			$model->getBidirectional()->getParentModel()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function bidirectionalMnRelationIsNotOwnedByParent() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertFalse(
+			$model->getBidirectional()->isRelationOwnedByParent()
 		);
 	}
 
@@ -1154,6 +1242,35 @@ class Tx_Oelib_Tests_Unit_DataMapperTest extends Tx_Phpunit_TestCase {
 		self::assertSame(
 			$relatedUid2 . ',' . $relatedUid1,
 			$model->getComposition()->getUids()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationHasParentModel() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertSame(
+			$model,
+			$model->getComposition()->getParentModel()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function oneToManyRelationIsOwnedByParent() {
+		$uid = $this->testingFramework->createRecord('tx_oelib_test');
+
+		/** @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel $model */
+		$model = $this->subject->find($uid);
+
+		self::assertTrue(
+			$model->getComposition()->isRelationOwnedByParent()
 		);
 	}
 

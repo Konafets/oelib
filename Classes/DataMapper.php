@@ -422,6 +422,7 @@ abstract class Tx_Oelib_DataMapper {
 		/** @var Tx_Oelib_List $models */
 		$models = Tx_Oelib_MapperRegistry::get($this->relations[$key])->getListOfModels($modelData);
 		$models->setParentModel($model);
+		$models->markAsOwnedByParent();
 		$data[$key] = $models;
 	}
 
@@ -465,15 +466,12 @@ abstract class Tx_Oelib_DataMapper {
 			$uids = t3lib_div::intExplode(',', $uidList);
 
 			foreach ($uids as $uid) {
-				// Some relations might have a junk 0 in it. We ignore it to
-				// avoid crashing.
+				// Some relations might have a junk 0 in it. We ignore it to avoid crashing.
 				if ($uid === 0) {
 					continue;
 				}
 
-				$list->add(
-					$mapper->find($uid)
-				);
+				$list->add($mapper->find($uid));
 			}
 		}
 
@@ -501,19 +499,16 @@ abstract class Tx_Oelib_DataMapper {
 
 		if ($data[$key] > 0) {
 			$mapper = Tx_Oelib_MapperRegistry::get($this->relations[$key]);
-			$relationConfiguration
-				= $this->getRelationConfigurationFromTca($key);
+			$relationConfiguration = $this->getRelationConfigurationFromTca($key);
 			$mnTable = $relationConfiguration['MM'];
 
 			if (!isset($relationConfiguration['MM_opposite_field'])) {
 				$relationUids = Tx_Oelib_Db::selectColumnForMultiple(
-					'uid_foreign', $mnTable, 'uid_local = ' . $data['uid'], '',
-					'sorting'
+					'uid_foreign', $mnTable, 'uid_local = ' . $data['uid'], '', 'sorting'
 				);
 			} else {
 				$relationUids = Tx_Oelib_Db::selectColumnForMultiple(
-					'uid_local', $mnTable, 'uid_foreign = ' . $data['uid'], '',
-					'uid_local'
+					'uid_local', $mnTable, 'uid_foreign = ' . $data['uid'], '', 'uid_local'
 				);
 			}
 

@@ -116,21 +116,18 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "friend" data item.
+	 * Gets the "friend" data item. This is an n:1 relation.
 	 *
-	 * @return Tx_Oelib_Tests_Unit_Fixtures_TestingModel the "friend" data item,
-	 *                                              will be NULL if this model
-	 *                                              has no friend
+	 * @return Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 	 */
 	public function getFriend() {
 		return $this->getAsModel('friend');
 	}
 
 	/**
-	 * Sets the "friend" data item.
+	 * Sets the "friend" data item. This is an n:1 relation.
 	 *
 	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $friend
-	 *        the "friend" data item to set
 	 *
 	 * @return void
 	 */
@@ -139,17 +136,16 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "owner" data item.
+	 * Gets the "owner" data item. This is an n:1 relation.
 	 *
-	 * @return Tx_Oelib_Model_FrontEndUser the "owner" data item, will be NULL
-	 *                                     if this model has no owner
+	 * @return Tx_Oelib_Model_FrontEndUser
 	 */
 	public function getOwner() {
 		return $this->getAsModel('owner');
 	}
 
 	/**
-	 * Gets the "children" data item.
+	 * Gets the "children" data item. This is a 1:n relation.
 	 *
 	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "children" data item, will be empty (but not
 	 *                       NULL) if this model has no children
@@ -159,7 +155,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "related_records" data item.
+	 * Gets the "related_records" data item. This is an m:n relation.
 	 *
 	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "related_records" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
@@ -169,7 +165,18 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "bidirectional" data item.
+	 * Adds a related record.
+	 *
+	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingModel $record
+	 *
+	 * @return void
+	 */
+	public function addRelatedRecord(Tx_Oelib_Tests_Unit_Fixtures_TestingModel $record) {
+		$this->getRelatedRecords()->add($record);
+	}
+
+	/**
+	 * Gets the "bidirectional" data item. This is an m:n relation.
 	 *
 	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "bidirectional" data item, will be empty (but
 	 *                       not NULL) if this model has no related records
@@ -179,20 +186,29 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "composition" data item.
+	 * Gets the "composition" data item. This is an 1:n relation.
 	 *
-	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "composition" data item, will be empty (but not
-	 *                       NULL) if this model has no composition
+	 * @return Tx_Oelib_List<Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel>
 	 */
 	public function getComposition() {
 		return $this->getAsList('composition');
 	}
 
 	/**
-	 * Sets the "composition" data item.
+	 * Adds $model to the "compositon" relation.
 	 *
-	 * @param Tx_Oelib_List<Tx_Oelib_Model> $components
-	 *        the "composition" data to set
+	 * @param Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel $model
+	 *
+	 * @return void
+	 */
+	public function addCompositionRecord(Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel $model) {
+		$this->getComposition()->add($model);
+	}
+
+	/**
+	 * Sets the "composition" data item. This is an 1:n relation.
+	 *
+	 * @param Tx_Oelib_List $components Tx_Oelib_List<Tx_Oelib_Tests_Unit_Fixtures_TestingChildModel>
 	 *
 	 * @return void
 	 */
@@ -201,7 +217,7 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Gets the "composition2" data item.
+	 * Gets the "composition2" data item. This is an 1:n relation.
 	 *
 	 * @return Tx_Oelib_List<Tx_Oelib_Model> the "composition2" data item, will be empty (but
 	 *                       not NULL) if this model has no composition2
@@ -211,10 +227,10 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	}
 
 	/**
-	 * Sets the "composition2" data item.
+	 * Sets the "composition2" data item. This is an 1:n relation.
 	 *
-	 * @param Tx_Oelib_List<Tx_Oelib_Model> $components
-	 *        the "composition2" data to set
+	 * @param Tx_Oelib_List <Tx_Oelib_Model> $components
+	 *                      the "composition2" data to set
 	 *
 	 * @return void
 	 */
@@ -267,5 +283,25 @@ final class Tx_Oelib_Tests_Unit_Fixtures_TestingModel extends Tx_Oelib_Model {
 	 */
 	public function getFloatFromStringData() {
 		return $this->getAsFloat('string_data');
+	}
+
+	/**
+	 * Marks this model as read-only.
+	 *
+	 * @return void
+	 */
+	public function markAsReadOnly() {
+		$this->readOnly = TRUE;
+	}
+
+	/**
+	 * Sets this model's load status.
+	 *
+	 * @param int $status
+	 *
+	 * @return void
+	 */
+	public function setLoadStatus($status) {
+		parent::setLoadStatus($status);
 	}
 }

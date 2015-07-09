@@ -38,6 +38,13 @@ class Tx_Oelib_List extends SplObjectStorage {
 	private $parentModel = NULL;
 
 	/**
+	 * whether the parent model is the owner (which is the case for IRRE relations).
+	 *
+	 * @var bool
+	 */
+	private $parentIsOwner = FALSE;
+
+	/**
 	 * whether there is at least one item without a UID
 	 *
 	 * @var bool
@@ -237,7 +244,20 @@ class Tx_Oelib_List extends SplObjectStorage {
 	}
 
 	/**
+	 * Returns the model this list belongs to.
+	 *
+	 * @internal
+	 *
+	 * @return Tx_Oelib_Model the parent model
+	 */
+	public function getParentModel() {
+		return $this->parentModel;
+	}
+
+	/**
 	 * Sets the model this list belongs to.
+	 *
+	 * @internal
 	 *
 	 * @param Tx_Oelib_Model $model the model this list belongs to
 	 *
@@ -248,7 +268,31 @@ class Tx_Oelib_List extends SplObjectStorage {
 	}
 
 	/**
+	 * Checks whether this relation is owner by the parent model.
+	 *
+	 * @internal
+	 *
+	 * @return bool
+	 */
+	public function isRelationOwnedByParent() {
+		return $this->parentIsOwner;
+	}
+
+	/**
+	 * Marks this relation as owned by the parent model.
+	 *
+	 * @internal
+	 *
+	 * @return void
+	 */
+	public function markAsOwnedByParent() {
+		$this->parentIsOwner = TRUE;
+	}
+
+	/**
 	 * Marks the parent model as dirty.
+	 *
+	 * @internal
 	 *
 	 * @return void
 	 */
@@ -263,6 +307,8 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 *
 	 * This function may only be used if all items in this list implement the
 	 * tx_oelib_Interface_Sortable interface.
+	 *
+	 * @internal
 	 *
 	 * @return void
 	 */

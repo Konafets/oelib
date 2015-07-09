@@ -23,9 +23,9 @@
  */
 class Tx_Oelib_Tests_Unit_ModelTest extends Tx_Phpunit_TestCase {
 	/**
-	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel the model to test
+	 * @var Tx_Oelib_Tests_Unit_Fixtures_TestingModel
 	 */
-	private $subject;
+	private $subject = NULL;
 
 	protected function setUp() {
 		$this->subject = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
@@ -1154,5 +1154,41 @@ class Tx_Oelib_Tests_Unit_ModelTest extends Tx_Phpunit_TestCase {
 		self::assertFalse(
 			$this->subject->isHidden()
 		);
+	}
+
+	/*
+	 * Tests concerning __clone
+	 */
+
+	/**
+	 * @test
+	 * @expectedException \BadMethodCallException
+	 */
+	public function cloneOfReadOnlyModelThrowsException() {
+		$this->subject->markAsReadOnly();
+
+		clone $this->subject;
+	}
+
+	/**
+	 * @return int[][]
+	 */
+	public function uncloneableStatusDataProvider() {
+		return array(
+			'loading' => array(Tx_Oelib_Model::STATUS_LOADING),
+			'deleted' => array(Tx_Oelib_Model::STATUS_DEAD),
+		);
+	}
+
+	/**
+	 * @test
+	 * @param string $status
+	 * @dataProvider uncloneableStatusDataProvider
+	 * @expectedException \BadMethodCallException
+	 */
+	public function cloneWithInvalidStatusThrowsException($status) {
+		$this->subject->setLoadStatus($status);
+
+		clone $this->subject;
 	}
 }

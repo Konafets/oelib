@@ -25,8 +25,7 @@
  */
 abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interface_Identity {
 	/**
-	 * @var int a status indicating that this model has neither data nor UID
-	 *              yet
+	 * @var int a status indicating that this model has neither data nor UID yet
 	 */
 	const STATUS_VIRGIN = 0;
 	/**
@@ -35,18 +34,15 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 */
 	const STATUS_GHOST = 1;
 	/**
-	 * @var int a status indicating that this model's data currently is
-	 *              being loaded
+	 * @var int a status indicating that this model's data currently is being loaded
 	 */
 	const STATUS_LOADING = 2;
 	/**
-	 * @var int a status indicating that this model's data has already been
-	 *              loaded (with or without UID)
+	 * @var int a status indicating that this model's data has already been loaded (with or without UID)
 	 */
 	const STATUS_LOADED = 3;
 	/**
-	 * @var int a status indicating that this model's data could not be
-	 *              retrieved from the DB
+	 * @var int a status indicating that this model's data could not be retrieved from the DB
 	 */
 	const STATUS_DEAD = 4;
 
@@ -56,8 +52,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	protected $readOnly = FALSE;
 
 	/**
-	 * @var int this model's UID, will be 0 if this model has been created
-	 *              in memory
+	 * @var int this model's UID, will be 0 if this model has been created in memory
 	 */
 	private $uid = 0;
 
@@ -85,8 +80,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * The (empty) constructor.
 	 *
-	 * After instantiation, this model's data can be set via via setData() or
-	 * set().
+	 * After instantiation, this model's data can be set via via setData() or set().
 	 *
 	 * @see setData
 	 * @see set
@@ -105,6 +99,49 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 
 		$this->loadCallback = array();
 		unset($this->data);
+	}
+
+	/**
+	 * Clone.
+	 *
+	 * @throws \BadMethodCallException
+	 */
+	public function __clone() {
+		if ($this->isReadOnly()) {
+			throw new \BadMethodCallException('Read-only models cannot be cloned.', 1436453245);
+		}
+		if ($this->isDead()) {
+			throw new \BadMethodCallException('Deleted models cannot be cloned.', 1436453107);
+		}
+		if ($this->isLoading()) {
+			throw new \BadMethodCallException('Models cannot be cloned while they are loading.', 1436453245);
+		}
+		if ($this->isGhost()) {
+			$this->load();
+		}
+
+		$this->resetUid();
+
+		/** @var int|string|bool|float|null|Tx_Oelib_List|Tx_Oelib_Model $dataItem */
+		foreach ($this->data as $key => $dataItem) {
+			if ($dataItem instanceof Tx_Oelib_List) {
+				/** Tx_Oelib_List $dataItem */
+				if ($dataItem->isRelationOwnedByParent()) {
+					$newDataItem = new Tx_Oelib_List();
+					$newDataItem->markAsOwnedByParent();
+					/** @var Tx_Oelib_Model $childModel */
+					foreach ($dataItem as $childModel) {
+						$newDataItem->add(clone $childModel);
+					}
+				} else {
+					$newDataItem = clone($dataItem);
+				}
+				$newDataItem->setParentModel($this);
+				$this->set($key, $newDataItem);
+			}
+		}
+
+		$this->markAsDirty();
 	}
 
 	/**
@@ -165,7 +202,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return void
 	 */
 	protected function markAsLoaded() {
-		$this->loadStatus = self::STATUS_LOADED;
+		$this->setLoadStatus(self::STATUS_LOADED);
 	}
 
 	/**
@@ -174,8 +211,17 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return void
 	 */
 	public function markAsDead() {
-		$this->loadStatus = self::STATUS_DEAD;
+		$this->setLoadStatus(self::STATUS_DEAD);
 		$this->markAsClean();
+	}
+
+	/**
+	 * Marks this model as loading.
+	 *
+	 * @return void
+	 */
+	private function markAsLoading() {
+		$this->setLoadStatus(self::STATUS_LOADING);
 	}
 
 	/**
@@ -195,10 +241,19 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 			throw new BadMethodCallException('The UID of a model cannot be set a second time.', 1331489260);
 		}
 		if ($this->isVirgin()) {
-			$this->loadStatus = self::STATUS_GHOST;
+			$this->setLoadStatus(self::STATUS_GHOST);
 		}
 
 		$this->uid = $uid;
+	}
+
+	/**
+	 * Resets the UID to 0, i.e., this model has no UID anymore.
+	 *
+	 * @return void
+	 */
+	private function resetUid() {
+		$this->uid = 0;
 	}
 
 	/**
@@ -339,7 +394,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 				);
 			}
 
-			$this->loadStatus = self::STATUS_LOADING;
+			$this->markAsLoading();
 			call_user_func($this->loadCallback, $this);
 		}
 	}
@@ -347,8 +402,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	/**
 	 * Gets this model's UID.
 	 *
-	 * @return int this model's UID, will be zero if this model does
-	 *                 not have a UID yet
+	 * @return int this model's UID, will be zero if this model does not have a UID yet
 	 */
 	public function getUid() {
 		return (int)$this->uid;
@@ -360,7 +414,27 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return bool TRUE if this model has a non-zero UID, FALSE otherwise
 	 */
 	public function hasUid() {
-		return ($this->uid > 0);
+		return $this->getUid() > 0;
+	}
+
+	/**
+	 * Returns this model's load status.
+	 *
+	 * @return int
+	 */
+	protected function getLoadStatus() {
+		return $this->loadStatus;
+	}
+
+	/**
+	 * Sets this model's load status.
+	 *
+	 * @param int $status
+	 *
+	 * @return void
+	 */
+	protected function setLoadStatus($status) {
+		$this->loadStatus = $status;
 	}
 
 	/**
@@ -369,7 +443,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return bool TRUE if this is a virgin model, FALSE otherwise
 	 */
 	public function isVirgin() {
-		return ($this->loadStatus === self::STATUS_VIRGIN);
+		return $this->getLoadStatus() === self::STATUS_VIRGIN;
 	}
 
 	/**
@@ -379,7 +453,16 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return bool TRUE if this model is a ghost, FALSE otherwise
 	 */
 	public function isGhost() {
-		return ($this->loadStatus === self::STATUS_GHOST);
+		return $this->getLoadStatus() === self::STATUS_GHOST;
+	}
+
+	/**
+	 * Checks whether this model is currently loading.
+	 *
+	 * @return bool TRUE if this model is loading, FALSE otherwise
+	 */
+	public function isLoading() {
+		return $this->getLoadStatus() === self::STATUS_LOADING;
 	}
 
 	/**
@@ -388,7 +471,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return bool TRUE if this model is fully loaded, FALSE otherwise
 	 */
 	public function isLoaded() {
-		return ($this->loadStatus === self::STATUS_LOADED);
+		return $this->getLoadStatus() === self::STATUS_LOADED;
 	}
 
 	/**
@@ -398,7 +481,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * @return bool TRUE if this model is dead, FALSE otherwise
 	 */
 	public function isDead() {
-		return ($this->loadStatus === self::STATUS_DEAD);
+		return $this->getLoadStatus() === self::STATUS_DEAD;
 	}
 
 	/**
@@ -443,8 +526,7 @@ abstract class Tx_Oelib_Model extends Tx_Oelib_Object implements tx_oelib_Interf
 	 * Checks whether this model has a callback function set for loading its
 	 * data.
 	 *
-	 * @return bool TRUE if this model has a loading callback function set,
-	 *                 FALSE otherwise
+	 * @return bool TRUE if this model has a loading callback function set, FALSE otherwise
 	 */
 	private function hasLoadCallBack() {
 		return !empty($this->loadCallback);

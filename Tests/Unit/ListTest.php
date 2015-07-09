@@ -24,7 +24,7 @@ class Tx_Oelib_Tests_Unit_ListTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @var Tx_Oelib_List
 	 */
-	private $subject;
+	private $subject = NULL;
 
 	/**
 	 * @var Tx_Oelib_Model[] models that need to be cleaned up during tearDown.
@@ -1348,5 +1348,67 @@ class Tx_Oelib_Tests_Unit_ListTest extends Tx_Phpunit_TestCase {
 			array($model1, $model2),
 			$this->subject->toArray()
 		);
+	}
+
+	/*
+	 * Tests concerning the parent model
+	 */
+
+	/**
+	 * @test
+	 */
+	public function parentModelBydefaultIsNull() {
+		self::assertNull($this->subject->getParentModel());
+	}
+
+	/**
+	 * @test
+	 */
+	public function setParentModelSetsParentModel() {
+		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$this->subject->setParentModel($model);
+
+		self::assertSame(
+			$model,
+			$this->subject->getParentModel()
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithoutParentModelIsNoProblem() {
+		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$this->subject->add($model);
+	}
+
+	/**
+	 * @test
+	 */
+	public function addWithoutParentModelMarksParentModelAsDirty() {
+		$parentModel = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		self::assertFalse($parentModel->isDirty());
+		$this->subject->setParentModel($parentModel);
+
+		$model = new Tx_Oelib_Tests_Unit_Fixtures_TestingModel();
+		$this->subject->add($model);
+
+		self::assertTrue($parentModel->isDirty());
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRelationiOwnedByParentByDefaultIsFalse() {
+		self::assertFalse($this->subject->isRelationOwnedByParent());
+	}
+
+	/**
+	 * @test
+	 */
+	public function isRelationiOwnedByParentCanBeSetToTrue() {
+		$this->subject->markAsOwnedByParent();
+
+		self::assertTrue($this->subject->isRelationOwnedByParent());
 	}
 }
