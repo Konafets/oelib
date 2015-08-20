@@ -750,6 +750,41 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 		);
 	}
 
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLabelsReturnsVerbatimSubpartWithoutLabels() {
+		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart'
+			. '<!-- ###MY_SUBPART### -->'
+			. $subpartContent
+			. '<!-- ###MY_SUBPART### -->'
+			. 'Text after the subpart.';
+
+		$this->subject->processTemplate($templateCode);
+
+		self::assertSame(
+			$subpartContent,
+			$this->subject->getSubpartWithLabels('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLabelsReplacesLabelMarkersWithLabels() {
+		$templateCode = 'Text before the subpart'
+			. '<!-- ###MY_SUBPART### -->before ###LABEL_FOO### after<!-- ###MY_SUBPART### -->'
+			. 'Text after the subpart.';
+
+		$this->subject->processTemplate($templateCode);
+
+		self::assertSame(
+			'before foo after',
+			$this->subject->getSubpartWithLabels('MY_SUBPART')
+		);
+	}
+
 
 
 	//////////////////////////////////

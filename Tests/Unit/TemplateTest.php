@@ -36,6 +36,18 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 		$this->deprecationLogEnabledBackup = $GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'];
 
 		$this->subject = new Tx_Oelib_Template();
+
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+			$localizedLabels = array(
+				'default' => array('label_foo' => array(0 => array('source' => 'foo', 'target' => 'foo'))),
+			);
+		} else {
+			$localizedLabels = array(
+				'default' => array('label_foo' => 'foo'),
+			);
+		}
+		$translator = new Tx_Oelib_Translator('de', '', $localizedLabels);
+		$this->subject->injectTranslator($translator);
 	}
 
 	protected function tearDown() {
@@ -500,6 +512,41 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 		self::assertSame(
 			'',
 			$this->subject->getSubpart('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLabelsReturnsVerbatimSubpartWithoutLabels() {
+		$subpartContent = 'Subpart content';
+		$templateCode = 'Text before the subpart'
+			. '<!-- ###MY_SUBPART### -->'
+			. $subpartContent
+			. '<!-- ###MY_SUBPART### -->'
+			. 'Text after the subpart.';
+
+		$this->subject->processTemplate($templateCode);
+
+		self::assertSame(
+			$subpartContent,
+			$this->subject->getSubpartWithLabels('MY_SUBPART')
+		);
+	}
+
+	/**
+	 * @test
+	 */
+	public function getSubpartWithLabelsReplacesLabelMarkersWithLabels() {
+		$templateCode = 'Text before the subpart'
+			. '<!-- ###MY_SUBPART### -->before ###LABEL_FOO### after<!-- ###MY_SUBPART### -->'
+			. 'Text after the subpart.';
+
+		$this->subject->processTemplate($templateCode);
+
+		self::assertSame(
+			'before foo after',
+			$this->subject->getSubpartWithLabels('MY_SUBPART')
 		);
 	}
 

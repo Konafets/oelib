@@ -1,6 +1,7 @@
 0.9.0 - currently working on
 
 Features:
+- [#5371] Template::getSubpartWithLabels
 - [#5354] Clone feature for models
 - [#5250] Allow setting the namespace for the configuration check
 

@@ -29,6 +29,11 @@ class Tx_Oelib_Template {
 	const SUBPART_PATTERN = '/<!-- *###([A-Z0-9_]+)###.*-->(.*)<!-- *###\1###.*-->/msU';
 
 	/**
+	 * @var string the regular expression used to find subparts
+	 */
+	const LABEL_PATTERN = '/###(LABEL_([A-Z0-9_]+))###/';
+
+	/**
 	 * @var string the complete HTML template
 	 */
 	private $templateCode = '';
@@ -72,9 +77,25 @@ class Tx_Oelib_Template {
 	private $subpartsToHide = array();
 
 	/**
+	 * @var Tx_Oelib_Translator
+	 */
+	protected $translator = NULL;
+
+	/**
 	 * The constructor. Does nothing.
 	 */
 	public function __construct() {
+	}
+
+	/**
+	 * Injects the translator.
+	 *
+	 * @param Tx_Oelib_Translator $translator
+	 *
+	 * @return void
+	 */
+	public function injectTranslator(Tx_Oelib_Translator $translator) {
+		$this->translator = $translator;
 	}
 
 	/**
@@ -656,6 +677,42 @@ class Tx_Oelib_Template {
 		}
 
 		return $this->replaceMarkersAndSubparts($this->subparts[$subpartKey]);
+	}
+
+	/**
+	 * Retrieves a named subpart, recursively filling in its inner subparts
+	 * and markers. Inner subparts that are marked to be hidden will be
+	 * substituted with empty strings.
+	 *
+	 * This function either works on the subpart with the name $key or the
+	 * complete HTML template if $key is an empty string.
+	 *
+	 * All label markers in the rendered subpart are automatically replaced with their corresponding localized labels,
+	 * removing the need use the very expensive setLabels method.
+	 *
+	 * @param string $subpartKey
+	 *        key of an existing subpart, for example 'LIST_ITEM' (without the ###),
+	 *        or an empty string to use the complete HTML template
+	 *
+	 * @return string the subpart content or an empty string if the subpart is hidden or the subpart name is missing
+	 *
+	 * @throws \BadMethodCallException
+	 */
+	public function getSubpartWithLabels($subpartKey = '') {
+		if ($this->translator === NULL) {
+			throw new \BadMethodCallException('Please inject the translator before calling this method.', 1440106254);
+		}
+
+		$renderedSubpart = $this->getSubpart($subpartKey);
+
+		$translator = $this->translator;
+		return preg_replace_callback(
+			self::LABEL_PATTERN,
+			function(array $matches) use ($translator) {
+				return $translator->translate(strtolower($matches[1]));
+			},
+			$renderedSubpart
+		);
 	}
 
 	/**

@@ -894,6 +894,37 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
+	 * Retrieves a named subpart, recursively filling in its inner subparts
+	 * and markers. Inner subparts that are marked to be hidden will be
+	 * substituted with empty strings.
+	 *
+	 * This function either works on the subpart with the name $key or the
+	 * complete HTML template if $key is an empty string.
+	 *
+	 * All label markers in the rendered subpart are automatically replaced with their corresponding localized labels,
+	 * removing the need use the very expensive setLabels method.
+	 *
+	 * @param string $subpartKey
+	 *        key of an existing subpart, for example 'LIST_ITEM' (without the ###),
+	 *        or an empty string to use the complete HTML template
+	 *
+	 * @return string the subpart content or an empty string if the subpart is hidden or the subpart name is missing
+	 */
+	public function getSubpartWithLabels($subpartKey = '') {
+		$renderedSubpart = $this->getSubpart($subpartKey);
+
+		$translator = $this;
+		return preg_replace_callback(
+			Tx_Oelib_Template::LABEL_PATTERN,
+			function(array $matches) use ($translator) {
+				return $translator->translate(strtolower($matches[1]));
+			},
+			$renderedSubpart
+		);
+	}
+
+
+	/**
 	 * Writes all localized labels for the current template into their
 	 * corresponding template markers.
 	 *
