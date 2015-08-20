@@ -77,12 +77,21 @@ class Tx_Oelib_List extends SplObjectStorage {
 	 * @param Tx_Oelib_Model $model the model to add, need not have a UID
 	 *
 	 * @return void
+	 *
+	 * @throws \UnexpectedValueException
 	 */
 	public function add(Tx_Oelib_Model $model) {
 		$this->attach($model);
 
 		if ($model->hasUid()) {
 			$uid = $model->getUid();
+			// This should never happen, but still seems to happen sometimes. This exception should help debugging the problem.
+			if (!is_array($this->uids)) {
+				throw new \UnexpectedValueException(
+					'$this->uids was expected to be an array, but actually is: ' . gettype($this->uids), 1440104082
+				);
+			}
+
 			$this->uids[$uid] = $uid;
 		} else {
 			$this->hasItemWithoutUid = TRUE;
