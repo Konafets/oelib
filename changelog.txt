@@ -1,4 +1,4 @@
-0.9.0 - currently working on
+0.9.0 - released 2015-08-20
 
 Features:
 - [#5371] Template::getSubpartWithLabels
