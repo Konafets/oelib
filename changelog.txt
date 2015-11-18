@@ -8,6 +8,7 @@ Bug fixes:
 Cleanup:
 
 Changes:
+- [#5406] Require TYPO3 6.2 and PHP 5.5
 
 
 0.9.0 - released 2015-08-20
