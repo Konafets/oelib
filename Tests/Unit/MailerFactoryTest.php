@@ -52,7 +52,7 @@ class Tx_Oelib_Tests_Unit_MailerFactoryTest extends Tx_Phpunit_TestCase {
 	 */
 	public function factoryIsSingleton() {
 		self::assertInstanceOf(
-			't3lib_Singleton',
+			'TYPO3\CMS\Core\SingletonInterface',
 			$this->subject
 		);
 	}

@@ -23,7 +23,7 @@
  *
  * @author Saskia Metzler <saskia@merlin.owl.de>
  */
-class Tx_Oelib_MailerFactory implements t3lib_Singleton {
+class Tx_Oelib_MailerFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * @var bool whether the test mode is set
 	 */

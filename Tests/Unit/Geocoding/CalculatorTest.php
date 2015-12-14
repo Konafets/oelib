@@ -43,7 +43,7 @@ class Tx_Oelib_Tests_Unit_Geocoding_CalculatorTest extends Tx_Phpunit_TestCase {
 	 */
 	public function classIsSingleton() {
 		self::assertInstanceOf(
-			't3lib_Singleton',
+			'TYPO3\CMS\Core\SingletonInterface',
 			$this->subject
 		);
 	}

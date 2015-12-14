@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class tx_oelib_Geocoding_Calculator implements t3lib_Singleton {
+class tx_oelib_Geocoding_Calculator implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * the earth radius in kilometers
 	 *
