@@ -304,7 +304,7 @@ class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper
 	/**
 	 * Returns $GLOBALS['TSFE'].
 	 *
-	 * @return tslib_fe
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	protected function getFrontEndController() {
 		return $GLOBALS['TSFE'];

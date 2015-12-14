@@ -702,7 +702,7 @@ class Tx_Oelib_Db {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe|NULL
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|NULL
 	 */
 	static protected function getFrontEndController() {
 		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;

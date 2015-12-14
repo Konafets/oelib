@@ -345,7 +345,7 @@ class Tx_Oelib_TranslatorRegistry {
 	/**
 	 * Returns $GLOBALS['TSFE'].
 	 *
-	 * @return tslib_fe|NULL
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|NULL
 	 */
 	protected function getFrontEndController() {
 		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;

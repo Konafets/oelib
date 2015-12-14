@@ -191,7 +191,7 @@ class Tx_Oelib_PageFinder {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe|NULL
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController|NULL
 	 */
 	protected function getFrontEndController() {
 		return isset($GLOBALS['TSFE']) ? $GLOBALS['TSFE'] : NULL;

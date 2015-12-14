@@ -1220,8 +1220,8 @@ final class Tx_Oelib_TestingFramework {
 		$timeTrack = GeneralUtility::makeInstance('t3lib_TimeTrackNull');
 		$GLOBALS['TT'] = $timeTrack;
 
-		/** @var tslib_fe $frontEnd */
-		$frontEnd = GeneralUtility::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $frontEnd */
+		$frontEnd = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 		$GLOBALS['TSFE'] = $frontEnd;
 
 		// simulates a normal FE without any logged-in FE or BE user
@@ -2004,7 +2004,7 @@ final class Tx_Oelib_TestingFramework {
 	 *
 	 * This method must only be called when there is a front-end instance.
 	 *
-	 * @return tslib_fe
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	protected function getFrontEndController() {
 		return $GLOBALS['TSFE'];

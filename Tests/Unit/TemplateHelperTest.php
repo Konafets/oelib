@@ -4450,7 +4450,7 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$this->subject->ensureContentObject();
 
-		/** @var tslib_fe $frontEndController */
+		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $frontEndController */
 		$frontEndController = $GLOBALS['TSFE'];
 		self::assertSame(
 			$frontEndController->cObj,

@@ -32,12 +32,12 @@ class Tx_Oelib_Tests_Unit_ViewHelpers_GoogleMapsViewHelperTest extends Tx_Phpuni
 	private $mapPointWithCoordinates = NULL;
 
 	/**
-	 * @var tslib_fe
+	 * @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	private $mockFrontEnd = NULL;
 
 	protected function setUp() {
-		$this->mockFrontEnd = $this->getMock('tslib_fe', array('dummy'), array(), '', FALSE);
+		$this->mockFrontEnd = $this->getMock('TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController', array('dummy'), array(), '', FALSE);
 		$GLOBALS['TSFE'] = $this->mockFrontEnd;
 		$this->mapPointWithCoordinates = $this->getMock('tx_oelib_Interface_MapPoint');
 		$this->mapPointWithCoordinates->expects(self::any())->method('hasGeoCoordinates')->will(self::returnValue(TRUE));

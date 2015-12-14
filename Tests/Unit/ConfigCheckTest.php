@@ -72,7 +72,7 @@ class Tx_Oelib_Tests_Unit_ConfigCheckTest extends Tx_Phpunit_TestCase {
 	/**
 	 * Returns the current front-end instance.
 	 *
-	 * @return tslib_fe
+	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
 	 */
 	private function getFrontEndController() {
 		return $GLOBALS['TSFE'];
