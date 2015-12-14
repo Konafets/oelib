@@ -112,7 +112,7 @@ class tx_oelib_Mapper_BackEndUser extends Tx_Oelib_DataMapper {
 	/**
 	 * Returns $GLOBALS['BE_USER'].
 	 *
-	 * @return t3lib_beUserAuth
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication
 	 */
 	protected function getBackEndUserAuthentication() {
 		return $GLOBALS['BE_USER'];

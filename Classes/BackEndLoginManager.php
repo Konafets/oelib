@@ -124,7 +124,7 @@ class Tx_Oelib_BackEndLoginManager implements tx_oelib_Interface_LoginManager {
 	/**
 	 * Returns $GLOBALS['BE_USER'].
 	 *
-	 * @return t3lib_beUserAuth|NULL
+	 * @return \TYPO3\CMS\Core\Authentication\BackendUserAuthentication|NULL
 	 */
 	protected function getBackEndUserAuthentication() {
 		return isset($GLOBALS['BE_USER']) ? $GLOBALS['BE_USER'] : NULL;
