@@ -54,7 +54,7 @@ class Tx_Oelib_TranslatorRegistry {
 	private $renderCharset = 'utf-8';
 
 	/**
-	 * @var t3lib_cs helper for charset conversion
+	 * @var \TYPO3\CMS\Core\Charset\CharsetConverter helper for charset conversion
 	 */
 	private $charsetConversion = NULL;
 
