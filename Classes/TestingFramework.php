@@ -206,7 +206,7 @@ final class Tx_Oelib_TestingFramework {
 
 		/** @var array $rootLineCacheConfiguration */
 		$rootLineCacheConfiguration = (array) $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_rootline'];
-		$rootLineCacheConfiguration['backend'] = 't3lib_cache_backend_NullBackend';
+		$rootLineCacheConfiguration['backend'] = 'TYPO3\CMS\Core\Cache\Backend\NullBackend';
 		$cacheConfigurations = array('cache_rootline' => $rootLineCacheConfiguration);
 		/** @var t3lib_cache_Manager $cacheManager */
 		$cacheManager = GeneralUtility::makeInstance('t3lib_cache_Manager');
