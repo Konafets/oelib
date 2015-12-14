@@ -4263,8 +4263,8 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$imageTag = '<img src="typo3temp/foo.jpg" alt="foo" title="bar" id="id-42"/>';
 
-		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
-		$content = $this->getMock('tslib_cObj');
+		/** @var $content \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$content->expects(self::once())->method('IMAGE')
 			->with(
 				array('file' => 'foo.jpg', 'file.' => array(), 'altText' => 'foo', 'titleText' => 'bar', 'params' =>'id="id-42"')
@@ -4286,8 +4286,8 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$altText = 'foo & bar';
 
-		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
-		$content = $this->getMock('tslib_cObj');
+		/** @var $content \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$content->expects(self::once())->method('IMAGE')
 			->with(array('file' => 'foo.jpg', 'file.' => array(), 'altText' => $altText, 'titleText' => ''))
 			->will(self::returnValue('<img src=""/>'));
@@ -4307,8 +4307,8 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$altText = 'foo & bar';
 
-		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
-		$content = $this->getMock('tslib_cObj');
+		/** @var $content \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$content->expects(self::once())->method('IMAGE')
 			->with(array('file' => 'foo.jpg', 'file.' => array(),  'altText' => $altText, 'titleText' => ''))
 			->will(self::returnValue(NULL));
@@ -4331,8 +4331,8 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 
 		$altText = 'foo & bar';
 
-		/** @var $content tslib_cObj|PHPUnit_Framework_MockObject_MockObject */
-		$content = $this->getMock('tslib_cObj');
+		/** @var $content \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer|PHPUnit_Framework_MockObject_MockObject */
+		$content = $this->getMock('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$content->expects(self::once())->method('IMAGE')
 			->with(array('file' => 'foo.jpg', 'file.' => array(), 'altText' => $altText, 'titleText' => ''))
 			->will(self::throwException(new \TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException()));
@@ -4431,7 +4431,7 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function ensureContentObjectForExistingContentObjectLeavesItUntouched() {
-		$contentObject = new tslib_cObj();
+		$contentObject = new \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer();
 		$this->subject->cObj = $contentObject;
 
 		$this->subject->ensureContentObject();
