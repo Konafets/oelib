@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-abstract class Tx_Oelib_SalutationSwitcher extends tslib_pibase {
+abstract class Tx_Oelib_SalutationSwitcher extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin {
 	/**
 	 * A list of language keys for which the localizations have been loaded
 	 * (or NULL if the list has not been compiled yet).
