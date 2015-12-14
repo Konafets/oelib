@@ -693,7 +693,7 @@ class Tx_Oelib_Db {
 	/**
 	 * Returns $GLOBALS['TYPO3_DB'].
 	 *
-	 * @return t3lib_DB
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
 	 */
 	static public function getDatabaseConnection() {
 		return $GLOBALS['TYPO3_DB'];
