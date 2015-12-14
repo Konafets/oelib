@@ -84,11 +84,11 @@ class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Sends a Swift e-mail.
 	 *
-	 * @param t3lib_mail_Message $email the e-mail to send.
+	 * @param \TYPO3\CMS\Core\Mail\MailMessage $email the e-mail to send.
 	 *
 	 * @return void
 	 */
-	protected function sendSwiftMail(t3lib_mail_Message $email) {
+	protected function sendSwiftMail(\TYPO3\CMS\Core\Mail\MailMessage $email) {
 		$email->send();
 	}
 }

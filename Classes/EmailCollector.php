@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -42,7 +43,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	private $fakeSuccess = TRUE;
 
 	/**
-	 * @var t3lib_mail_Message[]
+	 * @var MailMessage[]
 	 */
 	protected $sentEmails = array();
 
@@ -120,11 +121,11 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Sends a Swift e-mail.
 	 *
-	 * @param t3lib_mail_Message $email the e-mail to send.
+	 * @param MailMessage $email the e-mail to send.
 	 *
 	 * @return void
 	 */
-	protected function sendSwiftMail(t3lib_mail_Message $email) {
+	protected function sendSwiftMail(MailMessage $email) {
 		$this->sentEmails[] = $email;
 	}
 
@@ -242,7 +243,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the e-mails that would have been sent via the send method.
 	 *
-	 * @return t3lib_mail_Message[]
+	 * @return MailMessage[]
 	 */
 	public function getSentEmails() {
 		return $this->sentEmails;
@@ -260,7 +261,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	/**
 	 * Returns the first sent-email or NULL if none has been sent.
 	 *
-	 * @return t3lib_mail_Message|NULL
+	 * @return MailMessage|NULL
 	 */
 	public function getFirstSentEmail() {
 		if ($this->getNumberOfSentEmails() === 0) {

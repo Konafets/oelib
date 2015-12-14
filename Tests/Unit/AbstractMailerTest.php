@@ -30,7 +30,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	private $subject = NULL;
 
 	/**
-	 * @var t3lib_mail_Message
+	 * @var \TYPO3\CMS\Core\Mail\MailMessage
 	 */
 	private $message1 = NULL;
 
@@ -71,13 +71,13 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->finalMailMessageClassName = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000
 			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
-		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		$this->message1 = $this->getMock('TYPO3\CMS\Core\Mail\MailMessage', array('send', '__destruct'));
 		GeneralUtility::addInstance($this->finalMailMessageClassName, $this->message1);
 	}
 
 	protected function tearDown() {
 		// Get any surplus instances added via \TYPO3\CMS\Core\Utility\GeneralUtility::addInstance.
-		GeneralUtility::makeInstance('t3lib_mail_Message');
+		GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
 
 		$this->subject->cleanUp();
 
@@ -142,7 +142,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	public function storeTwoEmailsAndGetTheLastEmail() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
-		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		$message2 = $this->getMock('TYPO3\CMS\Core\Mail\MailMessage', array('send', '__destruct'));
 		GeneralUtility::addInstance($this->finalMailMessageClassName, $message2);
 
 		$this->subject->sendEmail(
@@ -168,7 +168,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	public function storeTwoEmailsAndGetBothEmails() {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
-		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
+		$message2 = $this->getMock('TYPO3\CMS\Core\Mail\MailMessage', array('send', '__destruct'));
 		GeneralUtility::addInstance($this->finalMailMessageClassName, $message2);
 
 		$this->subject->sendEmail(

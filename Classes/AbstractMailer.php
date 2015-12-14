@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -115,8 +116,8 @@ abstract class Tx_Oelib_AbstractMailer {
 			$this->validateEmailAddress($recipient->getEmailAddress(), 'To:');
 		}
 
-		/** @var t3lib_mail_Message $swiftMail */
-		$swiftMail = GeneralUtility::makeInstance('t3lib_mail_Message');
+		/** @var MailMessage $swiftMail */
+		$swiftMail = GeneralUtility::makeInstance('TYPO3\CMS\Core\Mail\MailMessage');
 		$swiftMail->setSubject($email->getSubject());
 
 		$sender = $email->getSender();
@@ -192,11 +193,11 @@ abstract class Tx_Oelib_AbstractMailer {
 	/**
 	 * Sends a Swift e-mail.
 	 *
-	 * @param t3lib_mail_Message $email the e-mail to send.
+	 * @param MailMessage $email the e-mail to send.
 	 *
 	 * @return void
 	 */
-	protected abstract function sendSwiftMail(t3lib_mail_Message $email);
+	protected abstract function sendSwiftMail(MailMessage $email);
 
 	/**
 	 * Sets whether the e-mail body should be formatted before sending the e-mail.
