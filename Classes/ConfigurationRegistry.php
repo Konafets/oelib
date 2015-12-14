@@ -202,8 +202,8 @@ class Tx_Oelib_ConfigurationRegistry {
 			return $this->getFrontEndController()->tmpl->setup;
 		}
 
-		/** @var t3lib_TStemplate $template */
-		$template = GeneralUtility::makeInstance('t3lib_TStemplate');
+		/** @var \TYPO3\CMS\Core\TypoScript\TemplateService $template */
+		$template = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
 		$template->tt_track = 0;
 		$template->init();
 

@@ -185,8 +185,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 *               current extension key
 	 */
 	protected function retrievePageConfig($pageId) {
-		/** @var t3lib_TStemplate $template */
-		$template = GeneralUtility::makeInstance('t3lib_TStemplate');
+		/** @var \TYPO3\CMS\Core\TypoScript\TemplateService $template */
+		$template = GeneralUtility::makeInstance('TYPO3\CMS\Core\TypoScript\TemplateService');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
 		$template->init();

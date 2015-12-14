@@ -4587,7 +4587,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
-			$this->getFrontEndController()->tmpl instanceof t3lib_TStemplate
+			$this->getFrontEndController()->tmpl instanceof \TYPO3\CMS\Core\TypoScript\TemplateService
 		);
 	}
 
