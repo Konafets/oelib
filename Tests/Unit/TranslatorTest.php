@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Test case.
@@ -42,7 +43,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateWithLanguageEnglishReturnsEnglishLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
@@ -65,7 +66,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateWithLanguageGermanReturnsGermanLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
@@ -88,7 +89,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInGermanWithEmptyAlternativeLanguageWithLanguageGermanReturnsEnglishLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
 			);
@@ -109,7 +110,7 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInEnglishAndAlternativeLanguageGermanReturnsGermanLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$localizedLabels = array(
 				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
 			);

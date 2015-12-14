@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Test case.
@@ -758,7 +759,7 @@ class Tx_Oelib_Tests_Unit_DbTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function selectReturnsResource() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
 			self::markTestSkipped('This test only applies to TYPO3 CMS < 6.1.');
 		}
 
@@ -771,7 +772,7 @@ class Tx_Oelib_Tests_Unit_DbTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function selectReturnsMySqliResult() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
 			self::markTestSkipped('This test is available in TYPO3 6.1 and above.');
 		}
 

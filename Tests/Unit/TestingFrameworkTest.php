@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Test case.
@@ -88,7 +89,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @return void
 	 */
 	protected function checkForTypo3SixOrHigher() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
 			self::markTestSkipped('This test is available in TYPO3 6.0 and above.');
 		}
 	}
@@ -3891,7 +3892,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function deleteDummyFolderWithNonEmptyDummyFolderRaisesWarning() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 below version 6.2.');
 		}
 
@@ -3914,7 +3915,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @expectedException RuntimeException
 	 */
 	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 6.2 and above.');
 		}
 
@@ -4539,7 +4540,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$pageClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+		$pageClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
 			? 't3lib_pageSelect' : 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
 		self::assertInstanceOf(
 			$pageClassName,
@@ -4554,7 +4555,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$frontEndUserClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+		$frontEndUserClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
 			? 'tslib_feUserAuth' : 'TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication';
 		self::assertInstanceOf(
 			$frontEndUserClassName,
@@ -4569,7 +4570,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$contentObjectClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+		$contentObjectClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
 			? 'tslib_cObj' : 'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer';
 		self::assertInstanceOf(
 			$contentObjectClassName,
@@ -4641,7 +4642,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginUserIsZeroAfterCreateFakeFrontEnd() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 below version 6.2.');
 		}
 
@@ -4657,7 +4658,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginUserIsFalseAfterCreateFakeFrontEnd() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 in version 6.2 and above.');
 		}
 
@@ -4960,7 +4961,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserSetsLoginUserToZero() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 below version 6.2.');
 		}
 		$this->subject->createFakeFrontEnd();
@@ -4977,7 +4978,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserSetsLoginUserToFalse() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
 			self::markTestSkipped('This test is available in TYPO3 in version 6.2 and above.');
 		}
 		$this->subject->createFakeFrontEnd();

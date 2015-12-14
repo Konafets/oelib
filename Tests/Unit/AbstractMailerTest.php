@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Test case.
@@ -67,7 +68,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject = new Tx_Oelib_EmailCollector();
 
-		$this->finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
+		$this->finalMailMessageClassName = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000
 			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
 		GeneralUtility::addInstance($this->finalMailMessageClassName, $this->message1);
@@ -92,7 +93,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 * @return string the current character set, will not be empty
 	 */
 	private function getCharacterSet() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			return 'utf-8';
 		}
 

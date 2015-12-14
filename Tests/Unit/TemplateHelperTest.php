@@ -129,7 +129,7 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function initInitializesContentObject() {
 		$this->subject->init();
 
-		$contentObjectClassName = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6000000)
+		$contentObjectClassName = (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
 			? 'tslib_cObj' : 'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer';
 		self::assertInstanceOf(
 			$contentObjectClassName,

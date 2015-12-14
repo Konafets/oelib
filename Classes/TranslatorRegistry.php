@@ -12,6 +12,7 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This class provides a registry for translators.
@@ -143,7 +144,7 @@ class Tx_Oelib_TranslatorRegistry {
 	 * @return string the charset for the given language code, will not be empty
 	 */
 	private function getCharsetOfLanguage($languageCode) {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
+		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
 			return 'utf-8';
 		}
 
@@ -222,7 +223,7 @@ class Tx_Oelib_TranslatorRegistry {
 			) {
 				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
 
-				$version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
+				$version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 				foreach ($labelsFromTyposcript as $labelKey => $labelFromTyposcript) {
 					if ($version >= 4006000) {
 						$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;

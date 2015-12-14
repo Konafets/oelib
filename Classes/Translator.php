@@ -78,7 +78,7 @@ class Tx_Oelib_Translator {
 			throw new InvalidArgumentException('The parameter $key must not be empty.', 1331489544);
 		}
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
+		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
 			$translation = $this->translateForNewTypo3($key);
 		} else {
 			$translation = $this->translateForOldTypo3($key);
