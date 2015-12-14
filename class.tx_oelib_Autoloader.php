@@ -12,7 +12,9 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-require_once(t3lib_extMgm::extPath('oelib') . 'Classes/CommonConstants.php');
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
+require_once(ExtensionManagementUtility::extPath('oelib') . 'Classes/CommonConstants.php');
 
 /**
  * This class implements the SPL autoloader.
@@ -77,13 +79,13 @@ class Tx_Oelib_Autoloader {
 		}
 
 		$extensionKey = strtolower($matches[1]);
-		if (!t3lib_extMgm::isLoaded($extensionKey)) {
+		if (!ExtensionManagementUtility::isLoaded($extensionKey)) {
 			return '';
 		}
 
 		$directories = str_replace('_', '/', $matches[2]);
 
-		return t3lib_extMgm::extPath($extensionKey) . $directories . 'class.' . $className . '.php';
+		return ExtensionManagementUtility::extPath($extensionKey) . $directories . 'class.' . $className . '.php';
 	}
 }
 

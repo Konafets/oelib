@@ -1,7 +1,9 @@
 <?php
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 defined('TYPO3_MODE') or die('Access denied.');
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'One is Enough Library');
+ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'One is Enough Library');
 
 $GLOBALS['TCA']['tx_oelib_test'] = array(
 	'ctrl' => array(
@@ -21,8 +23,8 @@ $GLOBALS['TCA']['tx_oelib_test'] = array(
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 		),
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/Test.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Test.gif',
+		'dynamicConfigFile' => ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/Test.php',
+		'iconfile' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Test.gif',
 	),
 );
 
@@ -39,13 +41,13 @@ $GLOBALS['TCA']['tx_oelib_testchild'] = array(
 		'versioningWS' => FALSE,
 		'default_sortby' => 'ORDER BY uid',
 		'delete' => 'deleted',
-		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/TestChild.php',
-		'iconfile' => t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Test.gif',
+		'dynamicConfigFile' => ExtensionManagementUtility::extPath($_EXTKEY) . 'Configuration/TCA/TestChild.php',
+		'iconfile' => ExtensionManagementUtility::extRelPath($_EXTKEY) . 'Resources/Public/Icons/Test.gif',
 	),
 );
 
-$addToFeInterface = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000);
-t3lib_extMgm::addTCAcolumns(
+$addToFeInterface = (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000);
+ExtensionManagementUtility::addTCAcolumns(
 	'fe_users',
 	array(
 		'tx_oelib_is_dummy_record' => array(),

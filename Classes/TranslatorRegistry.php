@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -209,7 +210,7 @@ class Tx_Oelib_TranslatorRegistry {
 			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489578);
 		}
 
-		if (!t3lib_extmgm::isLoaded($extensionName)) {
+		if (!ExtensionManagementUtility::isLoaded($extensionName)) {
 			throw new BadMethodCallException('The extension with the name "' . $extensionName . '" is not loaded.', 1331489598);
 		}
 
@@ -260,7 +261,7 @@ class Tx_Oelib_TranslatorRegistry {
 			throw new InvalidArgumentException('The parameter $extensionName must not be empty.', 1331489618);
 		}
 
-		$languageFile = t3lib_extmgm::extPath($extensionName) . self::LANGUAGE_FILE_PATH;
+		$languageFile = ExtensionManagementUtility::extPath($extensionName) . self::LANGUAGE_FILE_PATH;
 		$localizedLabels = GeneralUtility::readLLfile(
 			$languageFile,
 			$this->languageKey,

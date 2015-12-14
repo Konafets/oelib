@@ -231,7 +231,7 @@ class Tx_Oelib_Mail extends Tx_Oelib_Object {
 	 */
 	protected function loadEmogrifierClass() {
 		if (!class_exists('Pelago\\Emogrifier', TRUE)) {
-			require_once(t3lib_extMgm::extPath('oelib') . 'Packages/vendor/pelago/emogrifier/Classes/Emogrifier.php');
+			require_once(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('oelib') . 'Packages/vendor/pelago/emogrifier/Classes/Emogrifier.php');
 		}
 	}
 

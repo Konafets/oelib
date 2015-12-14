@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Test case.
@@ -408,7 +409,7 @@ class Tx_Oelib_Tests_Unit_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setCssFileForGivenCssFileWithAbsolutePathSetsCssFile() {
-		$this->subject->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile(ExtensionManagementUtility::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
 
 		self::assertTrue(
 			$this->subject->hasCssFile()
@@ -502,7 +503,7 @@ class Tx_Oelib_Tests_Unit_MailTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function setHtmlMessageWithCssFileStoredStoresAttributesFromCssInHtmlMessage() {
-		$this->subject->setCssFile(t3lib_extMgm::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
+		$this->subject->setCssFile(ExtensionManagementUtility::extPath('oelib') . 'Tests/Unit/Fixtures/test.css');
 		$this->subject->setHTMLMessage(
 			'<html>' .
 				'<head><title>foo</title></head>' .

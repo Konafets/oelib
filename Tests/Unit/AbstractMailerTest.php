@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -917,7 +918,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	 */
 	public function sendCanAddOneAttachmentFromFile() {
 		$attachment = new Tx_Oelib_Attachment();
-		$attachment->setFileName(t3lib_extMgm::extPath('oelib', 'Tests/Unit/Fixtures/test.txt'));
+		$attachment->setFileName(ExtensionManagementUtility::extPath('oelib', 'Tests/Unit/Fixtures/test.txt'));
 		$attachment->setContentType('text/plain');
 
 		$sender = new Tx_Oelib_Tests_Unit_Fixtures_TestingMailRole('', 'any-sender@email-address.org');
@@ -1032,11 +1033,11 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$eMail->setMessage($this->email['message']);
 
 		$attachment1 = new Tx_Oelib_Attachment();
-		$attachment1->setFileName(t3lib_extMgm::extPath('oelib', 'Tests/Unit/Fixtures/test.txt'));
+		$attachment1->setFileName(ExtensionManagementUtility::extPath('oelib', 'Tests/Unit/Fixtures/test.txt'));
 		$attachment1->setContentType('text/plain');
 		$eMail->addAttachment($attachment1);
 		$attachment2 = new Tx_Oelib_Attachment();
-		$attachment2->setFileName(t3lib_extMgm::extPath('oelib', 'Tests/Unit/Fixtures/test_2.css'));
+		$attachment2->setFileName(ExtensionManagementUtility::extPath('oelib', 'Tests/Unit/Fixtures/test_2.css'));
 		$attachment2->setContentType('text/css');
 		$eMail->addAttachment($attachment2);
 

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * This class represents a front-end user.
@@ -451,7 +452,7 @@ class Tx_Oelib_Model_FrontEndUser extends Tx_Oelib_Model implements Tx_Oelib_Int
 	 * @return bool
 	 */
 	static public function hasGenderField() {
-		return t3lib_extMgm::isLoaded('sr_feuser_register') || t3lib_extMgm::isLoaded('sf_register');
+		return ExtensionManagementUtility::isLoaded('sr_feuser_register') || ExtensionManagementUtility::isLoaded('sf_register');
 	}
 
 	/**
