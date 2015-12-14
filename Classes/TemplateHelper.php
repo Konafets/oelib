@@ -191,8 +191,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		$template->tt_track = 0;
 		$template->init();
 
-		/** @var t3lib_pageSelect $page */
-		$page = GeneralUtility::makeInstance('t3lib_pageSelect');
+		/** @var \TYPO3\CMS\Frontend\Page\PageRepository $page */
+		$page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 
 		// Gets the root line.
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().

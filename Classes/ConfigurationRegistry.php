@@ -207,8 +207,8 @@ class Tx_Oelib_ConfigurationRegistry {
 		$template->tt_track = 0;
 		$template->init();
 
-		/** @var t3lib_pageSelect $page */
-		$page = GeneralUtility::makeInstance('t3lib_pageSelect');
+		/** @var \TYPO3\CMS\Frontend\Page\PageRepository $page */
+		$page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 		$rootline = $page->getRootLine($pageUid);
 		$template->runThroughTemplates($rootline, 0);
 		$template->generateConfig();

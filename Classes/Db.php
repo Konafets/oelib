@@ -25,7 +25,7 @@ class Tx_Oelib_Db {
 	/**
 	 * page object which we will use to call enableFields on
 	 *
-	 * @var t3lib_pageSelect
+	 * @var \TYPO3\CMS\Frontend\Page\PageRepository
 	 */
 	static private $pageForEnableFields = NULL;
 
@@ -68,7 +68,7 @@ class Tx_Oelib_Db {
 	}
 
 	/**
-	 * Wrapper function for t3lib_pageSelect::enableFields() since it is no
+	 * Wrapper function for \TYPO3\CMS\Frontend\Page\PageRepository::enableFields() since it is no
 	 * longer accessible statically.
 	 *
 	 * Returns a part of a WHERE clause which will filter out records with
@@ -132,7 +132,7 @@ class Tx_Oelib_Db {
 			if ((self::getFrontEndController() !== NULL) && is_object(self::getFrontEndController()->sys_page)) {
 				self::$pageForEnableFields = self::getFrontEndController()->sys_page;
 			} else {
-				self::$pageForEnableFields = GeneralUtility::makeInstance('t3lib_pageSelect');
+				self::$pageForEnableFields = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
 			}
 		}
 	}
