@@ -4528,7 +4528,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
-			$GLOBALS['TT'] instanceof t3lib_timeTrackNull
+			$GLOBALS['TT'] instanceof \TYPO3\CMS\Core\TimeTracker\NullTimeTracker
 		);
 	}
 

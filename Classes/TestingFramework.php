@@ -1216,8 +1216,8 @@ final class Tx_Oelib_TestingFramework {
 		$this->suppressFrontEndCookies();
 		$this->discardFakeFrontEnd();
 
-		/** @var t3lib_TimeTrackNull $timeTrack */
-		$timeTrack = GeneralUtility::makeInstance('t3lib_TimeTrackNull');
+		/** @var \TYPO3\CMS\Core\TimeTracker\NullTimeTracker $timeTrack */
+		$timeTrack = GeneralUtility::makeInstance('TYPO3\CMS\Core\TimeTracker\NullTimeTracker');
 		$GLOBALS['TT'] = $timeTrack;
 
 		/** @var \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController $frontEnd */
