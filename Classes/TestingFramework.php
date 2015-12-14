@@ -142,7 +142,7 @@ final class Tx_Oelib_TestingFramework {
 	/**
 	 * an instance used for retrieving a unique file name
 	 *
-	 * @var t3lib_basicFileFunctions
+	 * @var \TYPO3\CMS\Core\Utility\File\BasicFileUtility
 	 */
 	protected static $fileNameProcessor = NULL;
 
@@ -1176,7 +1176,7 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		if (!self::$fileNameProcessor) {
-			self::$fileNameProcessor = GeneralUtility::makeInstance('t3lib_basicFileFunctions');
+			self::$fileNameProcessor = GeneralUtility::makeInstance('TYPO3\CMS\Core\Utility\File\BasicFileUtility');
 		}
 
 		return self::$fileNameProcessor->getUniqueName(
