@@ -195,7 +195,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		$page = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 
 		// Gets the root line.
-		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
+		// Finds the selected page in the BE exactly as in \TYPO3\CMS\Backend\Module\BaseScriptClass::init().
 		$rootLine = $page->getRootLine($pageId);
 
 		// Generates the constants/config and hierarchy info for the template.
