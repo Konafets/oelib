@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class returns either an instance of the Tx_Oelib_RealMailer which sends
@@ -57,15 +58,15 @@ class Tx_Oelib_MailerFactory implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Retrieves the singleton instance of the factory.
 	 *
-	 * @deprecated 2014-08-28 Use t3lib_div::makeInstance instead
+	 * @deprecated 2014-08-28 Use \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance instead
 	 *
 	 * @return Tx_Oelib_MailerFactory the singleton factory
 	 */
 	public static function getInstance() {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		/** @var Tx_Oelib_MailerFactory $mailerFactory */
-		$mailerFactory = t3lib_div::makeInstance('Tx_Oelib_MailerFactory');;
+		$mailerFactory = GeneralUtility::makeInstance('Tx_Oelib_MailerFactory');;
 		return $mailerFactory;
 	}
 
@@ -83,7 +84,7 @@ class Tx_Oelib_MailerFactory implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (!is_object($this->mailer) || (get_class($this->mailer) !== $className)) {
-			$this->mailer = t3lib_div::makeInstance($className);
+			$this->mailer = GeneralUtility::makeInstance($className);
 		}
 
 		return $this->mailer;

@@ -81,7 +81,7 @@ class tx_oelib_Mapper_FrontEndUser extends Tx_Oelib_DataMapper {
 				'*',
 				$this->getTableName(),
 				$this->getUniversalWhereClause() . ' AND ' .
-					'usergroup REGEXP \'(^|,)(' . implode('|', t3lib_div::intExplode(',', $groupUids)) . ')($|,)\''
+					'usergroup REGEXP \'(^|,)(' . implode('|', \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $groupUids)) . ')($|,)\''
 			)
 		);
 	}

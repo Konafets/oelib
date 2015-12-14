@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Abstract class for sending e-mails (or faking it) using the Straegy pattern.
@@ -115,7 +116,7 @@ abstract class Tx_Oelib_AbstractMailer {
 		}
 
 		/** @var t3lib_mail_Message $swiftMail */
-		$swiftMail = t3lib_div::makeInstance('t3lib_mail_Message');
+		$swiftMail = GeneralUtility::makeInstance('t3lib_mail_Message');
 		$swiftMail->setSubject($email->getSubject());
 
 		$sender = $email->getSender();
@@ -170,7 +171,7 @@ abstract class Tx_Oelib_AbstractMailer {
 				'The ' . $roleDescription . ' e-mail address "' . $emailAddress . '" was empty.', 1409601561
 			);
 		}
-		if (!$this->isLocalhostAddress($emailAddress) && !t3lib_div::validEmail($emailAddress)) {
+		if (!$this->isLocalhostAddress($emailAddress) && !GeneralUtility::validEmail($emailAddress)) {
 			throw new InvalidArgumentException(
 				'The ' . $roleDescription . ' e-mail address "' . $emailAddress . '" was not valid.', 1409601561
 			);
@@ -250,7 +251,7 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @throws InvalidArgumentException
 	 */
 	protected function checkParameters($emailAddress, $subject, $message) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		if ($emailAddress === '') {
 			throw new InvalidArgumentException('$emailAddress must not be empty.', 1331318731);

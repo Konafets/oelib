@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a visibility tree.
@@ -49,7 +50,7 @@ class tx_oelib_Visibility_Tree {
 	 * @param array $treeStructure the tree structure in a nested array, may be empty
 	 */
 	public function __construct(array $treeStructure) {
-		$this->rootNode = t3lib_div::makeInstance('tx_oelib_Visibility_Node');
+		$this->rootNode = GeneralUtility::makeInstance('tx_oelib_Visibility_Node');
 
 		$this->buildTreeFromArray($treeStructure, $this->rootNode);
 	}
@@ -76,7 +77,7 @@ class tx_oelib_Visibility_Tree {
 	) {
 		foreach ($treeStructure as $nodeKey => $nodeContents) {
 			/** @var tx_oelib_Visibility_Node $childNode */
-			$childNode = t3lib_div::makeInstance('tx_oelib_Visibility_Node');
+			$childNode = GeneralUtility::makeInstance('tx_oelib_Visibility_Node');
 			$parentNode->addChild($childNode);
 
 			if (is_array($nodeContents)) {

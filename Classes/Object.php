@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents an object that allows getting and setting its data,
@@ -145,7 +146,7 @@ abstract class Tx_Oelib_Object {
 	 * @return string[] the array value of the given key, may be empty
 	 */
 	protected function getAsTrimmedArray($key) {
-		return t3lib_div::trimExplode(',', $this->getAsString($key), TRUE);
+		return GeneralUtility::trimExplode(',', $this->getAsString($key), TRUE);
 	}
 
 	/**
@@ -163,7 +164,7 @@ abstract class Tx_Oelib_Object {
 			return array();
 		}
 
-		return t3lib_div::intExplode(',', $stringValue);
+		return GeneralUtility::intExplode(',', $stringValue);
 	}
 
 	/**

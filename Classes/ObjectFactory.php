@@ -11,11 +11,12 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This helper class can create class instances with and without parameters.
  *
- * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
+ * @deprecated 2014-04-11 use \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance instead
  *
  * @package TYPO3
  * @subpackage tx_oelib
@@ -33,22 +34,22 @@ class Tx_Oelib_ObjectFactory {
 	 *
 	 * @return mixed an instance of $className
 	 *
-	 * @deprecated 2014-04-11 use t3lib_div::makeInstance instead
+	 * @deprecated 2014-04-11 use \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance instead
 	 */
 	public static function make($className) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		// Makes sure that the parent class is included so it can load any
 		// XCLASS subclasses.
 		Tx_Oelib_Autoloader::load($className);
 
 		if (func_num_args() === 1) {
-			return t3lib_div::makeInstance($className);
+			return GeneralUtility::makeInstance($className);
 		}
 
 		$parameters = func_get_args();
 		return call_user_func_array(
-			array('t3lib_div', 'makeInstance'), $parameters
+			array('TYPO3\CMS\Core\Utility\GeneralUtility', 'makeInstance'), $parameters
 		);
 	}
 }

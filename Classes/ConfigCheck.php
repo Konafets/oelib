@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class checks the extension configuration (TS setup) and some data for
@@ -392,7 +393,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @return void
 	 */
 	protected function checkCssClassNames() {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$cssEntries = $this->objectToCheck->getPrefixedMarkers('class');
 
@@ -927,7 +928,7 @@ class Tx_Oelib_ConfigCheck {
 		$fieldName, $canUseFlexforms, $sheet, $explanation, array $allowedValues
 	) {
 		if ($this->objectToCheck->hasConfValueString($fieldName, $sheet)) {
-			$allValues = t3lib_div::trimExplode(
+			$allValues = GeneralUtility::trimExplode(
 				',',
 				$this->objectToCheck->getConfValueString($fieldName, $sheet),
 				TRUE
@@ -1760,7 +1761,7 @@ class Tx_Oelib_ConfigCheck {
 	 * @return void
 	 */
 	public function checkLocale() {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		// Skip this check if Windows is used to avoid a crash of the
 		// TYPO3-Winstaller.
@@ -1832,8 +1833,8 @@ class Tx_Oelib_ConfigCheck {
 	public function getInstalledLocales() {
 		$result = array();
 
-		foreach (t3lib_div::trimExplode(LF, shell_exec('locale -a'), TRUE)
-			as $localeKey
+		foreach (GeneralUtility::trimExplode(LF, shell_exec('locale -a'), TRUE)
+		         as $localeKey
 		) {
 			// The output of "locale -a" contains more lines than we need.
 			if (strpos($localeKey, '_') !== FALSE) {
@@ -1870,7 +1871,7 @@ class Tx_Oelib_ConfigCheck {
 			return;
 		}
 
-		if (!t3lib_div::validEmail($value)) {
+		if (!GeneralUtility::validEmail($value)) {
 			$message = 'The e-mail address in <strong>'.$this->getTSSetupPath()
 				.$fieldName.'</strong> is set to <strong>'.$value.'</strong> '
 				.'which is not valid. E-mails might not be received as long as '

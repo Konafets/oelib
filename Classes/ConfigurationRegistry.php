@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a registration that allows the storage and retrieval
@@ -179,7 +180,7 @@ class Tx_Oelib_ConfigurationRegistry {
 		}
 
 		/** @var Tx_Oelib_Configuration $configuration */
-		$configuration = t3lib_div::makeInstance('Tx_Oelib_Configuration');
+		$configuration = GeneralUtility::makeInstance('Tx_Oelib_Configuration');
 		$configuration->setData($data);
 		return $configuration;
 	}
@@ -202,12 +203,12 @@ class Tx_Oelib_ConfigurationRegistry {
 		}
 
 		/** @var t3lib_TStemplate $template */
-		$template = t3lib_div::makeInstance('t3lib_TStemplate');
+		$template = GeneralUtility::makeInstance('t3lib_TStemplate');
 		$template->tt_track = 0;
 		$template->init();
 
 		/** @var t3lib_pageSelect $page */
-		$page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$page = GeneralUtility::makeInstance('t3lib_pageSelect');
 		$rootline = $page->getRootLine($pageUid);
 		$template->runThroughTemplates($rootline, 0);
 		$template->generateConfig();

@@ -167,7 +167,7 @@ class Tx_Oelib_MapperRegistry {
 				$mapper->setTestingFramework($this->testingFramework);
 			} else {
 				/** @var Tx_Oelib_DataMapper $mapper */
-				$mapper = t3lib_div::makeInstance($unifiedClassName);;
+				$mapper = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($unifiedClassName);;
 			}
 			$this->mappers[$unifiedClassName] = $mapper;
 		} else {

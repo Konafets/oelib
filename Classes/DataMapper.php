@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a mapper that maps database record to model instances.
@@ -103,7 +104,7 @@ abstract class Tx_Oelib_DataMapper {
 			throw new InvalidArgumentException(get_class($this) . '::modelClassName must not be empty.', 1331319378);
 		}
 
-		$this->map = t3lib_div::makeInstance('Tx_Oelib_IdentityMap');
+		$this->map = GeneralUtility::makeInstance('Tx_Oelib_IdentityMap');
 
 		foreach ($this->additionalKeys as $key) {
 			$this->cacheByKey[$key] = array();
@@ -188,7 +189,7 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	public function getListOfModels(array $dataOfModels) {
 		/** @var Tx_Oelib_List $list */
-		$list = t3lib_div::makeInstance('Tx_Oelib_List');
+		$list = GeneralUtility::makeInstance('Tx_Oelib_List');
 
 		foreach ($dataOfModels as $modelRecord) {
 			$list->add($this->getModel($modelRecord));
@@ -457,13 +458,13 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	private function createCommaSeparatedRelation(array &$data, $key, Tx_Oelib_Model $model) {
 		/** @var Tx_Oelib_List $list */
-		$list = t3lib_div::makeInstance('Tx_Oelib_List');
+		$list = GeneralUtility::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
 		$uidList = isset($data[$key]) ? trim($data[$key]) : '';
 		if ($uidList !== '') {
 			$mapper = Tx_Oelib_MapperRegistry::get($this->relations[$key]);
-			$uids = t3lib_div::intExplode(',', $uidList);
+			$uids = GeneralUtility::intExplode(',', $uidList);
 
 			foreach ($uids as $uid) {
 				// Some relations might have a junk 0 in it. We ignore it to avoid crashing.
@@ -494,7 +495,7 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	private function createMToNRelation(array &$data, $key, Tx_Oelib_Model $model) {
 		/** @var Tx_Oelib_List $list */
-		$list = t3lib_div::makeInstance('Tx_Oelib_List');
+		$list = GeneralUtility::makeInstance('Tx_Oelib_List');
 		$list->setParentModel($model);
 
 		if ($data[$key] > 0) {
@@ -590,7 +591,7 @@ abstract class Tx_Oelib_DataMapper {
 	 */
 	protected function createGhost($uid) {
 		/** @var Tx_Oelib_Model $model */
-		$model = t3lib_div::makeInstance($this->modelClassName);
+		$model = GeneralUtility::makeInstance($this->modelClassName);
 		$model->setUid($uid);
 		$model->setLoadCallback(array($this, 'load'));
 		$this->map->add($model);

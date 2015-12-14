@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides various functions to handle dummy records in unit tests.
@@ -207,7 +208,7 @@ final class Tx_Oelib_TestingFramework {
 		$rootLineCacheConfiguration['backend'] = 't3lib_cache_backend_NullBackend';
 		$cacheConfigurations = array('cache_rootline' => $rootLineCacheConfiguration);
 		/** @var t3lib_cache_Manager $cacheManager */
-		$cacheManager = t3lib_div::makeInstance('t3lib_cache_Manager');
+		$cacheManager = GeneralUtility::makeInstance('t3lib_cache_Manager');
 		$cacheManager->setCacheConfigurations($cacheConfigurations);
 	}
 
@@ -867,7 +868,7 @@ final class Tx_Oelib_TestingFramework {
 		// If the upload folder was created by the testing framework, it can be
 		// removed at once.
 		if (isset($this->dummyFolders['uploadFolder'])) {
-			t3lib_div::rmdir($this->getUploadFolderPath(), TRUE);
+			GeneralUtility::rmdir($this->getUploadFolderPath(), TRUE);
 			$this->dummyFolders = array();
 			$this->dummyFiles = array();
 		} else {
@@ -902,7 +903,7 @@ final class Tx_Oelib_TestingFramework {
 		$this->createDummyUploadFolder();
 		$uniqueFileName = $this->getUniqueFileOrFolderPath($fileName);
 
-		if (!t3lib_div::writeFile($uniqueFileName, $content)) {
+		if (!GeneralUtility::writeFile($uniqueFileName, $content)) {
 			throw new RuntimeException('The file ' . $uniqueFileName . ' could not be created.', 1331490486);
 		}
 
@@ -1022,7 +1023,7 @@ final class Tx_Oelib_TestingFramework {
 		$this->createDummyUploadFolder();
 		$uniqueFolderName = $this->getUniqueFileOrFolderPath($folderName);
 
-		if (!t3lib_div::mkdir($uniqueFolderName)) {
+		if (!GeneralUtility::mkdir($uniqueFolderName)) {
 			throw new RuntimeException('The folder ' . $uniqueFolderName . ' could not be created.', 1331490619);
 		}
 
@@ -1064,7 +1065,7 @@ final class Tx_Oelib_TestingFramework {
 			);
 		}
 
-		if (!t3lib_div::rmdir($absolutePathToFolder)) {
+		if (!GeneralUtility::rmdir($absolutePathToFolder)) {
 			throw new RuntimeException('The folder "' . $absolutePathToFolder . '" could not be deleted.', 1331490702);
 		}
 
@@ -1084,7 +1085,7 @@ final class Tx_Oelib_TestingFramework {
 			return;
 		}
 
-		$creationSuccessful = t3lib_div::mkdir($uploadFolderPath);
+		$creationSuccessful = GeneralUtility::mkdir($uploadFolderPath);
 		if (!$creationSuccessful) {
 			throw new RuntimeException(
 				'The upload folder ' . $uploadFolderPath . ' could not be created.', 1331490723
@@ -1174,12 +1175,12 @@ final class Tx_Oelib_TestingFramework {
 		}
 
 		if (!self::$fileNameProcessor) {
-			self::$fileNameProcessor = t3lib_div::makeInstance('t3lib_basicFileFunctions');
+			self::$fileNameProcessor = GeneralUtility::makeInstance('t3lib_basicFileFunctions');
 		}
 
 		return self::$fileNameProcessor->getUniqueName(
 			basename($path),
-			$this->uploadFolderPath . t3lib_div::dirname($path)
+			$this->uploadFolderPath . GeneralUtility::dirname($path)
 		);
 	}
 
@@ -1216,11 +1217,11 @@ final class Tx_Oelib_TestingFramework {
 		$this->discardFakeFrontEnd();
 
 		/** @var t3lib_TimeTrackNull $timeTrack */
-		$timeTrack = t3lib_div::makeInstance('t3lib_TimeTrackNull');
+		$timeTrack = GeneralUtility::makeInstance('t3lib_TimeTrackNull');
 		$GLOBALS['TT'] = $timeTrack;
 
 		/** @var tslib_fe $frontEnd */
-		$frontEnd = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
+		$frontEnd = GeneralUtility::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $pageUid, 0);
 		$GLOBALS['TSFE'] = $frontEnd;
 
 		// simulates a normal FE without any logged-in FE or BE user
@@ -1830,7 +1831,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @throws InvalidArgumentException
 	 */
 	public function markTableAsDirty($tableNames) {
-		foreach (t3lib_div::trimExplode(',', $tableNames) as $currentTable) {
+		foreach (GeneralUtility::trimExplode(',', $tableNames) as $currentTable) {
 			if ($this->isNoneSystemTableNameAllowed($currentTable)) {
 				$this->dirtyTables[$currentTable] = $currentTable;
 			} elseif ($this->isSystemTableNameAllowed($currentTable)) {
@@ -1900,7 +1901,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @deprecated 2009-02-12 use Tx_Oelib_Db::getTcaForTable instead
 	 */
 	public function getTcaForTable($tableName) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		return Tx_Oelib_Db::getTcaForTable($tableName);
 	}
@@ -1978,7 +1979,7 @@ final class Tx_Oelib_TestingFramework {
 			$hookClasses = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['oelib']['testingFrameworkCleanUp'];
 			if (is_array($hookClasses)) {
 				foreach ($hookClasses as $hookClass) {
-					self::$hooks[] = t3lib_div::getUserObj($hookClass);
+					self::$hooks[] = GeneralUtility::getUserObj($hookClass);
 				}
 			}
 

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class stores all parameters which were meant to be sent as an e-mail and
@@ -80,11 +81,11 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	public function sendEmail(
 		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
 	) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$this->emailData[] = array(
 			'recipient' => $emailAddress,
-			'subject' => t3lib_div::encodeHeader($subject, 'quoted-printable'),
+			'subject' => GeneralUtility::encodeHeader($subject, 'quoted-printable'),
 			'message' => $this->formatEmailBody($message),
 			'headers' => $headers,
 		);
@@ -109,7 +110,7 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$this->checkParameters($emailAddress, $subject, $message);
 

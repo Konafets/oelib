@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -175,7 +176,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			return;
 		}
 
-		t3lib_div::rmdir($this->foreignFolderToDelete);
+		GeneralUtility::rmdir($this->foreignFolderToDelete);
 		$this->foreignFolderToDelete = '';
 	}
 
@@ -3759,7 +3760,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function deleteDummyFileWithForeignFileThrowsException() {
 		$uniqueFileName = $this->subject->getUniqueFileOrFolderPath('test.txt');
-		t3lib_div::writeFile($uniqueFileName, '');
+		GeneralUtility::writeFile($uniqueFileName, '');
 		$this->foreignFileToDelete = $uniqueFileName;
 
 		$this->setExpectedException(
@@ -3856,7 +3857,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function deleteDummyFolderWithForeignFolderThrowsException() {
 		$uniqueFolderName = $this->subject->getUniqueFileOrFolderPath('test_folder');
-		t3lib_div::mkdir($uniqueFolderName);
+		GeneralUtility::mkdir($uniqueFolderName);
 		$this->foreignFolderToDelete = $uniqueFolderName;
 
 		$this->setExpectedException(

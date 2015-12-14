@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides an abstraction for selecting a page in the FE or BE.
@@ -99,7 +100,7 @@ class Tx_Oelib_PageFinder {
 				$result = (int)$this->getFrontEndController()->id;
 				break;
 			case self::SOURCE_BACK_END:
-				$result = (int)t3lib_div::_GP('id');
+				$result = (int)GeneralUtility::_GP('id');
 				break;
 			default:
 				$result = 0;
@@ -175,7 +176,7 @@ class Tx_Oelib_PageFinder {
 	 * @return bool TRUE if a back-end page UID has been set, FALSE otherwise
 	 */
 	private function hasBackEnd() {
-		return (int)t3lib_div::_GP('id') > 0;
+		return (int)GeneralUtility::_GP('id') > 0;
 	}
 
 	/**

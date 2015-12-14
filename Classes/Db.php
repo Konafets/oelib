@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides some static database-related functions.
@@ -131,7 +132,7 @@ class Tx_Oelib_Db {
 			if ((self::getFrontEndController() !== NULL) && is_object(self::getFrontEndController()->sys_page)) {
 				self::$pageForEnableFields = self::getFrontEndController()->sys_page;
 			} else {
-				self::$pageForEnableFields = t3lib_div::makeInstance('t3lib_pageSelect');
+				self::$pageForEnableFields = GeneralUtility::makeInstance('t3lib_pageSelect');
 			}
 		}
 	}
@@ -679,7 +680,7 @@ class Tx_Oelib_Db {
 		}
 
 		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
-			t3lib_div::loadTCA($tableName);
+			GeneralUtility::loadTCA($tableName);
 		}
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new BadMethodCallException('The table "' . $tableName . '" has no TCA.', 1331488350);

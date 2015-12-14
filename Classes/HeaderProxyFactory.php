@@ -79,7 +79,7 @@ class tx_oelib_headerProxyFactory {
 		}
 
 		if (!is_object($this->headerProxy) || (get_class($this->headerProxy) !== $className)) {
-			$this->headerProxy = t3lib_div::makeInstance($className);
+			$this->headerProxy = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance($className);
 		}
 
 		return $this->headerProxy;

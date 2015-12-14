@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class provides a registry for translators.
@@ -232,7 +233,7 @@ class Tx_Oelib_TranslatorRegistry {
 			}
 
 			/** @var Tx_Oelib_Translator $translator */
-			$translator = t3lib_div::makeInstance(
+			$translator = GeneralUtility::makeInstance(
 				'Tx_Oelib_Translator',
 				$this->languageKey,
 				$this->alternativeLanguageKey,
@@ -259,14 +260,14 @@ class Tx_Oelib_TranslatorRegistry {
 		}
 
 		$languageFile = t3lib_extmgm::extPath($extensionName) . self::LANGUAGE_FILE_PATH;
-		$localizedLabels = t3lib_div::readLLfile(
+		$localizedLabels = GeneralUtility::readLLfile(
 			$languageFile,
 			$this->languageKey,
 			$this->renderCharset
 		);
 
 		if ($this->alternativeLanguageKey !== '') {
-			$alternativeLocalizedLabels = t3lib_div::readLLfile(
+			$alternativeLocalizedLabels = GeneralUtility::readLLfile(
 				$languageFile,
 				$this->alternativeLanguageKey,
 				$this->renderCharset

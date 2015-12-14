@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This utility class provides some commonly-used functions for handling
@@ -129,7 +130,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 		if (($this->extKey !== '') && Tx_Oelib_ConfigurationProxy::getInstance($this->extKey)->getAsBoolean('enableConfigCheck')) {
 			$configurationCheckClassName = 'tx_' . $this->extKey . '_configcheck';
 			if (class_exists($configurationCheckClassName, TRUE)) {
-				$this->configurationCheck = t3lib_div::makeInstance($configurationCheckClassName, $this);
+				$this->configurationCheck = GeneralUtility::makeInstance($configurationCheckClassName, $this);
 			}
 		}
 
@@ -185,13 +186,13 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 */
 	protected function retrievePageConfig($pageId) {
 		/** @var t3lib_TStemplate $template */
-		$template = t3lib_div::makeInstance('t3lib_TStemplate');
+		$template = GeneralUtility::makeInstance('t3lib_TStemplate');
 		// Disables the logging of time-performance information.
 		$template->tt_track = 0;
 		$template->init();
 
 		/** @var t3lib_pageSelect $page */
-		$page = t3lib_div::makeInstance('t3lib_pageSelect');
+		$page = GeneralUtility::makeInstance('t3lib_pageSelect');
 
 		// Gets the root line.
 		// Finds the selected page in the BE exactly as in t3lib_SCbase::init().
@@ -534,7 +535,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return string[] array of matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		try {
 			return $this->getTemplate()->getPrefixedMarkers($prefix);
@@ -960,7 +961,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return void
 	 */
 	public function setCss() {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		try {
 			$cssEntries = $this->getTemplate()->getPrefixedMarkers('class');
@@ -1114,7 +1115,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	public function createRestrictedImage(
 		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '', $id = ''
 	) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		if ($path === '') {
 			throw new InvalidArgumentException('$path must not be empty.', 1331489502);
@@ -1223,7 +1224,7 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return int the UID of the logged-in FE user or 0 if no FE user is logged in
 	 */
 	public function getFeUserUid() {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$loginManager = Tx_Oelib_FrontEndLoginManager::getInstance();
 		if (!$loginManager->isLoggedIn()) {

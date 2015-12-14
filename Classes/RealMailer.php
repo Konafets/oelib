@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class sends e-mails.
@@ -44,9 +45,9 @@ class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 	public function sendEmail(
 		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
 	) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
-		return t3lib_div::plainMailEncoded(
+		return GeneralUtility::plainMailEncoded(
 			$emailAddress, $subject, $this->formatEmailBody($message), $headers, $encodingType, $charset, $doNotEncodeHeader
 		);
 	}
@@ -69,7 +70,7 @@ class Tx_Oelib_RealMailer extends Tx_Oelib_AbstractMailer {
 	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
 	 */
 	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$this->checkParameters($emailAddress, $subject, $message);
 

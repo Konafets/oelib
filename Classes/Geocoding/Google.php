@@ -164,7 +164,7 @@ class tx_oelib_Geocoding_Google implements tx_oelib_Interface_GeocodingLookup {
 	protected function sendRequest($address) {
 		$baseUrlWithAddress = self::BASE_URL . '&address=';
 
-		return t3lib_div::getURL($baseUrlWithAddress . urlencode($address));
+		return \TYPO3\CMS\Core\Utility\GeneralUtility::getURL($baseUrlWithAddress . urlencode($address));
 	}
 
 	/**

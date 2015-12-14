@@ -41,7 +41,7 @@ class tx_oelib_TestingFrameworkCleanup {
 		Tx_Oelib_TranslatorRegistry::purgeInstance();
 
 		/** @var Tx_Oelib_MailerFactory $mailerFactory */
-		$mailerFactory = t3lib_div::makeInstance('Tx_Oelib_MailerFactory');
+		$mailerFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('Tx_Oelib_MailerFactory');
 		$mailerFactory->cleanUp();
 	}
 }

@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Test case.
@@ -69,12 +70,12 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$this->finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
 			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($this->finalMailMessageClassName, $this->message1);
+		GeneralUtility::addInstance($this->finalMailMessageClassName, $this->message1);
 	}
 
 	protected function tearDown() {
-		// Get any surplus instances added via t3lib_div::addInstance.
-		t3lib_div::makeInstance('t3lib_mail_Message');
+		// Get any surplus instances added via \TYPO3\CMS\Core\Utility\GeneralUtility::addInstance.
+		GeneralUtility::makeInstance('t3lib_mail_Message');
 
 		$this->subject->cleanUp();
 
@@ -140,7 +141,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
+		GeneralUtility::addInstance($this->finalMailMessageClassName, $message2);
 
 		$this->subject->sendEmail(
 			$this->email['recipient'],
@@ -166,7 +167,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$message2 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($this->finalMailMessageClassName, $message2);
+		GeneralUtility::addInstance($this->finalMailMessageClassName, $message2);
 
 		$this->subject->sendEmail(
 			$this->email['recipient'],

@@ -52,7 +52,7 @@ class Tx_Oelib_Tests_Unit_DbTest extends Tx_Phpunit_TestCase {
 			return array();
 		}
 
-		$numbers = t3lib_div::intExplode(',', $valueList);
+		$numbers = \TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $valueList);
 		sort($numbers, SORT_NUMERIC);
 
 		return $numbers;

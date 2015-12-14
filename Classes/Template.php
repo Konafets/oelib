@@ -11,6 +11,7 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This class represents a HTML template with markers (###MARKER###) and
@@ -108,7 +109,7 @@ class Tx_Oelib_Template {
 	 */
 	public function processTemplateFromFile($fileName) {
 		$this->processTemplate(
-			file_get_contents(t3lib_div::getFileAbsFileName($fileName))
+			file_get_contents(GeneralUtility::getFileAbsFileName($fileName))
 		);
 	}
 
@@ -203,7 +204,7 @@ class Tx_Oelib_Template {
 	 * @return string[] matching marker names, might be empty
 	 */
 	public function getPrefixedMarkers($prefix) {
-		t3lib_div::logDeprecatedFunction();
+		GeneralUtility::logDeprecatedFunction();
 
 		$upperCasePrefix = strtoupper($prefix) . '_';
 
@@ -375,7 +376,7 @@ class Tx_Oelib_Template {
 	 * @return void
 	 */
 	public function hideSubparts($subparts, $prefix = '') {
-		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
+		$subpartNames = GeneralUtility::trimExplode(',', $subparts, TRUE);
 
 		$this->hideSubpartsArray($subpartNames, $prefix);
 	}
@@ -435,9 +436,9 @@ class Tx_Oelib_Template {
 	public function unhideSubparts(
 		$subparts, $permanentlyHiddenSubparts = '', $prefix = ''
 	) {
-		$subpartNames = t3lib_div::trimExplode(',', $subparts, TRUE);
+		$subpartNames = GeneralUtility::trimExplode(',', $subparts, TRUE);
 
-		$hiddenSubpartNames = t3lib_div::trimExplode(
+		$hiddenSubpartNames = GeneralUtility::trimExplode(
 			',', $permanentlyHiddenSubparts, TRUE
 		);
 
