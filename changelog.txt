@@ -8,6 +8,7 @@ Bug fixes:
 Cleanup:
 
 Changes:
+- [#5416] Update the static_info_tables version dependencies
 - [#5406] Require TYPO3 6.2 and PHP 5.5
 
 
