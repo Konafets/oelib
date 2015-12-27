@@ -28,10 +28,8 @@ Tutorial
    UsingTheTemplateHelperAndSalutationSwitching/Index
    UsingLocallangxmlInTheBackEnd/Index
    UsingTheAutomaticConfigurationCheckForExtensions/Index
-   MeasuringPerformance/Index
    UsingTheTestingFrameworkForUnitTests/Index
    UsingTheConfigurationProxy/Index
-   SendE-mailsAndTestThemInsteadOfSending/Index
    StoreHttpHeadersForTestingThemInsteadOfSendingThem/Index
    UsingTheSessionAbstraction/Index
    UsingTheVisibilityTreeForShowingAndHidingNestedSubparts/Index

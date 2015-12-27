@@ -14,9 +14,7 @@
 
 /**
  * This class returns either an instance of the Tx_Oelib_RealMailer which sends
- * e-mails or an instance of the Tx_Oelib_EmailCollector. The collector stores
- * the data provided to sendEmail() and does not send it. This mode is for
- * testing purposes.
+ * e-mails or an instance of the Tx_Oelib_EmailCollector.
  *
  * @package TYPO3
  * @subpackage tx_oelib

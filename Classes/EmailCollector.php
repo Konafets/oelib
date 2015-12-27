@@ -16,8 +16,6 @@
  * This class stores all parameters which were meant to be sent as an e-mail and
  * provides various functions to get them for testing purposes.
  *
- * Regarding the Strategy pattern, sendEmail() represents one concrete behavior.
- *
  * @package TYPO3
  * @subpackage tx_oelib
  *
@@ -34,11 +32,6 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 * @var array[]
 	 */
 	private $emailData = array();
-
-	/**
-	 * @var bool whether sendEmail() should always return TRUE
-	 */
-	private $fakeSuccess = TRUE;
 
 	/**
 	 * @var t3lib_mail_Message[]
@@ -62,61 +55,6 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	}
 
 	/**
-	 * Stores the contents which were meant to be sent as an e-mail.
-	 *
-	 * @deprecated 2014-08-28 use send instead
-	 *
-	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
-	 * @param string $subject e-mail subject, must not be empty
-	 * @param string $message message to send, must not be empty
-	 * @param string $headers headers, separated by linefeed, may be empty
-	 * @param string $encodingType encoding type: "quoted-printable" or "8bit"
-	 * @param string $charset
-	 *        charset to use for encoding headers (only if $encodingType is set to a valid value which produces such a header)
-	 * @param bool $doNotEncodeHeader if set, the header content will not be encoded
-	 *
-	 * @return bool depending on whether success should be faked or not
-	 */
-	public function sendEmail(
-		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
-	) {
-		t3lib_div::logDeprecatedFunction();
-
-		$this->emailData[] = array(
-			'recipient' => $emailAddress,
-			'subject' => t3lib_div::encodeHeader($subject, 'quoted-printable'),
-			'message' => $this->formatEmailBody($message),
-			'headers' => $headers,
-		);
-
-		return $this->fakeSuccess;
-	}
-
-	/**
-	 * Sends an e-mail.
-	 *
-	 * This function can handle plain-text and multi-part e-mails.
-	 *
-	 * @deprecated 2014-08-28 use send instead
-	 *
-	 * @param string $emailAddress the recipient's e-mail address, will not be validated, must not be empty
-	 * @param string $subject e-mail subject, must not be empty
-	 * @param string $message message to send, must not be empty
-	 * @param string $headers headers, separated by linefeed, may be empty
-	 * @param string $additionalParameters
-	 *        additional parameters to pass to the mail program as command line arguments
-	 *
-	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
-	 */
-	public function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '') {
-		t3lib_div::logDeprecatedFunction();
-
-		$this->checkParameters($emailAddress, $subject, $message);
-
-		return $this->sendEmail($emailAddress, $subject, $message, $headers);
-	}
-
-	/**
 	 * Sends a Swift e-mail.
 	 *
 	 * @param t3lib_mail_Message $email the e-mail to send.
@@ -125,17 +63,6 @@ class Tx_Oelib_EmailCollector extends Tx_Oelib_AbstractMailer {
 	 */
 	protected function sendSwiftMail(t3lib_mail_Message $email) {
 		$this->sentEmails[] = $email;
-	}
-
-	/**
-	 * Sets the return value for sendEmail().
-	 *
-	 * @param bool $isSuccessful TRUE if sendEmail() should return TRUE, FALSE otherwise
-	 *
-	 * @return void
-	 */
-	public function setFakedReturnValue($isSuccessful) {
-		$this->fakeSuccess = $isSuccessful;
 	}
 
 	/**

@@ -1087,77 +1087,6 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	}
 
 	/**
-	 * Creates an IMG for a resized image version of $path.
-	 * If the image cannot be created, the ALT text is returned instead.
-	 *
-	 * Note: When this function is unit-tested in the BE, the image tag's src
-	 * attribute will always contain an empty string because the handling of
-	 * relative paths by cObject::IMAGE is broken.
-	 *
-	 * In the FE, the src attribute is correctly filled with the URI of the
-	 * resized image.
-	 *
-	 * @deprecated 2014-09-02 use the TYPO3 image functions instead
-	 *
-	 * @throws InvalidArgumentException if $path is empty
-	 *
-	 * @param string $path path to of the original image, must be relative to the TYPO3 root or start with EXT:, must not be empty
-	 * @param string $altText alt text, may be empty
-	 * @param int $maxWidth max width in pixels, set to zero to set no limit
-	 * @param int $maxHeight max height in pixels, set to zero to set no limit
-	 * @param int $maxArea (unused, must be zero)
-	 * @param string $titleText title text, may be empty
-	 * @param string $id HTML ID for the image, may be empty
-	 *
-	 * @return string IMG tag (or alt text), will not be empty
-	 */
-	public function createRestrictedImage(
-		$path, $altText = '', $maxWidth = 0, $maxHeight = 0, $maxArea = 0, $titleText = '', $id = ''
-	) {
-		t3lib_div::logDeprecatedFunction();
-
-		if ($path === '') {
-			throw new InvalidArgumentException('$path must not be empty.', 1331489502);
-		}
-		if ($maxArea !== 0) {
-			throw new InvalidArgumentException('$maxArea is not used anymore and must be zero.', 1331489515);
-		}
-
-		$imageConfiguration = array(
-			'file' => $path,
-			'file.' => array(),
-			'altText' => $altText,
-			'titleText' => $titleText,
-		);
-
-		if ($maxWidth > 0) {
-			$imageConfiguration['file.']['maxW'] = $maxWidth;
-		}
-		if ($maxHeight > 0) {
-			$imageConfiguration['file.']['maxH'] = $maxHeight;
-		}
-		if ($id !== '') {
-			$imageConfiguration['params'] = 'id="' . $id . '"';
-		}
-
-		if (class_exists('TYPO3\\CMS\\Core\\Resource\\Exception\\FileDoesNotExistException', TRUE)) {
-			try {
-				$result = $this->cObj->IMAGE($imageConfiguration);
-			} catch (\TYPO3\CMS\Core\Resource\Exception\FileDoesNotExistException $exception) {
-				$result = NULL;
-			}
-		} else {
-			$result = $this->cObj->IMAGE($imageConfiguration);
-		}
-
-		if (($result === NULL) || ($result === '') || (strpos($result, 'src=""') !== FALSE)) {
-			$result = htmlspecialchars($altText);
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Extracts a value within listView.
 	 *
 	 * @param string $fieldName TS setup field name to extract (within listView.), must not be empty
@@ -1212,25 +1141,6 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 */
 	public function getListViewConfValueBoolean($fieldName) {
 		return (bool)$this->getListViewConfigurationValue($fieldName);
-	}
-
-	/**
-	 * Returns the UID of the currently logged-in FE user
-	 * or 0 if no FE user is logged in.
-	 *
-	 * @deprecated 2013-02-09 use Tx_Oelib_FrontEndLoginManager::getLoggedInUser instead
-	 *
-	 * @return int the UID of the logged-in FE user or 0 if no FE user is logged in
-	 */
-	public function getFeUserUid() {
-		t3lib_div::logDeprecatedFunction();
-
-		$loginManager = Tx_Oelib_FrontEndLoginManager::getInstance();
-		if (!$loginManager->isLoggedIn()) {
-			return 0;
-		}
-
-		return $loginManager->getLoggedInUser()->getUid();
 	}
 
 	/**

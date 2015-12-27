@@ -36,57 +36,6 @@ abstract class Tx_Oelib_AbstractMailer {
 	}
 
 	/**
-	 * Sends a plain-text e-mail.
-	 *
-	 * Note: This function cannot handle multi-part e-mails.
-	 *
-	 * @deprecated 2014-08-28 use send instead
-	 *
-	 * @param string $emailAddress
-	 *        the recipient's e-mail address, will not be validated, must not be empty
-	 * @param string $subject
-	 *        e-mail subject, must not be empty
-	 * @param string $message
-	 *        message to send, must not be empty
-	 * @param string $headers
-	 *        headers, separated by linefeed, may be empty
-	 * @param string $encodingType
-	 *        encoding type: "quoted-printable" or "8bit"
-	 * @param string $charset
-	 *        charset to use for encoding headers (only if $encodingType is set
-	 *        to a valid value which produces such a header)
-	 * @param bool $doNotEncodeHeader
-	 *        if set, the header content will not be encoded
-	 *
-	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
-	 */
-	public abstract function sendEmail(
-		$emailAddress, $subject, $message, $headers = '', $encodingType = '', $charset = '', $doNotEncodeHeader = FALSE
-	);
-
-	/**
-	 * Sends an e-mail.
-	 *
-	 * This function can handle plain-text and multi-part e-mails.
-	 *
-	 * @deprecated 2014-08-28 use send instead
-	 *
-	 * @param string $emailAddress
-	 *        the recipient's e-mail address, will not be validated, must not be empty
-	 * @param string $subject
-	 *        e-mail subject, must not be empty
-	 * @param string $message
-	 *        message to send, must not be empty
-	 * @param string $headers
-	 *        headers, separated by linefeed, may be empty
-	 * @param string $additionalParameters
-	 *        additional parameters to pass to the mail program as command line arguments
-	 *
-	 * @return bool TRUE if the e-mail was sent, FALSE otherwise
-	 */
-	public abstract function mail($emailAddress, $subject, $message, $headers = '', $additionalParameters = '');
-
-	/**
 	 * Sends an Tx_Oelib_Mail object (one separate message per recipient).
 	 *
 	 * @param Tx_Oelib_Mail $email the Tx_Oelib_Mail object to send
@@ -231,38 +180,6 @@ abstract class Tx_Oelib_AbstractMailer {
 		$body = preg_replace('/\n{2,}/', LF . LF, $body);
 
 		return trim($body);
-	}
-
-	/**
-	 * Checks that none of the parameters is empty and throws an exception if one of them is empty.
-	 *
-	 * @deprecated 2014-08-28
-	 *
-	 * @param string $emailAddress
-	 *        the recipient's e-mail address, will not be validated, must not be empty
-	 * @param string $subject
-	 *        e-mail subject, must not be empty
-	 * @param string $message
-	 *        message to send, must not be empty
-	 *
-	 * @return void
-	 *
-	 * @throws InvalidArgumentException
-	 */
-	protected function checkParameters($emailAddress, $subject, $message) {
-		t3lib_div::logDeprecatedFunction();
-
-		if ($emailAddress === '') {
-			throw new InvalidArgumentException('$emailAddress must not be empty.', 1331318731);
-		}
-
-		if ($subject === '') {
-			throw new InvalidArgumentException('$subject must not be empty.', 1331318747);
-		}
-
-		if ($message === '') {
-			throw new InvalidArgumentException('$message must not be empty.', 1331318756);
-		}
 	}
 
 	/**

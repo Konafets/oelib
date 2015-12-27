@@ -384,38 +384,6 @@ class Tx_Oelib_ConfigCheck {
 	}
 
 	/**
-	 * Checks the CSS class names provided in the TS setup for validity.
-	 * Empty values are considered as valid.
-	 *
-	 * @deprecated 2015-03-01
-	 *
-	 * @return void
-	 */
-	protected function checkCssClassNames() {
-		t3lib_div::logDeprecatedFunction();
-
-		$cssEntries = $this->objectToCheck->getPrefixedMarkers('class');
-
-		foreach ($cssEntries as $currentCssEntry) {
-			$setupVariable = strtolower($currentCssEntry);
-			$cssClassName = $this->objectToCheck->getConfValueString($setupVariable);
-			if (!preg_match('/^[A-Za-z0-9\-_\:\.]*$/', $cssClassName)) {
-				$message = 'The specified CSS class name <strong>'
-					.htmlspecialchars($cssClassName)
-					.'</strong> is invalid. '
-					.'This will cause the class to not get correctly applied '
-					.'in web browsers. '
-					.'Please set the TS setup variable <strong>'
-					.$this->getTSSetupPath().$setupVariable
-					.'</strong> to a valid CSS class or an empty string.';
-				$this->setErrorMessage($message);
-			}
-		}
-	}
-
-
-
-	/**
 	 * Checks whether a configuration value contains a non-empty-string.
 	 *
 	 * @param string $fieldName
@@ -1750,98 +1718,6 @@ class Tx_Oelib_ConfigCheck {
 			FALSE,
 			$explanation
 		);
-	}
-
-	/**
-	 * Checks whether the locale is set correctly.
-	 *
-	 * @deprecated 2015-01-12
-	 *
-	 * @return void
-	 */
-	public function checkLocale() {
-		t3lib_div::logDeprecatedFunction();
-
-		// Skip this check if Windows is used to avoid a crash of the
-		// TYPO3-Winstaller.
-		if (TYPO3_OS === 'WIN') {
-			return;
-		}
-
-		$message = '';
-		$installedLocales = $this->getInstalledLocales();
-		$frontEndController = $this->getFrontEndController();
-		$valueToCheck = isset($frontEndController->config['config']['locale_all'])
-			? $frontEndController->config['config']['locale_all'] : '';
-
-		if (empty($installedLocales)) {
-			$message = 'There are no locales installed on this web server. Please '
-				.'install at least one locale. Otherwise, displayed numbers will '
-				.'not be formatted correctly.';
-		} else {
-			if (empty($valueToCheck)) {
-				$message = 'The locale is not configured yet. Please set '
-					.'<strong>config.locale_all</strong> in your main template. ';
-			} elseif (!$this->isAllowedLocale($valueToCheck)) {
-				$message = 'The locale is set to <strong>'.$valueToCheck
-					.'</strong>, but this locale is not installed on this '
-					.'web server. Please either install the locale <strong>'
-					.$valueToCheck.'</strong> or choose one of the installed '
-					.'locales for <strong>config.locale_all</strong> in your '
-					.'main template. ';
-			}
-
-			if ($message !== '') {
-				$message .= 'Locales which are installed and therefore available '
-					.'are <strong>'.implode(', ', $installedLocales).'</strong>. '
-					.'If you intend to set another locale, you need to install '
-					.'it on this web server first.';
-			}
-		}
-
-		$this->setErrorMessage($message);
-	}
-
-	/**
-	 * Checks whether the key of the locale is within the set of installed
-	 * locales.
-	 *
-	 * @param string $localeKey
-	 *        key of a locale, must not be empty
-	 *
-	 * @return bool whether the locale key is the key of an installed locale
-	 */
-	private function isAllowedLocale($localeKey) {
-		// "UTF-8" is interpreted equally to "utf8". Therefore "-" need to be
-		// stripped before comparing the keys.
-		$unifiedLocaleKey = str_replace('-', '', strtolower($localeKey));
-
-		$allowedLocales = array();
-		foreach ($this->getInstalledLocales() as $key) {
-			$allowedLocales[] = str_replace('-', '', strtolower($key));
-		}
-
-		return in_array($unifiedLocaleKey, $allowedLocales, TRUE);
-	}
-
-	/**
-	 * Returns the keys of the locales installed on this web server.
-	 *
-	 * @return string[] locales installed on this web server, will be empty if there are none
-	 */
-	public function getInstalledLocales() {
-		$result = array();
-
-		foreach (t3lib_div::trimExplode(LF, shell_exec('locale -a'), TRUE)
-			as $localeKey
-		) {
-			// The output of "locale -a" contains more lines than we need.
-			if (strpos($localeKey, '_') !== FALSE) {
-				$result[] = $localeKey;
-			}
-		}
-
-		return $result;
 	}
 
 	/**
