@@ -425,7 +425,7 @@ as bold.
          2010-05-27
 
    Removed
-         0.8.0 + 1
+         0.9.0
 
 
 .. container:: table-row
@@ -440,7 +440,7 @@ as bold.
          2010-07-22
 
    Removed
-         0.8.0 + 1
+         0.9.0
 
 
 .. container:: table-row
@@ -455,7 +455,7 @@ as bold.
          2010-09-23
 
    Removed
-         0.8.0 + 1
+         0.9.0
 
 
 .. container:: table-row
@@ -470,7 +470,7 @@ as bold.
          2013-02-09
 
    Removed
-         0.8.0 + 1
+         0.9.0
 
 
 .. container:: table-row
@@ -485,7 +485,7 @@ as bold.
          2010-10-11
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -500,7 +500,7 @@ as bold.
          2014-04-11
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -515,7 +515,7 @@ as bold.
          2014-04-12
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -530,7 +530,7 @@ as bold.
          2014-08-28
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -545,7 +545,7 @@ as bold.
          2014-08-28
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -560,7 +560,7 @@ as bold.
          2014-08-28
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -575,7 +575,7 @@ as bold.
          2014-09-01
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -590,7 +590,7 @@ as bold.
          2014-09-01
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 
 .. container:: table-row
@@ -604,7 +604,7 @@ as bold.
          2015-01-12
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 .. container:: table-row
 
@@ -617,7 +617,7 @@ as bold.
          2015-02-28
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 .. container:: table-row
 
@@ -630,7 +630,7 @@ as bold.
          2015-03-01
 
    Removed
-         0.8.0 + 2
+         0.9.0 + 1
 
 .. container:: table-row
 
@@ -643,7 +643,7 @@ as bold.
          2015-03-01
 
    Removed
-         0.8.0 + 3
+         0.9.0 + 2
 
 .. container:: table-row
 
@@ -656,6 +656,32 @@ as bold.
          2015-03-01
 
    Removed
-         0.8.0 + 3
+         0.9.0 + 2
+
+.. container:: table-row
+
+   Classmethod
+         Tx\_Oelib\_TemplateHelper::getStoragePid
+
+   Successor
+
+   Deprecated
+         2015-12-28
+
+   Removed
+         0.9.0 + 2
+
+.. container:: table-row
+
+   Classmethod
+         Tx\_Oelib\_TemplateHelper::hasStoragePid
+
+   Successor
+
+   Deprecated
+         2015-12-28
+
+   Removed
+         0.9.0 + 2
 
 .. ###### END~OF~TABLE ######

@@ -1266,6 +1266,8 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 	 * @return int the general record storage PID for the current page, will be 0 if the page has no storage page set
 	 */
 	public function getStoragePid() {
+		t3lib_div::logDeprecatedFunction();
+
 		$pageData = $this->getFrontEndController()->getStorageSiterootPids();
 
 		return $pageData['_STORAGE_PID'];
