@@ -42,17 +42,10 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateWithLanguageEnglishReturnsEnglishLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$localizedLabels = array(
-				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
-				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
-			);
-		} else {
-			$localizedLabels = array(
-				'default' => array('label_test' => 'English'),
-				'de' => array('label_test' => 'Deutsch'),
-			);
-		}
+		$localizedLabels = array(
+			'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+			'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+		);
 		$subject = new Tx_Oelib_Translator('default', '', $localizedLabels);
 
 		self::assertSame(
@@ -65,17 +58,10 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateWithLanguageGermanReturnsGermanLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$localizedLabels = array(
-				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
-				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
-			);
-		} else {
-			$localizedLabels = array(
-				'default' => array('label_test' => 'English'),
-				'de' => array('label_test' => 'Deutsch'),
-			);
-		}
+		$localizedLabels = array(
+			'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+			'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+		);
 		$subject = new Tx_Oelib_Translator('de', '', $localizedLabels);
 
 		self::assertSame(
@@ -88,15 +74,9 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInGermanWithEmptyAlternativeLanguageWithLanguageGermanReturnsEnglishLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$localizedLabels = array(
-				'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
-			);
-		} else {
-			$localizedLabels = array(
-				'default' => array('label_test' => 'English'),
-			);
-		}
+		$localizedLabels = array(
+			'default' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'English'))),
+		);
 		$subject = new Tx_Oelib_Translator('de', '', $localizedLabels);
 
 		self::assertSame(
@@ -109,15 +89,9 @@ class Tx_Oelib_Tests_Unit_TranslatorTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function translateForLabelInexistentInEnglishAndAlternativeLanguageGermanReturnsGermanLabel() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$localizedLabels = array(
-				'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
-			);
-		} else {
-			$localizedLabels = array(
-				'de' => array('label_test' => 'Deutsch'),
-			);
-		}
+		$localizedLabels = array(
+			'de' => array('label_test' => array(0 => array('source' => 'English', 'target' => 'Deutsch'))),
+		);
 		$subject = new Tx_Oelib_Translator('default', 'de', $localizedLabels);
 
 		self::assertSame(

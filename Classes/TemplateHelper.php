@@ -154,8 +154,6 @@ class Tx_Oelib_TemplateHelper extends Tx_Oelib_SalutationSwitcher {
 
 		$frontEnd = $this->getFrontEndController();
 		// TSFE->cObj will be an empty string if not initialized, not NULL.
-		// In addition, the specific class name will depend on whether we are on TYPO3 CMS < 6.0 or >= 6.0.
-		// We want to avoid using t3lib_utility_VersionNumber here, though.
 		if (is_object($frontEnd->cObj)) {
 			$this->cObj = $frontEnd->cObj;
 		}

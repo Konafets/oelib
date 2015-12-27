@@ -37,15 +37,9 @@ class Tx_Oelib_Tests_Unit_TemplateTest extends Tx_Phpunit_TestCase {
 
 		$this->subject = new Tx_Oelib_Template();
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$localizedLabels = array(
-				'default' => array('label_foo' => array(0 => array('source' => 'foo', 'target' => 'foo'))),
-			);
-		} else {
-			$localizedLabels = array(
-				'default' => array('label_foo' => 'foo'),
-			);
-		}
+		$localizedLabels = array(
+			'default' => array('label_foo' => array(0 => array('source' => 'foo', 'target' => 'foo'))),
+		);
 		$translator = new Tx_Oelib_Translator('de', '', $localizedLabels);
 		$this->subject->injectTranslator($translator);
 	}

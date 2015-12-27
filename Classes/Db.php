@@ -300,7 +300,7 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return mysqli_result|resource MySQL result pointer
+	 * @return mysqli_result MySQL result
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws tx_oelib_Exception_Database if an error has occurred
@@ -678,9 +678,6 @@ class Tx_Oelib_Db {
 			throw new BadMethodCallException('The table "' . $tableName . '" does not exist.', 1331488344);
 		}
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
-			t3lib_div::loadTCA($tableName);
-		}
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new BadMethodCallException('The table "' . $tableName . '" has no TCA.', 1331488350);
 		}

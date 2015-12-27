@@ -135,27 +135,6 @@ class Tx_Oelib_TranslatorRegistry {
 	}
 
 	/**
-	 * Returns the charset for a given language code.
-	 *
-	 * @param string $languageCode the language code to get the charset for, must not be empty
-	 *
-	 * @return string the charset for the given language code, will not be empty
-	 */
-	private function getCharsetOfLanguage($languageCode) {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
-			return 'utf-8';
-		}
-
-		if (isset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
-			return $this->charsetConversion->parse_charset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']);
-		}
-
-		$charset = (string)$this->charsetConversion->charSetArray[$languageCode];
-
-		return ($charset !== '') ? $charset : self::DEFAULT_CHARSET;
-	}
-
-	/**
 	 * Returns the instance of this class.
 	 *
 	 * @return Tx_Oelib_TranslatorRegistry the current Singleton instance
@@ -221,13 +200,8 @@ class Tx_Oelib_TranslatorRegistry {
 			) {
 				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
 
-				$version = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version);
 				foreach ($labelsFromTyposcript as $labelKey => $labelFromTyposcript) {
-					if ($version >= 4006000) {
-						$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;
-					} else {
-						$localizedLabels[$this->languageKey][$labelKey] = $labelFromTyposcript;
-					}
+					$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;
 				}
 			}
 
@@ -297,7 +271,6 @@ class Tx_Oelib_TranslatorRegistry {
 		}
 
 		$result = array();
-		$sourceCharset = $this->getCharsetOfLanguage($this->languageKey);
 		$namespace = 'plugin.tx_' . $extensionName . '._LOCAL_LANG.' . $this->languageKey;
 
 		$configuration = Tx_Oelib_ConfigurationRegistry::get($namespace);
@@ -306,7 +279,7 @@ class Tx_Oelib_TranslatorRegistry {
 			// charset.
 			$result[$key] =	$this->charsetConversion->conv(
 				$configuration->getAsString($key),
-				$sourceCharset,
+				'utf-8',
 				$this->renderCharset,
 				TRUE
 			);

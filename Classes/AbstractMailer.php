@@ -69,7 +69,7 @@ abstract class Tx_Oelib_AbstractMailer {
 
 		$sender = $email->getSender();
 		$swiftMail->setFrom(array($sender->getEmailAddress() => $sender->getName()));
-		$swiftMail->setCharset($this->getCharacterSet());
+		$swiftMail->setCharset('utf-8');
 
 		$returnPath = $email->getReturnPath();
 		if ($returnPath !== '') {
@@ -180,19 +180,5 @@ abstract class Tx_Oelib_AbstractMailer {
 		$body = preg_replace('/\n{2,}/', LF . LF, $body);
 
 		return trim($body);
-	}
-
-	/**
-	 * Retrieves the current character set used by TYPO3.
-	 *
-	 * @return string the current character set, e.g. utf-8
-	 */
-	private function getCharacterSet() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
-			return 'utf-8';
-		}
-
-		$charset = (string)$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
-		return ($charset !== '') ? $charset : 'utf-8';
 	}
 }

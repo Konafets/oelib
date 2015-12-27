@@ -30,11 +30,6 @@ final class Tx_Oelib_TestingFramework {
 	const AUTO_INCREMENT_THRESHOLD_WITHOUT_ROOTLINE_CACHE = 100;
 
 	/**
-	 * @var int
-	 */
-	const AUTO_INCREMENT_THRESHOLD_WITH_ROOTLINE_CACHE = 5000;
-
-	/**
 	 * prefix of the extension for which this instance of the testing framework
 	 * was instantiated (e.g. "tx_seminars")
 	 *
@@ -74,7 +69,8 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	protected $allowedSystemTables = array(
 		'be_users', 'fe_groups', 'fe_users', 'pages', 'sys_template',
-		'tt_content', 'be_groups'
+		'tt_content', 'be_groups', 'sys_file', 'sys_file_collection',
+		'sys_file_reference', 'sys_category', 'sys_category_record_mm'
 	);
 
 	/**
@@ -195,13 +191,6 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->determineAndSetAutoIncrementThreshold();
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
-			$this->allowedSystemTables = array_merge(
-				$this->allowedSystemTables,
-				array('sys_file', 'sys_file_collection', 'sys_file_reference', 'sys_category', 'sys_category_record_mm')
-			);
-		}
-
 		/** @var array $rootLineCacheConfiguration */
 		$rootLineCacheConfiguration = (array) $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_rootline'];
 		$rootLineCacheConfiguration['backend'] = 't3lib_cache_backend_NullBackend';
@@ -217,10 +206,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @return void
 	 */
 	protected function determineAndSetAutoIncrementThreshold() {
-		$resetAutoIncrementThreshold = ($this->hasRootlineCache() && !$this->hasRootlineCachePurgingFunction())
-			? self::AUTO_INCREMENT_THRESHOLD_WITH_ROOTLINE_CACHE : self::AUTO_INCREMENT_THRESHOLD_WITHOUT_ROOTLINE_CACHE;
-
-		$this->setResetAutoIncrementThreshold($resetAutoIncrementThreshold);
+		$this->setResetAutoIncrementThreshold(self::AUTO_INCREMENT_THRESHOLD_WITHOUT_ROOTLINE_CACHE);
 	}
 
 	/**
@@ -806,9 +792,7 @@ final class Tx_Oelib_TestingFramework {
 			}
 		}
 
-		if ($this->hasRootlineCachePurgingFunction()) {
-			\TYPO3\CMS\Core\Utility\RootlineUtility::purgeCaches();
-		}
+		\TYPO3\CMS\Core\Utility\RootlineUtility::purgeCaches();
 	}
 
 	/**
@@ -1306,10 +1290,8 @@ final class Tx_Oelib_TestingFramework {
 		$GLOBALS['_GET']['FE_SESSION_KEY'] = '';
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
 
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication']
-				= array('className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies');
-		}
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication']
+			= array('className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies');
 	}
 
 
@@ -2007,23 +1989,5 @@ final class Tx_Oelib_TestingFramework {
 	 */
 	protected function getFrontEndController() {
 		return $GLOBALS['TSFE'];
-	}
-
-	/**
-	 * Checks whether the TYPO3 CMS Core has a rootline cache.
-	 *
-	 * @return bool
-	 */
-	public function hasRootlineCache() {
-		return t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000;
-	}
-
-	/**
-	 * Checks whether the TYPO3 CMS core has a function for purging the rootline cache.
-	 *
-	 * @return bool
-	 */
-	public function hasRootlineCachePurgingFunction() {
-		return $this->hasRootlineCache() && method_exists('TYPO3\\CMS\\Core\\Utility\\RootlineUtility', 'purgeCaches');
 	}
 }

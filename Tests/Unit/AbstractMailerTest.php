@@ -52,11 +52,6 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 	);
 
 	/**
-	 * @var string
-	 */
-	protected $finalMailMessageClassName = '';
-
-	/**
 	 * @var bool
 	 */
 	protected $deprecationLogEnabledBackup = FALSE;
@@ -66,10 +61,8 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$this->subject = new Tx_Oelib_EmailCollector();
 
-		$this->finalMailMessageClassName = t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 6000000
-			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
 		$this->message1 = $this->getMock('t3lib_mail_Message', array('send', '__destruct'));
-		t3lib_div::addInstance($this->finalMailMessageClassName, $this->message1);
+		t3lib_div::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message1);
 	}
 
 	protected function tearDown() {
@@ -80,25 +73,6 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = $this->deprecationLogEnabledBackup;
 	}
-
-	/*
-	 * Utility functions
-	 */
-
-	/**
-	 * Gets the current character set in TYPO3, e.g., "utf-8".
-	 *
-	 * @return string the current character set, will not be empty
-	 */
-	private function getCharacterSet() {
-		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
-			return 'utf-8';
-		}
-
-		$charset = (string) $GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
-		return ($charset !== '') ? $charset : 'utf-8';
-	}
-
 
 	/*
 	 * Tests concerning send
@@ -407,7 +381,7 @@ class Tx_Oelib_Tests_Unit_AbstractMailerTest extends Tx_Phpunit_TestCase {
 		$this->subject->send($eMail);
 
 		self::assertSame(
-			$this->getCharacterSet(),
+			'utf-8',
 			$this->subject->getFirstSentEmail()->getCharset()
 		);
 	}

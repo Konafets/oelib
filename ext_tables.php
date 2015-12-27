@@ -44,11 +44,9 @@ $GLOBALS['TCA']['tx_oelib_testchild'] = array(
 	),
 );
 
-$addToFeInterface = (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) < 6002000);
 t3lib_extMgm::addTCAcolumns(
 	'fe_users',
 	array(
 		'tx_oelib_is_dummy_record' => array(),
-	),
-	$addToFeInterface
+	)
 );
