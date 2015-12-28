@@ -45,8 +45,8 @@ model in oelib as an example:
 
 ::
 
-   class tx_oelib_Model_FrontEndUser extends tx_oelib_Model implements
-         tx_oelib_Interface_MailRole, tx_oelib_Interface_Address
+   class tx_oelib_Model_FrontEndUser extends Tx_Oelib_Model implements
+         Tx_Oelib_Interface_MailRole, tx_oelib_Interface_Address
    {
          /**
         * Gets this user's user name.
