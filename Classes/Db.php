@@ -132,7 +132,7 @@ class Tx_Oelib_Db {
 			if ((self::getFrontEndController() !== NULL) && is_object(self::getFrontEndController()->sys_page)) {
 				self::$pageForEnableFields = self::getFrontEndController()->sys_page;
 			} else {
-				self::$pageForEnableFields = GeneralUtility::makeInstance('\TYPO3\CMS\Frontend\Page\PageRepository');
+				self::$pageForEnableFields = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\Page\PageRepository');
 			}
 		}
 	}
