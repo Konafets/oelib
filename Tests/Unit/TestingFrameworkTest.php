@@ -493,18 +493,18 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$pid = $this->subject->createFrontEndPage(0, array('title' => 'foo'));
 		$uid = $this->subject->createContentElement(
 			$pid,
-			array('titleText' => 'foo')
+			array('header' => 'foo')
 		);
 
 		$this->subject->changeRecord(
 			'tt_content',
 			$uid,
-			array('titleText' => 'bar')
+			array('header' => 'bar')
 		);
 
 		self::assertSame(
 			1,
-			$this->subject->countRecords('tt_content', 'uid=' . $uid .' AND titleText="bar"')
+			$this->subject->countRecords('tt_content', 'uid=' . $uid .' AND header="bar"')
 		);
 	}
 
@@ -4413,6 +4413,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesGlobalFrontEnd() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
@@ -4424,6 +4425,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createFakeFrontEndReturnsPositivePageUidIfCalledWithoutParameters() {
+		$this->subject->createFrontEndPage();
 		self::assertGreaterThan(
 			0,
 			$this->subject->createFakeFrontEnd()
@@ -4435,6 +4437,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndReturnsCurrentFrontEndPageUid() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$result = $this->subject->createFakeFrontEnd();
 
 		self::assertSame(
@@ -4448,6 +4451,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesNullTimeTrackInstance() {
 		$GLOBALS['TT'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
@@ -4460,6 +4464,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesSysPage() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertInstanceOf(
@@ -4473,6 +4478,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesFrontEndUser() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertInstanceOf(
@@ -4486,6 +4492,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesContentObject() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertInstanceOf(
@@ -4499,6 +4506,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesTemplate() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
@@ -4547,6 +4555,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 	public function createFakeFrontEndCreatesConfiguration() {
 		$GLOBALS['TSFE'] = NULL;
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
@@ -4558,6 +4567,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginUserIsFalseAfterCreateFakeFrontEnd() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertSame(
@@ -4570,6 +4580,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createFakeFrontEndSetsDefaultGroupList() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertSame(
@@ -4582,6 +4593,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function discardFakeFrontEndNullsOutGlobalFrontEnd() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$this->subject->discardFakeFrontEnd();
 
@@ -4594,6 +4606,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function discardFakeFrontEndNullsOutGlobalTimeTrack() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$this->subject->discardFakeFrontEnd();
 
@@ -4623,6 +4636,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFakeFrontEndIsTrueAfterCreateFakeFrontEnd() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertTrue(
@@ -4634,6 +4648,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function hasFakeFrontEndIsFalseAfterCreateAndDiscardFakeFrontEnd() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$this->subject->discardFakeFrontEnd();
 
@@ -4646,6 +4661,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function cleanUpDiscardsFakeFrontEnd() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$this->subject->cleanUp();
 
@@ -4700,6 +4716,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function isLoggedInInitiallyIsFalse() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		self::assertFalse(
@@ -4723,6 +4740,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserSwitchesToLoggedIn() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
@@ -4737,6 +4755,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserSwitchesLoginManagerToLoggedIn() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
@@ -4751,6 +4770,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserSetsLoginUserToTrue() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
@@ -4765,6 +4785,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserRetrievesNameOfUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser(
@@ -4787,6 +4808,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 			'The user ID must be > 0.'
 		);
 
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->loginFrontEndUser(0);
@@ -4809,6 +4831,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserSetsGroupDataOfUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserGroupUid = $this->subject->createFrontEndUserGroup(
@@ -4827,6 +4850,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserAfterLoginSwitchesToNotLoggedIn() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
@@ -4842,6 +4866,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserAfterLoginSwitchesLoginManagerToNotLoggedIn() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserId = $this->subject->createFrontEndUser();
@@ -4857,6 +4882,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserSetsLoginUserToFalse() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->logoutFrontEndUser();
@@ -4871,6 +4897,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserNotInDatabaseSwitchesToLoggedIn() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUser = Tx_Oelib_MapperRegistry
@@ -4887,6 +4914,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserNotInDatabaseSetsLoginUserToTrue() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUser = Tx_Oelib_MapperRegistry
@@ -4903,6 +4931,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserNotInDatabaseRetrievesNameOfUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUser = Tx_Oelib_MapperRegistry
@@ -4935,6 +4964,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function loginFrontEndUserMappedAsGhostAndInDatabaseSetsGroupDataOfUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$feUserGroupUid = $this->subject->createFrontEndUserGroup(
@@ -4968,6 +4998,7 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function logoutFrontEndUserCanBeCalledTwoTimes() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 
 		$this->subject->logoutFrontEndUser();
@@ -4977,9 +5008,10 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserCreatesFrontEndUser() {
+	public function createAndLoginFrontEndUserCreatesFrontEndUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
-		$this->subject->createAndLogInFrontEndUser();
+		$this->subject->createAndLoginFrontEndUser();
 
 		self::assertSame(
 			1,
@@ -4990,9 +5022,10 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithRecordDataCreatesFrontEndUserWithThatData() {
+	public function createAndLoginFrontEndUserWithRecordDataCreatesFrontEndUserWithThatData() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
-		$this->subject->createAndLogInFrontEndUser(
+		$this->subject->createAndLoginFrontEndUser(
 			'', array('name' => 'John Doe')
 		);
 
@@ -5005,9 +5038,10 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserLogsInFrontEndUser() {
+	public function createAndLoginFrontEndUserLogsInFrontEndUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
-		$this->subject->createAndLogInFrontEndUser();
+		$this->subject->createAndLoginFrontEndUser();
 
 		self::assertTrue(
 			$this->subject->isLoggedIn()
@@ -5017,10 +5051,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUser() {
+	public function createAndLoginFrontEndUserWithFrontEndUserGroupCreatesFrontEndUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->subject->createFrontEndUserGroup();
-		$this->subject->createAndLogInFrontEndUser($frontEndUserGroupUid);
+		$this->subject->createAndLoginFrontEndUser($frontEndUserGroupUid);
 
 		self::assertSame(
 			1,
@@ -5031,10 +5066,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithFrontEndUserGroupCreatesFrontEndUserWithGivenGroup() {
+	public function createAndLoginFrontEndUserWithFrontEndUserGroupCreatesFrontEndUserWithGivenGroup() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->subject->createFrontEndUserGroup();
-		$frontEndUserUid = $this->subject->createAndLogInFrontEndUser(
+		$frontEndUserUid = $this->subject->createAndLoginFrontEndUser(
 			$frontEndUserGroupUid
 		);
 
@@ -5053,10 +5089,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithFrontEndUserGroupDoesNotCreateFrontEndUserGroup() {
+	public function createAndLoginFrontEndUserWithFrontEndUserGroupDoesNotCreateFrontEndUserGroup() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->subject->createFrontEndUserGroup();
-		$this->subject->createAndLogInFrontEndUser(
+		$this->subject->createAndLoginFrontEndUser(
 			$frontEndUserGroupUid
 		);
 
@@ -5069,10 +5106,11 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function createAndLogInFrontEndUserWithFrontEndUserGroupLogsInFrontEndUser() {
+	public function createAndLoginFrontEndUserWithFrontEndUserGroupLogsInFrontEndUser() {
+		$this->subject->createFrontEndPage();
 		$this->subject->createFakeFrontEnd();
 		$frontEndUserGroupUid = $this->subject->createFrontEndUserGroup();
-		$this->subject->createAndLogInFrontEndUser($frontEndUserGroupUid);
+		$this->subject->createAndLoginFrontEndUser($frontEndUserGroupUid);
 
 		self::assertTrue(
 			$this->subject->isLoggedIn()

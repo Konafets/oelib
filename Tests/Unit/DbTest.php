@@ -759,7 +759,7 @@ class Tx_Oelib_Tests_Unit_DbTest extends Tx_Phpunit_TestCase {
 	 */
 	public function selectReturnsMySqliResult() {
 		self::assertInstanceOf(
-			'mysqli_result',
+			\mysqli_result::class,
 			Tx_Phpunit_Service_Database::select('title', 'tx_phpunit_test')
 		);
 	}

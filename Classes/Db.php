@@ -300,7 +300,7 @@ class Tx_Oelib_Db {
 	 * @param string $orderBy ORDER BY field(s), may be empty
 	 * @param string $limit LIMIT value ([begin,]max), may be empty
 	 *
-	 * @return mysqli_result MySQL result
+	 * @return \mysqli_result MySQLi result object
 	 *
 	 * @throws InvalidArgumentException
 	 * @throws tx_oelib_Exception_Database if an error has occurred

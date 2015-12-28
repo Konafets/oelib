@@ -1735,7 +1735,7 @@ final class Tx_Oelib_TestingFramework {
 			'MAX(uid) AS uid', $table
 		);
 
-		return $row['uid'];
+		return (int)$row['uid'];
 	}
 
 	/**
