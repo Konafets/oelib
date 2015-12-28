@@ -201,7 +201,7 @@ class Tx_Oelib_Tests_Unit_FrontEndLoginManagerTest extends Tx_Phpunit_TestCase {
 		$uid = $this->testingFramework->createAndLoginFrontEndUser();
 		/** @var tx_oelib_Mapper_FrontEndUser $mapper */
 		$mapper = Tx_Oelib_MapperRegistry::get('tx_oelib_Mapper_FrontEndUser');
-		/** @var tx_oelib_Model_FrontEndUser $user */
+		/** @var Tx_Oelib_Model_FrontEndUser $user */
 		$user = $mapper->find($uid);
 
 		self::assertSame(
