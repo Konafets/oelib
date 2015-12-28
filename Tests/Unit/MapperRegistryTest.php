@@ -107,7 +107,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function getForExistingClassReturnsObjectOfRequestedClass() {
 		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
-				instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
+				instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapper
 		);
 	}
 
@@ -117,7 +117,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function getForExistingClassWithExtbaseCapitalizationReturnsObjectOfRequestedClass() {
 		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper')
-			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
+			instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapper
 		);
 	}
 
@@ -127,7 +127,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function getForExistingClassWithAllLowercaseReturnsObjectOfRequestedClass() {
 		self::assertTrue(
 			Tx_Oelib_MapperRegistry::get('tx_oelib_tests_unit_fixtures_testingmapper')
-			instanceof tx_oelib_Tests_Unit_Fixtures_TestingMapper
+			instanceof Tx_Oelib_Tests_Unit_Fixtures_TestingMapper
 		);
 	}
 
@@ -218,7 +218,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getReturnsMapperSetViaSet() {
-		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
+		$mapper = new Tx_Oelib_Tests_Unit_Fixtures_TestingMapper();
 		Tx_Oelib_MapperRegistry::set(
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
 		);
@@ -267,7 +267,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function setThrowsExceptionForMismatchingWrapperClass() {
-		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
+		$mapper = new Tx_Oelib_Tests_Unit_Fixtures_TestingMapper();
 		Tx_Oelib_MapperRegistry::set(
 			'Tx_Oelib_Mapper_Foo', $mapper
 		);
@@ -281,7 +281,7 @@ class Tx_Oelib_Tests_Unit_MapperRegistryTest extends Tx_Phpunit_TestCase {
 	public function setThrowsExceptionIfTheMapperTypeAlreadyIsRegistered() {
 		Tx_Oelib_MapperRegistry::get('Tx_Oelib_Tests_Unit_Fixtures_TestingMapper');
 
-		$mapper = new tx_oelib_Tests_Unit_Fixtures_TestingMapper();
+		$mapper = new Tx_Oelib_Tests_Unit_Fixtures_TestingMapper();
 		Tx_Oelib_MapperRegistry::set(
 			'Tx_Oelib_Tests_Unit_Fixtures_TestingMapper', $mapper
 		);
