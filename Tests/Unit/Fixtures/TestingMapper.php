@@ -30,7 +30,7 @@ class Tx_Oelib_Tests_Unit_Fixtures_TestingMapper extends Tx_Oelib_DataMapper {
 	/**
 	 * @var string the model class name for this mapper, must not be empty
 	 */
-	protected $modelClassName = 'tx_oelib_Tests_Unit_Fixtures_TestingModel';
+	protected $modelClassName = 'Tx_Oelib_Tests_Unit_Fixtures_TestingModel';
 
 	/**
 	 * @var string[] the (possible) relations of the created models in the format DB column name => mapper name
