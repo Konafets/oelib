@@ -31,7 +31,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Oelib_ViewHelpers_GoogleMapsViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * array key in $GLOBALS['TSFE']->additionalHeaderData for the Google Maps
 	 * JavaScript library

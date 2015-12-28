@@ -20,7 +20,7 @@
  *
  * @author Oliver Klee <typo3-coding@oliverklee.de>
  */
-class Tx_Oelib_ViewHelpers_UppercaseViewHelper extends Tx_Fluid_Core_ViewHelper_AbstractViewHelper {
+class Tx_Oelib_ViewHelpers_UppercaseViewHelper extends \TYPO3\CMS\Fluid\Core\ViewHelper\AbstractViewHelper {
 	/**
 	 * Converts the rendered children to uppercase.
 	 *
