@@ -62,20 +62,4 @@ class Tx_Oelib_Tests_Unit_ObjectFactoryTest extends Tx_Phpunit_TestCase {
 			$object->getLanguageKey()
 		);
 	}
-
-	/**
-	 * @test
-	 */
-	public function makeInstantiatesSubclassIfXclassIsAvailable() {
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6001000) {
-			self::markTestSkipped('This test is skipped because the XCLASS handling has been changed in TYPO3 CMS 6.0');
-		}
-
-		$object = Tx_Oelib_ObjectFactory::make('Tx_Oelib_Tests_Unit_Fixtures_Empty');
-
-		self::assertSame(
-			'ux_Tx_Oelib_Tests_Unit_Fixtures_Empty',
-			get_class($object)
-		);
-	}
 }

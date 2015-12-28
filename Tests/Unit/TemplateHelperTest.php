@@ -129,10 +129,8 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	public function initInitializesContentObject() {
 		$this->subject->init();
 
-		$contentObjectClassName = (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
-			? 'tslib_cObj' : 'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer';
 		self::assertInstanceOf(
-			$contentObjectClassName,
+			'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer',
 			$this->subject->cObj
 		);
 	}
@@ -4324,9 +4322,6 @@ class Tx_Oelib_Tests_Unit_TemplateHelperTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function createRestrictedImageForExceptionReturnsHtmlSpecialcharedAltText() {
-		if (!class_exists('TYPO3\\CMS\\Core\\Resource\\Exception\\FileDoesNotExistException', TRUE)) {
-			self::markTestSkipped('This tests needs the FileDoesNotExistException class introduced in TYPO3 6.0.');
-		}
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['enableDeprecationLog'] = FALSE;
 
 		$altText = 'foo & bar';

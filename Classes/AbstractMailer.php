@@ -273,11 +273,6 @@ abstract class Tx_Oelib_AbstractMailer {
 	 * @return string the current character set, e.g. utf-8
 	 */
 	private function getCharacterSet() {
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
-			return 'utf-8';
-		}
-
-		$charset = (string)$GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'];
-		return ($charset !== '') ? $charset : 'utf-8';
+		return 'utf-8';
 	}
 }

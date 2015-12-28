@@ -13,7 +13,6 @@
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This class provides a registry for translators.
@@ -140,22 +139,10 @@ class Tx_Oelib_TranslatorRegistry {
 	/**
 	 * Returns the charset for a given language code.
 	 *
-	 * @param string $languageCode the language code to get the charset for, must not be empty
-	 *
 	 * @return string the charset for the given language code, will not be empty
 	 */
-	private function getCharsetOfLanguage($languageCode) {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4007000) {
-			return 'utf-8';
-		}
-
-		if (isset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset'])) {
-			return $this->charsetConversion->parse_charset($GLOBALS['TYPO3_CONF_VARS']['BE']['forceCharset']);
-		}
-
-		$charset = (string)$this->charsetConversion->charSetArray[$languageCode];
-
-		return ($charset !== '') ? $charset : self::DEFAULT_CHARSET;
+	private function getCharsetOfLanguage() {
+		return 'utf-8';
 	}
 
 	/**
@@ -224,13 +211,8 @@ class Tx_Oelib_TranslatorRegistry {
 			) {
 				$labelsFromTyposcript = $this->getLocalizedLabelsFromTypoScript($extensionName);
 
-				$version = VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version);
 				foreach ($labelsFromTyposcript as $labelKey => $labelFromTyposcript) {
-					if ($version >= 4006000) {
-						$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;
-					} else {
-						$localizedLabels[$this->languageKey][$labelKey] = $labelFromTyposcript;
-					}
+					$localizedLabels[$this->languageKey][$labelKey][0]['target'] = $labelFromTyposcript;
 				}
 			}
 

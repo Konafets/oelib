@@ -78,36 +78,9 @@ class Tx_Oelib_Translator {
 			throw new InvalidArgumentException('The parameter $key must not be empty.', 1331489544);
 		}
 
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			$translation = $this->translateForNewTypo3($key);
-		} else {
-			$translation = $this->translateForOldTypo3($key);
-		}
+		$translation = $this->translateForNewTypo3($key);
 
 		return ($useHtmlSpecialChars ? htmlspecialchars($translation) : $translation);
-	}
-
-	/**
-	 * Returns the localized label for the key $key.
-	 *
-	 * This function must only be called for TYPO3 < 4.6.
-	 *
-	 * @param string $key the key of the label to get the localization for, must not be empty
-	 *
-	 * @return string the localized label, might be empty
-	 */
-	protected function translateForOldTypo3($key) {
-		if (isset($this->localizedLabels[$this->languageKey][$key])) {
-			$translation = $this->localizedLabels[$this->languageKey][$key];
-		} elseif (($this->alternativeLanguageKey !== '') && isset($this->localizedLabels[$this->alternativeLanguageKey][$key])) {
-			$translation = $this->localizedLabels[$this->alternativeLanguageKey][$key];
-		} elseif (isset($this->localizedLabels['default'][$key])) {
-			$translation = $this->localizedLabels['default'][$key];
-		} else {
-			$translation = $key;
-		}
-
-		return $translation;
 	}
 
 	/**

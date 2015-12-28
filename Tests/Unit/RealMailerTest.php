@@ -35,9 +35,7 @@ class Tx_Oelib_Tests_Unit_RealMailerTest extends Tx_Phpunit_TestCase {
 		$this->subject = new Tx_Oelib_RealMailer();
 
 		$this->message = $this->getMock('TYPO3\CMS\Core\Mail\MailMessage', array('send', '__destruct'));
-		$finalMailMessageClassName = \TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000
-			? 'TYPO3\\CMS\\Core\\Mail\\MailMessage' : 't3lib_mail_Message';
-		\TYPO3\CMS\Core\Utility\GeneralUtility::addInstance($finalMailMessageClassName, $this->message);
+		\TYPO3\CMS\Core\Utility\GeneralUtility::addInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage', $this->message);
 	}
 
 	/**

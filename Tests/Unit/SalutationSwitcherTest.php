@@ -11,7 +11,6 @@
  *
  * The TYPO3 project - inspiring people to share!
  */
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Test case.
@@ -171,27 +170,7 @@ class Tx_Oelib_Tests_Unit_SalutationSwitcherTest extends Tx_Phpunit_TestCase {
 	/**
 	 * @test
 	 */
-	public function translateForMissingLabelKeyReturnsLabelKey() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 4006000) {
-			self::markTestSkipped('This test is skipped because the old behaviour is only part of TYPO3 < 4.6.');
-		}
-
-		$this->subject->setLanguage('de');
-
-		self::assertSame(
-			'only_in_default',
-			$this->subject->translate('only_in_default')
-		);
-	}
-
-	/**
-	 * @test
-	 */
 	public function translateForMissingLabelStillUsesDefaultAsLanguageKey() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 4006000) {
-			self::markTestSkipped('This test is skipped because the new behaviour is only part of TYPO3 >= 4.6.');
-		}
-
 		$this->subject->setLanguage('de');
 
 		self::assertSame(

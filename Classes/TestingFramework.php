@@ -12,7 +12,6 @@
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * This class provides various functions to handle dummy records in unit tests.
@@ -197,12 +196,10 @@ final class Tx_Oelib_TestingFramework {
 
 		$this->determineAndSetAutoIncrementThreshold();
 
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000) {
-			$this->allowedSystemTables = array_merge(
-				$this->allowedSystemTables,
-				array('sys_file', 'sys_file_collection', 'sys_file_reference', 'sys_category', 'sys_category_record_mm')
-			);
-		}
+		$this->allowedSystemTables = array_merge(
+			$this->allowedSystemTables,
+			array('sys_file', 'sys_file_collection', 'sys_file_reference', 'sys_category', 'sys_category_record_mm')
+		);
 
 		/** @var array $rootLineCacheConfiguration */
 		$rootLineCacheConfiguration = (array) $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['cache_rootline'];
@@ -1308,10 +1305,8 @@ final class Tx_Oelib_TestingFramework {
 		$GLOBALS['_GET']['FE_SESSION_KEY'] = '';
 		$GLOBALS['TYPO3_CONF_VARS']['FE']['dontSetCookie'] = 1;
 
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-			$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication']
-				= array('className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies');
-		}
+		$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects']['TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication']
+			= array('className' => 'Tx_Oelib_FrontEnd_UserWithoutCookies');
 	}
 
 
@@ -2017,7 +2012,7 @@ final class Tx_Oelib_TestingFramework {
 	 * @return bool
 	 */
 	public function hasRootlineCache() {
-		return VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000;
+		return TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6000000;
 	}
 
 	/**

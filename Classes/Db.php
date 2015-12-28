@@ -679,9 +679,6 @@ class Tx_Oelib_Db {
 			throw new BadMethodCallException('The table "' . $tableName . '" does not exist.', 1331488344);
 		}
 
-		if (\TYPO3\CMS\Core\Utility\VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6001000) {
-			GeneralUtility::loadTCA($tableName);
-		}
 		if (!isset($GLOBALS['TCA'][$tableName])) {
 			throw new BadMethodCallException('The table "' . $tableName . '" has no TCA.', 1331488350);
 		}

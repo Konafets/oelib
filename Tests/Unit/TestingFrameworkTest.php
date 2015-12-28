@@ -85,17 +85,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 */
 
 	/**
-	 * Checks whether TYPO3 is in version 6.0.0 or higher. If it is lower, the current test will be skipped.
-	 *
-	 * @return void
-	 */
-	protected function checkForTypo3SixOrHigher() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000) {
-			self::markTestSkipped('This test is available in TYPO3 6.0 and above.');
-		}
-	}
-
-	/**
 	 * Returns the current front-end instance.
 	 *
 	 * @return \TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController
@@ -1532,8 +1521,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementForSysFileIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->getAutoIncrement('sys_file');
 	}
 
@@ -1541,8 +1528,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementForSysFileCollectionIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->getAutoIncrement('sys_file_collection');
 	}
 
@@ -1550,8 +1535,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementForSysFileReferenceIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->getAutoIncrement('sys_file_reference');
 	}
 
@@ -1559,8 +1542,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function getAutoIncrementForSysCategoryIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->getAutoIncrement('sys_category');
 	}
 
@@ -1570,8 +1551,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @expectedException InvalidArgumentException
 	 */
 	public function getAutoIncrementForSysCategoryRecordMmFails() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->getAutoIncrement('sys_category_record_mm');
 	}
 
@@ -1699,8 +1678,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithSysFileTableTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->countRecords('sys_file');
 	}
 
@@ -1708,8 +1685,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithSysFileCollectionTableTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->countRecords('sys_file_collection');
 	}
 
@@ -1717,8 +1692,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithSysFileReferenceTableTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->countRecords('sys_file_reference');
 	}
 
@@ -1726,8 +1699,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithSysCategoryTableTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->countRecords('sys_category');
 	}
 
@@ -1735,8 +1706,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function countRecordsWithSysCategoryRecordMmTableTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->countRecords('sys_category_record_mm');
 	}
 
@@ -2245,8 +2214,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForSysFileTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrement('sys_file');
 	}
 
@@ -2255,8 +2222,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 */
 	public function resetAutoIncrementForSysFileCollectionTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrement('sys_file_collection');
 	}
 
@@ -2265,8 +2230,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 */
 	public function resetAutoIncrementForSysFileReferenceTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrement('sys_file_reference');
 	}
 
@@ -2274,8 +2237,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementForSysCategoryTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrement('sys_category');
 	}
 
@@ -2284,8 +2245,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 *
 	 */
 	public function resetAutoIncrementForSysCategoryRecordMmTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrement('sys_category_record_mm');
 	}
 
@@ -2382,8 +2341,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForSysFileTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrementLazily('sys_file');
 	}
 
@@ -2391,8 +2348,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForSysFileCollectionTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrementLazily('sys_file_collection');
 	}
 
@@ -2400,8 +2355,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForSysFileReferenceTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrementLazily('sys_file_reference');
 	}
 
@@ -2409,8 +2362,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForSysCategoryTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrementLazily('sys_category');
 	}
 
@@ -2418,8 +2369,6 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 	 * @test
 	 */
 	public function resetAutoIncrementLazilyForSysCategoryRecordMmTableIsAllowed() {
-		$this->checkForTypo3SixOrHigher();
-
 		$this->subject->resetAutoIncrementLazily('sys_category_record_mm');
 	}
 
@@ -3891,35 +3840,10 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 
 	/**
 	 * @test
-	 */
-	public function deleteDummyFolderWithNonEmptyDummyFolderRaisesWarning() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) >= 6002000) {
-			self::markTestSkipped('This test is available in TYPO3 below version 6.2.');
-		}
-
-		$this->setExpectedException('PHPUnit_Framework_Error_Warning');
-
-		$dummyFolder = $this->subject->createDummyFolder('test_folder');
-		$this->subject->createDummyFile(
-			$this->subject->getPathRelativeToUploadDirectory($dummyFolder) .
-			'/test.txt'
-		);
-
-		$this->subject->deleteDummyFolder(
-			$this->subject->getPathRelativeToUploadDirectory($dummyFolder)
-		);
-	}
-
-	/**
-	 * @test
 	 *
 	 * @expectedException RuntimeException
 	 */
 	public function deleteDummyFolderWithNonEmptyDummyFolderThrowsException() {
-		if (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6002000) {
-			self::markTestSkipped('This test is available in TYPO3 6.2 and above.');
-		}
-
 		$dummyFolder = $this->subject->createDummyFolder('test_folder');
 		$this->subject->createDummyFile(
 			$this->subject->getPathRelativeToUploadDirectory($dummyFolder) .
@@ -4541,10 +4465,8 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$pageClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
-			? 't3lib_pageSelect' : 'TYPO3\\CMS\\Frontend\\Page\\PageRepository';
 		self::assertInstanceOf(
-			$pageClassName,
+			'TYPO3\\CMS\\Frontend\\Page\\PageRepository',
 			$this->getFrontEndController()->sys_page
 		);
 	}
@@ -4556,10 +4478,8 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$frontEndUserClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
-			? 'tslib_feUserAuth' : 'TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication';
 		self::assertInstanceOf(
-			$frontEndUserClassName,
+			'TYPO3\\CMS\\Frontend\\Authentication\\FrontendUserAuthentication',
 			$this->getFrontEndController()->fe_user
 		);
 	}
@@ -4571,10 +4491,8 @@ class Tx_Oelib_Tests_Unit_TestingFrameworkTest extends Tx_Phpunit_TestCase {
 		$GLOBALS['TSFE'] = NULL;
 		$this->subject->createFakeFrontEnd();
 
-		$contentObjectClassName = (VersionNumberUtility::convertVersionNumberToInteger(TYPO3_version) < 6000000)
-			? 'tslib_cObj' : 'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer';
 		self::assertInstanceOf(
-			$contentObjectClassName,
+			'TYPO3\\CMS\\Frontend\\ContentObject\\ContentObjectRenderer',
 			$this->getFrontEndController()->cObj
 		);
 	}
