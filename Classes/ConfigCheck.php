@@ -1598,12 +1598,15 @@ class Tx_Oelib_ConfigCheck {
 	}
 
 	/**
-	 * This function does not do anything anymore. It used to check whether css_styled_content was installied,
+	 * This function does not do anything anymore. It used to check whether css_styled_content was installed,
 	 * but nowadays we can safely assume that it's always installed.
+	 *
+	 * @deprecated 2015-12-28
 	 *
 	 * @return void
 	 */
 	protected function checkCssStyledContent() {
+		t3lib_div::logDeprecatedFunction();
 	}
 
 	/**

@@ -635,6 +635,19 @@ as bold.
 .. container:: table-row
 
    Classmethod
+         Tx\_Oelib\_ConfigCheck::checkCssStyledContent
+
+   Successor
+
+   Deprecated
+         2015-12-28
+
+   Removed
+         0.9.0 + 2
+
+.. container:: table-row
+
+   Classmethod
          Tx\_Oelib\_Template::getPrefixedMarkers
 
    Successor

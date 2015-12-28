@@ -10,6 +10,7 @@ Cleanup:
 - [#5407] Drop the old XCLASS footers
 
 Changes:
+- [#5418] Drop the css_styled_content requirement
 - [#5417] Require static_info_tables >= 6.2.0
 - [#5421] Deprecate TemplateHelper::getStoragePid
 - [#5419] Remove deprecated methods and classes
